@@ -616,9 +616,6 @@ TODO: Nested ternaries
 
 ## Avoid reassigning variables
 
-- prefer functions or ternaries if they won’t make code harder to read
-- don’t reuse variables to keep different values (make lifespan shorter)
-
 Reassigning variables is like changing the past. When you see:
 
 ```js
@@ -634,9 +631,21 @@ Knowing that both things are possible make you think, every time you see `pizza`
 
 And most of the time your can avoid both. Let’s start with reassigning and come back to mutation in the next chapter.
 
-The main way of avoiding reassignments is using functions.
+Sometimes a variable is used to store different values:
 
-Consider this example:
+```js
+TODO;
+```
+
+This case is the easiest to fix: we need to use separate variables for each value:
+
+```js
+TODO;
+```
+
+By doing this we’re making lifespan of each variable shorter and choosing better names, so code is easier to understand and we’ll need to read less code to understand the current (and now the only) value of a particular variable.
+
+Probably the most common use case for reassignment is incremental computations. Consider this example:
 
 <!-- prettier-ignore -->
 ```js
@@ -653,7 +662,9 @@ const validateVideo = (video) => {
 };
 ```
 
-I’ve shortend comments a bit, the original code had lines longer than 200 characters. If you have a very big screen, it looks like a pretty table. Any auto formatting tool, like Prettier, will make an unreadable mess out of it, so you shouldn’t rely on manual code formatting.
+I’ve shortened comments a bit, the original code had lines longer than 200 characters. If you have a very big screen, it looks like a pretty table, otherwise like an unreadable mess. Any auto formatting tool, like Prettier, will make an unreadable mess out of it to, so you shouldn’t rely on manual code formatting. It’s also really hard to maintain: if any of the “columns” become longer than all existing “columns” after your changes, you have to adjust whitespace for all other “columns”.
+
+Anyway, this code add an error message to the `errors` variable for every failed validation. But now it’s hard to see because the formatting code is mangled with validation code. This makes it hard to read and modify. If you need to add another validation, you have to understand and copy formatting code. If you need to print errors as an HTML list, you have to change each line of this function.
 
 Let’s separate validation and formatting:
 
@@ -726,6 +737,23 @@ function VideoUploader() {
 ```
 
 We can also test each validation separately. Have you noticed that I’ve changed `false` to `null` in the last validation? That’s because `match()` returns `null` when there’s no match, not `false`. The original validation always returns `true`.
+
+I’d even inline `ERROR_MESSAGES` constants unless they are reused somewhere else. They don’t really make code easier to read but they make it harder to change, because you have to do changes in two places.
+
+```js
+const VIDEO_VALIDATIONS = [
+  {
+    // Must provide either both a height + width, or neither
+    isValid: video =>
+      validateHeightWidthConsistency(video.videoFiles),
+    message:
+      'You should provide either both a height and a width, or neither'
+  }
+  // …
+];
+```
+
+Now it’s easy to add, remove or change validations: all the related code is contained in the `VIDEO_VALIDATIONS` array. Keep the code, that’s likely to be changed at the same time, in the same place.
 
 Some people like to define all variables at the beginning of a function. I call this _Pascal style_, because in Pascal you have to declare all variables at the beginning of a program or a function:
 
@@ -857,13 +885,29 @@ const rejectionReason = getRejectionReasons(isAdminUser);
 
 This is less important you may argue that moving code to a new function just because of reassignment isn’t a great idea, and you may be right, so use your own judgement here.
 
+In all examples above I’m replacing `let` with `const`. This immediately tells the reader that the variable won’t be reassigned. And you can be sure, it won’t: the compiler won’t allow that. And every time you see `let` in the code, you know that this code is more complex.
+
+Another useful convention is using `UPPER_CASE` names for constants. This tells the reader that this is more of a configuration value, than a result of some computation. Lifespan of such constants are usually large: often the whole module or even the whole codebase, so when you read the code you usually don’t see the constant definition.
+
+There’s an important difference between a variable defined with the `const` keyword and a true constant. The first only tells the compiler and the reader that the variable won’t be reassigned. The second describe the nature of the value as something global and static that never changes at runtime.
+
+Both conventions reduce cognitive load a little bit and make code a bit easier to read.
+
+TODO: Function arguments shadowing
+
 ## Avoid mutation
 
-- immutability
-- array operations: mutating and not mutating
-- ES6: spread, rest, etc.
+TODO: immutability
 
-TODO
+TODO: array operations: mutating and not mutating
+
+TODO: ES6: spread, rest, etc.
+
+TODO: Redux immutable operation docs
+
+TODO: Immutability != reassignment, `conts`
+
+TODO: Tools to ensure immutability: libraries, linters, types
 
 ## Avoid comments
 
@@ -998,20 +1042,21 @@ return false;
 
 ## Naming is hard
 
-- The smaller the scope of a variable the better
-- The bigger the scope of a variable the longer should be the name (with a very small scope the name is a bit less important because the code is short and easy to understand)
-- Use destructuring to avoid inventing a new variable name: function parameters, result of function call
-- Shorten variable life by grouping code that’s using this variable together
-- data, list, util, etc.
+TODO: The smaller the scope of a variable the better
+
+TODO: The bigger the scope of a variable the longer should be the name (with a very small scope the name is a bit less important because the code is short and easy to understand)
+
+TODO: Use destructuring to avoid inventing a new variable name: function parameters, result of function call
+
+TODO: Shorten variable life by grouping code that’s using this variable together
+
+TODO: data, list, util, etc. in names
 
 TODO: positive names: ‘hasProducts’ vs ‘hasNoProducts’
 
 ```js
 const noData = data.length === 0;
-$(`#${bookID}_download`).toggleClass(
-  'hidden-node',
-  noData
-);
+$(`#${bookID}_download`).toggleClass('hidden-node', noData);
 $(`#${bookID}_retry`).attr('disabled', !noData);
 ```
 
@@ -1040,7 +1085,7 @@ type State = {
 
 ## Don’t surprise me
 
-- Principle of least surprise. Think what kind of comments your code reviewer might have. Improve code or add comments
+TODO: Principle of least surprise. Think what kind of comments your code reviewer might have. Improve code or add comments
 
 Surprising behavior:
 
@@ -1061,9 +1106,11 @@ function doMischief(props) {
 
 ## Declarative over imperative
 
-- Replace a big switch or group of conditions with maps / tables
+TODO: Replace a big switch or group of conditions with maps / tables
 
 ## Don’t waste energy (= save energy for important things)
+
+TODO
 
 …on things that don’t matter:
 
@@ -1132,15 +1179,21 @@ TODO: `~` instead of `-1`
 
 ## Wait with abstractions (let abstractions grow)
 
-- Avoid premature abstractions. Let abstraction grow (???) — feel the pain first, wrong abstraction is worse than copy paste.
+TODO: Avoid premature abstractions. Let abstraction grow (???) — feel the pain first, wrong abstraction is worse than copy paste.
 
-When you have two or three similar pieces of code, it may be still to early to introduce an abstraction.
+TODO: Write code that is easy to delete
 
-Code duplication isn’t
+We, developers, hate to do the same work twice. _Don’t repeat yourself_ (DRY) is our mantra. But when you have two or three similar pieces of code, it may be still to early to introduce an abstraction, no matter how tempting it is.
 
 Leave with the pain of code duplication, maybe it’s no so bad in the end, and the code is actually not exactly the same.
 
-`util` and `utils` (what about them?): keep each function in it’s own file
+Some level of code duplication is healthy and allows you to iterate and evolve code faster. TODO
+
+I think the higher level of the code, the longer you should wait with abstracting it. Low level utility abstractions are much more obvious than business logic. TODO
+
+TODO: Anti dry example: large multi team projects. New requirements for one team may not work for another team and break their code. Hard to test. Balance between flexibility and consistency. It’s nice to have a global Button component but if it’s too flexible and you have 10 variations, it will be hard to choose the right one. If it’s too strict, developers will create their own buttons
+
+TODO: `util` and `utils` (what about them?): keep each function in it’s own file
 
 ```js
 // my_feature_util.js
@@ -1180,15 +1233,19 @@ generate(
 
 ## SOLID principles
 
-- SRP
-- Hide complexity
-- To DRY or to DUMP (DUMP for tests)
+TODO: SRP
+
+TODO: Hide complexity
+
+TODO: To DRY or to DUMP (DUMP for tests)
 
 ## Don’t make me think
 
-- Pass an object instead of multiple positional arguments to a function (more than two)
-- Magic numbers -> consts
-- Consts should include units
+TODO: Pass an object instead of multiple positional arguments to a function (more than two)
+
+TODO: Magic numbers -> consts
+
+TODO: Consts should include units
 
 > Long Parameter List More than three or four parameters for a method.
 
