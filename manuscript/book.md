@@ -1054,6 +1054,12 @@ TODO: data, list, util, etc. in names
 
 TODO: positive names: ‘hasProducts’ vs ‘hasNoProducts’
 
+TODO: Don’t go too far with naming conventions — Hungarian notation
+
+TODO: Avoid abbreviations: accepted in smaller scope when the bigger scope has a full name: it’s okay to use `op` inside `filterPurchageOrders` function
+
+TODO: Avoid slang or words that have simpler alternative, non-native English speakers will thank you. https://github.com/facebook/react/issues/3951
+
 ```js
 const noData = data.length === 0;
 $(`#${bookID}_download`).toggleClass('hidden-node', noData);
@@ -1127,6 +1133,10 @@ class PizzaMaker extends React.Component {
 - implicit returns
 - arrow functions
 
+In all these examples I prefer the second variation. But I don’t waste time asking folks to change their code in code reviews, when they use the first variation or some other way of writing the same code.
+
+In most cases there’s zero code readability improvement. The code is just different, none of the variations are better then the other. And even the consistency argument isn’t good enough, unless you can automate code replacement completely transparent for the developer. Otherwise the cost of maintaining the convention is too high.
+
 ## Cargo cult programming
 
 https://en.wikipedia.org/wiki/Cargo_cult_programming
@@ -1179,9 +1189,16 @@ TODO: `~` instead of `-1`
 
 ## Wait with abstractions (let abstractions grow)
 
+TODO: https://kentcdodds.com/blog/moist-programming
+
+
 TODO: Avoid premature abstractions. Let abstraction grow (???) — feel the pain first, wrong abstraction is worse than copy paste.
 
 TODO: Write code that is easy to delete
+
+TODO: It’s hard to come up with a good API. It’s hard to come up with a good generic API if you only consider a single use case.
+
+TODO: Sometimes you have to roll back an abstraction. When you start adding conditions and options (?), ask yourself: is it still a variation of the same thing or a new thing that should be separated? Adding too many conditions and options to make your code flexible can make the API hard to use.
 
 We, developers, hate to do the same work twice. _Don’t repeat yourself_ (DRY) is our mantra. But when you have two or three similar pieces of code, it may be still to early to introduce an abstraction, no matter how tempting it is.
 
@@ -1248,6 +1265,14 @@ TODO: Magic numbers -> consts
 TODO: Consts should include units
 
 > Long Parameter List More than three or four parameters for a method.
+
+## Too many conventions
+
+Conventions are great, because they make code more consistent and reduce cognitive load when you read code. But the more conventions you have, the harder it is to maintain them.
+
+Ask yourself, where a particular convention really make code more readable or reduce number of bugs. If yes, automate it. If you can’t automate, ask yourself again: will cost of maintaining a convention lower than benefits of having it.
+
+Code reviewers will have to remember all the conventions, and make sure developers follow them in their code. This will distract them from finding actually important issues in the code.
 
 ## Make impossible states impossible
 
@@ -1356,6 +1381,7 @@ TODO: There should be some good one in the great blog posts note
 - [Small Functions considered Harmful – Cindy Sridharan – Medium](https://medium.com/@copyconstruct/small-functions-considered-harmful-91035d316c29)
 - [Why the Boy Scout Rule Is Insufficient](https://www.codewithjason.com/boy-scout-rule-insufficient/)
 - [Write code that is easy to delete, not easy to extend](https://programmingisterrible.com/post/139222674273/write-code-that-is-easy-to-delete-not-easy-to)
+- [AHA programming](https://kentcdodds.com/blog/aha-programming)
 
 ### Talks
 
