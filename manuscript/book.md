@@ -918,44 +918,52 @@ Replacing imperative code, full or loops and conditions, with declarative code i
 Consider this code:
 
 ```jsx
-  const generateOptionalRows = () => {
-    const rows  = [];
+const generateOptionalRows = () => {
+  const rows = [];
 
-    if ((product1.colors.length + product2.colors.length) > 0) {
-      rows.push({
-        row: (
-          <FormattedMessage id="optionsTableRowColors" defaultMessage="Colors" />
-        ),
-        product1: <ProductOptions options={product1.colors}/>,
-        product2: <ProductOptions options={product2.colors}/>
-      });
-    }
+  if (product1.colors.length + product2.colors.length > 0) {
+    rows.push({
+      row: (
+        <FormattedMessage
+          id="optionsTableRowColors"
+          defaultMessage="Colors"
+        />
+      ),
+      product1: <ProductOptions options={product1.colors} />,
+      product2: <ProductOptions options={product2.colors} />
+    });
+  }
 
+  if (product1.sizes.length + product2.sizes.length > 0) {
+    rows.push({
+      row: (
+        <FormattedMessage
+          id="optionsTableRowSizes"
+          defaultMessage="Sizes"
+        />
+      ),
+      product1: <ProductOptions options={product1.sizes} />,
+      product2: <ProductOptions options={product2.sizes} />
+    });
+  }
 
-    if ((product1.sizes.length + product2.sizes.length) > 0) {
-      rows.push({
-        row: (
-          <FormattedMessage id="optionsTableRowSizes" defaultMessage="Sizes" />
-        ),
-        product1: <ProductOptions options={product1.sizes}/>,
-        product2: <ProductOptions options={product2.sizes}/>
-      });
-    }
-
-    return rows;
-  };
+  return rows;
+};
 
 const rows = [
   {
-        row: (
-          <FormattedMessage id="optionsTableRowName" defaultMessage="Name" />
-        ),
-        product1: <Text>{product1.name}</Text>,
-        product2: <Text>{product2.name}</Text>
-      },
-      // More rows...
-  …generateOptionalRows()
-]
+    row: (
+      <FormattedMessage
+        id="optionsTableRowName"
+        defaultMessage="Name"
+      />
+    ),
+    product1: <Text>{product1.name}</Text>,
+    product2: <Text>{product2.name}</Text>
+  },
+  // More rows...
+  ...generateOptionalRows()
+];
 ```
 
 We have two ways of defining table rows: a plain array with always visible rows, which is good, and a function, full of imperative logic, that returns optional rows.
