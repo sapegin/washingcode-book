@@ -73,6 +73,8 @@ Array methods aren’t just shorter and more readable, but each method has it’
 
 Traditional loops don’t help you with understanding what the code is doing until you read the whole thing.
 
+We’re separating “what” (our data) from “how” (how to loop over it). More than that we don’t have our implementation of the looping part of the “how”, only unique to our code part, that we’re passing as a callback function.
+
 All these array methods, except `forEach`, should have no side effects, and only return value should be used.
 
 `forEach` doesn’t return any value and it’s the right choice when you need side effects:
@@ -525,7 +527,7 @@ Or a bit more realistic and common example:
 ```jsx
 const DECISION_YES = 0;
 const DECISION_NO = 1;
-const DECISION_NOT_SURE = 2;
+const DECISION_MAYBE = 2;
 
 const getButtonLabel = decisionButton => {
   switch (decisionButton) {
@@ -540,11 +542,11 @@ const getButtonLabel = decisionButton => {
       return (
         <FormattedMessage id="decisionButtonNo" defaultMessage="No" />
       );
-    case DECISION_NOT_SURE:
+    case DECISION_MAYBE:
       return (
         <FormattedMessage
-          id="decisionButtonNotSure"
-          defaultMessage="Not Sure"
+          id="decisionButtonMaybe"
+          defaultMessage="Maybe"
         />
       );
   }
@@ -559,7 +561,7 @@ First, let’s replace it with a table:
 ```jsx
 const DECISION_YES = 0;
 const DECISION_NO = 1;
-const DECISION_NOT_SURE = 2;
+const DECISION_MAYBE = 2;
 
 const getButtonLabel = decisionButton =>
   ({
@@ -571,8 +573,8 @@ const getButtonLabel = decisionButton =>
     ),
     [DECISION_NOT_SURE]: (
       <FormattedMessage
-        id="decisionButtonNotSure"
-        defaultMessage="Not Sure"
+        id="decisionButtonMaybe"
+        defaultMessage="Maybe"
       />
     )
   }[decisionButton]);
@@ -586,7 +588,7 @@ But we can make this code more idiomatic for React by converting our `getButtonL
 ```jsx
 const DECISION_YES = 0;
 const DECISION_NO = 1;
-const DECISION_NOT_SURE = 2;
+const DECISION_MAYBE = 2;
 
 const ButtonLabel = ({ decision }) =>
   ({
@@ -598,8 +600,8 @@ const ButtonLabel = ({ decision }) =>
     ),
     [DECISION_NOT_SURE]: (
       <FormattedMessage
-        id="decisionButtonNotSure"
-        defaultMessage="Not Sure"
+        id="decisionButtonMaybe"
+        defaultMessage="Maybe"
       />
     )
   }[decision]);
@@ -707,7 +709,9 @@ const validateVideo = video => {
 };
 ```
 
-Now it’s clear that the original code had a bug: there would be no space between error messages. We’ve separated validations, validation logic and formatting logic. Now it’s easy to see all validations and add new ones.
+We’ve separated validations, validation logic and formatting logic. Flies separately, cutlets separately. Each piece of code has a single responsibility and a single reason to change. Validations now are defined declaratively and read like a table, not mixed with conditions and string concatenation. This improves readability and maintainability of the code: it’s easy to see all validations and add new ones, because you don’t need to know implementation details of validation and formatting.
+
+And now it’s clear that the original code had a bug: there would be no space between error messages.
 
 And formatting (`join('\n'`) can likely be removed and done during the rendering:
 
@@ -903,11 +907,111 @@ TODO: array operations: mutating and not mutating
 
 TODO: ES6: spread, rest, etc.
 
-TODO: Redux immutable operation docs
+TODO: Redux immutable operation docs: https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns
 
 TODO: Immutability != reassignment, `conts`
 
 TODO: Tools to ensure immutability: libraries, linters, types
+
+Replacing imperative code, full or loops and conditions, with declarative code is one of my favorite refactorings. And one of the most common suggestions I give in code reviews.
+
+Consider this code:
+
+```jsx
+  const generateOptionalRows = () => {
+    const rows  = [];
+
+    if ((product1.colors.length + product2.colors.length) > 0) {
+      rows.push({
+        row: (
+          <FormattedMessage id="optionsTableRowColors" defaultMessage="Colors" />
+        ),
+        product1: <ProductOptions options={product1.colors}/>,
+        product2: <ProductOptions options={product2.colors}/>
+      });
+    }
+
+
+    if ((product1.sizes.length + product2.sizes.length) > 0) {
+      rows.push({
+        row: (
+          <FormattedMessage id="optionsTableRowSizes" defaultMessage="Sizes" />
+        ),
+        product1: <ProductOptions options={product1.sizes}/>,
+        product2: <ProductOptions options={product2.sizes}/>
+      });
+    }
+
+    return rows;
+  };
+
+const rows = [
+  {
+        row: (
+          <FormattedMessage id="optionsTableRowName" defaultMessage="Name" />
+        ),
+        product1: <Text>{product1.name}</Text>,
+        product2: <Text>{product2.name}</Text>
+      },
+      // More rows...
+  …generateOptionalRows()
+]
+```
+
+We have two ways of defining table rows: a plain array with always visible rows, which is good, and a function, full of imperative logic, that returns optional rows.
+
+Array mutation (see `rows.push` in the function) isn’t the biggest issue here, but it’s often a sign that the code has imperative logic that can be replaced with declarative code with better readability and maintainability.
+
+Let’s merge all _possible_ rows into a single declarative array:
+
+```jsx
+const rows = [
+  {
+    row: (
+      <FormattedMessage
+        id="optionsTableRowName"
+        defaultMessage="Name"
+      />
+    ),
+    product1: <Text>{product1.name}</Text>,
+    product2: <Text>{product2.name}</Text>
+  },
+  // More rows...
+  {
+    row: (
+      <FormattedMessage
+        id="optionsTableRowColors"
+        defaultMessage="Colors"
+      />
+    ),
+    product1: <ProductOptions options={product1.colors} />,
+    product2: <ProductOptions options={product2.colors} />,
+    isVisible: (product1, product2) =>
+      (product1.colors.length > 0 || product2.colors.length) > 0
+  },
+  {
+    row: (
+      <FormattedMessage
+        id="optionsTableRowSizes"
+        defaultMessage="Sizes"
+      />
+    ),
+    product1: <ProductOptions options={product1.sizes} />,
+    product2: <ProductOptions options={product2.sizes} />,
+    isVisible: (product1, product2) =>
+      (product1.sizes.length > 0 || product2.sizes.length) > 0
+  }
+];
+
+const visibleRows = rows.filter(row => {
+  if (typeof row.isVisible === 'function') {
+    return row.isVisible(product1, product2);
+  }
+  return true;
+});
+```
+
+Now we’re defining all rows in a single array. All rows are visible by default, unless they have `isVisible` function that returns true, when a row is visible. We’ve improved code readability and maintainability: now there’s only one way of defining rows, you don’t have to check two places to see all available row, don’t need to decide which method to use to add a new row, and now it’s easy to make an existing row optional by adding `isVisible` function to it.
 
 ## Avoid comments
 
@@ -1187,10 +1291,11 @@ return ${percentOff}%;
 
 TODO: `~` instead of `-1`
 
+TODO: `if ((dogs.length + cats.length) > 0)`
+
 ## Wait with abstractions (let abstractions grow)
 
 TODO: https://kentcdodds.com/blog/moist-programming
-
 
 TODO: Avoid premature abstractions. Let abstraction grow (???) — feel the pain first, wrong abstraction is worse than copy paste.
 
@@ -1354,12 +1459,6 @@ Try to avoid rewriting everything at once.
 The goal of programmer’s work isn’t writing code but solving your client’s problems, whether it’s your employer or yourself. Code is by-product, a necessary evil.
 
 The less code we write, the better. Less code means easier testing, easier maintenance, faster app, less bytes to download… A perfect solution doesn’t include any new code or even removes some existing code. Perfect is the enemy of good and we’ll have to write some code — they wouldn’t have called us programmers otherwise — but we should try to write as little code as possible, and don’t consider writing code as a goal in itself.
-
----
-
-- Don’t look for an error in the compiler, start from your own code
-- Code reuse isn’t the only and not the most important reason to extract code into a separate module.
-- Deep and shallow modules
 
 ## Resources
 
