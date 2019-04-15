@@ -24,6 +24,8 @@ Thanks to [Rostislav U](https://twitter.com/inooze), [Juho Vepsäläinen](https:
 
 Traditional loops, like `for` or `while`, are too low-level for common tasks. They are verbose, you have to manage the index variable yourself, they are prone to [off-by-one error](https://en.wikipedia.org/wiki/Off-by-one_error), I always make typos in `lenght`, and they don’t have any particular semantic except that you’re doing some operation probably more than once.
 
+### Replacing loops with array methods
+
 Modern languages have better ways to express iterative operations. [JavaScript has may useful methods](http://exploringjs.com/impatient-js/ch_arrays.html#methods-iteration-and-transformation-.find-.map-.filter-etc) to transform and iterate over arrays, like `.map()` or `.find()`.
 
 For example, let’s convert an array of strings to `kebab-case` with a `for` loop:
@@ -64,6 +66,8 @@ const foundName = names.find(name => name.startsWith('B'));
 
 In both cases I much prefer versions with array methods than with `for` loops.
 
+### Implied semantic of array methods
+
 Array methods aren’t just shorter and more readable, but each method has it’s own clear semantic:
 
 - `.map()` says we’re transforming an array into another array with the same number of elements;
@@ -74,6 +78,10 @@ Array methods aren’t just shorter and more readable, but each method has it’
 Traditional loops don’t help you with understanding what the code is doing until you read the whole thing.
 
 We’re separating “what” (our data) from “how” (how to loop over it). More than that we don’t have our implementation of the looping part of the “how”, only unique to our code part, that we’re passing as a callback function.
+
+When you use array methods for all simple cases, traditional loops signals to the code reader, that something unusual is going on. And that’s good: you can use brain resources, saved on reading simple loops, to really understand complex ones.
+
+### Dealing with side effects
 
 All these array methods, except `forEach`, should have no side effects, and only return value should be used.
 
@@ -94,6 +102,19 @@ names.forEach(name => {
   kebabNames.push(_.kebabCase(name));
 });
 ```
+
+This is a more cryptic and less semantic implementation of `.map()`, so better use `.map()` directly like we did above:
+
+```js
+const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
+const kebabNames = names.map(name => _.kebabCase(name));
+```
+
+### Iterating over objects
+
+TODO: Iteration over objects, like `Object.keys(x).forEach(`, `entries()`, `for of`? I equally dislike all of the above methods.
+
+### Sometimes loops aren’t so bad
 
 Array methods aren’t always better than loops. For example, a `.reduce()` method often makes code less readable than a regular loop.
 
@@ -143,9 +164,20 @@ But is it really more readable? I don’t think so. Common sense should always w
 
 _(Though `tableData` is a really bad name.)_
 
-TODO: Performance. Doesn’t matter unless you’re working with millions of items. You must measure to optimize.
+### But aren’t array methods slow?
 
-TODO: Iteration over objects, like `Object.keys(x).forEach(`
+You may think that using functions is slower than loops, and likely it is. But in reality it doesn’t matter unless you’re working with millions of items.
+
+Modern JavaScript engines are very fast and optimize for popular patterns. Back in the day we used to write loops like this, because checking the array length on every iteration was too slow:
+
+```js
+var names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
+for (var i = 0, namesLength = names.length; i < namesLength; i++) {
+  names[i] = _.kebabCase(names[i]);
+}
+```
+
+It’s not slow anymore. And there are other examples, when engines optimize for simpler code patterns and make a manual optimization unnecessary. In any case, you should measure performance to know what to optimize, and to know if your changes really make code faster in all important browsers and environments.
 
 ## Avoid conditions
 
@@ -214,7 +246,7 @@ But sometimes the array itself is optional:
 ```js
 return getProducts().then(response => {
   const products = response.products;
-  if (Array.isArray(products) && products.length > 0) {
+  if (products && Array.isArray(products) && products.length > 0) {
     return products.map(product => ({
       label: product.name,
       value: product.id
@@ -614,6 +646,186 @@ const ButtonLabel = ({ decision }) =>
 
 Now both, the implementation and the usage, are simpler.
 
+Another realistic and common example is form validation:
+
+```jsx
+function validate(values) {
+  const errors = {};
+
+  if (!values.name || (values.name && values.name.trim() === '')) {
+    errors.name = (
+      <FormattedMessage
+        id="errorNameRequired"
+        defaultMessage="Name is required"
+      />
+    );
+  }
+
+  if (values.name && values.name.length > 80) {
+    errors.name = (
+      <FormattedMessage
+        id="errorMaxLength80"
+        defaultMessage="Maximum 80 characters allowed"
+      />
+    );
+  }
+
+  if (!values.address1) {
+    errors.address1 = (
+      <FormattedMessage
+        id="errorAddressRequired"
+        defaultMessage="Address is required"
+      />
+    );
+  }
+
+  if (!values.email) {
+    errors.mainContactEmail = (
+      <FormattedMessage
+        id="errorEmailRequired"
+        defaultMessage="Email is required"
+      />
+    );
+  }
+
+  if (!values.login || (values.login && values.login.trim() === '')) {
+    errors.login = (
+      <FormattedMessage
+        id="errorLoginRequired"
+        defaultMessage="Login is required"
+      />
+    );
+  }
+
+  if (values.login && values.login.indexOf(' ') > 0) {
+    errors.login = (
+      <FormattedMessage
+        id="errorLoginWithoutSpaces"
+        defaultMessage="No spaces are allowed in login."
+      />
+    );
+  }
+
+  if (values.address1 && values.address1.length > 80) {
+    errors.address1 = (
+      <FormattedMessage
+        id="errorMaxLength80"
+        defaultMessage="Maximum 80 characters allowed"
+      />
+    );
+  }
+
+  // 100 lines of code
+
+  return errors;
+}
+```
+
+This function is very long, with lots and lots of repetitive boilerplate code. It’s really hard to read and maintain. Sometimes validation for the same field aren’t grouped together.
+
+But if we look closer, there are just four three different validations:
+
+- required field (in some cases leading and trailing whitespace is ignored, in some not — hard to tell whether it’s intentional or not);
+- maximum length (always 80);
+- no spaces allowed.
+
+First, let’s extract all validation login into their own functions, so we could reuse them later:
+
+```js
+const hasStringValue = value => value && value.trim() !== ''
+const hasLengthLessThanOrEqual =  max =>value => !hasStringValue(value) || (value && value.length <= max)
+const hasNoSpaces = value => !hasStringValue(value) || (value && value.includes(' '))
+```
+
+I’ve assumed that different whitespace handling was a bug. I’ve also inverted all the conditions to validate the correct value, not an incorrect one, which is more readable in my opinion.
+
+Note that `hasLengthLessThanOrEqual` and `hasNoSpaces` only check the condition if the value is present, which would allow us to make optional fields. Also note that the `hasLengthLessThanOrEqual` function is customizable: we need to use pass the maximum length: `hasLengthLessThan(80)`.
+
+Now we can define our validations table. There are two ways of doing this:
+
+- using an object where keys represent form fields;
+- using an array.
+
+We’re going to use the second because we want to have several validations with different error messages for some fields, for example a field can be required and have maximum length:
+
+```jsx
+const validations = [
+ {
+     field: 'name',
+     validation: hasStringValue,
+     message: <FormattedMessage
+     id="errorNameRequired"
+     defaultMessage="Name is required"
+   />
+ },
+ {
+     field: 'name',
+     validation: hasLengthLessThanOrEqual(80),
+     message: <FormattedMessage
+     id="errorMaxLength80"
+     defaultMessage="Maximum 80 characters allowed"
+   />
+ },
+ // All other fields
+]
+```
+
+Now we need to iterate over this array and run validations for all fields:
+
+```js
+function validate(values, validations) {
+    return validations.reduce((errors, ({field, validation, message}) => {
+        if (!validation(values[field])) {
+            errors[field] = message;
+        }
+        return errors;
+    }, {})
+}
+```
+
+One more time we’ve separated “what” and “how”: we have readable and maintainable list of validations (“what”), a collection of reusable validation function and a `validate` function to validate form values (“how”) that also can be reused.
+
+TODO: Existing libraries
+
+You may feel that I have to many similar examples in this book, and you’re right. But I think such code is so common, and readability and maintainability benefits of the refactoring are so huge, so it’s worth it. So here is one more (the last one, I promise!) example:
+
+```js
+const getDateFormat = format => {
+  const datePart = 'D';
+  const monthPart = 'M';
+
+  switch (format) {
+    case DATE_FORMAT_ISO:
+      return `${monthPart}-${datePart}`;
+    case DATE_FORMAT_DE:
+      return `${datePart}.${monthPart}`;
+    case DATE_FORMAT_UK:
+      return `${datePart}/${monthPart}`;
+    case DATE_FORMAT_US:
+    default:
+      return `${monthPart}/${datePart}`;
+  }
+};
+```
+
+It’s just 15 lines of code, but I find this code difficult to read. I think that the `switch` and absolutely unnecessary `datePart` and `monthPart` variables clutter code so much, that it’s almost unreadable.
+
+```js
+const DATE_FORMATS = {
+  [DATE_FORMAT_ISO]: `M-D`,
+  [DATE_FORMAT_DE]: `D.M`,
+  [DATE_FORMAT_UK]: `D/M`,
+  [DATE_FORMAT_US]: `M/D`,
+  _default: `M/D`
+};
+
+const getDateFormat = format => {
+  return DATE_FORMATS[format] || DATE_FORMATS._default;
+};
+```
+
+The improved version isn’t much shorter, but now it’s easy to see all date formats. We’ve extracted the data to a short and readable object, and separated it from the code that accesses the right piece of this data.
+
 TODO: Nested ternaries
 
 ## Avoid reassigning variables
@@ -709,7 +921,7 @@ const validateVideo = video => {
 };
 ```
 
-We’ve separated validations, validation logic and formatting logic. Flies separately, cutlets separately. Each piece of code has a single responsibility and a single reason to change. Validations now are defined declaratively and read like a table, not mixed with conditions and string concatenation. This improves readability and maintainability of the code: it’s easy to see all validations and add new ones, because you don’t need to know implementation details of validation and formatting.
+We’ve separated validations, validation logic and formatting logic. The flies on the side, please. Each piece of code has a single responsibility and a single reason to change. Validations now are defined declaratively and read like a table, not mixed with conditions and string concatenation. This improves readability and maintainability of the code: it’s easy to see all validations and add new ones, because you don’t need to know implementation details of validation and formatting.
 
 And now it’s clear that the original code had a bug: there would be no space between error messages.
 
@@ -1222,9 +1434,27 @@ function doMischief(props) {
 }
 ```
 
-## Declarative over imperative
+## Separate “what” and “how”
 
-TODO: Replace a big switch or group of conditions with maps / tables
+Declarative code describes the end result and imperative explains how to achieve it.
+
+TODO: Example
+
+Declarative is often easier to read and there are many examples of refactoring imperative code to more declarative in this book.
+
+I refer to this process as separating “what” and “how”. The benefits are:
+
+- improved readability and maintainability;
+- we change “what” much more often than “how”;
+- often “how” is generic and can be reused, or even imported from a third-party library.
+  
+For example, a form validation (see “Avoid conditions” for the code) could be split into:
+
+- a list of validations for a particular form;
+- a collection of validation functions (like `isEmail`);
+- a function that validates form values using a list of validations.
+
+TODO: The last two things are pretty generic.
 
 ## Don’t waste energy (= save energy for important things)
 
