@@ -6,9 +6,11 @@ The title of this book should be “What 23 years of programming have taught me 
 
 “Write once, read seven times” is an reference to a Russian proverb “Measure seven times, cut once”. What it means is that we read code more often than we write it so we should optimise it for ease of reading, not ease of writing.
 
-This book is going to be opinionated, but you don’t have to agree with everything I’m saying, and that’s not the goal of the book. The goal is to show you one possible path, mine, and inspire to find your own. This techniques help me to write code every day, and I’ll be happy if you find some of them useful. Let me know how it goes.
+This book is going to be opinionated, but you don’t have to agree with everything I’m saying, and that’s not the goal of the book. The goal is to show you one possible path, mine, and inspire to find your own. These techniques help me to write and review code every day, and I’ll be happy if you find some of them useful. Let me know how it goes.
 
-Most of the examples in this book are in JavaScript because that’s my primary languages, but the ideas can be applied to any language. Sometimes you’ll see CSS and HTML, because similar ideas can be applied there too.
+The book probably will be most useful for intermediate developers. If you’re a beginner, you probably have enough of other things to think about. If you have decades of experience, you probably can write a similar book yourself. Anyway, I’ll be happy to hear your feedback.
+
+Most of the examples in this book are in JavaScript because that’s my primary language, but the ideas can be applied to any language. Sometimes you’ll see CSS and HTML, because similar ideas can be applied there too.
 
 Most of the examples are taken from real code, with only minor adaptation, mostly different names. I spend several hours every week reviewing code, written by other developers. This gives me enough practice to see which patterns makes code more readable and which don’t.
 
@@ -785,7 +787,7 @@ function validate(values, validations) {
 
 One more time we’ve separated “what” and “how”: we have readable and maintainable list of validations (“what”), a collection of reusable validation function and a `validate` function to validate form values (“how”) that also can be reused.
 
-TODO: Existing libraries
+*Tip: Using a third-party library, like [Yup](https://github.com/jquense/yup) or [Joi](https://github.com/hapijs/joi) will make code even shorter and save you from writing validation functions yourself.*
 
 You may feel that I have to many similar examples in this book, and you’re right. But I think such code is so common, and readability and maintainability benefits of the refactoring are so huge, so it’s worth it. So here is one more (the last one, I promise!) example:
 
@@ -1702,7 +1704,9 @@ The less code we write, the better. Less code means easier testing, easier maint
 
 ### Books
 
-TODO
+- [The Art of Readable Code](https://www.amazon.com/gp/product/0596802293/?tag=artesapesphot-20) by Dustin Boswell
+- [Clean Code: A Handbook of Agile Software Craftsmanship](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882/?tag=artesapesphot-20) by Robert C. Martin
+- [Code Complete: A Practical Handbook of Software Construction](https://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670/?tag=artesapesphot-20) by Steve McConnell
 
 ### Articles
 
@@ -1726,4 +1730,10 @@ TODO: There should be some good one in the great blog posts note
 
 ## Conclusion
 
-TODO
+All topics, covered in this book, aren’t hard rules but ideas for possible improvements. When I say _avoid conditions, mutation, reassignments or something else_, I don’t mean _never use them_, more like _are you sure there’s no better solution?_
+
+There are valid use cases for all programming techniques, maybe even `goto`, who knows. The only certain thing is that the answer to any programming related question is _it depends_. No matter how many upvotes on StackOverflow has a solution, it may be not the best choice for your case.
+
+So the goal of this book isn’t to teach you how to write good code, but to teach you to notice certain patterns that can _often_ (not _always_) be improved.
+
+TODO: checklist
