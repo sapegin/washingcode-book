@@ -2,7 +2,7 @@
 
 ## Preface
 
-The title of this book should be “What 23 years of programming have taught me about writing good code” or “What I tell folks in code reviews every day trying to decipher their code” but both are too long, so “Write once, read seven times” it is. We can even shorten it to WORST, because everyone loves nonsensical acronyms.
+The title of this book should be “What 23 years of programming have taught me about writing good code” or “What I tell folks in code reviews trying to decipher their code” but both are too long, so “Write once, read seven times” it is. We can even shorten it to WORST, because everyone loves nonsensical acronyms.
 
 “Write once, read seven times” is an reference to a Russian proverb “Measure seven times, cut once”. What it means is that we read code more often than we write it so we should optimise it for ease of reading, not ease of writing.
 
