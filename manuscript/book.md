@@ -112,10 +112,6 @@ const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(name => _.kebabCase(name));
 ```
 
-### Iterating over objects
-
-TODO: Iteration over objects, like `Object.keys(x).forEach(`, `entries()`, `for of`? I equally dislike all of the above methods.
-
 ### Sometimes loops aren’t so bad
 
 Array methods aren’t always better than loops. For example, a `.reduce()` method often makes code less readable than a regular loop.
@@ -165,6 +161,86 @@ const tableData =
 But is it really more readable? I don’t think so. Common sense should always win over religion.
 
 _(Though `tableData` is a really bad name.)_
+
+### Iterating over objects
+
+There are [many ways to iterate over objects](https://stackoverflow.com/a/5737136/1973105) in JavaScript. I equally dislike all of them, so it’s hard to choose the best one. Unfortunately there’s no `.map()` on objects, though Lodash has three methods to iterate over objects, so it’s a good option, if you already use Lodash on your project.
+
+```js
+const allNames = {
+  hobbits: ['Bilbo', 'Frodo'],
+  dwarfs: ['Fili', 'Kili']
+};
+const kebabNames = _.mapValues(allNames, names =>
+  names.map(name => _.kebabCase(name))
+);
+```
+
+If you don’t need the result as an object, like in the example above, `Object.keys()`, `Object.values()` and `Object.entries()` are also good:
+
+```js
+const allNames = {
+  hobbits: ['Bilbo', 'Frodo'],
+  dwarfs: ['Fili', 'Kili']
+};
+Object.keys(allNames).forEach(race =>
+  console.log(race, '->', allNames[race])
+);
+```
+
+Or:
+
+```js
+const allNames = {
+  hobbits: ['Bilbo', 'Frodo'],
+  dwarfs: ['Fili', 'Kili']
+};
+Object.entries(allNames).forEach(([race, value]) =>
+  console.log(race, '->', names)
+);
+```
+
+I don’t have a strong preference between them. `Object.entries()` has more verbose syntax, but if you use the value (`names` in the example above) more than once, it would be cleaner than `Object.keys()`, where you’d have to write `allNames[race]` every time or cache this values into a variable at the beginning of the callback function.
+
+If I stopped here, I’d be lying to you. Most of the articles about iteration over objects have examples with `console.log()`, but in reality you’d often want to convert an object to another data structure, like in the example with `_.mapValues()` above. And that’s when things are getting uglier.
+
+Let’s rewrite our example using `.reduce()`:
+
+```js
+const kebabNames = Object.entries(allNames).reduce(
+  (newNames, [race, names]) => {
+    newNames[race] = names.map(name => _.kebabCase(name));
+    return newNames;
+  },
+  {}
+);
+```
+
+With `.forEach()`:
+
+```js
+const allNames = {
+  hobbits: ['Bilbo', 'Frodo'],
+  dwarfs: ['Fili', 'Kili']
+};
+const kebabNames = {};
+Object.entries(allNames).forEach(([race, names]) => {
+  kebabNames[race] = names.map(name => name.toLowerCase());
+});
+```
+
+And with a loop:
+
+```js
+const kebabNames = {};
+for (let [race, names] of Object.entries(allNames)) {
+  kebabNames[race] = names.map(name => name.toLowerCase());
+}
+```
+
+And again `.reduce()` is the least readable option.
+
+In later chapters I’ll urge you to avoid not only loops but also reassigning variables and mutation. Like loops, they _often_ lead to poor code readability, but _sometimes_ the opposite is true.
 
 ### But aren’t array methods slow?
 
@@ -734,9 +810,11 @@ But if we look closer, there are just four three different validations:
 First, let’s extract all validation login into their own functions, so we could reuse them later:
 
 ```js
-const hasStringValue = value => value && value.trim() !== ''
-const hasLengthLessThanOrEqual =  max =>value => !hasStringValue(value) || (value && value.length <= max)
-const hasNoSpaces = value => !hasStringValue(value) || (value && value.includes(' '))
+const hasStringValue = value => value && value.trim() !== '';
+const hasLengthLessThanOrEqual = max => value =>
+  !hasStringValue(value) || (value && value.length <= max);
+const hasNoSpaces = value =>
+  !hasStringValue(value) || (value && value.includes(' '));
 ```
 
 I’ve assumed that different whitespace handling was a bug. I’ve also inverted all the conditions to validate the correct value, not an incorrect one, which is more readable in my opinion.
@@ -752,24 +830,28 @@ We’re going to use the second because we want to have several validations with
 
 ```jsx
 const validations = [
- {
-     field: 'name',
-     validation: hasStringValue,
-     message: <FormattedMessage
-     id="errorNameRequired"
-     defaultMessage="Name is required"
-   />
- },
- {
-     field: 'name',
-     validation: hasLengthLessThanOrEqual(80),
-     message: <FormattedMessage
-     id="errorMaxLength80"
-     defaultMessage="Maximum 80 characters allowed"
-   />
- },
- // All other fields
-]
+  {
+    field: 'name',
+    validation: hasStringValue,
+    message: (
+      <FormattedMessage
+        id="errorNameRequired"
+        defaultMessage="Name is required"
+      />
+    )
+  },
+  {
+    field: 'name',
+    validation: hasLengthLessThanOrEqual(80),
+    message: (
+      <FormattedMessage
+        id="errorMaxLength80"
+        defaultMessage="Maximum 80 characters allowed"
+      />
+    )
+  }
+  // All other fields
+];
 ```
 
 Now we need to iterate over this array and run validations for all fields:
@@ -787,7 +869,7 @@ function validate(values, validations) {
 
 One more time we’ve separated “what” and “how”: we have readable and maintainable list of validations (“what”), a collection of reusable validation function and a `validate` function to validate form values (“how”) that also can be reused.
 
-*Tip: Using a third-party library, like [Yup](https://github.com/jquense/yup) or [Joi](https://github.com/hapijs/joi) will make code even shorter and save you from writing validation functions yourself.*
+_Tip: Using a third-party library, like [Yup](https://github.com/jquense/yup) or [Joi](https://github.com/hapijs/joi) will make code even shorter and save you from writing validation functions yourself._
 
 You may feel that I have to many similar examples in this book, and you’re right. But I think such code is so common, and readability and maintainability benefits of the refactoring are so huge, so it’s worth it. So here is one more (the last one, I promise!) example:
 
@@ -1438,7 +1520,7 @@ function doMischief(props) {
 
 ## Separate “what” and “how”
 
-Declarative code describes the end result and imperative explains how to achieve it.
+Declarative code describes the result and imperative explains how to achieve it.
 
 TODO: Example
 
@@ -1449,7 +1531,7 @@ I refer to this process as separating “what” and “how”. The benefits are
 - improved readability and maintainability;
 - we change “what” much more often than “how”;
 - often “how” is generic and can be reused, or even imported from a third-party library.
-  
+
 For example, a form validation (see “Avoid conditions” for the code) could be split into:
 
 - a list of validations for a particular form;
@@ -1473,7 +1555,7 @@ class PizzaMaker extends React.Component {
 ```
 
 - tabs vs spaces
-- opinionated formatting (https://blog.sapegin.me/all/prettier)
+- opinionated formatting (https://blog.sapegin.me/all/prettier/)
 - implicit returns
 - arrow functions
 
@@ -1621,7 +1703,31 @@ Code reviewers will have to remember all the conventions, and make sure develope
 
 ## Make impossible states impossible
 
-Finite-state machines Replace multiple exclusive booleans with a single status variable
+In UI programming, or _especially_ in UI programming we often use boolean flags to represent the current state of the UI or its parts: is data loading? is submit button disabled? has action failed?
+
+Often the reality is more complex and has more than two states, so we end up with multiple booleans. Consider this typical network loading handling in a React component:
+
+```jsx
+function Tweets = () {
+  const [isLoading, setLoading] = useState(false);
+}
+```
+
+We have XX booleans here: …. If we look closer how the code uses them, we’ll notice that only one boolean is `true` at any time in a component lifecycle. It’s hard to see now and it’s easy to make a mistake and correctly handle all possible state changes, so you component may end up in an _impossible state_, like `isLoading && isError`, and the only way to fix that would be reloading the page. This is exactly the reason why switching off and on electronic devices often fixes weird issues.
+
+We can replace several _exclusive_ boolean flags, meaning only one is active at a time, with a single enum variable:
+
+```jsx
+function Tweets = () {
+  const [isLoading, setLoading] = useState(false);
+}
+```
+
+TODO: Find example (tweets?)
+
+TODO: types
+
+TODO: Finite-state machines Replace multiple exclusive booleans with a single status variable
 
 TODO: isLoading/isError component
 
@@ -1734,6 +1840,8 @@ All topics, covered in this book, aren’t hard rules but ideas for possible imp
 
 There are valid use cases for all programming techniques, maybe even `goto`, who knows. The only certain thing is that the answer to any programming related question is _it depends_. No matter how many upvotes on StackOverflow has a solution, it may be not the best choice for your case.
 
-So the goal of this book isn’t to teach you how to write good code, but to teach you to notice certain patterns that can _often_ (not _always_) be improved.
+So the goal of this book isn’t to teach you how to write good code, but to teach you to notice certain patterns, or code smells, that can _often_ (not _always_) be improved.
+
+Treating such patterns or code smells as hard rules is the road to hell.
 
 TODO: checklist
