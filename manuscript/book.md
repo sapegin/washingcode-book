@@ -912,6 +912,34 @@ The improved version isn’t much shorter, but now it’s easy to see all date f
 
 TODO: Nested ternaries
 
+<!-- prettier-ignore -->
+```jsx
+function Products({products, isError, isLoading}) {
+  return
+    isError
+      ? <p>Error loading producgts</p>
+        : isLoading
+          ? <Loading />
+          : products.length > 0
+            ? <ul>{products.map(
+                product => <li>{product.name}</li>
+            )}</ul>
+            : <p>No products found</p>
+}
+```
+
+TODO: This is a rare case when Prettier makes code less readable but maybe it’s a sign to rewrite it.
+
+TODO: All the states are exclusive here, so we can cheat and use a flat structure:
+
+TODO
+
+_We’ll come back to this example later in the “Make impossible states impossible” section._
+
+TODO: In case when conditions aren’t exclusive, use a function with early returns.
+
+TODO
+
 ## Avoid reassigning variables
 
 Reassigning variables is like changing the past. When you see:
