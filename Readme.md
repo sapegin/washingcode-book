@@ -4,7 +4,7 @@
 
 **Work in progress.** A little book on writing clean code full of opinions by [Artem Sapegin](https://sapegin.me/).
 
-**[Subscribe](https://leanpub.com/washingcode) to the book updates** or [read the draft](https://github.com/sapegin/washingcode/blob/master/manuscript/book.md).
+**[Preorder](https://leanpub.com/washingcode) the book** or [read the draft](https://github.com/sapegin/washingcode/blob/master/manuscript/book.md).
 
 ## Your feedback
 
