@@ -1525,6 +1525,10 @@ type State = {
 };
 ```
 
+TODO: `util` and `utils` (what about them?): keep each function in it’s own file
+
+> Aside: Make a util directory and keep different utilities in different files. A single util file will always grow until it is too big and yet too hard to split apart. Using a single util file is unhygienic.
+
 ## Don’t surprise me
 
 TODO: Principle of least surprise. Think what kind of comments your code reviewer might have. Improve code or add comments
@@ -1657,15 +1661,24 @@ TODO: Sometimes you have to roll back an abstraction. When you start adding cond
 
 We, developers, hate to do the same work twice. _Don’t repeat yourself_ (DRY) is our mantra. But when you have two or three similar pieces of code, it may be still to early to introduce an abstraction, no matter how tempting it is.
 
-Leave with the pain of code duplication, maybe it’s no so bad in the end, and the code is actually not exactly the same.
+Leave with the pain of code duplication, maybe it’s no so bad in the end, and the code is actually not exactly the same. Some level of code duplication is healthy and allows you to iterate and evolve code faster.
 
-Some level of code duplication is healthy and allows you to iterate and evolve code faster. TODO
+It’s hard to manage shared code in large projects with many teams. New requirements for one team may not work for another team and break their code, or you end up with unmaintainable spaghetti monster with dozens of conditions.
 
-I think the higher level of the code, the longer you should wait with abstracting it. Low level utility abstractions are much more obvious than business logic. TODO
+Imagine your team is adding a comment form: a name, and email, a message and a submit button. Then another team needs a feedback form, so they find your component and try to reuse it. Then your team also wants an email field, but they don’t know that some other team uses the component, so they add a required email field, and break the feature for the other team users. Then the other teams needs a phone number field, but they know that your team is using the component without it, so they add an option to show a phone number field. A year later two teams hate each other for breaking their code, and a component is full of conditions and impossible to maintain. Both teams would save a lot of time and have healthier relationships by maintaining separate components.
 
-TODO: Anti dry example: large multi team projects. New requirements for one team may not work for another team and break their code. Hard to test. Balance between flexibility and consistency. It’s nice to have a global Button component but if it’s too flexible and you have 10 variations, it will be hard to choose the right one. If it’s too strict, developers will create their own buttons
+I think the higher level of the code, the longer you should wait with abstracting it. Low level utility abstractions are much more obvious than business logic.
 
-TODO: `util` and `utils` (what about them?): keep each function in it’s own file
+Also business logic is changing much more often than utility code. It make sense to keep code, that often changes, separately from the code that is mostly static. The comment form is an example of the former, a function that converts `camelCase` to `kebab-case` is an example of the latter. The comment form is likely to change and diverge with time, the conversion function is unlikely to change at all and it’s safe to reuse in many places.
+
+Balance between flexibility and consistency. It’s nice to have a global Button component but if it’s too flexible and you have 10 variations, it will be hard to choose the right one. If it’s too strict, developers will create their own buttons
+
+
+
+> we’re trying keep the parts that change frequently, away from the parts that are relatively static. Minimising the dependencies or responsibilities of library code, even if we have to write boilerplate to use it.
+
+> We are not building modules around being able to re-use them, but being able to change them.
+
 
 ```js
 // my_feature_util.js
@@ -1697,11 +1710,6 @@ generate(
 );
 ```
 
-> Aside: Make a util directory and keep different utilities in different files. A single util file will always grow until it is too big and yet too hard to split apart. Using a single util file is unhygienic.
-
-> we’re trying keep the parts that change frequently, away from the parts that are relatively static. Minimising the dependencies or responsibilities of library code, even if we have to write boilerplate to use it.
-
-> We are not building modules around being able to re-use them, but being able to change them.
 
 ## SOLID principles
 
