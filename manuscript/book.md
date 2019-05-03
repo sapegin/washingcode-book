@@ -20,7 +20,7 @@ And remember, there are no strict rules in programming, except that you should a
 
 These folks helped me with the book in one way or another.
 
-Thanks to Anita Kiss, [Rostislav U](https://twitter.com/inooze), [Juho Vepsäläinen](https://survivejs.com/).
+Thanks to Anita Kiss, [Monica Lent](https://monicalent.com/), [Rostislav U](https://twitter.com/inooze), [Juho Vepsäläinen](https://survivejs.com/).
 
 ## Avoid loops
 
@@ -1882,7 +1882,8 @@ TODO: There should be some good one in the great blog posts note
 
 ### Talks
 
-- [Raymond Hettinger - Beyond PEP 8 — Best practices for beautiful intelligible code - PyCon 2015 - YouTube](https://www.youtube.com/watch?v=wf-BqAjZb8M)
+- [Building resilient frontend architecture](https://www.youtube.com/watch?v=brMZLmZ1HR0) by Monica Lent, React Finland 2019
+- [Beyond PEP 8: Best practices for beautiful intelligible code](https://www.youtube.com/watch?v=wf-BqAjZb8M) by Raymond Hettinger, PyCon 2015
 
 ## Conclusion
 
