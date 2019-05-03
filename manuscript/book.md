@@ -46,6 +46,13 @@ const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(name => _.kebabCase(name));
 ```
 
+We can shorten it even more if our processing function accepts only one argument, and [kebabCase from Lodash](https://lodash.com/docs/4.17.10#kebabCase) does:
+
+```js
+const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
+const kebabNames = names.map(_.kebabCase);
+```
+
 Or let’s find an element in an array with a `for` loop:
 
 ```js
@@ -66,11 +73,11 @@ const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const foundName = names.find(name => name.startsWith('B'));
 ```
 
-In both cases I much prefer versions with array methods than with `for` loops.
+In both cases I much prefer versions with array methods than with `for` loops. They are shorter and we’re not wasting half of the code on iteration mechanics.
 
 ### Implied semantic of array methods
 
-Array methods aren’t just shorter and more readable, but each method has it’s own clear semantic:
+Array methods aren’t just shorter and more readable, but each method has its own clear semantic:
 
 - `.map()` says we’re transforming an array into another array with the same number of elements;
 - `.find()` says we’re _finding_ a single element in an array;
@@ -81,13 +88,15 @@ Traditional loops don’t help you with understanding what the code is doing unt
 
 We’re separating “what” (our data) from “how” (how to loop over it). More than that we don’t have our implementation of the looping part of the “how”, only unique to our code part, that we’re passing as a callback function.
 
-When you use array methods for all simple cases, traditional loops signals to the code reader, that something unusual is going on. And that’s good: you can use brain resources, saved on reading simple loops, to really understand complex ones.
+When you use array methods for all simple cases, traditional loops signals to the code reader, that something unusual is going on. And that’s good: you can use brain resources, saved on reading simple loops, to better understand complex ones.
 
 ### Dealing with side effects
 
-All these array methods, except `forEach`, should have no side effects, and only return value should be used.
+Side effects make code harder to understand because you can no longer treat a function as a black box: a function with side effects isn’t just transforms input to output but can affect the environment in unpredictable way. Functions with side effects also hard to test because you’ll need to recreate the environment before each test and verify it after.
 
-`forEach` doesn’t return any value and it’s the right choice when you need side effects:
+All, mentioned in the previous section, array methods, except `forEach`, imply that they don’t have side effects, and only return value is used. Using side effects in these methods will make code easy to misread because readers don’t expect to see side effects.
+
+`forEach` doesn’t return any value and it’s the right choice when you need side effects, when you really need them:
 
 ```js
 errors.forEach(error => {
@@ -111,6 +120,8 @@ This is a more cryptic and less semantic implementation of `.map()`, so better u
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(name => _.kebabCase(name));
 ```
+
+This version is much easier to read because we know that the `.map()` method transforms an array by keeping the number of items. But it doesn’t contain a custom implementation of this and doesn’t mutate an output array. Also the scope of each the `kebabNames` variable is smaller.
 
 ### Sometimes loops aren’t so bad
 
@@ -158,9 +169,9 @@ const tableData =
   );
 ```
 
-But is it really more readable? I don’t think so. Common sense should always win over religion.
+But is it really more readable? I don’t think so. Common sense should always win over applying “rules” everywhere (see “Cargo cult programming” section below).
 
-_(Though `tableData` is a really bad name.)_
+_(Though `tableData` is a really bad variable name.)_
 
 ### Iterating over objects
 
@@ -200,7 +211,7 @@ Object.entries(allNames).forEach(([race, value]) =>
 );
 ```
 
-I don’t have a strong preference between them. `Object.entries()` has more verbose syntax, but if you use the value (`names` in the example above) more than once, it would be cleaner than `Object.keys()`, where you’d have to write `allNames[race]` every time or cache this values into a variable at the beginning of the callback function.
+I don’t have a strong preference between them. `Object.entries()` has more verbose syntax, but if you use the value (`names` in the example above) more than once, code would be cleaner than `Object.keys()`, where you’d have to write `allNames[race]` every time or cache this value into a variable at the beginning of the callback function.
 
 If I stopped here, I’d be lying to you. Most of the articles about iteration over objects have examples with `console.log()`, but in reality you’d often want to convert an object to another data structure, like in the example with `_.mapValues()` above. And that’s when things are getting uglier.
 
@@ -240,13 +251,13 @@ for (let [race, names] of Object.entries(allNames)) {
 
 And again `.reduce()` is the least readable option.
 
-In later chapters I’ll urge you to avoid not only loops but also reassigning variables and mutation. Like loops, they _often_ lead to poor code readability, but _sometimes_ the opposite is true.
+In later chapters I’ll urge you to avoid not only loops but also reassigning variables and mutation. Like loops, they _often_ lead to poor code readability, but _sometimes_ they are the best choice.
 
 ### But aren’t array methods slow?
 
 You may think that using functions is slower than loops, and likely it is. But in reality it doesn’t matter unless you’re working with millions of items.
 
-Modern JavaScript engines are very fast and optimize for popular patterns. Back in the day we used to write loops like this, because checking the array length on every iteration was too slow:
+Modern JavaScript engines are very fast and optimized for popular code patterns. Back in the day we used to write loops like this, because checking the array length on every iteration was too slow:
 
 ```js
 var names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
@@ -256,6 +267,13 @@ for (var i = 0, namesLength = names.length; i < namesLength; i++) {
 ```
 
 It’s not slow anymore. And there are other examples, when engines optimize for simpler code patterns and make a manual optimization unnecessary. In any case, you should measure performance to know what to optimize, and to know if your changes really make code faster in all important browsers and environments.
+
+---
+
+Start thinking about:
+
+- Replacing loops with array methods, like `.map()` or `.filter()`.
+- Avoiding side effects in functions.
 
 ## Avoid conditions
 
@@ -1673,12 +1691,9 @@ Also business logic is changing much more often than utility code. It make sense
 
 Balance between flexibility and consistency. It’s nice to have a global Button component but if it’s too flexible and you have 10 variations, it will be hard to choose the right one. If it’s too strict, developers will create their own buttons
 
-
-
 > we’re trying keep the parts that change frequently, away from the parts that are relatively static. Minimising the dependencies or responsibilities of library code, even if we have to write boilerplate to use it.
 
 > We are not building modules around being able to re-use them, but being able to change them.
-
 
 ```js
 // my_feature_util.js
@@ -1709,7 +1724,6 @@ generate(
   fn
 );
 ```
-
 
 ## SOLID principles
 
