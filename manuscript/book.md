@@ -20,7 +20,7 @@ And remember, there are no strict rules in programming, except that you should a
 
 These folks helped me with the book in one way or another.
 
-Thanks to Anita Kiss, [Monica Lent](https://monicalent.com/), [Rostislav U](https://twitter.com/inooze), [Juho Vepsäläinen](https://survivejs.com/).
+Thanks to [Troy Giunipero](https://github.com/giuniperoo), Anita Kiss, [Monica Lent](https://monicalent.com/), [Rostislav U](https://twitter.com/inooze), [Juho Vepsäläinen](https://survivejs.com/).
 
 ## Avoid loops
 
