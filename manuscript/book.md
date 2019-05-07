@@ -121,7 +121,7 @@ const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(name => _.kebabCase(name));
 ```
 
-This version is much easier to read because we know that the `.map()` method transforms an array by keeping the same number of items. And unlike `.forEach()`, it doesn’t require a custom implementation nor mutate an output array. Also the lifespan of the `kebabNames` variable is shorter.
+This version is much easier to read because we know that the `.map()` method transforms an array by keeping the same number of items. And unlike `.forEach()`, it doesn’t require a custom implementation nor mutate an output array. Also the callback function is now pure: it doesn’t access any variables in the parent function, only function arguments.
 
 ### Sometimes loops aren’t so bad
 
