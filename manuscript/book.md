@@ -94,7 +94,7 @@ When you use array methods for all simple cases, traditional loops signal to the
 
 Side effects make code harder to understand because you can no longer treat a function as a black box: a function with side effects doesn’t just transform input to output, but can affect the environment in unpredictable ways. Functions with side effects are also hard to test because you’ll need to recreate the environment before each test and verify it after.
 
-All array methods mentioned in the previous section, with the exception of `.forEach()`, imply that they don’t have side effects, and that only the return value is used. Introducing any side effects into these methods would make code easy to misread since readers wouldn’t expect to see side effects.
+All array methods mentioned in the previous section, except `.forEach()`, imply that they don’t have side effects, and that only the return value is used. Introducing any side effects into these methods would make code easy to misread since readers wouldn’t expect to see side effects.
 
 `.forEach()` doesn’t return any value, and that’s the right choice for handling side effects when you really need them:
 
@@ -175,7 +175,7 @@ _(Though `tableData` is a really bad variable name.)_
 
 ### Iterating over objects
 
-There are [many ways to iterate over objects](https://stackoverflow.com/a/5737136/1973105) in JavaScript. I equally dislike all of them, so it’s hard to choose the best one. Unfortunately there’s no `.map()` for objects, though Lodash does have three methods for object iteration, so it’s a good option if you're already using Lodash in your project.
+There are [many ways to iterate over objects](https://stackoverflow.com/a/5737136/1973105) in JavaScript. I equally dislike them all, so it’s hard to choose the best one. Unfortunately there’s no `.map()` for objects, though Lodash does have three methods for object iteration, so it’s a good option if you’re already using Lodash in your project.
 
 ```js
 const allNames = {
