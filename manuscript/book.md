@@ -1900,19 +1900,19 @@ The less code we write, the better. Less code means easier testing, easier maint
 
 ### Articles
 
-TODO: There should be some good one in the great blog posts note
-
-- [The Pit of Conditionals](https://medium.com/@level_out/everything-is-a-component-cf9f469ad981)
-- [Psychology of Code Readability – Egon Elbre – Medium](https://medium.com/@egonelbre/psychology-of-code-readability-d23b1ff1258a)
-- [Learning Code Readability – Egon Elbre – Medium](https://medium.com/@egonelbre/learning-code-readability-a80e311d3a20)
-- https://testing.googleblog.com/2017/06/code-health-reduce-nesting-reduce.html?m=1
-- https://testing.googleblog.com/2017/07/code-health-to-comment-or-not-to-comment.html?m=1
-- [The “Bug-O” Notation — Overreacted](https://overreacted.io/the-bug-o-notation/)
-- [On the changing notion of code readability](http://firstclassthoughts.co.uk/Articles/Readability/TheChangingNotionOfReadability.html)
-- [Small Functions considered Harmful – Cindy Sridharan – Medium](https://medium.com/@copyconstruct/small-functions-considered-harmful-91035d316c29)
-- [Why the Boy Scout Rule Is Insufficient](https://www.codewithjason.com/boy-scout-rule-insufficient/)
+- [AHA programming](https://kentcdodds.com/blog/aha-programming) by Kent C. Dodds
+- [Code Health: Reduce Nesting, Reduce Complexity](https://testing.googleblog.com/2017/06/code-health-reduce-nesting-reduce.html?m=1) by Elliott Karpilovsky
+- [Code Health: To Comment or Not to Comment?](https://testing.googleblog.com/2017/07/code-health-to-comment-or-not-to-comment.html?m=1) by Dori Reuveni and Kevin Bourrillion
+- [Everything is a Component](https://medium.com/@level_out/everything-is-a-component-cf9f469ad981) by Luke Hedger
+- [Learning Code Readability](https://medium.com/@egonelbre/learning-code-readability-a80e311d3a20) by Egon Elbre
+- [On the changing notion of code readability](http://firstclassthoughts.co.uk/Articles/Readability/TheChangingNotionOfReadability.html) by Kasper B. Graversen
+- [Psychology of Code Readability](https://medium.com/@egonelbre/psychology-of-code-readability-d23b1ff1258a) by Egon Elbre
+- [Small Functions considered Harmful](https://medium.com/@copyconstruct/small-functions-considered-harmful-91035d316c29) by Cindy Sridharan
+- [The “Bug-O” Notation](https://overreacted.io/the-bug-o-notation/) by Dan Abramov
+- [The wrong abstraction](https://www.sandimetz.com/blog/2016/1/20/the-wrong-abstraction) by Sandi Metz
+- [Too DRY — The Grep Test](http://jamie-wong.com/2013/07/12/grep-test/) by Jamie Wong
+- [Why the Boy Scout Rule Is Insufficient](https://www.codewithjason.com/boy-scout-rule-insufficient/) by Jason Swett
 - [Write code that is easy to delete, not easy to extend](https://programmingisterrible.com/post/139222674273/write-code-that-is-easy-to-delete-not-easy-to)
-- [AHA programming](https://kentcdodds.com/blog/aha-programming)
 
 ### Talks
 
