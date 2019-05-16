@@ -319,7 +319,7 @@ Start thinking about:
 
 ## Avoid conditions
 
-Conditions make code harder to read and harder to test. They add nesting and make lines of code longer, so you have to split them into several lines. Each condition doubles the minimum amount of test cases you need to write for a certain module of function.
+Conditions make code harder to read and harder to test. They add nesting and make lines of code longer, so you have to split them into several lines. Each nested condition doubles the minimum amount of test cases you need to write for a certain module or function.
 
 Many conditions are unnecessary or could be rewritten in a more readable way.
 
@@ -396,7 +396,7 @@ return getProducts().then(response => {
 
 We can’t avoid the condition in this case but we can move it earlier and avoid a separate branch for returning an empty array.
 
-If our data can be and array or `undefined`, we can use default value in destructuring (or a function argument):
+If our data can be an array or `undefined`, we can use a default value in destructuring (or a function parameter):
 
 ```js
 return getProducts().then(({ products = [] }) =>
@@ -407,7 +407,7 @@ return getProducts().then(({ products = [] }) =>
 );
 ```
 
-It’s more tricky if our data can be and array or `null`, like when you use GraphQL. In this case we can use the `||` operator:
+It’s more tricky if our data can be an array or `null`, like when using GraphQL. In this case we can use the `||` operator:
 
 ```js
 return getProducts().then(({ products }) =>
@@ -418,9 +418,9 @@ return getProducts().then(({ products }) =>
 );
 ```
 
-Condition is still here but the overall code structure is simpler.
+A condition is still here but the overall code structure is simpler.
 
-Guard clauses or early return is a great way to avoid nested conditions, also known as the [arrow anti pattern](http://wiki.c2.com/?ArrowAntiPattern) or dangerously deep nesting. Nested conditions are often used for error handing:
+Guard clauses (a.k.a., "early return") is a great way to avoid nested conditions (a.k.a., the [arrow anti pattern](http://wiki.c2.com/?ArrowAntiPattern) or dangerously deep nesting). Nested conditions are often used for error handing:
 
 ```js
 function postOrderStatus(orderId) {
@@ -447,7 +447,7 @@ function postOrderStatus(orderId) {
 }
 ```
 
-There’s 120 lines between the first condition and it’s `else` block. And the main return value is somewhere inside three levels of conditions.
+There are 120 lines between the first condition and it’s `else` block. And the main return value is somewhere inside three levels of conditions.
 
 Let’s untangle this spaghetti monster:
 
@@ -529,7 +529,7 @@ function getSpecialOffersArray(sku, isHornsAndHooves) {
 }
 ```
 
-This is already more readable and it could be a good idea to stop here. But if I had some time I’d go further and extract cache management. Not because this function is too long or something like that, but because it distracts me from what the main purpose of the function and too low level.
+This is already more readable and it could be a good idea to stop here. But if I had some time I’d go further and extract cache management. Not because this function is too long or something like that, but because it distracts me from what the main purpose of the function and it's too low level.
 
 ```js
 const getSessionKey = (key, isHornsAndHooves, sku) =>
@@ -648,11 +648,11 @@ const getSpecialOffersArray = withSessionCache(
 
 We were able to separate all low level code and hide it in another module.
 
-It may feel like I prefer small function, or even very small function, but it’s not true. Reasons to extract code into separate functions here are different levels of abstraction and code reuse.
+It may feel like I prefer a small function, or even a very small function, but it’s not true. Reasons to extract code into separate functions here are different levels of abstraction and code reuse.
 
 One of my favorite techniques of improving (read avoiding) conditions is replacing them with tables or maps. In JavaScript it’s an object.
 
-This example may be a bit extreme, but I’ve actually written this code 19 years ago:
+This example may be a bit extreme, but I actually wrote this code 19 years ago:
 
 <!-- prettier-ignore -->
 ```js
@@ -883,8 +883,8 @@ Note that `hasLengthLessThanOrEqual` and `hasNoSpaces` only check the conditio
 
 Now we can define our validations table. There are two ways of doing this:
 
-- using an object where keys represent form fields;
-- using an array.
+- using an object where keys represent form fields
+- using an array
 
 We’re going to use the second because we want to have several validations with different error messages for some fields, for example a field can be required and have maximum length:
 
@@ -927,11 +927,11 @@ function validate(values, validations) {
 }
 ```
 
-One more time we’ve separated “what” and “how”: we have readable and maintainable list of validations (“what”), a collection of reusable validation function and a `validate` function to validate form values (“how”) that also can be reused.
+One more time we’ve separated “what” and “how”: we have readable and maintainable list of validations (“what”), a collection of reusable validation functions and a `validate` function to validate form values (“how”) that also can be reused.
 
 _Tip: Using a third-party library, like [Yup](https://github.com/jquense/yup) or [Joi](https://github.com/hapijs/joi) will make code even shorter and save you from writing validation functions yourself._
 
-You may feel that I have to many similar examples in this book, and you’re right. But I think such code is so common, and readability and maintainability benefits of the refactoring are so huge, so it’s worth it. So here is one more (the last one, I promise!) example:
+You may feel that I have to many similar examples in this book, and you’re right. But I think such code is so common, and readability and maintainability benefits of the refactoring are huge, so it’s worth repeating. So here is one more (the last one, I promise!) example:
 
 ```js
 const getDateFormat = format => {
@@ -1029,7 +1029,7 @@ This case is the easiest to fix: we need to use separate variables for each valu
 TODO;
 ```
 
-By doing this we’re making lifespan of each variable shorter and choosing better names, so code is easier to understand and we’ll need to read less code to understand the current (and now the only) value of a particular variable.
+By doing this we’re making the lifespan of each variable shorter and choosing better names, so code is easier to understand and we’ll need to read less code to understand the current (and now the only) value of a particular variable.
 
 Probably the most common use case for reassignment is incremental computations. Consider this example:
 
@@ -1048,9 +1048,9 @@ const validateVideo = (video) => {
 };
 ```
 
-I’ve shortened comments a bit, the original code had lines longer than 200 characters. If you have a very big screen, it looks like a pretty table, otherwise like an unreadable mess. Any auto formatting tool, like Prettier, will make an unreadable mess out of it to, so you shouldn’t rely on manual code formatting. It’s also really hard to maintain: if any of the “columns” become longer than all existing “columns” after your changes, you have to adjust whitespace for all other “columns”.
+I’ve shortened the comments a bit, the original code had lines longer than 200 characters. If you have a very big screen, it looks like a pretty table, otherwise like an unreadable mess. Any auto formatting tool, like Prettier, will make an unreadable mess out of it to, so you shouldn’t rely on manual code formatting. It’s also really hard to maintain: if any of the “columns” become longer than all existing “columns” after your changes, you have to adjust whitespace for all other “columns”.
 
-Anyway, this code add an error message to the `errors` variable for every failed validation. But now it’s hard to see because the formatting code is mangled with validation code. This makes it hard to read and modify. If you need to add another validation, you have to understand and copy formatting code. If you need to print errors as an HTML list, you have to change each line of this function.
+Anyway, this code adds an error message to the `errors` variable for every failed validation. But now it’s hard to see because the formatting code is mangled with validation code. This makes it hard to read and modify. If you need to add another validation, you have to understand and copy formatting code. If you need to print errors as an HTML list, you have to change each line of this function.
 
 Let’s separate validation and formatting:
 
@@ -1271,7 +1271,7 @@ const getRejectionReasons = isAdminUser => {
 const rejectionReason = getRejectionReasons(isAdminUser);
 ```
 
-This is less important you may argue that moving code to a new function just because of reassignment isn’t a great idea, and you may be right, so use your own judgement here.
+This is less important. You may argue that moving code to a new function just because of reassignment isn’t a great idea, and you may be right, so use your own judgement here.
 
 In all examples above I’m replacing `let` with `const`. This immediately tells the reader that the variable won’t be reassigned. And you can be sure, it won’t: the compiler won’t allow that. And every time you see `let` in the code, you know that this code is more complex.
 
