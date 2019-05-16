@@ -53,6 +53,15 @@ const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(_.kebabCase);
 ```
 
+But this may be a bit less readable than the expanded version, because we don’t see what exactly we’re passing to a function. ECMAScript 6’s arrow functions made callbacks shorter and less cluttered, compared to the old anonymous function syntax:
+
+```js
+const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
+const kebabNames = names.map(function(name) {
+  return _.kebabCase(name);
+});
+```
+
 Or let’s find an element in an array with a `for` loop:
 
 ```js
@@ -90,21 +99,7 @@ We’re separating the “what” (our data) from the “how” (how to loop ove
 
 When you use array methods for all simple cases, traditional loops signal to the code reader that something unusual is going on. And that’s good: you can reserve brain resources for better understanding the unusual, more complex cases.
 
-### Dealing with side effects
-
-Side effects make code harder to understand because you can no longer treat a function as a black box: a function with side effects doesn’t just transform input to output, but can affect the environment in unpredictable ways. Functions with side effects are also hard to test because you’ll need to recreate the environment before each test and verify it after.
-
-All array methods mentioned in the previous section, except `.forEach()`, imply that they don’t have side effects, and that only the return value is used. Introducing any side effects into these methods would make code easy to misread since readers wouldn’t expect to see side effects.
-
-`.forEach()` doesn’t return any value, and that’s the right choice for handling side effects when you really need them:
-
-```js
-errors.forEach(error => {
-  console.error(error);
-});
-```
-
-But don’t use `.forEach()` when other array methods would work:
+Also don’t use generic array methods like `.map()` or `.forEach()` when more specialized array methods would work, and don’t use `.forEach()` when `.map()` would work:
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
@@ -122,6 +117,34 @@ const kebabNames = names.map(name => _.kebabCase(name));
 ```
 
 This version is much easier to read because we know that the `.map()` method transforms an array by keeping the same number of items. And unlike `.forEach()`, it doesn’t require a custom implementation nor mutate an output array. Also the callback function is now pure: it doesn’t access any variables in the parent function, only function arguments.
+
+### Dealing with side effects
+
+Side effects make code harder to understand because you can no longer treat a function as a black box: a function with side effects doesn’t just transform input to output, but can affect the environment in unpredictable ways. Functions with side effects are also hard to test because you’ll need to recreate the environment before each test and verify it after.
+
+All array methods mentioned in the previous section, except `.forEach()`, imply that they don’t have side effects, and that only the return value is used. Introducing any side effects into these methods would make code easy to misread since readers wouldn’t expect to see side effects.
+
+`.forEach()` doesn’t return any value, and that’s the right choice for handling side effects when you really need them:
+
+```js
+errors.forEach(error => {
+  console.error(error);
+});
+```
+
+`for of` loop is even better:
+
+* it doesn’t have any of the problems of regular `for` loops, mentioned in the beginning of this chapter;
+* we can avoid reassignments and mutations, since we don’t have a return value;
+* it has clear semantics of iteration over all array elements, since we can’t manipulate the number of iterations, like in a regular `for` loop. (Well, almost, we can abort the loops with `break`.)
+
+Let’s rewrite our example using `for of` loop:
+
+```js
+for (const error of errors) {
+  console.error(error);
+}
+```
 
 ### Sometimes loops aren’t so bad
 
@@ -169,7 +192,26 @@ const tableData =
   );
 ```
 
-But is it really more readable? I don’t think so. Common sense should always win over applying “rules” everywhere (see the “Cargo cult programming” section below).
+But is it really more readable?
+
+After a cup of coffee and a chat with a colleague, I’ve ended up with a much cleaner code:
+
+```js
+const tableData =
+  props.item &&
+  props.item.details &&
+  props.item.details.clients.reduce((acc, client) =>
+    acc.concat(
+      ...client.errorConfigurations.map(config => ({
+        errorMessage: config.error.message,
+        errorLevel: config.error.level,
+        usedIn: client.client.name
+      }))
+    )
+  );
+```
+
+I think I still prefer the double `for` version, but I’ll be happy with both versions, the original and the second rewrite, if I had to review such code.
 
 _(Though `tableData` is a really bad variable name.)_
 
@@ -265,6 +307,8 @@ for (var i = 0, namesLength = names.length; i < namesLength; i++) {
 ```
 
 It’s not slow anymore. And there are other examples where engines optimize for simpler code patterns and make manual optimization unnecessary. In any case, you should measure performance to know what to optimize, and whether your changes really make code faster in all important browsers and environments.
+
+Also `.every()`, `.some()`, `.find()` and `.findIndex()` will short circuit, meaning they won’t iterate over more array elements than necessary.
 
 ---
 
