@@ -884,7 +884,7 @@ Note that `hasLengthLessThanOrEqual` and `hasNoSpaces` only check the conditio
 Now we can define our validations table. There are two ways of doing this:
 
 - using an object where keys represent form fields
-- using an array
+- using an array.
 
 We’re going to use the second because we want to have several validations with different error messages for some fields, for example a field can be required and have maximum length:
 
