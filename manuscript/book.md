@@ -420,7 +420,7 @@ return getProducts().then(({ products }) =>
 
 A condition is still here but the overall code structure is simpler.
 
-Guard clauses (a.k.a., "early return") is a great way to avoid nested conditions (a.k.a., the [arrow anti pattern](http://wiki.c2.com/?ArrowAntiPattern) or dangerously deep nesting). Nested conditions are often used for error handing:
+Guard clauses, or early return, is a great way to avoid nested conditions, also known as the [arrow anti pattern](http://wiki.c2.com/?ArrowAntiPattern) and dangerously deep nesting. Nested conditions are often used for error handing:
 
 ```js
 function postOrderStatus(orderId) {
