@@ -319,7 +319,7 @@ Start thinking about:
 
 ## Avoid conditions
 
-Conditions make code harder to read and harder to test. They add nesting and make lines of code longer, so you have to split them into several lines. Each nested condition doubles the minimum amount of test cases you need to write for a certain module or function.
+Conditions make code harder to read and harder to test. They add nesting and make lines of code longer, so you have to split them into several lines. Each condition increases the minimum number of test cases you need to write for a certain module or function.
 
 Many conditions are unnecessary or could be rewritten in a more readable way.
 
