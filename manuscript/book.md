@@ -1957,6 +1957,7 @@ The less code we write, the better. Less code means easier testing, easier maint
 - [Too DRY — The Grep Test](http://jamie-wong.com/2013/07/12/grep-test/) by Jamie Wong
 - [Why the Boy Scout Rule Is Insufficient](https://www.codewithjason.com/boy-scout-rule-insufficient/) by Jason Swett
 - [Write code that is easy to delete, not easy to extend](https://programmingisterrible.com/post/139222674273/write-code-that-is-easy-to-delete-not-easy-to)
+- [Writing system software: code comments](http://antirez.com/news/124)
 
 ### Talks
 
