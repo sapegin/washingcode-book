@@ -20,7 +20,7 @@ And remember, there are no strict rules in programming, except that you should a
 
 These folks helped me with the book in one way or another.
 
-Thanks to [Evan Davis](https://github.com/evandavis), [Troy Giunipero](https://github.com/giuniperoo), Anita Kiss, [Monica Lent](https://monicalent.com/), [Rostislav U](https://twitter.com/inooze), [Dan Uhl](https://github.com/danieluhl), [Juho Vepsäläinen](https://survivejs.com/), [Michel Weststrate](https://twitter.com/mweststrate).
+Thanks to [Manuel Bieh](https://twitter.com/ManuelBieh), [Evan Davis](https://github.com/evandavis), [Troy Giunipero](https://github.com/giuniperoo), Anita Kiss, [Monica Lent](https://monicalent.com/), [Rostislav U](https://twitter.com/inooze), [Dan Uhl](https://github.com/danieluhl), [Juho Vepsäläinen](https://survivejs.com/), [Michel Weststrate](https://twitter.com/mweststrate).
 
 ## Avoid loops
 
@@ -1927,6 +1927,158 @@ Try to avoid rewriting everything at once.
 - Know when to use third party code
 - Lodash
 - Micromodules
+
+## Code style
+
+I used to be very strict about [a particular code style](https://blog.sapegin.me/all/prettier/). I thought my code style was better, but later I’ve realized that it was just different. And it wasn’t the most popular, so anyone else’s code looked wrong to me.
+
+For example, after reading the [The Programmers’ Stone](https://www.datapacrat.com/Opinion/Reciprocality/r0/index.html) I put braces like this for a long time:
+
+<!-- prettier-ignore -->
+```js
+if (food === 'pizza')
+{
+	alert('Pizza ;-)');
+}
+else
+{
+	alert('Not pizza ;-(');
+}
+```
+
+Or I had two spaces in front of inline comments:
+
+<!-- prettier-ignore -->
+```js
+const volume = 200;  // ml
+```
+
+So if any other developer touched my code, they would immediately make it inconsistent, because they unlikely would follow _my code style_ — so uncommon it was. And code review would be a nightmare if I wanted to enforce _my code style_.
+
+### Not all code styles are good
+
+I wasn’t entirely wrong though: not every code style makes code easy to read and maintain.
+
+For example, this way of defining arrays make is harder to move or add new items:
+
+<!-- prettier-ignore -->
+```js
+const dogs = [
+  'dachshund',
+  'saluki',
+  'sheltie'
+];
+```
+
+That’s because you’ll have to change two lines every time you want to do something at the end of an array. It also clutters the diff for the same reason:
+
+```diff
+const dogs = [
+  'dachshund',
+  'saluki',
+-  'sheltie'
++  'sheltie',
++  'whippet'
+];
+```
+
+This style solves both problems without making code any harder to write or read:
+
+<!-- prettier-ignore -->
+```js
+const dogs = [
+  'dachshund',
+  'saluki',
+  'sheltie',
+];
+```
+
+Now we need to change only one line:
+
+```diff
+const dogs = [
+  'dachshund',
+  'saluki',
+  'sheltie',
++  'whippet',
+];
+```
+
+Another example is parens around arrow functions with a single argument — you could omit them in this only case:
+
+<!-- prettier-ignore -->
+```js
+const inc = x => x + 1;
+```
+
+But as soon as you want to add another argument, a default value or a type annotation, you have to add parens:
+
+<!-- prettier-ignore -->
+```js
+const inc = (x = 0) => x + 1;
+const inc = (x, n) => x + n;
+const inc = (x: number): number => x + 1;
+```
+
+Probably better to always wrap arrow function arguments in parens and save yourself some time when you need to modify the code:
+
+<!-- prettier-ignore -->
+```js
+const inc = (x) => x + 1;
+const inc = (x = 0) => x + 1;
+const inc = (x, n) => x + n;
+const inc = (x: number): number => x + 1;
+```
+
+And I think readability doesn’t suffer much in this case.
+
+### Obsolete code styles
+
+Sometimes developers follow a particular code style even if the initial reasoning behind it is no longer relevant.
+
+TODO: 
+
+<!-- prettier-ignore -->
+```js
+const dogs = [
+  'dachshund'
+, 'saluki'
+, 'sheltie'
+];
+```
+
+TODO: yoda conditions
+
+### The rest doesn’t matter
+
+There are so many ways to write code. For example you could use function arguments like this:
+
+```js
+function ingredientToString(options) {
+  return `{options.name} (${options.quantity})`;
+}
+
+function ingredientToString(options) {
+  const {name, quantity} = options;
+  return `{name} (${quantity})`;
+}
+
+function ingredientToString({name, quantity}) {
+  return `{name} (${quantity})`;
+}
+```
+
+I personally prefer the last one for the reasons I explain in the _Naming is hard_ section, but I wouldn’t ask another developer to change their code just because they use another option: they are all fine.
+
+I can probably a whole book of such examples. Next time you review someone else’s code and want to ask them to change a piece of code, ask yourself: does it really makes code more readable and maintainable or just makes it look for familiar to me. If it’s the latter, please don’t write that comment. 
+
+### How to choose the right code style
+
+Choose [the most popular code style](https://blog.sapegin.me/all/javascript-code-styles/), unless a deviation significantly improves readability or maintainability of the code.
+
+Automate as much as possible. [Prettier](https://prettier.io/) formats code with almost zero config, which saves enormous amount of time while you write code, read someone else’s code or discuss code style in your team. 
+
+The last point is especially important: developers could waste days arguing where to put spaces in the code, which doesn’t matter at all, but everyone has an opinion on it.
 
 ## Code is evil
 
