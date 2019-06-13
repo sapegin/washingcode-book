@@ -134,9 +134,9 @@ errors.forEach(error => {
 
 `for of` loop is even better:
 
-* it doesn’t have any of the problems of regular `for` loops, mentioned in the beginning of this chapter;
-* we can avoid reassignments and mutations, since we don’t have a return value;
-* it has clear semantics of iteration over all array elements, since we can’t manipulate the number of iterations, like in a regular `for` loop. (Well, almost, we can abort the loops with `break`.)
+- it doesn’t have any of the problems of regular `for` loops, mentioned in the beginning of this chapter;
+- we can avoid reassignments and mutations, since we don’t have a return value;
+- it has clear semantics of iteration over all array elements, since we can’t manipulate the number of iterations, like in a regular `for` loop. (Well, almost, we can abort the loops with `break`.)
 
 Let’s rewrite our example using `for of` loop:
 
@@ -236,7 +236,9 @@ const allNames = {
   hobbits: ['Bilbo', 'Frodo'],
   dwarfs: ['Fili', 'Kili']
 };
-Object.keys(allNames).forEach(race => console.log(race, '->', allNames[race]));
+Object.keys(allNames).forEach(race =>
+  console.log(race, '->', allNames[race])
+);
 ```
 
 Or:
@@ -321,6 +323,8 @@ Start thinking about:
 
 Conditions make code harder to read and harder to test. They add nesting and make lines of code longer, so you have to split them into several lines. Each condition increases the minimum number of test cases you need to write for a certain module or function.
 
+### Unnecessary conditions
+
 Many conditions are unnecessary or could be rewritten in a more readable way.
 
 For example, returning booleans from functions:
@@ -330,7 +334,7 @@ const hasValue = value !== NONE ? true : false;
 const hasProducts = products.length > 0 ? true : false;
 ```
 
-`value !== NONE` and `products.length > 0` are already a booleans, so we can use them as is, without a ternary operator:
+`value !== NONE` and `products.length > 0` already give us booleans, so we can use them as is, without a ternary operator:
 
 ```js
 const hasValue = value !== NONE;
@@ -353,7 +357,9 @@ const hasProducts = products.length > 0;
 
 In all cases the code without a ternary is shorter and easier to read.
 
-Another example: it’s common to check an array length before running a loop over its items:
+## Processing arrays
+
+It’s common to check an array length before running a loop over its items:
 
 ```js
 return getProducts().then(response => {
@@ -368,7 +374,7 @@ return getProducts().then(response => {
 });
 ```
 
-All loops and array function work fine with empty array, so we can safely remove the condition:
+All loops and array functions work fine with empty array, so we can safely remove the condition:
 
 ```js
 return getProducts().then(({ products }) =>
@@ -396,10 +402,21 @@ return getProducts().then(response => {
 
 We can’t avoid the condition in this case but we can move it earlier and avoid a separate branch for returning an empty array.
 
-If our data can be an array or `undefined`, we can use a default value in destructuring (or a function parameter):
+If our data can be an array or `undefined`, we can use a default value in destructuring:
 
 ```js
 return getProducts().then(({ products = [] }) =>
+  products.map(product => ({
+    label: product.name,
+    value: product.id
+  }))
+);
+```
+
+Or a default function parameter value:
+
+```js
+return getProducts().then((products = []) =>
   products.map(product => ({
     label: product.name,
     value: product.id
@@ -420,7 +437,24 @@ return getProducts().then(({ products }) =>
 
 A condition is still here but the overall code structure is simpler.
 
-Guard clauses, or early return, is a great way to avoid nested conditions, also known as the [arrow anti pattern](http://wiki.c2.com/?ArrowAntiPattern) and dangerously deep nesting. Nested conditions are often used for error handing:
+In all these examples we’re removing a separate branch, dealing with absence of data, by converting the input to an array as early as possible. Arrays are convenient because we don’t have to worry how many items they contain: the same code will work with a hundred of items, one item or even no items.
+
+A similar technique works when the input is a single item or an array:
+
+```js
+return getProducts().then(({ products }) =>
+  (Array.isArray(products) ? products : [products]).map(product => ({
+    label: product.name,
+    value: product.id
+  }))
+);
+```
+
+Here we’re wrapping a single item in an array, so we can use the same code to work with single items and arrays.
+
+### Early return
+
+_Guard clauses_, or _early return_, is a great way to avoid nested conditions. Nested conditions, also known as the [arrow anti pattern](http://wiki.c2.com/?ArrowAntiPattern) and _dangerously deep nesting_, are often used for error handing:
 
 ```js
 function postOrderStatus(orderId) {
@@ -447,7 +481,7 @@ function postOrderStatus(orderId) {
 }
 ```
 
-There are 120 lines between the first condition and it’s `else` block. And the main return value is somewhere inside three levels of conditions.
+There are 120 lines between the first condition and its `else` block. And the main return value is somewhere inside three levels of conditions.
 
 Let’s untangle this spaghetti monster:
 
@@ -474,11 +508,39 @@ function postOrderStatus(orderId) {
 }
 ```
 
-This function is still long but it’s much easier to follow because of much simpler code structure.
+This function is still long but it’s much easier to follow because of simpler code structure.
 
-I’m not really sure what the code inside the second condition does, but it looks like wrapping a single item in an array.
+Now we have maximum one level of nesting inside the function and the main return value is at the very end without nesting. We’ve added two guard clauses to exit function early when there’s no data to process.
 
-_And no, I don’t know what `tmpBottle` means, and why it was needed._
+I’m not really sure what the code inside the second condition does, but it looks like wrapping a single item in an array, like we did in the previous section.
+
+_And no, I have no idea what `tmpBottle` means, and why it was needed._
+
+The next step here could be improving the `getOrderIds()` function’s API. Now it could return three different things: `undefined`, a single item, an array. We have to deal with each separately, so we have two conditions at the very beginning of the function, and we’re reassigning the `idsArrayObj` variable (see “Avoid reassigning variables” chapter below).
+
+By making the `getOrderIds()` function always return an array, and making sure that the code inside `// 70 lines of code` works with an empty array, we could remove both conditions:
+
+```js
+function postOrderStatus(orderId) {
+  const orderIds = getOrderIds(); // Always an array
+
+  const fullRecordsArray = [];
+
+  // 70 lines of code
+  if (fullRecordsArray.length === 0) {
+    return false;
+  }
+
+  // 40 lines of code
+  return sendOrderStatus(fullRecordsArray);
+}
+```
+
+Now it’s a big improvement over the initial version. I’ve also renamed `idsArrayObj` variable, because “array object” doesn’t make any sense to me.
+
+The next step would be out of the scope of this section: the code inside `// 70 lines of code` mutates the `fullRecordsArray`, see “Avoid mutation” chapter below to learn why mutation isn’t good and how to avoid it.
+
+### Repeated conditions
 
 Repeated conditions can make code barely readable. Let’s have a look at this function that returns special offers for a product in our pet shops. We have two brands, Horns and Hooves and Paws and Tales, and they have different special offers. For historical reasons we store in cache differently:
 
@@ -1721,12 +1783,11 @@ TODO: To DRY or to DUMP (DUMP for tests)
 
 There are several you may want to split code into several modules:
 
-* size
-* complexity 
-* responsibilities
-* change frequency
-* code reuse
-
+- size
+- complexity
+- responsibilities
+- change frequency
+- code reuse
 
 ### Let abstractions grow
 
@@ -1746,32 +1807,32 @@ TODO: Don’t let people depend on your code
 
 ### Separate code that changes often
 
-*Code reuse* isn’t the only and not the most important reason to extract code into a separate module.
+_Code reuse_ isn’t the only and not the most important reason to extract code into a separate module.
 
-*Code length* is often [used as a metric](https://softwareengineering.stackexchange.com/questions/27798/what-should-be-the-maximum-length-of-a-function) when you should split a module or a function into two, but size alone doesn’t make code hard to read or maintain.
+_Code length_ is often [used as a metric](https://softwareengineering.stackexchange.com/questions/27798/what-should-be-the-maximum-length-of-a-function) when you should split a module or a function into two, but size alone doesn’t make code hard to read or maintain.
 
-In my experience the most useful reasons to split code are *change frequency* and *change reason*.
+In my experience the most useful reasons to split code are _change frequency_ and _change reason_.
 
-Let’s start from *change frequency*. Business logic is changing much more often than utility code. It make sense to keep code, that changes often, separately from the code that is mostly static.
+Let’s start from _change frequency_. Business logic is changing much more often than utility code. It make sense to keep code, that changes often, separately from the code that is mostly static.
 
 The comment form from the previous section is an example of the former, a function that converts `camelCase` to `kebab-case` is an example of the latter. The comment form is likely to change and diverge with time when new business requirements arrive, the conversion function is unlikely to change at all and it’s safe to reuse in many places.
 
 The opposite is also true: if you often have to change several modules or functions at the same time, it may be better to merge them into a single module or a function. [Ducks convention](https://github.com/erikras/ducks-modular-redux) for Redux is a great example of that.
 
-*Change reason* is also knowns as the [Single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle): “every module, class, or function should have responsibility over a single part of the functionality provided by the software, and that responsibility should be entirely encapsulated by the class”.
+_Change reason_ is also knowns as the [Single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle): “every module, class, or function should have responsibility over a single part of the functionality provided by the software, and that responsibility should be entirely encapsulated by the class”.
 
-Imagine, you’re making a nice looking table with editable fields. You think you’ll never need this table design again, so you decide to keep the whole table in a single module. 
+Imagine, you’re making a nice looking table with editable fields. You think you’ll never need this table design again, so you decide to keep the whole table in a single module.
 
 Next sprint you have a task to add another column to the table, so you copy the code of an existing table and change a few lines there. Next sprint you have a task to change a design of a table.
 
-Now your modules has at least two *reasons to change*, or *responsibilities*:
+Now your modules has at least two _reasons to change_, or _responsibilities_:
 
-* new business requirements, like a new table column;
-* design changes, like replacing borders with striped row backgrounds.
+- new business requirements, like a new table column;
+- design changes, like replacing borders with striped row backgrounds.
 
 This makes the module harder to understand and harder to change: to do a change in any of the responsibilities you need to read and modify more code. This makes it harder and slower to iterate on both, business logic and design.
 
-Extraction of a generic table as a separate module solves this problem.  Now if you need to add another column to a table, you only need to understand and modify one of the two modules. You don’t need to know anything about the generic table module, except its public API.
+Extraction of a generic table as a separate module solves this problem. Now if you need to add another column to a table, you only need to understand and modify one of the two modules. You don’t need to know anything about the generic table module, except its public API.
 
 This also makes code easier to delete when the requirements change. (TODO: why?)
 
@@ -2036,7 +2097,7 @@ And I think readability doesn’t suffer much in this case.
 
 Sometimes developers follow a particular code style even if the initial reasoning behind it is no longer relevant.
 
-TODO: 
+TODO:
 
 <!-- prettier-ignore -->
 ```js
@@ -2059,24 +2120,24 @@ function ingredientToString(options) {
 }
 
 function ingredientToString(options) {
-  const {name, quantity} = options;
+  const { name, quantity } = options;
   return `{name} (${quantity})`;
 }
 
-function ingredientToString({name, quantity}) {
+function ingredientToString({ name, quantity }) {
   return `{name} (${quantity})`;
 }
 ```
 
 I personally prefer the last one for the reasons I explain in the _Naming is hard_ section, but I wouldn’t ask another developer to change their code just because they use another option: they are all fine.
 
-I can probably a whole book of such examples. Next time you review someone else’s code and want to ask them to change a piece of code, ask yourself: does it really makes code more readable and maintainable or just makes it look for familiar to me. If it’s the latter, please don’t write that comment. 
+I can probably a whole book of such examples. Next time you review someone else’s code and want to ask them to change a piece of code, ask yourself: does it really makes code more readable and maintainable or just makes it look for familiar to me. If it’s the latter, please don’t write that comment.
 
 ### How to choose the right code style
 
 Choose [the most popular code style](https://blog.sapegin.me/all/javascript-code-styles/), unless a deviation significantly improves readability or maintainability of the code.
 
-Automate as much as possible. [Prettier](https://prettier.io/) formats code with almost zero config, which saves enormous amount of time while you write code, read someone else’s code or discuss code style in your team. 
+Automate as much as possible. [Prettier](https://prettier.io/) formats code with almost zero config, which saves enormous amount of time while you write code, read someone else’s code or discuss code style in your team.
 
 The last point is especially important: developers could waste days arguing where to put spaces in the code, which doesn’t matter at all, but everyone has an opinion on it.
 
