@@ -542,7 +542,7 @@ The next step would be out of the scope of this section: the code inside `// 70 
 
 ### Repeated conditions
 
-Repeated conditions can make code barely readable. Let’s have a look at this function that returns special offers for a product in our pet shops. We have two brands, Horns and Hooves and Paws and Tales, and they have different special offers. For historical reasons we store in cache differently:
+Repeated conditions can make code barely readable. Let’s have a look at this function that returns special offers for a product in our pet shops. We have two brands, Horns and Hooves and Paws and Tails, and they have different special offers. For historical reasons we store them in cache differently:
 
 ```js
 function getSpecialOffersArray(sku, isHornsAndHooves) {
@@ -591,7 +591,7 @@ function getSpecialOffersArray(sku, isHornsAndHooves) {
 }
 ```
 
-This is already more readable and it could be a good idea to stop here. But if I had some time I’d go further and extract cache management. Not because this function is too long or something like that, but because it distracts me from what the main purpose of the function and it's too low level.
+This is already more readable and it could be a good idea to stop here. But if I had some time I’d go further and extract cache management. Not because this function is too long or it’s potentially reusable, but because it distracts me from the main purpose of the function and it’s too low level.
 
 ```js
 const getSessionKey = (key, isHornsAndHooves, sku) =>
@@ -710,11 +710,13 @@ const getSpecialOffersArray = withSessionCache(
 
 We were able to separate all low level code and hide it in another module.
 
-It may feel like I prefer a small function, or even a very small function, but it’s not true. Reasons to extract code into separate functions here are different levels of abstraction and code reuse.
+It may feel like I prefer a small functions, or even a very small functions, but it’s not the case. The main reason to extract code into separate functions here is a violation of the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle). The original function had too many responsibilities: getting special offers, generating cache keys, reading data from cache, storing data in cache. All of them with two branches for our two brands.
+
+## Tables or maps
 
 One of my favorite techniques of improving (read avoiding) conditions is replacing them with tables or maps. In JavaScript it’s an object.
 
-This example may be a bit extreme, but I actually wrote this code 19 years ago:
+We’ve just done this as a part of our special offers example refactoring. Let’s have a look at a simpler example now. This example may be a bit extreme, but I actually wrote this code 19 years ago:
 
 <!-- prettier-ignore -->
 ```js
@@ -732,7 +734,7 @@ if (month == 'nov') month = 11;
 if (month == 'dec') month = 12;
 ```
 
-Let’s replace it with a table:
+Let’s replace conditions with a table:
 
 ```js
 const MONTH_NAME_TO_NUMBER = {
@@ -752,7 +754,7 @@ const MONTH_NAME_TO_NUMBER = {
 const month = MONTH_NAME_TO_NUMBER[monthName];
 ```
 
-There’s almost no boilerplate code around the data, it’s more readable and looks like a table. Notice also that there are no brackets in the original code: in most modern style guides brackets around condition bodies are required and this snippet of could will be three times longer and less readable.
+There’s almost no boilerplate code around the data, it’s more readable and looks like a table. Notice also that there are no brackets in the original code: in most modern style guides brackets around condition bodies are required, and a body should be on its own line, so this snippet will be three times longer and even less readable.
 
 Or a bit more realistic and common example:
 
@@ -788,7 +790,9 @@ const getButtonLabel = decisionButton => {
 <Button>{getButtonLabel(decision.id)}</Button>;
 ```
 
-First, let’s replace it with a table:
+Here we have a `switch` statement to return one of three button labels.
+
+First, let’s replace the `switch` with a table:
 
 ```jsx
 const DECISION_YES = 0;
@@ -814,6 +818,8 @@ const getButtonLabel = decisionButton =>
 // And later it's used like this
 <Button>{getButtonLabel(decision.id)}</Button>;
 ```
+
+The object syntax is a bit more lightweight and readable then the `switch` statement.
 
 But we can make this code more idiomatic for React by converting our `getButtonLabel` function into a React component:
 
@@ -921,15 +927,15 @@ function validate(values) {
 }
 ```
 
-This function is very long, with lots and lots of repetitive boilerplate code. It’s really hard to read and maintain. Sometimes validation for the same field aren’t grouped together.
+This function is very long, with lots and lots of repetitive boilerplate code. It’s really hard to read and maintain. Sometimes validations for the same field aren’t grouped together.
 
-But if we look closer, there are just four three different validations:
+But if we look closer, there are just four three unique validations:
 
-- required field (in some cases leading and trailing whitespace is ignored, in some not — hard to tell whether it’s intentional or not);
+- a required field (in some cases leading and trailing whitespace is ignored, in some not — hard to tell whether it’s intentional or not);
 - maximum length (always 80);
 - no spaces allowed.
 
-First, let’s extract all validation login into their own functions, so we could reuse them later:
+First, let’s extract all validation logic into their own functions, so we could reuse them later:
 
 ```js
 const hasStringValue = value => value && value.trim() !== '';
@@ -948,7 +954,7 @@ Now we can define our validations table. There are two ways of doing this:
 - using an object where keys represent form fields;
 - using an array.
 
-We’re going to use the second because we want to have several validations with different error messages for some fields, for example a field can be required and have maximum length:
+We’re going to use the second option because we want to have several validations with different error messages for some fields, for example a field can be required and have maximum length:
 
 ```jsx
 const validations = [
@@ -993,7 +999,7 @@ One more time we’ve separated “what” and “how”: we have readable and m
 
 _Tip: Using a third-party library, like [Yup](https://github.com/jquense/yup) or [Joi](https://github.com/hapijs/joi) will make code even shorter and save you from writing validation functions yourself._
 
-You may feel that I have to many similar examples in this book, and you’re right. But I think such code is so common, and readability and maintainability benefits of the refactoring are huge, so it’s worth repeating. So here is one more (the last one, I promise!) example:
+You may feel that I have to many similar examples in this book, and you’re right. But I think such code is so common, and readability and maintainability benefits of replacing conditions with tables are so huge, so it’s worth repeating. So here is one more (the last one, I promise!) example:
 
 ```js
 const getDateFormat = format => {
@@ -1014,7 +1020,7 @@ const getDateFormat = format => {
 };
 ```
 
-It’s just 15 lines of code, but I find this code difficult to read. I think that the `switch` and absolutely unnecessary `datePart` and `monthPart` variables clutter code so much, that it’s almost unreadable.
+It’s just 15 lines of code, but I find this code difficult to read. I think that the `switch` and absolutely unnecessary, `datePart` and `monthPart` variables clutter code so much, that it’s almost unreadable.
 
 ```js
 const DATE_FORMATS = {
@@ -1032,35 +1038,109 @@ const getDateFormat = format => {
 
 The improved version isn’t much shorter, but now it’s easy to see all date formats. We’ve extracted the data to a short and readable object, and separated it from the code that accesses the right piece of this data.
 
-TODO: Nested ternaries
+### Nested ternaries
+
+A ternary operator is a short one-line conditional operator. It’s very useful when you want to assign one of two values to a variable. Compare a `if` statement:
+
+```js
+let drink;
+if (caffeineLevel < 50) {
+  drink = DRINK_COFFEE;
+} else [
+  drink = DRINK_WATER;
+}
+```
+
+With a ternary:
+
+```js
+const drink = caffeineLevel < 50 ? DRINK_COFFEE : DRINK_WATER;
+```
+
+But nested ternaries are different beasts: they usually make code hard to read and there’s almost always a better alternative:
 
 <!-- prettier-ignore -->
 ```jsx
 function Products({products, isError, isLoading}) {
-  return
-    isError
-      ? <p>Error loading producgts</p>
-        : isLoading
-          ? <Loading />
-          : products.length > 0
-            ? <ul>{products.map(
-                product => <li>{product.name}</li>
+  return isError
+    ? <p>Error loading products</p>
+      : isLoading
+        ? <Loading />
+        : products.length > 0
+          ? <ul>{products.map(
+              product => <li>{product.name}</li>
             )}</ul>
-            : <p>No products found</p>
+          : <p>No products found</p>
 }
 ```
 
-TODO: This is a rare case when Prettier makes code less readable but maybe it’s a sign to rewrite it.
+This is a rare case when Prettier makes code completely unreadable:
 
-TODO: All the states are exclusive here, so we can cheat and use a flat structure:
+```jsx
+function Products({ products, isError, isLoading }) {
+  return isError ? (
+    <p>Error loading products</p>
+  ) : isLoading ? (
+    <Loading />
+  ) : products.length > 0 ? (
+    <ul>
+      {products.map(product => (
+        <li>{product.name}</li>
+      ))}
+    </ul>
+  ) : (
+    <p>No products found</p>
+  );
+}
+```
 
-TODO
+But maybe it’s intentional, and a sign that we should rewrite it.
+
+In this example we’re rendering one of four UIs based on the status of loading operation:
+
+- a spinner (loading);
+- error message (failure);
+- a list of products (success);
+- messages that there’s no products (also success).
+
+Let’s rewrite this code using already familiar early return pattern:
+
+```jsx
+function Products({ products, isError, isLoading }) {
+  if (isError) {
+    return <p>Error loading products</p>;
+  }
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (products.length === 0) {
+    return <p>No products found</p>;
+  }
+
+  return (
+    <ul>
+      {products.map(product => (
+        <li>{product.name}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+I think now it’s much easier to follow: all special cases are at the top of the function, and the happy path is at the end.
 
 _We’ll come back to this example later in the “Make impossible states impossible” section._
 
-TODO: In case when conditions aren’t exclusive, use a function with early returns.
+---
 
-TODO
+Start thinking about:
+
+- Removing unnecessary conditions, like conveying an already boolean value to `true` or `false` manually.
+- Converting input data to an array early to avoid branching and dealing with no data separately.
+- Caching repeated conditions in a variable.
+- Replacing long groups of conditions with tables or maps.
 
 ## Avoid reassigning variables
 
