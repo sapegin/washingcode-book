@@ -327,21 +327,21 @@ Conditions make code harder to read and harder to test. They add nesting and mak
 
 Many conditions are unnecessary or could be rewritten in a more readable way.
 
-For example, returning booleans from functions:
+For example you may find code similar to this that returns a boolean value:
 
 ```js
 const hasValue = value !== NONE ? true : false;
 const hasProducts = products.length > 0 ? true : false;
 ```
 
-`value !== NONE` and `products.length > 0` already give us booleans, so we can use them as is, without a ternary operator:
+`value !== NONE` and `products.length > 0` already give us booleans, so we can avoid a ternary operator:
 
 ```js
 const hasValue = value !== NONE;
 const hasProducts = products.length > 0;
 ```
 
-And even if the condition doesn’t return a boolean:
+And even if the initial value isn’t a boolean:
 
 ```js
 const hasValue = value ? true : false;
@@ -351,7 +351,7 @@ const hasProducts = products.length ? true : false;
 We still can avoid a condition by explicitly converting a value to a boolean:
 
 ```js
-const hasValue = !!value;
+const hasValue = Boolean(value);
 const hasProducts = products.length > 0;
 ```
 
