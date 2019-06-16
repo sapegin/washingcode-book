@@ -316,12 +316,12 @@ Also `.every()`, `.some()`, `.find()` and `.findIndex()` will short circuit, mea
 
 Start thinking about:
 
-- Replacing loops with array methods, like `.map()` or `.filter()`.
-- Avoiding side effects in functions.
+- Replacing loops with array methods, like `.map()` or `.filter()`
+- Avoiding side effects in functions
 
 ## Avoid conditions
 
-Conditions make code harder to read and harder to test. They add nesting and make lines of code longer, so you have to split them into several lines. Each condition increases the minimum number of test cases you need to write for a certain module or function.
+Conditions make code harder to read and test. They add nesting and make lines of code longer, so you have to split them into several lines. Each condition increases the minimum number of test cases you need to write for a certain module or function.
 
 ### Unnecessary conditions
 
@@ -334,32 +334,31 @@ const hasValue = value !== NONE ? true : false;
 const hasProducts = products.length > 0 ? true : false;
 ```
 
-`value !== NONE` and `products.length > 0` already give us booleans, so we can avoid a ternary operator:
+`value !== NONE` and `products.length > 0` already give us booleans, so we can avoid the ternary operator:
 
 ```js
 const hasValue = value !== NONE;
 const hasProducts = products.length > 0;
 ```
 
-And even if the initial value isn’t a boolean:
+And even when the initial value isn’t a boolean:
 
 ```js
 const hasValue = value ? true : false;
 const hasProducts = products.length ? true : false;
 ```
 
-We still can avoid a condition by explicitly converting a value to a boolean:
+We still can avoid the condition by explicitly converting the value to a boolean:
 
 ```js
 const hasValue = Boolean(value);
-const hasProducts = products.length > 0;
 ```
 
-In all cases the code without a ternary is shorter and easier to read.
+In all cases code without a ternary is both shorter and easier to read.
 
-## Processing arrays
+### Processing arrays
 
-It’s common to check an array length before running a loop over its items:
+It’s common to check an array's length before running a loop over its items:
 
 ```js
 return getProducts().then(response => {
@@ -374,7 +373,7 @@ return getProducts().then(response => {
 });
 ```
 
-All loops and array functions work fine with empty array, so we can safely remove the condition:
+All loops and array functions work fine with empty arrays, so we can safely remove the condition:
 
 ```js
 return getProducts().then(({ products }) =>
@@ -390,7 +389,7 @@ But sometimes the array itself is optional:
 ```js
 return getProducts().then(response => {
   const products = response.products;
-  if (products && Array.isArray(products) && products.length > 0) {
+  if (Array.isArray(products) && products.length > 0) {
     return products.map(product => ({
       label: product.name,
       value: product.id
@@ -402,7 +401,7 @@ return getProducts().then(response => {
 
 We can’t avoid the condition in this case but we can move it earlier and avoid a separate branch for returning an empty array.
 
-If our data can be an array or `undefined`, we can use a default value in destructuring:
+If our data can be an array or `undefined`, we can assign a default value in the destructured function parameter:
 
 ```js
 return getProducts().then(({ products = [] }) =>
@@ -413,18 +412,7 @@ return getProducts().then(({ products = [] }) =>
 );
 ```
 
-Or a default function parameter value:
-
-```js
-return getProducts().then((products = []) =>
-  products.map(product => ({
-    label: product.name,
-    value: product.id
-  }))
-);
-```
-
-It’s more tricky if our data can be an array or `null`, like when using GraphQL. In this case we can use the `||` operator:
+It’s more tricky if our data can be an array or `null`, like when using GraphQL. In that case we can use the `||` operator:
 
 ```js
 return getProducts().then(({ products }) =>
@@ -435,9 +423,9 @@ return getProducts().then(({ products }) =>
 );
 ```
 
-A condition is still here but the overall code structure is simpler.
+We still have a condition but the overall code structure is simpler.
 
-In all these examples we’re removing a separate branch, dealing with absence of data, by converting the input to an array as early as possible. Arrays are convenient because we don’t have to worry how many items they contain: the same code will work with a hundred of items, one item or even no items.
+In all these examples we’re removing a separate branch and dealing with the absence of data by converting the input to an array as early as possible. Arrays are convenient because we don’t have to worry about how many items they contain: the same code will work with a hundred items, one item or even no items.
 
 A similar technique works when the input is a single item or an array:
 
@@ -454,7 +442,7 @@ Here we’re wrapping a single item in an array, so we can use the same code to 
 
 ### Early return
 
-_Guard clauses_, or _early return_, is a great way to avoid nested conditions. Nested conditions, also known as the [arrow anti pattern](http://wiki.c2.com/?ArrowAntiPattern) and _dangerously deep nesting_, are often used for error handing:
+Applying _guard clauses_, or _early returns_, is a great way to avoid nested conditions. A series of nested conditions, also known as the [arrow anti pattern](http://wiki.c2.com/?ArrowAntiPattern) or _dangerously deep nesting_, is often used for error handing:
 
 ```js
 function postOrderStatus(orderId) {
@@ -510,13 +498,13 @@ function postOrderStatus(orderId) {
 
 This function is still long but it’s much easier to follow because of simpler code structure.
 
-Now we have maximum one level of nesting inside the function and the main return value is at the very end without nesting. We’ve added two guard clauses to exit function early when there’s no data to process.
+Now we have maximum one level of nesting inside the function and the main return value is at the very end without nesting. We’ve added two guard clauses to exit the function early when there’s no data to process.
 
-I’m not really sure what the code inside the second condition does, but it looks like wrapping a single item in an array, like we did in the previous section.
+I’m not really sure what the code inside the second condition does, but it looks like it is wrapping a single item in an array, like we did in the previous section.
 
-_And no, I have no idea what `tmpBottle` means, and why it was needed._
+_And no, I have no idea what `tmpBottle` means, nor why it was needed._
 
-The next step here could be improving the `getOrderIds()` function’s API. Now it could return three different things: `undefined`, a single item, an array. We have to deal with each separately, so we have two conditions at the very beginning of the function, and we’re reassigning the `idsArrayObj` variable (see “Avoid reassigning variables” chapter below).
+The next step here could be improving the `getOrderIds()` function’s API. Currently it can return three different things: `undefined`, a single item, or an array. We have to deal with each separately, so we have two conditions at the very beginning of the function, and we’re reassigning the `idsArrayObj` variable (see [Avoid reassigning variables](#avoid-reassigning-variables) below).
 
 By making the `getOrderIds()` function always return an array, and making sure that the code inside `// 70 lines of code` works with an empty array, we could remove both conditions:
 
@@ -536,13 +524,13 @@ function postOrderStatus(orderId) {
 }
 ```
 
-Now it’s a big improvement over the initial version. I’ve also renamed `idsArrayObj` variable, because “array object” doesn’t make any sense to me.
+Now that's a big improvement over the initial version. I’ve also renamed the `idsArrayObj` variable, because “array object” doesn’t make any sense to me.
 
-The next step would be out of the scope of this section: the code inside `// 70 lines of code` mutates the `fullRecordsArray`, see “Avoid mutation” chapter below to learn why mutation isn’t good and how to avoid it.
+The next step would be out of the scope of this section: the code inside `// 70 lines of code` mutates the `fullRecordsArray`, see [Avoid mutation](#avoid-mutation) below to learn why mutations aren’t good and how to avoid them.
 
 ### Repeated conditions
 
-Repeated conditions can make code barely readable. Let’s have a look at this function that returns special offers for a product in our pet shops. We have two brands, Horns and Hooves and Paws and Tails, and they have different special offers. For historical reasons we store them in cache differently:
+Repeated conditions can make code barely readable. Let’s have a look at this function that returns special offers for a product in our pet shops. We have two brands, Horns & Hooves and Paws & Tails, and they have unique special offers. For historical reasons we store them in the cache differently:
 
 ```js
 function getSpecialOffersArray(sku, isHornsAndHooves) {
@@ -591,7 +579,7 @@ function getSpecialOffersArray(sku, isHornsAndHooves) {
 }
 ```
 
-This is already more readable and it could be a good idea to stop here. But if I had some time I’d go further and extract cache management. Not because this function is too long or it’s potentially reusable, but because it distracts me from the main purpose of the function and it’s too low level.
+This is already more readable and it could be a good idea to stop here. But if I had some time I’d go further and extract cache management. Not because this function is too long or that it’s potentially reusable, but because cache management distracts me from the main purpose of the function and it’s too low level.
 
 ```js
 const getSessionKey = (key, isHornsAndHooves, sku) =>
@@ -623,7 +611,7 @@ function getSpecialOffersArray(sku, isHornsAndHooves) {
 }
 ```
 
-It may not look much better but I think it’s a bit easier to understand what’s happening in the main function. What really annoys me here is `isHornsAndHooves`. I’d rather pass a brand name and keep all brand-specific information in tables:
+It may not look much better but I think it’s a bit easier to understand what’s happening in the main function. What annoys me here is `isHornsAndHooves`. I’d rather pass a brand name and keep all brand-specific information in tables:
 
 ```js
 const BRANDS = {
@@ -665,7 +653,7 @@ function getSpecialOffersArray(sku, brand) {
 }
 ```
 
-Now it’s clear that the only piece of business logic here is `getSpecialOffersForBrand`, and the rest is caching. If we’re using this pattern more then once I’d extract it into its own module, similar to [memoize function](https://lodash.com/docs/#memoize) from Lodash:
+Now it’s clear that the only piece of business logic here is `getSpecialOffersForBrand`, and the rest is caching. If we’re using this pattern more than once I’d extract it into its own module, similar to the [memoize function](https://lodash.com/docs/#memoize) from Lodash:
 
 ```js
 const BRANDS = {
@@ -682,7 +670,7 @@ const getSessionKey = (key, brand, sku) =>
 const sessionGet = (key, brand, sku) =>
   Session.get(getSessionKey(key, brand, sku));
 
-const sessionSet = (key, sku, brand, value) =>
+const sessionSet = (key, brand, sku, value) =>
   Session.get(getSessionKey(key, brand, sku), value);
 
 const withSessionCache = (key, fn) => (brand, sku, ...args) => {
@@ -710,13 +698,13 @@ const getSpecialOffersArray = withSessionCache(
 
 We were able to separate all low level code and hide it in another module.
 
-It may feel like I prefer a small functions, or even a very small functions, but it’s not the case. The main reason to extract code into separate functions here is a violation of the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle). The original function had too many responsibilities: getting special offers, generating cache keys, reading data from cache, storing data in cache. All of them with two branches for our two brands.
+It may seem like I prefer small functions, or even very small functions, but that’s not the case. The main reason to extract code into separate functions here is a violation of the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle). The original function had too many responsibilities: getting special offers, generating cache keys, reading data from cache, storing data in cache. All of them with two branches for our two brands.
 
-## Tables or maps
+### Tables or maps
 
-One of my favorite techniques of improving (read avoiding) conditions is replacing them with tables or maps. In JavaScript it’s an object.
+One of my favorite techniques on improving _(read: avoiding)_ conditions is replacing them with tables or maps. With JavaScript a table or map can just be a plain object.
 
-We’ve just done this as a part of our special offers example refactoring. Let’s have a look at a simpler example now. This example may be a bit extreme, but I actually wrote this code 19 years ago:
+We’ve just done this as a part of our "special offers" refactoring example above. Let’s have a look at a simpler example now. This example may be a bit extreme, but I actually wrote this code 19 years ago:
 
 <!-- prettier-ignore -->
 ```js
@@ -734,7 +722,7 @@ if (month == 'nov') month = 11;
 if (month == 'dec') month = 12;
 ```
 
-Let’s replace conditions with a table:
+Let’s replace the conditions with a table:
 
 ```js
 const MONTH_NAME_TO_NUMBER = {
@@ -754,7 +742,7 @@ const MONTH_NAME_TO_NUMBER = {
 const month = MONTH_NAME_TO_NUMBER[monthName];
 ```
 
-There’s almost no boilerplate code around the data, it’s more readable and looks like a table. Notice also that there are no brackets in the original code: in most modern style guides brackets around condition bodies are required, and a body should be on its own line, so this snippet will be three times longer and even less readable.
+There’s almost no boilerplate code around the data, it’s more readable and looks like a table. Notice also that there are no brackets in the original code: in most modern style guides brackets around condition bodies are required, and the body should be on its own line, so this snippet will be three times longer and even less readable.
 
 Or a bit more realistic and common example:
 
@@ -772,7 +760,7 @@ const getButtonLabel = decisionButton => {
           defaultMessage="Yes"
         />
       );
-    case DECISION_YES:
+    case DECISION_NO:
       return (
         <FormattedMessage id="decisionButtonNo" defaultMessage="No" />
       );
@@ -804,10 +792,10 @@ const getButtonLabel = decisionButton =>
     [DECISION_YES]: (
       <FormattedMessage id="decisionButtonYes" defaultMessage="Yes" />
     ),
-    [DECISION_YES]: (
+    [DECISION_NO]: (
       <FormattedMessage id="decisionButtonNo" defaultMessage="No" />
     ),
-    [DECISION_NOT_SURE]: (
+    [DECISION_MAYBE]: (
       <FormattedMessage
         id="decisionButtonMaybe"
         defaultMessage="Maybe"
@@ -819,9 +807,9 @@ const getButtonLabel = decisionButton =>
 <Button>{getButtonLabel(decision.id)}</Button>;
 ```
 
-The object syntax is a bit more lightweight and readable then the `switch` statement.
+The object syntax is a bit more lightweight and readable than the `switch` statement.
 
-But we can make this code more idiomatic for React by converting our `getButtonLabel` function into a React component:
+We can even make this code more idiomatic to React by converting our `getButtonLabel` function into a React component:
 
 ```jsx
 const DECISION_YES = 0;
@@ -833,10 +821,10 @@ const ButtonLabel = ({ decision }) =>
     [DECISION_YES]: (
       <FormattedMessage id="decisionButtonYes" defaultMessage="Yes" />
     ),
-    [DECISION_YES]: (
+    [DECISION_NO]: (
       <FormattedMessage id="decisionButtonNo" defaultMessage="No" />
     ),
-    [DECISION_NOT_SURE]: (
+    [DECISION_MAYBE]: (
       <FormattedMessage
         id="decisionButtonMaybe"
         defaultMessage="Maybe"
@@ -844,13 +832,13 @@ const ButtonLabel = ({ decision }) =>
     )
   }[decision]);
 
-// And later it's used like this
+// And later it can be used like this
 <Button>
   <ButtonLabel decision={decision.id} />
 </Button>;
 ```
 
-Now both, the implementation and the usage, are simpler.
+Now both the implementation and the usage are simpler.
 
 Another realistic and common example is form validation:
 
@@ -929,13 +917,13 @@ function validate(values) {
 
 This function is very long, with lots and lots of repetitive boilerplate code. It’s really hard to read and maintain. Sometimes validations for the same field aren’t grouped together.
 
-But if we look closer, there are just four three unique validations:
+But if we look closer, there are just three unique validations:
 
 - a required field (in some cases leading and trailing whitespace is ignored, in some not — hard to tell whether it’s intentional or not);
 - maximum length (always 80);
 - no spaces allowed.
 
-First, let’s extract all validation logic into their own functions, so we could reuse them later:
+First, let’s extract all validation logic into its own functions so we can reuse them later:
 
 ```js
 const hasStringValue = value => value && value.trim() !== '';
@@ -947,14 +935,14 @@ const hasNoSpaces = value =>
 
 I’ve assumed that different whitespace handling was a bug. I’ve also inverted all the conditions to validate the correct value, not an incorrect one, which is more readable in my opinion.
 
-Note that `hasLengthLessThanOrEqual` and `hasNoSpaces` only check the condition if the value is present, which would allow us to make optional fields. Also note that the `hasLengthLessThanOrEqual` function is customizable: we need to use pass the maximum length: `hasLengthLessThan(80)`.
+Note that `hasLengthLessThanOrEqual` and `hasNoSpaces` only check the condition if the value is present, which would allow us to make optional fields. Also note that the `hasLengthLessThanOrEqual` function is customizable: we need to pass the maximum length: `hasLengthLessThanOrEqual(80)`.
 
 Now we can define our validations table. There are two ways of doing this:
 
-- using an object where keys represent form fields;
-- using an array.
+- using an object where keys represent form fields
+- using an array
 
-We’re going to use the second option because we want to have several validations with different error messages for some fields, for example a field can be required and have maximum length:
+We’re going to use the second option because we want to have several validations with different error messages for some fields, for example a field can be required _and_ have maximum length:
 
 ```jsx
 const validations = [
@@ -986,20 +974,20 @@ Now we need to iterate over this array and run validations for all fields:
 
 ```js
 function validate(values, validations) {
-    return validations.reduce((errors, ({field, validation, message}) => {
-        if (!validation(values[field])) {
-            errors[field] = message;
-        }
-        return errors;
-    }, {})
+  return validations.reduce((errors, ({field, validation, message}) => {
+    if (!validation(values[field])) {
+      errors[field] = message;
+    }
+    return errors;
+  }, {})
 }
 ```
 
-One more time we’ve separated “what” and “how”: we have readable and maintainable list of validations (“what”), a collection of reusable validation functions and a `validate` function to validate form values (“how”) that also can be reused.
+One more time we’ve separated the “what” from the “how”: we have a readable and maintainable list of validations (“what”), a collection of reusable validation functions and a `validate` function to validate form values (“how”) that also can be reused.
 
-_Tip: Using a third-party library, like [Yup](https://github.com/jquense/yup) or [Joi](https://github.com/hapijs/joi) will make code even shorter and save you from writing validation functions yourself._
+_Tip: Using a third-party library, like [Yup](https://github.com/jquense/yup) or [Joi](https://github.com/hapijs/joi) will make code even shorter and save you from needing to write validation functions yourself._
 
-You may feel that I have to many similar examples in this book, and you’re right. But I think such code is so common, and readability and maintainability benefits of replacing conditions with tables are so huge, so it’s worth repeating. So here is one more (the last one, I promise!) example:
+You may feel that I have too many similar examples in this book, and you’re right. But I think such code is so common, and the readability and maintainability benefits of replacing conditions with tables are so huge, so it’s worth repeating. So here is one more example (the last one, I promise!):
 
 ```js
 const getDateFormat = format => {
@@ -1020,15 +1008,15 @@ const getDateFormat = format => {
 };
 ```
 
-It’s just 15 lines of code, but I find this code difficult to read. I think that the `switch` and absolutely unnecessary, `datePart` and `monthPart` variables clutter code so much, that it’s almost unreadable.
+It’s just 15 lines of code, but I find this code difficult to read. I think that the `switch` is absolutely unnecessary, and the `datePart` and `monthPart` variables clutter the code so much that it’s almost unreadable.
 
 ```js
 const DATE_FORMATS = {
-  [DATE_FORMAT_ISO]: `M-D`,
-  [DATE_FORMAT_DE]: `D.M`,
-  [DATE_FORMAT_UK]: `D/M`,
-  [DATE_FORMAT_US]: `M/D`,
-  _default: `M/D`
+  [DATE_FORMAT_ISO]: 'M-D',
+  [DATE_FORMAT_DE]: 'D.M',
+  [DATE_FORMAT_UK]: 'D/M',
+  [DATE_FORMAT_US]: 'M/D',
+  _default: 'M/D'
 };
 
 const getDateFormat = format => {
@@ -1040,13 +1028,13 @@ The improved version isn’t much shorter, but now it’s easy to see all date f
 
 ### Nested ternaries
 
-A ternary operator is a short one-line conditional operator. It’s very useful when you want to assign one of two values to a variable. Compare a `if` statement:
+A ternary operator is a short one-line conditional operator. It’s very useful when you want to assign one of two values to a variable. Compare an `if` statement:
 
 ```js
 let drink;
 if (caffeineLevel < 50) {
   drink = DRINK_COFFEE;
-} else [
+} else {
   drink = DRINK_WATER;
 }
 ```
@@ -1103,7 +1091,7 @@ In this example we’re rendering one of four UIs based on the status of loading
 - a list of products (success);
 - messages that there’s no products (also success).
 
-Let’s rewrite this code using already familiar early return pattern:
+Let’s rewrite this code using the already familiar early return pattern:
 
 ```jsx
 function Products({ products, isError, isLoading }) {
@@ -1129,18 +1117,18 @@ function Products({ products, isError, isLoading }) {
 }
 ```
 
-I think now it’s much easier to follow: all special cases are at the top of the function, and the happy path is at the end.
+I think it’s much easier to follow now: all special cases are at the top of the function, and the happy path is at the end.
 
-_We’ll come back to this example later in the “Make impossible states impossible” section._
+_We’ll come back to this example later in the [Make impossible states impossible](#make-impossible-states-impossible) section._
 
 ---
 
 Start thinking about:
 
-- Removing unnecessary conditions, like conveying an already boolean value to `true` or `false` manually.
-- Converting input data to an array early to avoid branching and dealing with no data separately.
-- Caching repeated conditions in a variable.
-- Replacing long groups of conditions with tables or maps.
+- Removing unnecessary conditions, like conveying an already boolean value to `true` or `false` manually
+- Converting input data to an array early to avoid branching and dealing with no data separately
+- Caching repeated conditions in a variable
+- Replacing long groups of conditions with tables or maps
 
 ## Avoid reassigning variables
 
