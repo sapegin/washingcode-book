@@ -10,10 +10,10 @@
 
 If you found any issue (like a typo or an incorrect term usage) or have any other feedback, feel free to contact me:
 
-* [open an issue](https://github.com/sapegin/washingcode-book/issues) in this repository;
-* email me at [artem@sapegin.ru](mailto:artem@sapegin.ru);
-* tweet me at [@iamsapegin](https://twitter.com/iamsapegin);
-* [ask me anything](https://github.com/sapegin/ama) about frontend or programming in general.
+- [open an issue](https://github.com/sapegin/washingcode-book/issues) in this repository;
+- email me at [artem@sapegin.ru](mailto:artem@sapegin.ru);
+- tweet me at [@iamsapegin](https://twitter.com/iamsapegin);
+- [ask me anything](https://github.com/sapegin/ama) about frontend or programming in general.
 
 ## Author and license
 

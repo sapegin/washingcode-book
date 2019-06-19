@@ -17,10 +17,12 @@
   ],
   "scripts": {
     "lint": "textlint \"manuscript/**/*.md\"",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "npm run lint -- --fix",
+    "format": "prettier --write \"**/*.{js,md}\"",
+    "posttest": "npm run format"
   },
   "keywords": [],
-  "dependencies": {
+  "devDependencies": {
     "prettier": "^1.18.2",
     "textlint": "^11.2.5",
     "textlint-filter-rule-comments": "^1.2.2",
@@ -31,6 +33,5 @@
     "textlint-rule-stop-words": "^1.0.13",
     "textlint-rule-terminology": "^1.1.30",
     "textlint-rule-write-good": "^1.6.2"
-  },
-  "devDependencies": {}
+  }
 }

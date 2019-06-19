@@ -43,7 +43,7 @@ And now with the `.map()` method:
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
-const kebabNames = names.map(name => _.kebabCase(name));
+const kebabNames = names.map((name) => _.kebabCase(name));
 ```
 
 We can shorten it even more if our processing function accepts only one argument, and [kebabCase from Lodash](https://lodash.com/docs#kebabCase) does:
@@ -79,7 +79,7 @@ And now with the `.find()` method:
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
-const foundName = names.find(name => name.startsWith('B'));
+const foundName = names.find((name) => name.startsWith('B'));
 ```
 
 In both cases I much prefer versions with array methods than with `for` loops. They are shorter and we’re not wasting half the code on iteration mechanics.
@@ -104,7 +104,7 @@ Also don’t use generic array methods like `.map()` or `.forEach()` when more s
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = [];
-names.forEach(name => {
+names.forEach((name) => {
   kebabNames.push(_.kebabCase(name));
 });
 ```
@@ -113,7 +113,7 @@ This is a more cryptic and less semantic implementation of `.map()`, so better u
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
-const kebabNames = names.map(name => _.kebabCase(name));
+const kebabNames = names.map((name) => _.kebabCase(name));
 ```
 
 This version is much easier to read because we know that the `.map()` method transforms an array by keeping the same number of items. And unlike `.forEach()`, it doesn’t require a custom implementation nor mutate an output array. Also the callback function is now pure: it doesn’t access any variables in the parent function, only function arguments.
@@ -127,7 +127,7 @@ All array methods mentioned in the previous section, except `.forEach()`, imply 
 `.forEach()` doesn’t return any value, and that’s the right choice for handling side effects when you really need them:
 
 ```js
-errors.forEach(error => {
+errors.forEach((error) => {
   console.error(error);
 });
 ```
@@ -202,7 +202,7 @@ const tableData =
   props.item.details &&
   props.item.details.clients.reduce((acc, client) =>
     acc.concat(
-      ...client.errorConfigurations.map(config => ({
+      ...client.errorConfigurations.map((config) => ({
         errorMessage: config.error.message,
         errorLevel: config.error.level,
         usedIn: client.client.name
@@ -224,8 +224,8 @@ const allNames = {
   hobbits: ['Bilbo', 'Frodo'],
   dwarfs: ['Fili', 'Kili']
 };
-const kebabNames = _.mapValues(allNames, names =>
-  names.map(name => _.kebabCase(name))
+const kebabNames = _.mapValues(allNames, (names) =>
+  names.map((name) => _.kebabCase(name))
 );
 ```
 
@@ -236,7 +236,7 @@ const allNames = {
   hobbits: ['Bilbo', 'Frodo'],
   dwarfs: ['Fili', 'Kili']
 };
-Object.keys(allNames).forEach(race =>
+Object.keys(allNames).forEach((race) =>
   console.log(race, '->', allNames[race])
 );
 ```
@@ -262,7 +262,7 @@ Let’s rewrite our example using `.reduce()`:
 ```js
 const kebabNames = Object.entries(allNames).reduce(
   (newNames, [race, names]) => {
-    newNames[race] = names.map(name => _.kebabCase(name));
+    newNames[race] = names.map((name) => _.kebabCase(name));
     return newNames;
   },
   {}
@@ -278,7 +278,7 @@ const allNames = {
 };
 const kebabNames = {};
 Object.entries(allNames).forEach(([race, names]) => {
-  kebabNames[race] = names.map(name => name.toLowerCase());
+  kebabNames[race] = names.map((name) => name.toLowerCase());
 });
 ```
 
@@ -287,7 +287,7 @@ And with a loop:
 ```js
 const kebabNames = {};
 for (let [race, names] of Object.entries(allNames)) {
-  kebabNames[race] = names.map(name => name.toLowerCase());
+  kebabNames[race] = names.map((name) => name.toLowerCase());
 }
 ```
 
@@ -370,10 +370,10 @@ There are more cases when a condition is unnecessary:
 It’s common to check an array’s length before running a loop over its items:
 
 ```js
-return getProducts().then(response => {
+return getProducts().then((response) => {
   const products = response.products;
   if (products.length > 0) {
-    return products.map(product => ({
+    return products.map((product) => ({
       label: product.name,
       value: product.id
     }));
@@ -386,7 +386,7 @@ All loops and array functions work fine with empty arrays, so we can safely remo
 
 ```js
 return getProducts().then(({ products }) =>
-  products.map(product => ({
+  products.map((product) => ({
     label: product.name,
     value: product.id
   }))
@@ -396,10 +396,10 @@ return getProducts().then(({ products }) =>
 Sometimes we have to use an existing API that returns an array only in some cases, so checking the length directly would fail and we need to check the type first:
 
 ```js
-return getProducts().then(response => {
+return getProducts().then((response) => {
   const products = response.products;
   if (Array.isArray(products) && products.length > 0) {
-    return products.map(product => ({
+    return products.map((product) => ({
       label: product.name,
       value: product.id
     }));
@@ -414,7 +414,7 @@ If our data can be an array or `undefined`, we can use a default value for the f
 
 ```js
 return getProducts().then((products = []) =>
-  products.map(product => ({
+  products.map((product) => ({
     label: product.name,
     value: product.id
   }))
@@ -432,7 +432,7 @@ It’s more tricky if our data can be an array or `null`, because defaults are o
 
 ```js
 return getProducts().then((products) =>
-  (products || []).map(product => ({
+  (products || []).map((product) => ({
     label: product.name,
     value: product.id
   }))
@@ -447,10 +447,12 @@ A similar technique works when the input is a single item or an array:
 
 ```js
 return getProducts().then(({ products }) =>
-  (Array.isArray(products) ? products : [products]).map(product => ({
-    label: product.name,
-    value: product.id
-  }))
+  (Array.isArray(products) ? products : [products]).map(
+    (product) => ({
+      label: product.name,
+      value: product.id
+    })
+  )
 );
 ```
 
@@ -635,7 +637,7 @@ const BRANDS = {
   PAWS_AND_TAILS: 'Paws & Tails'
 };
 
-const getSpecialOffersForBrand = brand =>
+const getSpecialOffersForBrand = (brand) =>
   ({
     [BRANDS.HORNS_AND_HOOVES]: getHornsAndHoovesSpecialOffers,
     [BRANDS.PAWS_AND_TAILS]: getPawsAndTailsSpecialOffers
@@ -704,7 +706,7 @@ const withSessionCache = (key, fn) => (brand, sku, ...args) => {
 
 const getSpecialOffersArray = withSessionCache(
   SPECIAL_OFFERS_CACHE_KEY,
-  brand =>
+  (brand) =>
     ({
       [BRANDS.HORNS_AND_HOOVES]: getHornsAndHoovesSpecialOffers,
       [BRANDS.PAWS_AND_TAILS]: getPawsAndTailsSpecialOffers
@@ -767,7 +769,7 @@ const DECISION_YES = 0;
 const DECISION_NO = 1;
 const DECISION_MAYBE = 2;
 
-const getButtonLabel = decisionButton => {
+const getButtonLabel = (decisionButton) => {
   switch (decisionButton) {
     case DECISION_YES:
       return (
@@ -803,7 +805,7 @@ const DECISION_YES = 0;
 const DECISION_NO = 1;
 const DECISION_MAYBE = 2;
 
-const getButtonLabel = decisionButton =>
+const getButtonLabel = (decisionButton) =>
   ({
     [DECISION_YES]: (
       <FormattedMessage id="decisionButtonYes" defaultMessage="Yes" />
@@ -942,10 +944,10 @@ But if we look closer, there are just three unique validations:
 First, let’s extract all validations into their own functions so we can reuse them later:
 
 ```js
-const hasStringValue = value => value && value.trim() !== '';
-const hasLengthLessThanOrEqual = max => value =>
+const hasStringValue = (value) => value && value.trim() !== '';
+const hasLengthLessThanOrEqual = (max) => (value) =>
   !hasStringValue(value) || (value && value.length <= max);
-const hasNoSpaces = value =>
+const hasNoSpaces = (value) =>
   !hasStringValue(value) || (value && value.includes(' '));
 ```
 
@@ -1006,7 +1008,7 @@ _Tip: Using a third-party library, like [Yup](https://github.com/jquense/yup) or
 You may feel that I have too many similar examples in this book, and you’re right. But I think such code is so common, and the readability and maintainability benefits of replacing conditions with tables are so huge, so it’s worth repeating. So here is one more example (the last one, I promise!):
 
 ```js
-const getDateFormat = format => {
+const getDateFormat = (format) => {
   const datePart = 'D';
   const monthPart = 'M';
 
@@ -1035,7 +1037,7 @@ const DATE_FORMATS = {
   _default: 'M/D'
 };
 
-const getDateFormat = format => {
+const getDateFormat = (format) => {
   return DATE_FORMATS[format] || DATE_FORMATS._default;
 };
 ```
@@ -1088,7 +1090,7 @@ function Products({ products, isError, isLoading }) {
     <Loading />
   ) : products.length > 0 ? (
     <ul>
-      {products.map(product => (
+      {products.map((product) => (
         <li>{product.name}</li>
       ))}
     </ul>
@@ -1125,7 +1127,7 @@ function Products({ products, isError, isLoading }) {
 
   return (
     <ul>
-      {products.map(product => (
+      {products.map((product) => (
         <li>{product.name}</li>
       ))}
     </ul>
@@ -1204,34 +1206,34 @@ Let’s separate validation and formatting:
 const VIDEO_VALIDATIONS = [
   {
     // Must provide either both a height + width, or neither
-    isValid: video =>
+    isValid: (video) =>
       validateHeightWidthConsistency(video.videoFiles),
     message: ERROR_MESSAGES.InconsistentWidthHeight
   },
   {
     // Must have ONE OF either a file or a URL
-    isValid: video => validateVideoFileAndUrl(video.videoFiles),
+    isValid: (video) => validateVideoFileAndUrl(video.videoFiles),
     message: ERROR_MESSAGES.InvalidVideoFiles
   },
   {
     // Video URL must be a valid link
-    isValid: video => validateVideoURL(video.videoFiles),
+    isValid: (video) => validateVideoURL(video.videoFiles),
     message: ERROR_MESSAGES.InvalidVideoURL
   },
   {
     // Title cannot be blank
-    isValid: video => !!video[INPUT_TYPES.Title],
+    isValid: (video) => !!video[INPUT_TYPES.Title],
     message: ERROR_MESSAGES.BlankTitle
   },
   {
     // ID must be alphanumeric
-    isValid: video =>
+    isValid: (video) =>
       video[INPUT_TYPES.Id].match(ID_PATTERN) !== null,
     message: ERROR_MESSAGES.InvalidId
   }
 ];
 
-const validateVideo = video => {
+const validateVideo = (video) => {
   const errors = VIDEO_VALIDATIONS.map(({ isValid, message }) =>
     isValid(video) ? undefined : message
   ).filter(Boolean);
@@ -1246,7 +1248,7 @@ And now it’s clear that the original code had a bug: there would be no space b
 And formatting (`join('\n'`) can likely be removed and done during the rendering:
 
 ```jsx
-const validateVideo = video =>
+const validateVideo = (video) =>
   VIDEO_VALIDATIONS.map(({ isValid, message }) =>
     isValid(video) ? undefined : message
   ).filter(Boolean);
@@ -1260,7 +1262,7 @@ function VideoUploader() {
       {errors.length > 0 && (
         <>
           <Text variation="error">Upload failed:</Text>
-          {errors.map(error => (
+          {errors.map((error) => (
             <Text variation="error">{error}</Text>
           ))}
         </>
@@ -1278,7 +1280,7 @@ I’d even inline `ERROR_MESSAGES` constants unless they are reused somewhere e
 const VIDEO_VALIDATIONS = [
   {
     // Must provide either both a height + width, or neither
-    isValid: video =>
+    isValid: (video) =>
       validateHeightWidthConsistency(video.videoFiles),
     message:
       'You should provide either both a height and a width, or neither'
@@ -1363,7 +1365,7 @@ When variable is used to keep a function result, often you can get rid of that v
 ```js
 function areEventsValid(events) {
   let isValid = true;
-  events.forEach(event => {
+  events.forEach((event) => {
     if (event.fromDate > event.toDate) {
       isValid = false;
     }
@@ -1376,7 +1378,7 @@ Becomes:
 
 ```js
 function areEventsValid(events) {
-  return events.every(event => event.fromDate <= event.toDate);
+  return events.every((event) => event.fromDate <= event.toDate);
 }
 ```
 
@@ -1394,7 +1396,7 @@ Or you can extract code to a function:
 let rejectionReason = getAllRejectionReasons();
 if (isAdminUser) {
   rejectionReason = rejectionReason.filter(
-    reason => reason.value !== REJECTION_REASONS.HAS_SWEAR_WORDS
+    (reason) => reason.value !== REJECTION_REASONS.HAS_SWEAR_WORDS
   );
 }
 ```
@@ -1402,11 +1404,11 @@ if (isAdminUser) {
 Like this:
 
 ```js
-const getRejectionReasons = isAdminUser => {
+const getRejectionReasons = (isAdminUser) => {
   const rejectionReasons = getAllRejectionReasons();
   if (isAdminUser) {
     return rejectionReason.filter(
-      reason => reason.value !== REJECTION_REASONS.HAS_SWEAR_WORDS
+      (reason) => reason.value !== REJECTION_REASONS.HAS_SWEAR_WORDS
     );
   }
   return rejectionReasons;
@@ -1541,7 +1543,7 @@ const rows = [
   }
 ];
 
-const visibleRows = rows.filter(row => {
+const visibleRows = rows.filter((row) => {
   if (typeof row.isVisible === 'function') {
     return row.isVisible(product1, product2);
   }
