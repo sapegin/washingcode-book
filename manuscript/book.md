@@ -393,7 +393,7 @@ return getProducts().then(({ products }) =>
 );
 ```
 
-Sometimes we have to use and existing API that returns an array only in some cases, so checking the length directly would fail and we need to check the type first:
+Sometimes we have to use an existing API that returns an array only in some cases, so checking the length directly would fail and we need to check the type first:
 
 ```js
 return getProducts().then(response => {
