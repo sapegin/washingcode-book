@@ -1,0 +1,36 @@
+{
+  "name": "washingcode",
+  "private": true,
+  "author": {
+    "name": "Artem Sapegin",
+    "url": "http://sapegin.me"
+  },
+  "homepage": "https://github.com/sapegin/washingcode",
+  "repository": "sapegin/washingcode",
+  "license": "CC BY-NC-ND 4.0",
+  "engines": {
+    "node": ">=8.6"
+  },
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "scripts": {
+    "lint": "textlint \"manuscript/**/*.md\"",
+    "lint:fix": "npm run lint -- --fix"
+  },
+  "keywords": [],
+  "dependencies": {
+    "prettier": "^1.18.2",
+    "textlint": "^11.2.5",
+    "textlint-filter-rule-comments": "^1.2.2",
+    "textlint-rule-apostrophe": "^1.0.0",
+    "textlint-rule-common-misspellings": "^1.0.1",
+    "textlint-rule-diacritics": "^1.0.0",
+    "textlint-rule-no-dead-link": "^4.4.1",
+    "textlint-rule-stop-words": "^1.0.13",
+    "textlint-rule-terminology": "^1.1.30",
+    "textlint-rule-write-good": "^1.6.2"
+  },
+  "devDependencies": {}
+}
