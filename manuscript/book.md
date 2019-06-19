@@ -504,7 +504,7 @@ I’m not really sure what the code inside the second condition does, but it loo
 
 _And no, I have no idea what `tmpBottle` means, nor why it was needed._
 
-The next step here could be improving the `getOrderIds()` function’s API. Currently it can return three different things: `undefined`, a single item, or an array. We have to deal with each separately, so we have two conditions at the very beginning of the function, and we’re reassigning the `idsArrayObj` variable (see [Avoid reassigning variables](#avoid-reassigning-variables) below).
+The next step here could be improving the `getOrderIds()` function’s API. It can return three different things: `undefined`, a single item, or an array. We have to deal with each separately, so we have two conditions at the very beginning of the function, and we’re reassigning the `idsArrayObj` variable (see [Avoid reassigning variables](#avoid-reassigning-variables) below).
 
 By making the `getOrderIds()` function always return an array, and making sure that the code inside `// 70 lines of code` works with an empty array, we could remove both conditions:
 
@@ -702,7 +702,7 @@ It may seem like I prefer small functions, or even very small functions, but tha
 
 ### Tables or maps
 
-One of my favorite techniques on improving _(read: avoiding)_ conditions is replacing them with tables or maps. With JavaScript a table or map can just be a plain object.
+One of my favorite techniques on improving _(read: avoiding)_ conditions is replacing them with tables or maps. With JavaScript you can create a table or a map using a plain object.
 
 We’ve just done this as a part of our "special offers" refactoring example above. Let’s have a look at a simpler example now. This example may be a bit extreme, but I actually wrote this code 19 years ago:
 
@@ -923,7 +923,7 @@ But if we look closer, there are just three unique validations:
 - maximum length (always 80);
 - no spaces allowed.
 
-First, let’s extract all validation logic into its own functions so we can reuse them later:
+First, let’s extract all validations into their own functions so we can reuse them later:
 
 ```js
 const hasStringValue = value => value && value.trim() !== '';
