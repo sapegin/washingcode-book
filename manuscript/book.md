@@ -316,8 +316,8 @@ Also `.every()`, `.some()`, `.find()` and `.findIndex()` will short circuit, mea
 
 Start thinking about:
 
-- Replacing loops with array methods, like `.map()` or `.filter()`
-- Avoiding side effects in functions
+- Replacing loops with array methods, like `.map()` or `.filter()`.
+- Avoiding side effects in functions.
 
 ## Avoid conditions
 
@@ -1125,10 +1125,10 @@ _We’ll come back to this example later in the [Make impossible states impossib
 
 Start thinking about:
 
-- Removing unnecessary conditions, like conveying an already boolean value to `true` or `false` manually
-- Converting input data to an array early to avoid branching and dealing with no data separately
-- Caching repeated conditions in a variable
-- Replacing long groups of conditions with tables or maps
+- Removing unnecessary conditions, like conveying an already boolean value to `true` or `false` manually.
+- Converting input data to an array early to avoid branching and dealing with no data separately.
+- Caching repeated conditions in a variable.
+- Replacing long groups of conditions with tables or maps.
 
 ## Avoid reassigning variables
 
