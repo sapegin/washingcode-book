@@ -8,7 +8,7 @@ The title of this book should be “What 23 years of programming have taught me 
 
 This book is going to be opinionated, but you don’t have to agree with everything I’m saying, and that’s not the goal of the book. The goal is to show you one possible path, mine, and inspire you to find your own. These techniques help me to write and review code every day, and I’ll be happy if you find some of them useful. Let me know how it goes.
 
-The book will probably be most useful for intermediate developers. If you’re a beginner, you'll likely have enough of other things to think about. If you have decades of experience, you can probably write a similar book yourself. Anyway, I’d be happy to hear your feedback.
+The book will probably be most useful for intermediate developers. If you’re a beginner, you’ll likely have enough of other things to think about. If you have decades of experience, you can probably write a similar book yourself. Anyway, I’d be happy to hear your feedback.
 
 Most of the examples in this book are in JavaScript because that’s my primary language, but the ideas can be applied to any language. Sometimes you’ll see CSS and HTML, because similar ideas can be applied there too.
 
@@ -540,7 +540,7 @@ function postOrderStatus(orderId) {
 }
 ```
 
-Now that's a big improvement over the initial version. I’ve also renamed the `idsArrayObj` variable, because “array object” doesn’t make any sense to me.
+Now that’s a big improvement over the initial version. I’ve also renamed the `idsArrayObj` variable, because “array object” doesn’t make any sense to me.
 
 The next step would be out of the scope of this section: the code inside `// 70 lines of code` mutates the `fullRecordsArray`, see [Avoid mutation](#avoid-mutation) below to learn why mutations aren’t good and how to avoid them.
 
@@ -2265,7 +2265,7 @@ The less code we write, the better. Less code means easier testing, easier maint
 
 All topics, covered in this book, aren’t hard rules but ideas for possible improvements. When I say _avoid conditions, mutation, reassignments or something else_, I don’t mean _never use them_, more like _are you sure there’s no better solution?_
 
-There are valid use cases for all programming techniques, maybe even `goto`, who knows. The only certain thing is that the answer to any programming related question is _it depends_. No matter how many upvotes on StackOverflow has a solution, it may be not the best choice for your case.
+There are valid use cases for all programming techniques, maybe even `goto`, who knows. The only certain thing is that the answer to any programming related question is _it depends_. No matter how many upvotes on Stack Overflow has a solution, it may be not the best choice for your case.
 
 So the goal of this book isn’t to teach you how to write good code, but to teach you to notice certain patterns, or code smells, that can _often_ (not _always_) be improved.
 
