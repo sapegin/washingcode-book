@@ -23,6 +23,8 @@
   },
   "keywords": [],
   "devDependencies": {
+    "husky": "^2.4.1",
+    "lint-staged": "^8.2.1",
     "prettier": "^1.18.2",
     "textlint": "^11.2.5",
     "textlint-filter-rule-comments": "^1.2.2",
@@ -33,5 +35,16 @@
     "textlint-rule-stop-words": "^1.0.13",
     "textlint-rule-terminology": "^1.1.30",
     "textlint-rule-write-good": "^1.6.2"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,md}": [
+      "prettier --write",
+      "git add"
+    ]
   }
 }
