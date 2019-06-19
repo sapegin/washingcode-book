@@ -408,9 +408,9 @@ return getProducts().then(response => {
 });
 ```
 
-We can’t avoid the condition in this case but we can move it earlier and avoid a separate branch that’s dealing with returning an empty array.
+We can’t avoid the condition in this case but we can move it earlier and avoid a separate branch that handles with returning an empty array.
 
-If our data can be an array or `undefined`, we can use a default value of a function parameter:
+If our data can be an array or `undefined`, we can use a default value for the function parameter:
 
 ```js
 return getProducts().then((products = []) =>
@@ -421,7 +421,7 @@ return getProducts().then((products = []) =>
 );
 ```
 
-Or a default value of a destructured property:
+Or a default value for the destructured property:
 
 ```diff
 - return getProducts().then((products = []) =>
