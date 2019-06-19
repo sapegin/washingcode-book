@@ -356,9 +356,18 @@ const hasValue = Boolean(value);
 
 In all cases code without a ternary is both shorter and easier to read.
 
+There are more cases when a condition is unnecessary:
+
+```diff
+- const hasProducts = products && Array.isArray(products);
++ const hasProducts = Array.isArray(products);
+```
+
+`Array.isArray` returns `false` for any falsy value, no need to check for it separately.
+
 ### Processing arrays
 
-It’s common to check an array's length before running a loop over its items:
+It’s common to check an array’s length before running a loop over its items:
 
 ```js
 return getProducts().then(response => {
@@ -384,7 +393,7 @@ return getProducts().then(({ products }) =>
 );
 ```
 
-But sometimes the array itself is optional:
+Sometimes we have to use and existing API that returns an array only in some cases, so checking the length directly would fail and we need to check the type first:
 
 ```js
 return getProducts().then(response => {
@@ -399,12 +408,12 @@ return getProducts().then(response => {
 });
 ```
 
-We can’t avoid the condition in this case but we can move it earlier and avoid a separate branch for returning an empty array.
+We can’t avoid the condition in this case but we can move it earlier and avoid a separate branch that’s dealing with returning an empty array.
 
-If our data can be an array or `undefined`, we can assign a default value in the destructured function parameter:
+If our data can be an array or `undefined`, we can use a default value of a function parameter:
 
 ```js
-return getProducts().then(({ products = [] }) =>
+return getProducts().then((products = []) =>
   products.map(product => ({
     label: product.name,
     value: product.id
@@ -412,10 +421,17 @@ return getProducts().then(({ products = [] }) =>
 );
 ```
 
-It’s more tricky if our data can be an array or `null`, like when using GraphQL. In that case we can use the `||` operator:
+Or a default value of a destructured property:
+
+```diff
+- return getProducts().then((products = []) =>
++ return getProducts().then(({ products = [] }) =>
+```
+
+It’s more tricky if our data can be an array or `null`, because defaults are only used when the value is strictly `undefined`, not just falsy. In this case we can use the `||` operator:
 
 ```js
-return getProducts().then(({ products }) =>
+return getProducts().then((products) =>
   (products || []).map(product => ({
     label: product.name,
     value: product.id
