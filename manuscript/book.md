@@ -365,6 +365,41 @@ There are more cases when a condition is unnecessary:
 
 `Array.isArray` returns `false` for any falsy value, no need to check for it separately.
 
+And a more complex but great (and real!) example of unnecessary conditions:
+
+```
+function IsNetscapeOnSolaris()
+{
+	var agent = window.navigator.userAgent;
+	if (( agent.indexOf('Mozilla') != -1 ) && ( agent.indexOf('compatible') == -1 ))
+	{
+		if ( agent.indexOf('SunOS') != -1 )
+			return true;
+		else
+			return false;
+	}
+	else
+	{
+		return false;
+	}
+}
+```
+
+The whole condition block could be replaced with a single expression:
+
+```js
+function IsNetscapeOnSolaris() {
+  const { userAgent } = window.navigator;
+  return (
+    userAgent.includes('Mozilla') &&
+    userAgent.includes('SunOS') &&
+    !userAgent.includes('compatible')
+  );
+}
+```
+
+We’ve eliminated two levels of nesting and quite a lot of boilerplate code, so the actual condition is easier to understand.
+
 ### Processing arrays
 
 It’s common to check an array’s length before running a loop over its items:
