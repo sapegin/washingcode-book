@@ -2,7 +2,6 @@
   "useTabs": false,
   "singleQuote": true,
   "trailingComma": "none",
-  "arrowParens": "always",
   "printWidth": 70,
   "proseWrap": "never"
 }
