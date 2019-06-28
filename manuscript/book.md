@@ -1234,7 +1234,8 @@ _We’ll come back to this example later in the [Make impossible states impossib
 Start thinking about:
 
 - Removing unnecessary conditions, like conveying an already boolean value to `true` or `false` manually.
-- Converting input data to an array early to avoid branching and dealing with no data separately.
+- Normalizing the input data by converting absence of data to an array early to avoid branching and dealing with no data separately.
+- Normalizing the state to avoid algorithm duplication.
 - Caching repeated conditions in a variable.
 - Replacing long groups of conditions with tables or maps.
 
