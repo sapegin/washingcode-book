@@ -417,7 +417,7 @@ return getProducts().then(response => {
 });
 ```
 
-All loops and array functions work fine with empty arrays, so we can safely remove the condition:
+All loops and array functions, like `.map()` or `.filter()` work fine with empty arrays, so we can safely remove the check:
 
 ```js
 return getProducts().then(({ products }) =>
@@ -443,7 +443,7 @@ return getProducts().then(response => {
 });
 ```
 
-We can’t avoid the condition in this case but we can move it earlier and avoid a separate branch that handles with returning an empty array.
+We can’t avoid the condition in this case but we can move it earlier and avoid a separate branch that handles the absence of an array. There are several ways to do it, depending on the possible data types.
 
 If our data can be an array or `undefined`, we can use a default value for the function parameter:
 
@@ -456,7 +456,7 @@ return getProducts().then((products = []) =>
 );
 ```
 
-Or a default value for the destructured property:
+Or a default value for the destructured property of an object:
 
 ```diff
 - return getProducts().then((products = []) =>
@@ -476,7 +476,9 @@ return getProducts().then(products =>
 
 We still have a condition but the overall code structure is simpler.
 
-In all these examples we’re removing a separate branch and dealing with the absence of data by converting the input to an array as early as possible. Arrays are convenient because we don’t have to worry about how many items they contain: the same code will work with a hundred items, one item or even no items.
+In all these examples we’re removing a separate branch and dealing with the absence of data by normalizing the input — converting it to an array — as early as possible, and then running a generic algorithm on normalized data.
+
+Arrays are convenient because we don’t have to worry about how many items they contain: the same code will work with a hundred items, one item or even no items.
 
 A similar technique works when the input is a single item or an array:
 
@@ -490,6 +492,61 @@ return getProducts().then(({ products }) =>
 ```
 
 Here we’re wrapping a single item in an array, so we can use the same code to work with single items and arrays.
+
+### Deduplicating an algorithm
+
+Examples in the previous section are introducing an important technique: algorithm deduplication. Instead of having several branches of the main logic depending on the nature of the input, we have just one. But we’re normalizing the input before running the algorithm. This technique can be used in other places.
+
+Imagine you have a article vote counter, similar to Medium, where you can vote multiple times:
+
+```js
+const articles = counter();
+articles.upvote('/foo');
+articles.upvote('/bar', 5);
+articles.downvote('/foo');
+/* {
+ *   '/bar': 5
+ * }
+ */
+```
+
+A naïve way to implement the `upvote` method could be:
+
+```js
+function counter() {
+  const counts = {};
+  return {
+    upvote(url, votes = 1) {
+      if (url in counts) {
+        counts[url] += votes;
+      } else {
+        counts[url] = votes;
+      }
+    }
+  };
+}
+```
+
+The problem here is that the main function logic, count increment, is implemented twice: for the case when we already have votes for that URL and when we’re voting for the fist time. So every time you need to update this logic, you need to make changes in two places. You need to write two sets of very similar tests to make sure both branches work as expected, otherwise they’ll eventually diverge and you’ll have hard to debug issues.
+
+Let’s make the main logic unconditional but prepare the state if necessary before running the logic:
+
+```js
+function counter() {
+  const counts = {};
+  return {
+    upvote(url, votes = 1) {
+      if (!(url in counts)) {
+        counts[url] = 0;
+      }
+
+      counts[url] += votes;
+    }
+  };
+}
+```
+
+Now we don’t have any logic duplication. We’re normalizing the data structure, so the generic algorithm could work with it.
 
 ### Early return
 
