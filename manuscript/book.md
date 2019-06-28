@@ -2220,7 +2220,7 @@ const dogs = [
 ];
 ```
 
-This style solves both problems without making code any harder to write or read:
+[Trailing, or dangling, commas](https://medium.com/@nikgraf/why-you-should-enforce-dangling-commas-for-multiline-statements-d034c98e36f8) solve both problems without making code any harder to write or read:
 
 <!-- prettier-ignore -->
 ```js
@@ -2274,7 +2274,7 @@ And I think readability doesn’t suffer much in this case.
 
 Sometimes developers follow a particular code style even if the initial reasoning behind it is no longer relevant.
 
-TODO:
+Like using leading commas in array and objects when JavaScript didn’t support trailing commas.
 
 <!-- prettier-ignore -->
 ```js
@@ -2285,7 +2285,52 @@ const dogs = [
 ];
 ```
 
-TODO: yoda conditions
+The goal of this style was the same as of trailing commas — to make diffs more readable, but there are no reasons to use this anymore.
+
+Another example is [Yoda conditions](https://en.wikipedia.org/wiki/Yoda_conditions), a style where you put a literal on the left side of a condition:
+
+```js
+if (42 === meaning) {
+}
+```
+
+The reason for that is the ease of typing `=` instead of `==` in languages like C and make an assignment instead o a comparison:
+
+```js
+if (meaning == 42) {
+} // Compare meaning with 42
+if ((meaning = 42)) {
+} // Assign 42 to meaning
+```
+
+This is much less relevant in JavaScript where the strict equality (`===`, values and types must be equal) is the preferred style and on most projects a linter will complain if you try to use the loose equality (`==`, only values must be equal). It’s really hard to miss two equal signs when typing `===`. So normal order or conditions is fine and easier to read:
+
+```js
+if (meaning === 42) {
+}
+```
+
+### Nonsensical code styles
+
+Some code styles don’t solve any particular problem, but have high maintenance cost.
+
+Like aligning object values or right-hands of assignments horizontally to make them look “pretty”:
+
+<!-- prettier-ignore -->
+```js
+var fs        = require('fs')
+  , reamde   = require('reamde')
+  , examples = reamde(fs.readFileSync('./README.md', 'utf-8'))
+  ;
+```
+
+That’s enormous amount of work and luckily code formatters will remove all the artisanal handcrafted spaces and make code look equally good without requiring any work from a developer:
+
+```js
+var fs = require('fs'),
+  reamde = require('reamde'),
+  examples = reamde(fs.readFileSync('./README.md', 'utf-8'));
+```
 
 ### The rest doesn’t matter
 
