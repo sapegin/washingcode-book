@@ -2168,7 +2168,7 @@ Try to avoid rewriting everything at once.
 
 ## Code style
 
-I used to be very strict about [a particular code style](https://blog.sapegin.me/all/prettier/). I thought my code style was better, but later I’ve realized that it was just different. And it wasn’t the most popular, so anyone else’s code looked wrong to me.
+I used to be very strict about [code style](https://blog.sapegin.me/all/prettier/). I thought my code style was better than others, but later I’ve realized that it was just different. And it wasn’t the most popular, so anyone else’s code looked wrong to me.
 
 For example, after reading the [The Programmers’ Stone](https://www.datapacrat.com/Opinion/Reciprocality/r0/index.html) I put braces like this for a long time:
 
@@ -2184,14 +2184,14 @@ else
 }
 ```
 
-Or I had two spaces in front of inline comments:
+Or I had two spaces in front of inline comments to better separate them from code:
 
 <!-- prettier-ignore -->
 ```js
 const volume = 200;  // ml
 ```
 
-So if any other developer touched my code, they would immediately make it inconsistent, because they unlikely would follow _my code style_ — so uncommon it was. And code review would be a nightmare if I wanted to enforce _my code style_.
+So if any other developer touched my code, they would immediately make it inconsistent, because unlikely they would follow _my code style_ — so uncommon it was. And code review would be a nightmare if I wanted to enforce _my code style_.
 
 ### Not all code styles are good
 
@@ -2242,39 +2242,11 @@ const dogs = [
 ];
 ```
 
-Another example is parens around arrow functions with a single argument — you could omit them in this only case:
-
-<!-- prettier-ignore -->
-```js
-const inc = x => x + 1;
-```
-
-But as soon as you want to add another argument, a default value or a type annotation, you have to add parens:
-
-<!-- prettier-ignore -->
-```js
-const inc = (x = 0) => x + 1;
-const inc = (x, n) => x + n;
-const inc = (x: number): number => x + 1;
-```
-
-Probably better to always wrap arrow function arguments in parens and save yourself some time when you need to modify the code:
-
-<!-- prettier-ignore -->
-```js
-const inc = (x) => x + 1;
-const inc = (x = 0) => x + 1;
-const inc = (x, n) => x + n;
-const inc = (x: number): number => x + 1;
-```
-
-And I think readability doesn’t suffer much in this case.
-
 ### Obsolete code styles
 
 Sometimes developers follow a particular code style even if the initial reasoning behind it is no longer relevant.
 
-Like using leading commas in array and objects when JavaScript didn’t support trailing commas.
+Like using leading commas in arrays and objects when JavaScript didn’t support trailing commas:
 
 <!-- prettier-ignore -->
 ```js
@@ -2285,7 +2257,7 @@ const dogs = [
 ];
 ```
 
-The goal of this style was the same as of trailing commas — to make diffs more readable, but there are no reasons to use this anymore.
+The goal of this style was the same as of trailing commas in the previous section — to make adding new items easier and diffs more readable, but there are no reasons to use this anymore: Internet Explorer 8 was the last browser that didn’t support trailing commas. And now we transpile code with tools like Babel anyway, and Babel can and does remove trailing commas.
 
 Another example is [Yoda conditions](https://en.wikipedia.org/wiki/Yoda_conditions), a style where you put a literal on the left side of a condition:
 
@@ -2341,10 +2313,14 @@ function ingredientToString(options) {
   return `{options.name} (${options.quantity})`;
 }
 
+// vs
+
 function ingredientToString(options) {
   const { name, quantity } = options;
   return `{name} (${quantity})`;
 }
+
+// vs
 
 function ingredientToString({ name, quantity }) {
   return `{name} (${quantity})`;
@@ -2353,7 +2329,34 @@ function ingredientToString({ name, quantity }) {
 
 I personally prefer the last one for the reasons I explain in the _Naming is hard_ section, but I wouldn’t ask another developer to change their code just because they use another option: they are all fine.
 
-I can probably a whole book of such examples. Next time you review someone else’s code and want to ask them to change a piece of code, ask yourself: does it really makes code more readable and maintainable or just makes it look for familiar to me. If it’s the latter, please don’t write that comment.
+A few more examples below. Named or namespaced imports:
+
+```js
+import React, { Component } from 'react';
+class Lunch extends Component {}
+
+// vs
+
+import React from 'react';
+class Lunch extends React.Component {}
+```
+
+Old-style functions or arrow functions, explicit return or implicit return:
+
+```js
+function getDropdownOptions(options) {
+  return options.map(option => option.value);
+}
+
+// vs
+
+const getDropdownOptions = options =>
+  options.map(option => option.value);
+```
+
+I can probably write a whole book of such examples.
+
+In all the examples above I prefer the last variation but I’d never ask someone to change their code during code review if they use another variation. Next time you review someone else’s code and want to ask them to change a piece of code, ask yourself: does it really make code more readable and maintainable or just makes it look more familiar to me. If it’s the latter, please don’t write that comment.
 
 ### How to choose the right code style
 
