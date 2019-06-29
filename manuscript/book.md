@@ -4,7 +4,7 @@
 
 The title of this book should be “What 23 years of programming have taught me about writing good code” or “What I tell folks in code reviews trying to decipher their code” but both are too long, so “Write once, read seven times” it is. We can even shorten it to WORST, because everyone loves nonsensical acronyms.
 
-“Write once, read seven times” is an reference to a Russian proverb “Measure seven times, cut once”. What it means is that we read code more often than we write it so we should optimize for ease of reading, not ease of writing.
+“Write once, read seven times” is a reference to a Russian proverb “Measure seven times, cut once”. What it means is that we read code more often than we write it so we should optimize for ease of reading, not ease of writing.
 
 This book is going to be opinionated, but you don’t have to agree with everything I’m saying, and that’s not the goal of the book. The goal is to show you one possible path, mine, and inspire you to find your own. These techniques help me to write and review code every day, and I’ll be happy if you find some of them useful. Let me know how it goes.
 
