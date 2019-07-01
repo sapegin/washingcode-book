@@ -806,7 +806,7 @@ const getSpecialOffersArray = withSessionCache(
 
 We were able to separate all low level code and hide it in another module.
 
-It may seem like I prefer small functions, or even very small functions, but that’s not the case. The main reason to extract code into separate functions here is a violation of the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle). The original function had too many responsibilities: getting special offers, generating cache keys, reading data from cache, storing data in cache. All of them with two branches for our two brands.
+It may seem like I prefer small functions, or even very small functions, but that’s not the case. The main reason to extract code into separate functions here is a violation of the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle). The original function had too many responsibilities: getting special offers, generating cache keys, reading data from cache, storing data in cache. Each with two branches for our two brands.
 
 ### Tables or maps
 
@@ -1289,7 +1289,7 @@ const validateVideo = (video) => {
 
 I’ve shortened the comments a bit, the original code had lines longer than 200 characters. If you have a very big screen, it looks like a pretty table, otherwise like an unreadable mess. Any auto formatting tool, like Prettier, will make an unreadable mess out of it to, so you shouldn’t rely on manual code formatting. It’s also really hard to maintain: if any of the “columns” become longer than all existing “columns” after your changes, you have to adjust whitespace for all other “columns”.
 
-Anyway, this code adds an error message to the `errors` variable for every failed validation. But now it’s hard to see because the formatting code is mangled with validation code. This makes it hard to read and modify. If you need to add another validation, you have to understand and copy formatting code. If you need to print errors as an HTML list, you have to change each line of this function.
+Anyway, this code adds an error message to the `errors` variable for every failed validation. But now it’s hard to see because the formatting code is mangled with validation code. This makes it hard to read and modify. To add another validation, you have to understand and copy formatting code. To print errors as an HTML list, you have to change each line of this function.
 
 Let’s separate validation and formatting:
 
@@ -1648,7 +1648,7 @@ Now we’re defining all rows in a single array. All rows are visible by default
 
 Comments are often used to explain poorly written code. People think that their code isn’t clear enough, so they add comments to explain it. And they are usually right: the code isn’t clear. But instead of adding comments, they should rewrite code to make it simpler and more readable.
 
-There’s a popular technique of avoiding comment: if you want to explain a block of code, move this code to it’s own function instead. For example:
+There’s a popular technique of avoiding comment: when you want to explain a block of code, move this code to its own function instead. For example:
 
 ```js
 TODO;
@@ -2009,7 +2009,7 @@ Now your modules has at least two _reasons to change_, or _responsibilities_:
 
 This makes the module harder to understand and harder to change: to do a change in any of the responsibilities you need to read and modify more code. This makes it harder and slower to iterate on both, business logic and design.
 
-Extraction of a generic table as a separate module solves this problem. Now if you need to add another column to a table, you only need to understand and modify one of the two modules. You don’t need to know anything about the generic table module, except its public API.
+Extraction of a generic table as a separate module solves this problem. Now to add another column to a table, you only need to understand and modify one of the two modules. You don’t need to know anything about the generic table module, except its public API.
 
 This also makes code easier to delete when the requirements change. (TODO: why?)
 
@@ -2079,7 +2079,7 @@ function Tweets = () {
 }
 ```
 
-We have XX booleans here: …. If we look closer how the code uses them, we’ll notice that only one boolean is `true` at any time in a component lifecycle. It’s hard to see now and it’s easy to make a mistake and correctly handle all possible state changes, so you component may end up in an _impossible state_, like `isLoading && isError`, and the only way to fix that would be reloading the page. This is exactly the reason why switching off and on electronic devices often fixes weird issues.
+We have XX booleans here: …. If we look closer how the code uses them, we’ll notice that only one boolean is `true` at any time in a component lifecycle. It’s hard to see now and it’s easy to make a mistake and correctly handle all possible state changes, so you component may end up in an _impossible state_, like `isLoading && isError`, and the only way to fix that would be reloading the page. This is exactly why switching off and on electronic devices often fixes weird issues.
 
 We can replace several _exclusive_ boolean flags, meaning only one is active at a time, with a single enum variable:
 
@@ -2266,13 +2266,16 @@ if (42 === meaning) {
 }
 ```
 
-The reason for that is the ease of typing `=` instead of `==` in languages like C and make an assignment instead o a comparison:
+It’s too easy to type `=` instead of `==` in languages like C and make an assignment instead o a comparison:
 
 ```js
+// Compare meaning with 42
 if (meaning == 42) {
-} // Compare meaning with 42
+}
+
+// Assign 42 to meaning
 if ((meaning = 42)) {
-} // Assign 42 to meaning
+}
 ```
 
 This is much less relevant in JavaScript where the strict equality (`===`, values and types must be equal) is the preferred style and on most projects a linter will complain if you try to use the loose equality (`==`, only values must be equal). It’s really hard to miss two equal signs when typing `===`. So normal order or conditions is fine and easier to read:
@@ -2327,7 +2330,7 @@ function ingredientToString({ name, quantity }) {
 }
 ```
 
-I personally prefer the last one for the reasons I explain in the _Naming is hard_ section, but I wouldn’t ask another developer to change their code just because they use another option: they are all fine.
+I prefer the last one for the reasons I explain in the _Naming is hard_ section, but I wouldn’t ask another developer to change their code just because they use another option: they are all fine.
 
 A few more examples below. Named or namespaced imports:
 
