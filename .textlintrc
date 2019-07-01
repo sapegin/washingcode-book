@@ -8,6 +8,8 @@
         "write-good": {
             "adverb": false,
             "passive": false,
+            "so": false,
+            "thereIs": false,
             "tooWordy": false,
             "weasel": false
         },
