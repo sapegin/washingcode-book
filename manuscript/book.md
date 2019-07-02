@@ -860,7 +860,7 @@ if (month == 'sep') month = 9;
 if (month == 'oct') month = 10;
 if (month == 'nov') month = 11;
 if (month == 'dec') month = 12;
-````
+```
 
 Let’s replace the conditions with a table:
 
