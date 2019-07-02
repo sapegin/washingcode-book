@@ -1957,7 +1957,23 @@ new URLSearchParams('filename="pizza"')
 
 _These quotes are weird though. Normally you don’t need quotes around URL params, so talking to your backend developer could be a good idea._
 
-So, what’s your score? I think mine would be around 3/5.
+Example 6:
+
+```js
+const obj = {
+  ...(condition && { prop: value })
+};
+```
+
+Add a property to an object when the `condition` is true, don’t do anything otherwise. It would be much cleaner, if there’s no way to keep the property with `undefined` value:
+
+```js
+const obj = {
+  ...(condition ? { prop: value } : {})
+};
+```
+
+So, what’s your score? I think mine would be around 3/6.
 
 ### Gray areas
 
