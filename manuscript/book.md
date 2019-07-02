@@ -808,6 +808,13 @@ We were able to separate all low level code and hide it in another module.
 
 It may seem like I prefer small functions, or even very small functions, but that’s not the case. The main reason to extract code into separate functions here is a violation of the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle). The original function had too many responsibilities: getting special offers, generating cache keys, reading data from cache, storing data in cache. Each with two branches for our two brands.
 
+Consider this code:
+
+````js
+validateInputs(values) {
+  let noErrorsFound = true;
+  const errorMessages = [];
+
 ### Tables or maps
 
 One of my favorite techniques on improving _(read: avoiding)_ conditions is replacing them with tables or maps. With JavaScript you can create a table or a map using a plain object.
@@ -828,7 +835,7 @@ if (month == 'sep') month = 9;
 if (month == 'oct') month = 10;
 if (month == 'nov') month = 11;
 if (month == 'dec') month = 12;
-```
+````
 
 Let’s replace the conditions with a table:
 
@@ -1934,17 +1941,131 @@ It makes code longer and introduces an unnecessary indirection. It doesn’t mak
 
 ## Don’t be clever
 
-Clever code is a kind of code you may see in job interview questions or language quizzes. When they expect you to know how language feature, you maybe have never seen before, work. My answer to these questions is “won’t pass code review”.
+Clever code is a kind of code you may see in job interview questions or language quizzes. When they expect you to know how a language feature, you maybe have never seen before, works. My answer to all these questions is “it won’t pass code review”.
 
+### Dark patterns of JavaScript
+
+Let’s look at some examples. Try to cover an answer and guess what these code snippets do. And count how many you’ve guessed right.
+
+Example 1:
+
+<!-- prettier-ignore -->
 ```js
-percentOff.toString().concat('%')
-// ->
-return ${percentOff}%;
+percent.toString().concat('%')
 ```
 
-TODO: `~` instead of `-1`
+This code only adds the `%` sing to a number, and should be rewritten as:
 
-TODO: `if ((dogs.length + cats.length) > 0)`
+<!-- prettier-ignore -->
+```js
+`${percent}%`
+```
+
+Example 2:
+
+<!-- prettier-ignore -->
+```js
+if (~url.indexOf('id')) {}
+```
+
+The `~` is called the _bitwise NOT_ operator. It’s useful effect here is that it returns a falsy value only when the `.indexOf()` returns `-1`. This code should be rewritten as:
+
+<!-- prettier-ignore -->
+```js
+if (url.indexOf('id') !== -1) {}
+```
+
+Or better:
+
+<!-- prettier-ignore -->
+```js
+if (url.includes('id')) {}
+```
+
+Example 3:
+
+<!-- prettier-ignore -->
+```js
+~~3.14
+```
+
+Another dark use of the bitwise NOT operator to discard a fractional portion of a number. Use `Math.floor()` instead:
+
+<!-- prettier-ignore -->
+```js
+Math.floor(3.14)
+```
+
+Example 4:
+
+<!-- prettier-ignore -->
+```js
+if (dogs.length + cats.length > 0) {}
+```
+
+This one is easy when you spend some time with it, but better make this code obvious:
+
+<!-- prettier-ignore -->
+```js
+if (dogs.length > 0 && cats.length > 0) {}
+```
+
+Example 5:
+
+<!-- prettier-ignore -->
+```js
+header.split('filename=')[1].slice(1, -1)
+```
+
+This one took me a lot of time to understand. Imagine we have a portion of a URL, like `filename="pizza"`. First, we split the string by `=` and take the second part, `"pizza"`. Then we slice the first and the last characters to get `pizza`.
+
+I’d probably use a RegExp here:
+
+<!-- prettier-ignore -->
+```js
+header.match(/filename="(.*?)"/)[1]
+```
+
+Or the `URLSearchParams` API if I had access to it:
+
+<!-- prettier-ignore -->
+```js
+new URLSearchParams('filename="pizza"')
+  .get('filename')
+  .replace(/^"|"$/g, '')
+```
+
+_These quotes are weird though. Normally you don’t need quotes around URL params, so talking to your backend developer could be a good idea._
+
+So, what’s your score? I think mine would be around 3/5.
+
+### Gray areas
+
+Some patterns are on the border of cleverness.
+
+For examples, using `Boolean` to filter out falsy array items:
+
+<!-- prettier-ignore -->
+```js
+['Not', null, 'enough', 0, 'cheese.'].filter(Boolean)
+// -> ["Not", "enough", "cheese."]
+```
+
+I think this pattern is acceptable, and, though you need to learn it once, it’s better than the alternative:
+
+<!-- prettier-ignore -->
+```js
+['Not', null, 'enough', 0, 'cheese.'].filter(item => !!item)
+// -> ["Not", "enough", "cheese."]
+```
+
+But you should keep in mind that both variations filter out _falsy_ values, so if zeroes or empty strings are important to you, you’ll need to explicitly filter for `undefined` or `null`:
+
+<!-- prettier-ignore -->
+```js
+['Not', null, 'enough', 0, 'cheese.'].filter(item => item != null)
+// -> ["Not", "enough", 0, "cheese."]
+```
 
 ## Divide and conquer, or merge and relax
 
