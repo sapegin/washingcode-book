@@ -869,23 +869,11 @@ const DECISION_MAYBE = 2;
 const getButtonLabel = decisionButton => {
   switch (decisionButton) {
     case DECISION_YES:
-      return (
-        <FormattedMessage
-          id="decisionButtonYes"
-          defaultMessage="Yes"
-        />
-      );
+      return 'Yes';
     case DECISION_NO:
-      return (
-        <FormattedMessage id="decisionButtonNo" defaultMessage="No" />
-      );
+      return 'No';
     case DECISION_MAYBE:
-      return (
-        <FormattedMessage
-          id="decisionButtonMaybe"
-          defaultMessage="Maybe"
-        />
-      );
+      return 'Maybe';
   }
 };
 
@@ -904,18 +892,9 @@ const DECISION_MAYBE = 2;
 
 const getButtonLabel = decisionButton =>
   ({
-    [DECISION_YES]: (
-      <FormattedMessage id="decisionButtonYes" defaultMessage="Yes" />
-    ),
-    [DECISION_NO]: (
-      <FormattedMessage id="decisionButtonNo" defaultMessage="No" />
-    ),
-    [DECISION_MAYBE]: (
-      <FormattedMessage
-        id="decisionButtonMaybe"
-        defaultMessage="Maybe"
-      />
-    )
+    [DECISION_YES]: 'Yes',
+    [DECISION_NO]: 'No',
+    [DECISION_MAYBE]: 'Maybe'
   }[decisionButton]);
 
 // And later it's used like this
@@ -933,18 +912,9 @@ const DECISION_MAYBE = 2;
 
 const ButtonLabel = ({ decision }) =>
   ({
-    [DECISION_YES]: (
-      <FormattedMessage id="decisionButtonYes" defaultMessage="Yes" />
-    ),
-    [DECISION_NO]: (
-      <FormattedMessage id="decisionButtonNo" defaultMessage="No" />
-    ),
-    [DECISION_MAYBE]: (
-      <FormattedMessage
-        id="decisionButtonMaybe"
-        defaultMessage="Maybe"
-      />
-    )
+    [DECISION_YES]: 'Yes',
+    [DECISION_NO]: 'No',
+    [DECISION_MAYBE]: 'Maybe'
   }[decision]);
 
 // And later it can be used like this
@@ -962,66 +932,31 @@ function validate(values) {
   const errors = {};
 
   if (!values.name || (values.name && values.name.trim() === '')) {
-    errors.name = (
-      <FormattedMessage
-        id="errorNameRequired"
-        defaultMessage="Name is required"
-      />
-    );
+    errors.name = 'Name is required';
   }
 
   if (values.name && values.name.length > 80) {
-    errors.name = (
-      <FormattedMessage
-        id="errorMaxLength80"
-        defaultMessage="Maximum 80 characters allowed"
-      />
-    );
+    errors.name = 'Maximum 80 characters allowed';
   }
 
   if (!values.address1) {
-    errors.address1 = (
-      <FormattedMessage
-        id="errorAddressRequired"
-        defaultMessage="Address is required"
-      />
-    );
+    errors.address1 = 'Address is required';
   }
 
   if (!values.email) {
-    errors.mainContactEmail = (
-      <FormattedMessage
-        id="errorEmailRequired"
-        defaultMessage="Email is required"
-      />
-    );
+    errors.mainContactEmail = 'Email is required';
   }
 
   if (!values.login || (values.login && values.login.trim() === '')) {
-    errors.login = (
-      <FormattedMessage
-        id="errorLoginRequired"
-        defaultMessage="Login is required"
-      />
-    );
+    errors.login = 'Login is required';
   }
 
   if (values.login && values.login.indexOf(' ') > 0) {
-    errors.login = (
-      <FormattedMessage
-        id="errorLoginWithoutSpaces"
-        defaultMessage="No spaces are allowed in login."
-      />
-    );
+    errors.login = 'No spaces are allowed in login';
   }
 
   if (values.address1 && values.address1.length > 80) {
-    errors.address1 = (
-      <FormattedMessage
-        id="errorMaxLength80"
-        defaultMessage="Maximum 80 characters allowed"
-      />
-    );
+    errors.address1 = 'Maximum 80 characters allowed';
   }
 
   // 100 lines of code
@@ -1064,22 +999,12 @@ const validations = [
   {
     field: 'name',
     validation: hasStringValue,
-    message: (
-      <FormattedMessage
-        id="errorNameRequired"
-        defaultMessage="Name is required"
-      />
-    )
+    message: 'Name is required'
   },
   {
     field: 'name',
     validation: hasLengthLessThanOrEqual(80),
-    message: (
-      <FormattedMessage
-        id="errorMaxLength80"
-        defaultMessage="Maximum 80 characters allowed"
-      />
-    )
+    message: 'Maximum 80 characters allowed'
   }
   // All other fields
 ];
@@ -1553,12 +1478,7 @@ const generateOptionalRows = () => {
 
   if (product1.colors.length + product2.colors.length > 0) {
     rows.push({
-      row: (
-        <FormattedMessage
-          id="optionsTableRowColors"
-          defaultMessage="Colors"
-        />
-      ),
+      row: 'Colors',
       product1: <ProductOptions options={product1.colors} />,
       product2: <ProductOptions options={product2.colors} />
     });
@@ -1566,12 +1486,7 @@ const generateOptionalRows = () => {
 
   if (product1.sizes.length + product2.sizes.length > 0) {
     rows.push({
-      row: (
-        <FormattedMessage
-          id="optionsTableRowSizes"
-          defaultMessage="Sizes"
-        />
-      ),
+      row: 'Sizes',
       product1: <ProductOptions options={product1.sizes} />,
       product2: <ProductOptions options={product2.sizes} />
     });
@@ -1582,12 +1497,7 @@ const generateOptionalRows = () => {
 
 const rows = [
   {
-    row: (
-      <FormattedMessage
-        id="optionsTableRowName"
-        defaultMessage="Name"
-      />
-    ),
+    row: 'Name',
     product1: <Text>{product1.name}</Text>,
     product2: <Text>{product2.name}</Text>
   },
@@ -1605,35 +1515,20 @@ Let’s merge all _possible_ rows into a single declarative array:
 ```jsx
 const rows = [
   {
-    row: (
-      <FormattedMessage
-        id="optionsTableRowName"
-        defaultMessage="Name"
-      />
-    ),
+    row: 'Name',
     product1: <Text>{product1.name}</Text>,
     product2: <Text>{product2.name}</Text>
   },
   // More rows...
   {
-    row: (
-      <FormattedMessage
-        id="optionsTableRowColors"
-        defaultMessage="Colors"
-      />
-    ),
+    row: 'Colors',
     product1: <ProductOptions options={product1.colors} />,
     product2: <ProductOptions options={product2.colors} />,
     isVisible: (product1, product2) =>
       (product1.colors.length > 0 || product2.colors.length) > 0
   },
   {
-    row: (
-      <FormattedMessage
-        id="optionsTableRowSizes"
-        defaultMessage="Sizes"
-      />
-    ),
+    row: 'Sizes',
     product1: <ProductOptions options={product1.sizes} />,
     product2: <ProductOptions options={product2.sizes} />,
     isVisible: (product1, product2) =>
