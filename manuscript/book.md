@@ -808,12 +808,37 @@ We were able to separate all low level code and hide it in another module.
 
 It may seem like I prefer small functions, or even very small functions, but that’s not the case. The main reason to extract code into separate functions here is a violation of the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle). The original function had too many responsibilities: getting special offers, generating cache keys, reading data from cache, storing data in cache. Each with two branches for our two brands.
 
+### Negative conditions
+
 Consider this code:
 
 ````js
 validateInputs(values) {
   let noErrorsFound = true;
   const errorMessages = [];
+
+  if (!values.firstName) {
+    errorMessages.push('First name is required');
+    noErrorsFound = false;
+  }
+  if (!values.lastName) {
+    errorMessages.push('Last name is required');
+    noErrorsFound = false;
+  }
+
+  if (!noErrorsFound) {
+    this.set('error_message', errorMessages);
+  }
+
+  return noErrorsFound;
+}
+```
+
+I can say a lot about this code but let’s focus on this line first:
+
+```js
+if (!noErrorsFound) {
+````
 
 ### Tables or maps
 
