@@ -808,38 +808,6 @@ We were able to separate all low level code and hide it in another module.
 
 It may seem like I prefer small functions, or even very small functions, but that’s not the case. The main reason to extract code into separate functions here is a violation of the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle). The original function had too many responsibilities: getting special offers, generating cache keys, reading data from cache, storing data in cache. Each with two branches for our two brands.
 
-### Negative conditions
-
-Consider this code:
-
-````js
-validateInputs(values) {
-  let noErrorsFound = true;
-  const errorMessages = [];
-
-  if (!values.firstName) {
-    errorMessages.push('First name is required');
-    noErrorsFound = false;
-  }
-  if (!values.lastName) {
-    errorMessages.push('Last name is required');
-    noErrorsFound = false;
-  }
-
-  if (!noErrorsFound) {
-    this.set('error_message', errorMessages);
-  }
-
-  return noErrorsFound;
-}
-```
-
-I can say a lot about this code but let’s focus on this line first:
-
-```js
-if (!noErrorsFound) {
-````
-
 ### Tables or maps
 
 One of my favorite techniques on improving _(read: avoiding)_ conditions is replacing them with tables or maps. With JavaScript you can create a table or a map using a plain object.
@@ -1703,6 +1671,112 @@ return false;
 ```
 
 ## Naming is hard
+
+### Negative booleans
+
+Consider this code:
+
+```js
+validateInputs(values) {
+  let noErrorsFound = true;
+  const errorMessages = [];
+
+  if (!values.firstName) {
+    errorMessages.push('First name is required');
+    noErrorsFound = false;
+  }
+  if (!values.lastName) {
+    errorMessages.push('Last name is required');
+    noErrorsFound = false;
+  }
+
+  if (!noErrorsFound) {
+    this.set('error_message', errorMessages);
+  }
+
+  return noErrorsFound;
+}
+```
+
+I can say a lot about this code but let’s focus on this line first:
+
+```js
+if (!noErrorsFound) {
+```
+
+This double negation, “if not no errors found…”, makes it harder to read than necessary. And in most cases you can avoid it.
+
+Let’s make the `noErrorsFound` variable positive:
+
+```js
+validateInputs(values) {
+  let errorsFound = false;
+  const errorMessages = [];
+
+  if (!values.firstName) {
+    errorMessages.push('First name is required');
+    errorsFound = true;
+  }
+  if (!values.lastName) {
+    errorMessages.push('Last name is required');
+    errorsFound = true;
+  }
+
+  if (errorsFound) {
+    this.set('error_message', errorMessages);
+  }
+
+  return !errorsFound;
+}
+```
+
+Positive names and positive conditions are usually easier to read then negative ones.
+
+Hopefully by this time you’ve noticed that we don’t need this `errorsFound` variable at all: its value can alway be derived from `errorMessages`:
+
+```js
+validateInputs(values) {
+  const errorMessages = [];
+
+  if (!values.firstName) {
+    errorMessages.push('First name is required');
+  }
+  if (!values.lastName) {
+    errorMessages.push('Last name is required');
+  }
+
+  if (Object.keys(errorMessages).length > 0) {
+    this.set('error_message', errorMessages);
+    return false;
+  }
+
+  return true;
+}
+```
+
+I’d also split this method into two to isolate side effects and make this code more testable, then remove the condition around `this.set('error_message', errorMessages)`, setting an empty object when there are no errors seems safe enough:
+
+```js
+getErrorMessages(values) {
+  const errorMessages = [];
+
+  if (!values.firstName) {
+    errorMessages.push('First name is required');
+  }
+  if (!values.lastName) {
+    errorMessages.push('Last name is required');
+  }
+
+  return errorMessages;
+}
+
+validateInputs(values) {
+  const errorMessages = getErrorMessages(values);
+  this.set('error_message', errorMessages);
+
+  return Object.keys(errorMessages).length == 0;
+}
+```
 
 TODO: The smaller the scope of a variable the better
 
