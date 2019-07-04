@@ -1172,25 +1172,34 @@ Reassigning variables is like changing the past. When you see:
 let pizza = { fillings: ['salami', 'mozzarella'] };
 ```
 
-You can’t be sure that your pizza will always salami and mozzarella in it, because:
+You can’t be sure that your pizza will always have salami and mozzarella in it, because:
 
 - the variable can’t be reassigned a new value, even a value of another type;
 - the value, if it’s an array or an object, can be mutated.
 
 Knowing that both things are possible make you think, every time you see `pizza` in the code, what value it has _now_. That’s a huge and unnecessary cognitive load that we can avoid.
 
-And most of the time your can avoid both. Let’s start with reassigning and come back to mutation in the next chapter.
+And most of the time you can avoid both. Let’s start with reassigning and come back to mutation in the next chapter.
 
-Sometimes a variable is used to store different values:
+Sometimes a variable is reused to store different values:
 
 ```js
-TODO;
+funtion getProductsOnSale(category) {
+  category = loadCategory(category);
+  category = category.filter(product => product.onSale);
+  return category;
+}
 ```
+
+Here the `category` variable is used to store a category ID, a list of products in a category, and a list of filtered products.
 
 This case is the easiest to fix: we need to use separate variables for each value:
 
 ```js
-TODO;
+funtion getProductsOnSale(categoryId) {
+  const products = loadCategory(categoryId);
+  return products.filter(product => product.onSale);
+}
 ```
 
 By doing this we’re making the lifespan of each variable shorter and choosing better names, so code is easier to understand and we’ll need to read less code to understand the current (and now the only) value of a particular variable.
@@ -1212,7 +1221,7 @@ const validateVideo = (video) => {
 };
 ```
 
-I’ve shortened the comments a bit, the original code had lines longer than 200 characters. If you have a very big screen, it looks like a pretty table, otherwise like an unreadable mess. Any auto formatting tool, like Prettier, will make an unreadable mess out of it to, so you shouldn’t rely on manual code formatting. It’s also really hard to maintain: if any of the “columns” become longer than all existing “columns” after your changes, you have to adjust whitespace for all other “columns”.
+I’ve shortened the comments a bit, the original code had lines longer than 200 characters. If you have a very big screen, it looks like a pretty table, otherwise like an unreadable mess. Any auto formatting tool, like Prettier, will make an unreadable mess out of it too, so you shouldn’t rely on manual code formatting. It’s also really hard to maintain: if any of the “columns” become longer than all existing “columns” after your changes, you have to adjust whitespace for all other “columns”.
 
 Anyway, this code adds an error message to the `errors` variable for every failed validation. But now it’s hard to see because the formatting code is mangled with validation code. This makes it hard to read and modify. To add another validation, you have to understand and copy formatting code. To print errors as an HTML list, you have to change each line of this function.
 
@@ -1355,7 +1364,7 @@ submitOrder({
 });
 ```
 
-Long variable lifespan makes you scroll a lot to understand what’s the current value of a variable. Possible reassignments make it even worse. If it’s 50 lines between a variable declaration and it’s usage, then it can be reassigned in any of these 50 lines.
+Long variable lifespan makes you scroll a lot to understand what’s the current value of a variable. Possible reassignments make it even worse. If there are 50 lines between a variable declaration and its usage, then it can be reassigned in any of these 50 lines.
 
 We can make code easier to read by moving variable declarations as close to their usage as possible and by avoiding reassignments:
 
