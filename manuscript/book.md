@@ -6,7 +6,7 @@ The title of this book should be “What 23 years of programming have taught me 
 
 “Write once, read seven times” is a variation of a famous Russian proverb “Measure seven times, cut once”. Meaning we read code more often than we write it so it makes more sense to optimize for the ease of reading than the ease of writing.
 
-This book is going to be opinionated, but you don’t have to agree with everything I’m saying, and that’s not the goal of the book. The goal is to show you one of the possible paths, mine, and inspire you to find your own. These techniques help me to write and review code every day, and I’ll be happy if you find some of them useful. I would be glad to hear about your experiences.
+This book is going to be opinionated, but you don’t have to agree with everything I’m saying, and that’s not the goal of the book. The goal is to show you one of the possible paths, mine, and inspire you to find your own. These techniques help me to write and review code every day, and I’ll be happy if you find some of them useful. Let me know how it goes.
 
 The book will probably be most useful for intermediate developers. If you’re a beginner, you’ll likely have enough of other things to think about. If you have decades of experience, you can probably write a similar book yourself. Anyway, I’d be happy to hear your feedback.
 
@@ -24,11 +24,11 @@ Thanks to [Manuel Bieh](https://twitter.com/ManuelBieh), [Evan Davis](https://gi
 
 ## Avoid loops
 
-Traditional loops, like `for` or `while`, are too low-level for common tasks. They are too verbose and prone to [off-by-one error](https://en.wikipedia.org/wiki/Off-by-one_error). You have to manage the index variable yourself, and I always make typos with `lenght`. They don’t bring any particular semantic value except telling that you’re doing some operation probably more than once.
+Traditional loops, like `for` or `while`, are too low-level for common tasks. They are verbose and prone to [off-by-one error](https://en.wikipedia.org/wiki/Off-by-one_error). You have to manage the index variable yourself, and I always make typos with `lenght`. They don’t have any particular semantic value: they only tell you that some operation is probably repeated.
 
 ### Replacing loops with array methods
 
-Modern languages have better ways to express iterative operations and [JavaScript has may useful methods](http://exploringjs.com/impatient-js/ch_arrays.html#methods-iteration-and-transformation-.find-.map-.filter-etc) to transform and iterate over arrays, like `.map()` or `.find()`.
+Modern languages have better ways to express iterative operations and [JavaScript has many useful methods](http://exploringjs.com/impatient-js/ch_arrays.html#methods-iteration-and-transformation-.find-.map-.filter-etc) to transform and iterate over arrays, like `.map()` or `.find()`.
 
 For example, let’s convert an array of strings to `kebab-case` with a `for` loop:
 
@@ -39,7 +39,7 @@ for (let i = 0; i < names.length; i++) {
 }
 ```
 
-Same example but with the `.map()` method instead of `for` loop:
+And with the `.map()` method instead of a `for` loop:
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
@@ -88,10 +88,10 @@ In both cases, I much prefer versions with array methods compared to `for` loops
 
 Array methods aren’t just shorter and more readable; each method has its own clear semantic:
 
-- `.map()` implies we’re transforming an array into another array with the same number of elements;
-- `.find()` implies we’re _finding_ a single element in an array;
-- `.some()` implies we’re testing that the condition is true for _some_ elements of the array;
-- `.every()` implies we’re testing that the condition is true for _every_ element of the array.
+- `.map()` says we’re transforming an array into another array with the same number of elements;
+- `.find()` says we’re _finding_ a single element in an array;
+- `.some()` says we’re testing that the condition is true for _some_ elements of the array;
+- `.every()` says we’re testing that the condition is true for _every_ element of the array.
 
 Traditional loops don’t help with understanding what the code is doing until you read the whole thing.
 
@@ -210,6 +210,7 @@ const tableData =
     )
   );
 ```
+
 If I was to review such code I would be happy to pass both versions but would prefer the original version with double `for` loops.
 
 _(Though `tableData` is a really bad variable name.)_
@@ -366,7 +367,7 @@ There are more cases when a condition is unnecessary:
 
 And a more complex but great (and real!) example of unnecessary conditions:
 
-```
+```js
 function IsNetscapeOnSolaris()
 {
     var agent = window.navigator.userAgent;
@@ -2315,11 +2316,11 @@ For example, after reading the [The Programmers’ Stone](https://www.datapacrat
 ```js
 if (food === 'pizza')
 {
-    alert('Pizza ;-)');
+  alert('Pizza ;-)');
 }
 else
 {
-    alert('Not pizza ;-(');
+  alert('Not pizza ;-(');
 }
 ```
 
