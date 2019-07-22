@@ -12,7 +12,7 @@ The book will probably be most useful for intermediate developers. If you’re a
 
 Most of the examples in this book are in JavaScript because that’s my primary language, but the ideas can be applied to any language. Sometimes you’ll see CSS and HTML because similar ideas can be applied there too.
 
-Most of the examples are taken from real code, with only minor adaptation, mostly different names. I spend several hours every week reviewing code written by other developers. This gives me enough practice to identify which patterns make the code more readable and which don’t.
+Most of the examples are taken from real code, with only minor adaptation, mostly different names. I spend several hours every week reviewing code written by other developers. This gives me enough practice to tell which patterns make the code more readable and which don’t.
 
 And remember, there are no strict rules in programming, except that you should always use three-space indentation in your code.
 
@@ -46,12 +46,22 @@ const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(name => _.kebabCase(name));
 ```
 
-We can shorten it even more if our processing function accepts the value as first argument, [kebabCase from Lodash](https://lodash.com/docs#kebabCase) does:
+We can shorten it even more if our callback function accepts only one argument: the value, like [kebabCase from Lodash](https://lodash.com/docs#kebabCase):
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(_.kebabCase);
 ```
+
+This wouldn't work with functions that accept more than one argument, because the `.map()` also passes and array index as the second argument and a whole array as the third, like `parseInt()` that accepts the radix as the second argument:
+
+```js
+const inputs = ['1', '2', '3'];
+inputs.map(parseInt); // -> [1, NaN, NaN]
+inputs.map(value => parseInt(value)); // -> [1, 2, 3]
+```
+
+Here in the first example `.map()` calls `parseInt()` with an array index as a radix, which gives a wrong result. In the second example, we're explicitly passing only the value to the `parseInt()`, so it uses the default radix of 10.
 
 But this may be a bit less readable than the expanded version because we don’t see what exactly we’re passing to a function. ECMAScript 6’s arrow functions made callbacks shorter and less cluttered, compared to the old anonymous function syntax:
 
@@ -97,9 +107,11 @@ Traditional loops don’t help with understanding what the code is doing until y
 
 We’re separating the “what” (our data) from the “how” (how to loop over it). More than that, with array methods we only need to worry about our data, which we’re passing in as a callback function.
 
-Using array methods for simple cases and leaving array loops for complicated parts helps the reviewer easily identify the unusual parts of the code. This helps the reviewer concentrate on the complex part of the code.
+When all simple cases are covered by array methods, every time you see a traditional loop, you know that something unusual is going on. And that’s good: less chances you’ll miss a bug during code review.
 
-Also don’t use generic array methods like `.map()` or `.forEach()` when more specialized array methods could be applied, and don’t use `.forEach()` when you want to transform the array, there is `.map()` for that:
+
+
+Also don’t use generic array methods like `.map()` or `.forEach()` when more specialized array methods would work, and don’t use `.forEach()` instead of `.map()` to transform an array.
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
@@ -116,7 +128,7 @@ const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(name => _.kebabCase(name));
 ```
 
-This version is much easier to read because we know that the `.map()` method transforms an array by keeping the same number of items. And unlike `.forEach()`, it doesn’t require a custom implementation nor mutate an output array. Also, the callback function is now pure: it doesn’t access any variables in the parent function, only function arguments. Giving you the benefit of having to only reason about values and not about state
+This version is much easier to read because we know that the `.map()` method transforms an array by keeping the same number of items. And unlike `.forEach()`, it doesn’t require a custom implementation nor mutate an output array. Also, the callback function is now pure: it merely transforms input arguments to the output value without any side effects.
 
 ### Dealing with side effects
 
