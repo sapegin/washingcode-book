@@ -1809,6 +1809,22 @@ validateInputs(values) {
 }
 ```
 
+TODO:
+
+```js
+const noData = data.length === 0;
+$(`#${bookID}_download`).toggleClass('hidden-node', noData);
+$(`#${bookID}_retry`).attr('disabled', !noData);
+```
+
+### Prefixes, suffixes and abbreviations
+
+TODO: data, list, util, etc. in names
+
+TODO: Don’t go too far with naming conventions — Hungarian notation
+
+TODO: Avoid abbreviations: accepted in smaller scope when the bigger scope has a full name: it’s okay to use `op` inside `filterPurchageOrders` function
+
 TODO: The smaller the scope of a variable the better
 
 TODO: The bigger the scope of a variable the longer should be the name (with a very small scope the name is a bit less important because the code is short and easy to understand)
@@ -1817,21 +1833,7 @@ TODO: Use destructuring to avoid inventing a new variable name: function paramet
 
 TODO: Shorten variable life by grouping code that’s using this variable together
 
-TODO: data, list, util, etc. in names
-
-TODO: positive names: ‘hasProducts’ vs ‘hasNoProducts’
-
-TODO: Don’t go too far with naming conventions — Hungarian notation
-
-TODO: Avoid abbreviations: accepted in smaller scope when the bigger scope has a full name: it’s okay to use `op` inside `filterPurchageOrders` function
-
 TODO: Avoid slang or words that have simpler alternative, non-native English speakers will thank you. https://github.com/facebook/react/issues/3951
-
-```js
-const noData = data.length === 0;
-$(`#${bookID}_download`).toggleClass('hidden-node', noData);
-$(`#${bookID}_retry`).attr('disabled', !noData);
-```
 
 Types (like Flow or TypeScript) helps to see when names don’t represent the data correctly:
 
