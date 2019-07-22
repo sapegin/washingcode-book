@@ -511,10 +511,7 @@ const articles = counter();
 articles.upvote('/foo');
 articles.upvote('/bar', 5);
 articles.downvote('/foo');
-/* {
- *   '/bar': 5
- * }
- */
+// => { '/bar': 5 }
 ```
 
 A naïve way to implement the `upvote` method could be:
