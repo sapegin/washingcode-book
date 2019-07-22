@@ -109,8 +109,6 @@ We’re separating the “what” (our data) from the “how” (how to loop ove
 
 When all simple cases are covered by array methods, every time you see a traditional loop, you know that something unusual is going on. And that’s good: less chances you’ll miss a bug during code review.
 
-
-
 Also don’t use generic array methods like `.map()` or `.forEach()` when more specialized array methods would work, and don’t use `.forEach()` instead of `.map()` to transform an array.
 
 ```js
@@ -380,20 +378,17 @@ There are more cases when a condition is unnecessary:
 And a more complex but great (and real!) example of unnecessary conditions:
 
 ```js
-function IsNetscapeOnSolaris()
-{
-    var agent = window.navigator.userAgent;
-    if (( agent.indexOf('Mozilla') != -1 ) && ( agent.indexOf('compatible') == -1 ))
-    {
-        if ( agent.indexOf('SunOS') != -1 )
-            return true;
-        else
-            return false;
-    }
-    else
-    {
-        return false;
-    }
+function IsNetscapeOnSolaris() {
+  var agent = window.navigator.userAgent;
+  if (
+    agent.indexOf('Mozilla') != -1 &&
+    agent.indexOf('compatible') == -1
+  ) {
+    if (agent.indexOf('SunOS') != -1) return true;
+    else return false;
+  } else {
+    return false;
+  }
 }
 ```
 
@@ -2548,6 +2543,7 @@ The less code we write, the better. Less code means easier testing, easier maint
 - [Psychology of Code Readability](https://medium.com/@egonelbre/psychology-of-code-readability-d23b1ff1258a) by Egon Elbre
 - [Small Functions considered Harmful](https://medium.com/@copyconstruct/small-functions-considered-harmful-91035d316c29) by Cindy Sridharan
 - [The “Bug-O” Notation](https://overreacted.io/the-bug-o-notation/) by Dan Abramov
+- [The Law of Leaky Abstractions](https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/) by Joel Spolsky
 - [The wrong abstraction](https://www.sandimetz.com/blog/2016/1/20/the-wrong-abstraction) by Sandi Metz
 - [Too DRY — The Grep Test](http://jamie-wong.com/2013/07/12/grep-test/) by Jamie Wong
 - [Why the Boy Scout Rule Is Insufficient](https://www.codewithjason.com/boy-scout-rule-insufficient/) by Jason Swett
