@@ -2504,6 +2504,20 @@ const getDropdownOptions = options =>
   options.map(option => option.value);
 ```
 
+Or the same with default export:
+
+```js
+const Button = props =>
+  <button className="Button" {...props} />;
+export default Button;
+
+// vs
+
+export default function Button(props) {
+  return <button className="Button" {...props} />;
+}
+```
+
 I can probably write a whole book of such examples.
 
 In all the examples above I prefer the last variation but I’d never ask someone to change their code during code review if they use another variation. Next time you review someone else’s code and want to ask them to change a piece of code, ask yourself: does it really make code more readable and maintainable or just makes it look more familiar to me. If it’s the latter, please don’t write that comment.
