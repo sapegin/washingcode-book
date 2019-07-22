@@ -552,6 +552,24 @@ function counter() {
 
 Now we don’t have any logic duplication. We’re normalizing the data structure, so the generic algorithm could work with it.
 
+I often see a similar issue when someone calls a function with different parameters:
+
+```js
+if (errorMessage) {
+  log(LOG_LEVEL.ERROR, errorMessage);
+} else {
+  log(LOG_LEVEL.ERROR, DEFAULT_ERROR_MESSAGE);
+}
+```
+
+Let’s move a condition inside the function call:
+
+```js
+log(LOG_LEVEL.ERROR, errorMessage || DEFAULT_ERROR_MESSAGE);
+```
+
+We’ve removed all code duplication and the code is shorter and easier to read.
+
 ### Early return
 
 Applying _guard clauses_, or _early returns_, is a great way to avoid nested conditions. A series of nested conditions, also known as the [arrow anti pattern](http://wiki.c2.com/?ArrowAntiPattern) or _dangerously deep nesting_, is often used for error handing:
