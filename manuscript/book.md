@@ -2,17 +2,17 @@
 
 ## Preface
 
-The title of this book should be “What 23 years of programming have taught me about writing good code” or “What I tell folks in code reviews trying to decipher their code” but both are too long, so “Write once, read seven times” it is. We can even shorten it to WORST, because everyone loves nonsensical acronyms.
+The title of this book should be “What 23 years of programming have taught me about writing good code” or “What I tell folks during code reviews while trying to decipher their code”, but both are too long, so “Write once, read seven times” it is. We can even shorten it to WORST, because everyone loves nonsensical acronyms.
 
-“Write once, read seven times” is a reference to a Russian proverb “Measure seven times, cut once”. What it means is that we read code more often than we write it so we should optimize for ease of reading, not ease of writing.
+“Write once, read seven times” is a variation of a famous Russian proverb “Measure seven times, cut once”. Meaning we read code more often than we write it so it makes more sense to optimize for the ease of reading than the ease of writing.
 
-This book is going to be opinionated, but you don’t have to agree with everything I’m saying, and that’s not the goal of the book. The goal is to show you one possible path, mine, and inspire you to find your own. These techniques help me to write and review code every day, and I’ll be happy if you find some of them useful. Let me know how it goes.
+This book is going to be opinionated, but you don’t have to agree with everything I’m saying, and that’s not the goal of the book. The goal is to show you one of the possible paths, mine, and inspire you to find your own. These techniques help me to write and review code every day, and I’ll be happy if you find some of them useful. Let me know how it goes.
 
 The book will probably be most useful for intermediate developers. If you’re a beginner, you’ll likely have enough of other things to think about. If you have decades of experience, you can probably write a similar book yourself. Anyway, I’d be happy to hear your feedback.
 
-Most of the examples in this book are in JavaScript because that’s my primary language, but the ideas can be applied to any language. Sometimes you’ll see CSS and HTML, because similar ideas can be applied there too.
+Most of the examples in this book are in JavaScript because that’s my primary language, but the ideas can be applied to any language. Sometimes you’ll see CSS and HTML because similar ideas can be applied there too.
 
-Most of the examples are taken from real code, with only minor adaptation, mostly different names. I spend several hours every week reviewing code written by other developers. This gives me enough practice to see which patterns make code more readable and which don’t.
+Most of the examples are taken from real code, with only minor adaptation, mostly different names. I spend several hours every week reviewing code written by other developers. This gives me enough practice to tell which patterns make the code more readable and which don’t.
 
 And remember, there are no strict rules in programming, except that you should always use three-space indentation in your code.
 
@@ -24,11 +24,11 @@ Thanks to [Manuel Bieh](https://twitter.com/ManuelBieh), [Evan Davis](https://gi
 
 ## Avoid loops
 
-Traditional loops, like `for` or `while`, are too low-level for common tasks. They are verbose and prone to [off-by-one error](https://en.wikipedia.org/wiki/Off-by-one_error). You have to manage the index variable yourself, and I always make typos with `lenght`. They don’t have any particular semantic value except that you’re doing some operation probably more than once.
+Traditional loops, like `for` or `while`, are too low-level for common tasks. They are verbose and prone to [off-by-one error](https://en.wikipedia.org/wiki/Off-by-one_error). You have to manage the index variable yourself, and I always make typos with `lenght`. They don’t have any particular semantic value: they only tell you that some operation is probably repeated.
 
 ### Replacing loops with array methods
 
-Modern languages have better ways to express iterative operations. [JavaScript has may useful methods](http://exploringjs.com/impatient-js/ch_arrays.html#methods-iteration-and-transformation-.find-.map-.filter-etc) to transform and iterate over arrays, like `.map()` or `.find()`.
+Modern languages have better ways to express iterative operations and [JavaScript has many useful methods](http://exploringjs.com/impatient-js/ch_arrays.html#methods-iteration-and-transformation-.find-.map-.filter-etc) to transform and iterate over arrays, like `.map()` or `.find()`.
 
 For example, let’s convert an array of strings to `kebab-case` with a `for` loop:
 
@@ -39,21 +39,31 @@ for (let i = 0; i < names.length; i++) {
 }
 ```
 
-And now with the `.map()` method:
+And with the `.map()` method instead of a `for` loop:
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(name => _.kebabCase(name));
 ```
 
-We can shorten it even more if our processing function accepts only one argument, and [kebabCase from Lodash](https://lodash.com/docs#kebabCase) does:
+We can shorten it even more if our callback function accepts only one argument: the value, like [kebabCase from Lodash](https://lodash.com/docs#kebabCase):
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(_.kebabCase);
 ```
 
-But this may be a bit less readable than the expanded version, because we don’t see what exactly we’re passing to a function. ECMAScript 6’s arrow functions made callbacks shorter and less cluttered, compared to the old anonymous function syntax:
+This wouldn't work with functions that accept more than one argument, because the `.map()` also passes and array index as the second argument and a whole array as the third, like `parseInt()` that accepts the radix as the second argument:
+
+```js
+const inputs = ['1', '2', '3'];
+inputs.map(parseInt); // -> [1, NaN, NaN]
+inputs.map(value => parseInt(value)); // -> [1, 2, 3]
+```
+
+Here in the first example `.map()` calls `parseInt()` with an array index as a radix, which gives a wrong result. In the second example, we're explicitly passing only the value to the `parseInt()`, so it uses the default radix of 10.
+
+But this may be a bit less readable than the expanded version because we don’t see what exactly we’re passing to a function. ECMAScript 6’s arrow functions made callbacks shorter and less cluttered, compared to the old anonymous function syntax:
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
@@ -82,7 +92,7 @@ const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const foundName = names.find(name => name.startsWith('B'));
 ```
 
-In both cases I much prefer versions with array methods than with `for` loops. They are shorter and we’re not wasting half the code on iteration mechanics.
+In both cases, I much prefer versions with array methods compared to `for` loops. They are shorter and we’re not bloating the code with iteration mechanics.
 
 ### Implied semantics of array methods
 
@@ -90,16 +100,18 @@ Array methods aren’t just shorter and more readable; each method has its own c
 
 - `.map()` says we’re transforming an array into another array with the same number of elements;
 - `.find()` says we’re _finding_ a single element in an array;
-- `.some()` says we’re testing that the condition is true for _some_ array elements;
-- `.every()` says we’re testing that the condition is true for _every_ array element.
+- `.some()` says we’re testing that the condition is true for _some_ elements of the array;
+- `.every()` says we’re testing that the condition is true for _every_ element of the array.
 
 Traditional loops don’t help with understanding what the code is doing until you read the whole thing.
 
 We’re separating the “what” (our data) from the “how” (how to loop over it). More than that, with array methods we only need to worry about our data, which we’re passing in as a callback function.
 
-When you use array methods for all simple cases, traditional loops signal to the code reader that something unusual is going on. And that’s good: you can reserve brain resources for better understanding the unusual, more complex cases.
+When all simple cases are covered by array methods, every time you see a traditional loop, you know that something unusual is going on. And that’s good: less chances you’ll miss a bug during code review.
 
-Also don’t use generic array methods like `.map()` or `.forEach()` when more specialized array methods would work, and don’t use `.forEach()` when `.map()` would work:
+
+
+Also don’t use generic array methods like `.map()` or `.forEach()` when more specialized array methods would work, and don’t use `.forEach()` instead of `.map()` to transform an array.
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
@@ -116,13 +128,13 @@ const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(name => _.kebabCase(name));
 ```
 
-This version is much easier to read because we know that the `.map()` method transforms an array by keeping the same number of items. And unlike `.forEach()`, it doesn’t require a custom implementation nor mutate an output array. Also the callback function is now pure: it doesn’t access any variables in the parent function, only function arguments.
+This version is much easier to read because we know that the `.map()` method transforms an array by keeping the same number of items. And unlike `.forEach()`, it doesn’t require a custom implementation nor mutate an output array. Also, the callback function is now pure: it merely transforms input arguments to the output value without any side effects.
 
 ### Dealing with side effects
 
-Side effects make code harder to understand because you can no longer treat a function as a black box: a function with side effects doesn’t just transform input to output, but can affect the environment in unpredictable ways. Functions with side effects are also hard to test because you’ll need to recreate the environment before each test and verify it after.
+Side effects make code harder to understand because you can no longer treat a function as a black box: a function with side effects doesn’t just transform input to output but can affect the environment in unpredictable ways. Functions with side effects are also hard to test because you’ll need to recreate the environment before each test is run and verify it after.
 
-All array methods mentioned in the previous section, except `.forEach()`, imply that they don’t have side effects, and that only the return value is used. Introducing any side effects into these methods would make code easy to misread since readers wouldn’t expect to see side effects.
+All array methods mentioned in the previous section, except `.forEach()`, imply that they don’t have side effects and that only the return value is used. Introducing any side effects into these methods would make code easy to misread since readers wouldn’t expect to see side effects.
 
 `.forEach()` doesn’t return any value, and that’s the right choice for handling side effects when you really need them:
 
@@ -135,8 +147,8 @@ errors.forEach(error => {
 `for of` loop is even better:
 
 - it doesn’t have any of the problems of regular `for` loops, mentioned in the beginning of this chapter;
-- we can avoid reassignments and mutations, since we don’t have a return value;
-- it has clear semantics of iteration over all array elements, since we can’t manipulate the number of iterations, like in a regular `for` loop. (Well, almost, we can abort the loops with `break`.)
+- we can avoid reassignments and mutations since we don’t have a return value;
+- it has clear semantics of iteration over all array elements since we can’t manipulate the number of iterations, like in a regular `for` loop. (Well, almost, we can abort the loops with `break`.)
 
 Let’s rewrite our example using `for of` loop:
 
@@ -211,7 +223,7 @@ const tableData =
   );
 ```
 
-I think I still prefer the double `for` version, but I’ll be happy with both versions, the original and the second rewrite, if I had to review such code.
+If I was to review such code I would be happy to pass both versions but would prefer the original version with double `for` loops.
 
 _(Though `tableData` is a really bad variable name.)_
 
@@ -367,21 +379,21 @@ There are more cases when a condition is unnecessary:
 
 And a more complex but great (and real!) example of unnecessary conditions:
 
-```
+```js
 function IsNetscapeOnSolaris()
 {
-	var agent = window.navigator.userAgent;
-	if (( agent.indexOf('Mozilla') != -1 ) && ( agent.indexOf('compatible') == -1 ))
-	{
-		if ( agent.indexOf('SunOS') != -1 )
-			return true;
-		else
-			return false;
-	}
-	else
-	{
-		return false;
-	}
+    var agent = window.navigator.userAgent;
+    if (( agent.indexOf('Mozilla') != -1 ) && ( agent.indexOf('compatible') == -1 ))
+    {
+        if ( agent.indexOf('SunOS') != -1 )
+            return true;
+        else
+            return false;
+    }
+    else
+    {
+        return false;
+    }
 }
 ```
 
@@ -2316,11 +2328,11 @@ For example, after reading the [The Programmers’ Stone](https://www.datapacrat
 ```js
 if (food === 'pizza')
 {
-	alert('Pizza ;-)');
+  alert('Pizza ;-)');
 }
 else
 {
-	alert('Not pizza ;-(');
+  alert('Not pizza ;-(');
 }
 ```
 
