@@ -656,7 +656,7 @@ function postOrderStatus(orderId) {
 
 Now that’s a big improvement over the initial version. I’ve also renamed the `idsArrayObj` variable, because “array object” doesn’t make any sense to me.
 
-The next step would be out of the scope of this section: the code inside `// 70 lines of code` mutates the `fullRecordsArray`, see [Avoid mutation](#avoid-mutation) below to learn why mutations aren’t good and how to avoid them.
+The next step would be out of the scope of this chapter: the code inside `// 70 lines of code` mutates the `fullRecordsArray`, see [Avoid mutation](#avoid-mutation) below to learn why mutations aren’t good and how to avoid them.
 
 ### Repeated conditions
 
@@ -1174,7 +1174,7 @@ function Products({ products, isError, isLoading }) {
 
 I think it’s much easier to follow now: all special cases are at the top of the function, and the happy path is at the end.
 
-_We’ll come back to this example later in the [Make impossible states impossible](#make-impossible-states-impossible) section._
+_We’ll come back to this example later in the [Make impossible states impossible](#make-impossible-states-impossible) chapter._
 
 ---
 
@@ -2494,7 +2494,7 @@ function ingredientToString({ name, quantity }) {
 }
 ```
 
-I prefer the last one for the reasons I explain in the _Naming is hard_ section, but I wouldn’t ask another developer to change their code just because they use another option: they are all fine.
+I prefer the last one for the reasons I explain in the _Naming is hard_ chapter, but I wouldn’t ask another developer to change their code just because they use another option: they are all fine.
 
 A few more examples below. Named or namespaced imports:
 
