@@ -2134,11 +2134,11 @@ There are several you may want to split code into several modules:
 
 We, developers, hate to do the same work twice. _Don’t repeat yourself_ (DRY) is our mantra. But when you have two or three similar pieces of code, it may be still to early to introduce an abstraction, no matter how tempting it is.
 
-Leave with the pain of code duplication, maybe it’s no so bad in the end, and the code is actually not exactly the same. Some level of code duplication is healthy and allows you to iterate and evolve code faster.
+Leave with the pain of code duplication, maybe it’s not so bad in the end, and the code is actually not exactly the same. Some level of code duplication is healthy and allows you to iterate and evolve code faster.
 
 It’s hard to manage shared code in large projects with many teams. New requirements for one team may not work for another team and break their code, or you end up with unmaintainable spaghetti monster with dozens of conditions.
 
-Imagine your team is adding a comment form: a name, and email, a message and a submit button. Then another team needs a feedback form, so they find your component and try to reuse it. Then your team also wants an email field, but they don’t know that some other team uses the component, so they add a required email field, and break the feature for the other team users. Then the other teams needs a phone number field, but they know that your team is using the component without it, so they add an option to show a phone number field. A year later two teams hate each other for breaking their code, and a component is full of conditions and impossible to maintain. Both teams would save a lot of time and have healthier relationships by maintaining separate components.
+Imagine your team is adding a comment form: a name, an email, a message and a submit button. Then another team needs a feedback form, so they find your component and try to reuse it. Then your team also wants an email field, but they don’t know that some other team uses the component, so they add a required email field, and break the feature for the other team users. Then the other teams needs a phone number field, but they know that your team is using the component without it, so they add an option to show a phone number field. A year later two teams hate each other for breaking their code, and a component is full of conditions and impossible to maintain. Both teams would save a lot of time and have healthier relationships by maintaining separate components.
 
 [Duplication is cheaper](https://www.sandimetz.com/blog/2016/1/20/the-wrong-abstraction) and healthier than the wrong abstraction.
 
@@ -2154,19 +2154,19 @@ _Code length_ is often [used as a metric](https://softwareengineering.stackexcha
 
 In my experience the most useful reasons to split code are _change frequency_ and _change reason_.
 
-Let’s start from _change frequency_. Business logic is changing much more often than utility code. It make sense to keep code, that changes often, separately from the code that is mostly static.
+Let’s start from _change frequency_. Business logic is changing much more often than utility code. It makes sense to keep code, that changes often, separately from the code that is mostly static.
 
 The comment form from the previous section is an example of the former, a function that converts `camelCase` to `kebab-case` is an example of the latter. The comment form is likely to change and diverge with time when new business requirements arrive, the conversion function is unlikely to change at all and it’s safe to reuse in many places.
 
 The opposite is also true: if you often have to change several modules or functions at the same time, it may be better to merge them into a single module or a function. [Ducks convention](https://github.com/erikras/ducks-modular-redux) for Redux is a great example of that.
 
-_Change reason_ is also knowns as the [Single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle): “every module, class, or function should have responsibility over a single part of the functionality provided by the software, and that responsibility should be entirely encapsulated by the class”.
+_Change reason_ is also known as the [Single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle): “every module, class, or function should have responsibility over a single part of the functionality provided by the software, and that responsibility should be entirely encapsulated by the class”.
 
 Imagine, you’re making a nice looking table with editable fields. You think you’ll never need this table design again, so you decide to keep the whole table in a single module.
 
 Next sprint you have a task to add another column to the table, so you copy the code of an existing table and change a few lines there. Next sprint you have a task to change a design of a table.
 
-Now your modules has at least two _reasons to change_, or _responsibilities_:
+Now your module has at least two _reasons to change_, or _responsibilities_:
 
 - new business requirements, like a new table column;
 - design changes, like replacing borders with striped row backgrounds.
@@ -2349,13 +2349,13 @@ TODO: <Button primary secondary>
 
 ## (Boy) scout rule
 
-The (boy) scout rule states that you should live the campground cleaner than you found it. For example, if someone else’s left garbage, you should take it with your.
+The (boy) scout rule states that you should leave the campground cleaner than you found it. For example, if someone else has left garbage, you should take it with you.
 
-Same in programming. For example, you’re done with your task, you’re running linter before committing your changes, and you realize that there are some warnings but not in the lines you’ve written or even have changed. If it’s not a lot of work and won’t make the diff too big, fix them.
+Same in programming. For example, you’re done with your task, you’re running the linter before committing your changes, and you realize that there are some warnings but not in the lines you’ve written or even have changed. If it’s not a lot of work and won’t make the diff too big, fix them.
 
 TODO: Postpone and plan big improvements
 
-The opposite or the boy scout rule is [the broken windows theory](https://en.wikipedia.org/wiki/Broken_windows_theory). It states that an environment with visible signs of crime or disorder, like an unfixed broken window, encourages more crime and disorder. And that “fixing” these minor crimes creates an environment that prevents more serious crime.
+The opposite to the boy scout rule is [the broken windows theory](https://en.wikipedia.org/wiki/Broken_windows_theory). It states that an environment with visible signs of crime or disorder, like an unfixed broken window, encourages more crime and disorder. And that “fixing” these minor crimes creates an environment that prevents more serious crime.
 
 Same in programming. Minor “crimes” here could be leaving lint warning unfixed, leaving debug code or commented out code, general unfinishedness or untidiness of code. This creates an environment when nobody cares, because one new lint warning won’t make code with 100 warnings significantly worse, but code with zero warning will.
 
