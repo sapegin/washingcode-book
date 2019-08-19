@@ -20,7 +20,7 @@ And remember, there are no strict rules in programming, except that you should a
 
 These folks helped me with the book in one way or another.
 
-Thanks to [Manuel Bieh](https://twitter.com/ManuelBieh), [Evan Davis](https://github.com/evandavis), [Troy Giunipero](https://github.com/giuniperoo), Anita Kiss, [Giorgi Kotchlamazashvili](https://github.com/hertzg), [Monica Lent](https://monicalent.com/), [Rostislav U](https://twitter.com/inooze), [Dan Uhl](https://github.com/danieluhl), [Juho Vepsäläinen](https://survivejs.com/), [Michel Weststrate](https://twitter.com/mweststrate).
+Thanks to [Manuel Bieh](https://twitter.com/ManuelBieh), [Evan Davis](https://github.com/evandavis), [Troy Giunipero](https://github.com/giuniperoo), Anita Kiss, [Giorgi Kotchlamazashvili](https://github.com/hertzg), [Veniamin Krol](https://vkrol.dev/), [Monica Lent](https://monicalent.com/), [Rostislav U](https://twitter.com/inooze), [Dan Uhl](https://github.com/danieluhl), [Juho Vepsäläinen](https://survivejs.com/), [Michel Weststrate](https://twitter.com/mweststrate).
 
 ## Avoid loops
 
@@ -719,7 +719,7 @@ const sessionGet = (key, isHornsAndHooves, sku) =>
   Session.get(getSessionKey(key, isHornsAndHooves, sku));
 
 const sessionSet = (key, sku, isHornsAndHooves, value) =>
-  Session.get(getSessionKey(key, isHornsAndHooves, sku), value);
+  Session.set(getSessionKey(key, isHornsAndHooves, sku), value);
 
 function getSpecialOffersArray(sku, isHornsAndHooves) {
   const cachedOffers = sessionGet(
@@ -765,7 +765,7 @@ const sessionGet = (key, brand, sku) =>
   Session.get(getSessionKey(key, brand, sku));
 
 const sessionSet = (key, sku, brand, value) =>
-  Session.get(getSessionKey(key, brand, sku), value);
+  Session.set(getSessionKey(key, brand, sku), value);
 
 function getSpecialOffersArray(sku, brand) {
   const cachedOffers = sessionGet(
@@ -801,7 +801,7 @@ const sessionGet = (key, brand, sku) =>
   Session.get(getSessionKey(key, brand, sku));
 
 const sessionSet = (key, brand, sku, value) =>
-  Session.get(getSessionKey(key, brand, sku), value);
+  Session.set(getSessionKey(key, brand, sku), value);
 
 const withSessionCache = (key, fn) => (brand, sku, ...args) => {
   const cachedValue = sessionGet(key, brand, sku);
