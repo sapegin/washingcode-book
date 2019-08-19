@@ -34,8 +34,9 @@ For example, let’s convert an array of strings to `kebab-case` with a `for` l
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
+const kebabNames = [];
 for (let i = 0; i < names.length; i++) {
-  names[i] = _.kebabCase(names[i]);
+  kebabNames.push(_.kebabCase(names[i]));
 }
 ```
 
