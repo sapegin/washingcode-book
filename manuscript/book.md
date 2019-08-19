@@ -158,7 +158,7 @@ for (const error of errors) {
 
 ### Sometimes loops aren’t so bad
 
-Array methods aren’t always better than loops. For example, a `.reduce()` method often makes code less readable than a regular loop.
+Array methods aren’t always better than loops. For example, the `.reduce()` method often makes code less readable than a regular loop.
 
 Let’s look at this code:
 
