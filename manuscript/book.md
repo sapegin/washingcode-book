@@ -1777,7 +1777,7 @@ validateInputs(values) {
     errorMessages.push('Last name is required');
   }
 
-  if (Object.keys(errorMessages).length > 0) {
+  if (errorMessages.length > 0) {
     this.set('error_message', errorMessages);
     return false;
   }
@@ -1806,7 +1806,7 @@ validateInputs(values) {
   const errorMessages = getErrorMessages(values);
   this.set('error_message', errorMessages);
 
-  return Object.keys(errorMessages).length == 0;
+  return errorMessages.length == 0;
 }
 ```
 
