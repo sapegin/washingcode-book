@@ -34,8 +34,9 @@ For example, let’s convert an array of strings to `kebab-case` with a `for` l
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
+const kebabNames = [];
 for (let i = 0; i < names.length; i++) {
-  names[i] = _.kebabCase(names[i]);
+  kebabNames.push(_.kebabCase(names[i]));
 }
 ```
 
@@ -1827,7 +1828,7 @@ validateInputs(values) {
     errorMessages.push('Last name is required');
   }
 
-  if (Object.keys(errorMessages).length > 0) {
+  if (errorMessages.length > 0) {
     this.set('error_message', errorMessages);
     return false;
   }
@@ -1856,7 +1857,7 @@ validateInputs(values) {
   const errorMessages = getErrorMessages(values);
   this.set('error_message', errorMessages);
 
-  return Object.keys(errorMessages).length == 0;
+  return errorMessages.length == 0;
 }
 ```
 
