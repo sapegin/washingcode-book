@@ -1196,12 +1196,14 @@ let pizza = { fillings: ['salami', 'mozzarella'] };
 
 You can’t be sure that your pizza will always have salami and mozzarella in it, because:
 
-- the variable can’t be reassigned a new value, even a value of another type;
+- the variable can be reassigned with a new value, even a value of another type;
 - the value, if it’s an array or an object, can be mutated.
 
-Knowing that both things are possible make you think, every time you see `pizza` in the code, what value it has _now_. That’s a huge and unnecessary cognitive load that we can avoid.
+Knowing that both things are possible make you think, every time you see `pizza` in the code, what value it has _now_. That’s a huge and unnecessary cognitive load that we should avoid.
 
 And most of the time you can avoid both. Let’s start with reassigning and come back to mutation in the next chapter.
+
+### Reusing variables
 
 Sometimes a variable is reused to store different values:
 
@@ -1225,6 +1227,8 @@ funtion getProductsOnSale(categoryId) {
 ```
 
 By doing this we’re making the lifespan of each variable shorter and choosing better names, so code is easier to understand and we’ll need to read less code to understand the current (and now the only) value of a particular variable.
+
+### Incremental computations
 
 Probably the most common use case for reassignment is incremental computations. Consider this example:
 
@@ -1338,6 +1342,49 @@ const VIDEO_VALIDATIONS = [
 
 Now it’s easy to add, remove or change validations: all the related code is contained in the `VIDEO_VALIDATIONS` array. Keep the code, that’s likely to be changed at the same time, in the same place.
 
+### Complex objects building
+
+Another common reason to reassign variables is to build a complex object:
+
+```js
+let queryValues = {
+  sortBy: sortField,
+  orderDesc: sortDirection === SORT_DESCENDING,
+  words: query
+};
+if (dateRangeFrom && dateRangeTo) {
+  queryValues = {
+    ...queryValues,
+    from: format(dateRangeFrom.setHours(0, 0, 0, 0), DATE_FORMAT),
+    to: format(dateRangeTo.setHours(23, 59, 59), DATE_FORMAT)
+  };
+}
+```
+
+Here we’re adding `from` and `to` properties only when they aren’t empty.
+
+The code would be clearer if we teach our backend to ignore empty values and build the whole object at once:
+
+```js
+const queryValues = {
+  sortBy: sortField,
+  orderDesc: sortDirection === SORT_DESCENDING,
+  words: query,
+  from:
+    dateRangeFrom &&
+    format(dateRangeFrom.setHours(0, 0, 0, 0), DATE_FORMAT),
+  to:
+    dateRangeTo &&
+    format(dateRangeTo.setHours(23, 59, 59), DATE_FORMAT)
+};
+```
+
+Now the query object always have the same shape, but some properties can be `undefined`.
+
+TODO
+
+### Pascal style variables
+
 Some people like to define all variables at the beginning of a function. I call this _Pascal style_, because in Pascal you have to declare all variables at the beginning of a program or a function:
 
 ```pascal
@@ -1407,6 +1454,8 @@ submitOrder({
 
 We’ve shortened `isFreeDelivery` variable lifespan from 100 lines to just 10. Now it’s also clear that its value is the one we assign at the fist line.
 
+### Temporary variables for function return values
+
 When variable is used to keep a function result, often you can get rid of that variable:
 
 ```js
@@ -1467,6 +1516,8 @@ const rejectionReason = getRejectionReasons(isAdminUser);
 ```
 
 This is less important. You may argue that moving code to a new function just because of reassignment isn’t a great idea, and you may be right, so use your own judgement here.
+
+### TODO
 
 In all examples above I’m replacing `let` with `const`. This immediately tells the reader that the variable won’t be reassigned. And you can be sure, it won’t: the compiler won’t allow that. And every time you see `let` in the code, you know that this code is more complex.
 
@@ -1616,7 +1667,7 @@ High level comments, explaining how code works, are useful too. If you’re impl
 
 And any hack should be explained in a `HACK` or `FIXME` comment.
 
-`TODO` comments are _okay_ too, if you add a ticket number when something will be done. Otherwise they are just dreams, than likely will never come true.
+`TODO` comments are _okay_ too, if you add a ticket number when something will be done. Otherwise they are just dreams, that likely will never come true.
 
 But there are several kinds of comments that you should never write.
 
@@ -1633,7 +1684,7 @@ First are comments explaining _how_ code works:
 const FADE_TIMEOUT_MS = 2000;
 ```
 
-If you think someone on your team may not know some of the language features you’re using, it’s better to help them to learn these features then clutter the code with comments that will distract everyone else.
+If you think someone on your team may not know some of the language features you’re using, it’s better to help them to learn these features than clutter the code with comments that will distract everyone else.
 
 Next are _fake_ comments: they pretend to explain a some decision, but actually they don’t explain anything.
 
@@ -1926,45 +1977,123 @@ class PizzaMaker extends React.Component {
 
 In all these examples I prefer the second variation. But I don’t waste time asking folks to change their code in code reviews, when they use the first variation or some other way of writing the same code.
 
-In most cases there’s zero code readability improvement. The code is just different, none of the variations are better then the other. And even the consistency argument isn’t good enough, unless you can automate code replacement completely transparent for the developer. Otherwise the cost of maintaining the convention is too high.
+In most cases there’s zero code readability improvement. The code is just different, none of the variations are better than the other. And even the consistency argument isn’t good enough, unless you can automate code replacement completely transparent for the developer. Otherwise the cost of maintaining the convention is too high.
 
 ## Cargo cult programming
 
-https://en.wikipedia.org/wiki/Cargo_cult_programming
+[Cargo cult programming](https://en.wikipedia.org/wiki/Cargo_cult_programming) is when developers use some technique because they’ve seen it works somewhere else, or they’ve been told it’s the right way of doing things.
 
-- Don’t be religious / cargo cult programming
-- Understand why (no cargo cult programming)
-- Puristic theory vs. reality
-- Code isn’t black and white: there’s no thinks that are always bad (except global variables) or always good (except automation)
+Some examples of cargo cult programming:
 
-* never write functions longer than 5 lines
-* don’t repeat yourself
-* always use container/ presenter pattern — never put UX state and HTML in one component
-* Always use `===` (`!= null`).
+- A developer copies a decade old answer from Stack Overflow with fallbacks for old browsers, they don’t need to support anymore.
+- A team applies old “best practices” even if the initial problem, they were solving, is no longer relevant.
+- A developer applies a team “standard” even for a case that should be an exception, because the standard makes the code worse, not better.
 
-Using constants instead of magic numbers is a great practice: it gives them a meaningful name. I also like to include a unit in a name to make it even more clear:
+Code isn’t black and white: there are no things that are always bad (except global variables) or always good (except automation). We’re not working at an assembly line, and we’re supposed to understand why we write each line of code.
+
+### Never write functions longer than…
+
+If you google “how long should be my functions”, you’ll find a lot of answers: all kinds of random numbers, like [half-a-dozen](https://martinfowler.com/bliki/FunctionLength.html), 10, 25 or 60.
+
+Some developers will brag that all their functions are only one or two lines long. Some developers will say that you must create a new function every time you want to write a comment or add an empty line.
+
+I think it’s a wrong problem to solve. In my experience size itself is rarely a problem. But long functions often hide real issues. Often long functions have too many responsibilities, deep nesting or other problems.
+
+### Always comment your code
+
+TODO
+
+See the “Avoid comments” chapter for more details.
+
+### Always use constants for magic numbers
+
+Using constants instead of magic numbers is a great practice: it gives them a meaningful name. Consider this example:
+
+```js
+const getHoursSinceLastChange = timestamp =>
+  Math.round(timestamp / 3600);
+```
+
+Most likely you’ll guess that 3600 is the number of seconds in an hour, but the actual number is less important than what this code does, and we can make this clear by moving the magic number to a const:
+
+```js
+const SECONDS_IN_AN_HOUR = 3600;
+const getHoursSinceLastChange = timestamp =>
+  Math.round(timestamp / SECONDS_IN_AN_HOUR);
+```
+
+I like to include a unit in a name if it’s not obvious otherwise:
 
 ```js
 const FADE_TIMEOUT_MS = 2000;
 ```
 
-But sometimes people replace absolutely all literal values with constants:
+But sometimes people replace absolutely all literal values with constants, ideally stored in a separate module:
 
 ```js
-const TABLE_COLUMN_OPTIONS_WIDTH = 300;
+const ID_COLUMN_WIDTH = 40;
+const TITLE_COLUMN_WIDTH = 120;
+const TYPE_COLUMN_WIDTH = 60;
+const DATE_ADDED_COLUMN_WIDTH = 50;
+const CITY_COLUMN_WIDTH = 80;
+const COUNTRY_COLUMN_WIDTH = 90;
+const USER_COLUMN_WIDTH = 70;
+const STATUS_COLUMN_WIDTH = 50;
 const columns = [
   {
-    minWidth: TABLE_COLUMN_OPTIONS_WIDTH,
-    header() {
-      return 'Options';
-    },
-    accessor: 'options'
+    header: 'ID',
+    accessor: 'id',
+    width: ID_COLUMN_WIDTH
   }
   // …
 ];
 ```
 
-It makes code longer and introduces an unnecessary indirection. It doesn’t make code more readable: the name doesn’t tell us anything that’s not already in the code. And have you noticed that the name is not precise? Instead of minimum width it only has width.
+But not every value is magic, some values are just values. Here it’s clear that the value is the width of the ID column, and a constant doesn’t add any information that’s not in the code already, but makes the code harder to read: you need to go to the constant definition to see the actual value.
+
+Often code reads perfectly even without constants:
+
+```jsx
+<Modal title="Out of cheese error" minWidth="50vw" />
+```
+
+Here it’s clear that the minimum width of a modal is 50vw. Adding a constant won’t make this code any clearer:
+
+```jsx
+const MODAL_MIN_WIDTH = '50vw';
+// ...
+<Modal title="Out of cheese error" minWidth={MODAL_MIN_WIDTH} />;
+```
+
+I’d avoid such constants unless the values are reused.
+
+Sometimes such constants are even misleading:
+
+```js
+const columns = [
+  {
+    header: 'ID',
+    accessor: 'id',
+    minWidth: ID_COLUMN_WIDTH
+  }
+];
+```
+
+Here the name is not precise: instead of minimum width it only has width.
+
+Code reuse is another good reason to introduce constants but you need to wait for the moment when the code is actually reused.
+
+### Never repeat yourself
+
+Don’t repeat yourself (DRY) principle is probably the most overrated idea in software development. See the “Let abstractions grow” section for more details.
+
+### Never say never
+
+Never listen when someone says you should never do that or always do this, without any exceptions. Answer to most software development questions is “it depends”, and such generalizations often do more harm than good.
+
+A few more examples:
+
+- _Never_ put state and markup in one component (_always_ use container/ presenter pattern)
 
 ## Don’t be clever
 
@@ -2132,7 +2261,7 @@ There are several you may want to split code into several modules:
 
 ### Let abstractions grow
 
-We, developers, hate to do the same work twice. _Don’t repeat yourself_ (DRY) is our mantra. But when you have two or three similar pieces of code, it may be still to early to introduce an abstraction, no matter how tempting it is.
+We, developers, hate to do the same work twice. _Don’t repeat yourself_ (DRY) is our mantra. But when you have two or three similar pieces of code, it may be still too early to introduce an abstraction, no matter how tempting it is.
 
 Leave with the pain of code duplication, maybe it’s not so bad in the end, and the code is actually not exactly the same. Some level of code duplication is healthy and allows you to iterate and evolve code faster.
 
@@ -2235,7 +2364,7 @@ Code reviewers will have to remember all the conventions, and make sure develope
 
 In UI programming, or _especially_ in UI programming we often use boolean flags to represent the current state of the UI or its parts: is data loading? is submit button disabled? has action failed?
 
-Often we end up with multiple booleans: one for each condition. Consider this typical network loading handling in a React component:
+Often we end up with multiple booleans: one for each condition. Consider this typical data fetching handling in a React component:
 
 ```jsx
 function Tweets() {
@@ -2263,7 +2392,7 @@ function Tweets() {
   }
 
   if (isError) {
-    return 'Something went wrong';
+    return 'Something went wrong!';
   }
 
   if (tweets.length === 0) {
@@ -2282,7 +2411,7 @@ function Tweets() {
 }
 ```
 
-We have XX booleans here: _is loading_ and _has errors_. If we look closer how the code uses them, we’ll notice that only one boolean is `true` at any time in a component lifecycle. It’s hard to see now and it’s easy to make a mistake and correctly handle all possible state changes, so you component may end up in an _impossible state_, like `isLoading && isError`, and the only way to fix that would be reloading the page. This is exactly why switching off and on electronic devices often fixes weird issues.
+We have two booleans here: _is loading_ and _has errors_. If we look closer how the code uses them, we’ll notice that only one boolean is `true` at any time in a component’s lifecycle. It’s hard to see now and it’s easy to make a mistake and correctly handle all possible state changes, so your component may end up in an _impossible state_, like `isLoading && isError`, and the only way to fix that would be reloading the page. This is exactly why switching off and on electronic devices often fixes weird issues.
 
 We can replace several _exclusive_ boolean flags, meaning only one is `true` at a time, with a single enum variable:
 
@@ -2316,7 +2445,7 @@ function Tweets() {
   }
 
   if (status === STATUSES.ERROR) {
-    return 'Something went wrong';
+    return 'Something went wrong!';
   }
 
   if (status === STATUSES.IDLE) {
@@ -2339,11 +2468,15 @@ function Tweets() {
 }
 ```
 
-The code is now much easier to understand: we know that the component can be in a single state at any time. We’ve also fixed a bug in the initial implementation: result with no tweets were treated as no result and the component was showing the “Load tweets” button again.
+The code is now much easier to understand: we know that the component can be in a single state at any time. We’ve also fixed a bug in the initial implementation: the result with no tweets was treated as no result and the component was showing the “Load tweets” button again.
+
+This is a very simple [finite-state machine](https://gedd.ski/post/state-machines-in-react/). State machines are useful to make logic of your code clear and prevent bugs.
+
+Proper state machines have events that handle transitions between states, guards that define which transitions are allowed and side effects.
+
+TODO
 
 TODO: types
-
-TODO: Finite-state machines Replace multiple exclusive booleans with a single status variable
 
 TODO: <Button primary secondary>
 
@@ -2651,6 +2784,7 @@ The less code we write, the better. Less code means easier testing, easier maint
 - [Code Health: Reduce Nesting, Reduce Complexity](https://testing.googleblog.com/2017/06/code-health-reduce-nesting-reduce.html?m=1) by Elliott Karpilovsky
 - [Code Health: To Comment or Not to Comment?](https://testing.googleblog.com/2017/07/code-health-to-comment-or-not-to-comment.html?m=1) by Dori Reuveni and Kevin Bourrillion
 - [Everything is a Component](https://medium.com/@level_out/everything-is-a-component-cf9f469ad981) by Luke Hedger
+- [Is High Quality Software Worth the Cost?](https://martinfowler.com/articles/is-quality-worth-cost.html) by Martin Fowler
 - [John Carmack on Inlined Code](http://number-none.com/blow/blog/programming/2014/09/26/carmack-on-inlined-code.html)
 - [Learning Code Readability](https://medium.com/@egonelbre/learning-code-readability-a80e311d3a20) by Egon Elbre
 - [Making Wrong Code Look Wrong](https://www.joelonsoftware.com/2005/05/11/making-wrong-code-look-wrong/) by Joel Spolsky
