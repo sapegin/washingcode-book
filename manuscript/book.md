@@ -54,7 +54,7 @@ const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(_.kebabCase);
 ```
 
-This wouldn't work with functions that accept more than one argument, because the `.map()` also passes and array index as the second argument and a whole array as the third, like `parseInt()` that accepts the radix as the second argument:
+This wouldn’t work with functions that accept more than one argument, because the `.map()` also passes and array index as the second argument and a whole array as the third, like `parseInt()` that accepts the radix as the second argument:
 
 ```js
 const inputs = ['1', '2', '3'];
@@ -62,7 +62,7 @@ inputs.map(parseInt); // -> [1, NaN, NaN]
 inputs.map(value => parseInt(value)); // -> [1, 2, 3]
 ```
 
-Here in the first example `.map()` calls `parseInt()` with an array index as a radix, which gives a wrong result. In the second example, we're explicitly passing only the value to the `parseInt()`, so it uses the default radix of 10.
+Here in the first example `.map()` calls `parseInt()` with an array index as a radix, which gives a wrong result. In the second example, we’re explicitly passing only the value to the `parseInt()`, so it uses the default radix of 10.
 
 But this may be a bit less readable than the expanded version because we don’t see what exactly we’re passing to a function. ECMAScript 6’s arrow functions made callbacks shorter and less cluttered, compared to the old anonymous function syntax:
 
@@ -1668,7 +1668,7 @@ High level comments, explaining how code works, are useful too. If you’re impl
 
 And any hack should be explained in a `HACK` or `FIXME` comment.
 
-`TODO` comments are _okay_ too, if you add a ticket number when something will be done. Otherwise they are just dreams, that likely will never come true.
+`TODO` comments are _okay_ too, if you add a ticket number when something will be done. Otherwise they are just dreams that will likely never come true.
 
 But there are several kinds of comments that you should never write.
 
@@ -1685,7 +1685,7 @@ First are comments explaining _how_ code works:
 const FADE_TIMEOUT_MS = 2000;
 ```
 
-If you think someone on your team may not know some of the language features you’re using, it’s better to help them to learn these features than clutter the code with comments that will distract everyone else.
+If you think someone on your team may not know some of the language features you’re using, it’s better to help them learn these features than clutter the code with comments that will distract everyone else.
 
 Next are _fake_ comments: they pretend to explain a some decision, but actually they don’t explain anything.
 
