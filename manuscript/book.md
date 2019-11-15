@@ -129,6 +129,36 @@ const kebabNames = names.map(name => _.kebabCase(name));
 
 This version is much easier to read because we know that the `.map()` method transforms an array by keeping the same number of items. And unlike `.forEach()`, it doesn’t require a custom implementation nor mutate an output array. Also, the callback function is now pure: it merely transforms input arguments to the output value without any side effects.
 
+Similar problem happens when we’re abusing an array method semantics:
+
+```js
+let isExpectedType = false;
+products.map(product => {
+  isExpectedType = product.type === expectedType;
+});
+```
+
+Here’s the `.map()` method is used to _reduce_ an array to a single value by having a side effect instead of returning a new item value from the callback function.
+
+It’s hard to say what this code is doing and it feels like there’s a bug: it only cares about the latest product in a list.
+
+If there’s a bug and we need to check if _some_ of the products have expected type, then the `.some()` array method would be the best choice:
+
+```js
+const isExpectedType = products.some(
+  product => product.type === expectedType
+);
+```
+
+If the original code has no bug, then we don’t need to iterate at all and can check the latest array item directly:
+
+```js
+const isExpectedType =
+  products[products.lengths - 1].type === expectedType;
+```
+
+Both refactored versions make the intention of the code clearer and leave less doubts that the code is correct. We can probably make the `isExpectedType` variable name more clear, especially in the second refactoring.
+
 ### Dealing with side effects
 
 Side effects make code harder to understand because you can no longer treat a function as a black box: a function with side effects doesn’t just transform input to output but can affect the environment in unpredictable ways. Functions with side effects are also hard to test because you’ll need to recreate the environment before each test is run and verify it after.
