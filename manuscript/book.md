@@ -1246,7 +1246,7 @@ funtion getProductsOnSale(category) {
 }
 ```
 
-Here the `category` variable is used to store a category ID, a list of products in a category, and a list of filtered products.
+Here the `category` variable is used to store a category ID, a list of products in a category, and a list of filtered products. This function isn’t completely hopeless because it’s short, but imagine more code between reassignments.
 
 This case is the easiest to fix: we need to use separate variables for each value:
 
@@ -1257,7 +1257,7 @@ funtion getProductsOnSale(categoryId) {
 }
 ```
 
-By doing this we’re making the lifespan of each variable shorter and choosing better names, so code is easier to understand and we’ll need to read less code to understand the current (and now the only) value of a particular variable.
+By doing this we’re making the lifespan of each variable shorter and choosing clearer names, so code is easier to understand and we’ll need to read less code to understand the current (and now the only) value of each variable.
 
 ### Incremental computations
 
@@ -1278,9 +1278,9 @@ const validateVideo = (video) => {
 };
 ```
 
-I’ve shortened the comments a bit, the original code had lines longer than 200 characters. If you have a very big screen, it looks like a pretty table, otherwise like an unreadable mess. Any auto formatting tool, like Prettier, will make an unreadable mess out of it too, so you shouldn’t rely on manual code formatting. It’s also really hard to maintain: if any of the “columns” become longer than all existing “columns” after your changes, you have to adjust whitespace for all other “columns”.
+I’ve shortened the comments a bit, the original code had lines longer than 200 characters. If you have a very big screen, it looks like a pretty table, otherwise like an unreadable mess. Any autoformatting tool, like Prettier, will make an unreadable mess out of it too, so you shouldn’t rely on manual code formatting. It’s also really hard to maintain: if any of the “columns” become longer than all existing “columns” after your changes, you have to adjust whitespace for all other “columns”.
 
-Anyway, this code adds an error message to the `errors` variable for every failed validation. But now it’s hard to see because the formatting code is mangled with validation code. This makes it hard to read and modify. To add another validation, you have to understand and copy formatting code. To print errors as an HTML list, you have to change each line of this function.
+Anyway, this code appends an error message to the `errors` string variable for every failed validation. But now it’s hard to see because the message formatting code is mangled with the validation code. This makes it hard to read and modify. To add another validation, you have to understand and copy the formatting code. To print errors as an HTML list, you have to change each line of this function.
 
 Let’s separate validation and formatting:
 
@@ -1323,11 +1323,11 @@ const validateVideo = video => {
 };
 ```
 
-We’ve separated validations, validation logic and formatting logic. The flies on the side, please. Each piece of code has a single responsibility and a single reason to change. Validations now are defined declaratively and read like a table, not mixed with conditions and string concatenation. This improves readability and maintainability of the code: it’s easy to see all validations and add new ones, because you don’t need to know implementation details of validation and formatting.
+We’ve separated validations, validation logic and formatting logic. Flies separately, cutlets separately, as we say in Russia. Each piece of code has a single responsibility and a single reason to change. Validations now are defined declaratively and read like a table, not mixed with conditions and string concatenation. This improves readability and maintainability of the code: it’s easy to see all validations and add new ones, because you don’t need to know implementation details of running validations and formatting.
 
 And now it’s clear that the original code had a bug: there would be no space between error messages.
 
-And formatting (`join('\n'`) can likely be removed and done during the rendering:
+Also formatting (`join('\n'`) can likely be removed and done during the rendering:
 
 ```jsx
 const validateVideo = video =>
@@ -1339,7 +1339,7 @@ function VideoUploader() {
   const [video, setVideo] = React.useState();
   const errors = validateVideo(video);
   return (
-    <div>
+    <>
       {/* Uploader UI */}
       {errors.length > 0 && (
         <>
@@ -1349,14 +1349,14 @@ function VideoUploader() {
           ))}
         </>
       )}
-    </div>
+    </>
   );
 }
 ```
 
 We can also test each validation separately. Have you noticed that I’ve changed `false` to `null` in the last validation? That’s because `match()` returns `null` when there’s no match, not `false`. The original validation always returns `true`.
 
-I’d even inline `ERROR_MESSAGES` constants unless they are reused somewhere else. They don’t really make code easier to read but they make it harder to change, because you have to do changes in two places.
+I would even inline `ERROR_MESSAGES` constants unless they are reused somewhere else. They don’t really make code easier to read but they make it harder to change, because you have to make changes in two places.
 
 ```js
 const VIDEO_VALIDATIONS = [
@@ -1367,7 +1367,6 @@ const VIDEO_VALIDATIONS = [
     message:
       'You should provide either both a height and a width, or neither'
   }
-  // …
 ];
 ```
 
@@ -1397,22 +1396,21 @@ Here we’re adding `from` and `to` properties only when they aren’t empty.
 The code would be clearer if we teach our backend to ignore empty values and build the whole object at once:
 
 ```js
+const hasDateRange = dateRangeFrom && dateRangeTo;
 const queryValues = {
   sortBy: sortField,
   orderDesc: sortDirection === SORT_DESCENDING,
   words: query,
   from:
-    dateRangeFrom &&
+    hasDateRange &&
     format(dateRangeFrom.setHours(0, 0, 0, 0), DATE_FORMAT),
   to:
-    dateRangeTo &&
+    hasDateRange &&
     format(dateRangeTo.setHours(23, 59, 59), DATE_FORMAT)
 };
 ```
 
-Now the query object always have the same shape, but some properties can be `undefined`.
-
-TODO
+Now the query object always have the same shape, but some properties can be `undefined`. The code feels more declarative and it’s easier to understand what it’s doing — building an object.
 
 ### Pascal style variables
 
@@ -1501,7 +1499,7 @@ function areEventsValid(events) {
 }
 ```
 
-Becomes:
+Here we’re checking that _every_ event is valid, which is more clear with the `.every()` array method:
 
 ```js
 function areEventsValid(events) {
@@ -1509,20 +1507,35 @@ function areEventsValid(events) {
 }
 ```
 
-We’ve removed a temporary variable, avoided reassignment and made a condition positive (is something valid?), instead of a negative (is something invalid?). Positive conditions are usually easier to understand.
+We’ve also removed a temporary variable, avoided reassignment and made a condition positive (is something valid?), instead of a negative (is something invalid?). Positive conditions are usually easier to understand.
 
 For local variables you can either use a ternary operator:
 
 ```js
-TODO;
+handleChangeEstimationHours = event => {
+  let estimationHours = event.target.value;
+  if (estimationHours === '' || estimationHours < 0) {
+    estimationHours = 0;
+  }
+  this.setState({ estimationHours });
+};
+```
+
+Like this:
+
+```js
+handleChangeEstimationHours = ({ target: { value } }) => {
+  const estimationHours = value !== '' && value >= 0 ? value : 0;
+  this.setState({ estimationHours });
+};
 ```
 
 Or you can extract code to a function:
 
 ```js
-let rejectionReason = getAllRejectionReasons();
+let rejectionReasons = getAllRejectionReasons();
 if (isAdminUser) {
-  rejectionReason = rejectionReason.filter(
+  rejectionReasons = rejectionReasons.filter(
     reason => reason.value !== REJECTION_REASONS.HAS_SWEAR_WORDS
   );
 }
@@ -1548,17 +1561,27 @@ const rejectionReason = getRejectionReasons(isAdminUser);
 
 This is less important. You may argue that moving code to a new function just because of reassignment isn’t a great idea, and you may be right, so use your own judgement here.
 
+### Function arguments shadowing
+
+TODO
+
 ### TODO
 
-In all examples above I’m replacing `let` with `const`. This immediately tells the reader that the variable won’t be reassigned. And you can be sure, it won’t: the compiler won’t allow that. And every time you see `let` in the code, you know that this code is more complex.
+In all examples above I’m replacing `let` with `const`. This immediately tells the reader that the variable won’t be reassigned. And you can be sure, it won’t: the compiler won’t allow that. And every time you see `let` in the code, you know that this code is more complex and will need more brain power to understand.
 
-Another useful convention is using `UPPER_CASE` names for constants. This tells the reader that this is more of a configuration value, than a result of some computation. Lifespan of such constants are usually large: often the whole module or even the whole codebase, so when you read the code you usually don’t see the constant definition.
+Another useful convention is using `UPPER_CASE` names for constants. This tells the reader that this is more of a configuration value, than a result of some computation. Lifespan of such constants are usually large: often the whole module or even the whole codebase, so when you read the code you usually don’t see the constant definition, but you still can be sure that the value never changes.
 
 There’s an important difference between a variable defined with the `const` keyword and a true constant. The first only tells the compiler and the reader that the variable won’t be reassigned. The second describe the nature of the value as something global and static that never changes at runtime.
 
 Both conventions reduce cognitive load a little bit and make code a bit easier to read.
 
-TODO: Function arguments shadowing
+Unfortunately JavaScript has no true constants, and _mutation_ is still possible. We’ll talk about mutations in the next chapter.
+
+---
+
+Start thinking about:
+
+TODO
 
 ## Avoid mutation
 
@@ -1573,6 +1596,8 @@ TODO: Redux immutable operation docs: https://redux.js.org/recipes/structuring-r
 TODO: Immutability != reassignment, `conts`
 
 TODO: Tools to ensure immutability: libraries, linters, types
+
+TODO: https://github.com/tc39/proposal-record-tuple
 
 Replacing imperative code, full or loops and conditions, with declarative code is one of my favorite refactorings. And one of the most common suggestions I give in code reviews.
 
