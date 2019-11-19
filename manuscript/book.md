@@ -336,6 +336,43 @@ And again `.reduce()` is the least readable option.
 
 In later chapters I’ll urge you to avoid not only loops but also reassigning variables and mutation. Like loops, they _often_ lead to poor code readability, but _sometimes_ they are the best choice.
 
+### Beware of the mutating methods
+
+Unfortunately, not all array methods in JavaScript are returning a new array without modifying the original one. [Some methods _mutate_](https://doesitmutate.xyz/) the original array in place.
+
+Consider this example:
+
+```js
+const counts = [6, 3, 2, 8];
+const puppies = counts.sort().map(n => `${n} puppies`);
+```
+
+It makes an impression that the `counts` array isn’t changing and we’re just creating a new `puppies` array with the result. But the `.sort()` method returns a sorted array _and_ mutates the original array at the same time. Writing this kind of code is very dangerous and can lead to hard-to-find bugs. Many developers don’t realize that the `.sort()` method is mutating because the code _seems_ to work fine.
+
+It’s better to make mutation explicit:
+
+```js
+const counts = [6, 3, 2, 8];
+const sortedCounts = [...counts].sort();
+const puppies = sortedCounts.map(n => `${n} puppies`);
+```
+
+Here we’re making a shallow copy of the `counts` array using the spread operator and then sort it, so the original array stays the same.
+
+Other mutating array methods are:
+
+- [.copyWithin()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/copyWithin)
+- [.fill()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill)
+- [.pop()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop)
+- [.push()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push)
+- [.reverse()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse)
+- [.shift()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift)
+- [.sort()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
+- [.splice()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
+- [.unshift()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift)
+
+We’ll talk more about mutation in the _Avoid mutation_ chapter.
+
 ### But aren’t array methods slow?
 
 You may think that using functions is slower than loops, and likely it is. But in reality it doesn’t matter unless you’re working with millions of items.
