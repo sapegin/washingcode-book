@@ -1845,6 +1845,23 @@ if (itemInfo && itemInfo.isAutoReplaceable === true) {
 return false;
 ```
 
+```js
+const result = '...';
+return result;
+```
+
+```js
+const result = handleUpdateResponse(response.status);
+this.setState(result);
+```
+
+```js
+function render() {
+  let p = this.props;
+  return <BaseComponent {...p}></BaseComponent>;
+}
+```
+
 ## Naming is hard
 
 ### Negative booleans
