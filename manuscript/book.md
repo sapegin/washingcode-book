@@ -20,7 +20,7 @@ And remember, there are no strict rules in programming, except that you should a
 
 These folks helped me with the book in one way or another.
 
-Thanks to [Manuel Bieh](https://twitter.com/ManuelBieh), [Evan Davis](https://github.com/evandavis), [Troy Giunipero](https://github.com/giuniperoo), Anita Kiss, [Giorgi Kotchlamazashvili](https://github.com/hertzg), [Andy Krings-Stern](https://github.com/ankri) [Veniamin Krol](https://vkrol.dev/), [Monica Lent](https://monicalent.com/), [Rostislav U](https://twitter.com/inooze), [Dan Uhl](https://github.com/danieluhl), [Juho Vepsäläinen](https://survivejs.com/), [Michel Weststrate](https://twitter.com/mweststrate).
+Thanks to [Manuel Bieh](https://twitter.com/ManuelBieh), [Inês Carvalho](https://imcarvalho.github.io/), [Evan Davis](https://github.com/evandavis), [Troy Giunipero](https://github.com/giuniperoo), Anita Kiss, [Giorgi Kotchlamazashvili](https://github.com/hertzg), [Andy Krings-Stern](https://github.com/ankri) [Veniamin Krol](https://vkrol.dev/), [Monica Lent](https://monicalent.com/), [Rostislav U](https://twitter.com/inooze), [Dan Uhl](https://github.com/danieluhl), [Juho Vepsäläinen](https://survivejs.com/), [Michel Weststrate](https://twitter.com/mweststrate).
 
 ## Avoid loops
 
@@ -1276,7 +1276,7 @@ And most of the time you can avoid both. Let’s start with reassigning and come
 Sometimes a variable is reused to store different values:
 
 ```js
-funtion getProductsOnSale(category) {
+function getProductsOnSale(category) {
   category = loadCategory(category);
   category = category.filter(product => product.onSale);
   return category;
@@ -1290,7 +1290,7 @@ Also a new value is reassigned to a function argument, which is called _function
 This case is the easiest to fix: we need to use separate variables for each value:
 
 ```js
-funtion getProductsOnSale(categoryId) {
+function getProductsOnSale(categoryId) {
   const products = loadCategory(categoryId);
   return products.filter(product => product.onSale);
 }
