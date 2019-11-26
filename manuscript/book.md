@@ -1267,11 +1267,11 @@ You can’t be sure that your pizza will always have salami and mozzarella in it
 - the variable can be reassigned with a new value, even a value of another type;
 - the value, if it’s an array or an object, can be mutated.
 
-Knowing that both things are possible make you think, every time you see `pizza` in the code, what value it has _now_. That’s a huge and unnecessary cognitive load that we should avoid.
+Knowing that both things are possible makes you think, every time you see `pizza` in the code, which value it has _now_. That’s a huge and unnecessary cognitive load that we should avoid.
 
 And most of the time you can avoid both. Let’s start with reassigning and come back to mutation in the next chapter.
 
-### Reusing variables
+### Don’t reuse variables
 
 Sometimes a variable is reused to store different values:
 
@@ -1285,6 +1285,8 @@ funtion getProductsOnSale(category) {
 
 Here the `category` variable is used to store a category ID, a list of products in a category, and a list of filtered products. This function isn’t completely hopeless because it’s short, but imagine more code between reassignments.
 
+Also a new value is reassigned to a function argument, which is called _function argument shadowing_. I think it’s no different from regular reassignment, so I’ll treat it the same way.
+
 This case is the easiest to fix: we need to use separate variables for each value:
 
 ```js
@@ -1294,7 +1296,7 @@ funtion getProductsOnSale(categoryId) {
 }
 ```
 
-By doing this we’re making the lifespan of each variable shorter and choosing clearer names, so code is easier to understand and we’ll need to read less code to understand the current (and now the only) value of each variable.
+By doing this we’re making the lifespan of each variable shorter and choosing clearer names, so code is easier to understand and we’ll need to read less code to find out the current (and now the only) value of each variable.
 
 ### Incremental computations
 
@@ -1315,9 +1317,9 @@ const validateVideo = (video) => {
 };
 ```
 
-I’ve shortened the comments a bit, the original code had lines longer than 200 characters. If you have a very big screen, it looks like a pretty table, otherwise like an unreadable mess. Any autoformatting tool, like Prettier, will make an unreadable mess out of it too, so you shouldn’t rely on manual code formatting. It’s also really hard to maintain: if any of the “columns” become longer than all existing “columns” after your changes, you have to adjust whitespace for all other “columns”.
+I’ve shortened the comments a bit, the original code had lines longer than 200 characters. If you have a very big screen, it looks like a pretty table, otherwise like an unreadable mess. Any autoformatting tool, like Prettier, will make an unreadable mess out of it too, so you shouldn’t rely on manual code formatting. It’s also really hard to maintain: if any “column” becomes longer than all existing “columns” after your changes, you have to adjust whitespace for all other “columns”.
 
-Anyway, this code appends an error message to the `errors` string variable for every failed validation. But now it’s hard to see because the message formatting code is mangled with the validation code. This makes it hard to read and modify. To add another validation, you have to understand and copy the formatting code. To print errors as an HTML list, you have to change each line of this function.
+Anyway, this code appends an error message to the `errors` string variable for every failed validation. But now it’s hard to see because the message formatting code is mangled with the validation code. This makes it hard to read and modify. To add another validation, you have to understand and copy the formatting code. Or to print errors as an HTML list, you have to change each line of this function.
 
 Let’s separate validation and formatting:
 
@@ -1353,37 +1355,39 @@ const VIDEO_VALIDATIONS = [
 ];
 
 const validateVideo = video => {
-  const errors = VIDEO_VALIDATIONS.map(({ isValid, message }) =>
+  return VIDEO_VALIDATIONS.map(({ isValid, message }) =>
     isValid(video) ? undefined : message
   ).filter(Boolean);
-  return errors.join('\n');
+};
+
+const printVideoErrors = video => {
+  console.log(validateVideo(video).join('\n'));
 };
 ```
 
-We’ve separated validations, validation logic and formatting logic. Flies separately, cutlets separately, as we say in Russia. Each piece of code has a single responsibility and a single reason to change. Validations now are defined declaratively and read like a table, not mixed with conditions and string concatenation. This improves readability and maintainability of the code: it’s easy to see all validations and add new ones, because you don’t need to know implementation details of running validations and formatting.
+We’ve separated validations, validation logic and formatting. Flies separately, cutlets separately, as we say in Russia. Each piece of code has a single responsibility and a single reason to change. Validations now are defined declaratively and read like a table, not mixed with conditions and string concatenation. We’ve also changed negative conditions (_is invalid?_) to positive (_is valid?_). All this improves readability and maintainability of the code: it’s easier to see all validations and add new ones, because you don’t need to know implementation details of running validations or formatting.
 
-And now it’s clear that the original code had a bug: there would be no space between error messages.
+And now it’s clear that the original code had a bug: there were no space between error messages.
 
-Also formatting (`join('\n'`) can likely be removed and done during the rendering:
+Also now we can swap the formatting function and render errors as an HTML list, for example:
 
 ```jsx
-const validateVideo = video =>
-  VIDEO_VALIDATIONS.map(({ isValid, message }) =>
-    isValid(video) ? undefined : message
-  ).filter(Boolean);
-
 function VideoUploader() {
   const [video, setVideo] = React.useState();
   const errors = validateVideo(video);
   return (
     <>
-      {/* Uploader UI */}
+      <FileUpload value={video} onChange={setVideo} />
       {errors.length > 0 && (
         <>
-          <Text variation="error">Upload failed:</Text>
-          {errors.map(error => (
-            <Text variation="error">{error}</Text>
-          ))}
+          <Text variation="error">Nooooo, upload failed:</Text>
+          <ul>
+            {errors.map(error => (
+              <Text as="li" variation="error">
+                {error}
+              </Text>
+            ))}
+          </ul>
         </>
       )}
     </>
@@ -1407,9 +1411,9 @@ const VIDEO_VALIDATIONS = [
 ];
 ```
 
-Now it’s easy to add, remove or change validations: all the related code is contained in the `VIDEO_VALIDATIONS` array. Keep the code, that’s likely to be changed at the same time, in the same place.
+Now all the code you need to touch to add, remove or change validations is contained in the `VIDEO_VALIDATIONS` array. Keep the code, that’s likely to be changed at the same time, in the same place.
 
-### Complex objects building
+### Building complex objects
 
 Another common reason to reassign variables is to build a complex object:
 
@@ -1447,9 +1451,9 @@ const queryValues = {
 };
 ```
 
-Now the query object always have the same shape, but some properties can be `undefined`. The code feels more declarative and it’s easier to understand what it’s doing — building an object.
+Now the query object always have the same shape, but some properties can be `undefined`. The code feels more declarative and it’s easier to understand what it’s doing — building an object, and see the final shape of this object.
 
-### Pascal style variables
+### Avoid Pascal style variables
 
 Some people like to define all variables at the beginning of a function. I call this _Pascal style_, because in Pascal you have to declare all variables at the beginning of a program or a function:
 
@@ -1472,7 +1476,6 @@ Some people use this style in languages where they don’t have to do it:
 
 ```js
 let isFreeDelivery;
-let deliveryMethod;
 
 // 50 lines of code
 
@@ -1499,9 +1502,9 @@ submitOrder({
 });
 ```
 
-Long variable lifespan makes you scroll a lot to understand what’s the current value of a variable. Possible reassignments make it even worse. If there are 50 lines between a variable declaration and its usage, then it can be reassigned in any of these 50 lines.
+Long variable lifespan makes you scroll a lot to understand the current value of a variable. Possible reassignments make it even worse. If there are 50 lines between a variable declaration and its usage, then it can be reassigned in any of these 50 lines.
 
-We can make code easier to read by moving variable declarations as close to their usage as possible and by avoiding reassignments:
+We can make code more readable by moving variable declarations as close to their usage as possible and by avoiding reassignments:
 
 ```js
 const isFreeDelivery = [
@@ -1520,7 +1523,9 @@ submitOrder({
 
 We’ve shortened `isFreeDelivery` variable lifespan from 100 lines to just 10. Now it’s also clear that its value is the one we assign at the fist line.
 
-### Temporary variables for function return values
+Don’t mix it with `PascalCase` though, this naming convention is still in use.
+
+### Avoid temporary variables for function return values
 
 When variable is used to keep a function result, often you can get rid of that variable:
 
@@ -1536,7 +1541,7 @@ function areEventsValid(events) {
 }
 ```
 
-Here we’re checking that _every_ event is valid, which is more clear with the `.every()` array method:
+Here we’re checking that _every_ event is valid, which would be more clear with the `.every()` array method:
 
 ```js
 function areEventsValid(events) {
@@ -1544,26 +1549,26 @@ function areEventsValid(events) {
 }
 ```
 
-We’ve also removed a temporary variable, avoided reassignment and made a condition positive (is something valid?), instead of a negative (is something invalid?). Positive conditions are usually easier to understand.
+We’ve also removed a temporary variable, avoided reassignment and made a condition positive (_is valid?_), instead of a negative (_is invalid?_). Positive conditions are usually easier to understand.
 
 For local variables you can either use a ternary operator:
 
 ```js
-handleChangeEstimationHours = event => {
+const handleChangeEstimationHours = event => {
   let estimationHours = event.target.value;
   if (estimationHours === '' || estimationHours < 0) {
     estimationHours = 0;
   }
-  this.setState({ estimationHours });
+  return { estimationHours };
 };
 ```
 
 Like this:
 
 ```js
-handleChangeEstimationHours = ({ target: { value } }) => {
+const handleChangeEstimationHours = ({ target: { value } }) => {
   const estimationHours = value !== '' && value >= 0 ? value : 0;
-  this.setState({ estimationHours });
+  return { estimationHours };
 };
 ```
 
@@ -1593,32 +1598,54 @@ const getRejectionReasons = isAdminUser => {
 
 // --- 8< -- 8< ---
 
-const rejectionReason = getRejectionReasons(isAdminUser);
+const rejectionReasons = getRejectionReasons(isAdminUser);
 ```
 
-This is less important. You may argue that moving code to a new function just because of reassignment isn’t a great idea, and you may be right, so use your own judgement here.
+This is less important. You may argue that moving code to a new function just because of a reassignment isn’t a great idea, and you may be right, so use your own judgement here.
 
-### Function arguments shadowing
+### Indeterminate loops
 
-TODO
+Sometimes having a reassignment is quite okay. Indeterminate loops, the ones where we don’t know the number of iterations in advance, are a good case for reassignments.
 
-### TODO
+Consider this example:
 
-In all examples above I’m replacing `let` with `const`. This immediately tells the reader that the variable won’t be reassigned. And you can be sure, it won’t: the compiler won’t allow that. And every time you see `let` in the code, you know that this code is more complex and will need more brain power to understand.
+```js
+function getStartOfWeek(selectedDay) {
+  let startOfWeekDay = selectedDay;
+  while (startOfWeekDay.getDay() !== WEEK_DAY_MONDAY) {
+    startOfWeekDay = addDays(startOfWeekDay, -1);
+  }
+  return startOfWeekDay;
+}
+```
 
-Another useful convention is using `UPPER_CASE` names for constants. This tells the reader that this is more of a configuration value, than a result of some computation. Lifespan of such constants are usually large: often the whole module or even the whole codebase, so when you read the code you usually don’t see the constant definition, but you still can be sure that the value never changes.
+Here we’re finding the start of the current week by moving one day back in a `while` loop and checking if it’s already Monday or not.
 
-There’s an important difference between a variable defined with the `const` keyword and a true constant. The first only tells the compiler and the reader that the variable won’t be reassigned. The second describe the nature of the value as something global and static that never changes at runtime.
+Even if it’s possible to avoid a reassignment here, it will likely make code less readable. Feel free to try and let me know how it goes though.
 
-Both conventions reduce cognitive load a little bit and make code a bit easier to read.
+Reassignments aren’t pure evil and exterminating all of them won’t make your code better. They are more like signs: if you see a reassignment, ask yourself if rewriting the code without it would make it more readable. There’s no right or wrong answer, but if you do use a reassignment, isolate it in a small function, where it’s clear what the current value of a variable is.
 
-Unfortunately JavaScript has no true constants, and _mutation_ is still possible. We’ll talk about mutations in the next chapter.
+### Help your brain with conventions
+
+In all examples above I’m replacing `let` with `const` in variable declarations. This immediately tells the reader that the variable won’t be reassigned. And you can be sure, it won’t: the compiler will yell at you if you try. Every time you see `let` in the code, you know that this code is likely more complex and needs more brain power to understand.
+
+Another useful convention is using `UPPER_CASE` names for constants. This tells the reader that this is more of a configuration value, than a result of some computation. Lifespan of such constants are usually large: often the whole module or even the whole codebase, so when you read the code you usually don’t see the constant definition, but you still can be sure that the value never changes. And using such a constant in a function doesn’t make the function not pure.
+
+There’s an important difference between a variable defined with the `const` keyword and a true constant in JavaScript. The first only tells the compiler and the reader that the variable won’t be _reassigned_. The second describe the nature of the value as something global and static that never changes at runtime.
+
+Both conventions reduce cognitive load a little bit and make code easier to understand.
+
+Unfortunately JavaScript has no true constants, and _mutation_ is still possible even when you define a variable with the `const` keyword. We’ll talk about mutations in the next chapter.
 
 ---
 
 Start thinking about:
 
-TODO
+- Using different variables with meaningful names instead of reusing the same variable for different purposes.
+- Separating data from an algorithm to make code more readable and maintainable.
+- Building a shape of a complex object in a single place instead of building it piece by piece.
+- Declaring variables as close as possible to a place where they are used to reduce the lifespan of a variable and make it easier to understand which value a variable has.
+- Extracting a piece of code to a small function to avoid a temporary variable and use a function return value instead.
 
 ## Avoid mutation
 
@@ -1631,6 +1658,8 @@ TODO: ES6: spread, rest, etc.
 TODO: Redux immutable operation docs: https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns
 
 TODO: Immutability != reassignment, `conts`
+
+TODO: Mutation of function arguments
 
 TODO: Tools to ensure immutability: libraries, linters, types
 
@@ -1713,6 +1742,20 @@ const visibleRows = rows.filter(row => {
 ```
 
 Now we’re defining all rows in a single array. All rows are visible by default, unless they have `isVisible` function that returns true, when a row is visible. We’ve improved code readability and maintainability: now there’s only one way of defining rows, you don’t have to check two places to see all available row, don’t need to decide which method to use to add a new row, and now it’s easy to make an existing row optional by adding `isVisible` function to it.
+
+TODO: Good example:
+
+```js
+const getDateRange = (startDate, endDate) => {
+  const dateArray = [];
+  let currentDate = startDate;
+  while (currentDate <= endDate) {
+    dateArray.push(currentDate);
+    currentDate = addDays(currentDate, 1);
+  }
+  return dateArray;
+};
+```
 
 ## Avoid comments
 
