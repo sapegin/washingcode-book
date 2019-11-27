@@ -20,7 +20,7 @@ And remember, there are no strict rules in programming, except that you should a
 
 These folks helped me with the book in one way or another.
 
-Thanks to [Manuel Bieh](https://twitter.com/ManuelBieh), [Inês Carvalho](https://imcarvalho.github.io/), [Evan Davis](https://github.com/evandavis), [Troy Giunipero](https://github.com/giuniperoo), Anita Kiss, [Giorgi Kotchlamazashvili](https://github.com/hertzg), [Andy Krings-Stern](https://github.com/ankri) [Veniamin Krol](https://vkrol.dev/), [Monica Lent](https://monicalent.com/), [Rostislav U](https://twitter.com/inooze), [Dan Uhl](https://github.com/danieluhl), [Juho Vepsäläinen](https://survivejs.com/), [Michel Weststrate](https://twitter.com/mweststrate).
+Thanks to [Manuel Bieh](https://twitter.com/ManuelBieh), [Inês Carvalho](https://imcarvalho.github.io/), [Evan Davis](https://github.com/evandavis), [Troy Giunipero](https://github.com/giuniperoo), Anita Kiss, [Giorgi Kotchlamazashvili](https://github.com/hertzg), [Andy Krings-Stern](https://github.com/ankri) [Veniamin Krol](https://vkrol.dev/), [Monica Lent](https://monicalent.com/), Diana Martinez, [Rostislav U](https://twitter.com/inooze), [Dan Uhl](https://github.com/danieluhl), [Juho Vepsäläinen](https://survivejs.com/), [Michel Weststrate](https://twitter.com/mweststrate).
 
 ## Avoid loops
 
@@ -599,7 +599,7 @@ function counter() {
 }
 ```
 
-The problem here is that the main function logic, count increment, is implemented twice: for the case when we already have votes for that URL and when we’re voting for the fist time. So every time you need to update this logic, you need to make changes in two places. You need to write two sets of very similar tests to make sure both branches work as expected, otherwise they’ll eventually diverge and you’ll have hard to debug issues.
+The problem here is that the main function logic, count increment, is implemented twice: for the case when we already have votes for that URL and when we’re voting for the first time. So every time you need to update this logic, you need to make changes in two places. You need to write two sets of very similar tests to make sure both branches work as expected, otherwise they’ll eventually diverge and you’ll have hard to debug issues.
 
 Let’s make the main logic unconditional but prepare the state if necessary before running the logic:
 
@@ -1521,7 +1521,7 @@ submitOrder({
 });
 ```
 
-We’ve shortened `isFreeDelivery` variable lifespan from 100 lines to just 10. Now it’s also clear that its value is the one we assign at the fist line.
+We’ve shortened `isFreeDelivery` variable lifespan from 100 lines to just 10. Now it’s also clear that its value is the one we assign at the first line.
 
 Don’t mix it with `PascalCase` though, this naming convention is still in use.
 
