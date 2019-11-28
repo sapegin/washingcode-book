@@ -150,7 +150,7 @@ const isExpectedType = products.some(
 );
 ```
 
-If the behavior of the original code wasn’t a bug, then we actually don’t need to iterate at all. We can check the latest array item directly:
+If the behavior of the original code was correct, then we actually don’t need to iterate at all. We can check the latest array item directly:
 
 ```js
 const isExpectedType =
