@@ -73,7 +73,7 @@ const kebabNames = names.map(function(name) {
 });
 ```
 
-Now, let’s try and find an element in an array with a `for` loop:
+Now, let’s find an element in an array with a `for` loop:
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
