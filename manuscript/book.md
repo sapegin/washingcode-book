@@ -235,7 +235,7 @@ const tableData =
 
 But is it really more readable?
 
-After a cup of coffee and a chat with a colleague, I’ve ended up with a much cleaner version:
+After a cup of coffee and a chat with a colleague, I’ve ended up with a much cleaner approach:
 
 ```js
 const tableData =
