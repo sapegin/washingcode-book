@@ -1,14 +1,14 @@
-# Washing your code: write once, read seven times
+# Washing your code: Write once, read seven times
 
 ## Preface
 
-The title of this book should be “What 23 years of programming have taught me about writing good code” or “What I tell folks during code reviews while trying to decipher their code”, but both are too long, so “Write once, read seven times” it is. We can even shorten it to WORST, because everyone loves nonsensical acronyms.
+The title of this book should be “What 23 years of programming have taught me about writing good code” or “What I tell folks during code reviews while trying to decipher their code”, but both are too long, so “Write once, read seven times” it is. We can even shorten it to WORST because everyone loves nonsensical acronyms.
 
-“Write once, read seven times” is a variation of a famous Russian proverb “Measure seven times, cut once”. Meaning we read code more often than we write it so it makes more sense to optimize for the ease of reading than the ease of writing.
+“Write once, read seven times” is a variation of a famous Russian proverb “Measure seven times, cut once”. The idea is that we read code more often than we write it, so it makes more sense to optimize for the ease of reading than the ease of writing.
 
-This book is going to be opinionated, but you don’t have to agree with everything I’m saying, and that’s not the goal of the book. The goal is to show you one of the possible paths, mine, and inspire you to find your own. These techniques help me to write and review code every day, and I’ll be happy if you find some of them useful. Let me know how it goes.
+This book is going to be opinionated, but you don’t have to agree with everything I’m saying. That’s not the goal of the book. The goal is to show you one of the possible paths, mine, and inspire you to find your own. These techniques help me to write and review code every day, and I’ll be happy if you find some of them useful. Let me know how it goes.
 
-The book will probably be most useful for intermediate developers. If you’re a beginner, you’ll likely have enough of other things to think about. If you have decades of experience, you can probably write a similar book yourself. Anyway, I’d be happy to hear your feedback.
+The book will probably be most useful for intermediate developers. If you’re a beginner, you’ll likely have plenty of other things to think about. If you have decades of experience, you can probably write a similar book yourself. Either way, I’d be happy to hear your feedback.
 
 Most of the examples in this book are in JavaScript because that’s my primary language, but the ideas can be applied to any language. Sometimes you’ll see CSS and HTML because similar ideas can be applied there too.
 
@@ -24,11 +24,11 @@ Thanks to [Manuel Bieh](https://twitter.com/ManuelBieh), [Inês Carvalho](https:
 
 ## Avoid loops
 
-Traditional loops, like `for` or `while`, are too low-level for common tasks. They are verbose and prone to [off-by-one error](https://en.wikipedia.org/wiki/Off-by-one_error). You have to manage the index variable yourself, and I always make typos with `lenght`. They don’t have any particular semantic value: they only tell you that some operation is probably repeated.
+Traditional loops, like `for` or `while`, are too low-level for common tasks. They are verbose and prone to [off-by-one errors](https://en.wikipedia.org/wiki/Off-by-one_error). You have to manage the index variable yourself, and I always make typos with `lenght`. They don’t have any particular semantic value beyond telling you that some operation is probably repeated.
 
 ### Replacing loops with array methods
 
-Modern languages have better ways to express iterative operations and [JavaScript has many useful methods](http://exploringjs.com/impatient-js/ch_arrays.html#methods-iteration-and-transformation-.find-.map-.filter-etc) to transform and iterate over arrays, like `.map()` or `.find()`.
+Modern languages have better ways to express iterative operations, and [JavaScript has many useful methods](http://exploringjs.com/impatient-js/ch_arrays.html#methods-iteration-and-transformation-.find-.map-.filter-etc) to transform and iterate over arrays, like `.map()` or `.find()`.
 
 For example, let’s convert an array of strings to `kebab-case` with a `for` loop:
 
@@ -47,14 +47,14 @@ const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(name => _.kebabCase(name));
 ```
 
-We can shorten it even more if our callback function accepts only one argument: the value, like [kebabCase from Lodash](https://lodash.com/docs#kebabCase):
+We can shorten it even more if our callback function accepts only one argument: the value. Take [kebabCase from Lodash](https://lodash.com/docs#kebabCase) for example:
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(_.kebabCase);
 ```
 
-This wouldn’t work with functions that accept more than one argument, because the `.map()` also passes and array index as the second argument and a whole array as the third, like `parseInt()` that accepts the radix as the second argument:
+This wouldn’t work with functions that accept more than one argument because `.map()` also passes an array index as the second argument and a whole array as the third. Using `parseInt()`, a function that accepts the radix as its second argument, would likely lead to unexpected results:
 
 ```js
 const inputs = ['1', '2', '3'];
@@ -62,9 +62,9 @@ inputs.map(parseInt); // -> [1, NaN, NaN]
 inputs.map(value => parseInt(value)); // -> [1, 2, 3]
 ```
 
-Here in the first example `.map()` calls `parseInt()` with an array index as a radix, which gives a wrong result. In the second example, we’re explicitly passing only the value to the `parseInt()`, so it uses the default radix of 10.
+Here in the first example, `.map()` calls `parseInt()` with an array index as a radix, which gives an incorrect result. In the second example, we’re explicitly passing only the value to the `parseInt()`, so it uses the default radix of 10.
 
-But this may be a bit less readable than the expanded version because we don’t see what exactly we’re passing to a function. ECMAScript 6’s arrow functions made callbacks shorter and less cluttered, compared to the old anonymous function syntax:
+But this may be a bit less readable than the expanded version because we don’t see what exactly we’re passing to a function. ECMAScript 6’s arrow functions made callbacks shorter and less cluttered compared to the old anonymous function syntax:
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
@@ -73,7 +73,7 @@ const kebabNames = names.map(function(name) {
 });
 ```
 
-Or let’s find an element in an array with a `for` loop:
+Now, let’s find an element in an array with a `for` loop:
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
@@ -93,7 +93,7 @@ const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const foundName = names.find(name => name.startsWith('B'));
 ```
 
-In both cases, I much prefer versions with array methods compared to `for` loops. They are shorter and we’re not bloating the code with iteration mechanics.
+In both cases, I much prefer array methods when compared to `for` loops. They are shorter, and we’re not bloating the code with iteration mechanics.
 
 ### Implied semantics of array methods
 
@@ -110,7 +110,7 @@ We’re separating the “what” (our data) from the “how” (how to loop ove
 
 When all simple cases are covered by array methods, every time you see a traditional loop, you know that something unusual is going on. And that’s good: less chances you’ll miss a bug during code review.
 
-Also don’t use generic array methods like `.map()` or `.forEach()` when more specialized array methods would work, and don’t use `.forEach()` instead of `.map()` to transform an array.
+Also, don’t use generic array methods like `.map()` or `.forEach()` when more specialized array methods would work and don’t use `.forEach()` instead of `.map()` to transform an array.
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
@@ -127,9 +127,9 @@ const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(name => _.kebabCase(name));
 ```
 
-This version is much easier to read because we know that the `.map()` method transforms an array by keeping the same number of items. And unlike `.forEach()`, it doesn’t require a custom implementation nor mutate an output array. Also, the callback function is now pure: it merely transforms input arguments to the output value without any side effects.
+This version is much easier to read because we know that the `.map()` method transforms an array by keeping the same number of items. And, unlike `.forEach()`, it doesn’t require a custom implementation or mutate an output array. In addition, the callback function is now pure: it merely transforms input arguments to the output value without any side effects.
 
-Similar problem happens when we’re abusing an array method semantics:
+We run into similar problems when we abuse array method semantics:
 
 ```js
 let isExpectedType = false;
@@ -138,11 +138,11 @@ products.map(product => {
 });
 ```
 
-Here’s the `.map()` method is used to _reduce_ an array to a single value by having a side effect instead of returning a new item value from the callback function.
+Here, the `.map()` method is used to _reduce_ an array to a single value by having a side effect instead of returning a new item value from the callback function.
 
-It’s hard to say what this code is doing and it feels like there’s a bug: it only cares about the latest product in a list.
+It’s hard to say what this code is doing, and it feels like there’s a bug: it only cares about the latest product in a list.
 
-If there’s a bug and we need to check if _some_ of the products have expected type, then the `.some()` array method would be the best choice:
+If it’s indeed a bug, and the intention is to check if _some_ of the products have the expected type, then the `.some()` array method would be the best choice:
 
 ```js
 const isExpectedType = products.some(
@@ -150,20 +150,20 @@ const isExpectedType = products.some(
 );
 ```
 
-If the original code has no bug, then we don’t need to iterate at all and can check the latest array item directly:
+If the behavior of the original code was correct, then we actually don’t need to iterate at all. We can check the latest array item directly:
 
 ```js
 const isExpectedType =
   products[products.lengths - 1].type === expectedType;
 ```
 
-Both refactored versions make the intention of the code clearer and leave less doubts that the code is correct. We can probably make the `isExpectedType` variable name more clear, especially in the second refactoring.
+Both refactored versions make the intention of the code clearer and leave fewer doubts that the code is correct. We can probably make the `isExpectedType` variable name more explicit, especially in the second refactoring.
 
 ### Dealing with side effects
 
 Side effects make code harder to understand because you can no longer treat a function as a black box: a function with side effects doesn’t just transform input to output but can affect the environment in unpredictable ways. Functions with side effects are also hard to test because you’ll need to recreate the environment before each test is run and verify it after.
 
-All array methods mentioned in the previous section, except `.forEach()`, imply that they don’t have side effects and that only the return value is used. Introducing any side effects into these methods would make code easy to misread since readers wouldn’t expect to see side effects.
+All array methods mentioned in the previous section, except `.forEach()`, imply that they don’t have side effects and that only the return value is used. Introducing any side effects into these methods would make code easy to misread since readers won’t be expecting side effects.
 
 `.forEach()` doesn’t return any value, and that’s the right choice for handling side effects when you really need them:
 
@@ -173,13 +173,13 @@ errors.forEach(error => {
 });
 ```
 
-`for of` loop is even better:
+A `for of` loop is even better:
 
 - it doesn’t have any of the problems of regular `for` loops, mentioned in the beginning of this chapter;
 - we can avoid reassignments and mutations since we don’t have a return value;
 - it has clear semantics of iteration over all array elements since we can’t manipulate the number of iterations, like in a regular `for` loop. (Well, almost, we can abort the loops with `break`.)
 
-Let’s rewrite our example using `for of` loop:
+Let’s rewrite our example using a `for of` loop:
 
 ```js
 for (const error of errors) {
@@ -235,7 +235,7 @@ const tableData =
 
 But is it really more readable?
 
-After a cup of coffee and a chat with a colleague, I’ve ended up with a much cleaner code:
+After a cup of coffee and a chat with a colleague, I’ve ended up with a much cleaner approach:
 
 ```js
 const tableData =
@@ -252,13 +252,11 @@ const tableData =
   );
 ```
 
-If I was to review such code I would be happy to pass both versions but would prefer the original version with double `for` loops.
-
-_(Though `tableData` is a really bad variable name.)_
+If I was to review such code, I would be happy to pass both versions but would prefer the original with double `for` loops. _(Though `tableData` is a really bad variable name.)_
 
 ### Iterating over objects
 
-There are [many ways to iterate over objects](https://stackoverflow.com/a/5737136/1973105) in JavaScript. I equally dislike them all, so it’s hard to choose the best one. Unfortunately there’s no `.map()` for objects, though Lodash does have three methods for object iteration, so it’s a good option if you’re already using Lodash in your project.
+There are [many ways to iterate over objects](https://stackoverflow.com/a/5737136/1973105) in JavaScript. I equally dislike them all, so it’s hard to choose the best one. Unfortunately, there’s no `.map()` for objects, though Lodash does have three methods for object iteration, so it’s a good option if you’re already using Lodash in your project.
 
 ```js
 const allNames = {
@@ -338,7 +336,7 @@ In later chapters I’ll urge you to avoid not only loops but also reassigning v
 
 ### Beware of the mutating methods
 
-Unfortunately, not all array methods in JavaScript are returning a new array without modifying the original one. [Some methods _mutate_](https://doesitmutate.xyz/) the original array in place.
+Unfortunately, not all array methods in JavaScript return a new array without modifying the original one. [Some methods _mutate_](https://doesitmutate.xyz/) the original array in place.
 
 Consider this example:
 
@@ -347,7 +345,7 @@ const counts = [6, 3, 2, 8];
 const puppies = counts.sort().map(n => `${n} puppies`);
 ```
 
-It makes an impression that the `counts` array isn’t changing and we’re just creating a new `puppies` array with the result. But the `.sort()` method returns a sorted array _and_ mutates the original array at the same time. Writing this kind of code is very dangerous and can lead to hard-to-find bugs. Many developers don’t realize that the `.sort()` method is mutating because the code _seems_ to work fine.
+It gives the impression that the `counts` array isn’t changing and we’re just creating a new `puppies` array with the result. But the `.sort()` method returns a sorted array _and_ mutates the original array at the same time. Writing this kind of code is very dangerous and can lead to hard-to-find bugs. Many developers don’t realize that the `.sort()` method is mutating because the code _seems_ to work fine.
 
 It’s better to make mutation explicit:
 
@@ -357,7 +355,7 @@ const sortedCounts = [...counts].sort();
 const puppies = sortedCounts.map(n => `${n} puppies`);
 ```
 
-Here we’re making a shallow copy of the `counts` array using the spread operator and then sort it, so the original array stays the same.
+Here we’re making a shallow copy of the `counts` array using the spread operator and then sorting it, so the original array stays the same.
 
 Other mutating array methods are:
 
@@ -377,7 +375,7 @@ We’ll talk more about mutation in the _Avoid mutation_ chapter.
 
 You may think that using functions is slower than loops, and likely it is. But in reality it doesn’t matter unless you’re working with millions of items.
 
-Modern JavaScript engines are very fast and optimized for popular code patterns. Back in the day we used to write loops like this, because checking the array length on every iteration was too slow:
+Modern JavaScript engines are very fast and optimized for popular code patterns. Back in the day, we used to write loops like this because checking the array length on every iteration was too slow:
 
 ```js
 var names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
@@ -386,9 +384,11 @@ for (var i = 0, namesLength = names.length; i < namesLength; i++) {
 }
 ```
 
-It’s not slow anymore. And there are other examples where engines optimize for simpler code patterns and make manual optimization unnecessary. In any case, you should measure performance to know what to optimize, and whether your changes really make code faster in all important browsers and environments.
+It’s not slow anymore, though, and there are other examples where engines optimize for simpler code patterns and make manual optimization unnecessary.
 
-Also `.every()`, `.some()`, `.find()` and `.findIndex()` will short circuit, meaning they won’t iterate over more array elements than necessary.
+Also, `.every()`, `.some()`, `.find()` and `.findIndex()` will short circuit, meaning they won’t iterate over more array elements than necessary.
+
+In any case, you should measure performance to know what to optimize and see whether your changes really make code faster in all important browsers and environments.
 
 ---
 
