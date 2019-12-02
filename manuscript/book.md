@@ -163,7 +163,7 @@ Both refactored versions make the intention of the code clearer and leave fewer 
 
 Side effects make code harder to understand because you can no longer treat a function as a black box: a function with side effects doesn’t just transform input to output but can affect the environment in unpredictable ways. Functions with side effects are also hard to test because you’ll need to recreate the environment before each test is run and verify it after.
 
-All array methods mentioned in the previous section, except `.forEach()`, imply that they don’t have side effects and that only the return value is used. Introducing any side effects into these methods would make code easy to misread since readers won’t be expecting them.
+All array methods mentioned in the previous section, except `.forEach()`, imply that they don’t have side effects and that only the return value is used. Introducing any side effects into these methods would make code easy to misread since readers won’t be expecting side effects.
 
 `.forEach()` doesn’t return any value, and that’s the right choice for handling side effects when you really need them:
 
