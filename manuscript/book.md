@@ -1259,7 +1259,7 @@ Start thinking about:
 Reassigning variables is like changing the past. When you see:
 
 ```js
-let pizza = { fillings: ['salami', 'mozzarella'] };
+let pizza = { toppings: ['salami', 'mozzarella'] };
 ```
 
 You can’t be sure that your pizza will always have salami and mozzarella in it, because:
