@@ -1179,7 +1179,7 @@ function Products({products, isError, isLoading}) {
         ? <Loading />
         : products.length > 0
           ? <ul>{products.map(
-              product => <li>{product.name}</li>
+              product => <li key={product.id}>{product.name}</li>
             )}</ul>
           : <p>No products found</p>
 }
@@ -1196,7 +1196,7 @@ function Products({ products, isError, isLoading }) {
   ) : products.length > 0 ? (
     <ul>
       {products.map(product => (
-        <li>{product.name}</li>
+        <li key={product.id}>{product.name}</li>
       ))}
     </ul>
   ) : (
@@ -1233,7 +1233,7 @@ function Products({ products, isError, isLoading }) {
   return (
     <ul>
       {products.map(product => (
-        <li>{product.name}</li>
+        <li key={product.id}>{product.name}</li>
       ))}
     </ul>
   );
@@ -1383,7 +1383,7 @@ function VideoUploader() {
           <Text variation="error">Nooooo, upload failed:</Text>
           <ul>
             {errors.map(error => (
-              <Text as="li" variation="error">
+              <Text key={error} as="li" variation="error">
                 {error}
               </Text>
             ))}
