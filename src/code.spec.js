@@ -4,13 +4,12 @@ const _ = require('lodash');
 const remark = require('remark');
 const visit = require('unist-util-visit');
 
-// TODO: skip
-// TODO: filter by language
-// TODO: JSX
+// TODO: JSX (https://babeljs.io/docs/en/babel-core ?)
+// TODO: Global setup (like Lodash)
 
 // const MANUSCRIPT = path.resolve(__dirname, '../manuscript/book.md');
 const MANUSCRIPT = path.resolve(__dirname, '../test/test.md');
-// const LANGS = ['js' /*, 'jsx'*/];
+const LANGS = ['js' /*, 'jsx'*/];
 
 function isInstruction(node) {
   return (
@@ -69,30 +68,39 @@ function getTestName(title) {
   return `${title} ${testNameIndicies[title]}`;
 }
 
-function getTestCases(markdown) {
-  const testCases = [];
+function executeCode(code) {
+  // eslint-disable-next-line no-eval
+  eval(code);
+}
 
-  function processCode() {
+function testMarkdown(markdown) {
+  function visitor() {
     return ast => {
       visit(ast, 'code', (node, index, { children: siblings }) => {
+        if (!LANGS.includes(node.lang)) {
+          return;
+        }
+
         const header = getHeader(siblings, index);
+        if (header === 'skip-test') {
+          return;
+        }
+
         const footer = getFooter(siblings, index);
         const code = [header, node.value, footer].join('\n\n');
+
         test(getTestName(getChapterTitle(siblings, index)), () => {
-          // eslint-disable-next-line no-eval
-          eval(code);
+          executeCode(code);
         });
       });
     };
   }
 
   remark()
-    .use(processCode)
+    .use(visitor)
     .processSync(markdown);
-
-  return testCases;
 }
 
 // RUN!
 const content = fs.readFileSync(MANUSCRIPT, 'utf8');
-getTestCases(content);
+testMarkdown(content);

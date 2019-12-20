@@ -28,3 +28,12 @@ const kebabNames = names.map(name => _.kebabCase(name));
 <!-- expect(kebabNames).toEqual(['bilbo-baggins', 'gandalf', 'gollum']) -->
 
 We can shorten it even more if our callback function accepts only one argument: the value. Take [kebabCase from Lodash](https://lodash.com/docs#kebabCase) for example:
+
+And with the `.map()` method instead of a `for` loop:
+
+<!-- skip-test -->
+
+```js
+const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
+const kebabNames = names.map(name => _.kebabCase(name));
+```
