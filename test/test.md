@@ -4,8 +4,6 @@ Modern languages have better ways to express iterative operations, and [JavaScri
 
 For example, let’s convert an array of strings to `kebab-case` with a `for` loop:
 
-<!-- const _ = require('lodash') -->
-
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = [];

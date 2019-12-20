@@ -23,10 +23,13 @@
     "format": "prettier --write \"**/*.{js,md}\"",
     "pretest": "npm run lint",
     "test": "jest",
-    "test:watch": "jest --watch",
+    "test:watch": "jest --watchAll",
     "posttest": "npm run format"
   },
   "keywords": [],
+  "dependencies": {
+    "lodash": "^4.17.15"
+  },
   "devDependencies": {
     "@babel/core": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
@@ -49,6 +52,9 @@
     "unist-util-visit": "^2.0.1",
     "vm2": "^3.8.4"
   },
+  "jest": {
+    "setupFilesAfterEnv": ["<rootDir>/test/setup.js"]
+  },
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged"
@@ -63,8 +69,5 @@
       "eslint --fix",
       "git add"
     ]
-  },
-  "dependencies": {
-    "lodash": "^4.17.15"
   }
 }

@@ -6,8 +6,6 @@ const { NodeVM } = require('vm2');
 const remark = require('remark');
 const visit = require('unist-util-visit');
 
-require('./setup');
-
 // const MANUSCRIPT = path.resolve(__dirname, '../manuscript/book.md');
 const MANUSCRIPT = path.resolve(__dirname, '../test/test.md');
 const LANGS = ['js', 'jsx'];
