@@ -6,8 +6,7 @@ const { NodeVM } = require('vm2');
 const remark = require('remark');
 const visit = require('unist-util-visit');
 
-// const MANUSCRIPT = path.resolve(__dirname, '../manuscript/book.md');
-const MANUSCRIPT = path.resolve(__dirname, '../test/test.md');
+const MANUSCRIPT = path.resolve(__dirname, '../manuscript/book.md');
 const LANGS = ['js', 'jsx'];
 const IGNORE_HEADERS = ['prettier-ignore'];
 
@@ -103,7 +102,16 @@ function testMarkdown(markdown, filepath) {
         }
 
         const footer = getFooter(siblings, index);
-        const code = [header, node.value, footer].join('\n\n');
+        const linesToPad =
+          node.position.start.line - header.split('\n').length - 3;
+
+        const code = [
+          // Show correct line number in code snippets
+          '\n'.repeat(linesToPad),
+          header,
+          node.value,
+          footer
+        ].join('\n\n');
 
         test(
           getTestName(getChapterTitle(siblings, index)),
@@ -115,9 +123,11 @@ function testMarkdown(markdown, filepath) {
     };
   }
 
-  remark()
-    .use(visitor)
-    .processSync(markdown);
+  describe(filepath, () => {
+    remark()
+      .use(visitor)
+      .processSync(markdown);
+  });
 }
 
 // RUN!
