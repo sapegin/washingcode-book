@@ -6,7 +6,7 @@ const { NodeVM } = require('vm2');
 const remark = require('remark');
 const visit = require('unist-util-visit');
 
-// TODO: Global setup (like Lodash)
+require('./setup');
 
 // const MANUSCRIPT = path.resolve(__dirname, '../manuscript/book.md');
 const MANUSCRIPT = path.resolve(__dirname, '../test/test.md');
