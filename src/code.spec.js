@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
 const babel = require('@babel/core');
+const { NodeVM } = require('vm2');
 const remark = require('remark');
 const visit = require('unist-util-visit');
 
@@ -11,6 +12,14 @@ const visit = require('unist-util-visit');
 const MANUSCRIPT = path.resolve(__dirname, '../test/test.md');
 const LANGS = ['js', 'jsx'];
 const IGNORE_HEADERS = ['prettier-ignore'];
+
+const vm = new NodeVM({
+  sandbox: global,
+  require: {
+    external: true,
+    builtin: ['*']
+  }
+});
 
 function isInstruction(node) {
   return (
@@ -77,14 +86,12 @@ function getTestName(title) {
   return `${title} ${testNameIndicies[title]}`;
 }
 
-async function executeCode(source) {
+async function executeCode(source, filepath) {
   const { code } = await babel.transformAsync(source, {});
-
-  // eslint-disable-next-line no-eval
-  eval(code);
+  vm.run(code, filepath);
 }
 
-function testMarkdown(markdown) {
+function testMarkdown(markdown, filepath) {
   function visitor() {
     return ast => {
       visit(ast, 'code', (node, index, { children: siblings }) => {
@@ -103,7 +110,7 @@ function testMarkdown(markdown) {
         test(
           getTestName(getChapterTitle(siblings, index)),
           async () => {
-            await executeCode(code);
+            await executeCode(code, filepath);
           }
         );
       });
@@ -117,4 +124,4 @@ function testMarkdown(markdown) {
 
 // RUN!
 const content = fs.readFileSync(MANUSCRIPT, 'utf8');
-testMarkdown(content);
+testMarkdown(content, MANUSCRIPT);
