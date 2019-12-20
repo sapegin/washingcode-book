@@ -7,14 +7,18 @@ const remark = require('remark');
 const visit = require('unist-util-visit');
 
 const MANUSCRIPT = path.resolve(__dirname, '../manuscript/book.md');
-const LANGS = ['js', 'jsx'];
+const LANGS = ['js', 'jsx', 'ts', 'tsx'];
 const IGNORE_HEADERS = ['prettier-ignore'];
+const SKIP_TAG = 'test-skip';
 
 const vm = new NodeVM({
   sandbox: global,
   require: {
     external: true,
-    builtin: ['*']
+    builtin: ['*'],
+    mock: {
+      reamde: x => x
+    }
   }
 });
 
@@ -43,7 +47,7 @@ function getHeader(nodes, index) {
   const cleanHeader = unwrapHtmlComment(header.value);
 
   if (IGNORE_HEADERS.includes(cleanHeader)) {
-    return '';
+    return getHeader(nodes, index - 1);
   }
 
   return cleanHeader;
@@ -83,12 +87,16 @@ function getTestName(title) {
   return `${title} ${testNameIndicies[title]}`;
 }
 
-async function executeCode(source, filepath) {
-  const { code } = await babel.transformAsync(source, {});
-  vm.run(code, filepath);
+async function executeCode(source, filename) {
+  const { code } = await babel.transformAsync(source, {
+    filename
+  });
+  vm.run(code, filename);
 }
 
 function testMarkdown(markdown, filepath) {
+  const filename = path.basename(filepath);
+
   function visitor() {
     return ast => {
       visit(ast, 'code', (node, index, { children: siblings }) => {
@@ -97,7 +105,7 @@ function testMarkdown(markdown, filepath) {
         }
 
         const header = getHeader(siblings, index);
-        if (header === 'skip-test') {
+        if (header === SKIP_TAG) {
           return;
         }
 
@@ -116,14 +124,14 @@ function testMarkdown(markdown, filepath) {
         test(
           getTestName(getChapterTitle(siblings, index)),
           async () => {
-            await executeCode(code, filepath);
+            await executeCode(code, `${filename}.${node.lang}`);
           }
         );
       });
     };
   }
 
-  describe(filepath, () => {
+  describe(filename, () => {
     remark()
       .use(visitor)
       .processSync(markdown);

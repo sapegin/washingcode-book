@@ -28,11 +28,14 @@
   },
   "keywords": [],
   "dependencies": {
-    "lodash": "^4.17.15"
+    "lodash": "^4.17.15",
+    "react": "^16.12.0"
   },
   "devDependencies": {
     "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
     "@babel/preset-react": "^7.7.4",
+    "@babel/preset-typescript": "^7.7.7",
     "eslint": "^6.7.2",
     "eslint-config-tamia": "^7.1.1",
     "husky": "^2.4.1",
@@ -53,7 +56,9 @@
     "vm2": "^3.8.4"
   },
   "jest": {
-    "setupFilesAfterEnv": ["<rootDir>/test/setup.js"]
+    "setupFilesAfterEnv": [
+      "<rootDir>/test/setup.js"
+    ]
   },
   "husky": {
     "hooks": {
