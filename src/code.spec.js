@@ -1,15 +1,16 @@
 const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
+const babel = require('@babel/core');
 const remark = require('remark');
 const visit = require('unist-util-visit');
 
-// TODO: JSX (https://babeljs.io/docs/en/babel-core ?)
 // TODO: Global setup (like Lodash)
 
 // const MANUSCRIPT = path.resolve(__dirname, '../manuscript/book.md');
 const MANUSCRIPT = path.resolve(__dirname, '../test/test.md');
-const LANGS = ['js' /*, 'jsx'*/];
+const LANGS = ['js', 'jsx'];
+const IGNORE_HEADERS = ['prettier-ignore'];
 
 function isInstruction(node) {
   return (
@@ -29,10 +30,17 @@ function unwrapHtmlComment(html) {
 
 function getHeader(nodes, index) {
   const header = nodes[index - 1];
-  if (isInstruction(header)) {
-    return unwrapHtmlComment(header.value);
+  if (!isInstruction(header)) {
+    return '';
   }
-  return '';
+
+  const cleanHeader = unwrapHtmlComment(header.value);
+
+  if (IGNORE_HEADERS.includes(cleanHeader)) {
+    return '';
+  }
+
+  return cleanHeader;
 }
 
 function getFooter(nodes, index) {
@@ -58,6 +66,7 @@ function getChapterTitle(nodes, index) {
 }
 
 const testNameIndicies = {};
+
 function getTestName(title) {
   if (!testNameIndicies[title]) {
     testNameIndicies[title] = 0;
@@ -68,7 +77,9 @@ function getTestName(title) {
   return `${title} ${testNameIndicies[title]}`;
 }
 
-function executeCode(code) {
+async function executeCode(source) {
+  const { code } = await babel.transformAsync(source, {});
+
   // eslint-disable-next-line no-eval
   eval(code);
 }
@@ -89,9 +100,12 @@ function testMarkdown(markdown) {
         const footer = getFooter(siblings, index);
         const code = [header, node.value, footer].join('\n\n');
 
-        test(getTestName(getChapterTitle(siblings, index)), () => {
-          executeCode(code);
-        });
+        test(
+          getTestName(getChapterTitle(siblings, index)),
+          async () => {
+            await executeCode(code);
+          }
+        );
       });
     };
   }

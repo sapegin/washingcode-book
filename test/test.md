@@ -37,3 +37,20 @@ And with the `.map()` method instead of a `for` loop:
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(name => _.kebabCase(name));
 ```
+
+But nested ternaries are different beasts: they usually make code hard to read and there’s almost always a better alternative:
+
+<!-- prettier-ignore -->
+```jsx
+function Products({products, isError, isLoading}) {
+  return isError
+    ? <p>Error loading products</p>
+      : isLoading
+        ? <Loading />
+        : products.length > 0
+          ? <ul>{products.map(
+              product => <li key={product.id}>{product.name}</li>
+            )}</ul>
+          : <p>No products found</p>
+}
+```
