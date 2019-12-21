@@ -3430,6 +3430,8 @@ var fs        = require('fs')
   ;
 ```
 
+<!-- expect(examples).toEqual('./README.md') -->
+
 That’s enormous amount of work and luckily code formatters will remove all the artisanal handcrafted spaces and make code look equally good without requiring any work from a developer:
 
 ```js
@@ -3437,6 +3439,8 @@ var fs = require('fs'),
   reamde = require('reamde'),
   examples = reamde(fs.readFileSync('./README.md', 'utf-8'));
 ```
+
+<!-- expect(examples).toEqual('./README.md') -->
 
 ### The rest doesn’t matter
 

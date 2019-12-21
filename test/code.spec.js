@@ -17,6 +17,9 @@ const vm = new NodeVM({
     external: true,
     builtin: ['*'],
     mock: {
+      fs: {
+        readFileSync: x => x
+      },
       reamde: x => x
     }
   }
