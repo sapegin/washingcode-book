@@ -120,6 +120,8 @@ names.forEach(name => {
 });
 ```
 
+<!-- expect(kebabNames).toEqual(['bilbo-baggins', 'gandalf', 'gollum']) -->
+
 This is a more cryptic and less semantic implementation of `.map()`, so better use `.map()` directly like we did above:
 
 ```js
@@ -127,9 +129,13 @@ const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(name => _.kebabCase(name));
 ```
 
+<!-- expect(kebabNames).toEqual(['bilbo-baggins', 'gandalf', 'gollum']) -->
+
 This version is much easier to read because we know that the `.map()` method transforms an array by keeping the same number of items. And, unlike `.forEach()`, it doesn’t require a custom implementation or mutate an output array. In addition, the callback function is now pure: it merely transforms input arguments to the output value without any side effects.
 
 We run into similar problems when we abuse array method semantics:
+
+<!-- const products = [{type: 'pizza'}, {type: 'coffee'}], expectedType = 'pizza' -->
 
 ```js
 let isExpectedType = false;
@@ -144,6 +150,8 @@ It’s hard to say what this code is doing, and it feels like there’s a bug: i
 
 If it’s indeed a bug, and the intention is to check if _some_ of the products have the expected type, then the `.some()` array method would be the best choice:
 
+<!-- const products = [{type: 'pizza'}, {type: 'coffee'}], expectedType = 'pizza' -->
+
 ```js
 const isExpectedType = products.some(
   product => product.type === expectedType
@@ -152,9 +160,11 @@ const isExpectedType = products.some(
 
 If the behavior of the original code was correct, then we actually don’t need to iterate at all. We can check the latest array item directly:
 
+<!-- const products = [{type: 'pizza'}, {type: 'coffee'}], expectedType = 'pizza' -->
+
 ```js
 const isExpectedType =
-  products[products.lengths - 1].type === expectedType;
+  products[products.length - 1].type === expectedType;
 ```
 
 Both refactored versions make the intention of the code clearer and leave fewer doubts that the code is correct. We can probably make the `isExpectedType` variable name more explicit, especially in the second refactoring.
@@ -167,11 +177,21 @@ All array methods mentioned in the previous section, except `.forEach()`, imply 
 
 `.forEach()` doesn’t return any value, and that’s the right choice for handling side effects when you really need them:
 
+<!--
+const spy = jest.spyOn(console, 'error').mockImplementation(() => {})
+const errors = ['dope', 'nope']
+-->
+
 ```js
 errors.forEach(error => {
   console.error(error);
 });
 ```
+
+<!--
+expect(console.error.mock.calls).toEqual([['dope'], ['nope']])
+spy.mockRestore()
+-->
 
 A `for of` loop is even better:
 
@@ -181,17 +201,45 @@ A `for of` loop is even better:
 
 Let’s rewrite our example using a `for of` loop:
 
+<!--
+const spy = jest.spyOn(console, 'error').mockImplementation(() => {})
+const errors = ['dope', 'nope']
+-->
+
 ```js
 for (const error of errors) {
   console.error(error);
 }
 ```
 
+<!--
+expect(console.error.mock.calls).toEqual([['dope'], ['nope']])
+spy.mockRestore()
+-->
+
 ### Sometimes loops aren’t so bad
 
 Array methods aren’t always better than loops. For example, the `.reduce()` method often makes code less readable than a regular loop.
 
 Let’s look at this code:
+
+<!--
+const props = {
+  item: {
+    details: {
+      clients: [{
+        name: 'Pizza',
+        errorConfigurations: [{
+          error: {
+            message: 'nope',
+            level: 2
+          }
+        }]
+      }]
+    }
+  }
+}
+-->
 
 ```js
 const tableData = [];
@@ -201,7 +249,7 @@ if (props.item && props.item.details) {
       tableData.push({
         errorMessage: config.error.message,
         errorLevel: config.error.level,
-        usedIn: client.client.name
+        usedIn: client.name
       });
     }
   }
@@ -209,6 +257,24 @@ if (props.item && props.item.details) {
 ```
 
 My first reaction would be to rewrite it with `.reduce()` to _avoid loops_:
+
+<!--
+const props = {
+  item: {
+    details: {
+      clients: [{
+        name: 'Pizza',
+        errorConfigurations: [{
+          error: {
+            message: 'nope',
+            level: 2
+          }
+        }]
+      }]
+    }
+  }
+}
+-->
 
 ```js
 const tableData =
@@ -223,7 +289,7 @@ const tableData =
           {
             errorMessage: config.error.message,
             errorLevel: config.error.level,
-            usedIn: client.client.name
+            usedIn: client.name
           }
         ],
         []
@@ -237,6 +303,24 @@ But is it really more readable?
 
 After a cup of coffee and a chat with a colleague, I’ve ended up with a much cleaner approach:
 
+<!--
+const props = {
+  item: {
+    details: {
+      clients: [{
+        name: 'Pizza',
+        errorConfigurations: [{
+          error: {
+            message: 'nope',
+            level: 2
+          }
+        }]
+      }]
+    }
+  }
+}
+-->
+
 ```js
 const tableData =
   props.item &&
@@ -246,7 +330,7 @@ const tableData =
       ...client.errorConfigurations.map(config => ({
         errorMessage: config.error.message,
         errorLevel: config.error.level,
-        usedIn: client.client.name
+        usedIn: client.name
       }))
     )
   );
@@ -268,7 +352,16 @@ const kebabNames = _.mapValues(allNames, names =>
 );
 ```
 
+<!--
+expect(kebabNames).toEqual({
+  hobbits: ['bilbo', 'frodo'],
+  dwarfs: ['fili', 'kili']
+})
+-->
+
 If you don’t need the result as an object, like in the example above, `Object.keys()`, `Object.values()` and `Object.entries()` are also good:
+
+<!-- const spy = jest.spyOn(console, 'log').mockImplementation(() => {}) -->
 
 ```js
 const allNames = {
@@ -280,7 +373,14 @@ Object.keys(allNames).forEach(race =>
 );
 ```
 
+<!--
+expect(console.log.mock.calls).toEqual([['hobbits', '->', ['Bilbo', 'Frodo']], ['dwarfs', '->', ['Fili', 'Kili']]])
+spy.mockRestore()
+-->
+
 Or:
+
+<!-- const spy = jest.spyOn(console, 'log').mockImplementation(() => {}) -->
 
 ```js
 const allNames = {
@@ -288,9 +388,14 @@ const allNames = {
   dwarfs: ['Fili', 'Kili']
 };
 Object.entries(allNames).forEach(([race, value]) =>
-  console.log(race, '->', names)
+  console.log(race, '->', value)
 );
 ```
+
+<!--
+expect(console.log.mock.calls).toEqual([['hobbits', '->', ['Bilbo', 'Frodo']], ['dwarfs', '->', ['Fili', 'Kili']]])
+spy.mockRestore()
+-->
 
 I don’t have a strong preference between them. `Object.entries()` has more verbose syntax, but if you use the value (`names` in the example above) more than once, the code would be cleaner than `Object.keys()`, where you’d have to write `allNames[race]` every time or cache this value into a variable at the beginning of the callback function.
 
@@ -299,6 +404,10 @@ If I stopped here, I’d be lying to you. Most of the articles about iteration o
 Let’s rewrite our example using `.reduce()`:
 
 ```js
+const allNames = {
+  hobbits: ['Bilbo', 'Frodo'],
+  dwarfs: ['Fili', 'Kili']
+};
 const kebabNames = Object.entries(allNames).reduce(
   (newNames, [race, names]) => {
     newNames[race] = names.map(name => _.kebabCase(name));
@@ -307,6 +416,13 @@ const kebabNames = Object.entries(allNames).reduce(
   {}
 );
 ```
+
+<!--
+expect(kebabNames).toEqual({
+  hobbits: ['bilbo', 'frodo'],
+  dwarfs: ['fili', 'kili']
+})
+-->
 
 With `.forEach()`:
 
@@ -321,14 +437,32 @@ Object.entries(allNames).forEach(([race, names]) => {
 });
 ```
 
+<!--
+expect(kebabNames).toEqual({
+  hobbits: ['bilbo', 'frodo'],
+  dwarfs: ['fili', 'kili']
+})
+-->
+
 And with a loop:
 
 ```js
+const allNames = {
+  hobbits: ['Bilbo', 'Frodo'],
+  dwarfs: ['Fili', 'Kili']
+};
 const kebabNames = {};
 for (let [race, names] of Object.entries(allNames)) {
   kebabNames[race] = names.map(name => name.toLowerCase());
 }
 ```
+
+<!--
+expect(kebabNames).toEqual({
+  hobbits: ['bilbo', 'frodo'],
+  dwarfs: ['fili', 'kili']
+})
+-->
 
 And again `.reduce()` is the least readable option.
 
@@ -407,12 +541,16 @@ Many conditions are unnecessary or could be rewritten in a more readable way.
 
 For example you may find code similar to this that returns a boolean value:
 
+<!-- const NONE = null, value = NONE, products = [] -->
+
 ```js
 const hasValue = value !== NONE ? true : false;
 const hasProducts = products.length > 0 ? true : false;
 ```
 
 `value !== NONE` and `products.length > 0` already give us booleans, so we can avoid the ternary operator:
+
+<!-- const NONE = null, value = NONE, products = [] -->
 
 ```js
 const hasValue = value !== NONE;
@@ -421,12 +559,16 @@ const hasProducts = products.length > 0;
 
 And even when the initial value isn’t a boolean:
 
+<!-- const NONE = null, value = NONE, products = [] -->
+
 ```js
 const hasValue = value ? true : false;
 const hasProducts = products.length ? true : false;
 ```
 
 We still can avoid the condition by explicitly converting the value to a boolean:
+
+<!-- const NONE = null, value = NONE -->
 
 ```js
 const hasValue = Boolean(value);
@@ -480,7 +622,7 @@ We’ve eliminated two levels of nesting and quite a lot of boilerplate code, so
 It’s common to check an array’s length before running a loop over its items:
 
 ```js
-return getProducts().then(response => {
+function getProductsDropdownItems(response) {
   const products = response.products;
   if (products.length > 0) {
     return products.map(product => ({
@@ -489,25 +631,24 @@ return getProducts().then(response => {
     }));
   }
   return [];
-});
+}
 ```
 
 All loops and array functions, like `.map()` or `.filter()` work fine with empty arrays, so we can safely remove the check:
 
 ```js
-return getProducts().then(({ products }) =>
-  products.map(product => ({
+function getProductsDropdownItems({ products }) {
+  return products.map(product => ({
     label: product.name,
     value: product.id
-  }))
-);
+  }));
+}
 ```
 
 Sometimes we have to use an existing API that returns an array only in some cases, so checking the length directly would fail and we need to check the type first:
 
 ```js
-return getProducts().then(response => {
-  const products = response.products;
+function getProductsDropdownItems({ products }) {
   if (Array.isArray(products) && products.length > 0) {
     return products.map(product => ({
       label: product.name,
@@ -515,7 +656,7 @@ return getProducts().then(response => {
     }));
   }
   return [];
-});
+}
 ```
 
 We can’t avoid the condition in this case but we can move it earlier and avoid a separate branch that handles the absence of an array. There are several ways to do it, depending on the possible data types.
@@ -523,30 +664,30 @@ We can’t avoid the condition in this case but we can move it earlier and avoid
 If our data can be an array or `undefined`, we can use a default value for the function parameter:
 
 ```js
-return getProducts().then((products = []) =>
-  products.map(product => ({
+function getProductsDropdownItems(products = []) {
+  return products.map(product => ({
     label: product.name,
     value: product.id
-  }))
-);
+  }));
+}
 ```
 
 Or a default value for the destructured property of an object:
 
 ```diff
-- return getProducts().then((products = []) =>
-+ return getProducts().then(({ products = [] }) =>
+- function getProductsDropdownItems(products = []) {
++ function getProductsDropdownItems({ products = [] }) {
 ```
 
 It’s more tricky if our data can be an array or `null`, because defaults are only used when the value is strictly `undefined`, not just falsy. In this case we can use the `||` operator:
 
 ```js
-return getProducts().then(products =>
-  (products || []).map(product => ({
+function getProductsDropdownItems(products) {
+  return (products || []).map(product => ({
     label: product.name,
     value: product.id
-  }))
-);
+  }));
+}
 ```
 
 We still have a condition but the overall code structure is simpler.
@@ -558,12 +699,12 @@ Arrays are convenient because we don’t have to worry about how many items they
 A similar technique works when the input is a single item or an array:
 
 ```js
-return getProducts().then(({ products }) =>
+function getProductsDropdownItems({ products }) {
   (Array.isArray(products) ? products : [products]).map(product => ({
     label: product.name,
     value: product.id
-  }))
-);
+  }));
+}
 ```
 
 Here we’re wrapping a single item in an array, so we can use the same code to work with single items and arrays.
@@ -574,13 +715,40 @@ Examples in the previous section are introducing an important technique: algorit
 
 Imagine you have a article vote counter, similar to Medium, where you can vote multiple times:
 
+<!--
+function counter() {
+  const counts = {};
+  return {
+    get(url) {
+      return counts[url];
+    },
+    upvote(url, votes = 1) {
+      if (!(url in counts)) {
+        counts[url] = 0;
+      }
+
+      counts[url] += votes;
+    },
+    downvote(url) {
+      counts[url] -= 1;
+    }
+  };
+}
+-->
+
 ```js
 const articles = counter();
 articles.upvote('/foo');
 articles.upvote('/bar', 5);
 articles.downvote('/foo');
-// => { '/bar': 5 }
+articles.get('/bar');
+// => 5
 ```
+
+<!--
+expect(articles.get('/foo')).toBe(0)
+expect(articles.get('/bar')).toBe(5)
+-->
 
 A naïve way to implement the `upvote` method could be:
 
@@ -588,6 +756,9 @@ A naïve way to implement the `upvote` method could be:
 function counter() {
   const counts = {};
   return {
+    get(url) {
+      return counts[url];
+    },
     upvote(url, votes = 1) {
       if (url in counts) {
         counts[url] += votes;
@@ -599,6 +770,13 @@ function counter() {
 }
 ```
 
+<!--
+const articles = counter();
+articles.upvote('/foo');
+articles.upvote('/foo', 4);
+expect(articles.get('/foo')).toBe(5)
+-->
+
 The problem here is that the main function logic, count increment, is implemented twice: for the case when we already have votes for that URL and when we’re voting for the first time. So every time you need to update this logic, you need to make changes in two places. You need to write two sets of very similar tests to make sure both branches work as expected, otherwise they’ll eventually diverge and you’ll have hard to debug issues.
 
 Let’s make the main logic unconditional but prepare the state if necessary before running the logic:
@@ -607,6 +785,9 @@ Let’s make the main logic unconditional but prepare the state if necessary bef
 function counter() {
   const counts = {};
   return {
+    get(url) {
+      return counts[url];
+    },
     upvote(url, votes = 1) {
       if (!(url in counts)) {
         counts[url] = 0;
@@ -618,9 +799,18 @@ function counter() {
 }
 ```
 
+<!--
+const articles = counter();
+articles.upvote('/foo');
+articles.upvote('/foo', 4);
+expect(articles.get('/foo')).toBe(5)
+-->
+
 Now we don’t have any logic duplication. We’re normalizing the data structure, so the generic algorithm could work with it.
 
 I often see a similar issue when someone calls a function with different parameters:
+
+<!-- const log = x => x, errorMessage = 'nope', LOG_LEVEL = {ERROR: 'error'}, DEFAULT_ERROR_MESSAGE = 'nooooope'  -->
 
 ```js
 if (errorMessage) {
@@ -631,6 +821,8 @@ if (errorMessage) {
 ```
 
 Let’s move a condition inside the function call:
+
+<!-- const log = x => x, errorMessage = 'nope', LOG_LEVEL = {ERROR: 'error'}, DEFAULT_ERROR_MESSAGE = 'nooooope'  -->
 
 ```js
 log(LOG_LEVEL.ERROR, errorMessage || DEFAULT_ERROR_MESSAGE);
@@ -730,6 +922,8 @@ The next step would be out of the scope of this chapter: the code inside `// 70 
 
 Repeated conditions can make code barely readable. Let’s have a look at this function that returns special offers for a product in our pet shops. We have two brands, Horns & Hooves and Paws & Tails, and they have unique special offers. For historical reasons we store them in the cache differently:
 
+<!-- const SPECIAL_OFFERS_CACHE_KEY = 'offers' -->
+
 ```js
 function getSpecialOffersArray(sku, isHornsAndHooves) {
   let specialOffersArray = isHornsAndHooves
@@ -756,6 +950,8 @@ The `isHornsAndHooves` condition is repeated three times. Two of them to create
 
 Let’s try to make it simpler:
 
+<!-- const SPECIAL_OFFERS_CACHE_KEY = 'offers' -->
+
 ```js
 function getSpecialOffersArray(sku, isHornsAndHooves) {
   const cacheKey = isHornsAndHooves
@@ -778,6 +974,8 @@ function getSpecialOffersArray(sku, isHornsAndHooves) {
 ```
 
 This is already more readable and it could be a good idea to stop here. But if I had some time I’d go further and extract cache management. Not because this function is too long or that it’s potentially reusable, but because cache management distracts me from the main purpose of the function and it’s too low level.
+
+<!-- const SPECIAL_OFFERS_CACHE_KEY = 'offers' -->
 
 ```js
 const getSessionKey = (key, isHornsAndHooves, sku) =>
@@ -810,6 +1008,8 @@ function getSpecialOffersArray(sku, isHornsAndHooves) {
 ```
 
 It may not look much better but I think it’s a bit easier to understand what’s happening in the main function. What annoys me here is `isHornsAndHooves`. I’d rather pass a brand name and keep all brand-specific information in tables:
+
+<!-- const SPECIAL_OFFERS_CACHE_KEY = 'offers' -->
 
 ```js
 const BRANDS = {
@@ -852,6 +1052,8 @@ function getSpecialOffersArray(sku, brand) {
 ```
 
 Now it’s clear that the only piece of business logic here is `getSpecialOffersForBrand`, and the rest is caching. If we’re using this pattern more than once I’d extract it into its own module, similar to the [memoize function](https://lodash.com/docs/#memoize) from Lodash:
+
+<!-- const SPECIAL_OFFERS_CACHE_KEY = 'offers' -->
 
 ```js
 const BRANDS = {
@@ -904,6 +1106,8 @@ One of my favorite techniques on improving _(read: avoiding)_ conditions is repl
 
 We’ve just done this as a part of our "special offers" refactoring example above. Let’s have a look at a simpler example now. This example may be a bit extreme, but I actually wrote this code 19 years ago:
 
+<!-- let month = 'may' -->
+
 <!-- prettier-ignore -->
 ```js
 if (month == 'jan') month = 1;
@@ -921,6 +1125,8 @@ if (month == 'dec') month = 12;
 ```
 
 Let’s replace the conditions with a table:
+
+<!-- const monthName = 'may' -->
 
 ```js
 const MONTH_NAME_TO_NUMBER = {
@@ -943,6 +1149,8 @@ const month = MONTH_NAME_TO_NUMBER[monthName];
 There’s almost no boilerplate code around the data, it’s more readable and looks like a table. Notice also that there are no brackets in the original code: in most modern style guides brackets around condition bodies are required, and the body should be on its own line, so this snippet will be three times longer and even less readable.
 
 Or a bit more realistic and common example:
+
+<!-- const decision = {id: 2} -->
 
 ```jsx
 const DECISION_YES = 0;
@@ -968,6 +1176,8 @@ Here we have a `switch` statement to return one of three button labels.
 
 First, let’s replace the `switch` with a table:
 
+<!-- const decision = {id: 2} -->
+
 ```jsx
 const DECISION_YES = 0;
 const DECISION_NO = 1;
@@ -987,6 +1197,8 @@ const getButtonLabel = decisionButton =>
 The object syntax is a bit more lightweight and readable than the `switch` statement.
 
 We can even make this code more idiomatic to React by converting our `getButtonLabel` function into a React component:
+
+<!-- const decision = {id: 2} -->
 
 ```jsx
 const DECISION_YES = 0;
@@ -1077,6 +1289,12 @@ Now we can define our validations table. There are two ways of doing this:
 
 We’re going to use the second option because we want to have several validations with different error messages for some fields, for example a field can be required _and_ have maximum length:
 
+<!--
+const hasStringValue = value => value && value.trim() !== ''
+const hasLengthLessThanOrEqual = max => value =>
+  !hasStringValue(value) || (value && value.length <= max)
+-->
+
 ```jsx
 const validations = [
   {
@@ -1095,14 +1313,28 @@ const validations = [
 
 Now we need to iterate over this array and run validations for all fields:
 
+<!--
+const hasStringValue = value => value && value.trim() !== ''
+const validations = [
+  {
+    field: 'name',
+    validation: hasStringValue,
+    message: 'Name is required'
+  },
+]
+-->
+
 ```js
 function validate(values, validations) {
-  return validations.reduce((errors, ({field, validation, message}) => {
-    if (!validation(values[field])) {
-      errors[field] = message;
-    }
-    return errors;
-  }, {})
+  return validations.reduce(
+    (errors, { field, validation, message }) => {
+      if (!validation(values[field])) {
+        errors[field] = message;
+      }
+      return errors;
+    },
+    {}
+  );
 }
 ```
 
@@ -1111,6 +1343,8 @@ One more time we’ve separated the “what” from the “how”: we have a rea
 _Tip: Using a third-party library, like [Yup](https://github.com/jquense/yup) or [Joi](https://github.com/hapijs/joi) will make code even shorter and save you from needing to write validation functions yourself._
 
 You may feel that I have too many similar examples in this book, and you’re right. But I think such code is so common, and the readability and maintainability benefits of replacing conditions with tables are so huge, so it’s worth repeating. So here is one more example (the last one, I promise!):
+
+<!-- const DATE_FORMAT_ISO = 'iso', DATE_FORMAT_DE = 'de', DATE_FORMAT_UK = 'uk', DATE_FORMAT_US = 'us' -->
 
 ```js
 const getDateFormat = format => {
@@ -1133,6 +1367,8 @@ const getDateFormat = format => {
 
 It’s just 15 lines of code, but I find this code difficult to read. I think that the `switch` is absolutely unnecessary, and the `datePart` and `monthPart` variables clutter the code so much that it’s almost unreadable.
 
+<!-- const DATE_FORMAT_ISO = 'iso', DATE_FORMAT_DE = 'de', DATE_FORMAT_UK = 'uk', DATE_FORMAT_US = 'us' -->
+
 ```js
 const DATE_FORMATS = {
   [DATE_FORMAT_ISO]: 'M-D',
@@ -1153,6 +1389,8 @@ The improved version isn’t much shorter, but now it’s easy to see all date f
 
 A ternary operator is a short one-line conditional operator. It’s very useful when you want to assign one of two values to a variable. Compare an `if` statement:
 
+<!-- const caffeineLevel = 25, DRINK_COFFEE = 1, DRINK_WATER = 2 -->
+
 ```js
 let drink;
 if (caffeineLevel < 50) {
@@ -1163,6 +1401,8 @@ if (caffeineLevel < 50) {
 ```
 
 With a ternary:
+
+<!-- const caffeineLevel = 25, DRINK_COFFEE = 1, DRINK_WATER = 2 -->
 
 ```js
 const drink = caffeineLevel < 50 ? DRINK_COFFEE : DRINK_WATER;
@@ -1302,6 +1542,16 @@ By doing this we’re making the lifespan of each variable shorter and choosing 
 
 Probably the most common use case for reassignment is incremental computations. Consider this example:
 
+<!--
+const ERROR_MESSAGES = {
+  InconsistentWidthHeight: 'Inconsistent width and height',
+  InvalidVideoFiles: 'Invalid video files',
+  InvalidVideoURL: 'Invalid video URL',
+  BlankTitle: 'Blank title',
+  InvalidId: 'Invalid ID',
+}
+-->
+
 <!-- prettier-ignore -->
 ```js
 const validateVideo = (video) => {
@@ -1322,6 +1572,16 @@ I’ve shortened the comments a bit, the original code had lines longer than 200
 Anyway, this code appends an error message to the `errors` string variable for every failed validation. But now it’s hard to see because the message formatting code is mangled with the validation code. This makes it hard to read and modify. To add another validation, you have to understand and copy the formatting code. Or to print errors as an HTML list, you have to change each line of this function.
 
 Let’s separate validation and formatting:
+
+<!--
+const ERROR_MESSAGES = {
+  InconsistentWidthHeight: 'Inconsistent width and height',
+  InvalidVideoFiles: 'Invalid video files',
+  InvalidVideoURL: 'Invalid video URL',
+  BlankTitle: 'Blank title',
+  InvalidId: 'Invalid ID',
+}
+-->
 
 ```js
 const VIDEO_VALIDATIONS = [
@@ -1371,6 +1631,8 @@ And now it’s clear that the original code had a bug: there were no space betwe
 
 Also now we can swap the formatting function and render errors as an HTML list, for example:
 
+<!-- const FileUpload = () => null -->
+
 ```jsx
 function VideoUploader() {
   const [video, setVideo] = React.useState();
@@ -1417,6 +1679,13 @@ Now all the code you need to touch to add, remove or change validations is conta
 
 Another common reason to reassign variables is to build a complex object:
 
+<!--
+const format = x => x
+const SORT_DESCENDING = 'desc', DATE_FORMAT = 'YYYY-MM-DD'
+const dateRangeFrom = new Date(), dateRangeTo = new Date(), sortField = 'id'
+const sortDirection = SORT_DESCENDING, query = ''
+-->
+
 ```js
 let queryValues = {
   sortBy: sortField,
@@ -1435,6 +1704,13 @@ if (dateRangeFrom && dateRangeTo) {
 Here we’re adding `from` and `to` properties only when they aren’t empty.
 
 The code would be clearer if we teach our backend to ignore empty values and build the whole object at once:
+
+<!--
+const format = x => x
+const SORT_DESCENDING = 'desc', DATE_FORMAT = 'YYYY-MM-DD'
+const dateRangeFrom = new Date(), dateRangeTo = new Date(), sortField = 'id'
+const sortDirection = SORT_DESCENDING, query = ''
+-->
 
 ```js
 const hasDateRange = dateRangeFrom && dateRangeTo;
@@ -1474,6 +1750,12 @@ end;
 
 Some people use this style in languages where they don’t have to do it:
 
+<!--
+const submitOrder = jest.fn()
+const DELIVERY_METHODS = {PIGEON: 'PIGEON', TRAIN_CONDUCTOR: 'TRAIN_CONDUCTOR'}
+const deliveryMethod = DELIVERY_METHODS.PIGEON, products = [], address = '', firstName = '', lastName = ''
+-->
+
 ```js
 let isFreeDelivery;
 
@@ -1505,6 +1787,12 @@ submitOrder({
 Long variable lifespan makes you scroll a lot to understand the current value of a variable. Possible reassignments make it even worse. If there are 50 lines between a variable declaration and its usage, then it can be reassigned in any of these 50 lines.
 
 We can make code more readable by moving variable declarations as close to their usage as possible and by avoiding reassignments:
+
+<!--
+const submitOrder = jest.fn()
+const DELIVERY_METHODS = {PIGEON: 'PIGEON', TRAIN_CONDUCTOR: 'TRAIN_CONDUCTOR'}
+const deliveryMethod = DELIVERY_METHODS.PIGEON, products = [], address = '', firstName = '', lastName = ''
+-->
 
 ```js
 const isFreeDelivery = [
@@ -1574,6 +1862,11 @@ const handleChangeEstimationHours = ({ target: { value } }) => {
 
 Or you can extract code to a function:
 
+<!--
+const getAllRejectionReasons = () => ([])
+const isAdminUser = true, REJECTION_REASONS = {HAS_SWEAR_WORDS: 'HAS_SWEAR_WORDS'}
+-->
+
 ```js
 let rejectionReasons = getAllRejectionReasons();
 if (isAdminUser) {
@@ -1585,11 +1878,16 @@ if (isAdminUser) {
 
 Like this:
 
+<!--
+const getAllRejectionReasons = () => ([])
+const isAdminUser = true, REJECTION_REASONS = {HAS_SWEAR_WORDS: 'HAS_SWEAR_WORDS'}
+-->
+
 ```js
 const getRejectionReasons = isAdminUser => {
   const rejectionReasons = getAllRejectionReasons();
   if (isAdminUser) {
-    return rejectionReason.filter(
+    return rejectionReasons.filter(
       reason => reason.value !== REJECTION_REASONS.HAS_SWEAR_WORDS
     );
   }
@@ -1669,6 +1967,12 @@ Replacing imperative code, full or loops and conditions, with declarative code i
 
 Consider this code:
 
+<!--
+const ProductOptions = () => null
+const product1 = {name: 'pizza', colors: [], sizes: []}
+const product2 = {name: 'pizza', colors: [], sizes: []}
+-->
+
 ```jsx
 const generateOptionalRows = () => {
   const rows = [];
@@ -1708,6 +2012,12 @@ We have two ways of defining table rows: a plain array with always visible rows,
 Array mutation (see `rows.push` in the function) isn’t the biggest issue here, but it’s often a sign that the code has imperative logic that can be replaced with declarative code with better readability and maintainability.
 
 Let’s merge all _possible_ rows into a single declarative array:
+
+<!--
+const ProductOptions = () => null
+const product1 = {name: 'pizza', colors: [], sizes: []}
+const product2 = {name: 'pizza', colors: [], sizes: []}
+-->
 
 ```jsx
 const rows = [
@@ -1763,11 +2073,15 @@ Comments are often used to explain poorly written code. People think that their 
 
 There’s a popular technique of avoiding comment: when you want to explain a block of code, move this code to its own function instead. For example:
 
+<!-- test-skip -->
+
 ```js
 TODO;
 ```
 
 Can be rewritten as:
+
+<!-- test-skip -->
 
 ```js
 TODO;
@@ -1775,7 +2089,7 @@ TODO;
 
 And while it make a lot of sense to extract complex calculations and conditions, used inside an already long line of code:
 
-```js
+```php
 // TODO: this example is from reafactoring course
 if (($platform->toUpperCase()->indexOf("MAC") > -1) &&
      ($browser->toUpperCase()->indexOf("IE") > -1) &&
@@ -1865,9 +2179,13 @@ In any case it’s your responsibility to ask _why_ as many times as necessary.
 
 - Avoid verbose and unnecessary code
 
+<!-- test-skip -->
+
 ```js
 data.discontinued ? data.discontinued === 1 : false;
 ```
+
+<!-- test-skip -->
 
 ```js
 if (
@@ -1880,6 +2198,8 @@ if (
 }
 ```
 
+<!-- test-skip -->
+
 ```js
 if (itemInfo && itemInfo.isAutoReplaceable === true) {
   return true;
@@ -1888,15 +2208,21 @@ if (itemInfo && itemInfo.isAutoReplaceable === true) {
 return false;
 ```
 
+<!-- test-skip -->
+
 ```js
 const result = '...';
 return result;
 ```
 
+<!-- test-skip -->
+
 ```js
 const result = handleUpdateResponse(response.status);
 this.setState(result);
 ```
+
+<!-- test-skip -->
 
 ```js
 function render() {
@@ -1912,7 +2238,7 @@ function render() {
 Consider this code:
 
 ```js
-validateInputs(values) {
+function validateInputs(values) {
   let noErrorsFound = true;
   const errorMessages = [];
 
@@ -1935,6 +2261,8 @@ validateInputs(values) {
 
 I can say a lot about this code but let’s focus on this line first:
 
+<!-- test-skip -->
+
 ```js
 if (!noErrorsFound) {
 ```
@@ -1944,7 +2272,7 @@ This double negation, “if not no errors found…”, makes it harder to read t
 Let’s make the `noErrorsFound` variable positive:
 
 ```js
-validateInputs(values) {
+function validateInputs(values) {
   let errorsFound = false;
   const errorMessages = [];
 
@@ -1970,7 +2298,7 @@ Positive names and positive conditions are usually easier to read then negative 
 Hopefully by this time you’ve noticed that we don’t need this `errorsFound` variable at all: its value can alway be derived from `errorMessages`:
 
 ```js
-validateInputs(values) {
+function validateInputs(values) {
   const errorMessages = [];
 
   if (!values.firstName) {
@@ -1992,7 +2320,7 @@ validateInputs(values) {
 I’d also split this method into two to isolate side effects and make this code more testable, then remove the condition around `this.set('error_message', errorMessages)`, setting an empty object when there are no errors seems safe enough:
 
 ```js
-getErrorMessages(values) {
+function getErrorMessages(values) {
   const errorMessages = [];
 
   if (!values.firstName) {
@@ -2005,7 +2333,7 @@ getErrorMessages(values) {
   return errorMessages;
 }
 
-validateInputs(values) {
+function validateInputs(values) {
   const errorMessages = getErrorMessages(values);
   this.set('error_message', errorMessages);
 
@@ -2014,6 +2342,8 @@ validateInputs(values) {
 ```
 
 TODO:
+
+<!-- const $ = () => ({toggleClass: () => {}, attr: () => {}}), data = [], bookID = 'book' -->
 
 ```js
 const noData = data.length === 0;
@@ -2041,24 +2371,26 @@ TODO: Avoid slang or words that have simpler alternative, non-native English spe
 
 Types (like Flow or TypeScript) helps to see when names don’t represent the data correctly:
 
-```js
+```ts
 type Order = {
-  id: number,
-  title: string
+  id: number;
+  title: string;
 };
 
 type State = {
-  filteredOrder: Order[],
-  selectedOrder: number[]
+  filteredOrder: Order[];
+  selectedOrder: number[];
 };
 ```
 
 Looking at the types it’s clear that both names should be plural (they keep arrays) and the second one only contains order IDs but not whole order objects:
 
-```js
+<!-- type Order = { id: number, title: string } -->
+
+```ts
 type State = {
-  filteredOrders: Order[],
-  selectedOrderIds: number[]
+  filteredOrders: Order[];
+  selectedOrderIds: number[];
 };
 ```
 
@@ -2172,11 +2504,15 @@ But not every value is magic, some values are just values. Here it’s clear tha
 
 Often code reads perfectly even without constants:
 
+<!-- const Modal = () => <></>; -->
+
 ```jsx
 <Modal title="Out of cheese error" minWidth="50vw" />
 ```
 
 Here it’s clear that the minimum width of a modal is 50vw. Adding a constant won’t make this code any clearer:
+
+<!-- const Modal = () => <></>; -->
 
 ```jsx
 const MODAL_MIN_WIDTH = '50vw';
@@ -2189,6 +2525,7 @@ I’d avoid such constants unless the values are reused.
 Sometimes such constants are even misleading:
 
 ```js
+const ID_COLUMN_WIDTH = 40;
 const columns = [
   {
     header: 'ID',
@@ -2243,13 +2580,16 @@ Surprising behavior:
 
 Surprising behavior:
 
+<!-- const foo = [], bar = [], baz = [] -->
+
 ```js
-someFunction({ foo, bar, baz });
 function doMischief(props) {
   // 100 lines of code
   props.bar.push('pizza');
   // 100 lines of code
 }
+
+doMischief({ foo, bar, baz });
 ```
 
 ## Separate “what” and “how”
@@ -2276,17 +2616,7 @@ TODO: The last two things are pretty generic.
 
 ## Don’t waste energy (= save energy for important things)
 
-TODO
-
-…on things that don’t matter:
-
-```js
-import React, {Component} from 'react';
-class PizzaMaker extends Component
-// vs
-import React from 'react';
-class PizzaMaker extends React.Component {
-```
+TODO: Merge with “The rest doesn’t matter”
 
 - tabs vs spaces
 - opinionated formatting (https://blog.sapegin.me/all/prettier/)
@@ -2351,19 +2681,23 @@ Let’s look at some examples. Try to cover an answer and guess what these code 
 
 Example 1:
 
-<!-- prettier-ignore -->
+<!-- const percent = 5 -->
+
 ```js
-percent.toString().concat('%')
+const percentString = percent.toString().concat('%');
 ```
 
 This code only adds the `%` sing to a number, and should be rewritten as:
 
-<!-- prettier-ignore -->
+<!-- const percent = 5 -->
+
 ```js
-`${percent}%`
+const percentString = `${percent}%`;
 ```
 
 Example 2:
+
+<!-- const url = 'index.html?id=5' -->
 
 <!-- prettier-ignore -->
 ```js
@@ -2372,12 +2706,16 @@ if (~url.indexOf('id')) {}
 
 The `~` is called the _bitwise NOT_ operator. It’s useful effect here is that it returns a falsy value only when the `.indexOf()` returns `-1`. This code should be rewritten as:
 
+<!-- const url = 'index.html?id=5' -->
+
 <!-- prettier-ignore -->
 ```js
 if (url.indexOf('id') !== -1) {}
 ```
 
 Or better:
+
+<!-- const url = 'index.html?id=5' -->
 
 <!-- prettier-ignore -->
 ```js
@@ -2400,12 +2738,16 @@ Math.floor(3.14)
 
 Example 4:
 
+<!-- const dogs = [], cats = [] -->
+
 <!-- prettier-ignore -->
 ```js
 if (dogs.length + cats.length > 0) {}
 ```
 
 This one is easy when you spend some time with it, but better make this code obvious:
+
+<!-- const dogs = [], cats = [] -->
 
 <!-- prettier-ignore -->
 ```js
@@ -2414,9 +2756,9 @@ if (dogs.length > 0 && cats.length > 0) {}
 
 Example 5:
 
-<!-- prettier-ignore -->
 ```js
-header.split('filename=')[1].slice(1, -1)
+const header = 'filename="pizza.rar"';
+const filename = header.split('filename=')[1].slice(1, -1);
 ```
 
 This one took me a lot of time to understand. Imagine we have a portion of a URL, like `filename="pizza"`. First, we split the string by `=` and take the second part, `"pizza"`. Then we slice the first and the last characters to get `pizza`.
@@ -2425,14 +2767,16 @@ I’d probably use a RegExp here:
 
 <!-- prettier-ignore -->
 ```js
-header.match(/filename="(.*?)"/)[1]
+const header = 'filename="pizza.rar"'
+const filename = header.match(/filename="(.*?)"/)[1]
 ```
 
 Or the `URLSearchParams` API if I had access to it:
 
 <!-- prettier-ignore -->
 ```js
-new URLSearchParams('filename="pizza"')
+const header = 'filename="pizza.rar"'
+const filename = new URLSearchParams(header)
   .get('filename')
   .replace(/^"|"$/g, '')
 ```
@@ -2441,17 +2785,21 @@ _These quotes are weird though. Normally you don’t need quotes around URL para
 
 Example 6:
 
+<!-- const condition = true -->
+
 ```js
 const obj = {
-  ...(condition && { prop: value })
+  ...(condition && { value: 42 })
 };
 ```
 
 Add a property to an object when the `condition` is true, don’t do anything otherwise. It would be much cleaner, if there’s no way to keep the property with `undefined` value:
 
+<!-- const condition = true -->
+
 ```js
 const obj = {
-  ...(condition ? { prop: value } : {})
+  ...(condition ? { value: 42 } : {})
 };
 ```
 
@@ -2558,6 +2906,8 @@ Even code reuse can be a valid reason to separate code here: if you use some des
 
 TODO: Balance between flexibility and consistency. It’s nice to have a global Button component but if it’s too flexible and you have 10 variations, it will be hard to choose the right one. If it’s too strict, developers will create their own buttons
 
+<!-- test-skip -->
+
 ```js
 // my_feature_util.js
 const noop = () => {};
@@ -2575,6 +2925,8 @@ MyComponent.defaultProps = {
 ```
 
 Wrong abstraction, incorrect name:
+
+<!-- test-skip -->
 
 ```js
 function filterEmptyString(dep) {
@@ -2604,6 +2956,8 @@ When I see two lines of tricky code that look the same, I assume they are actual
 
 For example, we have a code that generates test IDs for two different tools we use on our project, Enzyme and Codeception:
 
+<!-- const type = 'type', columnName = 'col', rowIndex = 2, toTitleCase = x => _.startCase(_.toLower(x)) -->
+
 ```js
 const props = {
   'data-enzyme-id': columnName
@@ -2615,9 +2969,16 @@ const props = {
 };
 ```
 
+<!--
+expect(props).toHaveProperty('data-enzyme-id', 'type-Col-2')
+expect(props).toHaveProperty('data-codeception-id', 'type-Col-2')
+-->
+
 Now it’s really hard to see if there’s any difference in these two lines of code. Remember these pictures where you have to find 10 differences? That’s what such code does for the reader.
 
 Generally I’m bit sceptical about extreme dont-repeat-yourselfing the code, but this is a very good case for it:
+
+<!-- const type = 'type', columnName = 'col', rowIndex = 2, toTitleCase = x => _.startCase(_.toLower(x)) -->
 
 ```js
 const testId = columnName
@@ -2629,27 +2990,42 @@ const props = {
 };
 ```
 
+<!--
+expect(props).toHaveProperty('data-enzyme-id', 'type-Col-2')
+expect(props).toHaveProperty('data-codeception-id', 'type-Col-2')
+-->
+
 Now there’s no doubt that the code for both test IDs is really the same.
 
 Sometimes code that looks almost the same really has to be different. In some cases it’s easy:
 
+<!-- const dispatch = () => {}, changeIsWordDocumentExportSuccessful = () => {} -->
+
 ```js
-if (documentId) {
-  dispatch(changeIsWordDocumentExportSuccessful(true));
-  return;
+function handleSomething(documentId) {
+  if (documentId) {
+    dispatch(changeIsWordDocumentExportSuccessful(true));
+    return;
+  }
+  dispatch(changeIsWordDocumentExportSuccessful(false));
 }
-dispatch(changeIsWordDocumentExportSuccessful(false));
 ```
 
 The only difference here is the parameter with pass to our function with a very long name, so we could move the condition inside the function call:
 
+<!-- const dispatch = () => {}, changeIsWordDocumentExportSuccessful = () => {} -->
+
 ```js
-dispatch(changeIsWordDocumentExportSuccessful(!!documentId));
+function handleSomething(documentId) {
+  dispatch(changeIsWordDocumentExportSuccessful(!!documentId));
+}
 ```
 
 Now we don’t have any similar code and the whole piece is much shorter and easier to understand.
 
 Let’s look at a more tricky example. Imagine we use different naming conventions for different testing tools:
+
+<!-- const type = 'type', columnName = 'col', rowIndex = 2, toTitleCase = x => _.startCase(_.toLower(x)) -->
 
 ```js
 const props = {
@@ -2662,9 +3038,16 @@ const props = {
 };
 ```
 
+<!--
+expect(props).toHaveProperty('data-enzyme-id', 'type-Col-2')
+expect(props).toHaveProperty('data-codeception-id', 'type_Col_2')
+-->
+
 The difference between these two lines of code is hard to notices, and you can never be sure that the name separator is the only difference here.
 
 Likely, if you have such a requirement on your project, there will be many places with very similar code. There are many ways to improve it, for example create function to generate test IDs for each tool:
+
+<!-- const type = 'type', columnName = 'col', rowIndex = 2, toTitleCase = x => _.startCase(_.toLower(x)) -->
 
 ```js
 const joinEnzymeId = (...parts) => parts.join('-');
@@ -2679,19 +3062,31 @@ const props = {
 };
 ```
 
+<!--
+expect(props).toHaveProperty('data-enzyme-id', 'type-Col-2')
+expect(props).toHaveProperty('data-codeception-id', 'type_Col_2')
+-->
+
 This is already much better but still not ideal: there may be difference in parameters we pass to our generator functions. Let’s fix this too:
+
+<!-- const type = 'type', columnName = 'col', rowIndex = 2, toTitleCase = x => _.startCase(_.toLower(x)) -->
 
 ```js
 const joinEnzymeId = (...parts) => parts.join('-');
 const joinCodeceptionId = (...parts) => parts.join('_');
-const getTestIdProps = parts => ({
-  'data-enzyme-id': joinEnzymeId(parts),
-  'data-codeception-id': joinCodeceptionId(parts)
+const getTestIdProps = (...parts) => ({
+  'data-enzyme-id': joinEnzymeId(...parts),
+  'data-codeception-id': joinCodeceptionId(...parts)
 });
 const props = columnName
   ? getTestIdProps(type, toTitleCase(columnName), rowIndex)
   : {};
 ```
+
+<!--
+expect(props).toHaveProperty('data-enzyme-id', 'type-Col-2')
+expect(props).toHaveProperty('data-codeception-id', 'type_Col_2')
+-->
 
 This is an extreme case of using small functions and I generally try to avoid splitting code that far, but I think in this case it works well, assuming that there are already many places in the project where you can use the `getTestIdProps` function.
 
@@ -2898,6 +3293,8 @@ I used to be very strict about [code style](https://blog.sapegin.me/all/prettier
 
 For example, after reading the [The Programmers’ Stone](https://www.datapacrat.com/Opinion/Reciprocality/r0/index.html) I put braces like this for a long time:
 
+<!-- const food = 'pizza', alert = () => {} -->
+
 <!-- prettier-ignore -->
 ```js
 if (food === 'pizza')
@@ -2987,6 +3384,9 @@ The goal of this style was the same as of trailing commas in the previous sectio
 
 Another example is [Yoda conditions](https://en.wikipedia.org/wiki/Yoda_conditions), a style where you put a literal on the left side of a condition:
 
+<!-- const meaning = 0 -->
+
+<!-- prettier-ignore -->
 ```js
 if (42 === meaning) {
 }
@@ -2994,17 +3394,22 @@ if (42 === meaning) {
 
 It’s too easy to type `=` instead of `==` in languages like C and make an assignment instead o a comparison:
 
+<!-- let meaning = 0 -->
+
+<!-- prettier-ignore -->
 ```js
 // Compare meaning with 42
 if (meaning == 42) {
 }
 
 // Assign 42 to meaning
-if ((meaning = 42)) {
+if (meaning = 42) {
 }
 ```
 
 This is much less relevant in JavaScript where the strict equality (`===`, values and types must be equal) is the preferred style and on most projects a linter will complain if you try to use the loose equality (`==`, only values must be equal). It’s really hard to miss two equal signs when typing `===`. So normal order or conditions is fine and easier to read:
+
+<!-- const meaning = 0 -->
 
 ```js
 if (meaning === 42) {
@@ -3025,6 +3430,8 @@ var fs        = require('fs')
   ;
 ```
 
+<!-- expect(examples).toEqual('./README.md') -->
+
 That’s enormous amount of work and luckily code formatters will remove all the artisanal handcrafted spaces and make code look equally good without requiring any work from a developer:
 
 ```js
@@ -3033,28 +3440,40 @@ var fs = require('fs'),
   examples = reamde(fs.readFileSync('./README.md', 'utf-8'));
 ```
 
+<!-- expect(examples).toEqual('./README.md') -->
+
 ### The rest doesn’t matter
 
 There are so many ways to write code. For example you could use function arguments like this:
 
 ```js
 function ingredientToString(options) {
-  return `{options.name} (${options.quantity})`;
-}
-
-// vs
-
-function ingredientToString(options) {
-  const { name, quantity } = options;
-  return `{name} (${quantity})`;
-}
-
-// vs
-
-function ingredientToString({ name, quantity }) {
-  return `{name} (${quantity})`;
+  return `${options.name} (${options.quantity})`;
 }
 ```
+
+<!-- expect(ingredientToString({name: 'Pizza', quantity: 6})).toBe('Pizza (6)') -->
+
+Or like this:
+
+```js
+function ingredientToString(options) {
+  const { name, quantity } = options;
+  return `${name} (${quantity})`;
+}
+```
+
+<!-- expect(ingredientToString({name: 'Pizza', quantity: 6})).toBe('Pizza (6)') -->
+
+Or like this:
+
+```js
+function ingredientToString({ name, quantity }) {
+  return `${name} (${quantity})`;
+}
+```
+
+<!-- expect(ingredientToString({name: 'Pizza', quantity: 6})).toBe('Pizza (6)') -->
 
 I prefer the last one for the reasons I explain in the _Naming is hard_ chapter, but I wouldn’t ask another developer to change their code just because they use another option: they are all fine.
 
@@ -3063,9 +3482,11 @@ A few more examples below. Named or namespaced imports:
 ```js
 import React, { Component } from 'react';
 class Lunch extends Component {}
+```
 
-// vs
+Or:
 
+```js
 import React from 'react';
 class Lunch extends React.Component {}
 ```
@@ -3076,9 +3497,11 @@ Old-style functions or arrow functions, explicit return or implicit return:
 function getDropdownOptions(options) {
   return options.map(option => option.value);
 }
+```
 
-// vs
+Or:
 
+```js
 const getDropdownOptions = options =>
   options.map(option => option.value);
 ```
@@ -3086,12 +3509,13 @@ const getDropdownOptions = options =>
 Or the same with default export:
 
 ```js
-const Button = props =>
-  <button className="Button" {...props} />;
+const Button = props => <button className="Button" {...props} />;
 export default Button;
+```
 
-// vs
+Or:
 
+```js
 export default function Button(props) {
   return <button className="Button" {...props} />;
 }
