@@ -1949,6 +1949,8 @@ TODO: Immutability != reassignment, `conts`
 
 One of the most common use cases for mutation is updating an object:
 
+<!-- test-skip -->
+
 ```js
 TODO: Find a good example of object update
 ```
@@ -2090,7 +2092,180 @@ const puppies = sortedCounts.map(n => `${n} puppies`);
 
 Here we’re making a shallow copy of the `counts` array using the spread operator and then sorting it, so the original array stays the same.
 
-TODO: Mutation of function arguments
+### Avoid mutation of function arguments
+
+Consider this example:
+
+```js
+const addIfGreaterThanZero = (list, count, message) => {
+  if (count > 0) {
+    list.push({
+      id: message,
+      count
+    });
+  }
+};
+
+const getMessageProps = (
+  adults,
+  children,
+  infants,
+  youths,
+  seniors
+) => {
+  const messageProps = [];
+  addIfGreaterThanZero(messageProps, adults, 'ADULTS');
+  addIfGreaterThanZero(messageProps, children, 'CHILDREN');
+  addIfGreaterThanZero(messageProps, infants, 'INFANTS');
+  addIfGreaterThanZero(messageProps, youths, 'YOUTHS');
+  addIfGreaterThanZero(messageProps, seniors, 'SENIORS');
+  return messageProps;
+};
+```
+
+<!--
+expect(getMessageProps(1, 5, 0, 2, 0)).toEqual([
+  {count: 1, id: 'ADULTS'}, {count: 5, id: 'CHILDREN'}, {count: 2, id: 'YOUTHS'}
+])
+-->
+
+It converts a bunch of variables with numbers to an array with numbers of different age groups of people:
+
+```js
+[
+  {
+    id: 'ADULTS',
+    count: 7
+  },
+  {
+    id: 'SENIORS',
+    count: 2
+  }
+];
+```
+
+The problem with this code is that the `addIfGreaterThanZero` function mutates the array we’re passing to it. It’s not the worst example of mutation, but still it’s not obvious how this function works, because it doesn’t return any value. TODO: why it’s bad
+
+We can change it to return a new array:
+
+```js
+const addIfGreaterThanZero = (list, count, message) => {
+  if (count > 0) {
+    return [
+      ...list,
+      {
+        id: message,
+        count
+      }
+    ];
+  }
+  return list;
+};
+```
+
+<!--
+let array = [{count: 1, id: 'ADULTS'}]
+array = addIfGreaterThanZero(array, 0, 'CHILDREN')
+array = addIfGreaterThanZero(array, 2, 'YOUTHS')
+expect(array).toEqual([{count: 1, id: 'ADULTS'}, {count: 2, id: 'YOUTHS'}])
+-->
+
+But I think we don’t need this function at all:
+
+```js
+const MESSAGE_IDS = [
+  'ADULTS',
+  'CHILDREN',
+  'INFANTS',
+  'YOUTHS',
+  'SENIORS'
+];
+const getMessageProps = (
+  adults,
+  children,
+  infants,
+  youths,
+  seniors
+) => {
+  return [adults, children, infants, youths, seniors]
+    .map((count, index) => ({
+      id: MESSAGE_IDS[index],
+      count
+    }))
+    .filter(({ count }) => count > 0);
+};
+```
+
+<!--
+expect(getMessageProps(1, 5, 0, 2, 0)).toEqual([
+  {count: 1, id: 'ADULTS'}, {count: 5, id: 'CHILDREN'}, {count: 2, id: 'YOUTHS'}
+])
+-->
+
+I think now it’s easier to understand what this function does. There’s no repetition and the intent is clear: the function converts a list of values to and array of objects and removes “empty” items.
+
+We can simplify it further:
+
+```js
+const MESSAGE_IDS = [
+  'ADULTS',
+  'CHILDREN',
+  'INFANTS',
+  'YOUTHS',
+  'SENIORS'
+];
+const getMessageProps = (...counts) => {
+  return counts
+    .map((count, index) => ({
+      id: MESSAGE_IDS[index],
+      count
+    }))
+    .filter(({ count }) => count > 0);
+};
+```
+
+<!--
+expect(getMessageProps(1, 5, 0, 2, 0)).toEqual([
+  {count: 1, id: 'ADULTS'}, {count: 5, id: 'CHILDREN'}, {count: 2, id: 'YOUTHS'}
+])
+-->
+
+But this will make the function API less discoverable and will make IDE autocompletions less useful.
+
+TODO: Can TypeScript help here?
+
+We can also use `.reduce()` instead of `.map()` / `.filter()`:
+
+```js
+const MESSAGE_IDS = [
+  'ADULTS',
+  'CHILDREN',
+  'INFANTS',
+  'YOUTHS',
+  'SENIORS'
+];
+const getMessageProps = (...counts) => {
+  return counts.reduce((acc, count, index) => {
+    if (count > 0) {
+      acc.push({
+        id: MESSAGE_IDS[index],
+        count
+      });
+    }
+    return acc;
+  }, []);
+};
+```
+
+<!--
+expect(getMessageProps(1, 5, 0, 2, 0)).toEqual([
+  {count: 1, id: 'ADULTS'}, {count: 5, id: 'CHILDREN'}, {count: 2, id: 'YOUTHS'}
+])
+-->
+
+But I’m not a huge fan of `.reduce()` because it often makes harder to read and intent less clear. With `.map()` / `.filter()` it’s clear that we’re first converting an array to another array with the same number of times, and then removing array items we don’t need. With `.reduce()` it’s less obvious.
+
+So I’d stop two steps ago with this refactoring.
 
 TODO: Tools to ensure immutability: libraries, linters, types
 
