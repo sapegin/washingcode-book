@@ -468,43 +468,6 @@ And again `.reduce()` is the least readable option.
 
 In later chapters I’ll urge you to avoid not only loops but also reassigning variables and mutation. Like loops, they _often_ lead to poor code readability, but _sometimes_ they are the best choice.
 
-### Beware of the mutating methods
-
-Unfortunately, not all array methods in JavaScript return a new array without modifying the original one. [Some methods _mutate_](https://doesitmutate.xyz/) the original array in place.
-
-Consider this example:
-
-```js
-const counts = [6, 3, 2, 8];
-const puppies = counts.sort().map(n => `${n} puppies`);
-```
-
-It gives the impression that the `counts` array isn’t changing and we’re just creating a new `puppies` array with the result. But the `.sort()` method returns a sorted array _and_ mutates the original array at the same time. Writing this kind of code is very dangerous and can lead to hard-to-find bugs. Many developers don’t realize that the `.sort()` method is mutating because the code _seems_ to work fine.
-
-It’s better to make mutation explicit:
-
-```js
-const counts = [6, 3, 2, 8];
-const sortedCounts = [...counts].sort();
-const puppies = sortedCounts.map(n => `${n} puppies`);
-```
-
-Here we’re making a shallow copy of the `counts` array using the spread operator and then sorting it, so the original array stays the same.
-
-Other mutating array methods are:
-
-- [.copyWithin()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/copyWithin)
-- [.fill()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill)
-- [.pop()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop)
-- [.push()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push)
-- [.reverse()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse)
-- [.shift()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift)
-- [.sort()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
-- [.splice()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
-- [.unshift()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift)
-
-We’ll talk more about mutation in the _Avoid mutation_ chapter.
-
 ### But aren’t array methods slow?
 
 You may think that using functions is slower than loops, and likely it is. But in reality it doesn’t matter unless you’re working with millions of items.
@@ -1947,21 +1910,72 @@ Start thinking about:
 
 ## Avoid mutation
 
-TODO: immutability
+Mutations happen when we change a JavaScript object or an array without creating a new variable or reassigning an existing one:
 
-TODO: array operations: mutating and not mutating
+```js
+const puppy = {
+  name: 'Dessi',
+  age: 9
+};
+puppy.age = 10;
+```
+
+Here we’re _mutating_ the original _puppy_ object by changing its `age` property. This is often problematic.
+
+Consider this function:
+
+```js
+function printSortedArray(array) {
+  array.sort();
+  for (const item of array) {
+    console.log(item);
+  }
+}
+```
+
+The problem here is that the `.sort()` array method mutates the array we’re passing into our function, which may lead to unexpected and hard to debug issues.
+
+Another issue of mutation is that it makes code harder to understand: at any time an array or an object may have a different value, so we need to be very careful when reading the code.
+
+TODO: other issues?
+
+The proper solution for these issues is _immutability_ or _immutable data structures_, meaning to change a value we have to create a new array or object.
+
+Unfortunately JavaScript doesn’t support immutability natively and all solutions are more or less crutches. But just _avoiding_ mutations in our code will make it easier to understand.
+
+TODO: Immutability != reassignment, `conts`
+
+### Avoid mutating operations (?)
+
+One of the most common use cases for mutation is updating an object:
+
+```js
+TODO: Find a good example of object update
+```
 
 TODO: ES6: spread, rest, etc.
 
 TODO: Redux immutable operation docs: https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns
 
-TODO: Immutability != reassignment, `conts`
+TODO: Immer
 
-TODO: Mutation of function arguments
+### Beware of the mutating methods (?)
 
-TODO: Tools to ensure immutability: libraries, linters, types
+Not all methods in JavaScript return a new array or object without modifying the original one. [Some methods _mutate_](https://doesitmutate.xyz/) the original value in place.
 
-TODO: https://github.com/tc39/proposal-record-tuple
+TODO
+
+Other mutating array methods are:
+
+- [.copyWithin()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/copyWithin)
+- [.fill()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill)
+- [.pop()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop)
+- [.push()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push)
+- [.reverse()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse)
+- [.shift()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift)
+- [.sort()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
+- [.splice()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
+- [.unshift()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift)
 
 Replacing imperative code, full or loops and conditions, with declarative code is one of my favorite refactorings. And one of the most common suggestions I give in code reviews.
 
@@ -2052,6 +2066,35 @@ const visibleRows = rows.filter(row => {
 ```
 
 Now we’re defining all rows in a single array. All rows are visible by default, unless they have `isVisible` function that returns true, when a row is visible. We’ve improved code readability and maintainability: now there’s only one way of defining rows, you don’t have to check two places to see all available row, don’t need to decide which method to use to add a new row, and now it’s easy to make an existing row optional by adding `isVisible` function to it.
+
+### Make mutations explicit if you have to use them
+
+TODO
+
+Consider this example:
+
+```js
+const counts = [6, 3, 2, 8];
+const puppies = counts.sort().map(n => `${n} puppies`);
+```
+
+It gives the impression that the `counts` array isn’t changing and we’re just creating a new `puppies` array with the result. But the `.sort()` method returns a sorted array _and_ mutates the original array at the same time. Writing this kind of code is very dangerous and can lead to hard-to-find bugs. Many developers don’t realize that the `.sort()` method is mutating because the code _seems_ to work fine.
+
+It’s better to make mutation explicit:
+
+```js
+const counts = [6, 3, 2, 8];
+const sortedCounts = [...counts].sort();
+const puppies = sortedCounts.map(n => `${n} puppies`);
+```
+
+Here we’re making a shallow copy of the `counts` array using the spread operator and then sorting it, so the original array stays the same.
+
+TODO: Mutation of function arguments
+
+TODO: Tools to ensure immutability: libraries, linters, types
+
+TODO: https://github.com/tc39/proposal-record-tuple
 
 TODO: Good example:
 
