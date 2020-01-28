@@ -2340,7 +2340,7 @@ const sortedCounts = [...counts].sort();
 const puppies = sortedCounts.map(n => `${n} puppies`);
 ```
 
-Here we’re making a shallow copy of the `counts` array using the spread operator and then sorting it, so the original array stays the same.
+Here we’re making a shallow copy of the `counts` array using the spread syntax and then sorting it, so the original array stays the same.
 
 ### TODO
 
