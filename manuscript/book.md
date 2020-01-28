@@ -1933,7 +1933,7 @@ function printSortedArray(array) {
 }
 ```
 
-The problem here is that the `.sort()` array method mutates the array we’re passing into our function, which may lead to unexpected and hard to debug issues.
+The problem here is that the `.sort()` array method mutates the array we’re passing into our function, which may lead to unexpected and hard to debug issues, where data become incorrect and you have no idea where it happens.
 
 Another issue of mutation is that it makes code harder to understand: at any time an array or an object may have a different value, so we need to be very careful when reading the code.
 
@@ -1941,27 +1941,102 @@ TODO: other issues?
 
 The proper solution for these issues is _immutability_ or _immutable data structures_, meaning to change a value we have to create a new array or object.
 
-Unfortunately JavaScript doesn’t support immutability natively and all solutions are more or less crutches. But just _avoiding_ mutations in our code will make it easier to understand.
+Unfortunately JavaScript doesn’t support immutability natively and all solutions are more or less crutches. But just _avoiding_ mutations in our code makes it easier to understand.
 
-TODO: Immutability != reassignment, `conts`
+Also worth repeating that `const` in JavaScript only prevents reassignments, but not mutation. We’ve discussed reassignments in the previous chapter, _Avoid reassigning variables_.
 
 ### Avoid mutating operations (?)
 
 One of the most common use cases for mutation is updating an object:
 
-<!-- test-skip -->
+<!-- const hasStringModifiers = m => m.match(/^[ \w]+$/) -->
 
 ```js
-TODO: Find a good example of object update
+function parseExample(content, lang, modifiers) {
+  const example = {
+    content,
+    lang
+  };
+
+  if (modifiers) {
+    if (hasStringModifiers(modifiers)) {
+      example.settings = modifiers
+        .split(' ')
+        .reduce((obj, modifier) => {
+          obj[modifier] = true;
+          return obj;
+        }, {});
+    } else {
+      try {
+        example.settings = JSON.parse(modifiers);
+      } catch (err) {
+        return {
+          error: `Cannot parse modifiers`
+        };
+      }
+    }
+  }
+
+  return example;
+}
 ```
 
-TODO: ES6: spread, rest, etc.
+<!--
+expect(parseExample('pizza', 'js')).toEqual({content: 'pizza', lang: 'js'})
+expect(parseExample('pizza', 'js', '{"foo": true}')).toEqual({content: 'pizza', lang: 'js', settings: {foo: true}})
+expect(parseExample('pizza', 'js', 'foo bar')).toEqual({content: 'pizza', lang: 'js', settings: {foo: true, bar: true}})
+-->
 
-TODO: Redux immutable operation docs: https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns
+Here we’re creating an object with three fields, one of which, settings, is optional. And we’re doing it by mutating the initial `example` object when it should contain an optional field.
 
-TODO: Immer
+I prefer to see the complete object shape in a single place instead of carefully reading the whole function code to find all possible object shape variations. Usually it doesn’t matter whether an object has no field at all or it has a field with an `undefined` value. Cases where it matters for a good reason are rare in my experience.
 
-### Beware of the mutating methods (?)
+Usually I do this by using ternaries for simple cases or extracting code to a function for more complex cases. This is a good case for the latter because of a nested condition and `try`/`catch` block.
+
+Let’s refactor it:
+
+<!-- const hasStringModifiers = m => m.match(/^[ \w]+$/) -->
+
+```js
+function getSetting(modifiers) {
+  if (!modifiers) {
+    return undefined;
+  }
+
+  if (hasStringModifiers(modifiers)) {
+    return modifiers.split(' ').reduce((obj, modifier) => {
+      obj[modifier] = true;
+      return obj;
+    }, {});
+  }
+
+  return JSON.parse(modifiers);
+}
+
+function parseExample(content, lang, modifiers) {
+  try {
+    return {
+      content,
+      lang,
+      settings: getSetting(modifiers)
+    };
+  } catch (err) {
+    return {
+      error: `Cannot parse modifiers`
+    };
+  }
+}
+```
+
+<!--
+expect(parseExample('pizza', 'js')).toEqual({content: 'pizza', lang: 'js'})
+expect(parseExample('pizza', 'js', '{"foo": true}')).toEqual({content: 'pizza', lang: 'js', settings: {foo: true}})
+expect(parseExample('pizza', 'js', 'foo bar')).toEqual({content: 'pizza', lang: 'js', settings: {foo: true, bar: true}})
+-->
+
+I think now it’s easier to understand what the code does, possible shapes of objects it can return are clear. We’ve also removed all mutation and reduced nesting a little.
+
+### Beware of the mutating array methods (?)
 
 Not all methods in JavaScript return a new array or object without modifying the original one. [Some methods _mutate_](https://doesitmutate.xyz/) the original value in place.
 
@@ -2068,29 +2143,6 @@ const visibleRows = rows.filter(row => {
 ```
 
 Now we’re defining all rows in a single array. All rows are visible by default, unless they have `isVisible` function that returns true, when a row is visible. We’ve improved code readability and maintainability: now there’s only one way of defining rows, you don’t have to check two places to see all available row, don’t need to decide which method to use to add a new row, and now it’s easy to make an existing row optional by adding `isVisible` function to it.
-
-### Make mutations explicit if you have to use them
-
-TODO
-
-Consider this example:
-
-```js
-const counts = [6, 3, 2, 8];
-const puppies = counts.sort().map(n => `${n} puppies`);
-```
-
-It gives the impression that the `counts` array isn’t changing and we’re just creating a new `puppies` array with the result. But the `.sort()` method returns a sorted array _and_ mutates the original array at the same time. Writing this kind of code is very dangerous and can lead to hard-to-find bugs. Many developers don’t realize that the `.sort()` method is mutating because the code _seems_ to work fine.
-
-It’s better to make mutation explicit:
-
-```js
-const counts = [6, 3, 2, 8];
-const sortedCounts = [...counts].sort();
-const puppies = sortedCounts.map(n => `${n} puppies`);
-```
-
-Here we’re making a shallow copy of the `counts` array using the spread operator and then sorting it, so the original array stays the same.
 
 ### Avoid mutation of function arguments
 
@@ -2267,9 +2319,30 @@ But I’m not a huge fan of `.reduce()` because it often makes harder to read an
 
 So I’d stop two steps ago with this refactoring.
 
-TODO: Tools to ensure immutability: libraries, linters, types
+### Make mutations explicit if you have to use them
 
-TODO: https://github.com/tc39/proposal-record-tuple
+TODO
+
+Consider this example:
+
+```js
+const counts = [6, 3, 2, 8];
+const puppies = counts.sort().map(n => `${n} puppies`);
+```
+
+It gives the impression that the `counts` array isn’t changing and we’re just creating a new `puppies` array with the result. But the `.sort()` method returns a sorted array _and_ mutates the original array at the same time. Writing this kind of code is very dangerous and can lead to hard-to-find bugs. Many developers don’t realize that the `.sort()` method is mutating because the code _seems_ to work fine.
+
+It’s better to make mutation explicit:
+
+```js
+const counts = [6, 3, 2, 8];
+const sortedCounts = [...counts].sort();
+const puppies = sortedCounts.map(n => `${n} puppies`);
+```
+
+Here we’re making a shallow copy of the `counts` array using the spread operator and then sorting it, so the original array stays the same.
+
+### TODO
 
 TODO: Good example:
 
@@ -2284,6 +2357,85 @@ const getDateRange = (startDate, endDate) => {
   return dateArray;
 };
 ```
+
+### TODO
+
+Modern JavaScript makes it easier to do immutable data updates thanks to [the spread syntax](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax). Before the spread syntax we had to write something like:
+
+<!-- const prev = {coffee: 1} -->
+
+```js
+const next = Object.assign({}, prev, { pizza: 42 });
+```
+
+<!-- expect(next).toEqual({coffee: 1, pizza: 42}) -->
+
+Note an empty object as the first argument: it was important, otherwise `Object.assign` would mutate the initial object.
+
+Now we can write:
+
+<!-- const prev = {coffee: 1} -->
+
+```js
+const next = { ...prev, pizza: 42 };
+```
+
+<!-- expect(next).toEqual({coffee: 1, pizza: 42}) -->
+
+Which does the same thing but less verbose.
+
+And before the [Object.assign](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) in ECMAScript 2015 we didn’t even try to avoid mutations: it was too difficult.
+
+Redux has a great [page on immutable update patterns](https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns): it describes patterns of updating arrays and objects without mutations, and it’s useful even if you don’t use Redux.
+
+And still spread syntax gets incredibly verbose very quickly:
+
+```js
+function addDrink(meals, drink) {
+  return {
+    ...meals,
+    lunch: {
+      ...meals.lunch,
+      drinks: [...meals.lunch.drinks, drink]
+    }
+  };
+}
+```
+
+<!--
+const next = addDrink({breakfast: 'none', lunch: {food: 'pasta', drinks: ['tea']}}, 'coffee');
+expect(next).toEqual({breakfast: 'none', lunch: {food: 'pasta', drinks: ['tea', 'coffee']}})
+-->
+
+We need to spread each level of the object to change a nested value, otherwise we’ll _overwrite_ the initial object with a new one:
+
+```js
+function addDrink(meals, drink) {
+  return {
+    ...meals,
+    lunch: {
+      drinks: [drink]
+    }
+  };
+}
+```
+
+<!--
+const next = addDrink({breakfast: 'none', lunch: {food: 'pasta', drinks: ['tea']}}, 'coffee');
+expect(next).toEqual({breakfast: 'none', lunch: {drinks: ['coffee']}})
+-->
+
+Here we’re keeping only the first level of properties of the initial object: `lunch` and `drinks` will have only new properties.
+
+Also, spread and `Object.assign` do only shallow cloning, meaning only the first level of object properties will be copied but all nested properties will be references to the original object.
+
+There are many ways to solve this problem. Let’s have a look at several of them.
+
+TODO: Immer
+
+TODO: Tools to ensure immutability: libraries, linters, types, object.freeze
+
+TODO: https://github.com/tc39/proposal-record-tuple
 
 ## Avoid comments
 
