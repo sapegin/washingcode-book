@@ -2038,21 +2038,7 @@ I think now it’s easier to understand what the code does, possible shapes of o
 
 ### Beware of the mutating array methods (?)
 
-Not all methods in JavaScript return a new array or object without modifying the original one. [Some methods _mutate_](https://doesitmutate.xyz/) the original value in place.
-
-TODO
-
-Other mutating array methods are:
-
-- [.copyWithin()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/copyWithin)
-- [.fill()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill)
-- [.pop()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop)
-- [.push()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push)
-- [.reverse()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse)
-- [.shift()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift)
-- [.sort()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
-- [.splice()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
-- [.unshift()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift)
+Not all methods in JavaScript return a new array or object without modifying the original one. [Some methods _mutate_](https://doesitmutate.xyz/) the original value in place. For example, `push()` is one of the most commonly used.
 
 Replacing imperative code, full or loops and conditions, with declarative code is one of my favorite refactorings. And one of the most common suggestions I give in code reviews.
 
@@ -2143,6 +2129,80 @@ const visibleRows = rows.filter(row => {
 ```
 
 Now we’re defining all rows in a single array. All rows are visible by default, unless they have `isVisible` function that returns true, when a row is visible. We’ve improved code readability and maintainability: now there’s only one way of defining rows, you don’t have to check two places to see all available row, don’t need to decide which method to use to add a new row, and now it’s easy to make an existing row optional by adding `isVisible` function to it.
+
+Here’s another example:
+
+<!--
+const options = {foo: 1}
+const task = {parameters: {foo: {message: 'Foo'}, bar: {initial: 2}}}
+-->
+
+```js
+const defaults = { ...options };
+const prompts = [];
+const parameters = Object.entries(task.parameters);
+
+for (const [name, prompt] of parameters) {
+  const hasInitial = typeof prompt.initial !== 'undefined';
+  const hasDefault = typeof defaults[name] !== 'undefined';
+
+  if (hasInitial && !hasDefault) {
+    defaults[name] = prompt.initial;
+  }
+
+  prompts.push({ ...prompt, name, initial: defaults[name] });
+}
+```
+
+<!--
+expect(defaults).toEqual({foo: 1, bar: 2})
+expect(prompts).toEqual([{name: 'foo', initial: 1, message: 'Foo'}, {name: 'bar', initial: 2}])
+-->
+
+At the first sight this code doesn’t look very bad: it converts an object into an array by pushing new items into the `prompts` array. But if we look closer, there’s another mutation inside a condition in the middle, that mutates the `defaults` object. And I think this is the bigger problem than the first mutation, because it’s easy to miss it while reading the code.
+
+I think it’s actually doing two loops: one to convert the `task.parameters` object to the `prompts` array, and another to update `defaults` with values from `task.parameters`. I’d split them to make it clear:
+
+<!--
+const options = {foo: 1}
+const task = {parameters: {foo: {message: 'Foo'}, bar: {initial: 2}}}
+-->
+
+```js
+const parameters = Object.entries(task.parameters);
+
+const defaults = parameters.reduce(
+  (acc, [name, prompt]) => ({
+    ...acc,
+    [name]:
+      prompt.initial !== undefined ? prompt.initial : options[name]
+  }),
+  {}
+);
+
+const prompts = parameters.map(([name, prompt]) => ({
+  ...prompt,
+  name,
+  initial: defaults[name]
+}));
+```
+
+<!--
+expect(defaults).toEqual({foo: 1, bar: 2})
+expect(prompts).toEqual([{name: 'foo', initial: 1, message: 'Foo'}, {name: 'bar', initial: 2}])
+-->
+
+Other mutating array methods are:
+
+- [.copyWithin()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/copyWithin)
+- [.fill()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill)
+- [.pop()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop)
+- [.push()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push)
+- [.reverse()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse)
+- [.shift()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift)
+- [.sort()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
+- [.splice()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
+- [.unshift()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift)
 
 ### Avoid mutation of function arguments
 
@@ -2382,7 +2442,7 @@ const next = { ...prev, pizza: 42 };
 
 <!-- expect(next).toEqual({coffee: 1, pizza: 42}) -->
 
-Which does the same thing but less verbose.
+That does the same thing but less verbose.
 
 And before the [Object.assign](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) in ECMAScript 2015 we didn’t even try to avoid mutations: it was too difficult.
 
@@ -2429,7 +2489,13 @@ Here we’re keeping only the first level of properties of the initial object: `
 
 Also, spread and `Object.assign` do only shallow cloning, meaning only the first level of object properties will be copied but all nested properties will be references to the original object.
 
-There are many ways to solve this problem. Let’s have a look at several of them.
+There are many ways to solve this problem:
+
+1. Conventions
+2. Linters
+3. Types
+4. Libraries
+5. First class immutability support in a language
 
 TODO: Immer
 
