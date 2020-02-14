@@ -4,8 +4,11 @@
         "apostrophe": true,
         "diacritics": true,
         "common-misspellings": true,
-        "stop-words": true,
+        "stop-words": {
+          "severity" : "warning"
+        },
         "write-good": {
+            "severity" : "warning",
             "adverb": false,
             "passive": false,
             "so": false,
