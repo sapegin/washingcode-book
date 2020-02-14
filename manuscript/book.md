@@ -2206,6 +2206,27 @@ Other mutating array methods are:
 
 ### Avoid mutation of function arguments
 
+Objects or arrays, passed to a function, can be mutated inside the function, and this will affect the original object:
+
+```js
+const mutate = object => {
+  object.secret = 'Loves pizza';
+};
+
+const person = { name: 'Chuck Norris' };
+mutate(person);
+// -> { name: 'Chuck Norris', secret: 'Loves pizza' }
+```
+
+<!-- expect(person).toEqual({ name: 'Chuck Norris', secret: 'Loves pizza' }) -->
+
+Here the `person` object is mutated inside the `mutate` function.
+
+Function argument mutation can be intentional and accidental, and both are problematic:
+
+- It makes harder to understand how a function works and how to use it, because it doesn’t return a value but changes one of the incoming arguments.
+- Accidental argument mutation is even worse, because function consumers don’t expect it. And it can lead to hard-to-find bugs, when a value, mutated inside a function, is later used somewhere else.
+
 Consider this example:
 
 ```js
@@ -2256,7 +2277,7 @@ It converts a bunch of variables with numbers to an array with numbers of differ
 ];
 ```
 
-The problem with this code is that the `addIfGreaterThanZero` function mutates the array we’re passing to it. It’s not the worst example of mutation, but still it’s not obvious how this function works, because it doesn’t return any value. TODO: why it’s bad
+The problem with this code is that the `addIfGreaterThanZero` function mutates the array we’re passing to it. This is an example of an intentional mutation: it’s required for this function to work. Though it’s not the best API for what this function does.
 
 We can change it to return a new array:
 
@@ -2282,7 +2303,7 @@ array = addIfGreaterThanZero(array, 2, 'YOUTHS')
 expect(array).toEqual([{count: 1, id: 'ADULTS'}, {count: 2, id: 'YOUTHS'}])
 -->
 
-But I think we don’t need this function at all:
+But I don’t think we need this function at all:
 
 ```js
 const MESSAGE_IDS = [
@@ -2314,7 +2335,7 @@ expect(getMessageProps(1, 5, 0, 2, 0)).toEqual([
 ])
 -->
 
-I think now it’s easier to understand what this function does. There’s no repetition and the intent is clear: the function converts a list of values to and array of objects and removes “empty” items.
+I think now it’s easier to understand what the code does. There’s no repetition and the intent is clear: the `getMessageProps` function converts a list of values to an array of objects and removes “empty” items.
 
 We can simplify it further:
 
@@ -2346,7 +2367,7 @@ But this will make the function API less discoverable and will make IDE autocomp
 
 TODO: Can TypeScript help here?
 
-We can also use `.reduce()` instead of `.map()` / `.filter()`:
+We can also use `.reduce()` instead of `.map()` / `.filter()` chaining:
 
 ```js
 const MESSAGE_IDS = [
@@ -2375,34 +2396,62 @@ expect(getMessageProps(1, 5, 0, 2, 0)).toEqual([
 ])
 -->
 
-But I’m not a huge fan of `.reduce()` because it often makes harder to read and intent less clear. With `.map()` / `.filter()` it’s clear that we’re first converting an array to another array with the same number of times, and then removing array items we don’t need. With `.reduce()` it’s less obvious.
+But I’m not a huge fan of `.reduce()` because it often makes code harder to read and intent less clear. With `.map()` / `.filter()` chaining it’s clear that we’re first converting an array to another array with the same number of times, and then removing array items we don’t need. With `.reduce()` it’s less obvious.
 
 So I’d stop two steps ago with this refactoring.
 
+Probably the only valid reason to mutate function arguments is performance optimization: when you work with a really big piece of data and creating a new object or array would be too slow.
+
 ### Make mutations explicit if you have to use them
 
-TODO
+Sometimes we can’t avoid mutations, for example, because of an unfortunate language API that does mutation.
 
-Consider this example:
+Array’s `.sort()` method is an infamous example of that:
 
 ```js
-const counts = [6, 3, 2, 8];
+const counts = [6, 3, 2];
 const puppies = counts.sort().map(n => `${n} puppies`);
 ```
 
-It gives the impression that the `counts` array isn’t changing and we’re just creating a new `puppies` array with the result. But the `.sort()` method returns a sorted array _and_ mutates the original array at the same time. Writing this kind of code is very dangerous and can lead to hard-to-find bugs. Many developers don’t realize that the `.sort()` method is mutating because the code _seems_ to work fine.
+<!-- expect(puppies).toEqual(['2 puppies', '3 puppies', '6 puppies']) -->
 
-It’s better to make mutation explicit:
+It gives an impression that the `counts` array isn’t changing and we’re just creating a new `puppies` array with the sorted array. But the `.sort()` method returns a sorted array _and_ mutates the original array at the same time. Writing this kind of code is very dangerous and can lead to hard-to-find bugs. Many developers don’t realize that the `.sort()` method is mutating because the code _seems_ to work fine.
+
+It’s better to make the mutation explicit:
 
 ```js
-const counts = [6, 3, 2, 8];
+const counts = [6, 3, 2];
 const sortedCounts = [...counts].sort();
 const puppies = sortedCounts.map(n => `${n} puppies`);
 ```
 
+<!-- expect(puppies).toEqual(['2 puppies', '3 puppies', '6 puppies']) -->
+
 Here we’re making a shallow copy of the `counts` array using the spread syntax and then sorting it, so the original array stays the same.
 
-### TODO
+Another option is to wrap a mutating API into a new API without mutations:
+
+```js
+function sort(array) {
+  return [...counts].sort();
+}
+
+const counts = [6, 3, 2];
+const puppies = sort(counts).map(n => `${n} puppies`);
+```
+
+<!-- expect(puppies).toEqual(['2 puppies', '3 puppies', '6 puppies']) -->
+
+Or use a third-party library, like Lodash and its sortBy function:
+
+```js
+const counts = [6, 3, 2];
+const puppies = _.sortBy(counts).map(n => `${n} puppies`);
+```
+
+<!-- expect(puppies).toEqual(['2 puppies', '3 puppies', '6 puppies']) -->
+
+### Even mutation is not so bad sometimes
 
 TODO: Good example:
 
@@ -2422,10 +2471,10 @@ const getDateRange = (startDate, endDate) => {
 
 Modern JavaScript makes it easier to do immutable data updates thanks to [the spread syntax](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax). Before the spread syntax we had to write something like:
 
-<!-- const prev = {coffee: 1} -->
-
 ```js
+const prev = { coffee: 1 };
 const next = Object.assign({}, prev, { pizza: 42 });
+// -> { coffee: 1, pizza: 42 }
 ```
 
 <!-- expect(next).toEqual({coffee: 1, pizza: 42}) -->
@@ -2434,9 +2483,8 @@ Note an empty object as the first argument: it was important, otherwise `Object.
 
 Now we can write:
 
-<!-- const prev = {coffee: 1} -->
-
 ```js
+const prev = { coffee: 1 };
 const next = { ...prev, pizza: 42 };
 ```
 
@@ -2489,7 +2537,7 @@ Here we’re keeping only the first level of properties of the initial object: `
 
 Also, spread and `Object.assign` do only shallow cloning, meaning only the first level of object properties will be copied but all nested properties will be references to the original object.
 
-There are many ways to solve this problem:
+There are many ways to solve (?) this problem:
 
 1. Conventions
 2. Linters
@@ -2497,11 +2545,17 @@ There are many ways to solve this problem:
 4. Libraries
 5. First class immutability support in a language
 
+Let’s discuss each of this ways in more detail.
+
+**Conventions** are what most of this book is about. Don’t mutate your code, and the next programmer will have less troubles understanding it, and you’ll avoid some nasty bugs. This is a convention, meaning we’re agreeing to do something but there’s no way to enforce it. Developers are still free to mutate any value accidentally or due to evil intent.
+
+Conventions are good because they are easy to implement: document your decision and make the team aware of it. Conventions are not good because they are just words, and there’s nothing to enforce the convention, except more works, like code review comments.
+
 TODO: Immer
 
-TODO: Tools to ensure immutability: libraries, linters, types, object.freeze
-
 TODO: https://github.com/tc39/proposal-record-tuple
+
+TODO: Object.freeze, Deepfreeze
 
 ## Avoid comments
 
@@ -3986,6 +4040,7 @@ The less code we write, the better. Less code means easier testing, easier maint
 ### Articles
 
 - [AHA programming](https://kentcdodds.com/blog/aha-programming) by Kent C. Dodds
+- [Array reduce vs chaining vs for loop](https://kentcdodds.com/blog/array-reduce-vs-chaining-vs-for-loop) by Kent C. Dodds
 - [Code Health: Reduce Nesting, Reduce Complexity](https://testing.googleblog.com/2017/06/code-health-reduce-nesting-reduce.html?m=1) by Elliott Karpilovsky
 - [Code Health: To Comment or Not to Comment?](https://testing.googleblog.com/2017/07/code-health-to-comment-or-not-to-comment.html?m=1) by Dori Reuveni and Kevin Bourrillion
 - [Everything is a Component](https://medium.com/@level_out/everything-is-a-component-cf9f469ad981) by Luke Hedger
