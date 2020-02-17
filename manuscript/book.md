@@ -146,9 +146,9 @@ products.map(product => {
 
 Here, the `.map()` method is used to _reduce_ an array to a single value by having a side effect instead of returning a new item value from the callback function.
 
-It’s hard to say what this code is doing, and it feels like there’s a bug: it only cares about the latest product in a list.
+It’s hard to say what this code is doing, and it feels like there’s a bug: it only cares about the last product in a list.
 
-If it’s indeed a bug, and the intention is to check if _some_ of the products have the expected type, then the `.some()` array method would be the best choice:
+If it’s indeed a bug, and the intention was to check if _some_ of the products have the expected type, then the `.some()` array method would be the best choice:
 
 <!-- const products = [{type: 'pizza'}, {type: 'coffee'}], expectedType = 'pizza' -->
 
@@ -1241,7 +1241,7 @@ const hasNoSpaces = value =>
   !hasStringValue(value) || (value && value.includes(' '));
 ```
 
-I’ve assumed that different whitespace handling was a bug. I’ve also inverted all the conditions to validate the correct value, not an incorrect one, which is more readable in my opinion.
+I’ve assumed that different whitespace handling was a bug. I’ve also inverted all the conditions to validate the correct value, instead of an incorrect one, to make the code more readable.
 
 Note that `hasLengthLessThanOrEqual` and `hasNoSpaces` only check the condition if the value is present, which would allow us to make optional fields. Also note that the `hasLengthLessThanOrEqual` function is customizable: we need to pass the maximum length: `hasLengthLessThanOrEqual(80)`.
 
@@ -1488,7 +1488,7 @@ function getProductsOnSale(category) {
 
 Here the `category` variable is used to store a category ID, a list of products in a category, and a list of filtered products. This function isn’t completely hopeless because it’s short, but imagine more code between reassignments.
 
-Also a new value is reassigned to a function argument, which is called _function argument shadowing_. I think it’s no different from regular reassignment, so I’ll treat it the same way.
+Also a new value is reassigned to a function argument, known as _function argument shadowing_. I think it’s no different from regular reassignment, so I’ll treat it the same way.
 
 This case is the easiest to fix: we need to use separate variables for each value:
 
@@ -1884,7 +1884,7 @@ Here we’re finding the start of the current week by moving one day back in a `
 
 Even if it’s possible to avoid a reassignment here, it will likely make code less readable. Feel free to try and let me know how it goes though.
 
-Reassignments aren’t pure evil and exterminating all of them won’t make your code better. They are more like signs: if you see a reassignment, ask yourself if rewriting the code without it would make it more readable. There’s no right or wrong answer, but if you do use a reassignment, isolate it in a small function, where it’s clear what the current value of a variable is.
+Reassignments aren’t pure evil and exterminating them all won’t make your code better. They are more like signs: if you see a reassignment, ask yourself if rewriting the code without it would make it more readable. There’s no right or wrong answer, but if you do use a reassignment, isolate it in a small function, where it’s clear what the current value of a variable is.
 
 ### Help your brain with conventions
 
@@ -1939,11 +1939,9 @@ Another issue of mutation is that it makes code harder to understand: at any tim
 
 TODO: other issues?
 
-The proper solution for these issues is _immutability_ or _immutable data structures_, meaning to change a value we have to create a new array or object.
+_Immutability_ or _immutable data structures_, meaning to change a value we have to create a new array or an object, would solve this problem. Unfortunately JavaScript doesn’t support immutability natively and all solutions are more crutches that actual solutions. But even just _avoiding_ mutations in our code makes it easier to understand.
 
-Unfortunately JavaScript doesn’t support immutability natively and all solutions are more or less crutches. But just _avoiding_ mutations in our code makes it easier to understand.
-
-Also worth repeating that `const` in JavaScript only prevents reassignments, but not mutation. We’ve discussed reassignments in the previous chapter, _Avoid reassigning variables_.
+Also don’t forget that `const` in JavaScript only prevents reassignments, but not mutations. We’ve discussed reassignments in the previous chapter, _Avoid reassigning variables_.
 
 ### Avoid mutating operations (?)
 
@@ -1989,7 +1987,7 @@ expect(parseExample('pizza', 'js', 'foo bar')).toEqual({content: 'pizza', lang: 
 
 Here we’re creating an object with three fields, one of which, settings, is optional. And we’re doing it by mutating the initial `example` object when it should contain an optional field.
 
-I prefer to see the complete object shape in a single place instead of carefully reading the whole function code to find all possible object shape variations. Usually it doesn’t matter whether an object has no field at all or it has a field with an `undefined` value. Cases where it matters for a good reason are rare in my experience.
+I prefer to see the complete object shape in a single place instead of carefully reading the whole function code to find all possible object shape variations. Usually it doesn’t matter whether an object has no field at all or it has a field with an `undefined` value. I haven’t seen many cases where it mattered for a good reason.
 
 Usually I do this by using ternaries for simple cases or extracting code to a function for more complex cases. This is a good case for the latter because of a nested condition and `try`/`catch` block.
 
@@ -2084,7 +2082,7 @@ const rows = [
 ];
 ```
 
-We have two ways of defining table rows: a plain array with always visible rows, which is good, and a function, full of imperative logic, that returns optional rows.
+We have two ways of defining table rows: a plain array with always visible rows, and a function, full of imperative logic, that returns optional rows.
 
 Array mutation (see `rows.push` in the function) isn’t the biggest issue here, but it’s often a sign that the code has imperative logic that can be replaced with declarative code with better readability and maintainability.
 
@@ -2599,7 +2597,7 @@ if ($isMacOs && $isIE && $this->wasInitialized() && $wasResized) {
 // use functions instead of variables
 ```
 
-I don’t think that splitting a linear algorithm, even if it’s long, into several functions and then calling them one after another, necessarily make code more readable. Jumping between functions is harder than scrolling, and if you have to look into functions implementations to understand the code, then the abstraction wasn’t a right one.
+I don’t think that splitting a linear algorithm, even a long one, into several functions and then calling them one after another, makes code more readable. Jumping between functions is harder than scrolling, and if you have to look into functions’ implementations to understand the code, then the abstraction wasn’t the right one.
 
 Comments are useful to answer _why_ code is written in a certain way. If it’s fixing a bug, a ticket number will be useful. If there’s an obvious simpler alternative solution, a comment should explain why this solution doesn’t work in this case. Such comments will save you from accidental “refactoring” that makes code easier but removes some necessary functionality.
 
@@ -2665,7 +2663,11 @@ $color--facebook: #3b5998; // Facebook brand color
 
 In any case it’s your responsibility to ask _why_ as many times as necessary.
 
+<!-- textlint-disable -->
+
 ## Simplify, simplify, simplify
+
+<!-- textlint-enable -->
 
 - Avoid verbose and unnecessary code
 
@@ -3038,7 +3040,7 @@ const getEndOfDayFromDate = date => {
 };
 ```
 
-This function returns the last second of a day. And here 1 and -1 literally mean “next” and “previous”. They are also an essential part of an algorithm, not configuration. It doesn’t make sense to change 1 to 2, because it will break the function. Constants make the code longer and don’t help with understanding it. Let’s remove them:
+This function returns the last second of a day. And here 1 and -1 really mean “next” and “previous”. They are also an essential part of an algorithm, not configuration. It doesn’t make sense to change 1 to 2, because it will break the function. Constants make the code longer and don’t help with understanding it. Let’s remove them:
 
 ```js
 const getEndOfDayFromDate = date => {
@@ -3055,7 +3057,7 @@ Start thinking about:
 
 - Is a literal value, like a number or a string, is unclear and needs a name?
 - Is value of a literal unclear and we can use a constant?
-- Is a value is configuration and not important to understanding the code?
+- Is knowing the value itself is less important to understanding the code than knowing the name?
 - Is a value reused multiple times?
 
 ## Don’t surprise me
@@ -3090,7 +3092,7 @@ TODO: Example
 
 Declarative is often easier to read and there are many examples of refactoring imperative code to more declarative in this book.
 
-I refer to this process as separating “what” and “how”. The benefits are:
+I call this process _separating “what” and “how”_. The benefits are:
 
 - improved readability and maintainability;
 - we change “what” much more often than “how”;
@@ -3127,7 +3129,7 @@ Some examples of cargo cult programming:
 - A team applies old “best practices” even if the initial problem, they were solving, is no longer relevant.
 - A developer applies a team “standard” even for a case that should be an exception, because the standard makes the code worse, not better.
 
-Code isn’t black and white: there are no things that are always bad (except global variables) or always good (except automation). We’re not working at an assembly line, and we’re supposed to understand why we write each line of code.
+Code isn’t black and white: nothing is always bad (except global variables) or always good (except automation). We’re not working at an assembly line, and we’re should understand why we write each line of code.
 
 ### Never write functions longer than…
 
@@ -3135,7 +3137,7 @@ If you google “how long should be my functions”, you’ll find a lot of answ
 
 Some developers will brag that all their functions are only one or two lines long. Some developers will say that you must create a new function every time you want to write a comment or add an empty line.
 
-I think it’s a wrong problem to solve. In my experience size itself is rarely a problem. But long functions often hide real issues. Often long functions have too many responsibilities, deep nesting or other problems.
+I think it’s a wrong problem to solve and the size itself is rarely a problem. However, long functions often hide real issues, like too many responsibilities or deep nesting.
 
 ### Always comment your code
 
@@ -3153,7 +3155,11 @@ See the “Constants” chapter for more details.
 
 Don’t repeat yourself (DRY) principle is probably the most overrated idea in software development. See the “Let abstractions grow” section for more details.
 
+<!-- textlint-disable -->
+
 ### Never say never
+
+<!-- textlint-enable -->
 
 Never listen when someone says you should never do that or always do this, without any exceptions. Answer to most software development questions is “it depends”, and such generalizations often do more harm than good.
 
@@ -3253,7 +3259,7 @@ const filename = header.split('filename=')[1].slice(1, -1);
 
 This one took me a lot of time to understand. Imagine we have a portion of a URL, like `filename="pizza"`. First, we split the string by `=` and take the second part, `"pizza"`. Then we slice the first and the last characters to get `pizza`.
 
-I’d probably use a RegExp here:
+I’d probably use a regular expression here:
 
 <!-- prettier-ignore -->
 ```js
@@ -3283,13 +3289,23 @@ const obj = {
 };
 ```
 
-Add a property to an object when the `condition` is true, don’t do anything otherwise. It would be much cleaner, if there’s no way to keep the property with `undefined` value:
+Adding a property to an object when the `condition` is true, don’t do anything otherwise. The intention is more obvious when we explicitly define object to destructure, and don’t rely on destructuring of falsy values:
 
 <!-- const condition = true -->
 
 ```js
 const obj = {
   ...(condition ? { value: 42 } : {})
+};
+```
+
+I usually prefer when object don’t change their shapes, so I’d move the condition inside the `value` field:
+
+<!-- const condition = true -->
+
+```js
+const obj = {
+  value: condition ? 42 : undefined
 };
 ```
 
@@ -3323,7 +3339,11 @@ But you should keep in mind that both variations filter out _falsy_ values, so i
 // -> ["Not", "enough", 0, "cheese."]
 ```
 
+<!-- textlint-disable -->
+
 ## Divide and conquer, or merge and relax
+
+<!-- textlint-enable -->
 
 TODO: https://kentcdodds.com/blog/moist-programming
 
@@ -3466,7 +3486,7 @@ expect(props).toHaveProperty('data-codeception-id', 'type-Col-2')
 
 Now it’s really hard to see if there’s any difference in these two lines of code. Remember these pictures where you have to find 10 differences? That’s what such code does for the reader.
 
-Generally I’m bit sceptical about extreme dont-repeat-yourselfing the code, but this is a very good case for it:
+Generally I’m bit sceptical about extreme dont-repeat-yourselfing the code, but this is a good case for it:
 
 <!-- const type = 'type', columnName = 'col', rowIndex = 2, toTitleCase = x => _.startCase(_.toLower(x)) -->
 
@@ -3487,7 +3507,7 @@ expect(props).toHaveProperty('data-codeception-id', 'type-Col-2')
 
 Now there’s no doubt that the code for both test IDs is really the same.
 
-Sometimes code that looks almost the same really has to be different. In some cases it’s easy:
+Sometimes code that looks almost the same is slightly different:
 
 <!-- const dispatch = () => {}, changeIsWordDocumentExportSuccessful = () => {} -->
 
@@ -3501,7 +3521,7 @@ function handleSomething(documentId) {
 }
 ```
 
-The only difference here is the parameter with pass to our function with a very long name, so we could move the condition inside the function call:
+The only difference here is the parameter we pass to our function with a very long name. We could move the condition inside the function call:
 
 <!-- const dispatch = () => {}, changeIsWordDocumentExportSuccessful = () => {} -->
 
@@ -3511,7 +3531,7 @@ function handleSomething(documentId) {
 }
 ```
 
-Now we don’t have any similar code and the whole piece is much shorter and easier to understand.
+Now we don’t have any similar code and the whole piece is shorter and easier to understand.
 
 Let’s look at a more tricky example. Imagine we use different naming conventions for different testing tools:
 
@@ -3533,9 +3553,9 @@ expect(props).toHaveProperty('data-enzyme-id', 'type-Col-2')
 expect(props).toHaveProperty('data-codeception-id', 'type_Col_2')
 -->
 
-The difference between these two lines of code is hard to notices, and you can never be sure that the name separator is the only difference here.
+The difference between these two lines of code is hard to notice, and you can never be sure that the name separator is the only difference here.
 
-Likely, if you have such a requirement on your project, there will be many places with very similar code. There are many ways to improve it, for example create function to generate test IDs for each tool:
+Likely, if you have such a requirement on your project, there are many places with very similar code. One way to improve it is to create a function, that generates test IDs for each tool:
 
 <!-- const type = 'type', columnName = 'col', rowIndex = 2, toTitleCase = x => _.startCase(_.toLower(x)) -->
 
