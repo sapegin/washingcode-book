@@ -2561,18 +2561,14 @@ Comments are often used to explain poorly written code. People think that their 
 
 There’s a popular technique of avoiding comment: when you want to explain a block of code, move this code to its own function instead. For example:
 
-<!-- test-skip -->
-
 ```js
-TODO;
+// TODO
 ```
 
 Can be rewritten as:
 
-<!-- test-skip -->
-
 ```js
-TODO;
+// TODO
 ```
 
 And while it make a lot of sense to extract complex calculations and conditions, used inside an already long line of code:
