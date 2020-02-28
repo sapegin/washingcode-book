@@ -2567,7 +2567,7 @@ I think it’s a good idea, because there’s no runtime cost, though it makes t
 
 I’d prefer [an option in TypeScript](https://github.com/microsoft/TypeScript/issues/32758) to make all types read-only by default with a way to opt out.
 
-Similarly to making objects read-only on the type level, we can make them read-only at run time with Object.freeze. `Object.freeze` is also shallow, so we have to use a library like [deep-freeze](https://github.com/substack/deep-freeze), and we want to have freezing only in development because it slows our app down.
+Similarly to making objects read-only on the type level, we can make them read-only at runtime with Object.freeze. `Object.freeze` is also shallow, so we have to use a library like [deep-freeze](https://github.com/substack/deep-freeze), and we want to have freezing only in development because it slows our app down.
 
 I don’t think freezing worth it on its own unless freezing is part of another library.
 
