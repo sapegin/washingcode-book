@@ -8,7 +8,11 @@ const visit = require('unist-util-visit');
 
 const MANUSCRIPT = path.resolve(__dirname, '../manuscript/book.md');
 const LANGS = ['js', 'jsx', 'ts', 'tsx'];
-const IGNORE_HEADERS = ['prettier-ignore'];
+const IGNORE = [
+  'prettier-ignore',
+  'textlint-disable',
+  'textlint-enable'
+];
 const SKIP_TAG = 'test-skip';
 
 const vm = new NodeVM({
@@ -49,7 +53,7 @@ function getHeader(nodes, index) {
 
   const cleanHeader = unwrapHtmlComment(header.value);
 
-  if (IGNORE_HEADERS.includes(cleanHeader)) {
+  if (IGNORE.includes(cleanHeader)) {
     return getHeader(nodes, index - 1);
   }
 
@@ -58,10 +62,17 @@ function getHeader(nodes, index) {
 
 function getFooter(nodes, index) {
   const footer = nodes[index + 1];
-  if (isInstruction(footer)) {
-    return unwrapHtmlComment(footer.value);
+  if (!isInstruction(footer)) {
+    return '';
   }
-  return '';
+
+  const cleanFooter = unwrapHtmlComment(footer.value);
+
+  if (IGNORE.includes(cleanFooter)) {
+    return getFooter(nodes, index + 1);
+  }
+
+  return cleanFooter;
 }
 
 function getChapterTitle(nodes, index) {
