@@ -3210,7 +3210,7 @@ Some examples of cargo cult programming:
 
 - A developer copies a decade-old answer from Stack Overflow with fallbacks for old browsers which they don’t need to support anymore.
 - A team applies old “best practices” even if the initial problem they were solving is no longer relevant.
-- A developer applies a team “standard” to a case that should be an exception, and inadvertantly makes the code worse, not better.
+- A developer applies a team “standard” to a case that should be an exception, and inadvertently makes the code worse, not better.
 
 Code isn’t black and white: nothing is always bad (except global variables) or always good (except automation). We’re not working at an assembly line, and we should understand why we write each line of code.
 
