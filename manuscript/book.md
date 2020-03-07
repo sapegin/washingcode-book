@@ -2411,7 +2411,7 @@ Probably the only valid reason to mutate function arguments is performance optim
 
 Sometimes we can’t avoid mutations, for example, because of an unfortunate language API that does mutation.
 
-`Array`'s `.sort()` method is an infamous example of that:
+Array’s `.sort()` method is an infamous example of that:
 
 ```js
 const counts = [6, 3, 2];
