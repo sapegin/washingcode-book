@@ -2530,8 +2530,8 @@ Keeping your objects as shallow as possible might be a good idea if you update t
 
 While we’re waiting for JavaScipt [to get native immutability](https://github.com/tc39/proposal-record-tuple), there are two non-exclusive ways we can make our lives easier today:
 
-- prevent mutations
-- simplify object updates
+- prevent mutations;
+- simplify object updates.
 
 **Preventing mutations** is good because it’s so easy to miss them during code reviews, and then spend many hours debugging weird issues.
 
