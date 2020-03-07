@@ -1941,7 +1941,7 @@ Some of the problems with mutation:
 - Mutation makes code harder to understand: at any time, an array or object may have a different value, so we need to be very careful when reading the code.
 - Mutation of function arguments makes the behavior of a function surprising.
 
-_Immutability_ or _immutable data structures_, meaning that in order to change a value we have to create a new array or object, would solve this problem. Unfortunately, JavaScript doesn’t support immutability natively, and all solutions are more crutches than actual solutions. But even just _avoiding_ mutations in our code makes it easier to understand.
+_Immutability_ or _immutable data structures_, meaning that to change a value we have to create a new array or object, would solve this problem. Unfortunately, JavaScript doesn’t support immutability natively, and all solutions are more crutches than actual solutions. But even just _avoiding_ mutations in our code makes it easier to understand.
 
 Also, don’t forget that `const` in JavaScript only prevents reassignments — not mutations. We’ve discussed reassignments in the previous chapter, [Avoid reassigning variables](#avoid-reassigning-variables).
 
