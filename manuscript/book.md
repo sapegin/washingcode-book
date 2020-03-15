@@ -2130,7 +2130,7 @@ const visibleRows = rows.filter(row => {
 });
 ```
 
-Now we’re defining all rows in a single array. All rows are visible by default unless they have the `isVisible` function return `false` when a row is invisible. We’ve improved code readability and maintainability:
+Now we’re defining all rows in a single array. All rows are visible by default unless they have the `isVisible` function that returns `false`. We’ve improved code readability and maintainability:
 
 - there’s only one way of defining rows;
 - no need to check two places to see all available rows;
