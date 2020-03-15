@@ -2370,7 +2370,7 @@ expect(getMessageProps(1, 5, 0, 2, 0)).toEqual([
 ])
 -->
 
-But this makes the function API less discoverable and can make editor autocomplete less useful. It also gives the impression that the function accepts any number of arguments - not strictly five - which was clear in the previous iteration.
+But this makes the function API less discoverable and can make editor autocomplete less useful. It also gives the wrong impression that the function accepts any number of arguments and that the count order is unimportant — the number and order of arguments were clear in the previous iteration.
 
 We can also use `.reduce()` method instead of `.map()` / `.filter()` chaining:
 
