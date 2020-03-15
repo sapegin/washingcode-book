@@ -2036,7 +2036,7 @@ expect(parseExample('pizza', 'js', '{"foo": true}')).toEqual({content: 'pizza', 
 expect(parseExample('pizza', 'js', 'foo bar')).toEqual({content: 'pizza', lang: 'js', settings: {foo: true, bar: true}})
 -->
 
-Now it’s easier to understand what the code does; possible shapes of objects and what the function can return are clear. We’ve also removed all mutations and reduced nesting a little.
+Now it’s easier to understand what the code does, and the possible shapes of the return object are clear. We’ve also removed all mutations and reduced nesting a little.
 
 ### Beware of the mutating array methods
 
