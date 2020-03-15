@@ -2088,7 +2088,7 @@ const rows = [
 
 Here we have two ways of defining table rows: a plain array with always visible rows, and a function that returns optional rows. The latter mutates the original array using the `.push()` method.
 
-Array mutation itself isn’t the most significant issue of this code. Here the main problem is imperative array building and different ways for handling required and optional rows. Replacing imperative code with declarative and eliminating conditions often makes code more readable and maintainable.
+Array mutation itself isn’t the most significant issue of this code. However, code with mutations likely hides other issues — mutation is a good sign to look closer. Here the main problem is imperative array building and different ways for handling required and optional rows. Replacing imperative code with declarative and eliminating conditions often makes code more readable and maintainable.
 
 Let’s merge all possible rows into a single declarative array:
 
