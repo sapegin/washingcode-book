@@ -2479,7 +2479,7 @@ const next = { ...prev, pizza: 42 };
 
 <!-- expect(next).toEqual({coffee: 1, pizza: 42}) -->
 
-This does the same thing but is less verbose.
+This does the same thing but is less verbose, and no need to remember `Object.assign` quirks.
 
 And before the [Object.assign](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) in ECMAScript 2015, we didn’t even try to avoid mutations: it was too painful.
 
@@ -2550,7 +2550,7 @@ interface Point {
 }
 ```
 
-Or using the `Readonly` mapped type:
+Or using the `Readonly` utility type:
 
 ```ts
 type Point = Readonly<{
@@ -2559,9 +2559,17 @@ type Point = Readonly<{
 }>;
 ```
 
-Note that both `readonly` modifier and `Readonly` mapped type are shallow, so we need to add them to all nested objects too.
+And similar for arrays:
 
-[eslint-plugin-functional](https://github.com/jonaskello/eslint-plugin-functional) has a rule to require read-only types everywhere, which may be more convenient than remembering to do that yourself. Unfortunately, it only supports `readonly` modifier but not `Readonly` mapped type.
+```ts
+function sort(array: readonly any[]) {
+  return [...counts].sort();
+}
+```
+
+Note that both `readonly` modifier and `Readonly` utility type are shallow, so we need to add them to all nested objects too.
+
+[eslint-plugin-functional](https://github.com/jonaskello/eslint-plugin-functional) has a rule to require read-only types everywhere, which may be more convenient than remembering to do that yourself. Unfortunately, it only supports `readonly` modifier but not `Readonly` utility type.
 
 I think it’s a good idea, because there’s no runtime cost, though it makes type definitions more verbose.
 
