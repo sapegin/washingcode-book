@@ -701,16 +701,16 @@ function counter() {
 
 ```js
 const articles = counter();
-articles.upvote('/foo');
-articles.upvote('/bar', 5);
-articles.downvote('/foo');
-articles.get('/bar');
+articles.upvote('/cats-better-than-dogs');
+articles.upvote('/dogs-better-than-cats', 5);
+articles.downvote('/cats-better-than-dogs');
+articles.get('/dogs-better-than-cats');
 // => 5
 ```
 
 <!--
-expect(articles.get('/foo')).toBe(0)
-expect(articles.get('/bar')).toBe(5)
+expect(articles.get('/cats-better-than-dogs')).toBe(0)
+expect(articles.get('/dogs-better-than-cats')).toBe(5)
 -->
 
 A naïve way to implement the `upvote` method could be:
@@ -735,9 +735,9 @@ function counter() {
 
 <!--
 const articles = counter();
-articles.upvote('/foo');
-articles.upvote('/foo', 4);
-expect(articles.get('/foo')).toBe(5)
+articles.upvote('/cats-better-than-dogs');
+articles.upvote('/cats-better-than-dogs', 4);
+expect(articles.get('/cats-better-than-dogs')).toBe(5)
 -->
 
 The problem here is that the main function logic, count increment, is implemented twice: for the case when we already have votes for that URL and when we’re voting for the first time. So every time you need to update this logic, you need to make changes in two places. You need to write two sets of very similar tests to make sure both branches work as expected, otherwise they’ll eventually diverge and you’ll have hard to debug issues.
@@ -764,9 +764,9 @@ function counter() {
 
 <!--
 const articles = counter();
-articles.upvote('/foo');
-articles.upvote('/foo', 4);
-expect(articles.get('/foo')).toBe(5)
+articles.upvote('/cats-better-than-dogs');
+articles.upvote('/cats-better-than-dogs', 4);
+expect(articles.get('/cats-better-than-dogs')).toBe(5)
 -->
 
 Now we don’t have any logic duplication. We’re normalizing the data structure, so the generic algorithm could work with it.
@@ -3163,16 +3163,16 @@ Surprising behavior:
 
 Surprising behavior:
 
-<!-- const foo = [], bar = [], baz = [] -->
+<!-- const dogs = [], cats = [] -->
 
 ```js
 function doMischief(props) {
   // 100 lines of code
-  props.bar.push('pizza');
+  props.cats.push('labrador');
   // 100 lines of code
 }
 
-doMischief({ foo, bar, baz });
+doMischief({ dogs, cats });
 ```
 
 ## Separate “what” and “how”
