@@ -879,7 +879,7 @@ function postOrderStatus(orderId) {
 
 Now that’s a big improvement over the initial version. I’ve also renamed the `idsArrayObj` variable, because “array object” doesn’t make any sense to me.
 
-The next step would be out of the scope of this chapter: the code inside `// 70 lines of code` mutates the `fullRecordsArray`, see [Avoid mutation](#avoid-mutation) below to learn why mutations aren’t good and how to avoid them.
+The next step would be out of the scope of this chapter: the code inside `// 70 lines of code` mutates the `fullRecordsArray`, see the [Avoid mutation](#avoid-mutation) chapter below to learn why mutations aren’t good and how to avoid them.
 
 ### Repeated conditions
 
@@ -1472,7 +1472,7 @@ You can’t be sure that your pizza will always have salami and mozzarella in it
 
 Knowing that both things are possible makes you think, every time you see `pizza` in the code, which value it has _now_. That’s a huge and unnecessary cognitive load that we should avoid.
 
-And most of the time you can avoid both. Let’s start with reassigning and come back to mutation in the next chapter.
+And most of the time you can avoid both. Let’s start with reassigning and come back to mutation in the [next chapter](#avoid-mutations).
 
 ### Don’t reuse variables
 
@@ -1896,7 +1896,7 @@ There’s an important difference between a variable defined with the `const` k
 
 Both conventions reduce cognitive load a little bit and make code easier to understand.
 
-Unfortunately JavaScript has no true constants, and _mutation_ is still possible even when you define a variable with the `const` keyword. We’ll talk about mutations in the next chapter.
+Unfortunately JavaScript has no true constants, and _mutation_ is still possible even when you define a variable with the `const` keyword. We’ll talk about mutations in [the next chapter](#avoid-mutations).
 
 ---
 
@@ -3234,13 +3234,13 @@ I think it’s a wrong problem to solve and the size itself is rarely a problem.
 
 TODO
 
-See the “Avoid comments” chapter for more details.
+See the [Avoid comments](#avoid-comments) chapter for more details.
 
 ### Always use constants for magic numbers
 
 Using constants instead of magic numbers is a great practice, but not all numbers are magic. Often developer make code less readable by following this principle without thinking and converting all literal values, number and strings, to constants.
 
-See the “Constants” chapter for more details.
+See the [Constants](#constants) chapter for more details.
 
 ### Never repeat yourself
 
@@ -4076,7 +4076,7 @@ function ingredientToString({ name, quantity }) {
 
 <!-- expect(ingredientToString({name: 'Pizza', quantity: 6})).toBe('Pizza (6)') -->
 
-I prefer the last one for the reasons I explain in the _Naming is hard_ chapter, but I wouldn’t ask another developer to change their code just because they use another option: they are all fine.
+I prefer the last one for the reasons I explain in the [Naming is hard](#naming-is-hard) chapter, but I wouldn’t ask another developer to change their code just because they use another option: they are all fine.
 
 A few more examples below. Named or namespaced imports:
 
