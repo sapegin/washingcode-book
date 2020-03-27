@@ -20,7 +20,7 @@ And remember, there are no strict rules in programming, except that you should a
 
 These folks helped me with the book in one way or another.
 
-Thanks to [Manuel Bieh](https://twitter.com/ManuelBieh), [Inês Carvalho](https://imcarvalho.github.io/), [Evan Davis](https://github.com/evandavis), [Troy Giunipero](https://github.com/giuniperoo), Anita Kiss, [Giorgi Kotchlamazashvili](https://github.com/hertzg), [Andy Krings-Stern](https://github.com/ankri) [Veniamin Krol](https://vkrol.dev/), [Monica Lent](https://monicalent.com/), Diana Martinez, [Rostislav U](https://twitter.com/inooze), [Dan Uhl](https://github.com/danieluhl), [Juho Vepsäläinen](https://survivejs.com/), [Michel Weststrate](https://twitter.com/mweststrate), [Mark Wiltshire](https://github.com/mwiltshire).
+Thanks to [Manuel Bieh](https://twitter.com/ManuelBieh), [Inês Carvalho](https://imcarvalho.github.io/), [Evan Davis](https://github.com/evandavis), [Troy Giunipero](https://github.com/giuniperoo), Anita Kiss, [Giorgi Kotchlamazashvili](https://github.com/hertzg), [Andy Krings-Stern](https://github.com/ankri) [Veniamin Krol](https://vkrol.dev/), [Monica Lent](https://monicalent.com/), [Mihail Malostanidis](https://twitter.com/qm3ster), Diana Martinez, [Rostislav U](https://twitter.com/inooze), [Dan Uhl](https://github.com/danieluhl), [Juho Vepsäläinen](https://survivejs.com/), [Michel Weststrate](https://twitter.com/mweststrate), [Mark Wiltshire](https://github.com/mwiltshire).
 
 ## Avoid loops
 
@@ -256,6 +256,8 @@ if (props.item && props.item.details) {
 }
 ```
 
+<!-- expect(tableData).toEqual([{ errorLevel: 2, errorMessage: 'nope', usedIn: 'Pizza' }]) -->
+
 My first reaction would be to rewrite it with `.reduce()` to _avoid loops_:
 
 <!--
@@ -299,6 +301,8 @@ const tableData =
   );
 ```
 
+<!-- expect(tableData).toEqual([{ errorLevel: 2, errorMessage: 'nope', usedIn: 'Pizza' }]) -->
+
 But is it really more readable?
 
 After a cup of coffee and a chat with a colleague, I’ve ended up with a much cleaner approach:
@@ -325,16 +329,20 @@ const props = {
 const tableData =
   props.item &&
   props.item.details &&
-  props.item.details.clients.reduce((acc, client) =>
-    acc.concat(
-      ...client.errorConfigurations.map(config => ({
-        errorMessage: config.error.message,
-        errorLevel: config.error.level,
-        usedIn: client.name
-      }))
-    )
+  props.item.details.clients.reduce(
+    (acc, client) =>
+      acc.concat(
+        ...client.errorConfigurations.map(config => ({
+          errorMessage: config.error.message,
+          errorLevel: config.error.level,
+          usedIn: client.name
+        }))
+      ),
+    []
   );
 ```
+
+<!-- expect(tableData).toEqual([{ errorLevel: 2, errorMessage: 'nope', usedIn: 'Pizza' }]) -->
 
 If I was to review such code, I would be happy to pass both versions but would prefer the original with double `for` loops. _(Though `tableData` is a really bad variable name.)_
 
