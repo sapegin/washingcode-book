@@ -44,7 +44,7 @@ But this may be a bit less readable than the expanded version because we don’t
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
-const kebabNames = names.map(function(name) {
+const kebabNames = names.map(function (name) {
   return _.kebabCase(name);
 });
 ```

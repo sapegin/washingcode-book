@@ -44,10 +44,7 @@ function isInstruction(node) {
 }
 
 function unwrapHtmlComment(html) {
-  return html
-    .replace(/^<!--/, '')
-    .replace(/-->$/, '')
-    .trim();
+  return html.replace(/^<!--/, '').replace(/-->$/, '').trim();
 }
 
 function getHeader(nodes, index) {
@@ -151,9 +148,7 @@ function testMarkdown(markdown, filepath) {
   }
 
   describe(filename, () => {
-    remark()
-      .use(visitor)
-      .processSync(markdown);
+    remark().use(visitor).processSync(markdown);
   });
 }
 
