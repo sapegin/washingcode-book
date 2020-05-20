@@ -1,12 +1,17 @@
 const fs = require('fs');
 const path = require('path');
 const _ = require('lodash');
+const glob = require('glob');
 const babel = require('@babel/core');
 const { NodeVM } = require('vm2');
 const remark = require('remark');
 const visit = require('unist-util-visit');
 
-const MANUSCRIPT = path.resolve(__dirname, '../manuscript/book.md');
+const MANUSCRIPT_PATTERN = path.resolve(
+  __dirname,
+  '../manuscript/*.md'
+);
+
 const LANGS = ['js', 'jsx', 'ts', 'tsx'];
 const IGNORE = [
   'prettier-ignore',
@@ -153,5 +158,7 @@ function testMarkdown(markdown, filepath) {
 }
 
 // RUN!
-const content = fs.readFileSync(MANUSCRIPT, 'utf8');
-testMarkdown(content, MANUSCRIPT);
+glob.sync(MANUSCRIPT_PATTERN).forEach(filepath => {
+  const content = fs.readFileSync(filepath, 'utf8');
+  testMarkdown(content, filepath);
+});
