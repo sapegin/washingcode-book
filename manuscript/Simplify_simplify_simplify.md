@@ -1,10 +1,10 @@
 <!-- textlint-disable -->
 
-## Simplify, simplify, simplify
+### Simplify, simplify, simplify
 
 <!-- textlint-enable -->
 
-- Avoid verbose and unnecessary code
+TODO: Avoid verbose and unnecessary code
 
 <!-- test-skip -->
 

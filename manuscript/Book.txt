@@ -2,31 +2,46 @@
 
 Preface.md
 Acknowledgments.md
+
+## Code odours (?)
+
 Avoid_loops.md
 Avoid_conditions.md
 Avoid_reassigning_variables.md
 Avoid_mutation.md
 Avoid_comments.md
+
+## Techniques
+
 Simplify_simplify_simplify.md
-Naming_is_hard.md
-Constants.md
 Dont_surprise_me.md
 Separate_what_and_how.md
 Dont_waste_energy.md
-Cargo_cult_programming.md
 Dont_be_clever.md
 Divide_and_conquer.md
 Dont_make_me_think.md
-Too_many_conventions.md
 Make_impossible_states_impossible.md
-Boyscout_rule.md
-Greppable_code.md
-Size_isnt_important.md
 Dont_try_to_predict_the_future.md
-Refactoring_is_inevitable.md
-Not_invented_here_syndrome.md
+Become_a_code_scout.md
+Make_the_code_greppable.md
+
+## Misc. (?)
+
 Code_style.md
+Naming_is_hard.md
+Constants.md
+Too_many_conventions.md
+Cargo_cult_programming.md
+Not_invented_here_syndrome.md
+Size_isnt_important.md
+Refactoring_is_inevitable.md
 Code_is_evil.md
+
+## Tooling
+
 Tooling.md
+
+***
+
 Resources.md
 Conclusion.md

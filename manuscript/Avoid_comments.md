@@ -1,4 +1,4 @@
-## Avoid comments
+### Avoid comments
 
 Comments are often used to explain poorly written code. People think that their code isn’t clear enough, so they add comments to explain it. And they are usually right: the code isn’t clear. But instead of adding comments, they should rewrite code to make it simpler and more readable.
 

@@ -1,4 +1,4 @@
-## Don’t make me think
+### Don’t make me think
 
 TODO: Pass an object instead of multiple positional arguments to a function (more than two)
 
@@ -8,7 +8,7 @@ TODO: Consts should include units
 
 > Long Parameter List More than three or four parameters for a method.
 
-### Make differences in code obvious
+#### Make differences in code obvious
 
 When I see two lines of tricky code that look the same, I assume they are actually different but I don’t see the difference yet. Otherwise, a programmer would create a variable for repeated pieces instead of copypasting them.
 

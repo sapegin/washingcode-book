@@ -1,8 +1,8 @@
-## Avoid conditions
+### Avoid conditions
 
 Conditions make code harder to read and test. They add nesting and make lines of code longer, so you have to split them into several lines. Each condition increases the minimum number of test cases you need to write for a certain module or function.
 
-### Unnecessary conditions
+#### Unnecessary conditions
 
 Many conditions are unnecessary or could be rewritten in a more readable way.
 
@@ -84,7 +84,7 @@ function IsNetscapeOnSolaris() {
 
 We’ve eliminated two levels of nesting and quite a lot of boilerplate code, so the actual condition is easier to understand.
 
-### Processing arrays
+#### Processing arrays
 
 It’s common to check an array’s length before running a loop over its items:
 
@@ -176,7 +176,7 @@ function getProductsDropdownItems({ products }) {
 
 Here we’re wrapping a single item in an array, so we can use the same code to work with single items and arrays.
 
-### Deduplicating an algorithm
+#### Deduplicating an algorithm
 
 Examples in the previous section are introducing an important technique: algorithm deduplication. Instead of having several branches of the main logic depending on the nature of the input, we have just one. But we’re normalizing the input before running the algorithm. This technique can be used in other places.
 
@@ -297,7 +297,7 @@ log(LOG_LEVEL.ERROR, errorMessage || DEFAULT_ERROR_MESSAGE);
 
 We’ve removed all code duplication and the code is shorter and easier to read.
 
-### Early return
+#### Early return
 
 Applying _guard clauses_, or _early returns_, is a great way to avoid nested conditions. A series of nested conditions, also known as the [arrow anti pattern](http://wiki.c2.com/?ArrowAntiPattern) or _dangerously deep nesting_, is often used for error handing:
 
@@ -385,7 +385,7 @@ Now that’s a big improvement over the initial version. I’ve also renamed the
 
 The next step would be out of the scope of this chapter: the code inside `// 70 lines of code` mutates the `fullRecordsArray`, see the [Avoid mutation](#avoid-mutation) chapter below to learn why mutations aren’t good and how to avoid them.
 
-### Repeated conditions
+#### Repeated conditions
 
 Repeated conditions can make code barely readable. Let’s have a look at this function that returns special offers for a product in our pet shops. We have two brands, Horns & Hooves and Paws & Tails, and they have unique special offers. For historical reasons we store them in the cache differently:
 
@@ -567,7 +567,7 @@ We were able to separate all low level code and hide it in another module.
 
 It may seem like I prefer small functions, or even very small functions, but that’s not the case. The main reason to extract code into separate functions here is a violation of the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle). The original function had too many responsibilities: getting special offers, generating cache keys, reading data from cache, storing data in cache. Each with two branches for our two brands.
 
-### Tables or maps
+#### Tables or maps
 
 One of my favorite techniques on improving _(read: avoiding)_ conditions is replacing them with tables or maps. With JavaScript you can create a table or a map using a plain object.
 
@@ -852,7 +852,7 @@ const getDateFormat = format => {
 
 The improved version isn’t much shorter, but now it’s easy to see all date formats. We’ve extracted the data to a short and readable object, and separated it from the code that accesses the right piece of this data.
 
-### Nested ternaries
+#### Nested ternaries
 
 A ternary operator is a short one-line conditional operator. It’s very useful when you want to assign one of two values to a variable. Compare an `if` statement:
 

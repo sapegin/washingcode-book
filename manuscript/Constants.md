@@ -1,8 +1,8 @@
-## Constants
+### Constants
 
 There are many good reasons to use constants and some good reasons not to use them.
 
-### Making magic numbers less magic
+#### Making magic numbers less magic
 
 By introducing a constant instead of a magic number we give it a meaningful name. Consider this example:
 
@@ -44,7 +44,7 @@ const WEEKDAY_SATURDAY = 6;
 
 Code reuse is another good reason to introduce constants but you need to wait for the moment when the code is actually reused.
 
-### Not all numbers are magic
+#### Not all numbers are magic
 
 Sometimes people replace absolutely all literal values with constants, ideally stored in a separate module:
 

@@ -1,4 +1,4 @@
-## Code style
+### Code style
 
 I used to be very strict about [code style](https://blog.sapegin.me/all/prettier/). I thought my code style was better than others, but later I’ve realized that it was just different. And it wasn’t the most popular, so anyone else’s code looked wrong to me.
 
@@ -27,7 +27,7 @@ const volume = 200;  // ml
 
 So if any other developer touched my code, they would immediately make it inconsistent, because unlikely they would follow _my code style_ — so uncommon it was. And code review would be a nightmare if I wanted to enforce _my code style_.
 
-### Not all code styles are good
+#### Not all code styles are good
 
 I wasn’t entirely wrong though: not every code style makes code easy to read and maintain.
 
@@ -76,7 +76,7 @@ const dogs = [
 ];
 ```
 
-### Obsolete code styles
+#### Obsolete code styles
 
 Sometimes developers follow a particular code style even if the initial reasoning behind it is no longer relevant.
 
@@ -127,7 +127,7 @@ if (meaning === 42) {
 }
 ```
 
-### Nonsensical code styles
+#### Nonsensical code styles
 
 Some code styles don’t solve any particular problem, but have high maintenance cost.
 
@@ -153,7 +153,7 @@ var fs = require('fs'),
 
 <!-- expect(examples).toEqual('./README.md') -->
 
-### The rest doesn’t matter
+#### The rest doesn’t matter
 
 There are so many ways to write code. For example you could use function arguments like this:
 
@@ -236,7 +236,7 @@ I can probably write a whole book of such examples.
 
 In all the examples above I prefer the last variation but I’d never ask someone to change their code during code review if they use another variation. Next time you review someone else’s code and want to ask them to change a piece of code, ask yourself: does it really make code more readable and maintainable or just makes it look more familiar to me. If it’s the latter, please don’t write that comment.
 
-### How to choose the right code style
+#### How to choose the right code style
 
 Choose [the most popular code style](https://blog.sapegin.me/all/javascript-code-styles/), unless a deviation significantly improves readability or maintainability of the code.
 

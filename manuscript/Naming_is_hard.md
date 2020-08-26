@@ -1,6 +1,6 @@
-## Naming is hard
+### Naming is hard
 
-### Negative booleans
+#### Negative booleans
 
 Consider this code:
 
@@ -118,7 +118,7 @@ $(`#${bookID}_download`).toggleClass('hidden-node', noData);
 $(`#${bookID}_retry`).attr('disabled', !noData);
 ```
 
-### Prefixes, suffixes and abbreviations
+#### Prefixes, suffixes and abbreviations
 
 TODO: data, list, util, etc. in names
 
@@ -165,7 +165,7 @@ TODO: `util` and `utils` (what about them?): keep each function in it’s own f
 
 > Aside: Make a util directory and keep different utilities in different files. A single util file will always grow until it is too big and yet too hard to split apart. Using a single util file is unhygienic.
 
-### Beware of imprecise names
+#### Beware of imprecise names
 
 Imprecise or incorrect names are worse than magic numbers. With magic numbers you can make a correct guess but with incorrect names you have no chances to understand the code.
 

@@ -1,6 +1,6 @@
 <!-- textlint-disable -->
 
-## Divide and conquer, or merge and relax
+### Divide and conquer, or merge and relax
 
 <!-- textlint-enable -->
 
@@ -22,7 +22,7 @@ There are several you may want to split code into several modules:
 - change frequency
 - code reuse
 
-### Let abstractions grow
+#### Let abstractions grow
 
 We, developers, hate to do the same work twice. _Don’t repeat yourself_ (DRY) is our mantra. But when you have two or three similar pieces of code, it may be still too early to introduce an abstraction, no matter how tempting it is.
 
@@ -38,7 +38,7 @@ I think the higher level of the code, the longer you should wait with abstractin
 
 TODO: Don’t let people depend on your code
 
-### Separate code that changes often
+#### Separate code that changes often
 
 _Code reuse_ isn’t the only and not the most important reason to extract code into a separate module.
 
@@ -71,7 +71,7 @@ This also makes code easier to delete when the requirements change. (TODO: why?)
 
 Even code reuse can be a valid reason to separate code here: if you use some design pattern on one page, you’ll likely need it on another page soon.
 
-### Flexibility vs. rigidity
+#### Flexibility vs. rigidity
 
 TODO: Balance between flexibility and consistency. It’s nice to have a global Button component but if it’s too flexible and you have 10 variations, it will be hard to choose the right one. If it’s too strict, developers will create their own buttons
 

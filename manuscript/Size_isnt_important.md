@@ -1,8 +1,10 @@
-## Size isn’t important
+### Size isn’t important
 
-- Short functions are overrated
-- Long functions and long files isn’t a problem
-- In UI state or custom styles are great reasons to create new components
+TODO: Short functions are overrated
+
+TODO: Long functions and long files isn’t a problem
+
+TODO: In UI state or custom styles are great reasons to create new components
 
 > Generally, any method longer than ten lines should make you start asking questions.
 

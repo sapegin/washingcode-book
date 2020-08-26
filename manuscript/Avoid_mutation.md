@@ -1,4 +1,4 @@
-## Avoid mutation
+### Avoid mutation
 
 Mutations happen when we change a JavaScript object or array without creating a new variable or reassigning an existing one:
 
@@ -35,7 +35,7 @@ _Immutability_ or _immutable data structures_, meaning that to change a value we
 
 Also, don’t forget that `const` in JavaScript only prevents reassignments — not mutations. We’ve discussed reassignments in the previous chapter, [Avoid reassigning variables](#avoid-reassigning-variables).
 
-### Avoid mutating operations
+#### Avoid mutating operations
 
 One of the most common use cases for mutation is updating an object:
 
@@ -128,7 +128,7 @@ expect(parseExample('pizza', 'js', 'foo bar')).toEqual({content: 'pizza', lang: 
 
 Now it’s easier to understand what the code does, and the possible shapes of the return object are clear. We’ve also removed all mutations and reduced nesting a little.
 
-### Beware of the mutating array methods
+#### Beware of the mutating array methods
 
 Not all methods in JavaScript return a new array or object. [Some methods mutate](https://doesitmutate.xyz/) the original value in place. For example, `push()` is one of the most commonly used.
 
@@ -301,7 +301,7 @@ Other [mutating array methods](https://doesitmutate.xyz/) to watch out for are:
 - [.splice()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
 - [.unshift()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift)
 
-### Avoid mutation of function arguments
+#### Avoid mutation of function arguments
 
 Objects or arrays that are passed to a function can be mutated inside that function, and this affects the original object:
 
@@ -497,7 +497,7 @@ So I’d stop two steps ago with this refactoring.
 
 Probably the only valid reason to mutate function arguments is performance optimization: when you work with a huge piece of data, and creating a new object or array would be too slow. But like with all performance optimizations: measure first to know whether you actually have a problem, and avoid premature optimization.
 
-### Make mutations explicit if you have to use them
+#### Make mutations explicit if you have to use them
 
 Sometimes we can’t avoid mutations, for example, because of an unfortunate language API that does mutation.
 
@@ -546,7 +546,7 @@ const puppies = _.sortBy(counts).map(n => `${n} puppies`);
 
 <!-- expect(puppies).toEqual(['2 puppies', '3 puppies', '6 puppies']) -->
 
-### Updating objects
+#### Updating objects
 
 Modern JavaScript makes it easier to do immutable data updates thanks to [the spread syntax](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax). Before the spread syntax we had to write something like:
 
@@ -695,7 +695,7 @@ const map2 = produce(map1, draftState => {
 
 And Immer will freeze the resulting object in development.
 
-### Even mutation is not so bad sometimes
+#### Even mutation is not so bad sometimes
 
 In rare cases, imperative code with mutations isn’t so bad, and rewriting it in a declarative way without mutations doesn’t make it better.
 

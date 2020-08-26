@@ -1,4 +1,4 @@
-## Conclusion
+### Conclusion
 
 All topics, covered in this book, aren’t hard rules but ideas for possible improvements. When I say _avoid conditions, mutation, reassignments or something else_, I don’t mean _never use them_, more like _are you sure there’s no better solution?_
 
