@@ -32,3 +32,4 @@
 
 - [Building resilient frontend architecture](https://www.youtube.com/watch?v=brMZLmZ1HR0) by Monica Lent, React Finland 2019
 - [Beyond PEP 8: Best practices for beautiful intelligible code](https://www.youtube.com/watch?v=wf-BqAjZb8M) by Raymond Hettinger, PyCon 2015
+- [The WET codebase](https://overreacted.io/the-wet-codebase/) by Dan Abramov.
