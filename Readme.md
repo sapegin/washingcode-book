@@ -1,6 +1,6 @@
 # Washing your code: write once, read seven times
 
-[![Build Status](https://travis-ci.org/sapegin/washingcode-book.svg)](https://travis-ci.org/sapegin/washingcode-book)
+[![Node.js CI status](https://github.com/sapegin/washingcode/workflows/Node.js%20CI/badge.svg)](https://github.com/sapegin/washingcode/actions)
 
 <img align="right" width="250" height="323" src="manuscript/images/cover.jpg" />
 

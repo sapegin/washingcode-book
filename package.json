@@ -3,18 +3,14 @@
   "private": true,
   "author": {
     "name": "Artem Sapegin",
-    "url": "http://sapegin.me"
+    "url": "https://sapegin.me"
   },
   "homepage": "https://github.com/sapegin/washingcode",
   "repository": "sapegin/washingcode",
   "license": "CC BY-NC-ND 4.0",
   "engines": {
-    "node": ">=8.6"
+    "node": ">=10"
   },
-  "main": "index.js",
-  "files": [
-    "index.js"
-  ],
   "scripts": {
     "lint": "npm run lint:js && npm run lint:text",
     "lint:js": "eslint . --cache --fix",
