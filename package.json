@@ -52,7 +52,7 @@
     "textlint-rule-terminology": "^2.1.4",
     "textlint-rule-write-good": "^1.6.2",
     "unist-util-visit": "^2.0.2",
-    "vm2": "^3.9.2"
+    "vm2": "^3.9.4"
   },
   "jest": {
     "setupFilesAfterEnv": [
