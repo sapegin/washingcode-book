@@ -15,13 +15,6 @@
             "thereIs": false,
             "tooWordy": false,
             "weasel": false
-        },
-        "no-dead-link": {
-          "ignoreRedirects": true,
-          "maxRetryTime": 30,
-          "ignore": [
-            "mailto:*"
-          ]
         }
     },
 	"filters": {
