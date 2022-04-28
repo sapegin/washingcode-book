@@ -1,12 +1,14 @@
+const _ = require('lodash');
+
 // Common libraries
-global._ = require('lodash');
+global._ = _;
+global.isEmpty = _.isEmpty;
 
 // To make JSX work
 global.React = require('react');
 
 // Doesn't work without this for some reason
 global.jest = jest;
-global.URLSearchParams = URLSearchParams;
 
 // Common components
 global.Button = (...props) =>

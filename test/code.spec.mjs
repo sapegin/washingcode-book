@@ -6,6 +6,7 @@ import babel from '@babel/core';
 import { NodeVM } from 'vm2';
 import { remark } from 'remark';
 import { visit } from 'unist-util-visit';
+import { parse as qs } from 'qs';
 
 const MANUSCRIPT_PATTERN = path.resolve('manuscript/*.md');
 
@@ -17,9 +18,24 @@ const IGNORE = [
 ];
 const SKIP_TAG = 'test-skip';
 
+// For some reason Node's URLSearchParams isn't available inside the VM
+// This is a super primitive polyfill, just for the thing we use in the book
+class URLSearchParams {
+  constructor(search) {
+    this.params = qs(search);
+  }
+  get(param) {
+    return this.params[param];
+  }
+}
+
 const vm = new NodeVM({
-  sandbox: global,
+  sandbox: {
+    ...global,
+    URLSearchParams
+  },
   require: {
+    context: 'sandbox',
     external: true,
     builtin: ['*'],
     mock: {

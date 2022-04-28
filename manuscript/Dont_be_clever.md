@@ -92,7 +92,6 @@ This one took me a lot of time to understand. Imagine we have a portion of a URL
 
 I’d probably use a regular expression here:
 
-<!-- prettier-ignore -->
 ```js
 const header = 'filename="pizza.rar"'
 const filename = header.match(/filename="(.*?)"/)[1]
@@ -100,7 +99,6 @@ const filename = header.match(/filename="(.*?)"/)[1]
 
 Or the `URLSearchParams` API if I had access to it:
 
-<!-- prettier-ignore -->
 ```js
 const header = 'filename="pizza.rar"'
 const filename = new URLSearchParams(header)

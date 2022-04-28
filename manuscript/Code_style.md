@@ -200,9 +200,9 @@ Parentheses are optional here but I think they make it a tiny bit easier to read
 
 Another area where condition expansion improves readability is checking array length.
 
-<!-- const puppies = [] -->
-
 Consider these two examples:
+
+<!-- const puppies = [] -->
 
 ```js
 if (puppies.length) {
