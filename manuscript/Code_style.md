@@ -153,6 +153,96 @@ var fs = require('fs'),
 
 <!-- expect(examples).toEqual('./README.md') -->
 
+#### Improving readability
+
+In many cases, some ways of writing code are more readable than other ways. Conditions, and especially conditions with negations are good examples. I used to write these as short as possible, now I prefer to be verbose and explicit. Saving a few keystrokes isn’t worth it when the code could be easily misinterpreted. Better learn touch typing.
+
+Consider this example:
+
+<!-- const object = {} -->
+
+```js
+if (!isEmpy(object)) {
+}
+```
+
+It’s hard to notice the negation in `!i`. We could rewrite this code to avoid misunderstanding:
+
+<!-- const object = {} -->
+
+```js
+if (isEmpy(object) === false) {
+}
+```
+
+Someone may argue that it doesn’t read like English — "not is empty" — but there’s no way someone might miss the negation.
+
+
+Here’s another example:
+
+<!-- const guacamole = {} -->
+
+```js
+if (!('garlic' in guacamole)) {
+}
+```
+
+This pattern was always awkward to write and read for me until my friend Oleg [opened a whole new world for me](https://twitter.com/oleg008/status/1519593163803049984). We could do the same trick as above to make it more readable:
+
+<!-- const guacamole = {} -->
+
+```js
+if (('garlic' in guacamole) === false) {
+}
+```
+
+Parentheses are optional here but I think they make it a tiny bit easier to read.
+
+Another area where condition expansion improves readability is checking array length.
+
+<!-- const puppies = [] -->
+
+Consider these two examples:
+
+```js
+if (puppies.length) {
+}
+if (!puppies.length) {
+}
+```
+
+They look almost the same and the `!` in front of the second one is easy to miss. Let’s expand them:
+
+<!-- const puppies = [] -->
+
+```js
+if (puppies.length === 0) {
+}
+if (puppies.length > 0) {
+}
+```
+
+Now the conditions look significantly different and there’s no way to misinterpret them.
+
+I’m starting to think that using `!` in conditions is [generally an antipattern](https://twitter.com/Jack_Franklin/status/1189477268764188672), so instead of:
+
+<!-- const isFriday = false -->
+
+```js
+if (!isFriday) {
+}
+```
+
+We should always write:
+
+<!-- const isFriday = false -->
+
+```js
+if (isFriday === false) {
+}
+```
+
+
 #### The rest doesn’t matter
 
 There are so many ways to write code. For example you could use function arguments like this:
@@ -243,3 +333,5 @@ Choose [the most popular code style](https://blog.sapegin.me/all/javascript-code
 Automate as much as possible. [Prettier](https://prettier.io/) formats code with almost zero config, which saves enormous amount of time while you write code, read someone else’s code or discuss code style in your team.
 
 The last point is especially important: developers could waste days arguing where to put spaces in the code, which doesn’t matter at all, but everyone has an opinion on it.
+
+Prefer explicit over implicit, write code to maximize readability but don’t be too strict with others when they don’t do it the same way you would.
