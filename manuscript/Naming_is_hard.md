@@ -32,6 +32,7 @@ I can say a lot about this code but let’s focus on this line first:
 
 ```js
 if (!noErrorsFound) {
+}
 ```
 
 This double negation, “if not no errors found…”, makes it harder to read than necessary. And in most cases you can avoid it.

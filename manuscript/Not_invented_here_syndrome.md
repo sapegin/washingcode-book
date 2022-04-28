@@ -20,7 +20,7 @@ This code is checking that the object isn’t empty, meaning it has at least one
 Having a function with a meaningful name that encapsulates all the required checks (including the ones we’ll come up with in the future) makes the intention of the code more clear:
 
 ```js
-if (!isEmpy(object)) {
+if (isEmpy(object) === false) {
 }
 ```
 
