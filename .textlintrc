@@ -18,6 +18,7 @@
         },
         "no-dead-link": {
           "ignoreRedirects": true,
+          "maxRetryTime": 30,
           "ignore": [
             "mailto:*"
           ]
