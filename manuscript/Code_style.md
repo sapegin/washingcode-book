@@ -162,7 +162,7 @@ Consider this example:
 <!-- const object = {} -->
 
 ```js
-if (!isEmpy(object)) {
+if (!isEmpty(object)) {
 }
 ```
 
@@ -171,7 +171,7 @@ It’s hard to notice the negation in `!i`. We could rewrite this code to avoid 
 <!-- const object = {} -->
 
 ```js
-if (isEmpy(object) === false) {
+if (isEmpty(object) === false) {
 }
 ```
 
