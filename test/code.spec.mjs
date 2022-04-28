@@ -1,16 +1,13 @@
-const fs = require('fs');
-const path = require('path');
-const _ = require('lodash');
-const glob = require('glob');
-const babel = require('@babel/core');
-const { NodeVM } = require('vm2');
-const remark = require('remark');
-const visit = require('unist-util-visit');
+import fs from 'fs';
+import path from 'path';
+import _ from 'lodash';
+import glob from 'glob';
+import babel from '@babel/core';
+import { NodeVM } from 'vm2';
+import { remark } from 'remark';
+import { visit } from 'unist-util-visit';
 
-const MANUSCRIPT_PATTERN = path.resolve(
-  __dirname,
-  '../manuscript/*.md'
-);
+const MANUSCRIPT_PATTERN = path.resolve('manuscript/*.md');
 
 const LANGS = ['js', 'jsx', 'ts', 'tsx'];
 const IGNORE = [

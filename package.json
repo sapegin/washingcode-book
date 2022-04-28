@@ -18,8 +18,8 @@
     "lint:text:fix": "npm run lint:text -- --fix",
     "format": "prettier --loglevel warn --write \"**/*.{js,md}\"",
     "pretest": "npm run lint",
-    "test": "jest",
-    "test:watch": "jest --watchAll",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watchAll",
     "posttest": "npm run format",
     "prepare": "husky install"
   },
@@ -58,10 +58,17 @@
   "jest": {
     "setupFilesAfterEnv": [
       "<rootDir>/test/setup.js"
-    ]
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.js",
+      "**/?(*.)(spec|test).js",
+      "**/__tests__/**/*.mjs",
+      "**/?(*.)(spec|test).mjs"
+    ],
+    "transform": {}
   },
   "lint-staged": {
-    "*.{js,md}": "prettier --write",
+    "*.{js,mjs,md}": "prettier --write",
     "*.js": "eslint --cache --fix"
   }
 }
