@@ -340,7 +340,7 @@ if (isFriday === false) {
 }
 ```
 
-### Christmas trees vs. sausages
+#### Christmas trees vs. sausages
 
 I used to have a limit of 120 characters per line because why not, I have a big screen that could fit a lot of code, I should use the space available to me! Then I lowered it to 100 characters, and then to 80, which is a Prettier’s default value that in their docs they [highly recommend not to change](https://prettier.io/docs/en/options.html#print-width).
 
