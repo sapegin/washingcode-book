@@ -218,7 +218,7 @@ if (meaning === 42) {
 
 #### Nonsensical code styles
 
-Some code styles don’t solve any particular problem, but is expensive to maintain.
+Some code styles don’t solve any particular problem, but are expensive to maintain.
 
 For example, aligning object values or right-hands of assignments horizontally to make them look “pretty”:
 
@@ -472,7 +472,7 @@ It’s easier to follow conditions, notice `return` statements in the functions,
 
 I’m clearly a shortstringer.
 
-Another issue of the longstringer approach is that Prettier with default setting of 80 charters will likely make the code ugly and quite unreadable:
+Another issue of the longstringer approach is that Prettier with default setting of 80 characters will likely make the code ugly and quite unreadable:
 
 <!-- const puppies = [{id: 1, name: 'Dessi', parentId: 3 },{id: 2, name: 'Tsiri', parentId: 3 },{id: 3, name: 'Cthulhu' },] -->
 
@@ -605,6 +605,6 @@ In all the examples above I prefer the last variation but I’d never ask someon
 
 My rule of thumb here is: automate or forget. For example, [Prettier](https://prettier.io/) (see the [Prettier](#prettier) section) formats code with almost zero config, which saves enormous amount of time while you write code, read someone else’s code or discuss code style in your team.
 
-Be vigilant when you adapt [a popular code styles](https://blog.sapegin.me/all/javascript-code-styles/): many are too opinionated and want us to write code in a very specific way, even when it doesn’t imporove readability or maintainability of the code, or reduce the number of bugs.
+Be vigilant when you adapt [a popular code styles](https://blog.sapegin.me/all/javascript-code-styles/): many are too opinionated and want us to write code in a very specific way, even when it doesn’t improve readability or maintainability of the code, or reduce the number of bugs.
 
 Prefer explicit over implicit, write code to maximize readability but don’t be too strict with others when they don’t do it the same way you would. Next time you review someone else’s code and want to ask them to change a piece of code, ask yourself: does it really make code more readable and maintainable or just makes it look more familiar to me. If it’s the latter, please don’t write that comment.
