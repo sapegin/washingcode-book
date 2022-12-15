@@ -671,7 +671,7 @@ I don’t think freezing is worth it on its own unless it is part of another lib
 
 **Simplifying object updates** is another option that we can combine with mutation prevention.
 
-The most popular way to simplify object updates is to use the [Immutable.js](https://immutable-js.github.io/immutable-js/) library:
+One of the ways to simplify object updates is to use a library like [Immutable.js](https://immutable-js.github.io/immutable-js/):
 
 ```js
 import { Map } from 'immutable';
@@ -727,6 +727,8 @@ I don’t have good ideas on how to rewrite this code without an imperative loop
 - the function is pure: it doesn’t have any internal state and avoids mutating its arguments.
 
 It’s better to have simple and clear code with mutations than complex and messy code without them. But if you do use mutations, it’s wise to isolate them to a small function with a meaningful name and clear API.
+
+Also, avoiding mutation could [significantly reduce performance](https://tkdodo.eu/blog/why-i-dont-like-reduce) if we work with large amounts of data and create a new object on each iteration:
 
 ---
 
