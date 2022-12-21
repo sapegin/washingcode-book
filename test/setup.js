@@ -4,6 +4,9 @@ const _ = require('lodash');
 global._ = _;
 global.isEmpty = _.isEmpty;
 
+// Node.js
+global.path = require('path');
+
 // To make JSX work
 global.React = require('react');
 
