@@ -93,17 +93,17 @@ This one took me a lot of time to understand. Imagine we have a portion of a URL
 I’d probably use a regular expression here:
 
 ```js
-const header = 'filename="pizza.rar"'
-const filename = header.match(/filename="(.*?)"/)[1]
+const header = 'filename="pizza.rar"';
+const filename = header.match(/filename="(.*?)"/)[1];
 ```
 
 Or the `URLSearchParams` API if I had access to it:
 
 ```js
-const header = 'filename="pizza.rar"'
+const header = 'filename="pizza.rar"';
 const filename = new URLSearchParams(header)
   .get('filename')
-  .replace(/^"|"$/g, '')
+  .replace(/^"|"$/g, '');
 ```
 
 _These quotes are weird though. Normally you don’t need quotes around URL params, so talking to your backend developer could be a good idea._

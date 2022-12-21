@@ -540,16 +540,18 @@ const sessionGet = (key, brand, sku) =>
 const sessionSet = (key, brand, sku, value) =>
   Session.set(getSessionKey(key, brand, sku), value);
 
-const withSessionCache = (key, fn) => (brand, sku, ...args) => {
-  const cachedValue = sessionGet(key, brand, sku);
-  if (cachedValue) {
-    return cachedValue;
-  }
+const withSessionCache =
+  (key, fn) =>
+  (brand, sku, ...args) => {
+    const cachedValue = sessionGet(key, brand, sku);
+    if (cachedValue) {
+      return cachedValue;
+    }
 
-  const value = fn(brand, sku, ...args);
-  sessionSet(key, brand, sku, value);
-  return value;
-};
+    const value = fn(brand, sku, ...args);
+    sessionSet(key, brand, sku, value);
+    return value;
+  };
 
 // --- 8< -- 8< ---
 
