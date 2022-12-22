@@ -137,6 +137,7 @@ Replacing imperative code, full of loops and conditions, with declarative code i
 Consider this code:
 
 <!--
+const Text = ({children}) => <p>{children}</p>
 const ProductOptions = () => null
 const product1 = {name: 'pizza', colors: [], sizes: []}
 const product2 = {name: 'pizza', colors: [], sizes: []}
@@ -183,6 +184,7 @@ Array mutation itself isn’t the most significant issue of this code. However, 
 Let’s merge all possible rows into a single declarative array:
 
 <!--
+const Text = ({children}) => <p>{children}</p>
 const ProductOptions = () => null
 const product1 = {name: 'pizza', colors: [], sizes: []}
 const product2 = {name: 'pizza', colors: [], sizes: []}

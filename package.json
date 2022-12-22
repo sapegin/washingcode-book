@@ -29,18 +29,21 @@
     "immutable": "^4.0.0",
     "lodash": "^4.17.21",
     "qs": "^6.10.5",
-    "react": "^18.2.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.18.5",
     "@babel/preset-env": "^7.18.2",
     "@babel/preset-react": "^7.17.12",
     "@babel/preset-typescript": "^7.17.12",
+    "@testing-library/react": "^13.4.0",
     "eslint": "^8.30.0",
     "eslint-config-tamia": "^8.0.1",
     "glob": "^8.0.3",
     "husky": "^8.0.2",
     "jest": "^28.1.1",
+    "jest-environment-jsdom": "^29.3.1",
     "lint-staged": "^13.1.0",
     "prettier": "^2.8.1",
     "remark": "^14.0.2",
@@ -57,6 +60,7 @@
     "vm2": "^3.9.13"
   },
   "jest": {
+    "testEnvironment": "jsdom",
     "setupFilesAfterEnv": [
       "<rootDir>/test/setup.js"
     ],
