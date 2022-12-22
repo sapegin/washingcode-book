@@ -84,6 +84,64 @@ function IsNetscapeOnSolaris() {
 
 We’ve eliminated two levels of nesting and quite a lot of boilerplate code, so the actual condition is easier to understand.
 
+I often see two conditions for a single boolean condition:
+
+```jsx
+const RefundLabel = ({
+  type,
+  typeLabels,
+  hasUserSelectableRefundOptions
+}) => (
+  <label>
+    {type && typeLabels[type]}
+    {!type && hasUserSelectableRefundOptions && 'Estimated:'}
+    {!type && !hasUserSelectableRefundOptions && 'Total:'}
+  </label>
+);
+```
+
+<!--
+const {container: c1} = RTL.render(<RefundLabel type="card" typeLabels={{card: 'Card refund:'}} />);
+expect(c1.textContent).toEqual('Card refund:')
+const {container: c2} = RTL.render(<RefundLabel hasUserSelectableRefundOptions />);
+expect(c2.textContent).toEqual('Estimated:')
+const {container: c3} = RTL.render(<RefundLabel />);
+expect(c3.textContent).toEqual('Total:')
+-->
+
+Here we compare `type` three times, which is unnecessary:
+
+```jsx
+const RefundLabelMessage = ({
+  type,
+  typeLabels,
+  hasUserSelectableRefundOptions
+}) => {
+  if (type) {
+    return typeLabels[type];
+  }
+
+  return hasUserSelectableRefundOptions ? 'Estimated:' : 'Total:';
+};
+
+const RefundLabel = props => (
+  <label>
+    <RefundLabelMessage {...props} />
+  </label>
+);
+```
+
+<!--
+const {container: c1} = RTL.render(<RefundLabel type="card" typeLabels={{card: 'Card refund:'}} />);
+expect(c1.textContent).toEqual('Card refund:')
+const {container: c2} = RTL.render(<RefundLabel hasUserSelectableRefundOptions />);
+expect(c2.textContent).toEqual('Estimated:')
+const {container: c3} = RTL.render(<RefundLabel />);
+expect(c3.textContent).toEqual('Total:')
+-->
+
+We had to split the component into two to use early return but the logic is now clearer.
+
 #### Processing arrays
 
 It’s common to check an array’s length before running a loop over its items:
