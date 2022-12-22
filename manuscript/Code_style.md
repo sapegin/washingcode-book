@@ -1,6 +1,6 @@
 ### Code style
 
-I used to be very strict about [code style](https://blog.sapegin.me/all/prettier/). I thought my code style was better than  others’, but later I’ve realized that it was just different. And it wasn’t the most popular, so anyone else’s code looked wrong to me.
+I used to be very strict about [code style](https://blog.sapegin.me/all/prettier/). I thought my code style was better than others’, but later I’ve realized that it was just different. And it wasn’t the most popular, so anyone else’s code looked wrong to me.
 
 For example, after reading the [The Programmers’ Stone](https://www.datapacrat.com/Opinion/Reciprocality/r0/index.html) I was formatting braces like this for a long time:
 
@@ -134,7 +134,7 @@ Compare it with:
 
 ```js
 if (recipeDetails?.allIngredients.length === 0) {
-   return null;
+  return null;
 }
 ```
 
@@ -413,14 +413,14 @@ On the other hand, the shortstringers write code that looks like one side of a C
 ```js
 const puppiesByParent = puppies.reduce((acc, puppy) => {
   if (puppy.parentId) {
-    const parent = puppies.find(x => x.id === puppy.parentId)
+    const parent = puppies.find(x => x.id === puppy.parentId);
     if (parent.id in acc === false) {
-    acc[parent.id] = [];
+      acc[parent.id] = [];
     }
-    acc[parent.id].push(puppy.id)
+    acc[parent.id].push(puppy.id);
   }
   return acc;
-}, {})
+}, {});
 ```
 
 <!-- expect(puppiesByParent).toEqual({3: [1, 2]}) -->
@@ -432,10 +432,10 @@ Or:
 ```js
 function getDownloadLink(hasTranslation) {
   if (hasTranslation) {
-    const link = intl.formatMessage({id: 'download-link'});
+    const link = intl.formatMessage({ id: 'download-link' });
     return [origin, link].join('/');
   } else {
-    return  '/download'
+    return '/download';
   }
 }
 ```
@@ -456,7 +456,7 @@ const FAVORITE_SNACKS = {
   dachshund: 'yogurt'
 };
 if (breed in FAVORITE_SNACKS) {
-  return FAVORITE_SNACKS[breed]
+  return FAVORITE_SNACKS[breed];
 }
 ```
 
@@ -477,13 +477,18 @@ Another issue of the longstringer approach is that Prettier with default setting
 <!-- const puppies = [{id: 1, name: 'Dessi', parentId: 3 },{id: 2, name: 'Tsiri', parentId: 3 },{id: 3, name: 'Cthulhu' },] -->
 
 ```js
-const puppiesByParent = {}
+const puppiesByParent = {};
 puppies.forEach(puppy => {
   if (puppy.parentId) {
-    const currentParent = puppies.find(currentPuppy => currentPuppy.id === puppy.parentId)
-    puppiesByParent[currentParent.id] = [...(puppiesByParent[currentParent.id] || []), puppy.id]
+    const currentParent = puppies.find(
+      currentPuppy => currentPuppy.id === puppy.parentId
+    );
+    puppiesByParent[currentParent.id] = [
+      ...(puppiesByParent[currentParent.id] || []),
+      puppy.id
+    ];
   }
-})
+});
 ```
 
 <!-- expect(puppiesByParent).toEqual({3: [1, 2]}) -->
@@ -496,7 +501,9 @@ function test(hasTranslation) {
 -->
 
 ```js
-const downloadLink = hasTranslation ? `${origin}/${intl.formatMessage({id: 'download-link'})}` : '/download';
+const downloadLink = hasTranslation
+  ? `${origin}/${intl.formatMessage({ id: 'download-link' })}`
+  : '/download';
 ```
 
 <!--
@@ -522,7 +529,6 @@ if (breed === 'dachshund') return DACHSHUND_FAVORITE_SNACK;
 expect(test('dachshund')).toEqual('yogurt')
 expect(test('saluki')).toEqual(undefined)
 -->
-
 
 The shortstringer code stays the same.
 
