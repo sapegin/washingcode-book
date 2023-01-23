@@ -7,21 +7,3 @@ TODO: Not sure it’s actually a convention, it’s more of a flag to stop and t
 Conventions are good because they are easy to implement: document your decision and make the team aware of it. Conventions are not good because they are just words, and there’s nothing to enforce the convention, except more work, like code review comments.
 
 The are tools to enforce some of the conventions and help up keep the codebase healthy.
-
-#### Linters
-
-TODO: intro
-
-TODO: useful rules / ESLint
-
-TODO: useufl ESLint plugins and their rules
-
-TODO: linters can be infuriating / list of harmful rules
-
-TODO: document reasoning behind each linter rule
-
-#### Other tools
-
-TODO: Prettier
-
-TODO: lint-staged

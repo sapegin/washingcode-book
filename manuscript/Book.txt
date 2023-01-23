@@ -40,6 +40,7 @@ Code_is_evil.md
 ## Tooling
 
 Tooling.md
+Linters.md
 
 ***
 
