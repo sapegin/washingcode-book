@@ -119,6 +119,86 @@ $(`#${bookID}_download`).toggleClass('hidden-node', noData);
 $(`#${bookID}_retry`).attr('disabled', !noData);
 ```
 
+### The larger the scope, the longer the name
+
+My rule of thumb: the shorter the scope of a variable, the shorter should be its name.
+
+Consider these two examples:
+
+<!-- const TRANSITION = {'0xbada55': 0, '0xc0ffee': 1}, BREAKPOINT_MOBILE = 480, BREAKPOINT_TABLET = 768, BREAKPOINT_DESKTOP = 1024 -->
+
+```js
+const inputRange = Object.keys(TRANSITION).map(x => parseInt(x, 16));
+
+const breakpoints = [
+  BREAKPOINT_MOBILE,
+  BREAKPOINT_TABLET,
+  BREAKPOINT_DESKTOP
+].map(x => `${x}px`);
+```
+
+<!--
+expect(inputRange).toEqual([12245589, 12648430])
+expect(breakpoints).toEqual(['480px', '768px', '1024px'])
+-->
+
+Here, it’s clear what `x` is, and a longer name would bloat the code without making it more readable, likely less. The name is read in the parent function: we’re mapping over the `TRANSITION` object keys, and parse each key, or we’re mapping over a list of breakpoints, and convert them to strings. It also helps that here we only have a single variable, so any short name will be read as "whatever we’re mapping over".
+
+On the other hand, when the scope is longer, or when we have multiple variables, short names could be confusing:
+
+```js
+const hasDiscount = customers => {
+  let result = false;
+  const customerIds = Object.keys(customers);
+  for (let k = 0; k < customerIds.length; k++) {
+    const c = customers[customerIds[k]];
+    if (c.ages) {
+      for (let j = 0; j < c.ages.length; j++) {
+        const a = c.ages[j];
+        if (a && a.customerCards.length) {
+          result = true;
+          break;
+        }
+      }
+    }
+    if (result) {
+      break;
+    }
+  }
+  return result;
+};
+```
+
+<!--
+expect(hasDiscount({gandalf: {}})).toBe(false)
+expect(hasDiscount({gandalf: {ages: [{customerCards: []}]}})).toBe(false)
+expect(hasDiscount({gandalf: {ages: [{customerCards: []}, {customerCards: ['DISCOUNT']}]}})).toBe(true)
+expect(hasDiscount({gandalf: {ages: [{customerCards: ['DISCOUNT']}]}})).toBe(true)
+-->
+
+Here, it’s absolutely impossible to understand what’s going on, and meaningless names are one of the main reasons for this.
+
+Let’s try to refactor it a bit:
+
+```js
+const hasDiscount = customers => {
+  return Object.entries(customers).some(([customerId, customer]) => {
+    return customer.ages?.some(
+      ageGroup => ageGroup.customerCards.length > 0
+    );
+  });
+};
+```
+
+<!--
+expect(hasDiscount({gandalf: {}})).toBe(false)
+expect(hasDiscount({gandalf: {ages: [{customerCards: []}]}})).toBe(false)
+expect(hasDiscount({gandalf: {ages: [{customerCards: []}, {customerCards: ['DISCOUNT']}]}})).toBe(true)
+expect(hasDiscount({gandalf: {ages: [{customerCards: ['DISCOUNT']}]}})).toBe(true)
+-->
+
+Not only the refactored code is three times shorter but it’s also much clearer: are there any (some) customers with at least one customer card in any (some) age group?
+
 #### Prefixes, suffixes and abbreviations
 
 TODO: data, list, util, etc. in names
@@ -128,8 +208,6 @@ TODO: Don’t go too far with naming conventions — Hungarian notation
 TODO: Avoid abbreviations: accepted in smaller scope when the bigger scope has a full name: it’s okay to use `op` inside `filterPurchageOrders` function
 
 TODO: The smaller the scope of a variable the better
-
-TODO: The bigger the scope of a variable the longer should be the name (with a very small scope the name is a bit less important because the code is short and easy to understand)
 
 TODO: Use destructuring to avoid inventing a new variable name: function parameters, result of function call
 
