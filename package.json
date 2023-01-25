@@ -9,7 +9,7 @@
   "repository": "sapegin/washingcode",
   "license": "CC BY-NC-ND 4.0",
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   },
   "scripts": {
     "lint": "npm run lint:js && npm run lint:text",
@@ -25,7 +25,7 @@
   },
   "keywords": [],
   "dependencies": {
-    "immer": "^5.3.6",
+    "immer": "^9.0.18",
     "immutable": "^4.0.0",
     "lodash": "^4.17.21",
     "qs": "^6.10.5",
