@@ -41,6 +41,7 @@ Code_is_evil.md
 
 Tooling.md
 Linters.md
+Other_tools.md
 
 ***
 
