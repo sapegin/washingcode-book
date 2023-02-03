@@ -912,6 +912,67 @@ const getDateFormat = format => {
 
 The improved version isn’t much shorter, but now it’s easy to see all date formats. We’ve extracted the data to a short and readable object, and separated it from the code that accesses the right piece of this data.
 
+#### Formulas
+
+Similar to tables, a single formula could often replace a whole bunch of conditions. Consider [this example](https://twitter.com/JeroenFrijters/status/1615204074588180481):
+
+```js
+function getPercentageRounds(percentage) {
+  if (percentage === 0)
+    return '⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️';
+  if (percentage > 0 && percentage <= 0.1)
+    return '🔵⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️';
+  if (percentage > 0.1 && percentage <= 0.2)
+    return '🔵🔵⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️';
+  if (percentage > 0.2 && percentage <= 0.3)
+    return '🔵🔵🔵⚪️⚪️⚪️⚪️⚪️⚪️⚪️';
+  if (percentage > 0.3 && percentage <= 0.4)
+    return '🔵🔵🔵🔵⚪️⚪️⚪️⚪️⚪️⚪️';
+  if (percentage > 0.4 && percentage <= 0.5)
+    return '🔵🔵🔵🔵🔵⚪️⚪️⚪️⚪️⚪️';
+  if (percentage > 0.5 && percentage <= 0.6)
+    return '🔵🔵🔵🔵🔵🔵⚪️⚪️⚪️⚪️';
+  if (percentage > 0.6 && percentage <= 0.7)
+    return '🔵🔵🔵🔵🔵🔵🔵⚪️⚪️⚪️';
+  if (percentage > 0.7 && percentage <= 0.8)
+    return '🔵🔵🔵🔵🔵🔵🔵🔵⚪️⚪️';
+  if (percentage > 0.8 && percentage <= 0.9)
+    return '🔵🔵🔵🔵🔵🔵🔵🔵🔵⚪️';
+    return '🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵';
+}
+```
+
+<!--
+expect(getPercentageRounds(0)).toBe('⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️')
+expect(getPercentageRounds(0.01)).toBe('🔵⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️')
+expect(getPercentageRounds(0.1)).toBe('🔵⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️')
+expect(getPercentageRounds(0.11)).toBe('🔵🔵⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️')
+expect(getPercentageRounds(0.91)).toBe('🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵')
+-->
+
+Folks in replies on Twitter argue that this code is easy to understand and doesn't need any improvements. I agree that it's easy to undertand but it has a very large surface for bugs: every number and every condition could be wrong, and there are many of them. This code will also need many test cases to make sure it's correct.
+
+Let's try to replace conditions with a formula:
+
+```js
+const FULL_ROUND_ICON = '🔵';
+const EMPTY_ROUND_ICON = '⚪️';
+function getPercentageRounds(percentage) {
+  const fullRounds = Math.ceil(percentage * 10);
+  return `${FULL_ROUND_ICON.repeat(fullRounds)}${EMPTY_ROUND_ICON.repeat(10 - fullRounds)}`;
+}
+```
+
+<!--
+expect(getPercentageRounds(0)).toBe('⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️')
+expect(getPercentageRounds(0.01)).toBe('🔵⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️')
+expect(getPercentageRounds(0.1)).toBe('🔵⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️')
+expect(getPercentageRounds(0.11)).toBe('🔵🔵⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️')
+expect(getPercentageRounds(0.91)).toBe('🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵')
+-->
+
+It is a bit harder to understand than the initial implementation but it needs significantly fewer test cases, and we've separated the design and the code. It's likely that the images will change but very unlikely that the algorithm will.
+
 #### Nested ternaries
 
 A ternary operator is a short one-line conditional operator. It’s very useful when you want to assign one of two values to a variable. Compare an `if` statement:
