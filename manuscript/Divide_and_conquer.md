@@ -175,6 +175,45 @@ const favoriteTaco = [
 
 The result is not just shorter and more readable, now the reader won’t need to guess what these function do since we use JavaScript native functions and features without home-baked abstractions.
 
+In many cases, a bit of repetition is good. Consider this example:
+
+```ts
+const baseSpacing = 8;
+const spacing = {
+  tiny: baseSpacing / 2,
+  small: baseSpacing,
+  medium: baseSpacing * 2,
+  large: baseSpacing * 3,
+  xlarge: baseSpacing * 4,
+  xxlarge: baseSpacing * 5,
+};
+```
+
+<!-- expect(spacing.xlarge).toEqual(32) -->
+
+It looks totally fine, and won't raise any questions during code review. However, every time we try to use these values, autocompletion will show just `number` instead of actual values. This makes it harder to choose the right value.
+
+![Autocompletion with calculated values](images/autocompletion-formula.png)
+
+We could inline the `baseSpacing` constant:
+
+```ts
+const spacing = {
+  tiny: 4,
+  small: 8,
+  medium: 16,
+  large: 24,
+  xlarge: 32,
+  xxlarge: 40,
+};
+```
+
+<!-- expect(spacing.xlarge).toEqual(32) -->
+
+Now we have less code, it's easier to understand, and autocompletion show the actual values. And I don't think this code will change often, probably never.
+
+![Autocompletion with literal values](images/autocompletion-literals.png)
+
 ---
 
 The biggest challenge with abstractions is finding a balance, and knowing where to start abstracting things and when to stop. It’s worth waiting to see whether we really need to abstract something, and often it’s better not to. And before adding another option to an abstraction, think whether this new use case really belongs there.
