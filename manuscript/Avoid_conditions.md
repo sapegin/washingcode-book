@@ -895,7 +895,7 @@ const month = MONTH_NAME_TO_NUMBER[monthName];
 
 There’s almost no boilerplate code around the data, it’s more readable and looks like a table. Notice also that there are no brackets in the original code: in most modern style guides brackets around condition bodies are required, and the body should be on its own line, so this snippet will be three times longer and even less readable.
 
-Another issue of the initial code it that the `month` variable's initial type is string, but then it becomes a number. This is confusing, and if we were using a typed language (like TypeScript), we would have to check the type every time we want to acess this variable.
+Another issue of the initial code it that the `month` variable’s initial type is string, but then it becomes a number. This is confusing, and if we were using a typed language (like TypeScript), we would have to check the type every time we want to acess this variable.
 
 Or a bit more realistic and common example:
 
