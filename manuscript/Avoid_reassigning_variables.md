@@ -29,7 +29,7 @@ function getProductsOnSale(category) {
 
 Here the `category` variable is used to store a category ID, a list of products in a category, and a list of filtered products. This function isn’t completely hopeless because it’s short, but imagine more code between reassignments.
 
-Also a new value is reassigned to a function argument, known as _function argument shadowing_. I think it’s no different from regular reassignment, so I’ll treat it the same way.
+Also a new value is reassigned to a function parameter, known as _function parameter shadowing_. I think it’s no different from regular reassignment, so I’ll treat it the same way.
 
 This case is the easiest to fix: we need to use separate variables for each value:
 

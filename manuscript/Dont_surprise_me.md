@@ -5,7 +5,7 @@ TODO: Principle of least surprise. Think what kind of comments your code reviewe
 Surprising behavior:
 
 - Incorrect semantic: `.map()` with side effects
-- Mutating function arguments
+- Mutating function parameters
 - Function that’s doing more than the name says (or not doing what the name says)
 
 Surprising behavior:

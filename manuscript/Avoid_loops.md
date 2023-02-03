@@ -23,14 +23,14 @@ const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(name => _.kebabCase(name));
 ```
 
-We can shorten it even more if our callback function accepts only one argument: the value. Take [kebabCase from Lodash](https://lodash.com/docs#kebabCase) for example:
+We can shorten it even more if our callback function accepts only one parameter: the value. Take [kebabCase from Lodash](https://lodash.com/docs#kebabCase) for example:
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(_.kebabCase);
 ```
 
-This wouldn’t work with functions that accept more than one argument because `.map()` also passes an array index as the second argument and a whole array as the third. Using `parseInt()`, a function that accepts the radix as its second argument, would likely lead to unexpected results:
+This wouldn’t work with functions that accept more than one parameter because `.map()` also passes an array index as the second parameter and a whole array as the third. Using `parseInt()`, a function that accepts the radix as its second parameter, would likely lead to unexpected results:
 
 ```js
 const inputs = ['1', '2', '3'];
@@ -107,7 +107,7 @@ const kebabNames = names.map(name => _.kebabCase(name));
 
 <!-- expect(kebabNames).toEqual(['bilbo-baggins', 'gandalf', 'gollum']) -->
 
-This version is much easier to read because we know that the `.map()` method transforms an array by keeping the same number of items. And, unlike `.forEach()`, it doesn’t require a custom implementation or mutate an output array. In addition, the callback function is now pure: it merely transforms input arguments to the output value without any side effects.
+This version is much easier to read because we know that the `.map()` method transforms an array by keeping the same number of items. And, unlike `.forEach()`, it doesn’t require a custom implementation or mutate an output array. In addition, the callback function is now pure: it merely transforms input parameters to the output value without any side effects.
 
 We run into similar problems when we abuse array method semantics:
 

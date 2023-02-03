@@ -29,7 +29,7 @@ Some of the problems with mutation:
 
 - Mutation may lead to unexpected and hard-to-debug issues, where data becomes incorrect somewhere, and you have no idea where it happens.
 - Mutation makes code harder to understand: at any time, an array or object may have a different value, so we need to be very careful when reading the code.
-- Mutation of function arguments makes the behavior of a function surprising.
+- Mutation of function parameters makes the behavior of a function surprising.
 
 _Immutability_ or _immutable data structures_, meaning that to change a value we have to create a new array or object, would solve this problem. Unfortunately, JavaScript doesn’t support immutability natively, and all solutions are more crutches than actual solutions. But even just _avoiding_ mutations in our code makes it easier to understand.
 
@@ -303,7 +303,7 @@ Other [mutating array methods](https://doesitmutate.xyz/) to watch out for are:
 - [.splice()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
 - [.unshift()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift)
 
-#### Avoid mutation of function arguments
+#### Avoid mutation of function parameters
 
 Objects or arrays that are passed to a function can be mutated inside that function, and this affects the original object:
 
@@ -321,10 +321,10 @@ mutate(person);
 
 Here the `person` object is mutated inside the `mutate` function.
 
-Function argument mutation can be intentional and accidental, and both are problematic:
+Function parameter mutation can be intentional and accidental, and both are problematic:
 
-- It’s harder to understand how a function works and how to use it because it doesn’t return a value but changes one of the incoming arguments.
-- Accidental argument mutation is even worse because function consumers don’t expect it. And it can lead to hard-to-find bugs when a value that is mutated inside a function is later used somewhere else.
+- It’s harder to understand how a function works and how to use it because it doesn’t return a value but changes one of the incoming parameters.
+- Accidental parameter mutation is even worse because function consumers don’t expect it. And it can lead to hard-to-find bugs when a value that is mutated inside a function is later used somewhere else.
 
 Consider this example:
 
@@ -462,7 +462,7 @@ expect(getMessageProps(1, 5, 0, 2, 0)).toEqual([
 ])
 -->
 
-But this makes the function API less discoverable and can make editor autocomplete less useful. It also gives the wrong impression that the function accepts any number of arguments and that the count order is unimportant — the number and order of arguments were clear in the previous iteration.
+But this makes the function API less discoverable and can make editor autocomplete less useful. It also gives the wrong impression that the function accepts any number of parameters and that the count order is unimportant — the number and order of parameters were clear in the previous iteration.
 
 We can also use `.reduce()` method instead of `.map()` / `.filter()` chaining:
 
@@ -497,7 +497,7 @@ I’m not a huge fan of `.reduce()` because it often makes code harder to read a
 
 So I’d stop two steps ago with this refactoring.
 
-Probably the only valid reason to mutate function arguments is performance optimization: when you work with a huge piece of data, and creating a new object or array would be too slow. But like with all performance optimizations: measure first to know whether you actually have a problem, and avoid premature optimization.
+Probably the only valid reason to mutate function parameters is performance optimization: when you work with a huge piece of data, and creating a new object or array would be too slow. But like with all performance optimizations: measure first to know whether you actually have a problem, and avoid premature optimization.
 
 #### Make mutations explicit if you have to use them
 
@@ -560,7 +560,7 @@ const next = Object.assign({}, prev, { pizza: 42 });
 
 <!-- expect(next).toEqual({coffee: 1, pizza: 42}) -->
 
-Note the empty object as the first argument: it was necessary; otherwise, `Object.assign` would mutate the initial object: it considers the first argument as a target. It mutates the first argument and also returns it — this is a very unfortunate API.
+Note the empty object as the first parameter: it was necessary; otherwise, `Object.assign` would mutate the initial object: it considers the first parameter as a target. It mutates the first parameter and also returns it — this is a very unfortunate API.
 
 Now we can write:
 
@@ -726,7 +726,7 @@ I don’t have good ideas on how to rewrite this code without an imperative loop
 - all “bad” things are isolated in a small function;
 - the function has a meaningful name;
 - the code is clear enough;
-- the function is pure: it doesn’t have any internal state and avoids mutating its arguments.
+- the function is pure: it doesn’t have any internal state and avoids mutating its parameters.
 
 It’s better to have simple and clear code with mutations than complex and messy code without them. But if you do use mutations, it’s wise to isolate them to a small function with a meaningful name and clear API.
 
@@ -739,7 +739,7 @@ Start thinking about:
 - Rewriting imperative code with mutations in a pure declarative way to improve its readability.
 - Keeping the complete object shape in a single place; when you create a new object, make its shape as clear as possible.
 - Deduplicating logic and separating “what” from “how.”
-- Avoiding mutation of function arguments to prevent hard-to-find bugs.
+- Avoiding mutation of function parameters to prevent hard-to-find bugs.
 - Using `.map()` / `.filter()` chaining instead of `.reduce()`.
 - Making mutations explicit if you have to use them.
 - Preventing mutations in your code using a linter or read-only types.
