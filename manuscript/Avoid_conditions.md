@@ -958,9 +958,10 @@ const FULL_ROUND_ICON = '🔵';
 const EMPTY_ROUND_ICON = '⚪️';
 function getPercentageRounds(percentage) {
   const fullRounds = Math.ceil(percentage * 10);
-  return `${FULL_ROUND_ICON.repeat(
-    fullRounds
-  )}${EMPTY_ROUND_ICON.repeat(10 - fullRounds)}`;
+  return [
+    FULL_ROUND_ICON.repeat(fullRounds),
+    EMPTY_ROUND_ICON.repeat(10 - fullRounds)
+  ].join('');
 }
 ```
 
