@@ -184,7 +184,7 @@ function getProductsDropdownItems({ products }) {
 }
 ```
 
-We can’t avoid the condition in this case but we can move it earlier and avoid a separate branch that handles the absence of an array. There are several ways to do it, depending on the possible data types.
+We can’t avoid the condition in this case but we can _lift it to the function head_ and avoid a separate branch that handles the absence of an array. There are several ways to do it, depending on the possible data types.
 
 If our data can be an array or `undefined`, we can use a default value for the function parameter:
 
@@ -204,11 +204,12 @@ Or a default value for the destructured property of an object:
 + function getProductsDropdownItems({ products = [] }) {
 ```
 
-It’s more tricky if our data can be an array or `null`, because defaults are only used when the value is strictly `undefined`, not just falsy. In this case we can use the `||` operator:
+It’s more tricky if our data can be an array or `null`, because defaults are only used when the value is strictly `undefined`, not just falsy. In this case we can use nullish coalescing operator:
 
 ```js
 function getProductsDropdownItems(products) {
-  return (products || []).map(product => ({
+  const productList = products ?? [];
+  return productList.map(product => ({
     label: product.name,
     value: product.id
   }));
@@ -225,7 +226,8 @@ A similar technique works when the input is a single item or an array:
 
 ```js
 function getProductsDropdownItems({ products }) {
-  (Array.isArray(products) ? products : [products]).map(product => ({
+  const productList = Array.isArray(products) ? products : [products];
+  return products.map(product => ({
     label: product.name,
     value: product.id
   }));
@@ -354,6 +356,96 @@ log(LOG_LEVEL.ERROR, errorMessage || DEFAULT_ERROR_MESSAGE);
 ```
 
 We’ve removed all code duplication and the code is shorter and easier to read.
+
+#### Optional function parameters
+
+We often add conditions when some data might be missing. For example, an optional callback function:
+
+<!-- const fetch = () => ({ then: (cb) => { cb({ json: () => {} } ); return ({ then: (cb) => { cb('pizza'); return ({ catch: (cb) => { cb({message: 'nope'}) } })} }) } })
+ -->
+
+```ts
+function getRandomeJoke(onDone, onError) {
+  fetch('https://api.chucknorris.io/jokes/random')
+    .then(result => result.json())
+    .then(data => {
+      onDone(data);
+    })
+    .catch(err => {
+      if (onError) {
+        onError(err.message);
+      }
+    });
+}
+```
+
+<!--
+const onDone = jest.fn(), onError = jest.fn()
+getRandomeJoke(onDone, onError)
+expect(onDone).toBeCalledWith('pizza')
+expect(onError).toBeCalledWith('nope')
+expect(() => getRandomeJoke(onDone)).not.toThrowError()
+-->
+
+Here, `onError` parameter is optional, and we check if it exists before calling it. The problem here is that  we need to remember to wrap each call to an optional callback into a condition. It increases complexity and cognitive load, and make the code hared to read.
+
+One way to simplify the code here is by using optional chaining:
+
+<!-- const fetch = () => ({ then: (cb) => { cb({ json: () => {} } ); return ({ then: (cb) => { cb('pizza'); return ({ catch: (cb) => { cb({message: 'nope'}) } })} }) } })
+ -->
+
+```ts
+function getRandomeJoke(onDone, onError) {
+  fetch('https://api.chucknorris.io/jokes/random')
+    .then(result => result.json())
+    .then(data => {
+      onDone(data);
+    })
+    .catch(err => {
+        onError?.(err.message);
+    });
+}
+```
+
+<!--
+const onDone = jest.fn(), onError = jest.fn()
+getRandomeJoke(onDone, onError)
+expect(onDone).toBeCalledWith('pizza')
+expect(onError).toBeCalledWith('nope')
+expect(() => getRandomeJoke(onDone)).not.toThrowError()
+-->
+
+It looks neater, however it has the same issues as the `if` statement.
+
+I usually try to avoid this kind of conditions and make sure all optional parameters are available, even if empty, so I could access them without checking if they are available first.
+
+My favorite way to do it is by lifting the condition to the function head using optional function parameters:
+
+<!-- const fetch = () => ({ then: (cb) => { cb({ json: () => {} } ); return ({ then: (cb) => { cb('pizza'); return ({ catch: (cb) => { cb({message: 'nope'}) } })} }) } })
+ -->
+
+```ts
+function getRandomeJoke(onDone, onError = () => {}) {
+  fetch('https://api.chucknorris.io/jokes/random')
+    .then(result => result.json())
+    .then(data => {
+      onDone(data);
+    })
+    .catch(err => {
+        onError(err.message);
+    });
+}
+```
+
+<!--
+const onDone = jest.fn(), onError = jest.fn()
+getRandomeJoke(onDone, onError)
+expect(onDone).toBeCalledWith('pizza')
+expect(onError).toBeCalledWith('nope')
+expect(() => getRandomeJoke(onDone)).not.toThrowError()
+-->
+
+Now we could call the `onError` function whenever we need, and it won’t fail. It won’t do nothing, if the we don’t pass it to the function, but we don’t need to care about this while we’re coding the function itself.
 
 #### Early return
 
