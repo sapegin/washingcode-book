@@ -16,12 +16,16 @@ for (let i = 0; i < names.length; i++) {
 }
 ```
 
+<!-- expect(kebabNames).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
+
 And with the `.map()` method instead of a `for` loop:
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(name => _.kebabCase(name));
 ```
+
+<!-- expect(kebabNames).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
 
 We can shorten it even more if our callback function accepts only one parameter: the value. Take [kebabCase from Lodash](https://lodash.com/docs#kebabCase) for example:
 
@@ -30,13 +34,20 @@ const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(_.kebabCase);
 ```
 
+<!-- expect(kebabNames).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
+
 This wouldn’t work with functions that accept more than one parameter because `.map()` also passes an array index as the second parameter and a whole array as the third. Using `parseInt()`, a function that accepts the radix as its second parameter, would likely lead to unexpected results:
 
 ```js
 const inputs = ['1', '2', '3'];
-inputs.map(parseInt); // -> [1, NaN, NaN]
-inputs.map(value => parseInt(value)); // -> [1, 2, 3]
+const integers_ = inputs.map(parseInt); // -> [1, NaN, NaN]
+const integers = inputs.map(value => parseInt(value)); // -> [1, 2, 3]
 ```
+
+<!--
+expect(integers_).toEqual([1, NaN, NaN])
+expect(integers).toEqual([1, 2, 3])
+-->
 
 Here in the first example, `.map()` calls `parseInt()` with an array index as a radix, which gives an incorrect result. In the second example, we’re explicitly passing only the value to the `parseInt()`, so it uses the default radix of 10.
 
@@ -48,6 +59,9 @@ const kebabNames = names.map(function (name) {
   return _.kebabCase(name);
 });
 ```
+
+<!-- expect(kebabNames).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
+
 
 Now, let’s find an element in an array with a `for` loop:
 
@@ -62,12 +76,16 @@ for (let i = 0; i < names.length; i++) {
 }
 ```
 
+<!-- expect(foundName).toEqual('Bilbo Baggins') -->
+
 And now with the `.find()` method:
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const foundName = names.find(name => name.startsWith('B'));
 ```
+
+<!-- expect(foundName).toEqual('Bilbo Baggins') -->
 
 In both cases, I much prefer array methods when compared to `for` loops. They are shorter, and we’re not bloating the code with iteration mechanics.
 
@@ -120,6 +138,8 @@ products.map(product => {
 });
 ```
 
+<!-- expect(isExpectedType).toEqual(false) -->
+
 Here, the `.map()` method is used to _reduce_ an array to a single value by having a side effect instead of returning a new item value from the callback function.
 
 It’s hard to say what this code is doing, and it feels like there’s a bug: it only cares about the last product in a list.
@@ -134,6 +154,8 @@ const isExpectedType = products.some(
 );
 ```
 
+<!-- expect(isExpectedType).toEqual(true) -->
+
 If the behavior of the original code was correct, then we actually don’t need to iterate at all. We can check the latest array item directly:
 
 <!-- const products = [{type: 'pizza'}, {type: 'coffee'}], expectedType = 'pizza' -->
@@ -142,6 +164,8 @@ If the behavior of the original code was correct, then we actually don’t need 
 const isExpectedType =
   products[products.length - 1].type === expectedType;
 ```
+
+<!-- expect(isExpectedType).toEqual(false) -->
 
 Both refactored versions make the intention of the code clearer and leave fewer doubts that the code is correct. We can probably make the `isExpectedType` variable name more explicit, especially in the second refactoring.
 
@@ -154,7 +178,7 @@ All array methods mentioned in the previous section, except `.forEach()`, imply 
 `.forEach()` doesn’t return any value, and that’s the right choice for handling side effects when you really need them:
 
 <!--
-const spy = jest.spyOn(console, 'error').mockImplementation(() => {})
+const console = { error: jest.fn() }
 const errors = ['dope', 'nope']
 -->
 
@@ -166,7 +190,6 @@ errors.forEach(error => {
 
 <!--
 expect(console.error.mock.calls).toEqual([['dope'], ['nope']])
-spy.mockRestore()
 -->
 
 A `for of` loop is even better:
@@ -178,7 +201,7 @@ A `for of` loop is even better:
 Let’s rewrite our example using a `for of` loop:
 
 <!--
-const spy = jest.spyOn(console, 'error').mockImplementation(() => {})
+const console = { error: jest.fn() }
 const errors = ['dope', 'nope']
 -->
 
@@ -190,7 +213,6 @@ for (const error of errors) {
 
 <!--
 expect(console.error.mock.calls).toEqual([['dope'], ['nope']])
-spy.mockRestore()
 -->
 
 #### Sometimes loops aren’t so bad
@@ -345,7 +367,7 @@ expect(kebabNames).toEqual({
 
 If you don’t need the result as an object, like in the example above, `Object.keys()`, `Object.values()` and `Object.entries()` are also good:
 
-<!-- const spy = jest.spyOn(console, 'log').mockImplementation(() => {}) -->
+<!-- const console = { log: jest.fn() } -->
 
 ```js
 const allNames = {
@@ -359,12 +381,11 @@ Object.keys(allNames).forEach(race =>
 
 <!--
 expect(console.log.mock.calls).toEqual([['hobbits', '->', ['Bilbo', 'Frodo']], ['dwarfs', '->', ['Fili', 'Kili']]])
-spy.mockRestore()
 -->
 
 Or:
 
-<!-- const spy = jest.spyOn(console, 'log').mockImplementation(() => {}) -->
+<!-- const console = { log: jest.fn() } -->
 
 ```js
 const allNames = {
@@ -378,7 +399,6 @@ Object.entries(allNames).forEach(([race, value]) =>
 
 <!--
 expect(console.log.mock.calls).toEqual([['hobbits', '->', ['Bilbo', 'Frodo']], ['dwarfs', '->', ['Fili', 'Kili']]])
-spy.mockRestore()
 -->
 
 I don’t have a strong preference between them. `Object.entries()` has more verbose syntax, but if you use the value (`names` in the example above) more than once, the code would be cleaner than `Object.keys()`, where you’d have to write `allNames[race]` every time or cache this value into a variable at the beginning of the callback function.
@@ -464,6 +484,8 @@ for (var i = 0, namesLength = names.length; i < namesLength; i++) {
   names[i] = _.kebabCase(names[i]);
 }
 ```
+
+<!-- expect(names).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
 
 It’s not slow anymore, though, and there are other examples where engines optimize for simpler code patterns and make manual optimization unnecessary.
 
