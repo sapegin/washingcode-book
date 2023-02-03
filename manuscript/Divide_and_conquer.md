@@ -185,13 +185,13 @@ const spacing = {
   medium: baseSpacing * 2,
   large: baseSpacing * 3,
   xlarge: baseSpacing * 4,
-  xxlarge: baseSpacing * 5,
+  xxlarge: baseSpacing * 5
 };
 ```
 
 <!-- expect(spacing.xlarge).toEqual(32) -->
 
-It looks totally fine, and won't raise any questions during code review. However, every time we try to use these values, autocompletion will show just `number` instead of actual values. This makes it harder to choose the right value.
+It looks totally fine, and won’t raise any questions during code review. However, every time we try to use these values, autocompletion will show just `number` instead of actual values. This makes it harder to choose the right value.
 
 ![Autocompletion with calculated values](images/autocompletion-formula.png)
 
@@ -204,13 +204,13 @@ const spacing = {
   medium: 16,
   large: 24,
   xlarge: 32,
-  xxlarge: 40,
+  xxlarge: 40
 };
 ```
 
 <!-- expect(spacing.xlarge).toEqual(32) -->
 
-Now we have less code, it's easier to understand, and autocompletion show the actual values. And I don't think this code will change often, probably never.
+Now we have less code, it’s easier to understand, and autocompletion show the actual values. And I don’t think this code will change often, probably never.
 
 ![Autocompletion with literal values](images/autocompletion-literals.png)
 
