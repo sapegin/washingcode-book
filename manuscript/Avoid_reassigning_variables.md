@@ -3,10 +3,10 @@
 Reassigning variables is like changing the past. When you see:
 
 ```js
-let pizza = { toppings: ['salami', 'mozzarella'] };
+let pizza = { toppings: ['salami', 'jalapeños'] };
 ```
 
-You can’t be sure that your pizza will always have salami and mozzarella in it, because:
+You can’t be sure that your pizza will always have salami and jalapeños on it, because:
 
 - the variable can be reassigned with a new value, even a value of another type;
 - the value, if it’s an array or an object, can be mutated.
@@ -19,6 +19,8 @@ And most of the time you can avoid both. Let’s start with reassigning and come
 
 Sometimes a variable is reused to store different values:
 
+<!-- const loadCategory = (id) => [{name: `${id}1`, onSale: false}, {name: `${id}2`, onSale: true}] -->
+
 ```js
 function getProductsOnSale(category) {
   category = loadCategory(category);
@@ -27,11 +29,15 @@ function getProductsOnSale(category) {
 }
 ```
 
-Here the `category` variable is used to store a category ID, a list of products in a category, and a list of filtered products. This function isn’t completely hopeless because it’s short, but imagine more code between reassignments.
+<!-- expect(getProductsOnSale('pizzas')).toEqual([{name: 'pizzas2', onSale: true}]) -->
+
+Here the `category` variable is used to store a category ID, a list of products in a category, and a list of filtered products. Even types of theses values are different. This function isn’t completely hopeless because it’s short, but imagine more code between reassignments.
 
 Also a new value is reassigned to a function parameter, known as _function parameter shadowing_. I think it’s no different from regular reassignment, so I’ll treat it the same way.
 
 This case is the easiest to fix: we need to use separate variables for each value:
+
+<!-- const loadCategory = (id) => [{name: `${id}1`, onSale: false}, {name: `${id}2`, onSale: true}] -->
 
 ```js
 function getProductsOnSale(categoryId) {
@@ -39,6 +45,8 @@ function getProductsOnSale(categoryId) {
   return products.filter(product => product.onSale);
 }
 ```
+
+<!-- expect(getProductsOnSale('pizzas')).toEqual([{name: 'pizzas2', onSale: true}]) -->
 
 By doing this we’re making the lifespan of each variable shorter and choosing clearer names, so code is easier to understand and we’ll need to read less code to find out the current (and now the only) value of each variable.
 
@@ -54,6 +62,8 @@ const ERROR_MESSAGES = {
   BlankTitle: 'Blank title',
   InvalidId: 'Invalid ID',
 }
+const INPUT_TYPES = {Title: 'title', Id: 'id'}, ID_PATTERN = /^[a-z0-9]+$/i
+const validateHeightWidthConsistency = () => true, validateVideoFileAndUrl = () => true, validateVideoURL = () => true
 -->
 
 <!-- prettier-ignore -->
@@ -71,6 +81,11 @@ const validateVideo = (video) => {
 };
 ```
 
+<!--
+expect(validateVideo({videoFiles: [], title: 'Cat on Roomba', id: 'X13'})).toBe('')
+expect(validateVideo({videoFiles: [], title: 'Cat on Roomba', id: 'X-13'})).toBe('Invalid ID')
+-->
+
 I’ve shortened the comments a bit, the original code had lines longer than 200 characters. If you have a very big screen, it looks like a pretty table, otherwise like an unreadable mess. Any autoformatting tool, like Prettier, will make an unreadable mess out of it too, so you shouldn’t rely on manual code formatting. It’s also really hard to maintain: if any “column” becomes longer than all existing “columns” after your changes, you have to adjust whitespace for all other “columns”.
 
 Anyway, this code appends an error message to the `errors` string variable for every failed validation. But now it’s hard to see because the message formatting code is mangled with the validation code. This makes it hard to read and modify. To add another validation, you have to understand and copy the formatting code. Or to print errors as an HTML list, you have to change each line of this function.
@@ -78,6 +93,7 @@ Anyway, this code appends an error message to the `errors` string variable for e
 Let’s separate validation and formatting:
 
 <!--
+const console = { log: jest.fn() }
 const ERROR_MESSAGES = {
   InconsistentWidthHeight: 'Inconsistent width and height',
   InvalidVideoFiles: 'Invalid video files',
@@ -85,6 +101,8 @@ const ERROR_MESSAGES = {
   BlankTitle: 'Blank title',
   InvalidId: 'Invalid ID',
 }
+const INPUT_TYPES = {Title: 'title', Id: 'id'}, ID_PATTERN = /^[a-z0-9]+$/i
+const validateHeightWidthConsistency = () => true, validateVideoFileAndUrl = () => true, validateVideoURL = () => true
 -->
 
 ```js
@@ -129,13 +147,20 @@ const printVideoErrors = video => {
 };
 ```
 
+<!--
+expect(validateVideo({videoFiles: [], title: 'Cat on Roomba', id: 'X13'})).toEqual([])
+expect(validateVideo({videoFiles: [], title: 'Cat on Roomba', id: 'X-13'})).toEqual(['Invalid ID'])
+printVideoErrors({videoFiles: [], title: 'Cat on Roomba', id: 'X-13'})
+expect(console.log.mock.calls).toEqual([['Invalid ID']])
+-->
+
 We’ve separated validations, validation logic and formatting. Flies separately, cutlets separately, as we say in Russia. Each piece of code has a single responsibility and a single reason to change. Validations now are defined declaratively and read like a table, not mixed with conditions and string concatenation. We’ve also changed negative conditions (_is invalid?_) to positive (_is valid?_). All this improves readability and maintainability of the code: it’s easier to see all validations and add new ones, because you don’t need to know implementation details of running validations or formatting.
 
 And now it’s clear that the original code had a bug: there were no space between error messages.
 
 Also now we can swap the formatting function and render errors as an HTML list, for example:
 
-<!-- const FileUpload = () => null -->
+<!-- const Text = ({children}) => children, FileUpload = () => null, validateVideo = () => ['Invalid video'] -->
 
 ```jsx
 function VideoUploader() {
@@ -161,9 +186,16 @@ function VideoUploader() {
 }
 ```
 
+<!--
+const {container: c1} = RTL.render(<VideoUploader />);
+expect(c1.textContent).toEqual('Nooooo, upload failed:Invalid video')
+-->
+
 We can also test each validation separately. Have you noticed that I’ve changed `false` to `null` in the last validation? That’s because `match()` returns `null` when there’s no match, not `false`. The original validation always returns `true`.
 
 I would even inline `ERROR_MESSAGES` constants unless they are reused somewhere else. They don’t really make code easier to read but they make it harder to change, because you have to make changes in two places.
+
+<!-- const validateHeightWidthConsistency = (x, y) => x === y -->
 
 ```js
 const VIDEO_VALIDATIONS = [
@@ -177,6 +209,8 @@ const VIDEO_VALIDATIONS = [
 ];
 ```
 
+<!-- expect(VIDEO_VALIDATIONS[0].isValid(100, 100)).toBe(true) -->
+
 Now all the code you need to touch to add, remove or change validations is contained in the `VIDEO_VALIDATIONS` array. Keep the code, that’s likely to be changed at the same time, in the same place.
 
 #### Building complex objects
@@ -186,7 +220,7 @@ Another common reason to reassign variables is to build a complex object:
 <!--
 const format = x => x
 const SORT_DESCENDING = 'desc', DATE_FORMAT = 'YYYY-MM-DD'
-const dateRangeFrom = new Date(), dateRangeTo = new Date(), sortField = 'id'
+const dateRangeFrom = new Date(2023, 1, 4), dateRangeTo = new Date(2023, 1, 14), sortField = 'id'
 const sortDirection = SORT_DESCENDING, query = ''
 -->
 
@@ -205,6 +239,14 @@ if (dateRangeFrom && dateRangeTo) {
 }
 ```
 
+<!-- expect(queryValues).toEqual({
+  from: 1675465200000,
+  orderDesc: true,
+  sortBy: "id",
+  to: 1676415599000,
+  words: ""
+}) -->
+
 Here we’re adding `from` and `to` properties only when they aren’t empty.
 
 The code would be clearer if we teach our backend to ignore empty values and build the whole object at once:
@@ -212,7 +254,7 @@ The code would be clearer if we teach our backend to ignore empty values and bui
 <!--
 const format = x => x
 const SORT_DESCENDING = 'desc', DATE_FORMAT = 'YYYY-MM-DD'
-const dateRangeFrom = new Date(), dateRangeTo = new Date(), sortField = 'id'
+const dateRangeFrom = new Date(2023, 1, 4), dateRangeTo = new Date(2023, 1, 14), sortField = 'id'
 const sortDirection = SORT_DESCENDING, query = ''
 -->
 
@@ -230,6 +272,14 @@ const queryValues = {
     format(dateRangeTo.setHours(23, 59, 59), DATE_FORMAT)
 };
 ```
+
+<!-- expect(queryValues).toEqual({
+  from: 1675465200000,
+  orderDesc: true,
+  sortBy: "id",
+  to: 1676415599000,
+  words: ""
+}) -->
 
 Now the query object always have the same shape, but some properties can be `undefined`. The code feels more declarative and it’s easier to understand what it’s doing — building an object, and see the final shape of this object.
 
@@ -288,6 +338,15 @@ submitOrder({
 });
 ```
 
+<!-- expect(submitOrder).toBeCalledWith({
+  products: [],
+  address: "",
+  firstName: "",
+  lastName: "",
+  deliveryMethod: "PIGEON",
+  isFreeDelivery: 1
+}) -->
+
 Long variable lifespan makes you scroll a lot to understand the current value of a variable. Possible reassignments make it even worse. If there are 50 lines between a variable declaration and its usage, then it can be reassigned in any of these 50 lines.
 
 We can make code more readable by moving variable declarations as close to their usage as possible and by avoiding reassignments:
@@ -313,6 +372,15 @@ submitOrder({
 });
 ```
 
+<!-- expect(submitOrder).toBeCalledWith({
+  products: [],
+  address: "",
+  firstName: "",
+  lastName: "",
+  deliveryMethod: "PIGEON",
+  isFreeDelivery: 1
+}) -->
+
 We’ve shortened `isFreeDelivery` variable lifespan from 100 lines to just 10. Now it’s also clear that its value is the one we assign at the first line.
 
 Don’t mix it with `PascalCase` though, this naming convention is still in use.
@@ -333,6 +401,11 @@ function areEventsValid(events) {
 }
 ```
 
+<!--
+expect(areEventsValid([{fromDate: 4, toDate: 14}, {fromDate: 1, toDate: 2}])).toBe(true)
+expect(areEventsValid([{fromDate: 4, toDate: 1}, {fromDate: 1, toDate: 2}])).toBe(false)
+-->
+
 Here we’re checking that _every_ event is valid, which would be more clear with the `.every()` array method:
 
 ```js
@@ -340,6 +413,11 @@ function areEventsValid(events) {
   return events.every(event => event.fromDate <= event.toDate);
 }
 ```
+
+<!--
+expect(areEventsValid([{fromDate: 4, toDate: 14}, {fromDate: 1, toDate: 2}])).toBe(true)
+expect(areEventsValid([{fromDate: 4, toDate: 1}, {fromDate: 1, toDate: 2}])).toBe(false)
+-->
 
 We’ve also removed a temporary variable, avoided reassignment and made a condition positive (_is valid?_), instead of a negative (_is invalid?_). Positive conditions are usually easier to understand.
 
@@ -355,6 +433,12 @@ const handleChangeEstimationHours = event => {
 };
 ```
 
+<!--
+expect(handleChangeEstimationHours({target: {value: ''}})).toEqual({estimationHours: 0})
+expect(handleChangeEstimationHours({target: {value: -1}})).toEqual({estimationHours: 0})
+expect(handleChangeEstimationHours({target: {value: 1}})).toEqual({estimationHours: 1})
+-->
+
 Like this:
 
 ```js
@@ -364,11 +448,17 @@ const handleChangeEstimationHours = ({ target: { value } }) => {
 };
 ```
 
-Or you can extract code to a function:
+<!--
+expect(handleChangeEstimationHours({target: {value: ''}})).toEqual({estimationHours: 0})
+expect(handleChangeEstimationHours({target: {value: -1}})).toEqual({estimationHours: 0})
+expect(handleChangeEstimationHours({target: {value: 1}})).toEqual({estimationHours: 1})
+-->
+
+Or you can extract code to a function, for example:
 
 <!--
-const getAllRejectionReasons = () => ([])
-const isAdminUser = true, REJECTION_REASONS = {HAS_SWEAR_WORDS: 'HAS_SWEAR_WORDS'}
+const isAdminUser = true, REJECTION_REASONS = {HAS_SWEAR_WORDS: 'HAS_SWEAR_WORDS', TOO_DRAMATIC: 'TOO_DRAMATIC'}
+const getAllRejectionReasons = () => ([{value: REJECTION_REASONS.TOO_DRAMATIC}])
 -->
 
 ```js
@@ -380,11 +470,13 @@ if (isAdminUser) {
 }
 ```
 
-Like this:
+<!-- expect(rejectionReasons).toEqual([{"value": "TOO_DRAMATIC"}]) -->
+
+Becomes this:
 
 <!--
-const getAllRejectionReasons = () => ([])
-const isAdminUser = true, REJECTION_REASONS = {HAS_SWEAR_WORDS: 'HAS_SWEAR_WORDS'}
+const isAdminUser = true, REJECTION_REASONS = {HAS_SWEAR_WORDS: 'HAS_SWEAR_WORDS', TOO_DRAMATIC: 'TOO_DRAMATIC'}
+const getAllRejectionReasons = () => ([{value: REJECTION_REASONS.TOO_DRAMATIC}])
 -->
 
 ```js
@@ -403,6 +495,8 @@ const getRejectionReasons = isAdminUser => {
 const rejectionReasons = getRejectionReasons(isAdminUser);
 ```
 
+<!-- expect(rejectionReasons).toEqual([{"value": "TOO_DRAMATIC"}]) -->
+
 This is less important. You may argue that moving code to a new function just because of a reassignment isn’t a great idea, and you may be right, so use your own judgement here.
 
 #### Indeterminate loops
@@ -410,6 +504,8 @@ This is less important. You may argue that moving code to a new function just be
 Sometimes having a reassignment is quite okay. Indeterminate loops, the ones where we don’t know the number of iterations in advance, are a good case for reassignments.
 
 Consider this example:
+
+<!-- const WEEK_DAY_MONDAY = 0, addDays = (x, d) => ({getDay: () => x.getDay() + d}) -->
 
 ```js
 function getStartOfWeek(selectedDay) {
@@ -420,6 +516,8 @@ function getStartOfWeek(selectedDay) {
   return startOfWeekDay;
 }
 ```
+
+<!-- expect(getStartOfWeek({getDay: () => 3}).getDay()).toEqual(0) -->
 
 Here we’re finding the start of the current week by moving one day back in a `while` loop and checking if it’s already Monday or not.
 
