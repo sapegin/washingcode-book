@@ -257,7 +257,7 @@ Often, it’s hard to understand what a certain value is when it doesn’t have 
 
 We’ll cover this in great detail in the [Constants](#constants) chapter.
 
-##### Name funciton parameters
+##### Name function parameters
 
 Functions calls with multiple parameters could be hard understand. Consider this function call:
 

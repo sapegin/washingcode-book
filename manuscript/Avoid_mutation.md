@@ -10,9 +10,13 @@ const puppy = {
 puppy.age = 10;
 ```
 
+<!-- expect(puppy).toEqual({name: 'Dessi', age: 10}) -->
+
 Here we’re _mutating_ the original `puppy` object by changing its `age` property.
 
 Mutations are often problematic. Consider this function:
+
+<!-- const console = { log: jest.fn() } -->
 
 ```js
 function printSortedArray(array) {
@@ -22,6 +26,11 @@ function printSortedArray(array) {
   }
 }
 ```
+
+<!--
+printSortedArray([3, 1, 2])
+expect(console.log.mock.calls).toEqual([[1], [2], [3]])
+-->
 
 The problem here is that the `.sort()` array method mutates the array we’re passing into our function, likely not what we’d expect when calling a function named `printSortedArray`.
 
@@ -177,6 +186,10 @@ const rows = [
 ];
 ```
 
+<!--
+expect(rows).toEqual([{"product1": <Text>pizza</Text>, "product2": <Text>pizza</Text>, "row": "Name"}])
+-->
+
 Here we have two ways of defining table rows: a plain array with always visible rows, and a function that returns optional rows. The latter mutates the original array using the `.push()` method.
 
 Array mutation itself isn’t the most significant issue of this code. However, code with mutations likely hides other issues — mutation is a good sign to look closer. Here the main problem is imperative array building and different ways for handling required and optional rows. Replacing imperative code with declarative and eliminating conditions often makes code more readable and maintainable.
@@ -221,6 +234,11 @@ const visibleRows = rows.filter(row => {
   return true;
 });
 ```
+
+<!--
+expect(visibleRows).toEqual([{"product1": <Text>pizza</Text>, "product2": <Text>pizza</Text>, "row": "Name"}])
+-->
+
 
 Now we’re defining all rows in a single array. All rows are visible by default unless they have the `isVisible` function that returns `false`. We’ve improved code readability and maintainability:
 
@@ -654,10 +672,17 @@ type Point = Readonly<{
 And similar for arrays:
 
 ```ts
-function sort(array: readonly any[]) {
-  return [...counts].sort();
+function sort(array: readonly unknown[]) {
+  return [...array].sort();
 }
 ```
+
+<!--
+const source = [3, 2, 1];
+const result = sort(source);
+expect(source).toEqual([3, 2, 1])
+expect(result).toEqual([1, 2, 3])
+-->
 
 Note that both `readonly` modifier and `Readonly` utility type are shallow, so we need to add them to all nested objects too.
 
@@ -682,6 +707,8 @@ const map2 = map1.set('drink', 'vodka');
 // -> Map({ food: 'pizza', drink: 'vodka' })
 ```
 
+<!-- expect(map2.toJS()).toEqual({ food: 'pizza', drink: 'vodka' }) -->
+
 I’m not a big fan of it because it has completely custom API that one has to learn. Also, converting arrays and objects from plain JavaScript to Immutable.js and back every time we need to work with any native JavaScript API or almost any third-party API, is annoying and feels like Immutable.js creates more problems than it solves.
 
 Another option is [Immer](https://immerjs.github.io/immer/), which allows you to use any mutating operations on a _draft_ version of an object, without affecting the original object in any way. Immer intercepts each operation, and creates a new object:
@@ -695,6 +722,8 @@ const map2 = produce(map1, draftState => {
 // -> { food: 'pizza', drink: 'vodka' }
 ```
 
+<!-- expect(map2).toEqual({ food: 'pizza', drink: 'vodka' }) -->
+
 And Immer will freeze the resulting object in development.
 
 #### Even mutation is not so bad sometimes
@@ -703,7 +732,7 @@ In rare cases, imperative code with mutations isn’t so bad, and rewriting it i
 
 Consider this example:
 
-<!-- // TODO import adddays from date-fns? -->
+<!-- const addDays = x => x + 1 -->
 
 ```js
 const getDateRange = (startDate, endDate) => {
@@ -717,7 +746,7 @@ const getDateRange = (startDate, endDate) => {
 };
 ```
 
-<!-- // TODO -->
+<!-- expect(getDateRange(4, 14)).toEqual([4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]) -->
 
 Here we’re making an array of dates to fill a given date range.
 
