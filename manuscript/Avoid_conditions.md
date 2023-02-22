@@ -471,7 +471,7 @@ expect(onError).toBeCalledWith('nope')
 expect(() => getRandomeJoke(onDone)).not.toThrowError()
 -->
 
-Here, `onError` parameter is optional, and we check if it exists before calling it. The problem here is that  we need to remember to wrap each call to an optional callback into a condition. It increases complexity and cognitive load, and make the code hared to read.
+Here, `onError` parameter is optional, and we check if it exists before calling it. The problem here is that we need to remember to wrap each call to an optional callback into a condition. It increases complexity and cognitive load, and make the code hared to read.
 
 One way to simplify the code here is by using optional chaining:
 
@@ -486,7 +486,7 @@ function getRandomeJoke(onDone, onError) {
       onDone(data);
     })
     .catch(err => {
-        onError?.(err.message);
+      onError?.(err.message);
     });
 }
 ```
@@ -516,7 +516,7 @@ function getRandomeJoke(onDone, onError = () => {}) {
       onDone(data);
     })
     .catch(err => {
-        onError(err.message);
+      onError(err.message);
     });
 }
 ```
@@ -595,7 +595,6 @@ function postOrderStatus(orderId) {
 
 <!-- expect(() => postOrderStatus(0)).not.toThrowError() -->
 
-
 This function is still long but it’s much easier to follow because of simpler code structure.
 
 Now we have maximum one level of nesting inside the function and the main return value is at the very end without nesting. We’ve added two guard clauses to exit the function early when there’s no data to process.
@@ -627,7 +626,6 @@ function postOrderStatus(orderId) {
 ```
 
 <!-- expect(() => postOrderStatus(0)).not.toThrowError() -->
-
 
 Now that’s a big improvement over the initial version. I’ve also renamed the `idsArrayObj` variable, because “array object” doesn’t make any sense to me.
 
@@ -701,7 +699,6 @@ expect(getSpecialOffersArray('tacos', true)).toEqual(['horns'])
 This is already more readable and it could be a good idea to stop here. But if I had some time I’d go further and extract cache management. Not because this function is too long or that it’s potentially reusable, but because cache management distracts me from the main purpose of the function and it’s too low level.
 
 <!-- const SPECIAL_OFFERS_CACHE_KEY = 'offers', getHornsAndHoovesSpecialOffers = () => ['horns'], getPawsAndTailsSpecialOffers = () => ['paws'], Session = { set: jest.fn(), get: jest.fn() }  -->
-
 
 ```js
 const getSessionKey = (key, isHornsAndHooves, sku) =>
@@ -918,7 +915,9 @@ const getButtonLabel = decisionButton => {
 };
 
 // And later it's used like this
-const CtaButton = ({decision}) => <Button>{getButtonLabel(decision)}</Button>;
+const CtaButton = ({ decision }) => (
+  <Button>{getButtonLabel(decision)}</Button>
+);
 ```
 
 <!--
@@ -947,7 +946,9 @@ const getButtonLabel = decisionButton =>
   }[decisionButton]);
 
 // And later it's used like this
-const CtaButton = ({decision}) => <Button>{getButtonLabel(decision)}</Button>;
+const CtaButton = ({ decision }) => (
+  <Button>{getButtonLabel(decision)}</Button>
+);
 ```
 
 <!--
@@ -976,7 +977,11 @@ const ButtonLabel = ({ decision }) =>
   }[decision]);
 
 // And later it can be used like this
-const CtaButton = ({decision}) => <Button><ButtonLabel decision={decision} /></Button>;
+const CtaButton = ({ decision }) => (
+  <Button>
+    <ButtonLabel decision={decision} />
+  </Button>
+);
 ```
 
 <!--
@@ -1211,7 +1216,7 @@ const DATE_FORMATS = {
   [DATE_FORMAT_ISO]: 'M-D',
   [DATE_FORMAT_DE]: 'D.M',
   [DATE_FORMAT_UK]: 'D/M',
-  [DATE_FORMAT_US]: 'M/D',
+  [DATE_FORMAT_US]: 'M/D'
 };
 
 const getDateFormat = format => {

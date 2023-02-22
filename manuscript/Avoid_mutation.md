@@ -239,7 +239,6 @@ const visibleRows = rows.filter(row => {
 expect(visibleRows).toEqual([{"product1": <Text>pizza</Text>, "product2": <Text>pizza</Text>, "row": "Name"}])
 -->
 
-
 Now we’re defining all rows in a single array. All rows are visible by default unless they have the `isVisible` function that returns `false`. We’ve improved code readability and maintainability:
 
 - there’s only one way of defining rows;

@@ -62,7 +62,6 @@ const kebabNames = names.map(function (name) {
 
 <!-- expect(kebabNames).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
 
-
 Now, let’s find an element in an array with a `for` loop:
 
 ```js
