@@ -218,7 +218,7 @@ Now all the code you need to touch to add, remove or change validations is conta
 Another common reason to reassign variables is to build a complex object:
 
 <!--
-const format = x => x
+const format = x => new Intl.DateTimeFormat().format(x)
 const SORT_DESCENDING = 'desc', DATE_FORMAT = 'YYYY-MM-DD'
 const dateRangeFrom = new Date(2023, 1, 4), dateRangeTo = new Date(2023, 1, 14), sortField = 'id'
 const sortDirection = SORT_DESCENDING, query = ''
@@ -240,10 +240,10 @@ if (dateRangeFrom && dateRangeTo) {
 ```
 
 <!-- expect(queryValues).toEqual({
-  from: 1675465200000,
+  from: '2/4/2023',
   orderDesc: true,
   sortBy: "id",
-  to: 1676415599000,
+  to: '2/14/2023',
   words: ""
 }) -->
 
@@ -252,7 +252,7 @@ Here we’re adding `from` and `to` properties only when they aren’t empty.
 The code would be clearer if we teach our backend to ignore empty values and build the whole object at once:
 
 <!--
-const format = x => x
+const format = x => new Intl.DateTimeFormat().format(x)
 const SORT_DESCENDING = 'desc', DATE_FORMAT = 'YYYY-MM-DD'
 const dateRangeFrom = new Date(2023, 1, 4), dateRangeTo = new Date(2023, 1, 14), sortField = 'id'
 const sortDirection = SORT_DESCENDING, query = ''
@@ -274,10 +274,10 @@ const queryValues = {
 ```
 
 <!-- expect(queryValues).toEqual({
-  from: 1675465200000,
+  from: '2/4/2023',
   orderDesc: true,
   sortBy: "id",
-  to: 1676415599000,
+  to: '2/14/2023',
   words: ""
 }) -->
 
