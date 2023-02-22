@@ -20,7 +20,7 @@ I think it’s a wrong problem to solve and the size itself is rarely a problem.
 
 #### Always comment your code
 
-TODO
+Developers who believe that they must comment each (or at least most) line of their code are having a dangerous lifestyle, and not really better than those who _never_ write any comments.
 
 See the [Avoid comments](#avoid-comments) chapter for more details.
 
