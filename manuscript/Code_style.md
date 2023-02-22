@@ -184,37 +184,72 @@ The goal of this style was the same as of trailing commas in the previous sectio
 
 Another example is [Yoda conditions](https://en.wikipedia.org/wiki/Yoda_conditions), a style where a literal is on the left side of a condition:
 
-<!-- const meaning = 0 -->
+<!--
+const meaning = 42
+let result = false;
+-->
 
 <!-- prettier-ignore -->
 ```js
 if (42 === meaning) {
-}
 ```
 
-It’s too easy to type `=` instead of `==` in languages like C and make an assignment instead of a comparison:
+<!--
+  result = true
+}
+expect(result).toBe(true)
+-->
 
-<!-- let meaning = 0 -->
+It’s too easy to type `=` instead of `==` in languages like C and make an assignment:
 
-<!-- prettier-ignore -->
+<!--
+let meaning = 0
+let result = false;
+-->
+
 ```js
-// Compare meaning with 42
-if (meaning == 42) {
-}
-
-// Assign 42 to meaning
 if (meaning = 42) {
-}
 ```
+
+<!--
+  result = true
+}
+expect(meaning).toBe(42)
+-->
+
+Instead of a comparison:
+
+<!--
+const meaning = 42
+let result = false;
+-->
+
+```js
+if (meaning == 42) {
+```
+
+<!--
+  result = true
+}
+expect(result).toBe(true)
+-->
 
 This is much less relevant in JavaScript where the strict equality (`===`, values and types must be equal) is the preferred style and on most projects a linter will complain if we try to use the loose equality (`==`, only values must be equal). It’s really hard to miss two equal signs when typing `===`. So normal order of conditions is fine and easier to read:
 
-<!-- const meaning = 0 -->
+<!--
+const meaning = 42
+let result = false;
+-->
 
 ```js
 if (meaning === 42) {
-}
 ```
+
+<!--
+  result = true
+}
+expect(result).toBe(true)
+-->
 
 #### Nonsensical code styles
 
@@ -260,85 +295,175 @@ In many cases, some ways of writing code are more readable than other ways. Cond
 
 Consider this example:
 
-<!-- const object = {} -->
+<!--
+const object = { o: 0 }
+let result = false
+-->
 
 ```js
 if (!isEmpty(object)) {
-}
 ```
+
+<!--
+  result = true
+}
+expect(result).toBe(true)
+-->
 
 It’s hard to notice the negation in `!i`. We could rewrite this code to avoid misunderstanding:
 
-<!-- const object = {} -->
+<!--
+const object = { o: 0 }
+let result = false
+-->
 
 ```js
 if (isEmpty(object) === false) {
-}
 ```
+
+<!--
+  result = true
+}
+expect(result).toBe(true)
+-->
 
 Someone may argue that it doesn’t read like English — “not is empty” — but there’s no way someone might miss the negation.
 
 Here’s another example:
 
-<!-- const guacamole = {} -->
+<!--
+const guacamole = {}
+let result = false
+-->
 
 ```js
 if (!('garlic' in guacamole)) {
-}
 ```
+
+<!--
+  result = true
+}
+expect(result).toBe(true)
+-->
 
 This pattern was always awkward to write and read for me until my friend Oleg [opened a whole new world for me](https://twitter.com/oleg008/status/1519593163803049984). We could do the same trick as above to make it more readable:
 
-<!-- const guacamole = {} -->
+<!--
+const guacamole = {}
+let result = false
+-->
 
 ```js
 if ('garlic' in guacamole === false) {
-}
 ```
+
+<!--
+  result = true
+}
+expect(result).toBe(true)
+-->
 
 Another area where condition expansion improves readability is checking array length.
 
 Consider these two examples:
 
-<!-- const puppies = [] -->
+<!--
+const puppies = ['Dessi']
+let result = false
+-->
 
 ```js
 if (puppies.length) {
-}
-if (!puppies.length) {
-}
 ```
 
-They look almost the same and the `!` in front of the second one is easy to miss. Let’s expand them:
+<!--
+  result = true
+}
+expect(result).toBe(true)
+-->
 
-<!-- const puppies = [] -->
+<!--
+const puppies = ['Dessi']
+let result = false
+-->
+
+```js
+if (!puppies.length) {
+```
+
+<!--
+  result = true
+}
+expect(result).toBe(false)
+-->
+
+They look almost the same, and the `!` in front of the second one is easy to miss. Let’s expand them:
+
+<!--
+const puppies = ['Dessi']
+let result = false
+-->
+
+```js
+if (puppies.length > 0) {
+```
+
+<!--
+  result = true
+}
+expect(result).toBe(true)
+-->
+
+<!--
+const puppies = ['Dessi']
+let result = false
+-->
 
 ```js
 if (puppies.length === 0) {
-}
-if (puppies.length > 0) {
-}
 ```
+
+<!--
+  result = true
+}
+expect(result).toBe(false)
+-->
 
 Now the conditions look significantly different and there’s no way to misinterpret them.
 
 I’m starting to think that using `!` in conditions is [generally an antipattern](https://twitter.com/Jack_Franklin/status/1189477268764188672), so instead of:
 
-<!-- const isFriday = false -->
+<!--
+const isFriday = false
+let result = false
+-->
 
 ```js
 if (!isFriday) {
-}
 ```
+
+<!--
+  result = true
+}
+expect(result).toBe(true)
+-->
 
 We should always write:
 
-<!-- const isFriday = false -->
+<!--
+const isFriday = false
+let result = false
+-->
 
 ```js
 if (isFriday === false) {
-}
 ```
+
+<!--
+  result = true
+}
+expect(result).toBe(true)
+-->
 
 #### Christmas trees vs. sausages
 
@@ -581,12 +706,16 @@ function getDropdownOptions(options) {
 }
 ```
 
+<!-- expect(getDropdownOptions([{value: 1}, {value: 2}])).toEqual([1, 2]) -->
+
 Or:
 
 ```js
 const getDropdownOptions = options =>
   options.map(option => option.value);
 ```
+
+<!-- expect(getDropdownOptions([{value: 1}, {value: 2}])).toEqual([1, 2]) -->
 
 Or the same with default export:
 
@@ -595,6 +724,11 @@ const Button = props => <button className="Button" {...props} />;
 export default Button;
 ```
 
+<!--
+const {container: c1} = RTL.render(<Button>Tacos</Button>);
+expect(c1.textContent).toEqual('Tacos')
+-->
+
 Or:
 
 ```js
@@ -602,6 +736,11 @@ export default function Button(props) {
   return <button className="Button" {...props} />;
 }
 ```
+
+<!--
+const {container: c1} = RTL.render(<Button>Tacos</Button>);
+expect(c1.textContent).toEqual('Tacos')
+-->
 
 I can probably write a whole book of such examples.
 
