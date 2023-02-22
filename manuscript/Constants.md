@@ -122,7 +122,6 @@ expect(c1.textContent).toEqual('Out of cheese error:50vw')
 
 Here it’s clear that the minimum width of a modal is 50vw. Adding a constant won’t make this code any clearer:
 
-
 ```js
 const MODAL_MIN_WIDTH = '50vw';
 ```
@@ -144,7 +143,6 @@ const Test = () => (
 const {container: c1} = RTL.render(<Test />);
 expect(c1.textContent).toEqual('Out of cheese error:50vw')
 -->
-
 
 I’d avoid such constants unless the values are reused.
 
