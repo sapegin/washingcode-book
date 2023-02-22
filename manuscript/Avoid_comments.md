@@ -1,54 +1,146 @@
 ### Avoid comments
 
-Comments are often used to explain poorly written code. People think that their code isn’t clear enough, so they add comments to explain it. And they are usually right: the code isn’t clear. But instead of adding comments, they should rewrite code to make it simpler and more readable.
+Some developers never comment their code, some comment too much. The former believe that the code should be self-documenting, the latter read somewhere that they should always comment their code.
 
-There’s a popular technique of avoiding comment: when you want to explain a block of code, move this code to its own function instead. For example:
+Both are wrong.
+
+I don’t believe in self-documenting code. Yes, we should rewrite unclear code to make it more clear, and use meaningful and correct names, but there are things that can’t be experessed by the code alone.
+
+Commenting too much isn’t helpful either – comments start to repeat the code, and instead of helping to understand it they introduce noise and duplication.
+
+#### Getting rid of comments (or not)
+
+There’s a popular technique of avoiding comments: when you want to explain a block of code, move this code to its own function instead.
+
+It usually makes a lot of sense to extract complex calculations and conditions used inside an already long line of code:
+
+<!--
+class Test {
+  resize = 1
+  wasInitialized() { return true }
+  test(platform, browser) {
+ -->
 
 ```js
-// TODO
+if (
+  platform.toUpperCase().indexOf('MAC') > -1 &&
+  browser.toUpperCase().indexOf('IE') > 1 &&
+  this.wasInitialized() &&
+  this.resize > 0
+) {
+  return true;
+}
 ```
 
-Can be rewritten as:
+<!--
+    return false
+  }
+}
+const test = new Test();
+expect(test.test('Mac_PowerPC', 'Mozilla/4.0 (compatible; MSIE 5.17; Mac_PowerPC)')).toBe(true)
+expect(test.test('MacInter', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.50')).toBe(false)
+-->
+
+Here, we could extract the conditions into their own functions or variables with meaningful names:
+
+<!--
+class Test {
+  resize = 1
+  wasInitialized() { return true }
+  test(platform, browser) {
+ -->
 
 ```js
-// TODO
+const isMacOs = platform.toUpperCase().includes('MAC');
+const isIE = browser.toUpperCase().includes('IE');
+const wasResized = this.resize > 0;
+if (isMacOs && isIE && this.wasInitialized() && wasResized) {
+  return true;
+}
 ```
 
-And while it make a lot of sense to extract complex calculations and conditions, used inside an already long line of code:
-
-```php
-// TODO: this example is from reafactoring course
-if (($platform->toUpperCase()->indexOf("MAC") > -1) &&
-     ($browser->toUpperCase()->indexOf("IE") > -1) &&
-      $this->wasInitialized() && $this->resize > 0)
-{
-  // do something
+<!--
+    return false
+  }
 }
-// ->
-$isMacOs = $platform->toUpperCase()->indexOf("MAC") > -1;
-$isIE = $browser->toUpperCase()->indexOf("IE")  > -1;
-$wasResized = $this->resize > 0;
+const test = new Test();
+expect(test.test('Mac_PowerPC', 'Mozilla/4.0 (compatible; MSIE 5.17; Mac_PowerPC)')).toBe(true)
+expect(test.test('MacInter', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.50')).toBe(false)
+-->
 
-if ($isMacOs && $isIE && $this->wasInitialized() && $wasResized) {
-  // do something
-}
-// ->
-// use functions instead of variables
+Now, the condition is shorter and more readable.
+
+However, I don’t think that splitting a linear algorithm, even a long one, into several functions, and then calling them one after another, makes code more readable. Jumping between functions is harder than scrolling, and if we have to look into functions’ implementations to understand the code, then the abstraction wasn’t the right one.
+
+TODO: Example?
+
+#### Good comments
+
+Comments are useful to answer _why_ code is written in a certain way:
+
+- If it’s fixing a bug, a ticket number will be useful.
+- If there’s an obvious simpler alternative solution, a comment should explain why this solution doesn’t work in this case.
+- If different platforms behave differently and the code accounts for this, it should be also mentioned in a comment.
+
+Such comments will save us from accidental “refactoring” that makes code easier but removes some necessary functionality or breakes it for some users.
+
+High level comments, explaining how code works, are useful too. If the code implements an algorithm, explained somewhere else, a link to that place would be useful.
+
+And any hack should be explained in a `HACK` or `FIXME` comment:
+
+<!-- class Test { -->
+
+```js
+  // HACK: Importing defaultProps from another module crashes Storybook Docs,
+  // so we have to duplicate them here
+  static defaultProps = {
+    label: '',
+  }
 ```
 
-I don’t think that splitting a linear algorithm, even a long one, into several functions and then calling them one after another, makes code more readable. Jumping between functions is harder than scrolling, and if you have to look into functions’ implementations to understand the code, then the abstraction wasn’t the right one.
+<!-- } -->
 
-Comments are useful to answer _why_ code is written in a certain way. If it’s fixing a bug, a ticket number will be useful. If there’s an obvious simpler alternative solution, a comment should explain why this solution doesn’t work in this case. Such comments will save you from accidental “refactoring” that makes code easier but removes some necessary functionality.
+`TODO` comments are _okay_ too, if they contain a ticket number when something will be done. Otherwise they are just dreams that will likely never come true. Unless _a dream_ is exactly what we want to document: a desire that the code was doing more than it does – error handling, special cases, supporting more platforms, minor features, and so on – but it wasn’t implemented due to, probably, lack of time.
 
-High level comments, explaining how code works, are useful too. If you’re implementing an algorithm, explained somewhere else, link to that place.
+<!--
+const Environment = {
+  DEV: 'DEV',
+  QA: 'QA',
+  PROD: 'PROD',
+}
+-->
 
-And any hack should be explained in a `HACK` or `FIXME` comment.
+```js
+// TODO: On React Native it always returns DEV, since there's no actual location available
+const getEnvironment = (hostname = window.location.hostname) => {
+  if (hostname.includes('qa.')) {
+    return Environment.QA;
+  }
+  if (hostname.includes('example.com')) {
+    return Environment.PROD;
+  }
+  return Environment.DEV;
+};
+```
 
-`TODO` comments are _okay_ too, if you add a ticket number when something will be done. Otherwise they are just dreams that will likely never come true.
+<!--
+expect(getEnvironment('qa.example.com')).toBe('QA')
+expect(getEnvironment('www.example.com')).toBe('PROD')
+expect(getEnvironment('localhost')).toBe('DEV')
+-->
 
-But there are several kinds of comments that you should never write.
+**Idea:** Maybe we should start using `DREAM` comments for such cases...
 
-First are comments explaining _how_ code works:
+#### Bad comments
+
+We’ve talked about useful comments. However, there are many more kinds of comments that we should never write.
+
+Probably the wost kind of comments are comments explaining _how_ code works. They either repeats the code in a more verbose language, or explain language features:
+
+```js
+// Fade timeout = 2 seconds
+const FADE_TIMEOUT_MS = 2000;
+```
 
 ```js
 // This will make sure that your code runs
@@ -56,24 +148,23 @@ First are comments explaining _how_ code works:
 'use strict';
 ```
 
-```js
-// Fade timeout = 2 seconds
-const FADE_TIMEOUT_MS = 2000;
-```
+Code comments isn’t the best place to teach teammates how to use certain language features. Code reviews, pair programming sessions, and team documentation would be more suitable and efficient.
 
-If you think someone on your team may not know some of the language features you’re using, it’s better to help them learn these features than clutter the code with comments that will distract everyone else.
-
-Next are _fake_ comments: they pretend to explain a some decision, but actually they don’t explain anything.
+Next, _fake_ comments: they pretend to explain some decision, but actually they don’t explain anything, and othen blame someone else for poor code and tech debt:
 
 ```js
 // Design decision
+
 // This is for biz requirements
+
 // Non-standard background color needed for design
+
 // Designer's choice
+
 // Using non-standard color to match design
 ```
 
-I see a lot of them in one-off design _changes?_. For example, a comment will say that there was a _design requirement_ to use a non-standard color but it won’t explain why it was required and why none of the standard color worked in that case.
+I see lots of these comments in one-off design "adjustments". For example, a comment will say that there was a _design requirement_ to use a non-standard color but it won’t explain why it was required and why none of the standard colors worked in that case:
 
 ```scss
 .shareButton {
@@ -81,9 +172,9 @@ I see a lot of them in one-off design _changes?_. For example, a comment will sa
 }
 ```
 
-_Requirement_ is a very tricky and dangerous word. Often what’s treated as a requirement is just a lack of education and collaboration between developers, designers and project managers. If you don’t know why something is required, ask, and you may be surprised by the answer.
+_Requirement_ is a very tricky and dangerous word. Often what’s treated as a requirement is just a lack of education and collaboration between developers, designers, and project managers. If we don’t know why something is required, ask, and the answer could be flabbergasting!
 
-There may be no _requirement_ at all and you can use a standard color:
+There may be no _requirement_ at all and we can use a standard color from the project theme:
 
 ```scss
 .shareButton {
@@ -100,4 +191,14 @@ $color--facebook: #3b5998; // Facebook brand color
 }
 ```
 
-In any case it’s your responsibility to ask _why_ as many times as necessary.
+In any case it’s our responsibility to ask _why_ as many times as necessary.
+
+Same with comments that explain conditions: there may be no need for a special case, and we could remove the whole condition with its comment. See more in the [Avoid conditons](#avoid-conditions) chapter.
+
+---
+
+Start thinking about:
+
+- Replacing a comment with a function with a meaningful name.
+- Removing comments that don’t add anything that’s not already in the code.
+- Asking why documented requirement or decision exists in the first place.
