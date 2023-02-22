@@ -10,23 +10,39 @@ In this chapter, I’ll focus on utility functions rather than on big frameworks
 
 The worst case is inlining utility functions like so:
 
-<!-- const object = {} -->
+<!--
+const object = { o: 0 }
+let result = false
+-->
 
 ```js
 if (object && Object.keys(object).length > 0) {
-}
 ```
+
+<!--
+  result = true
+}
+expect(result).toBe(true)
+-->
 
 This code is checking that the object isn’t empty, meaning it has at least one property. It’s hard to see the code intention immediately and it’s hard to remember to do the existence check to avoid runtime exceptions when the variable is `undefined`.
 
 Having a function with a meaningful name that encapsulates all the required checks (including the ones we’ll come up with in the future) makes the intention of the code more clear:
 
-<!-- const object = {} -->
+<!--
+const object = { o: 0 }
+let result = false
+-->
 
 ```js
 if (isEmpty(object) === false) {
-}
 ```
+
+<!--
+  result = true
+}
+expect(result).toBe(true)
+-->
 
 This is already much better. Now, the question is whether we write this function ourselves or we use one that somebody has written already.
 
