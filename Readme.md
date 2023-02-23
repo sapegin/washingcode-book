@@ -17,6 +17,12 @@ If you found any issue (like a typo or an incorrect term usage) or have any othe
 - tweet me at [@iamsapegin](https://twitter.com/iamsapegin);
 - [ask me anything](https://github.com/sapegin/ama) about frontend or programming in general.
 
+## Sponsoring
+
+[Buy the book](https://leanpub.com/washingcode) on LeanPub.
+
+<a href="https://www.buymeacoffee.com/sapegin" target="_blank"><img src="https://cdn.buymeacoffee.com/buttons/lato-orange.png" alt="Buy Me A Coffee" style="height: 51px !important;width: 217px !important;" ></a>
+
 ## Author and license
 
 [Artem Sapegin](https://sapegin.me/), a frontend engineer at [Omio](https://omio.com/) and the creator of [React Styleguidist](https://react-styleguidist.js.org/). I also write about frontend at [my blog](https://blog.sapegin.me/).
