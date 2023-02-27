@@ -535,7 +535,7 @@ There’s an important difference between a variable defined with the `const` k
 
 Both conventions reduce cognitive load a little bit and make code easier to understand.
 
-Unfortunately JavaScript has no true constants, and _mutation_ is still possible even when you define a variable with the `const` keyword. We’ll talk about mutations in [the next chapter](#avoid-mutations).
+Unfortunately JavaScript has no true constants, and _mutation_ is still possible even when you define a variable with the `const` keyword. We’ll talk about mutations in [the next chapter](#avoid-mutation).
 
 ---
 
