@@ -321,6 +321,8 @@ Other [mutating array methods](https://doesitmutate.xyz/) to watch out for are:
 - [.splice()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
 - [.unshift()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift)
 
+**Note:** Thanks to the [Change Array by copy](https://github.com/tc39/proposal-change-array-by-copy) proposal, JavaScript will have immutable alternatives to several of the mentioned above methods: `.toReversed()`, `.toSorted()`, `.toSpliced()`, and `.with()`. The proposal will be included in ECMAScript 2023.
+
 #### Avoid mutation of function parameters
 
 Objects or arrays that are passed to a function can be mutated inside that function, and this affects the original object:
