@@ -554,7 +554,7 @@ expect(items).toEqual(['Luncheon','Dinner'])
 
 It’s clear that the author of this code didn’t expect the `sort()` method to mutate the original array, and accidentally introduced a mutation of a function parameter.
 
-We can fix this using the spread operator, like so:
+We can fix this using spread syntax, like so:
 
 <!-- const Select = ({items}) => items.join('|') -->
 
