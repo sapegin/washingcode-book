@@ -209,7 +209,7 @@ expect(getProductsDropdownItems({products: []})).toEqual([])
 expect(getProductsDropdownItems({products: [{id: '1', name: 'Tacos'}]})).toEqual([{label: 'Tacos', value: '1'}])
 -->
 
-All loops and array functions, like `.map()` or `.filter()` work fine with empty arrays, so we can safely remove the check:
+All loops and array functions, like `map()` or `filter()` work fine with empty arrays, so we can safely remove the check:
 
 ```js
 function getProductsDropdownItems({ products }) {
@@ -357,7 +357,7 @@ expect(articles.get('/cats-better-than-dogs')).toBe(0)
 expect(articles.get('/dogs-better-than-cats')).toBe(5)
 -->
 
-A naïve way to implement the `upvote` method could be:
+A naïve way to implement the `upvote()` method could be:
 
 ```js
 function counter() {

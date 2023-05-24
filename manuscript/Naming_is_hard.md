@@ -205,7 +205,7 @@ TODO: data, list, util, etc. in names
 
 TODO: Don’t go too far with naming conventions — Hungarian notation
 
-TODO: Avoid abbreviations: accepted in smaller scope when the bigger scope has a full name: it’s okay to use `op` inside `filterPurchageOrders` function
+TODO: Avoid abbreviations: accepted in smaller scope when the bigger scope has a full name: it’s okay to use `op` inside `filterPurchageOrders()` function
 
 TODO: The smaller the scope of a variable the better
 

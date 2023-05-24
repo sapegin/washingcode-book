@@ -15,7 +15,7 @@ I call this process _separating “what” and “how”_. The benefits are:
 For example, a form validation (see “Avoid conditions” for the code) could be split into:
 
 - a list of validations for a particular form;
-- a collection of validation functions (like `isEmail`);
+- a collection of validation functions (like `isEmail()`);
 - a function that validates form values using a list of validations.
 
 TODO: The last two things are pretty generic.

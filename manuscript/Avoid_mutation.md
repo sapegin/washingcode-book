@@ -32,7 +32,7 @@ printSortedArray([3, 1, 2])
 expect(console.log.mock.calls).toEqual([[1], [2], [3]])
 -->
 
-The problem here is that the `.sort()` array method mutates the array we’re passing into our function, likely not what we’d expect when calling a function named `printSortedArray`.
+The problem here is that the `sort()` array method mutates the array we’re passing into our function, likely not what we’d expect when calling a function named `printSortedArray()`.
 
 Some of the problems with mutation:
 
@@ -191,7 +191,7 @@ const rows = [
 expect(rows).toEqual([{"product1": <Text>pizza</Text>, "product2": <Text>pizza</Text>, "row": "Name"}])
 -->
 
-Here we have two ways of defining table rows: a plain array with always visible rows, and a function that returns optional rows. The latter mutates the original array using the `.push()` method.
+Here we have two ways of defining table rows: a plain array with always visible rows, and a function that returns optional rows. The latter mutates the original array using the `push()` method.
 
 Array mutation itself isn’t the most significant issue of this code. However, code with mutations likely hides other issues — mutation is a good sign to look closer. Here the main problem is imperative array building and different ways for handling required and optional rows. Replacing imperative code with declarative and eliminating conditions often makes code more readable and maintainable.
 
@@ -240,12 +240,12 @@ const visibleRows = rows.filter(row => {
 expect(visibleRows).toEqual([{"product1": <Text>pizza</Text>, "product2": <Text>pizza</Text>, "row": "Name"}])
 -->
 
-Now we’re defining all rows in a single array. All rows are visible by default unless they have the `isVisible` function that returns `false`. We’ve improved code readability and maintainability:
+Now we’re defining all rows in a single array. All rows are visible by default unless they have the `isVisible()` function that returns `false`. We’ve improved code readability and maintainability:
 
 - there’s only one way of defining rows;
 - no need to check two places to see all available rows;
 - no need to decide which method to use to add a new row;
-- easier to make an existing row optional by adding `isVisible` function to it.
+- easier to make an existing row optional by adding `isVisible()` function to it.
 
 Here’s another example:
 
@@ -311,17 +311,17 @@ expect(prompts).toEqual([{name: 'foo', initial: 1, message: 'Foo'}, {name: 'bar'
 
 Other [mutating array methods](https://doesitmutate.xyz/) to watch out for are:
 
-- [.copyWithin()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/copyWithin)
-- [.fill()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill)
-- [.pop()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop)
-- [.push()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push)
-- [.reverse()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse)
-- [.shift()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift)
-- [.sort()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
-- [.splice()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
-- [.unshift()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift)
+- [copyWithin()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/copyWithin)
+- [fill()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill)
+- [pop()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/pop)
+- [push()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/push)
+- [reverse()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/reverse)
+- [shift()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/shift)
+- [sort()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
+- [splice()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
+- [unshift()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift)
 
-**Note:** Thanks to the [Change Array by copy](https://github.com/tc39/proposal-change-array-by-copy) proposal, JavaScript will have immutable alternatives to several of the mentioned above methods: `.toReversed()`, `.toSorted()`, `.toSpliced()`, and `.with()`. The proposal will be included in ECMAScript 2023.
+**Note:** Thanks to the [Change Array by copy](https://github.com/tc39/proposal-change-array-by-copy) proposal, JavaScript will have immutable alternatives to several of the mentioned above methods: `toReversed()`, `toSorted()`, `toSpliced()`, and `with()`. The proposal will be included in ECMAScript 2023.
 
 #### Avoid mutation of function parameters
 
@@ -339,7 +339,7 @@ mutate(person);
 
 <!-- expect(person).toEqual({ name: 'Chuck Norris', secret: 'Loves pizza' }) -->
 
-Here the `person` object is mutated inside the `mutate` function.
+Here the `person` object is mutated inside the `mutate()` function.
 
 Function parameter mutation can be intentional and accidental, and both are problematic:
 
@@ -396,7 +396,7 @@ It converts a bunch of number variables to a `messageProps` array that groups pe
 ];
 ```
 
-The problem with this code is that the `addIfGreaterThanZero` function mutates the array we’re passing to it. This is an example of an intentional mutation: it’s required for this function to work. However, it’s not the best API for what this function does.
+The problem with this code is that the `addIfGreaterThanZero()` function mutates the array we’re passing to it. This is an example of an intentional mutation: it’s required for this function to work. However, it’s not the best API for what this function does.
 
 We can change this function to return a new array instead:
 
@@ -454,7 +454,7 @@ expect(getMessageProps(1, 5, 0, 2, 0)).toEqual([
 ])
 -->
 
-Now it’s easier to understand what the code does. There’s no repetition, and the intent is clear: the `getMessageProps` function converts a list of values to an array of objects and removes “empty” items.
+Now it’s easier to understand what the code does. There’s no repetition, and the intent is clear: the `getMessageProps()` function converts a list of values to an array of objects and removes “empty” items.
 
 We can simplify it further:
 
@@ -484,7 +484,7 @@ expect(getMessageProps(1, 5, 0, 2, 0)).toEqual([
 
 But this makes the function API less discoverable and can make editor autocomplete less useful. It also gives the wrong impression that the function accepts any number of parameters and that the count order is unimportant — the number and order of parameters were clear in the previous iteration.
 
-We can also use `.reduce()` method instead of `.map()` / `.filter()` chaining:
+We can also use `reduce()` method instead of `map()` / `filter()` chaining:
 
 ```js
 const MESSAGE_IDS = [
@@ -552,7 +552,7 @@ expect(c1.textContent).toEqual('Luncheon|Dinner')
 expect(items).toEqual(['Luncheon','Dinner'])
 -->
 
-It’s clear that the author of this code didn’t expect the `.sort()` method to mutate the original array, and accidentally introduced a mutation of a function parameter.
+It’s clear that the author of this code didn’t expect the `sort()` method to mutate the original array, and accidentally introduced a mutation of a function parameter.
 
 We can fix this using the spread operator, like so:
 
@@ -597,7 +597,7 @@ Probably the only valid reason to mutate function parameters is performance opti
 
 Sometimes we can’t avoid mutations, for example, because of an unfortunate language API that does mutation.
 
-Array’s `.sort()` method is an infamous example of that:
+Array’s `sort()` method is an infamous example of that:
 
 ```js
 const counts = [6, 3, 2];
@@ -606,7 +606,7 @@ const puppies = counts.sort().map(n => `${n} puppies`);
 
 <!-- expect(puppies).toEqual(['2 puppies', '3 puppies', '6 puppies']) -->
 
-This example gives the impression that the `counts` array isn’t changing, and we’re just creating a new `puppies` array with the sorted array. But the `.sort()` method returns a sorted array _and_ mutates the original array at the same time. This kind of code is hazardous and can lead to hard-to-find bugs. Many developers don’t realize that the `.sort()` method is mutating because the code _seems_ to work fine.
+This example gives the impression that the `counts` array isn’t changing, and we’re just creating a new `puppies` array with the sorted array. But the `sort()` method returns a sorted array _and_ mutates the original array at the same time. This kind of code is hazardous and can lead to hard-to-find bugs. Many developers don’t realize that the `sort()` method is mutating because the code _seems_ to work fine.
 
 It’s better to make the mutation explicit:
 
@@ -633,7 +633,7 @@ const puppies = sort(counts).map(n => `${n} puppies`);
 
 <!-- expect(puppies).toEqual(['2 puppies', '3 puppies', '6 puppies']) -->
 
-Or use a third-party library, like Lodash and its [`sortBy` function](https://lodash.com/docs#sortBy):
+Or use a third-party library, like Lodash and its [`sortBy()` function](https://lodash.com/docs#sortBy):
 
 ```js
 const counts = [6, 3, 2];

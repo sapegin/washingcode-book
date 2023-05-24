@@ -43,7 +43,7 @@ if (~url.indexOf('id')) {
 expect(result).toBe(true)
 -->
 
-The `~` is called the _bitwise NOT_ operator. It’s useful effect here is that it returns a falsy value only when the `.indexOf()` returns `-1`. This code should be rewritten as:
+The `~` is called the _bitwise NOT_ operator. It’s useful effect here is that it returns a falsy value only when the `indexOf()` returns `-1`. This code should be rewritten as:
 
 <!--
 const url = 'index.html?id=5'

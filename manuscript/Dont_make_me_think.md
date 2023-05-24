@@ -156,7 +156,7 @@ expect(props).toHaveProperty('data-enzyme-id', 'type-Col-2')
 expect(props).toHaveProperty('data-codeception-id', 'type_Col_2')
 -->
 
-This is an extreme case of using small functions and I generally try to avoid splitting code this far, but I think in this case it works well, assuming that there are already many places in the project where we can use the new `getTestIdProps` function.
+This is an extreme case of using small functions and I generally try to avoid splitting code this far, but I think in this case it works well, assuming that there are already many places in the project where we can use the new `getTestIdProps()` function.
 
 In all cases where we have a condition that makes code slightly different, we should ask ourselves: is this condition really necessary? If the answer is “yes”, then we should ask ourselves again. Often there’s no _real_ reason to have a certain condition. For example, why do we even need to add test IDs for different tools separately? Can’t we set up one of the tools to use test IDs of another? If we dig deep enough we may be surprised to find out that nobody knows the answer, or that the initial reason is no longer relevant.
 
@@ -192,7 +192,7 @@ expect(getAssetDirs({assetsDir: 'pizza'})).toEqual([{from: 'pizza'}])
 expect(getAssetDirs({assetsDir: ['pizza', 'tacos']})).toEqual([{from: 'pizza'}, {from: 'tacos'}])
 -->
 
-I don’t particularly like that Lodash’s `castArray` function wraps `undefined` in an array, which isn’t what I’d expect, but still the result is simpler.
+I don’t particularly like that Lodash’s `castArray()` function wraps `undefined` in an array, which isn’t what I’d expect, but still the result is simpler.
 
 #### Write parallel code
 

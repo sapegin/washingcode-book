@@ -406,7 +406,7 @@ expect(areEventsValid([{fromDate: 4, toDate: 14}, {fromDate: 1, toDate: 2}])).to
 expect(areEventsValid([{fromDate: 4, toDate: 1}, {fromDate: 1, toDate: 2}])).toBe(false)
 -->
 
-Here we’re checking that _every_ event is valid, which would be more clear with the `.every()` array method:
+Here we’re checking that _every_ event is valid, which would be more clear with the `every()` array method:
 
 ```js
 function areEventsValid(events) {
