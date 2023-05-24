@@ -39,6 +39,7 @@ Some of the problems with mutation:
 - Mutation may lead to unexpected and hard-to-debug issues, where data becomes incorrect somewhere, and you have no idea where it happens.
 - Mutation makes code harder to understand: at any time, an array or object may have a different value, so we need to be very careful when reading the code.
 - Mutation of function parameters makes the behavior of a function surprising.
+- Mutation is ofen unexpected. It’s too easy to forget which methods mutate the original data, and which don’t. Both could return the same value, and there’s no naming convention of any kind to differentiate them, at least in JavaScript.
 
 _Immutability_ or _immutable data structures_, meaning that to change a value we have to create a new array or object, would solve this problem. Unfortunately, JavaScript doesn’t support immutability natively, and all solutions are more crutches than actual solutions. But even just _avoiding_ mutations in our code makes it easier to understand.
 
@@ -514,6 +515,80 @@ I’m not a huge fan of `.reduce()` because it often makes code harder to read a
 
 So I’d stop two steps ago with this refactoring.
 
+Mutation is often accidental:
+
+<!-- const Select = ({items}) => items.join('|') -->
+
+```jsx
+export const ALL_MEAL_TYPES = [
+  'Breakfast',
+  'Second Breakfast',
+  'Elevenses',
+  'Luncheon',
+  'Afternoon Tea',
+  'Dinner',
+  'Supper',
+];
+
+const MealTypeSelect = ({
+  selectedMealType,
+  allowedMealTypes = [],
+  onChange,
+}) => {
+  const sortedMealTypes = allowedMealTypes.sort(
+    (a, b) => ALL_MEAL_TYPES.indexOf(a) - ALL_MEAL_TYPES.indexOf(b),
+  );
+
+  return <Select value={selectedMealType} items={sortedMealTypes} onChange={onChange} />
+}
+```
+
+<!--
+const items = ['Dinner', 'Luncheon'];
+const {container: c1} = RTL.render(<MealTypeSelect selectedMealType="Luncheon" allowedMealTypes={items} />);
+expect(c1.textContent).toEqual('Luncheon|Dinner')
+expect(items).toEqual(['Luncheon','Dinner'])
+-->
+
+It’s clear that the author of this code didn’t expect the `.sort()` method to mutate the original array, and accidentally introduced a mutation of a function parameter.
+
+We can fix this using the spread operator, like so:
+
+<!-- const Select = ({items}) => items.join('|') -->
+
+```jsx
+export const ALL_MEAL_TYPES = [
+  'Breakfast',
+  'Second Breakfast',
+  'Elevenses',
+  'Luncheon',
+  'Afternoon Tea',
+  'Dinner',
+  'Supper',
+];
+
+const MealTypeSelect = ({
+  selectedMealType,
+  allowedMealTypes = [],
+  onChange,
+}) => {
+  const sortedMealTypes = [...allowedMealTypes].sort(
+    (a, b) => ALL_MEAL_TYPES.indexOf(a) - ALL_MEAL_TYPES.indexOf(b),
+  );
+
+  return <Select value={selectedMealType} items={sortedMealTypes} onChange={onChange} />
+}
+```
+
+<!--
+const items = ['Dinner', 'Luncheon'];
+const {container: c1} = RTL.render(<MealTypeSelect selectedMealType="Luncheon" allowedMealTypes={items} />);
+expect(c1.textContent).toEqual('Luncheon|Dinner')
+expect(items).toEqual(['Dinner', 'Luncheon'])
+-->
+
+Here, we create a copy of an incoming array before sorting it, so the original array never changes.
+
 Probably the only valid reason to mutate function parameters is performance optimization: when you work with a huge piece of data, and creating a new object or array would be too slow. But like with all performance optimizations: measure first to know whether you actually have a problem, and avoid premature optimization.
 
 #### Make mutations explicit if you have to use them
@@ -758,7 +833,9 @@ I don’t have good ideas on how to rewrite this code without an imperative loop
 
 It’s better to have simple and clear code with mutations than complex and messy code without them. But if you do use mutations, it’s wise to isolate them to a small function with a meaningful name and clear API.
 
-Also, avoiding mutation could [significantly reduce performance](https://tkdodo.eu/blog/why-i-dont-like-reduce) if we work with large amounts of data and create a new object on each iteration:
+Also, immutable operations could [significantly reduce performance](https://tkdodo.eu/blog/why-i-dont-like-reduce) if we work with large amounts of data and create a new object on each iteration.
+
+I’d prefer to have a language that is immutable by default, and use mutatating operations explicity where I need them.
 
 ---
 
