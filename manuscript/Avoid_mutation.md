@@ -529,20 +529,26 @@ export const ALL_MEAL_TYPES = [
   'Luncheon',
   'Afternoon Tea',
   'Dinner',
-  'Supper',
+  'Supper'
 ];
 
 const MealTypeSelect = ({
   selectedMealType,
   allowedMealTypes = [],
-  onChange,
+  onChange
 }) => {
   const sortedMealTypes = allowedMealTypes.sort(
-    (a, b) => ALL_MEAL_TYPES.indexOf(a) - ALL_MEAL_TYPES.indexOf(b),
+    (a, b) => ALL_MEAL_TYPES.indexOf(a) - ALL_MEAL_TYPES.indexOf(b)
   );
 
-  return <Select value={selectedMealType} items={sortedMealTypes} onChange={onChange} />
-}
+  return (
+    <Select
+      value={selectedMealType}
+      items={sortedMealTypes}
+      onChange={onChange}
+    />
+  );
+};
 ```
 
 <!--
@@ -566,20 +572,26 @@ export const ALL_MEAL_TYPES = [
   'Luncheon',
   'Afternoon Tea',
   'Dinner',
-  'Supper',
+  'Supper'
 ];
 
 const MealTypeSelect = ({
   selectedMealType,
   allowedMealTypes = [],
-  onChange,
+  onChange
 }) => {
   const sortedMealTypes = [...allowedMealTypes].sort(
-    (a, b) => ALL_MEAL_TYPES.indexOf(a) - ALL_MEAL_TYPES.indexOf(b),
+    (a, b) => ALL_MEAL_TYPES.indexOf(a) - ALL_MEAL_TYPES.indexOf(b)
   );
 
-  return <Select value={selectedMealType} items={sortedMealTypes} onChange={onChange} />
-}
+  return (
+    <Select
+      value={selectedMealType}
+      items={sortedMealTypes}
+      onChange={onChange}
+    />
+  );
+};
 ```
 
 <!--
