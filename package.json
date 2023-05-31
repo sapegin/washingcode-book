@@ -19,7 +19,7 @@
     "format": "prettier --loglevel warn --write \"**/*.{js,md}\"",
     "pretest": "npm run lint",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
-    "test:watch": "NODE_OPTIONS=--experimental-vm-modules jest --watchAll",
+    "test:watch": "NODE_OPTIONS=--experimental-vm-modules nodemon --exec jest --watch 'manuscript/*.*'",
     "posttest": "npm run format",
     "prepare": "husky install"
   },
@@ -28,6 +28,7 @@
     "immer": "9.0.18",
     "immutable": "4.0.0",
     "lodash": "4.17.21",
+    "nodemon": "^2.0.22",
     "qs": "6.10.5",
     "react": "18.2.0",
     "react-dom": "18.2.0"
