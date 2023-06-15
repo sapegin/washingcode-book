@@ -131,6 +131,46 @@ expect(getEnvironment('localhost')).toBe('DEV')
 
 **Idea:** Maybe we should start using `DREAM` comments for such cases...
 
+Comments can make code more intentional. Consider this example:
+
+<!-- const doOrDoNot = () => {} -->
+
+```js
+try {
+  doOrDoNot();
+} catch {
+  // eslint-disable-next-line no-empty
+}
+```
+
+Here, we’re disabling the linter complaining about missing error handling. It’s, however, unclear why the error handling is missing.
+
+We can make the code clearer by adding a comment:
+
+<!-- const doOrDoNot = () => {} -->
+
+```js
+try {
+  doOrDoNot();
+} catch {
+  // Ignore errors
+}
+```
+
+Or:
+
+<!-- const doOrDoNot = () => {} -->
+
+```js
+try {
+  doOrDoNot();
+} catch {
+  // TODO: Handle errors
+}
+```
+
+Now, it’s clear whether we intentionally ignore errors or we want to add error handling in the future.
+
 #### Bad comments
 
 We’ve talked about useful comments. However, there are many more kinds of comments that we should never write.
