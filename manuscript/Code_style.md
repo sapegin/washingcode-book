@@ -661,6 +661,40 @@ And coming back to screens with limited number of characters, I now use 27" scre
 
 ![Coding on 27" screen](images/27inches.png)
 
+#### Make it easy to remember and use
+
+Some conventions are easy to use, some are not so much. Let’s compare three popular conventions for _title casing_:
+
+- **sentence case:** only the first word is capitalized, like in a regular sentence (example: _Breakfast: The most important book about the best meal of the day_);
+- **upper case:** all words are capitalized (example: _Breakfast: The Most Important Book About the Best Meal Of The Day_);
+- **AP/APA:** see below (example: _Breakfast: The Most Important Book About the Best Meal of the Day_).
+
+The first two are easy to remember: it’s all or nothing. The last one, hovewer, not at all. Here are the rules of the AP/APA title style (quoted from the [ap-style-title-case](https://github.com/words/ap-style-title-case) package docs):
+
+- always capitalize the first word, even if it’s a stop word
+- always capitalize the last word, even if it’s a stop word
+- lowercase these words: `a`, `an`, `and`, `at`, `but`, `by`, `for`, `in`, `nor`, `of`, `on`, `or`, `so`, `the`, `to`, `up`, `yet`
+
+> Many writers make the error of leaving `to be` verbs in lower case. Even though `is`, `are`, `was`, and `be`, are all short words, they should still be capitalized in a title because they are verbs.
+>
+> When you write titles that contain prepositions, your word processor will likely tell you that you should leave words like `with`, `about`, and `around` lowercase. Defiantly look past the squiggly line indicating a potential error, and remember that in AP title case, prepositions with four or more letters should be capitalized.
+
+This is way to much to rember and it has too many exceptions to be practical. It also doesn’t make text more readable, and, to my taste, prettier. Automation could help with managing complexity, but then the convention should have significant benefits, and this one doesn’t. That’s why I use sentence case in all my writing, including this book.
+
+This is an extreme case of an inconvenient convention. Programmers rarely go that far but sometimes they try.
+
+One example is [Microsoft .NET naming conventions](https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/capitalization-conventions), where they make a special case for two-letter acronyms:
+
+> The PascalCasing convention, used for all identifiers except parameter names, capitalizes the first character of each word (including acronyms over two letters in length), as shown in the following examples: `PropertyDescriptor`, `HtmlTag`.
+
+> A special case is made for two-letter acronyms in which both letters are capitalized, as shown in the following identifier: `IOStream`.
+
+I don’t see how this improves anything: `IoStream` is easier to read than `IOStream`, and there’s no need to remember about a special rule.
+
+And then even Microsoft couldn’t follow their own guidelines with [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest).
+
+So, choose the simplest convention, unless more complex rules bring huge benefits. If that is so, thorougly document and automate it.
+
 #### The rest doesn’t matter
 
 There are so many ways to write code. For example, we could use function arguments like this:
