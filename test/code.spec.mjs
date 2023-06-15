@@ -42,7 +42,8 @@ const vm = new NodeVM({
       fs: {
         readFileSync: x => x
       },
-      reamde: x => x
+      reamde: x => x,
+      express: { Router: () => ({ use: () => {}, get: () => {} }) }
     }
   }
 });

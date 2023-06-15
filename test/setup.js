@@ -3,6 +3,9 @@ const _ = require('lodash');
 // Common libraries
 global._ = _;
 global.isEmpty = _.isEmpty;
+global.sortBy = _.sortBy;
+global.get = _.get;
+global.intersection = _.intersection;
 
 // Node.js
 global.path = require('path');
@@ -18,7 +21,3 @@ global.clearImmediate = jest.useRealTimers;
 // More stuff for testing
 global.ReactDOM = require('react-dom');
 global.RTL = require('@testing-library/react');
-
-// Common components
-global.Button = (...props) =>
-  global.React.createElement('button', props);

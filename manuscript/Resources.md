@@ -17,13 +17,14 @@
 - [John Carmack on Inlined Code](http://number-none.com/blow/blog/programming/2014/09/26/carmack-on-inlined-code.html)
 - [Learning Code Readability](https://medium.com/@egonelbre/learning-code-readability-a80e311d3a20) by Egon Elbre
 - [Making Wrong Code Look Wrong](https://www.joelonsoftware.com/2005/05/11/making-wrong-code-look-wrong/) by Joel Spolsky
+- [Naming conventions in programming – a review of scientific literature](https://makimo.pl/blog/scientific-perspective-on-naming-in-programming/) by Iwo Herka
 - [On the changing notion of code readability](http://firstclassthoughts.co.uk/Articles/Readability/TheChangingNotionOfReadability.html) by Kasper B. Graversen
 - [Psychology of Code Readability](https://medium.com/@egonelbre/psychology-of-code-readability-d23b1ff1258a) by Egon Elbre
 - [Small Functions considered Harmful](https://medium.com/@copyconstruct/small-functions-considered-harmful-91035d316c29) by Cindy Sridharan
 - [The “Bug-O” Notation](https://overreacted.io/the-bug-o-notation/) by Dan Abramov
 - [The Law of Leaky Abstractions](https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/) by Joel Spolsky
 - [The wrong abstraction](https://www.sandimetz.com/blog/2016/1/20/the-wrong-abstraction) by Sandi Metz
-- [Too DRY — The Grep Test](http://jamie-wong.com/2013/07/12/grep-test/) by Jamie Wong
+- [Too DRY – The Grep Test](http://jamie-wong.com/2013/07/12/grep-test/) by Jamie Wong
 - [Why the Boy Scout Rule Is Insufficient](https://www.codewithjason.com/boy-scout-rule-insufficient/) by Jason Swett
 - [Write code that is easy to delete, not easy to extend](https://programmingisterrible.com/post/139222674273/write-code-that-is-easy-to-delete-not-easy-to)
 - [Writing system software: code comments](http://antirez.com/news/124)
