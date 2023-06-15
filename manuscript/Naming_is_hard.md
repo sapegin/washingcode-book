@@ -759,7 +759,7 @@ const getUTCDateTime = datetime =>
   );
 ```
 
-<!-- expect(getUTCDateTime(new Date(Date.parse('2023-10-19T12:00:00.000Z'))).toISOString()).toBe('2023-10-19T14:00:00.000Z') -->
+<!-- expect(getUTCDateTime({ getTime: () => 1686815699187, getTimezoneOffset: () => -120 }).toISOString()).toBe('2023-06-15T09:54:59.187Z') -->
 
 Even a comment doesn’t help to understand what this code does.
 
@@ -776,7 +776,7 @@ const getUTCDateTime = datetime =>
   );
 ```
 
-<!-- expect(getUTCDateTime(new Date(Date.parse('2023-10-19T12:00:00.000Z'))).toISOString()).toBe('2023-10-19T14:00:00.000Z') -->
+<!-- expect(getUTCDateTime({ getTime: () => 1686815699187, getTimezoneOffset: () => -120 }).toISOString()).toBe('2023-06-15T09:54:59.187Z') -->
 
 Now it’s much easer to understand the code.
 
