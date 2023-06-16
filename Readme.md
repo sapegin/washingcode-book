@@ -14,6 +14,7 @@ If you found any issue (like a typo or an incorrect term usage) or have any othe
 
 - [open an issue](https://github.com/sapegin/washingcode-book/issues) in this repository;
 - email me at [artem@sapegin.ru](mailto:artem@sapegin.ru);
+- mastodon me at [@sapegin@mastodon.cloud](https://mastodon.cloud/@sapegin);
 - tweet me at [@iamsapegin](https://twitter.com/iamsapegin);
 - [ask me anything](https://github.com/sapegin/ama) about frontend or programming in general.
 
