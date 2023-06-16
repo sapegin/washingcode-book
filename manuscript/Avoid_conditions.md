@@ -597,7 +597,7 @@ function postOrderStatus(orderId) {
 
 This function is still long but it’s much easier to follow because of a more straightforward code structure.
 
-Now we have no more than one level of nesting inside the function and the main return value is at the very end without nesting. We’ve added two guard clauses to exit the function early when there’s no data to process.
+Now we have at most one level of nesting inside the function and the main return value is at the very end without nesting. We’ve added two guard clauses to exit the function early when there’s no data to process.
 
 I’m not so sure what the code inside the second condition does, but it looks like it’s wrapping a single item in an array as we did in the previous section.
 

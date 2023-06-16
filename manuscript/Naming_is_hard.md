@@ -1325,7 +1325,7 @@ expect(c2.textContent).toEqual('Name: GenaAge: 37')
 
 The name still makes sense, when something like `isCroc` would have to be changed.
 
-Unfortunately, I don't have a good solution for clashing React components and TypeScript types. This usually happens when we create a component to render an object or a certain type:
+Unfortunately, I don’t have a good solution for clashing React components and TypeScript types. This usually happens when we create a component to render an object or a certain type:
 
 ```tsx
 interface User {
@@ -1345,7 +1345,7 @@ expect(c1.textContent).toEqual('Chuck (@)')
 
 Though TypeScript allows us to use a type and a value with the same name in the same scope, I think it makes code confusing.
 
-The only solution I see is renaming either the type or the component. I usually try to rename a component, though it requires some creativity to come up with a name that's not confusing. For example, names like `UserComponent` or `UserView` would be confusing because other components don't have these suffixes. But something like `UserProfile` may work in this case:
+The only solution I see is renaming either the type or the component. I usually try to rename a component, though it requires some creativity to come up with a name that’s not confusing. For example, names like `UserComponent` or `UserView` would be confusing because other components don’t have these suffixes. But something like `UserProfile` may work in this case:
 
 ```tsx
 interface User {
