@@ -36,10 +36,10 @@ The problem here is that the `sort()` array method mutates the array we’re pas
 
 Some of the problems with mutation:
 
-- Mutation may lead to unexpected and hard-to-debug issues, where data becomes incorrect somewhere, and you have no idea where it happens.
+- Mutation may lead to unexpected and hard-to-debug issues, where data becomes incorrect somewhere, and we have no idea where it happens.
 - Mutation makes code harder to understand: at any time, an array or object may have a different value, so we need to be very careful when reading the code.
 - Mutation of function parameters makes the behavior of a function surprising.
-- Mutation is ofen unexpected. It’s too easy to forget which methods mutate the original data, and which don’t. Both could return the same value, and there’s no naming convention of any kind to differentiate them, at least in JavaScript.
+- Mutation is often unexpected. It’s too easy to forget which methods mutate the original data, and which don’t. Both could return the same value, and there’s no naming convention of any kind to differentiate them, at least in JavaScript.
 
 _Immutability_ or _immutable data structures_, meaning that to change a value we have to create a new array or object, would solve this problem. Unfortunately, JavaScript doesn’t support immutability natively, and all solutions are more crutches than actual solutions. But even just _avoiding_ mutations in our code makes it easier to understand.
 
@@ -89,11 +89,11 @@ expect(parseExample('pizza', 'js', 'foo bar')).toEqual({content: 'pizza', lang: 
 
 Here we’re creating an object with three fields, one of which, `settings`, is optional. And we’re doing it by mutating the initial `example` object when it should have an optional field.
 
-I prefer to see the whole object shape in a single place instead of having to read the whole function to find all possible object shape variations. Usually it doesn’t matter whether a property has an `undefined` value or doesn’t exist at all. I haven’t seen many cases where it mattered for a good reason.
+I prefer to see the whole object shape in a single place instead of having to read the whole function to find all possible object shape variations. Usually, it doesn’t matter whether a property has an `undefined` value or doesn’t exist at all. I haven’t seen many cases where it mattered for a good reason.
 
 We also have a special error case here that returns an entirely different object with a lone `error` property. But it’s really a special case because none of the properties of two objects overlap, and it doesn’t make sense to merge them.
 
-I use ternaries for simple cases, and extract code to a function for more complex cases. Here we have a good case for the latter because of a nested condition and a `try`/`catch` block.
+I use ternaries for simple cases and extract code to a function for more complex cases. Here we have a good case for the latter because of a nested condition and a `try`/`catch` block.
 
 Let’s refactor it:
 
@@ -193,7 +193,7 @@ expect(rows).toEqual([{"product1": <Text>pizza</Text>, "product2": <Text>pizza</
 
 Here we have two ways of defining table rows: a plain array with always visible rows, and a function that returns optional rows. The latter mutates the original array using the `push()` method.
 
-Array mutation itself isn’t the most significant issue of this code. However, code with mutations likely hides other issues — mutation is a good sign to look closer. Here the main problem is imperative array building and different ways for handling required and optional rows. Replacing imperative code with declarative and eliminating conditions often makes code more readable and maintainable.
+Array mutation itself isn’t the most significant issue of this code. However, code with mutations likely hides other issues — mutation is a good sign to look closer. Here the main problem is imperative array building and different ways of handling required and optional rows. Replacing imperative code with declarative and eliminating conditions often makes code more readable and maintainable.
 
 Let’s merge all possible rows into a single declarative array:
 
@@ -513,7 +513,7 @@ expect(getMessageProps(1, 5, 0, 2, 0)).toEqual([
 ])
 -->
 
-I’m not a huge fan of `.reduce()` because it often makes code harder to read and intent less clear. With `.map()` / `.filter()` chaining, it’s clear that we’re first converting an array to another array with the same number of items, and then removing array items we don’t need. With `.reduce()` it’s less obvious.
+I’m not a huge fan of `.reduce()` because it often makes code harder to read and the intent less clear. With `.map()` / `.filter()` chaining, it’s clear that we’re first converting an array to another array with the same number of items, and then removing array items we don’t need. With `.reduce()` it’s less obvious.
 
 So I’d stop two steps ago with this refactoring.
 
@@ -603,9 +603,9 @@ expect(items).toEqual(['Dinner', 'Luncheon'])
 
 Here, we create a copy of an incoming array before sorting it, so the original array never changes.
 
-Probably the only valid reason to mutate function parameters is performance optimization: when you work with a huge piece of data, and creating a new object or array would be too slow. But like with all performance optimizations: measure first to know whether you actually have a problem, and avoid premature optimization.
+Probably the only valid reason to mutate function parameters is performance optimization: when we work with a huge piece of data and creating a new object or array would be too slow. But like with all performance optimizations: measure first to know whether we actually have a problem, and avoid premature optimization.
 
-#### Make mutations explicit if you have to use them
+#### Make mutations explicit if they are necessary
 
 Sometimes we can’t avoid mutations, for example, because of an unfortunate language API that does mutation.
 
@@ -656,7 +656,7 @@ const puppies = _.sortBy(counts).map(n => `${n} puppies`);
 
 #### Updating objects
 
-Modern JavaScript makes it easier to do immutable data updates thanks to [the spread syntax](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax). Before the spread syntax we had to write something like:
+Modern JavaScript makes it easier to do immutable data updates thanks to [the spread syntax](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax). Before the spread syntax, we had to write something like:
 
 ```js
 const prev = { coffee: 1 };
@@ -681,7 +681,7 @@ This does the same thing but is less verbose, and no need to remember `Object.as
 
 And before the [Object.assign](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) in ECMAScript 2015, we didn’t even try to avoid mutations: it was too painful.
 
-Redux has a great [page on immutable update patterns](https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns): it describes patterns for updating arrays and objects without mutations, and it’s useful even if you don’t use Redux.
+Redux has a great [page on immutable update patterns](https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns): it describes patterns for updating arrays and objects without mutations, and it’s useful even if we don’t use Redux.
 
 And still, spread syntax quickly gets incredibly verbose:
 
@@ -724,7 +724,7 @@ Here we’re keeping only the first level of properties of the initial object: `
 
 Also, spread and `Object.assign` only do shallow cloning: only the first level properties are copies, but all nested properties are references to the original object, meaning mutation of a nested property mutates the original object.
 
-Keeping your objects as shallow as possible might be a good idea if you update them often.
+Keeping our objects as shallow as possible might be a good idea if we update them often.
 
 While we’re waiting for JavaScipt [to get native immutability](https://github.com/tc39/proposal-record-tuple), there are two non-exclusive ways we can make our lives easier today:
 
@@ -735,7 +735,7 @@ While we’re waiting for JavaScipt [to get native immutability](https://github.
 
 One way to prevent mutations is to use a linter. ESLint has several plugins that try to do just that, and we’ll discuss them in the [Tooling](#tooling) chapter.
 
-[eslint-plugin-better-mutation](https://github.com/sloops77/eslint-plugin-better-mutation) disallows any mutations, except for local variables in functions. This is a great idea because it prevents bugs caused by the mutation of shared objects but allows you to use mutations locally. Unfortunately, it breaks even in simple cases, such as a mutation occurring inside `.forEach()`.
+[eslint-plugin-better-mutation](https://github.com/sloops77/eslint-plugin-better-mutation) disallows any mutations, except for local variables in functions. This is a great idea because it prevents bugs caused by the mutation of shared objects but allows us to use mutations locally. Unfortunately, it breaks even in simple cases, such as a mutation occurring inside `.forEach()`.
 
 Another way to prevent mutations is to mark all objects and arrays as read-only in TypeScript or Flow.
 
@@ -774,7 +774,7 @@ expect(result).toEqual([1, 2, 3])
 
 Note that both `readonly` modifier and `Readonly` utility type are shallow, so we need to add them to all nested objects too.
 
-[eslint-plugin-functional](https://github.com/jonaskello/eslint-plugin-functional) has a rule to require read-only types everywhere, which may be more convenient than remembering to do that yourself. Unfortunately, it only supports `readonly` modifier but not `Readonly` utility type.
+[eslint-plugin-functional](https://github.com/jonaskello/eslint-plugin-functional) has the rule to require read-only types everywhere, which may be more convenient than remembering to do that ourselves. Unfortunately, it only supports `readonly` modifier but not `Readonly` utility type.
 
 I think it’s a good idea, because there’s no runtime cost, though it makes type definitions more verbose.
 
@@ -797,9 +797,9 @@ const map2 = map1.set('drink', 'vodka');
 
 <!-- expect(map2.toJS()).toEqual({ food: 'pizza', drink: 'vodka' }) -->
 
-I’m not a big fan of it because it has completely custom API that one has to learn. Also, converting arrays and objects from plain JavaScript to Immutable.js and back every time we need to work with any native JavaScript API or almost any third-party API, is annoying and feels like Immutable.js creates more problems than it solves.
+I’m not a big fan of it because it has a completely custom API that one has to learn. Also, converting arrays and objects from plain JavaScript to Immutable.js and back every time we need to work with any native JavaScript API or almost any third-party API, is annoying and feels like Immutable.js creates more problems than it solves.
 
-Another option is [Immer](https://immerjs.github.io/immer/), which allows you to use any mutating operations on a _draft_ version of an object, without affecting the original object in any way. Immer intercepts each operation, and creates a new object:
+Another option is [Immer](https://immerjs.github.io/immer/), which allows us to use any mutating operations on a _draft_ version of an object, without affecting the original object in any way. Immer intercepts each operation, and creates a new object:
 
 ```js
 import produce from 'immer';
@@ -845,20 +845,20 @@ I don’t have good ideas on how to rewrite this code without an imperative loop
 - the code is clear enough;
 - the function is pure: it doesn’t have any internal state and avoids mutating its parameters.
 
-It’s better to have simple and clear code with mutations than complex and messy code without them. But if you do use mutations, it’s wise to isolate them to a small function with a meaningful name and clear API.
+It’s better to have simple and clear code with mutations than complex and messy code without them. But if we do use mutations, it’s wise to isolate them to a small function with a meaningful name and clear API.
 
 Also, immutable operations could [significantly reduce performance](https://tkdodo.eu/blog/why-i-dont-like-reduce) if we work with large amounts of data and create a new object on each iteration.
 
-I’d prefer to have a language that is immutable by default, and use mutatating operations explicity where I need them.
+I’d prefer to have a language that is immutable by default and use mutating operations explicitly where I need them.
 
 ---
 
 Start thinking about:
 
-- Rewriting imperative code with mutations in a pure declarative way to improve its readability.
-- Keeping the complete object shape in a single place; when you create a new object, make its shape as clear as possible.
+- Rewriting imperative code with mutations in a purely declarative way to improve its readability.
+- Keeping the complete object shape in a single place; when we create a new object, make its shape as clear as possible.
 - Deduplicating logic and separating “what” from “how.”
 - Avoiding mutation of function parameters to prevent hard-to-find bugs.
 - Using `.map()` / `.filter()` chaining instead of `.reduce()`.
-- Making mutations explicit if you have to use them.
-- Preventing mutations in your code using a linter or read-only types.
+- Making mutations explicit if we have to use them.
+- Preventing mutations in our code using a linter or read-only types.

@@ -516,7 +516,7 @@ The extreme cases would be:
 - One-liner functions, where the scope of a variable is a single line: easy to follow (example: `` [8, 16].map(x => `${x}px`) ``).
 - Global variables: a variable can be used or modified anywhere in the project, and there’s no way to know which value it holds at any given moment, which often leads to bugs. That’s why many developers are [advocating against global variables](https://wiki.c2.com/?GlobalVariablesAreBad) for decades.
 
-Usually, the shorter the scope, the better. However, religious scope shortening has the same issues as splitting code into many tiny functions (see [Divide and conquer](divide-and-conquer) chapter): it’s easy to overdo it and make the code less readable, not more.
+Usually, the shorter the scope, the better. However, religious scope shortening has the same issues as splitting code into many tiny functions (see [Divide and conquer, or merge and relax](divide-and-conquer) chapter): it’s easy to overdo it and make the code less readable, not more.
 
 I found that reducing the lifespan of a variable works as well but is less problematic. The idea here is to reduce the number of lines between the variable declarations and the line where it’s accessed for the last time. The scope might be a whole 200 lines function but if the lifespan of a particular variable is three lines, it gives enough confidence in what’s happening with this particular variable.
 

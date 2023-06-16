@@ -1,16 +1,16 @@
 ### Avoid comments
 
-Some developers never comment their code, some comment too much. The former believe that the code should be self-documenting, the latter read somewhere that they should always comment their code.
+Some developers never comment their code, and some comment too much. The former kind believes that the code should be self-documenting, the latter kind read somewhere that they should always comment their code.
 
 Both are wrong.
 
-I don’t believe in self-documenting code. Yes, we should rewrite unclear code to make it more obvious, and use meaningful and correct names, but there are things that can’t be experessed by the code alone.
+I don’t believe in self-documenting code. Yes, we should rewrite unclear code to make it more obvious, and use meaningful and correct names, but some things can’t be expressed by the code alone.
 
 Commenting too much isn’t helpful either: comments start to repeat the code, and instead of helping to understand it, they introduce noise and repetition.
 
 #### Getting rid of comments (or not)
 
-There’s a popular technique of avoiding comments: when we want to explain a block of code in a comment, we should move this piece of code to its own function instead.
+There’s a popular technique for avoiding comments: when we want to explain a block of code in a comment, we should move this piece of code to its own function instead.
 
 It’s often a good idea to extract complex calculations and conditions used inside an already long line of code:
 
@@ -70,9 +70,9 @@ expect(test.test('MacInter', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap
 
 Now, the condition is shorter and more readable, because names help us to understand what the condition does in the context of the code.
 
-However, I don’t think that splitting a linear algorithm, even a long one, into several functions, and then calling them one after another, makes code more readable. Jumping between functions (and even more so – files) is harder than scrolling, and if we have to look into functions’ implementations to understand the code, then the abstraction wasn’t the right one. Naming could be a problem too, when all the extracted functions are parts of the same algorithm.
+However, I don’t think that splitting a linear algorithm, even a long one, into several functions, and then calling them one after another, makes code more readable. Jumping between functions (and even more so – files) is harder than scrolling, and if we have to look into functions’ implementations to understand the code, then the abstraction wasn’t the right one. Naming could be a problem too when all the extracted functions are parts of the same algorithm.
 
-Overall, I don’t like when the code is measured by its physical metrics, like number of lines. Long functions aren’t always hard to read and modify, And the really complex code could be tiny. We talk about code splitting in more detail in the [Divide and conquer, or merge and relax](#divide-and-conquer-or-merge-and-relax) chapter.
+Overall, I don’t like when the code is measured by its physical metrics, like the number of lines. Long functions aren’t always hard to read and modify, And the really complex code could be tiny. We talk about code splitting in more detail in the [Divide and conquer, or merge and relax](#divide-and-conquer-or-merge-and-relax) chapter.
 
 #### Good comments
 
@@ -82,7 +82,7 @@ Comments are useful to answer _why_ code is written in a certain, often mysterio
 - If there’s an obvious simpler alternative solution, a comment should explain why this solution doesn’t work in this case.
 - If different platforms behave differently, and the code accounts for this, it should be also mentioned in a comment.
 
-Such comments will save us from accidental “refactoring” that makes code easier but removes some necessary functionality or breakes it for some users.
+Such comments will save us from accidental “refactoring” that makes code easier but removes some necessary functionality or breaks it for some users.
 
 High-level comments, explaining how code works, are useful too. If the code implements an algorithm, explained somewhere else, a link to that place would be useful.
 
@@ -100,7 +100,7 @@ And any hack should be explained in a `HACK` or `FIXME` comment:
 
 <!-- } -->
 
-`TODO` comments are okay (more like _okayish_) too, if they contain a ticket number when something will be done. Otherwise they are just dreams that will likely never come true. Unless _a dream_ is exactly what we want to document: a desire that the code was doing more than it does – error handling, special cases, supporting more platforms, minor features, and so on – but it wasn’t implemented due to, probably, lack of time.
+`TODO` comments are okay (more like _okayish_) too if they contain a ticket number when something will be done. Otherwise, they are just dreams that will likely never come true. Unless _a dream_ is exactly what we want to document: a desire that the code was doing more than it does – error handling, special cases, supporting more platforms, minor features, and so on – but it wasn’t implemented due to, probably, lack of time.
 
 <!--
 const Environment = {
@@ -175,7 +175,7 @@ Now, it’s clear whether we intentionally ignore errors or we want to add error
 
 We’ve talked about useful comments. However, there are many more kinds of comments that we should never write.
 
-Probably the wost kind of comments are comments explaining _how_ code works. They either repeat the code in a more verbose language, or explain language features:
+Probably the worst kind of comments are comments explaining _how_ code works. They either repeat the code in a more verbose language or explain language features:
 
 ```js
 // Fade timeout = 2 seconds
@@ -188,9 +188,9 @@ const FADE_TIMEOUT_MS = 2000;
 'use strict';
 ```
 
-Code comments isn’t the best place to teach teammates how to use certain language features. Code reviews, pair programming sessions, and team documentation would be more suitable and efficient.
+Code comments aren’t the best place to teach teammates how to use certain language features. Code reviews, pair programming sessions, and team documentation would be more suitable and efficient.
 
-Next, _fake_ comments: they pretend to explain some decision, but actually they don’t explain anything, and othen blame someone else for poor code and tech debt:
+Next, _fake_ comments: they pretend to explain some decision, but they don’t explain anything, and often blame someone else for poor code and tech debt:
 
 <!-- const locale = 'ko' -->
 
@@ -242,7 +242,7 @@ $color--facebook: #3b5998; // Facebook brand color
 }
 ```
 
-In any case it’s our responsibility to ask _why_ as many times as necessary.
+In any case, it’s our responsibility to ask _why_ as many times as necessary.
 
 Same with comments that explain conditions: there may be no need for a special case, and we could remove the whole condition with its comment. See more in the [Avoid conditons](#avoid-conditions) chapter.
 
@@ -250,6 +250,6 @@ Same with comments that explain conditions: there may be no need for a special c
 
 Start thinking about:
 
-- Replacing a comment with a meaningfuly named function.
+- Replacing a comment with a meaningfully-named function.
 - Removing comments that don’t add anything that’s not already in the code.
 - Asking why documented requirement or decision exists in the first place.

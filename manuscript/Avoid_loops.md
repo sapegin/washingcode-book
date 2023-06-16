@@ -1,6 +1,6 @@
 ### Avoid loops
 
-Traditional loops, like `for` or `while`, are too low-level for common tasks. They are verbose and prone to [off-by-one errors](https://en.wikipedia.org/wiki/Off-by-one_error). You have to manage the index variable yourself, and I always make typos with `lenght`. They don’t have any particular semantic value beyond telling you that some operation is probably repeated.
+Traditional loops, like `for` or `while`, are too low-level for common tasks. They are verbose and prone to [off-by-one errors](https://en.wikipedia.org/wiki/Off-by-one_error). We have to manage the index variable ourselves, and I always make typos with `lenght`. They don’t have any particular semantic value beyond telling us that some operation is probably repeated.
 
 #### Replacing loops with array methods
 
@@ -90,20 +90,20 @@ In both cases, I much prefer array methods when compared to `for` loops. They ar
 
 #### Implied semantics of array methods
 
-Array methods aren’t just shorter and more readable; each method has its own clear semantic:
+Array methods aren’t just shorter and more readable; each method has its own clear semantics:
 
 - `map()` says we’re transforming an array into another array with the same number of elements;
 - `find()` says we’re _finding_ a single element in an array;
 - `some()` says we’re testing that the condition is true for _some_ elements of the array;
 - `every()` says we’re testing that the condition is true for _every_ element of the array.
 
-Traditional loops don’t help with understanding what the code is doing until you read the whole thing.
+Traditional loops don’t help with understanding what the code is doing until we read the whole thing.
 
 We’re separating the “what” (our data) from the “how” (how to loop over it). More than that, with array methods we only need to worry about our data, which we’re passing in as a callback function.
 
-When all simple cases are covered by array methods, every time you see a traditional loop, you know that something unusual is going on. And that’s good: less chances you’ll miss a bug during code review.
+When all simple cases are covered by array methods, every time we see a traditional loop, we know that something unusual is going on. And that’s good: fewer chances we’ll miss a bug during code review.
 
-Also, don’t use generic array methods like `map()` or `forEach()` when more specialized array methods would work and don’t use `forEach()` instead of `map()` to transform an array.
+Also, don’t use generic array methods like `map()` or `forEach()` when more specialized array methods would work, and don’t use `forEach()` instead of `map()` to transform an array.
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
@@ -115,7 +115,7 @@ names.forEach(name => {
 
 <!-- expect(kebabNames).toEqual(['bilbo-baggins', 'gandalf', 'gollum']) -->
 
-This is a more cryptic and less semantic implementation of `map()`, so better use `map()` directly like we did above:
+This is a more cryptic and less semantic implementation of `map()`, so better use `map()` directly as we did above:
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
@@ -124,7 +124,7 @@ const kebabNames = names.map(name => _.kebabCase(name));
 
 <!-- expect(kebabNames).toEqual(['bilbo-baggins', 'gandalf', 'gollum']) -->
 
-This version is much easier to read because we know that the `map()` method transforms an array by keeping the same number of items. And, unlike `forEach()`, it doesn’t require a custom implementation or mutate an output array. In addition, the callback function is now pure: it merely transforms input parameters to the output value without any side effects.
+This version is much easier to read because we know that the `map()` method transforms an array by keeping the same number of items. And, unlike `forEach()`, it doesn’t require a custom implementation or mutating an output array. In addition, the callback function is now pure: it merely transforms input parameters to the output value without any side effects.
 
 We run into similar problems when we abuse array method semantics:
 
@@ -170,11 +170,11 @@ Both refactored versions make the intention of the code clearer and leave fewer 
 
 #### Dealing with side effects
 
-Side effects make code harder to understand because you can no longer treat a function as a black box: a function with side effects doesn’t just transform input to output but can affect the environment in unpredictable ways. Functions with side effects are also hard to test because you’ll need to recreate the environment before each test is run and verify it after.
+Side effects make code harder to understand because we can no longer treat a function as a black box: a function with side effects doesn’t just transform input to output but can affect the environment in unpredictable ways. Functions with side effects are also hard to test because we’ll need to recreate the environment before each test is run and verify it after.
 
 All array methods mentioned in the previous section, except `forEach()`, imply that they don’t have side effects and that only the return value is used. Introducing any side effects into these methods would make code easy to misread since readers won’t be expecting side effects.
 
-`forEach()` doesn’t return any value, and that’s the right choice for handling side effects when you really need them:
+`forEach()` doesn’t return any value, and that’s the right choice for handling side effects when we really need them:
 
 <!--
 const console = { error: jest.fn() }
@@ -193,7 +193,7 @@ expect(console.error.mock.calls).toEqual([['dope'], ['nope']])
 
 A `for of` loop is even better:
 
-- it doesn’t have any of the problems of regular `for` loops, mentioned in the beginning of this chapter;
+- it doesn’t have any of the problems of regular `for` loops, mentioned at the beginning of this chapter;
 - we can avoid reassignments and mutations since we don’t have a return value;
 - it has clear semantics of iteration over all array elements since we can’t manipulate the number of iterations, like in a regular `for` loop. (Well, almost, we can abort the loops with `break`.)
 
@@ -345,7 +345,7 @@ If I was to review such code, I would be happy to pass both versions but would p
 
 #### Iterating over objects
 
-There are [many ways to iterate over objects](https://stackoverflow.com/a/5737136/1973105) in JavaScript. I equally dislike them all, so it’s hard to choose the best one. Unfortunately, there’s no `map()` for objects, though Lodash does have three methods for object iteration, so it’s a good option if you’re already using Lodash in your project.
+There are [many ways to iterate over objects](https://stackoverflow.com/a/5737136/1973105) in JavaScript. I equally dislike them all, so it’s hard to choose the best one. Unfortunately, there’s no `map()` for objects, though Lodash does have three methods for object iteration, so it’s a good option if we’re already using Lodash in our project.
 
 ```js
 const allNames = {
@@ -364,7 +364,7 @@ expect(kebabNames).toEqual({
 })
 -->
 
-If you don’t need the result as an object, like in the example above, `Object.keys()`, `Object.values()` and `Object.entries()` are also good:
+If we don’t need the result as an object, like in the example above, `Object.keys()`, `Object.values()` and `Object.entries()` are also good:
 
 <!-- const console = { log: jest.fn() } -->
 
@@ -400,9 +400,9 @@ Object.entries(allNames).forEach(([race, value]) =>
 expect(console.log.mock.calls).toEqual([['hobbits', '->', ['Bilbo', 'Frodo']], ['dwarfs', '->', ['Fili', 'Kili']]])
 -->
 
-I don’t have a strong preference between them. `Object.entries()` has more verbose syntax, but if you use the value (`names` in the example above) more than once, the code would be cleaner than `Object.keys()`, where you’d have to write `allNames[race]` every time or cache this value into a variable at the beginning of the callback function.
+I don’t have a strong preference between them. `Object.entries()` has more verbose syntax, but if we use the value (`names` in the example above) more than once, the code would be cleaner than `Object.keys()`, where we’d have to write `allNames[race]` every time or cache this value into a variable at the beginning of the callback function.
 
-If I stopped here, I’d be lying to you. Most of the articles about iteration over objects have examples with `console.log()`, but in reality you’d often want to convert an object to another data structure, like in the example with `_.mapValues()` above. And that’s where things start getting uglier.
+If I stopped here, I’d be lying. Most of the articles about iteration over objects have examples with `console.log()`, but in reality, we’d often want to convert an object to another data structure, like in the example with `_.mapValues()` above. And that’s where things start getting uglier.
 
 Let’s rewrite our example using `reduce()`:
 
@@ -469,11 +469,11 @@ expect(kebabNames).toEqual({
 
 And again `.reduce()` is the least readable option.
 
-In later chapters I’ll urge you to avoid not only loops but also reassigning variables and mutation. Like loops, they _often_ lead to poor code readability, but _sometimes_ they are the best choice.
+In later chapters, I’ll urge you to avoid not only loops but also reassigning variables and mutation. Like loops, they _often_ lead to poor code readability, but _sometimes_ they are the best choice.
 
 #### But aren’t array methods slow?
 
-You may think that using functions is slower than loops, and likely it is. But in reality it doesn’t matter unless you’re working with millions of items.
+One may think that using functions is slower than loops, and likely it is. Most of the time, however, it doesn’t matter unless we’re working with millions of items.
 
 Modern JavaScript engines are very fast and optimized for popular code patterns. Back in the day, we used to write loops like this because checking the array length on every iteration was too slow:
 
@@ -490,7 +490,7 @@ It’s not slow anymore, though, and there are other examples where engines opti
 
 Also, `.every()`, `.some()`, `.find()` and `.findIndex()` will short circuit, meaning they won’t iterate over more array elements than necessary.
 
-In any case, you should measure performance to know what to optimize and see whether your changes really make code faster in all important browsers and environments.
+In any case, we should measure performance to know what to optimize and see whether our changes really make code faster in all important browsers and environments.
 
 ---
 
