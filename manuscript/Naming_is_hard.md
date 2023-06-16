@@ -1234,7 +1234,7 @@ We’ve talked how to avoid number suffixes by making names more precise. Let’
 Most often I struggle with clashing names for two reasons:
 
 1. Storing a function return value (example: `const isCrocodile = isCrocodile()`).
-2. Creating a React component to show an object of a certain TypeScript type (example: `function User(props: { user: User }) => null`).
+2. Creating a React component to show an object of a certain TypeScript type (example: `const User = (props: { user: User }) => null`).
 
 Let’s start with function return values. Consider this example:
 
@@ -1324,6 +1324,46 @@ expect(c2.textContent).toEqual('Name: GenaAge: 37')
 -->
 
 The name still makes sense, when something like `isCroc` whould have to be changed.
+
+Ufortunately, I don't have a good solution for clashing React components and TypeScript types. This usually happens when we create a component to render an object or a certain type:
+
+```tsx
+interface User {
+  name: string;
+  email: string;
+}
+
+export function User({ user }: { user: User }) {
+  return <p>{user.name} ({user.email})</p>
+}
+```
+
+<!--
+const {container: c1} = RTL.render(<User user={{ name: 'Chuck', email: '@' }} />);
+expect(c1.textContent).toEqual('Chuck (@)')
+-->
+
+Though, TypeScript allows us to use a type and a value with the same name in the same scope, I think it makes code confusing.
+
+The only solution I see is renaming either the type or the component. I usually try to rename a component, though it requires some creativity to come up with a name that's not confusing. For example, names like `UserComponent` or `UserView` would be confusing because other components don't have these suffixes. But something like `UserProfile` may work in this case:
+
+```tsx
+interface User {
+  name: string;
+  email: string;
+}
+
+export function UserProfile({ user }: { user: User }) {
+  return <p>{user.name} ({user.email})</p>
+}
+```
+
+<!--
+const {container: c1} = RTL.render(<UserProfile user={{ name: 'Chuck', email: '@' }} />);
+expect(c1.textContent).toEqual('Chuck (@)')
+-->
+
+This only matters when either the type or the component is exported and reused in other places. Local names are more forgiving, since they are only used in the same file and the definition is right here.
 
 ---
 
