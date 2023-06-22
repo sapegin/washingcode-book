@@ -513,7 +513,7 @@ We talked a bit about the scope in the previous section. The length of the varia
 
 The extreme cases would be:
 
-- One-liner functions, where the scope of a variable is a single line: easy to follow (example: ``[8, 16].map(x => `${x}px`) ``).
+- One-liner functions, where the scope of a variable is a single line: easy to follow (example: `[8, 16].map(x => x + 'px')`).
 - Global variables: a variable can be used or modified anywhere in the project, and there’s no way to know which value it holds at any given moment, which often leads to bugs. That’s why many developers are [advocating against global variables](https://wiki.c2.com/?GlobalVariablesAreBad) for decades.
 
 Usually, the shorter the scope, the better. However, religious scope shortening has the same issues as splitting code into many teeny-tiny functions (see [Divide and conquer, or merge and relax](divide-and-conquer) chapter): it’s easy to overdo it and make the code less readable, not more.
@@ -1052,7 +1052,7 @@ test('creates new user', async () => {
 
 Now it’s clear which request data we’re accessing at any time.
 
-For the new version of a module, I’d try to rename the old one to something like `ModuleLegacy` instead of naming the new one `Module2` or `ModuleNew`, and keep using the original name for the new implementation. It’s not always possible but it makes using the old, deprecated, module more awkward than the new, improved, one – exactly what we want to achieve. Also, names tend to stick forever, even when the original module is long gone. Names like `Module2` or `ModuleNew` are fine during development though, when the new module isn't yet fully functional or well tested.
+For the new version of a module, I’d try to rename the old one to something like `ModuleLegacy` instead of naming the new one `Module2` or `ModuleNew`, and keep using the original name for the new implementation. It’s not always possible but it makes using the old, deprecated, module more awkward than the new, improved, one – exactly what we want to achieve. Also, names tend to stick forever, even when the original module is long gone. Names like `Module2` or `ModuleNew` are fine during development though, when the new module isn’t yet fully functional or well tested.
 
 #### Use common terms
 
@@ -1062,7 +1062,7 @@ It’s a good idea to use well-known and widely adopted terms for programming an
 
 #### Use a single term for each concept
 
-Using different words for the same concept is confusing: a person reading the code may think since the words are different then these things aren't the same and will try to understand the difference between the two. It will also make the code less _greppable_ (meaning it would be harder to find all usages of the same thing, see [Make the code greppable](#make-the-code-greppable) chapter for more).
+Using different words for the same concept is confusing: a person reading the code may think since the words are different then these things aren’t the same and will try to understand the difference between the two. It will also make the code less _greppable_ (meaning it would be harder to find all usages of the same thing, see [Make the code greppable](#make-the-code-greppable) chapter for more).
 
 **Idea:** Having a project dictionary, or even a linter, might be a good idea to avoid using different words for the same things. I use a similar approach for writing this book: I use [Textlint terminology plugin](https://github.com/sapegin/textlint-rule-terminology) to make sure I use the terms consistently and spell them correctly.
 
