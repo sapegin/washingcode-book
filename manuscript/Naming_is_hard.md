@@ -1103,6 +1103,7 @@ Recently, I found this name in our codebase: `depratureDateTime`, and I immediat
 
 Spellchecker helps me immensely, as I’m not a native English speaker. It also helps to make the code more greppable: when we search for a certain term, we likely won’t find misspelled occurrences of it.
 
+{#use-destructuring}
 ## Use destructuring
 
 Often we end up with awkward names for intermediate values, like function parameters or function return values:
@@ -1227,6 +1228,161 @@ expect(submitFormData('/foo', { method: 'post', target: '_top' }))
 -->
 
 Here, we’ve removed the `options` object, that was used in almost every line of the function body, which made it shorter and more readable.
+
+## Avoid unnecessary variables
+
+Often we add intermediate variables to store the result of some operation before passing it somewhere else or returning it from the function. In many cases, this variable is unnecessary.
+
+Consider these two examples:
+
+<!--
+const handleUpdateResponse = x => x
+class X {
+  state = null;
+  setState(value) { this.state = value }
+  update(response) {
+-->
+
+```js
+const result = handleUpdateResponse(response.status);
+this.setState(result);
+```
+
+<!--
+}}
+const instance = new X()
+instance.update({ status: 200 })
+expect(instance.state).toBe(200)
+-->
+
+<!--
+const response = { json: () => Promise.resolve(42) }
+async function x() {
+-->
+
+```js
+const data = await response.json();
+return data;
+```
+
+<!--
+}
+expect(x()).resolves.toBe(42)
+-->
+
+In both cases, the `result` and the `data` variables don’t add much to the code. The names aren’t adding new information, and the code is short enough to be inlined:
+
+<!--
+const handleUpdateResponse = x => x
+class X {
+  state = null;
+  setState(value) { this.state = value }
+  update(response) {
+-->
+
+```js
+this.setState(handleUpdateResponse(response.status));
+```
+
+<!--
+}}
+const instance = new X()
+instance.update({ status: 200 })
+expect(instance.state).toBe(200)
+-->
+
+<!--
+const response = { json: () => Promise.resolve(42) }
+function x() {
+-->
+
+```js
+      return response.json();
+```
+
+<!--
+}
+expect(x()).resolves.toBe(42)
+-->
+
+Here’s another example:
+
+<!--
+const BaseComponent = ({x}) => <p>{x}</p>
+class X {
+  props = {x: 42, y: 24};
+-->
+
+```js
+render() {
+  let p = this.props;
+  return <BaseComponent {...p} />;
+}
+```
+
+<!--
+}
+const instance = new X()
+const {container: c1} = RTL.render(instance.render());
+expect(c1.textContent).toEqual('42')
+-->
+
+Here, the alias `p` replaces a clear name `this.props` with an obscure one. Again, inlining makes the code more readable:
+
+<!--
+const BaseComponent = ({x}) => <p>{x}</p>
+class X {
+  props = {x: 42, y: 24};
+-->
+
+```js
+render() {
+  return <BaseComponent {...this.props} />;
+}
+```
+
+<!--
+}
+const instance = new X()
+const {container: c1} = RTL.render(instance.render());
+expect(c1.textContent).toEqual('42')
+-->
+
+Destructuring could be another solution here, see the [Use destructuring](#use-destructuring) section above.
+
+Sometimes, intermediate variables can serve as comments, explaining the data they hold, that otherwise might not be clear:
+
+<!--
+const hasTextLikeOnlyChildren = () => false
+const Flex = ({children}) => <>{children}</>
+const Body = ({children}) => <>{children}</>
+-->
+
+```tsx
+function Tip({ type, content }: TipProps) {
+  const shouldBeWrapped = hasTextLikeOnlyChildren(content);
+
+  return (
+    <Flex alignItems="flex-start">
+        {shouldBeWrapped ? <Body type={type}>{content}</Body> : content}
+    </Flex>
+  );
+};
+```
+
+<!--
+const {container: c1} = RTL.render(<Tip type="pizza" content="Hola" />);
+expect(c1.textContent).toEqual('Hola')
+-->
+
+Another good reason to use an intermediate variable is to split a long line of code into multiple lines:
+
+```ts
+const borderSvg = `<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><path d='M2 2h2v2H2zM4 0h2v2H4zM10 4h2v2h-2zM0 4h2v2H0zM6 0h2v2H6zM8 2h2v2H8zM8 8h2v2H8zM6 10h2v2H6zM0 6h2v2H0zM10 6h2v2h-2zM4 10h2v2H4zM2 8h2v2H2z' fill='%23000'/></svg>`;
+const borderImage = `url("data:image/svg+xml,${borderSvg}")`;
+```
+
+<!-- expect(borderImage).toMatch('<svg ') -->
 
 ## Tips to avoid name clashes
 
