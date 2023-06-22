@@ -16,7 +16,6 @@ Make_impossible_states_impossible.md
 Dont_try_to_predict_the_future.md
 Become_a_code_scout.md
 Make_the_code_greppable.md
-Too_many_conventions.md
 Cargo_cult_programming.md
 Not_invented_here_syndrome.md
 Refactoring_is_inevitable.md
