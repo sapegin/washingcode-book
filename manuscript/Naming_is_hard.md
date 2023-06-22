@@ -592,7 +592,7 @@ As well as common acronyms:
 
 And possibly a few very common ones used on a project but they still should be documented (new team members will be very thankful for that!), and shouldn’t be ambiguous.
 
-# Prefixes and suffixes
+## Prefixes and suffixes
 
 I like to use a few prefixes for variable and function names:
 
