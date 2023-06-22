@@ -1,9 +1,9 @@
-### Other tools
+# Other tools
 
 TODO
 
 {#prettier}
-#### Prettier
+## Prettier
 
 Developers could waste days arguing where to put spaces in the code, which doesn’t matter at all, but everyone has an opinion on it. Luckily, these arguments are mostly in the past, thanks to automatic code formatting.
 
@@ -17,7 +17,7 @@ How we make sure that the code is formatted consistently now: add Prettier as a 
 
 The main difference between code formatters, like Prettier, and linters, like ESLint, is that code formatters are _reprinting_ code using their formatting rules, when linters only validate that certain, and usually very basic, code formatting rules are met. Even with autofixing, the results aren’t very consistent, and require a lot more configuration than code formatters.
 
-#### The ideal code formatting setup
+## The ideal code formatting setup
 
 The goal here is to avoid any distractions when writing code, or the need to run formatting manually.
 

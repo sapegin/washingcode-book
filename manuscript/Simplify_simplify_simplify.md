@@ -1,6 +1,6 @@
 <!-- textlint-disable -->
 
-### Simplify, simplify, simplify
+# Simplify, simplify, simplify
 
 <!-- textlint-enable -->
 

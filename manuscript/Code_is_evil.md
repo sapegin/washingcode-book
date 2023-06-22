@@ -1,4 +1,4 @@
-### Code is evil
+# Code is evil
 
 The goal of programmer’s work isn’t writing code but solving your client’s problems, whether it’s your employer or yourself. Code is by-product, a necessary evil.
 

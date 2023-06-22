@@ -1,4 +1,4 @@
-### Preface
+# Preface
 
 The title of this book should be “What 23 years of programming have taught me about writing good code” or “What I tell folks during code reviews while trying to decipher their code,” but both are too long, so “Write once, read seven times” it is. We can even shorten it to WORST because everyone loves nonsensical acronyms.
 

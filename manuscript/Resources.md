@@ -1,12 +1,12 @@
-### Resources
+# Resources
 
-#### Books
+## Books
 
 - [The Art of Readable Code](https://www.amazon.com/gp/product/0596802293/?tag=artesapesphot-20) by Dustin Boswell
 - [Clean Code: A Handbook of Agile Software Craftsmanship](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882/?tag=artesapesphot-20) by Robert C. Martin
 - [Code Complete: A Practical Handbook of Software Construction](https://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670/?tag=artesapesphot-20) by Steve McConnell
 
-#### Articles
+## Articles
 
 - [AHA programming](https://kentcdodds.com/blog/aha-programming) by Kent C. Dodds
 - [Array reduce vs chaining vs for loop](https://kentcdodds.com/blog/array-reduce-vs-chaining-vs-for-loop) by Kent C. Dodds
@@ -29,7 +29,7 @@
 - [Write code that is easy to delete, not easy to extend](https://programmingisterrible.com/post/139222674273/write-code-that-is-easy-to-delete-not-easy-to)
 - [Writing system software: code comments](http://antirez.com/news/124)
 
-#### Talks
+## Talks
 
 - [Building resilient frontend architecture](https://www.youtube.com/watch?v=brMZLmZ1HR0) by Monica Lent, React Finland 2019
 - [Beyond PEP 8: Best practices for beautiful intelligible code](https://www.youtube.com/watch?v=wf-BqAjZb8M) by Raymond Hettinger, PyCon 2015

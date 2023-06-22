@@ -1,8 +1,8 @@
-### Don’t be clever
+# Don’t be clever
 
 Clever code is a kind of code we may see in job interview questions or language quizzes. When they expect us to know how a language feature, we probably have never seen before, works. My answer to all these questions is: “it won’t pass code review”.
 
-#### Dark patterns of JavaScript
+## Dark patterns of JavaScript
 
 Let’s look at some examples. Try to cover an answer and guess what these code snippets do. And count how many you’ve guessed right.
 
@@ -214,7 +214,7 @@ const obj = {
 
 So, what’s your score? I think mine would be around 3/6.
 
-#### Gray areas
+## Gray areas
 
 Some patterns are on the border of cleverness.
 

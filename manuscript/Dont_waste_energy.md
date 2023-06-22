@@ -1,4 +1,4 @@
-### Don’t waste energy (= save energy for important things)
+# Don’t waste energy (= save energy for important things)
 
 TODO: Merge with “The rest doesn’t matter”
 

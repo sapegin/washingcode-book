@@ -1,4 +1,4 @@
-### Acknowledgments
+# Acknowledgments
 
 These folks helped me with the book in one way or another.
 

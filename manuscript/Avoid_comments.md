@@ -1,4 +1,4 @@
-### Avoid comments
+# Avoid comments
 
 Some developers never comment their code, and some comment too much. The former kind believes that the code should be self-documenting, the latter kind read somewhere that they should always comment their code.
 
@@ -8,7 +8,7 @@ I don’t believe in self-documenting code. Yes, we should rewrite unclear code 
 
 Commenting too much isn’t helpful either: comments start to repeat the code, and instead of helping to understand it, they introduce noise and repetition.
 
-#### Getting rid of comments (or not)
+## Getting rid of comments (or not)
 
 There’s a popular technique for avoiding comments: when we want to explain a block of code in a comment, we should move this piece of code to its own function instead.
 
@@ -74,7 +74,7 @@ However, I don’t think that splitting a linear algorithm, even a long one, int
 
 Overall, I don’t like when the code is measured by its physical metrics, like the number of lines. Long functions aren’t always hard to read and modify, And the really complex code could be tiny. We talk about code splitting in more detail in the [Divide and conquer, or merge and relax](#divide-and-conquer) chapter.
 
-#### Good comments
+## Good comments
 
 Comments are useful to answer _why_ code is written in a certain, often mysterious, way:
 
@@ -171,7 +171,7 @@ try {
 
 Now, it’s clear whether we intentionally ignore errors or we want to add error handling in the future.
 
-#### Bad comments
+## Bad comments
 
 We’ve talked about useful comments. However, there are many more kinds of comments that we should never write.
 

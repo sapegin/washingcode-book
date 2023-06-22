@@ -1,4 +1,4 @@
-### Become a code scout
+# Become a code scout
 
 The (boy) scout rule states that we should leave the campground cleaner than we found it. For example, if someone else has left garbage, we should take it with us.
 

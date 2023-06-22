@@ -1,9 +1,9 @@
 {#avoid-loops}
-### Avoid loops
+# Avoid loops
 
 Traditional loops, like `for` or `while`, are too low-level for common tasks. They are verbose and prone to [off-by-one errors](https://en.wikipedia.org/wiki/Off-by-one_error). We have to manage the index variable ourselves, and I always make typos with `lenght`. They don’t have any particular semantic value beyond telling us that some operation is probably repeated.
 
-#### Replacing loops with array methods
+## Replacing loops with array methods
 
 Modern languages have better ways to express iterative operations, and [JavaScript has many useful methods](http://exploringjs.com/impatient-js/ch_arrays.html#methods-iteration-and-transformation-.find-.map-.filter-etc) to transform and iterate over arrays, like `map()` or `find()`.
 
@@ -89,7 +89,7 @@ const foundName = names.find(name => name.startsWith('B'));
 
 In both cases, I much prefer array methods when compared to `for` loops. They are shorter, and we’re not bloating the code with iteration mechanics.
 
-#### Implied semantics of array methods
+## Implied semantics of array methods
 
 Array methods aren’t just shorter and more readable; each method has its own clear semantics:
 
@@ -169,7 +169,7 @@ const isExpectedType =
 
 Both refactored versions make the intention of the code clearer and leave fewer doubts that the code is correct. We can probably make the `isExpectedType` variable name more explicit, especially in the second refactoring.
 
-#### Dealing with side effects
+## Dealing with side effects
 
 Side effects make code harder to understand because we can no longer treat a function as a black box: a function with side effects doesn’t just transform input to output but can affect the environment in unpredictable ways. Functions with side effects are also hard to test because we’ll need to recreate the environment before each test is run and verify it after.
 
@@ -215,7 +215,7 @@ for (const error of errors) {
 expect(console.error.mock.calls).toEqual([['dope'], ['nope']])
 -->
 
-#### Sometimes loops aren’t so bad
+## Sometimes loops aren’t so bad
 
 Array methods aren’t always better than loops. For example, the `reduce()` method often makes code less readable than a regular loop.
 
@@ -344,7 +344,7 @@ const tableData =
 
 If I was to review such code, I would be happy to pass both versions but would prefer the original with double `for` loops. _(Though `tableData` is a really bad variable name.)_
 
-#### Iterating over objects
+## Iterating over objects
 
 There are [many ways to iterate over objects](https://stackoverflow.com/a/5737136/1973105) in JavaScript. I equally dislike them all, so it’s hard to choose the best one. Unfortunately, there’s no `map()` for objects, though Lodash does have three methods for object iteration, so it’s a good option if we’re already using Lodash in our project.
 
@@ -472,7 +472,7 @@ And again `.reduce()` is the least readable option.
 
 In later chapters, I’ll urge you to avoid not only loops but also reassigning variables and mutation. Like loops, they _often_ lead to poor code readability, but _sometimes_ they are the best choice.
 
-#### But aren’t array methods slow?
+## But aren’t array methods slow?
 
 One may think that using functions is slower than loops, and likely it is. Most of the time, however, it doesn’t matter unless we’re working with millions of items.
 

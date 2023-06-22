@@ -1,5 +1,5 @@
 {#avoid-reassigning-variables}
-### Avoid reassigning variables
+# Avoid reassigning variables
 
 Reassigning variables is like changing the past. When we see:
 
@@ -16,7 +16,7 @@ Knowing that both things are possible makes us think, every time we see `pizza` 
 
 And most of the time we can avoid both. Let’s start with reassigning and come back to mutation in the [next chapter](#avoid-mutation).
 
-#### Don’t reuse variables
+## Don’t reuse variables
 
 Sometimes a variable is reused to store different values:
 
@@ -51,7 +51,7 @@ function getProductsOnSale(categoryId) {
 
 By doing this we’re making the lifespan of each variable shorter and choosing clearer names, so the code is easier to understand and we’ll need to read less code to find out the current (and now the only) value of each variable.
 
-#### Incremental computations
+## Incremental computations
 
 Probably the most common use case for reassignment is incremental computations. Consider this example:
 
@@ -214,7 +214,7 @@ const VIDEO_VALIDATIONS = [
 
 Now all the code we need to touch to add, remove, or change validations is contained in the `VIDEO_VALIDATIONS` array. Keep the code, that’s likely to be changed at the same time, in the same place.
 
-#### Building complex objects
+## Building complex objects
 
 Another common reason to reassign variables is to build a complex object:
 
@@ -284,7 +284,7 @@ const queryValues = {
 
 Now, the query object always has the same shape, but some properties can be `undefined`. The code feels more declarative and it’s easier to understand what it’s doing – building an object – and see the final shape of this object.
 
-#### Avoid Pascal style variables
+## Avoid Pascal style variables
 
 Some people like to define all variables at the beginning of a function. I call this _Pascal style_, because in Pascal we have to declare all variables at the beginning of a program or a function:
 
@@ -386,7 +386,7 @@ We’ve shortened `isFreeDelivery` variable lifespan from 100 lines to just 10.
 
 Don’t mix it with `PascalCase` though, this naming convention is still in use.
 
-#### Avoid temporary variables for function return values
+## Avoid temporary variables for function return values
 
 When a variable is used to keep a function result, often we can get rid of that variable:
 
@@ -500,7 +500,7 @@ const rejectionReasons = getRejectionReasons(isAdminUser);
 
 This is less important. You may argue that moving code to a new function just because of a reassignment isn’t a great idea, and you may be right, so use your own judgment here.
 
-#### Indeterminate loops
+## Indeterminate loops
 
 Sometimes having a reassignment is quite okay. Indeterminate loops, the ones where we don’t know the number of iterations in advance, are a good case for reassignments.
 
@@ -526,7 +526,7 @@ Even if it’s possible to avoid a reassignment here, it will likely make the co
 
 Reassignments aren’t pure evil and exterminating them all won’t make our code better. They are more like signs: if we see a reassignment, we should ask ourselves if rewriting the code without it would make it more readable. There’s no right or wrong answer, but if we do use a reassignment, it’s better to isolate it in a small function, where it’s clear what the current value of a variable is.
 
-#### Help the brain with conventions
+## Help the brain with conventions
 
 In all examples above I’m replacing `let` with `const` in variable declarations. This immediately tells the reader that the variable won’t be reassigned. And we can be sure, it won’t: the compiler will yell at us if we try. Every time we see `let` in the code, we know that this code is likely more complex and needs more brain power to understand.
 

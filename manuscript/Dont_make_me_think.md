@@ -1,11 +1,11 @@
 {#dont-make-me-think}
-### Don’t make me think
+# Don’t make me think
 
 TODO: Function parameters as an object — named parameters pattern: [Callable values • JavaScript for impatient programmers](https://exploringjs.com/impatient-js/ch_callables.html#named-parameters)
 
 There are many ways to express the same idea in the code. However, some of them are easier to understand then others.
 
-#### Make differences in code obvious
+## Make differences in code obvious
 
 When I see two lines of tricky code that look the same, I assume they are actually different but I don’t see the difference yet. Otherwise, a programmer would create a variable for repeated pieces instead of copypasting them.
 
@@ -197,7 +197,7 @@ expect(getAssetDirs({assetsDir: ['pizza', 'tacos']})).toEqual([{from: 'pizza'}, 
 
 I don’t particularly like that Lodash’s `castArray()` function wraps `undefined` in an array, which isn’t what I’d expect, but still the result is simpler.
 
-#### Write parallel code
+## Write parallel code
 
 It’s not always possible to eliminate the condition. However there are ways to make the difference in code branches easier to spot. One of my favorite ways is what I call _parallel coding_.
 
@@ -253,15 +253,15 @@ expect(isSmall('5')).toBe(false)
 Now, all the value are grouped together which makes it more readable.
 
 {#name-things}
-#### Name things
+## Name things
 
 Often, it’s hard to understand what a certain value is when it doesn’t have a name. For example, it could a unobvious number, an obscure function parameter, or a complex condition. In all these cases, by giving a thing a name, we could tremendously improve code readability.
 
-##### Give names to magic numbers
+### Give names to magic numbers
 
 We’ll cover this in great detail in the [Constants](#constants) chapter.
 
-##### Name function parameters
+### Name function parameters
 
 Functions calls with multiple parameters could be hard understand. Consider this function call:
 
@@ -328,7 +328,7 @@ appendScriptTag(`https://example.com/falafel.js`, { useCORS: false });
 
 Now it’s obvious what this code does. Names serve as inline documentation.
 
-##### Name complex conditions
+### Name complex conditions
 
 Some conditions are short and obvious and some are long and require us to understand the code well to make sense of them.
 

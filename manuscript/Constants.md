@@ -1,9 +1,9 @@
 {#constants}
-### Constants
+# Constants
 
 There are many good reasons to use constants and some good reasons not to use them.
 
-#### Making magic numbers less magic
+## Making magic numbers less magic
 
 By introducing a constant instead of a magic number we give it a meaningful name. Consider this example:
 
@@ -101,7 +101,7 @@ Now, it’s easier to visualize what the code is doing, and we don’t need to c
 
 Code reuse is another good reason to introduce constants. However, we need to wait for the moment when the code is actually reused.
 
-#### Not all numbers are magic
+## Not all numbers are magic
 
 Sometimes people replace absolutely all literal values with constants, ideally stored in a separate module:
 
@@ -226,7 +226,7 @@ const getEndOfDayFromDate = date => {
 
 Now, the code is short and clear, with enough information to understand it.
 
-#### Group related constants
+## Group related constants
 
 We often use constans for ranges of values:
 

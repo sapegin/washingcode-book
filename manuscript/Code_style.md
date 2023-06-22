@@ -1,5 +1,5 @@
 {#code-style}
-### Code style
+# Code style
 
 I used to be very strict about [code style](https://blog.sapegin.me/all/prettier/). I thought my code style was better than others’, but later I’ve realized that it was just different. And it wasn’t the most popular, so anyone else’s code looked wrong to me.
 
@@ -28,7 +28,7 @@ const volume = 200;  // ml
 
 So if any other developer touched my code, they would definitely make it inconsistent, because unlikely they would follow _my code style_ — so uncommon it was. And code review would be a nightmare if I wanted to enforce _my code style_.
 
-#### Not all code styles are good
+## Not all code styles are good
 
 I wasn’t entirely wrong though: not every code style makes code easy to read and maintain.
 
@@ -166,7 +166,7 @@ expect(test2).toBe(true);
 
 Shorter isn’t always better. (I’m fine with `pizza?.()` though.)
 
-#### Obsolete code styles
+## Obsolete code styles
 
 Sometimes developers follow a particular code style even if the initial reasoning behind it is no longer relevant.
 
@@ -252,7 +252,7 @@ if (meaning === 42) {
 expect(result).toBe(true)
 -->
 
-#### Nonsensical code styles
+## Nonsensical code styles
 
 Some code styles don’t solve any particular problem, but are expensive to maintain.
 
@@ -290,7 +290,7 @@ const examples = reamde(fs.readFileSync('./README.md', 'utf-8'));
 
 This will not only make it slightly more readable but also easier to add, remove or move variable declarations.
 
-#### Improving readability
+## Improving readability
 
 In many cases, some ways of writing code are more readable than other ways. Conditions, and especially conditions with negations are good examples. I used to write these as short as possible, now I prefer to be verbose and explicit. Saving a few keystrokes isn’t worth it when the code could be easily misinterpreted. Better learn touch typing.
 
@@ -466,7 +466,7 @@ if (isFriday === false) {
 expect(result).toBe(true)
 -->
 
-#### Christmas trees vs. sausages
+## Christmas trees vs. sausages
 
 I used to have a limit of 120 characters per line because why not, I have a big screen that could fit a lot of code, I should use the space available to me! Then I lowered it to 100 characters, and then to 80, which is a Prettier’s default value that in their docs they [highly recommend not to change](https://prettier.io/docs/en/options.html#print-width).
 
@@ -662,7 +662,7 @@ And coming back to screens with limited number of characters, I now use 27" scre
 
 ![Coding on 27" screen](images/27inches.png)
 
-#### Make it easy to remember and use
+## Make it easy to remember and use
 
 Some conventions are easy to use, some are not so much. Let’s compare three popular conventions for _title casing_:
 
@@ -696,7 +696,7 @@ And then even Microsoft couldn’t follow their own guidelines with [XMLHttpRequ
 
 So, choose the simplest convention, unless more complex rules bring huge benefits. If that is so, thorougly document and automate it.
 
-#### The rest doesn’t matter
+## The rest doesn’t matter
 
 There are so many ways to write code. For example, we could use function arguments like this:
 
@@ -781,7 +781,7 @@ I can probably write a whole book of such examples.
 
 In all the examples above I prefer the last variation but I’d never ask someone to change their code during code review if they use another variation.
 
-#### Conclusion
+## Conclusion
 
 My rule of thumb here is: automate or forget. For example, [Prettier](https://prettier.io/) (see the [Prettier](#prettier) section) formats code with almost zero config, which saves enormous amount of time while you write code, read someone else’s code or discuss code style in your team.
 

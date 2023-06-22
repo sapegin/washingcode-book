@@ -1,4 +1,4 @@
-### Size isn’t important
+# Size isn’t important
 
 TODO: Short functions are overrated
 

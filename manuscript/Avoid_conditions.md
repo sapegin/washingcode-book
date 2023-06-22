@@ -1,9 +1,9 @@
 {#avoid-conditions}
-### Avoid conditions
+# Avoid conditions
 
 Conditions make code harder to read and test. They add nesting and make lines of code longer, so we have to split them into several lines. Each condition increases the minimum number of test cases we need to write for a certain module or function.
 
-#### Unnecessary conditions
+## Unnecessary conditions
 
 Many conditions are unnecessary or could be rewritten in a more readable way.
 
@@ -188,7 +188,7 @@ expect(c3.textContent).toEqual('Total:')
 
 We had to split the component into two to use early return but the logic is now clearer.
 
-#### Processing arrays
+## Processing arrays
 
 It’s common to check an array’s length before running a loop over its items:
 
@@ -317,7 +317,7 @@ expect(getProductsDropdownItems({products: [{id: '1', name: 'Tacos'}]})).toEqual
 
 Here we’re wrapping a single item in an array, so we can use the same code to work with single items and arrays.
 
-#### Deduplicating an algorithm
+## Deduplicating an algorithm
 
 Examples in the previous section are introducing an important technique: algorithm deduplication. Instead of having several branches of the main logic depending on the nature of the input, we have just one. But we’re normalizing the input before running the algorithm. This technique can be used in other places.
 
@@ -442,7 +442,7 @@ log(LOG_LEVEL.ERROR, errorMessage || DEFAULT_ERROR_MESSAGE);
 
 We’ve removed all code duplication and the code is shorter and easier to read.
 
-#### Optional function parameters
+## Optional function parameters
 
 We often add conditions when some data might be missing. For example, an optional callback function:
 
@@ -532,7 +532,7 @@ expect(() => getRandomeJoke(onDone)).not.toThrowError()
 
 Now we could call the `onError` function whenever we need, and it won’t fail. It won’t do anything if we don’t pass it to the function, but we don’t need to care about this while we’re coding the function itself.
 
-#### Early return
+## Early return
 
 Applying _guard clauses_, or _early returns_, is a great way to avoid nested conditions. A series of nested conditions, also known as the [arrow antipattern](http://wiki.c2.com/?ArrowAntiPattern) or _dangerously deep nesting_, is often used for error handling:
 
@@ -632,7 +632,7 @@ Now that’s a big improvement over the initial version. I’ve also renamed the
 
 The next step would be out of the scope of this chapter: the code inside `// 70 lines of code` mutates the `fullRecordsArray`, see the [Avoid mutation](#avoid-mutation) chapter below to learn why mutations aren’t good and how to avoid them.
 
-#### Repeated conditions
+## Repeated conditions
 
 Repeated conditions can make code barely readable. Let’s have a look at this function that returns special offers for a product in our pet shops. We have two brands, Horns & Hooves and Paws & Tails, and they have unique special offers. For historical reasons, we store them in the cache differently:
 
@@ -841,7 +841,7 @@ We were able to separate all low-level code and hide it in another module.
 
 It may seem like I prefer small functions or even very small functions, but that’s not the case. The main reason to extract code into separate functions here is a violation of the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle). The original function had too many responsibilities: getting special offers, generating cache keys, reading data from the cache, and storing data in the cache. Each with two branches for our two brands.
 
-#### Tables or maps
+## Tables or maps
 
 One of my favorite techniques for improving _(read: avoiding)_ conditions is replacing them with tables or maps. With JavaScript, we can create a table or a map using a plain object.
 
@@ -1235,7 +1235,7 @@ expect(getDateFormat()).toBe('M/D')
 
 The improved version isn’t much shorter, but now it’s easy to see all date formats. We’ve extracted the data to a short and readable object and separated it from the code that accesses the right piece of this data.
 
-#### Formulas
+## Formulas
 
 Similar to tables, a single formula could often replace a whole bunch of conditions. Consider [this example](https://twitter.com/JeroenFrijters/status/1615204074588180481):
 
@@ -1298,7 +1298,7 @@ expect(getPercentageRounds(0.91)).toBe('🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵
 
 It is a bit harder to understand than the initial implementation but it needs significantly fewer test cases, and we’ve separated the design and the code. The images will likely change but I doubt that the algorithm will.
 
-#### Nested ternaries
+## Nested ternaries
 
 A ternary operator is a short one-line conditional operator. It’s very useful when we want to assign one of two values to a variable. Compare an `if` statement:
 

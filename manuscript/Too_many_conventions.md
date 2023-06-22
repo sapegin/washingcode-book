@@ -1,4 +1,4 @@
-### Too many conventions
+# Too many conventions
 
 Conventions are great, because they make code more consistent and reduce cognitive load when you read code. But the more conventions you have, the harder it is to maintain them.
 

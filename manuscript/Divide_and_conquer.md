@@ -1,7 +1,7 @@
 <!-- textlint-disable -->
 
 {#divide-and-conquer}
-### Divide and conquer, or merge and relax
+# Divide and conquer, or merge and relax
 
 <!-- textlint-enable -->
 
@@ -11,7 +11,7 @@ TODO: `util` and `utils` (what about them?): keep each function in it’s own f
 
 It’s nice to have a global Button component but if it’s too flexible and has a dozen of boolean props to switch between different variations, it will be difficult to use. However, if it’s too strict, developers will create their own button components instead of using a shared one.
 
-#### Let abstractions grow
+## Let abstractions grow
 
 We, developers, hate to do the same work twice. _Don’t repeat yourself_ (DRY) is our mantra. But when we have two or three pieces of code that kinda do the same thing, it may be still too early to introduce an abstraction, no matter how tempting it may feel.
 
@@ -29,7 +29,7 @@ Sometimes, we have to roll back an abstraction. When we start adding conditions 
 
 I think the higher level of the code is, the longer we should wait before we abstract it. Low-level utility abstractions are much more obvious than business logic.
 
-#### Separate code that changes often
+## Separate code that changes often
 
 _Code reuse_ isn’t the only and not the most important reason to extract a piece of code into a separate module.
 
@@ -56,7 +56,7 @@ Extraction of a generic table as a separate module solves this problem. Now to a
 
 Even code reuse can be a valid reason to separate code here: if we use some design pattern on one page, we’ll likely need it on another page soon.
 
-#### Keep together code that changes together
+## Keep together code that changes together
 
 It might be tempting to extract each and every function to its own module. And there are benefits to this approach, like easier testing and reuse.
 
@@ -76,7 +76,7 @@ _Change reason_ is also known as the [single responsibility principle](https://e
 
 It might be a good idea to no allow other teams use our code unless it’s designed and marked as shared. [Dependency cruiser](https://github.com/sverweij/dependency-cruiser) is a tool that could help to set up such rules on a project.
 
-#### Sweep that ugly code under the rug
+## Sweep that ugly code under the rug
 
 Sometimes, we have to use an API that’s particularly difficult to use, or requre several steps in a particular order with particular parameters that are always the same. This is a good reason to create a utility function to make sure we always to it right. As a bonus: we could now write tests for this piece of code.
 
@@ -106,7 +106,7 @@ const prefix = path.parse(file).name;
 
 Now it’s clear what’s happening, no magic numbers, and works with any file extension lengh.
 
-#### Bless the inline refactoring!
+## Bless the inline refactoring!
 
 Sometimes we get carried away and produce abstractions that don’t make code easier to read or even shorter:
 

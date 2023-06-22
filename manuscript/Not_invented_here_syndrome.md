@@ -1,4 +1,4 @@
-### Not invented here syndrome
+# Not invented here syndrome
 
 Not invented here syndrome (NIH) represents fear or a ban of using third-party solutions. It could come from an internal developer’s need to prove themselves to the world, or from an employer, usually a huge one, that hired so many developers that there’s not enough actually useful work for everyone.
 
@@ -6,7 +6,7 @@ Like any extreme, discarding any third-party libraries in our work could be unhe
 
 In this chapter, I’ll focus on utility functions rather than on big frameworks, because I see developers reinventing utility functions far more often than big frameworks.
 
-#### What’s wrong with in-house solutions
+## What’s wrong with in-house solutions
 
 The worst case is inlining utility functions like so:
 
@@ -54,7 +54,7 @@ It might be tempting to quickly write our own function or copypaste the code fro
 - Maintenance may take a lot of time.
 - New developers, our company hires, need to learn its in-house artisanal libraries, which is often hard because of poor documentation and discoverability.
 
-#### Why third-party libraries might be better
+## Why third-party libraries might be better
 
 When using a good popular library:
 
@@ -62,7 +62,7 @@ When using a good popular library:
 - New developers, joining the company, may already have experience with the library.
 - Fixing an obscure error message might be one Google search away.
 
-#### What to keep in mind when using third-party libraries
+## What to keep in mind when using third-party libraries
 
 However, there are things we need to keep in mind when using third-party libraries:
 
@@ -78,7 +78,7 @@ Another problem is when the library isn’t doing exactly what we want. In this 
 - Fork the library or copypaste the code to our own codebase, and do the changes there; so we’re essentially converting a third-party library into an in-house one, with all the problems of the artisanal libraries mentioned above.
 - Switch to another library that does what we want better, which may take a lot of time.
 
-#### My approach to using third-party libraries
+## My approach to using third-party libraries
 
 I don’t have any strict rules on using third-party libraries versus in-house ones, and I believe the balance is important here, and both have their place in our work. For me, the choice depends on the complexity of the function I need, the type of the project (personal or not), my experience with a particular library that may do what I need, and so on.
 

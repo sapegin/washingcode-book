@@ -1,5 +1,5 @@
 {#naming-is-hard}
-### Naming is hard
+# Naming is hard
 
 We all know that naming is one of the hardest problems in programming, and probably most of us have written code like this when we just started programming:
 
@@ -54,7 +54,7 @@ I once worked with a very senior developer who used mostly very short names, and
 
 Let’s look at these (and many other) naming antipatterns, and how to fix them.
 
-#### Negative booleans are not not hard to read
+## Negative booleans are not not hard to read
 
 Consider this method:
 
@@ -277,7 +277,7 @@ expect(store['#book_retry']['disabled']).toBe(true)
 
 Now it’s much easier to read. (And we’ll talk about names like `data` later.)
 
-#### The larger the scope, the longer the name
+## The larger the scope, the longer the name
 
 My rule of thumb: the shorter the scope of a variable, the shorter should be its name.
 
@@ -508,7 +508,7 @@ keys.forEach(key => {
 
 (See [Avoid loops](#avoid-loops) chapter for more examples.)
 
-#### The shorter the scope the better
+## The shorter the scope the better
 
 We talked a bit about the scope in the previous section. The length of the variable’s scope affects readability too. The shorter the scope the easier it is to keep track of what’s happening with a variable.
 
@@ -555,7 +555,7 @@ Here, the lifespan of the `sorted` variable is only two lines. This kind of sequ
 
 (See a larger example in the “Avoid Pascal style variables” section in the [Avoid reassigning variables](#avoid-reassigning-variables) chapter.)
 
-#### Abbreviations and acronyms
+## Abbreviations and acronyms
 
 The road to hell is paved with abbreviations. What do you think are OTC, RN, PSP, SDL? I also don’t know, and these are just from one project. That’s why I try to avoid abbreviations almost everywhere, not just in code.
 
@@ -592,7 +592,7 @@ As well as common acronyms:
 
 And possibly a few very common ones used on a project but they still should be documented (new team members will be very thankful for that!), and shouldn’t be ambiguous.
 
-### Prefixes and suffixes
+# Prefixes and suffixes
 
 I like to use a few prefixes for variable and function names:
 
@@ -694,7 +694,7 @@ I would generally avoid repeating information in the name that’s already acces
 
 (We talk a bit more about conventions in the [Code style](#code-style) chapter.)
 
-#### Dealing with updates
+## Dealing with updates
 
 Imagine a function that allows us to build a new version of an object based on a previous version of the same object:
 
@@ -744,7 +744,7 @@ Here, we want to avoid unnecessary component rerenders when the `code` hasn’t 
 
 Both of these conventions are widely used by React developers.
 
-#### Beware of incorrect names
+## Beware of incorrect names
 
 _Incorrect_ names are worse than magic numbers (read about them in the [Constants](#constants) chapter). With magic numbers, we can make a correct guess but with incorrect names, we have no chance to understand the code.
 
@@ -808,7 +808,7 @@ type State = {
 
 We often change the logic but forget to update the names to reflect that. This makes understanding code much harder and could lead to bugs when we later change the code and make wrong assumptions based on incorrect names.
 
-#### Beware of abstract and imprecise names
+## Beware of abstract and imprecise names
 
 _Abstract_ and _imprecise_ names are probably more unhelpful than dangerous, like incorrect ones.
 
@@ -1055,19 +1055,19 @@ Now it’s clear which request data we’re accessing at any time.
 
 For the new version of a module, I’d try to rename the old one to something like `ModuleLegacy` instead of naming the new one `Module2` or `ModuleNew`, and keep using the original name for the new implementation. It’s not always possible but it makes using the old, deprecated, module more awkward than the new, improved, one – exactly what we want to achieve. Also, names tend to stick forever, even when the original module is long gone. Names like `Module2` or `ModuleNew` are fine during development though, when the new module isn’t yet fully functional or well tested.
 
-#### Use common terms
+## Use common terms
 
 It’s a good idea to use well-known and widely adopted terms for programming and domain concepts instead of inventing something that might be cute or clever but likely will be misunderstood. This is especially problematic for non-native English speakers – we don’t know many rare and obscure words.
 
 [A “great” example](https://stackoverflow.com/questions/33742899/where-does-reacts-scryrendereddomcomponentswithclass-method-name-come-from) of this is React codebase where they used “scry” (which means something like _peeping into the future through a crystal ball_) instead of “find”.
 
-#### Use a single term for each concept
+## Use a single term for each concept
 
 Using different words for the same concept is confusing: a person reading the code may think since the words are different then these things aren’t the same and will try to understand the difference between the two. It will also make the code less _greppable_ (meaning it would be harder to find all usages of the same thing, see [Make the code greppable](#make-the-code-greppable) chapter for more).
 
 **Idea:** Having a project dictionary, or even a linter, might be a good idea to avoid using different words for the same things. I use a similar approach for writing this book: I use [Textlint terminology plugin](https://github.com/sapegin/textlint-rule-terminology) to make sure I use the terms consistently and spell them correctly.
 
-#### Use common opposite pairs
+## Use common opposite pairs
 
 Often we create pairs of variables or functions that do the opposite operations or hold values that are on the opposite ends of the range. For example, `startServer`/`stopServer`, or `minWidth`/`maxWidth`. When we see one, we expect to see the other, and we expect it to have a certain name because it either sounds natural in English (if one happened to be a native speaker) or has been used by generations of programmers before us.
 
@@ -1093,7 +1093,7 @@ Some of these common pairs are:
 | start     | stop      |
 | target    | source    |
 
-#### Check the spelling of your names
+## Check the spelling of your names
 
 Typos in names and comments are very common. They don’t cause bugs _most of the time_ but could still reduce readability a bit, and code with many typoses look sloppy.
 
@@ -1103,7 +1103,7 @@ Recently, I found this name in our codebase: `depratureDateTime`, and I immediat
 
 Spellchecker helps me immensely, as I’m not a native English speaker. It also helps to make the code more greppable: when we search for a certain term, we likely won’t find misspelled occurrences of it.
 
-#### Use destructuring
+## Use destructuring
 
 Often we end up with awkward names for intermediate values, like function parameters or function return values:
 
@@ -1228,7 +1228,7 @@ expect(submitFormData('/foo', { method: 'post', target: '_top' }))
 
 Here, we’ve removed the `options` object, that was used in almost every line of the function body, which made it shorter and more readable.
 
-#### Tips to avoid name clashes
+## Tips to avoid name clashes
 
 We’ve talked about how to avoid number suffixes by making names more precise. Let’s talk about a few other cases where we may have clashing names, and [what can we do to avoid them](https://gist.github.com/sapegin/a46ab46cdd4d6b5045027d120b9c967d).
 

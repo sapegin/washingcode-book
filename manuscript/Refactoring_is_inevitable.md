@@ -1,4 +1,4 @@
-### Refactoring is inevitable
+# Refactoring is inevitable
 
 TODO: Don’t be attached to your code
 
