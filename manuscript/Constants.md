@@ -74,6 +74,30 @@ const {container: c1} = RTL.render(<Test />);
 expect(c1.textContent).toEqual('1:6')
 -->
 
+However, having a clear name is sometimes not enough:
+
+<!-- const date = '2023-03-22T08:20:00+01:00' -->
+
+```js
+const CHARACTERS_IN_ISO_DATE = 10;
+const dateWithoutTime = date.slice(0, CHARACTERS_IN_ISO_DATE);
+```
+
+<!-- expect(dateWithoutTime).toBe('2023-03-22') -->
+
+Here, we remove the time portion of a string containing date ane time in ISO format (for example, `2023-03-22T08:20:00+01:00`) by keeping only the first 10 characters – the length of the date part. The name is quite clear but the code is still a bit confusing and brittle. We can do better:
+
+<!-- const date = '2023-03-22T08:20:00+01:00' -->
+
+```js
+const DATE_FORMAT_ISO = 'YYYY-MM-DD';
+const dateWithoutTime = date.slice(0, DATE_FORMAT_ISO.length);
+```
+
+<!-- expect(dateWithoutTime).toBe('2023-03-22') -->
+
+Now, it’s easier to visualize what the code is doing, and we don’t need to count characters manually to be sure that The Very Magic number 10 is correct.
+
 Code reuse is another good reason to introduce constants. However, we need to wait for the moment when the code is actually reused.
 
 #### Not all numbers are magic
@@ -201,6 +225,64 @@ const getEndOfDayFromDate = date => {
 
 Now, the code is short and clear, with enough information to understand it.
 
+#### Group related constants
+
+We often use constans for ranges of values:
+
+```js
+const SMALL = 'small';
+const MEDIUM = 'medium';
+```
+
+These constants are related – they define different values of the same scale, size of something, and likely could be used interchangeably. However, it’s not clear from the names that they are related. We could add a suffix:
+
+```js
+const SMALL_SIZE = 'small';
+const MEDIUM_SIZE = 'medium';
+```
+
+Now, it’s clear that these values are related, thanks to the `_SIZE` suffix. But we can do better:
+
+```js
+const SIZE_SMALL = 'small';
+const SIZE_MEDIUM = 'medium';
+```
+
+Here, the common part of the names, the `SIZE_` prefix, is aligned. I call this _parallel coding_. (We talk more about parallel coding in the [Don’t make me think](#dont-make-me-think) chapter.)
+
+Another option is to use an object:
+
+```js
+const SIZE = {
+  SMALL: 'small',
+  MEDIUM: 'medium'
+};
+```
+
+It has some additional benefits over separate constants:
+
+- We only need to import it once (`import { SIZE } from '...'` vs `import { SIZE_SMALL, SIZE_MEDIUM } from '...'`).
+- Better autocomplete after typing `SIZE.`
+
+And yet another option is to use a TypeScript enum:
+
+```ts
+enum Size {
+  Small = 'small',
+  Medium = 'medium'
+}
+```
+
+Which is essentially the same as an object but we can also use it as a type:
+
+```ts
+interface ButtonProps {
+  size: Size;
+}
+```
+
+The latter would be my choice for TypeScript.
+
 ---
 
 Start thinking about:
@@ -209,3 +291,4 @@ Start thinking about:
 - Is knowing the value itself is less important to understand the code than knowing the name?
 - Is a value reused multiple times?
 - Is a value represents the configuration or an essential part of an algorithm?
+- Are several constants representing a range or a scale, and could be merged into an object or enum?
