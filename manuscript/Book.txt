@@ -19,7 +19,6 @@ Make_the_code_greppable.md
 Too_many_conventions.md
 Cargo_cult_programming.md
 Not_invented_here_syndrome.md
-Size_isnt_important.md
 Refactoring_is_inevitable.md
 Code_is_evil.md
 Tooling.md
