@@ -86,7 +86,7 @@ I use [Lodash](https://lodash.com/) on most of my web apps: it’s a hugely popu
 
 I tend to use microlibraries on my personal projects but it’s more of a taste choice than a rational one, and my personal projects are pretty small and simple.
 
-Microlibrary is a tiny, often a oneliner, library that does one small task, and nothing else. The good thing about microlibraries — they don’t increase the bundle size much, the bad thing about them — we need to choose, install and update each library separately. Also, different libraries may have very different APIs and the documentation is less accessible (because we need to look for each library separately).
+Microlibrary is a tiny, often a one-liner, library that does one small task, and nothing else. The good thing about microlibraries — they don’t increase the bundle size much, the bad thing about them — we need to choose, install and update each library separately. Also, different libraries may have very different APIs and the documentation is less accessible (because we need to look for each library separately).
 
 I try to choose microlibraries from a few developers I trust: mainly [Luke Edwards](https://www.npmjs.com/~lukeed) and [Sindre Sorhus](https://www.npmjs.com/~sindresorhus).
 
