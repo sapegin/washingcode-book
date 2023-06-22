@@ -9,7 +9,6 @@ Naming_is_hard.md
 Code_style.md
 Constants.md
 Simplify_simplify_simplify.md
-Dont_surprise_me.md
 Separate_what_and_how.md
 Dont_be_clever.md
 Divide_and_conquer.md
