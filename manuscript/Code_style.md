@@ -777,9 +777,11 @@ const {container: c1} = RTL.render(<Button>Tacos</Button>);
 expect(c1.textContent).toEqual('Tacos')
 -->
 
-I can probably write a whole book of such examples.
+I can probably write a whole book of such examples, and let’s not forget the eternal debate of tabs vesus spaces.
 
 In all the examples above I prefer the last variation but I’d never ask someone to change their code during code review if they use another variation.
+
+There’s zero code readability improvement. The code is just different, none of the variations are better than the other. And even the consistency argument isn’t good enough, unless we can automate code replacement completely transparently for the developer. Otherwise the cost of maintaining the convention would be too high.
 
 ## Conclusion
 
