@@ -1,3 +1,4 @@
+{#code-style}
 ### Code style
 
 I used to be very strict about [code style](https://blog.sapegin.me/all/prettier/). I thought my code style was better than others’, but later I’ve realized that it was just different. And it wasn’t the most popular, so anyone else’s code looked wrong to me.
@@ -593,7 +594,7 @@ expect(test('saluki')).toEqual(undefined)
 
 In shortstringer code, we’ll see early returns, extra functions and variables to reduce the number of operations in one line and give things names, less nesting, variable name lengths depending on the size or their scope (longer names for larger scope), and so on.
 
-It’s easier to follow conditions, notice `return` statements in the functions, and generally see what’s happening. The important code — like adding new values to an object — isn’t buried somewhere in a very long line, and clearly separated from the data management code (see [Separate what and how](#separate-what-and-how)). The code has more whitespace and shape that makes it easier to scan.
+It’s easier to follow conditions, notice `return` statements in the functions, and generally see what’s happening. The important code — like adding new values to an object — isn’t buried somewhere in a very long line, and clearly separated from the data management code (see [Separate what and how](#separate-what-and-how) chapter). The code has more whitespace and shape that makes it easier to scan.
 
 I’m clearly a shortstringer.
 

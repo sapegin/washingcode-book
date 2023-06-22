@@ -106,7 +106,7 @@ This rule allows us to define minimum and maximum length for an identifier, beca
 
 This rules limits the number of JavaScript classes in a file. Usually set to 1, meaning we could declare only one class per file.
 
-This is an artificial requirement. Splitting code into modules is a skill that can’t be simplified to a lint rule. Often keeping tiny utility classes, function, or components at the top of the module makes the code easier to navigate and maintain — the very thing that this lint rule is trying to prevent. (See more in the [Divide and conquer, or merge and relax](#divide-and-conquer-or-merge-and-relax) chapter.)
+This is an artificial requirement. Splitting code into modules is a skill that can’t be simplified to a lint rule. Often keeping tiny utility classes, function, or components at the top of the module makes the code easier to navigate and maintain — the very thing that this lint rule is trying to prevent. (See more in the [Divide and conquer, or merge and relax](#divide-and-conquer) chapter.)
 
 Tere are other similar rules that try to artificially limit the number of React components, lines of code, statements and so on. The only useful on of the kind is `max-params` (see below).
 
@@ -169,7 +169,7 @@ We can disable loop checking in the rule settings. Hovewer, the usefulness of th
 
 ##### [max-params](https://eslint.org/docs/rules/max-params)
 
-This rule limits the number of parameters a fuction can have. It may sound similar to `max-classes-per-file` but it’s actually useful. To learn more about the problem it solves, see the [Name things](#name-things) section.
+This rule limits the number of parameters a fuction can have. It may sound similar to `max-classes-per-file` but it’s actually useful. To learn more about the problem it solves, see the [Name things](#name-things) section of Don’t make me think chapter.
 
 ###### [sort-imports](https://eslint.org/docs/rules/sort-imports)
 

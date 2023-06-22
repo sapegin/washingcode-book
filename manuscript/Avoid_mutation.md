@@ -1,3 +1,4 @@
+{#avoid-mutation}
 ### Avoid mutation
 
 Mutations happen when we change a JavaScript object or array without creating a new variable or reassigning an existing one:

@@ -1,8 +1,13 @@
 <!-- textlint-disable -->
 
+{#divide-and-conquer}
 ### Divide and conquer, or merge and relax
 
 <!-- textlint-enable -->
+
+TODO: `util` and `utils` (what about them?): keep each function in it’s own file
+
+> Aside: Make a util directory and keep different utilities in different files. A single util file will always grow until it is too big and yet too hard to split apart. Using a single util file is unhygienic.
 
 It’s nice to have a global Button component but if it’s too flexible and has a dozen of boolean props to switch between different variations, it will be difficult to use. However, if it’s too strict, developers will create their own button components instead of using a shared one.
 

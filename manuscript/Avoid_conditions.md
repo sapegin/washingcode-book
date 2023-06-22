@@ -1,3 +1,4 @@
+{#avoid-conditions}
 ### Avoid conditions
 
 Conditions make code harder to read and test. They add nesting and make lines of code longer, so we have to split them into several lines. Each condition increases the minimum number of test cases we need to write for a certain module or function.

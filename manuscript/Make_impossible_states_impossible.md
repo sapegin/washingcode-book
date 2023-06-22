@@ -1,3 +1,4 @@
+{#make-impossible-states-impossible}
 ### Make impossible states impossible
 
 In UI programming, or _especially_ in UI programming we often use boolean flags to represent the current state of the UI or its parts: is data loading? is submit button disabled? has action failed?

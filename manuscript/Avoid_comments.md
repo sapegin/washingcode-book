@@ -72,7 +72,7 @@ Now, the condition is shorter and more readable, because names help us to unders
 
 However, I don’t think that splitting a linear algorithm, even a long one, into several functions, and then calling them one after another, makes code more readable. Jumping between functions (and even more so – files) is harder than scrolling, and if we have to look into functions’ implementations to understand the code, then the abstraction wasn’t the right one. Naming could be a problem too when all the extracted functions are parts of the same algorithm.
 
-Overall, I don’t like when the code is measured by its physical metrics, like the number of lines. Long functions aren’t always hard to read and modify, And the really complex code could be tiny. We talk about code splitting in more detail in the [Divide and conquer, or merge and relax](#divide-and-conquer-or-merge-and-relax) chapter.
+Overall, I don’t like when the code is measured by its physical metrics, like the number of lines. Long functions aren’t always hard to read and modify, And the really complex code could be tiny. We talk about code splitting in more detail in the [Divide and conquer, or merge and relax](#divide-and-conquer) chapter.
 
 #### Good comments
 

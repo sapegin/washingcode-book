@@ -1,3 +1,4 @@
+{#naming-is-hard}
 ### Naming is hard
 
 We all know that naming is one of the hardest problems in programming, and probably most of us have written code like this when we just started programming:
@@ -516,7 +517,7 @@ The extreme cases would be:
 - One-liner functions, where the scope of a variable is a single line: easy to follow (example: `[8, 16].map(x => x + 'px')`).
 - Global variables: a variable can be used or modified anywhere in the project, and there’s no way to know which value it holds at any given moment, which often leads to bugs. That’s why many developers are [advocating against global variables](https://wiki.c2.com/?GlobalVariablesAreBad) for decades.
 
-Usually, the shorter the scope, the better. However, religious scope shortening has the same issues as splitting code into many teeny-tiny functions (see [Divide and conquer, or merge and relax](divide-and-conquer) chapter): it’s easy to overdo it and make the code less readable, not more.
+Usually, the shorter the scope, the better. However, religious scope shortening has the same issues as splitting code into many teeny-tiny functions (see [Divide and conquer, or merge and relax](#divide-and-conquer) chapter): it’s easy to overdo it and make the code less readable, not more.
 
 I found that reducing the lifespan of a variable works as well, and doesn’t produce lots of tiny functions. The idea here is to reduce the number of lines between the variable declaration and the line where it’s accessed for the last time. The scope might be a whole 200-line function but if the lifespan of a particular variable is three lines, then we only need to look at these three lines to understand how this variable is used.
 
