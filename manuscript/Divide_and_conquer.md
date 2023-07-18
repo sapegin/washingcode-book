@@ -1,6 +1,7 @@
 <!-- textlint-disable -->
 
 {#divide-and-conquer}
+
 # Divide and conquer, or merge and relax
 
 <!-- textlint-enable -->

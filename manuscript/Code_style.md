@@ -1,4 +1,5 @@
 {#code-style}
+
 # Code style
 
 I used to be very strict about [code style](https://blog.sapegin.me/all/prettier/). I thought my code style was better than others’, but later I’ve realized that it was just different. And it wasn’t the most popular, so anyone else’s code looked wrong to me.

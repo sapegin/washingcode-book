@@ -3,6 +3,7 @@
 TODO
 
 {#prettier}
+
 ### Prettier
 
 Developers could waste days arguing where to put spaces in the code, which doesn’t matter at all, but everyone has an opinion on it. Luckily, these arguments are mostly in the past, thanks to automatic code formatting.

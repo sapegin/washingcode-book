@@ -1,4 +1,5 @@
 {#separate-what-and-how}
+
 # Separate “what” and “how”
 
 Declarative code describes the result and imperative explains how to achieve it.

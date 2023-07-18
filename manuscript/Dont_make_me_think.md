@@ -1,4 +1,5 @@
 {#dont-make-me-think}
+
 # Don’t make me think
 
 TODO: Function parameters as an object — named parameters pattern: [Callable values • JavaScript for impatient programmers](https://exploringjs.com/impatient-js/ch_callables.html#named-parameters)
@@ -253,6 +254,7 @@ expect(isSmall('5')).toBe(false)
 Now, all the value are grouped together which makes it more readable.
 
 {#name-things}
+
 ## Name things
 
 Often, it’s hard to understand what a certain value is when it doesn’t have a name. For example, it could a unobvious number, an obscure function parameter, or a complex condition. In all these cases, by giving a thing a name, we could tremendously improve code readability.
