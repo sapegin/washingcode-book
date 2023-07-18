@@ -4,7 +4,7 @@
 We all know that naming is one of the hardest problems in programming, and probably most of us have written code like this when we just started programming:
 
 <!-- prettier-ignore -->
-```pas
+```pascal
             // reading file signature
 try
         AssignFile(fp, path+sr.Name);
