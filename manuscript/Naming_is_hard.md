@@ -355,7 +355,7 @@ Let’s try to refactor this code a bit:
 
 ```js
 const hasDiscount = customers => {
-  return Object.entries(customers).some(([customerId, customer]) => {
+  return Object.values(customers).some(customer => {
     return customer.ages?.some(
       ageGroup => ageGroup.customerCards.length > 0
     );
