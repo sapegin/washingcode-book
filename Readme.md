@@ -2,7 +2,7 @@
 
 [![Node.js CI status](https://github.com/sapegin/washingcode/workflows/Node.js%20CI/badge.svg)](https://github.com/sapegin/washingcode/actions)
 
-<img align="right" width="250" height="323" src="manuscript/images/cover.jpg" />
+<img align="right" width="250" height="323" src="manuscript/resources/images/cover.jpg" />
 
 **Work in progress.** A little book on writing clean code full of opinions by [Artem Sapegin](https://sapegin.me/).
 
