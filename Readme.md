@@ -1,4 +1,4 @@
-# Washing your code: write once, read seven times
+# Washing your code: clean code for frontend developers
 
 [![Node.js CI status](https://github.com/sapegin/washingcode/workflows/Node.js%20CI/badge.svg)](https://github.com/sapegin/washingcode/actions)
 
