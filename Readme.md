@@ -26,7 +26,7 @@ If you found any issue (like a typo or an incorrect term usage) or have any othe
 
 ## Author and license
 
-[Artem Sapegin](https://sapegin.me/), a frontend engineer at [Omio](https://omio.com/) and the creator of [React Styleguidist](https://react-styleguidist.js.org/). I also write about frontend at [my blog](https://blog.sapegin.me/).
+[Artem Sapegin](https://sapegin.me/), a frontend engineer at [Stage+](https://www.stage-plus.com/) and the creator of [React Styleguidist](https://react-styleguidist.js.org/). I also write about frontend on [my blog](https://sapegin.me/blog/).
 
 [![Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License](https://licensebuttons.net/l/by-nc-nd/4.0/88x31.png)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
 
