@@ -220,7 +220,7 @@ We’ll cover a few exceptions later in this chapter.
 
 #### Don’t overpolice the code
 
-Unless the coding culture in the team is especially miserable (and in this case, it’s better to start updating your CV than trying to fight it), a linting setup that’s too rigid does more harm than good. It’s better to trust our colleagues and expect that they know how to do their job, so we can use linters to catch bugs and code reviews to discuss different approaches. There’s always more than one correct way of doing something in programming, and having a linter that allows only one way isn’t solving any real problem but makes our colleagues suffer more.
+Unless the coding culture in the team is especially miserable (and in this case, instead of fighting it, you’re better off updating your CV), a linting setup that’s too rigid does more harm than good. It’s better to trust our colleagues and expect that they know how to do their job, so we can use linters to catch bugs and code reviews to discuss different approaches. There’s always more than one correct way of doing something in programming, and having a linter that allows only one way isn’t solving any real problem but makes our colleagues suffer more.
 
 ### My top 11 lint rules that should have never existed
 
@@ -762,11 +762,13 @@ There are hundreds of plugins for ESLint; few are useful. I have these plugins o
 
 ### Conclusion
 
-Linters are useful to prevent bugs and maintain a consistent codebase but are misused often.
+Linters are useful to prevent bugs and maintain a consistent codebase but can be misused.
 
-Each rule in our coding style guide should have a corresponding lint rule. Ideally, it should be autofixable, so developers don’t waste time tailoring their code. If it’s impossible or too difficult to make an autofixable rule, we should really think whether such a style guide rule is a good idea or not, and maybe we shouldn’t be so picky about the way our colleagues are writing code.
+On the one hand, it can be a good idea to automate code style checks by adding lint rules for every item in our coding style guide. On the other hand, a codebase with too many lint rules, can be intimidating for developers working with it.
 
-I wish there was a way not to show autofixable lint errors in the editor, so they won’t distract us from writing code. The same way as Prettier (see the next chapter) is formatting the code for us without yelling at us when we write it the “wrong” way.
+Ideally, all lint rules should be autofixable, so developers don’t waste time tailoring their code to satisfy esoteric lint rules. If it’s impossible or too difficult to make an autofixable rule, we should really think whether it’s worth having such rule at all.
+
+And no lint rule is coded in stone: it’s always up to a developer writing code whether to follow a certain rule, disable it for a single line, or remove it from the lint config altogether.
 
 ---
 
