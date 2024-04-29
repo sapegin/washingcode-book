@@ -43,7 +43,24 @@ const vm = new NodeVM({
         readFileSync: x => x
       },
       reamde: x => x,
-      express: { Router: () => ({ use: () => {}, get: () => {} }) }
+      express: { Router: () => ({ use: () => {}, get: () => {} }) },
+      // TODO: Once we migrate to ESLint 9, we could try to import actual modules
+      '@eslint/js': {
+        config(x) {
+          return x;
+        },
+        configs: {
+          recommended: []
+        }
+      },
+      'typescript-eslint': {
+        config(x) {
+          return x;
+        },
+        configs: {
+          recommended: []
+        }
+      }
     }
   }
 });
@@ -59,6 +76,14 @@ function isInstruction(node) {
 
 function unwrapHtmlComment(html) {
   return html.replace(/^<!--/, '').replace(/-->$/, '').trim();
+}
+
+function preprocessCode(code) {
+  return (
+    code
+      // VM2 doesn't support async/await
+      .replace(/ await /, '/* await */')
+  );
 }
 
 function getHeader(nodes, index) {
@@ -102,19 +127,25 @@ function getChapterTitle(nodes, index) {
   }
 
   const headingNode = nodes[headingIndex];
-  return headingNode.children[0].value;
-}
+  const firstChildNode = headingNode.children[0];
 
-const testNameIndicies = {};
-
-function getTestName(title) {
-  if (!testNameIndicies[title]) {
-    testNameIndicies[title] = 0;
+  if (firstChildNode.type === 'link') {
+    return firstChildNode.children[0].value;
   }
 
-  testNameIndicies[title] += 1;
+  return firstChildNode.value;
+}
 
-  return `${title} ${testNameIndicies[title]}`;
+const testNameIndices = {};
+
+function getTestName(title) {
+  if (!testNameIndices[title]) {
+    testNameIndices[title] = 0;
+  }
+
+  testNameIndices[title] += 1;
+
+  return `${title} ${testNameIndices[title]}`;
 }
 
 async function executeCode(source, filename) {
@@ -147,7 +178,7 @@ function testMarkdown(markdown, filepath) {
           // Show correct line number in code snippets
           '\n'.repeat(linesToPad),
           header,
-          node.value,
+          preprocessCode(node.value),
           footer
         ].join('\n\n');
 
