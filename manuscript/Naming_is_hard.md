@@ -1146,6 +1146,18 @@ const hiddenInput = (name, value) => {
   input.value = value;
   return input;
 };
+let document = {
+  createElement() {
+    return {
+      appendChild() {},
+      submit() {}
+    }
+  },
+  body: {
+    appendChild() {},
+    removeChild() {}
+  }
+};
 -->
 
 ```ts
@@ -1191,6 +1203,18 @@ const hiddenInput = (name, value) => {
   input.name = name;
   input.value = value;
   return input;
+};
+let document = {
+  createElement() {
+    return {
+      appendChild() {},
+      submit() {}
+    }
+  },
+  body: {
+    appendChild() {},
+    removeChild() {}
+  }
 };
 -->
 
