@@ -735,7 +735,7 @@ While we’re waiting for JavaScipt [to get native immutability](https://github.
 
 **Preventing mutations** is good because it’s so easy to miss them during code reviews, and then spend many hours debugging weird issues.
 
-One way to prevent mutations is to use a linter. ESLint has several plugins that try to do just that, and we’ll discuss them in the [Tooling](#tooling) chapter.
+One way to prevent mutations is to use a linter. ESLint has several plugins that try to do just that, and we’ll discuss them in the [Lint your code](#lint-your-code) chapter.
 
 [eslint-plugin-better-mutation](https://github.com/sloops77/eslint-plugin-better-mutation) disallows any mutations, except for local variables in functions. This is a great idea because it prevents bugs caused by the mutation of shared objects but allows us to use mutations locally. Unfortunately, it breaks even in simple cases, such as a mutation occurring inside `.forEach()`.
 

@@ -1,10 +1,6 @@
-## Other tools
-
-TODO
-
 {#prettier}
 
-### Prettier
+## Autoformat your code
 
 Developers could waste days arguing where to put spaces in the code, which doesn’t matter at all, but everyone has an opinion on it. Luckily, these arguments are mostly in the past, thanks to automatic code formatting.
 
@@ -18,6 +14,14 @@ How we make sure that the code is formatted consistently now: add Prettier as a 
 
 The main difference between code formatters, like Prettier, and linters, like ESLint, is that code formatters are _reprinting_ code using their formatting rules, when linters only validate that certain, and usually very basic, code formatting rules are met. Even with autofixing, the results aren’t very consistent, and require a lot more configuration than code formatters.
 
+### Linting best practices
+
+#### Keep as many default options as possible
+
+TODO
+
+#### TODO
+
 ### The ideal code formatting setup
 
 The goal here is to avoid any distractions when writing code, or the need to run formatting manually.
@@ -28,6 +32,6 @@ The goal here is to avoid any distractions when writing code, or the need to run
 
 _Tip:_ [Use Mrm](https://mrm.js.org/) to add Prettier and Husky/lint-staged to the project.
 
-Don’t use Prettier as ESLint plugin, because it’ll mark each place formatted "incorrectly" as an error in our code. This isn’t helpful and distracts from the actual lint errors that we need to take care of. The whole idea of code autoformatting is that we no longer neeed to care about it. There’s no need to tell us that someting is wrong when the robot can fix it without our help.
+Don’t use Prettier as a ESLint plugin, because it’ll mark each place formatted "incorrectly" as an error in our code. This isn’t helpful and distracts from the actual lint errors that we need to take care of. The whole idea of code autoformatting is that we no longer need to care about it. There’s no need to tell us that something is wrong when the robot can fix it without our help.
 
 ![The curse of linting](images/curse-of-linting.jpeg)

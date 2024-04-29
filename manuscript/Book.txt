@@ -20,8 +20,9 @@ Cargo_cult_programming.md
 Not_invented_here_syndrome.md
 Refactoring_is_inevitable.md
 Code_is_evil.md
-Tooling.md
 Linters.md
-Other_tools.md
+Code_formatters.md
+Types.md
+Code_editor.md
 Resources.md
 Conclusion.md
