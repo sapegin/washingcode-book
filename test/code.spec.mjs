@@ -43,6 +43,9 @@ const vm = new NodeVM({
         readFileSync: x => x
       },
       reamde: x => x,
+      'fs-extra': x => x,
+      glob: x => x,
+      'user-home': x => x,
       express: { Router: () => ({ use: () => {}, get: () => {} }) },
       // TODO: Once we migrate to ESLint 9, we could try to import actual modules
       '@eslint/js': {
