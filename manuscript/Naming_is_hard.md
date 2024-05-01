@@ -1002,7 +1002,7 @@ test('creates new user', async () => {
 });
 ```
 
-<!-- This would be difficult to test so we only run the text function to make sure there are no syntax errors -->
+<!-- // This would be difficult to test so we only run the text function to make sure there are no syntax errors -->
 
 Here, we’re sending a sequence of network requests to test a REST API. However, the names `response`, `response2`, and `response3` make the code a bit hard to understand, especially when we use the data returned by one request to create the next one. We could make the names more precise:
 
@@ -1070,7 +1070,7 @@ test('creates new user', async () => {
 });
 ```
 
-<!-- This would be difficult to test so we only run the text function to make sure there are no syntax errors -->
+<!-- // This would be difficult to test so we only run the text function to make sure there are no syntax errors -->
 
 Now it’s clear which request data we’re accessing at any time.
 
