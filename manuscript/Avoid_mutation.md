@@ -668,7 +668,7 @@ const next = Object.assign({}, prev, { pizza: 42 });
 
 <!-- expect(next).toEqual({coffee: 1, pizza: 42}) -->
 
-Note the empty object as the first parameter: it was necessary; otherwise, `Object.assign` would mutate the initial object: it considers the first parameter as a target. It mutates the first parameter and also returns it — this is a very unfortunate API.
+Note the empty object as the first parameter: it was necessary; otherwise, the `Object.assign()` method would mutate the initial object: it considers the first parameter as a target. It mutates the first parameter and also returns it — this is a very unfortunate API.
 
 Now we can write:
 
@@ -679,9 +679,9 @@ const next = { ...prev, pizza: 42 };
 
 <!-- expect(next).toEqual({coffee: 1, pizza: 42}) -->
 
-This does the same thing but is less verbose, and no need to remember `Object.assign` quirks.
+This does the same thing but is less verbose, and no need to remember `Object.assign()`’s quirks.
 
-And before the [Object.assign](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) in ECMAScript 2015, we didn’t even try to avoid mutations: it was too painful.
+And before the [Object.assign()](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) method in ECMAScript 2015, we didn’t even try to avoid mutations: it was too painful.
 
 Redux has a great [page on immutable update patterns](https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns): it describes patterns for updating arrays and objects without mutations, and it’s useful even if we don’t use Redux.
 
@@ -724,11 +724,11 @@ expect(next).toEqual({breakfast: 'none', lunch: {drinks: ['coffee']}})
 
 Here we’re keeping only the first level of properties of the initial object: `lunch` and `drinks` will have only the new properties.
 
-Also, spread and `Object.assign` only do shallow cloning: only the first level properties are copies, but all nested properties are references to the original object, meaning mutation of a nested property mutates the original object.
+Also, spread and `Object.assign()` only do shallow cloning: only the first level properties are copies, but all nested properties are references to the original object, meaning mutation of a nested property mutates the original object.
 
 Keeping our objects as shallow as possible might be a good idea if we update them often.
 
-While we’re waiting for JavaScipt [to get native immutability](https://github.com/tc39/proposal-record-tuple), there are two non-exclusive ways we can make our lives easier today:
+While we’re waiting for JavaScript [to get native immutability](https://github.com/tc39/proposal-record-tuple), there are two non-exclusive ways we can make our lives easier today:
 
 - prevent mutations;
 - simplify object updates.

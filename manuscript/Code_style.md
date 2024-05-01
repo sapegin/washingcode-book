@@ -786,7 +786,7 @@ There’s zero code readability improvement. The code is just different, none of
 
 ## Conclusion
 
-My rule of thumb here is: automate or forget. For example, [Prettier](https://prettier.io/) (see the [Prettier](#prettier) section) formats code with almost zero config, which saves enormous amount of time while you write code, read someone else’s code or discuss code style in your team.
+My rule of thumb here is: automate or forget. For example, [Prettier](https://prettier.io/) (see the [Autoformat your code](#autoformat-your-code) chapter) formats code with almost zero config, which saves enormous amount of time while you write code, read someone else’s code or discuss code style in your team.
 
 Be vigilant when you adapt [a popular code styles](https://blog.sapegin.me/all/javascript-code-styles/): many are too opinionated and want us to write code in a very specific way, even when it doesn’t improve readability or maintainability of the code, or reduce the number of bugs.
 

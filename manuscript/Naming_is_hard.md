@@ -397,7 +397,10 @@ _.get('/about', (req, res) => {
 module.exports = _;
 ```
 
-<!-- // TODO: Can we test this? -->
+<!--
+expect(module.exports).toHaveProperty('use')
+expect(module.exports).toHaveProperty('get')
+-->
 
 I cannot imagine the logic behind this convention, and I’m sure it’s going to be confusing for many developers working with the code. It’ll be much worse when the code grows to do something useful.
 
@@ -426,9 +429,12 @@ router.get('/about', (req, res) => {
 module.exports = router;
 ```
 
-<!-- // TODO: Can we test this? -->
+<!--
+expect(module.exports).toHaveProperty('use')
+expect(module.exports).toHaveProperty('get')
+-->
 
-Now I don’t have trouble understanding what’s going on here. (Using `req` for request and `res` for response is an Express convention: huge adoption makes it a good idea to keep using it.)
+Now, I don’t have trouble understanding what’s going on here. (Using `req` for request and `res` for response is an Express convention: huge adoption makes it a good idea to keep using it.)
 
 So, `x`, `a`, and `b` are pretty much all single-character variable names I ever use.
 
@@ -930,9 +936,16 @@ For the first two cases, try to find something that differentiates the objects, 
 Consider this example:
 
 <!--
-const test = () => {}, login = () => {}, request = () => {}
+const StatusCode = {SuccessCreated: 201}
+const test = (comment, fn) => fn(), login = () => {}
+const request = () => ({get: () => ({set: () => ({set: () => ({headers: {}, status: 200, body: {data: {}}})})}), post: () => ({send: () => ({set: () => ({headers: {}, status: 200, body: {data: {}}, set: () => ({headers: {}, status: 200, body: { data:{}}})})})})})
+const users = [], app = () => {}, usersEndpoint = 'http://localhost', loginEndpoint = 'http://localhost'
 const collections = { users: { insertMany: () => {} } }
-const expect = () => ({ toBe: () => {}, toHaveProperty: () => {}, toEqual: () => {} })
+function expect() { return { toBe: () => {}, toHaveProperty: () => {}, toEqual: () => {} } }
+expect.stringContaining = () => {}
+expect.stringMatching = () => {}
+expect.objectContaining = () => {}
+expect.arrayContaining = () => {}
 -->
 
 ```js
@@ -989,14 +1002,18 @@ test('creates new user', async () => {
 });
 ```
 
-<!-- // TODO: Can we test this? -->
+<!-- This would be difficult to test so we only run the text function to make sure there are no syntax errors -->
 
 Here, we’re sending a sequence of network requests to test a REST API. However, the names `response`, `response2`, and `response3` make the code a bit hard to understand, especially when we use the data returned by one request to create the next one. We could make the names more precise:
 
 <!--
-const test = () => {}, login = () => {}, request = () => {}
-const collections = { users: { insertMany: () => {} } }
-const expect = () => ({ toBe: () => {}, toHaveProperty: () => {}, toEqual: () => {} })
+let test = () => {}, login = () => {}
+let collections = { users: { insertMany: () => {} } }
+const request = () => ({get: () => ({set: () => ({set: () => ({headers: {}, status: 200, body: {data: {}}})})}), post: () => ({send: () => ({set: () => ({headers: {}, status: 200, body: {data: {}}, set: () => ({headers: {}, status: 200, body: { data:{}}})})})})})
+function expect() { return { toBe: () => {}, toHaveProperty: () => {}, toEqual: () => {} } }
+expect.stringContaining = () => {}
+expect.stringMatching = () => {}
+expect.objectContaining = () => {}
 -->
 
 ```js
@@ -1053,7 +1070,7 @@ test('creates new user', async () => {
 });
 ```
 
-<!-- // TODO: Can we test this? -->
+<!-- This would be difficult to test so we only run the text function to make sure there are no syntax errors -->
 
 Now it’s clear which request data we’re accessing at any time.
 

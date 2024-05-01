@@ -22,7 +22,7 @@ expect(hasValue).toBe(false)
 expect(hasProducts).toBe(false)
 -->
 
-`value !== NONE` and `products.length > 0` already gives us booleans, so we can avoid the ternary operator:
+Both, `value !== NONE` and `products.length > 0` already give us booleans, so we can avoid the ternary operator:
 
 <!-- const NONE = null, value = NONE, products = [] -->
 
@@ -451,7 +451,7 @@ We often add conditions when some data might be missing. For example, an optiona
  -->
 
 ```ts
-function getRandomeJoke(onDone, onError) {
+function getRandomJoke(onDone, onError) {
   fetch('https://api.chucknorris.io/jokes/random')
     .then(result => result.json())
     .then(data => {
@@ -467,13 +467,13 @@ function getRandomeJoke(onDone, onError) {
 
 <!--
 const onDone = jest.fn(), onError = jest.fn()
-getRandomeJoke(onDone, onError)
+getRandomJoke(onDone, onError)
 expect(onDone).toBeCalledWith('pizza')
 expect(onError).toBeCalledWith('nope')
-expect(() => getRandomeJoke(onDone)).not.toThrowError()
+expect(() => getRandomJoke(onDone)).not.toThrowError()
 -->
 
-Here, `onError` parameter is optional, and we check if it exists before calling it. The problem here is that we need to remember to wrap each call to an optional callback into a condition. It increases complexity and cognitive load and makes the code harder to read.
+Here, the `onError` parameter is optional, and we check if it exists before calling it. The problem here is that we need to remember to wrap each call to an optional callback into a condition. It increases complexity and cognitive load and makes the code harder to read.
 
 One way to simplify the code here is by using optional chaining:
 
@@ -481,7 +481,7 @@ One way to simplify the code here is by using optional chaining:
  -->
 
 ```ts
-function getRandomeJoke(onDone, onError) {
+function getRandomJoke(onDone, onError) {
   fetch('https://api.chucknorris.io/jokes/random')
     .then(result => result.json())
     .then(data => {
@@ -495,10 +495,10 @@ function getRandomeJoke(onDone, onError) {
 
 <!--
 const onDone = jest.fn(), onError = jest.fn()
-getRandomeJoke(onDone, onError)
+getRandomJoke(onDone, onError)
 expect(onDone).toBeCalledWith('pizza')
 expect(onError).toBeCalledWith('nope')
-expect(() => getRandomeJoke(onDone)).not.toThrowError()
+expect(() => getRandomJoke(onDone)).not.toThrowError()
 -->
 
 It looks neater, however, it has the same issues as the `if` statement.
@@ -511,7 +511,7 @@ My favorite way to do it is by lifting the condition to the function head using 
  -->
 
 ```ts
-function getRandomeJoke(onDone, onError = () => {}) {
+function getRandomJoke(onDone, onError = () => {}) {
   fetch('https://api.chucknorris.io/jokes/random')
     .then(result => result.json())
     .then(data => {
@@ -525,10 +525,10 @@ function getRandomeJoke(onDone, onError = () => {}) {
 
 <!--
 const onDone = jest.fn(), onError = jest.fn()
-getRandomeJoke(onDone, onError)
+getRandomJoke(onDone, onError)
 expect(onDone).toBeCalledWith('pizza')
 expect(onError).toBeCalledWith('nope')
-expect(() => getRandomeJoke(onDone)).not.toThrowError()
+expect(() => getRandomJoke(onDone)).not.toThrowError()
 -->
 
 Now we could call the `onError` function whenever we need, and it won’t fail. It won’t do anything if we don’t pass it to the function, but we don’t need to care about this while we’re coding the function itself.

@@ -176,7 +176,7 @@ Side effects make code harder to understand because we can no longer treat a fun
 
 All array methods mentioned in the previous section, except `forEach()`, imply that they don’t have side effects and that only the return value is used. Introducing any side effects into these methods would make code easy to misread since readers won’t be expecting side effects.
 
-`forEach()` doesn’t return any value, and that’s the right choice for handling side effects when we really need them:
+The `forEach()` method doesn’t return any value, and that’s the right choice for handling side effects when we really need them:
 
 <!--
 const console = { error: jest.fn() }

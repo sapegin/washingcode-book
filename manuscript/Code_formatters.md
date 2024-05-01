@@ -1,4 +1,4 @@
-{#prettier}
+{#autoformat-your-code}
 
 ## Autoformat your code
 

@@ -201,7 +201,7 @@ const hour12 = locale === 'zh' || locale === 'ko' ? false : undefined;
 
 <!-- expect(hour12).toBe(false) -->
 
-I see lots of these comments in one-off design "adjustments". For example, a comment will say that there was a _design requirement_ to use a non-standard color but it won’t explain why it was required and why none of the standard colors worked in that case:
+I see lots of these comments in one-off design “adjustments”. For example, a comment will say that there was a _design requirement_ to use a non-standard color but it won’t explain why it was required and why none of the standard colors worked in that case:
 
 ```scss
 .shareButton {
@@ -244,7 +244,7 @@ $color--facebook: #3b5998; // Facebook brand color
 
 In any case, it’s our responsibility to ask _why_ as many times as necessary.
 
-Same with comments that explain conditions: there may be no need for a special case, and we could remove the whole condition with its comment. See more in the [Avoid conditons](#avoid-conditions) chapter.
+Same with comments that explain conditions: there may be no need for a special case, and we could remove the whole condition with its comment. See more in the [Avoid conditions](#avoid-conditions) chapter.
 
 ---
 
