@@ -735,7 +735,7 @@ While we’re waiting for JavaScript [to get native immutability](https://github
 
 **Preventing mutations** is good because it’s so easy to miss them during code reviews, and then spend many hours debugging weird issues.
 
-One way to prevent mutations is to use a linter. ESLint has several plugins that try to do just that, and we’ll discuss them in the [Lint your code](#lint-your-code) chapter.
+One way to prevent mutations is to use a linter. ESLint has several plugins that try to do just that, and we’ll discuss them in the [Lint your code](#linting) chapter.
 
 [eslint-plugin-better-mutation](https://github.com/sloops77/eslint-plugin-better-mutation) disallows any mutations, except for local variables in functions. This is a great idea because it prevents bugs caused by the mutation of shared objects but allows us to use mutations locally. Unfortunately, it breaks even in simple cases, such as a mutation occurring inside `.forEach()`.
 
@@ -820,7 +820,36 @@ And Immer will freeze the resulting object in development.
 
 In rare cases, imperative code with mutations isn’t so bad, and rewriting it in a declarative way without mutations doesn’t make it better.
 
-Consider this example:
+Consider this example where we conditionally create an array:
+
+<!-- let drinksAlcohol = true -->
+
+```js
+const drinks = [
+  'coffee', 'tea',
+  ...(drinksAlcohol ? ['vodka'] : []),
+];
+```
+
+<!-- expect(drinks).toEqual(['coffee', 'tea', 'vodka']) -->
+
+And here is the same example with mutation:
+
+<!-- let drinksAlcohol = true -->
+
+```js
+const drinks = [
+  'coffee', 'tea']
+  if(drinksAlcohol) {
+    drinks.push('vodka')
+  }
+```
+
+<!-- expect(drinks).toEqual(['coffee', 'tea', 'vodka']) -->
+
+I’m hesitant to say which one is more more readable.
+
+Here’s a more complex example:
 
 <!-- const addDays = x => x + 1 -->
 
