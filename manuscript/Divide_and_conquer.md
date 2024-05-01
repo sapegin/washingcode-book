@@ -1,10 +1,6 @@
-<!-- textlint-disable -->
-
 {#divide-and-conquer}
 
 # Divide and conquer, or merge and relax
-
-<!-- textlint-enable -->
 
 TODO: `util` and `utils` (what about them?): keep each function in it’s own file
 
@@ -61,7 +57,7 @@ Even code reuse can be a valid reason to separate code here: if we use some desi
 
 ## Keep together code that changes together
 
-It might be tempting to extract each and every function to its own module. And there are benefits to this approach, like easier testing and reuse.
+It might be tempting to extract every function to its own module. And there are benefits to this approach, like easier testing and reuse.
 
 However, we should be vigilant with letting others reuse our code. If we put a function that was used only once to a separate module, other developers may think that they can reuse it somewhere else, when in reality this function is likely not generic and not tested enough to be reused.
 
@@ -81,7 +77,7 @@ It might be a good idea to no allow other teams use our code unless it’s desig
 
 ## Sweep that ugly code under the rug
 
-Sometimes, we have to use an API that’s particularly difficult to use, or requre several steps in a particular order with particular parameters that are always the same. This is a good reason to create a utility function to make sure we always to it right. As a bonus: we could now write tests for this piece of code.
+Sometimes, we have to use an API that’s especially difficult to use, or requre several steps in a particular order with particular parameters that are always the same. This is a good reason to create a utility function to make sure we always to it right. As a bonus: we could now write tests for this piece of code.
 
 Various string manipulations, like URLs and filenames, are often good candidates for abstraction. And most likely, there’s already a library for what we’re trying to do.
 

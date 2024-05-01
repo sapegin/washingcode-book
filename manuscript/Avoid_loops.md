@@ -126,7 +126,7 @@ const kebabNames = names.map(name => _.kebabCase(name));
 
 <!-- expect(kebabNames).toEqual(['bilbo-baggins', 'gandalf', 'gollum']) -->
 
-This version is much easier to read because we know that the `map()` method transforms an array by keeping the same number of items. And, unlike `forEach()`, it doesn’t require a custom implementation or mutating an output array. In addition, the callback function is now pure: it merely transforms input parameters to the output value without any side effects.
+This version is much easier to read because we know that the `map()` method transforms an array by keeping the same number of items. And, unlike `forEach()`, it doesn’t require a custom implementation or mutating an output array. Also, the callback function is now pure: it merely transforms input parameters to the output value without any side effects.
 
 We run into similar problems when we abuse array method semantics:
 

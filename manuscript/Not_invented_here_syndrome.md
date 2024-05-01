@@ -48,7 +48,7 @@ This is already much better. Now, the question is whether we write this function
 
 It might be tempting to quickly write our own function or copypaste the code from Stack Overflow — what’s here to write anyway? — but we should first consider potential problems of maintaining our own solution:
 
-- Often poor tests and documentation, or none at all.
+- Often poor tests and documentation, or no documentation at all.
 - Many bugs aren’t fixed because of a low number of users.
 - No Google and Stack Overflow to help us when something isn’t working.
 - Maintenance may take a lot of time.
@@ -80,7 +80,7 @@ Another problem is when the library isn’t doing exactly what we want. In this 
 
 ## My approach to using third-party libraries
 
-I don’t have any strict rules on using third-party libraries versus in-house ones, and I believe the balance is important here, and both have their place in our work. For me, the choice depends on the complexity of the function I need, the type of the project (personal or not), my experience with a particular library that may do what I need, and so on.
+I don’t have any strict rules on using third-party libraries versus in-house ones, and balance is important here: both have their place in our work. For me, the choice depends on the complexity of the function I need, the type of the project (personal or not), my experience with a particular library that may do what I need, and so on.
 
 I use [Lodash](https://lodash.com/) on most of my web apps: it’s a hugely popular utility library for JavaScript that has lots of useful functions, and many developers have experience with it, so they’ll spend less time reading and understanding the code that uses these functions.
 

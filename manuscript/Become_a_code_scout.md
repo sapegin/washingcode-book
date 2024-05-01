@@ -16,7 +16,7 @@ It’s also worth mentioning the David Allen’s [2-minute rule](https://www.ski
 
 Same in programming. If fixing something takes less than two minutes, we should not postpone it, and fix it right away. And if it only takes two minutes to fix, it probably won’t make the pull request diff much larger.
 
-One may argue that doing all these improvements may introduce bugs and it’s true. However, I believe that with good test coverage, static typing and modern tooling, the benefits are greater than the risks.
+One may argue that doing all these improvements may introduce bugs and it’s true. However, with good test coverage, static typing, and modern tooling, the benefits are greater than the risks.
 
 I often do small improvements, like renaming variables, moving things around or adding comments, when I read the code. If something is confusing for me, I try to make it less confusing for my colleagues or future me.
 

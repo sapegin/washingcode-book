@@ -303,7 +303,7 @@ expect(breakpoints).toEqual(['480px', '768px', '1024px'])
 
 Here, it’s clear what `x` is in each example, and a longer name would bloat the code without making it more readable, likely less. We already have the full name in the parent function: we’re mapping over the `TRANSITION` object keys, and parsing each key; or we’re mapping over a list of breakpoints, and converting them to strings. It also helps that here we only have a single variable, so any short name will be read as “whatever we’re mapping over”.
 
-I usually use `x` in such cases. I think it’s more or less clear that it’s a placeholder and not an acronym of a particular word.
+I usually use `x` in such cases. I think it’s clear enough that it’s a placeholder and not an acronym of a particular word.
 
 Some developers prefer `_`, and it’s a good choice for any programming language that’s not JavaScript, where `_` is often used for [Lodash](https://lodash.com/) utility library.
 
@@ -906,7 +906,7 @@ expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: 
 expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: { userInfo: { userCurrency: 'eur' } }, currencies: {} } } }).toJS()).toEqual({iso: 'eur', name: '', symbol: ''})
 -->
 
-Now it’s clearer what shape of data we’re building here, and even Immutable.js isn’t so intimidating. I kept the `data` name though because that’s how it’s coming from the backend, and it’s commonly used as a sort of root object for whatever the backend API is returning. As long as we don’t leak it to the app code, and only use it during the initial processing of the raw backend data, it’s okay.
+Now it’s clearer what shape of data we’re building here, and even Immutable.js isn’t so intimidating. I kept the `data` name though because that’s how it’s coming from the backend, and it’s commonly used as a root object for whatever the backend API is returning. As long as we don’t leak it to the app code, and only use it during the initial processing of the raw backend data, it’s okay.
 
 Such names are also okay for generic utility functions, like array filtering or sorting:
 
@@ -1530,7 +1530,7 @@ const {container: c2} = RTL.render(<UserProfile user={{type: 'croc', name: 'Gena
 expect(c2.textContent).toEqual('Name: GenaAge: 37')
 -->
 
-The name still makes sense, when something like `isCroc` would have to be changed.
+The name still makes sense, when something like `isCroc` would require a change.
 
 Unfortunately, I don’t have a good solution for clashing React components and TypeScript types. This usually happens when we create a component to render an object or a certain type:
 
@@ -1586,6 +1586,7 @@ Start thinking about:
 
 - Replacing negative booleans with positive.
 - Reducing the scope or the lifespan of variables.
-- Choosing more or less specific names based on their scope or lifespan size.
+- Choosing more specific names for symbols with larger scope or longer lifespan.
+- Choosing shorter names for symbols with small scope and short lifespan.
 - Using destructuring to think less about inventing new names.
 - Choosing domain-specific names for local variables instead of more literal names.

@@ -8,7 +8,7 @@ That’s where the _linters_ come in. Linters check our code to make sure it fol
 
 Like any tool, linters could be used to make our lives easier, and our codebase more consistent and free of bugs, or they could be abused and make our lives full of pain.
 
-I believe anything that automates or simplifies bug fixing or code reviews should be a lint rule. However, there are many-many ways linting can go wrong, and that is what we’re going to talk about in this chapter.
+Almost anything that automates or simplifies bug fixing or code reviews worth implementing as a lint rule. However, there are many-many ways linting can go wrong, and that is what we’re going to talk about in this chapter.
 
 Linting in JavaScript has a long history that started in 2002 with JSLint by Douglas Crockford which was allowing developers catch some bugs but also was rigid and promoting a code style that nobody wanted to use. JSLint was later replaced by JSHint, which was less opinionated and more configurable, and then by [ESLint’s](https://eslint.org), which is now the standard for JavaScript linting with dozens of rules and plugins. There were a few other linters as well, like JSCS or Standard, but they were never as popular as these three.
 
@@ -394,7 +394,7 @@ The definition in the docs is too complex for me to even understand what this ru
 
 > Cyclomatic complexity measures the number of linearly independent paths through a program’s source code.
 
-In my understanding, it’s the same as the number of condition branches, but I may be wrong. For example, this code has a complexity of three:
+As I understand, it’s the same as the number of condition branches, but I may be wrong. For example, this code has a complexity of three:
 
 ```js
 function isItCake(a, b, c) {
@@ -774,6 +774,6 @@ And no lint rule is coded in stone: it’s always up to a developer writing code
 
 Start thinking about:
 
-- Adding lint rules for things you often point out during code reviews.
+- Adding lint rules for things you often comment during code reviews.
 - Removing lint rules that are frustrating or you often disable using a comment.
 - Adding lint rules for typos and bugs that often stay unnoticed.

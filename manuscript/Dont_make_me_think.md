@@ -196,7 +196,7 @@ expect(getAssetDirs({assetsDir: 'pizza'})).toEqual([{from: 'pizza'}])
 expect(getAssetDirs({assetsDir: ['pizza', 'tacos']})).toEqual([{from: 'pizza'}, {from: 'tacos'}])
 -->
 
-I don’t particularly like that Lodash’s `castArray()` function wraps `undefined` in an array, which isn’t what I’d expect, but still the result is simpler.
+I don’t like that Lodash’s `castArray()` function wraps `undefined` in an array, which isn’t what I’d expect, but still the result is simpler.
 
 ## Write parallel code
 

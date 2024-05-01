@@ -1,23 +1,27 @@
 {
-    "rules": {
-        "terminology": true,
-        "apostrophe": true,
-        "diacritics": true,
-        "common-misspellings": true,
-        "stop-words": {
-          "severity" : "warning"
-        },
-        "write-good": {
-            "severity" : "warning",
-            "adverb": false,
-            "passive": false,
-            "so": false,
-            "thereIs": false,
-            "tooWordy": false,
-            "weasel": false
-        }
+  "rules": {
+    "terminology": true,
+    "apostrophe": true,
+    "diacritics": true,
+    "common-misspellings": true,
+    "stop-words": {
+      "severity": "warning",
+      "exclude": [
+        "divide and conquer",
+        "we all know that"
+      ]
     },
-	"filters": {
-        "comments": true
+    "write-good": {
+      "severity": "warning",
+      "adverb": false,
+      "passive": false,
+      "so": false,
+      "thereIs": false,
+      "tooWordy": false,
+      "weasel": false
     }
+  },
+  "filters": {
+    "comments": true
+  }
 }

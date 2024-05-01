@@ -503,7 +503,7 @@ This is less important. You may argue that moving code to a new function just be
 
 ## Indeterminate loops
 
-Sometimes having a reassignment is quite okay. Indeterminate loops, the ones where we don’t know the number of iterations in advance, are a good case for reassignments.
+Sometimes having a reassignment is quite okay. Indeterminate loops, the ones where we don’t know the number of iterations up front, are a good case for reassignments.
 
 Consider this example:
 
