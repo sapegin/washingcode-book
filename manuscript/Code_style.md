@@ -165,7 +165,9 @@ test(() => {test2 = true})
 expect(test2).toBe(true);
 -->
 
-Shorter isn’t always better. (I’m fine with `pizza?.()` though.)
+Shorter isn’t always better. (I’m fine with `pizza?.()` though, sometimes.)
+
+**Tip:** Use `curly` ESLint rule to make sure all conditions have braces. See more in the [Lint your code](#linting) chapter.
 
 ## Obsolete code styles
 
