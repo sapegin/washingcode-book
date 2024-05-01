@@ -1,6 +1,6 @@
 # Become a code scout
 
-The (boy) scout rule states that we should leave the campground cleaner than we found it. For example, if someone else has left garbage, we should take it with us.
+The _campsite rule_ (previously known as _boy scout rule_) states that we should leave the campground cleaner than we found it. For example, if someone else has left garbage, we should take it with us.
 
 Same in programming. For example, we’re done with a task, running the linter before committing the changes, and notice that there are some warnings but not in the lines we’ve written or even changed. If it’s not a lot of work and won’t make the diff too big, we should fix these warnings, and make code cleaner for the next person who’s going to work with it.
 
@@ -8,7 +8,7 @@ I don’t fully agree with the idea that a particular code change (pull request)
 
 However, if the refactoring is really big, it’s better to postpone it or extract to a separate pull request if once we see that it makes the initial pull request too large (which I often do). If there’s no time to do it now, making a ticket explaining the improvement is a good idea.
 
-The opposite to the scout rule is [the broken windows theory](https://en.wikipedia.org/wiki/Broken_windows_theory). It states that an environment with visible signs of crime or disorder, like an unfixed broken window, encourages more crime and disorder. And that “fixing” these minor crimes creates an environment that prevents more serious crime.
+The opposite to the campsite rule is [the broken windows theory](https://en.wikipedia.org/wiki/Broken_windows_theory). It states that an environment with visible signs of crime or disorder, like an unfixed broken window, encourages more crime and disorder. And that “fixing” these minor crimes creates an environment that prevents more serious crime.
 
 Same in programming. Minor “crimes” here could be leaving lint warning unfixed, leaving debug code, unused or commented out code, sloppy and cluttered code. This creates an environment when nobody cares, because one new lint warning won’t make code with 1473 warnings significantly worse. It feels different when we introduce a new lint warning to a project that has none.
 
