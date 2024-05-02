@@ -8,7 +8,7 @@ TODO: AI
 
 ## Multiple cursors
 
-I use multiple cursors all the time when I edit code. Usually I use them one of the three ways:
+I use multiple cursors all the time when I edit code. Usually, I use them in one of three ways:
 
 1. **Add cursor below**: when I need to do the same changes to several lines of code.
 2. **Add selection to the next find match** or **Select all occurrences of find match**: when I want to change a few occurrences of a certain string, similar to **replace all** but it gives me slightly more control.
@@ -33,7 +33,7 @@ This is how I would do it:
 7. Type `from`.
 8. Press Cmd+Right and then Backspace twice to remove the `)` at the end of each line.
 
-![Using multiple cursors](images/multiple-cursors.png)
+![Using multiple cursors](resources/images/multiple-cursors.png)
 
 We’ll end up with this after reformatting the code:
 
