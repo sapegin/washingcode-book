@@ -1,6 +1,12 @@
+{#editors}
+
 ## Learn your code editor
 
 TODO: navigation to previous editing position
+
+TODO: Navigation to symbol definition and usages
+
+TODO: search (regexps?)
 
 TODO: refactoring
 
@@ -44,3 +50,7 @@ import userHome from 'user-home';
 ```
 
 This sounds like a lot, but it’s faster than changing each line manually or making a string replace with a regular expression (unless you need to do such a replacement in multiple files).
+
+Multiple cursors also help to avoid premature abstraction, when we have a few lines of code that look the same.
+
+TODO: Find an example

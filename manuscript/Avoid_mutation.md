@@ -637,12 +637,12 @@ Here we’re making a shallow copy of the `counts` array using the spread synta
 Another option is to wrap a mutating API into a new API that doesn’t mutate original values:
 
 ```js
-function sort(array) {
+function safeSort(array) {
   return [...counts].sort();
 }
 
 const counts = [6, 3, 2];
-const puppies = sort(counts).map(n => `${n} puppies`);
+const puppies = safeSort(counts).map(n => `${n} puppies`);
 ```
 
 <!-- expect(puppies).toEqual(['2 puppies', '3 puppies', '6 puppies']) -->
@@ -655,6 +655,18 @@ const puppies = _.sortBy(counts).map(n => `${n} puppies`);
 ```
 
 <!-- expect(puppies).toEqual(['2 puppies', '3 puppies', '6 puppies']) -->
+
+Another popular method is using the `slice()` method to create a copy of an array:
+
+```js
+const counts = [6, 3, 2];
+const sortedCounts = counts.slice().sort();
+const puppies = sortedCounts.map(n => `${n} puppies`);
+```
+
+<!-- expect(puppies).toEqual(['2 puppies', '3 puppies', '6 puppies']) -->
+
+I’d advice against it: spreading is slightly more readable, though both methods require some explanation the first time one sees them.
 
 ## Updating objects
 
@@ -825,10 +837,7 @@ Consider this example where we conditionally create an array:
 <!-- let drinksAlcohol = true -->
 
 ```js
-const drinks = [
-  'coffee', 'tea',
-  ...(drinksAlcohol ? ['vodka'] : []),
-];
+const drinks = ['coffee', 'tea', ...(drinksAlcohol ? ['vodka'] : [])];
 ```
 
 <!-- expect(drinks).toEqual(['coffee', 'tea', 'vodka']) -->
@@ -838,11 +847,10 @@ And here is the same example with mutation:
 <!-- let drinksAlcohol = true -->
 
 ```js
-const drinks = [
-  'coffee', 'tea']
-  if(drinksAlcohol) {
-    drinks.push('vodka')
-  }
+const drinks = ['coffee', 'tea'];
+if (drinksAlcohol) {
+  drinks.push('vodka');
+}
 ```
 
 <!-- expect(drinks).toEqual(['coffee', 'tea', 'vodka']) -->
