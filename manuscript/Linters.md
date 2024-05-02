@@ -236,7 +236,7 @@ This rule disallows the use of `undefined`.
 
 One of the many JavaScript quirks is that there are two keywords that do pretty much the same but at the same time are disturbingly different: `undefined` and `null`.
 
-I always preferred `undefined` over `null`, and it looks like the language itself does the same: for example, default values for function parameters and in object destructuring are triggered on `undefined` values, not on `null`. I [almost never use `null`](https://lukeshiru.dev/articles/we-dont-need-null), disallowing `undefined` would make us write awkward code without solving any real problems. The ability to overwrite the value of `undefined` mentioned in the rule docs is so 2000s, I wouldn’t bother about this.
+I always preferred `undefined` over `null`, and it looks like the language itself does the same: for example, default values for function parameters and in object destructuring are triggered on `undefined` values, not on `null`. I [almost never use `null`](https://github.com/sindresorhus/meta/discussions/7), disallowing `undefined` would make us write awkward code without solving any real problems. The ability to overwrite the value of `undefined` mentioned in the rule docs is so 2000s, I wouldn’t bother about this.
 
 #### [no-else-return](https://eslint.org/docs/rules/no-else-return)
 
