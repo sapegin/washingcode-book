@@ -469,6 +469,50 @@ if (isFriday === false) {
 expect(result).toBe(true)
 -->
 
+Another example where we can improve readability a bit is checking whether a value is between two numbers. A naïve way to so would like so:
+
+<!-- let inside = false, x = 7 -->
+
+```js
+if (x > 3 && x < 13) {
+```
+
+<!--
+inside = true
+}
+expect(inside).toBe(true)
+-->
+
+This reads like “x is greater than 3 _and_ lower than 13”, which is fine but we can do better:
+
+<!-- let inside = false, x = 7 -->
+
+```js
+if (3 < x && x < 13) {
+```
+
+<!--
+inside = true
+}
+expect(inside).toBe(true)
+-->
+
+Now, it’s easier to see that we want `x` to be _between_ 3 and 13.
+
+We can use the same approach to check whether a value is outside a range:
+
+<!-- let inside = false, x = 7 -->
+
+```js
+if (x < 3 || 13 < x) {
+```
+
+<!--
+inside = true
+}
+expect(inside).toBe(false)
+-->
+
 ## Christmas trees vs. sausages
 
 I used to have a limit of 120 characters per line because why not, I have a big screen that could fit a lot of code, I should use the space available to me! Then I lowered it to 100 characters, and then to 80, which is a Prettier’s default value that in their docs they [highly recommend not to change](https://prettier.io/docs/en/options.html#print-width).
