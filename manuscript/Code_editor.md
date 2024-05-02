@@ -14,7 +14,7 @@ TODO: AI
 
 ## Multiple cursors
 
-I use multiple cursors all the time when I edit code. Usually I use them one of the three ways:
+I use multiple cursors all the time when I edit code. Usually, I use them in one of three ways:
 
 1. **Add cursor below**: when I need to do the same changes to several lines of code.
 2. **Add selection to the next find match** or **Select all occurrences of find match**: when I want to change a few occurrences of a certain string, similar to **replace all** but it gives me slightly more control.
