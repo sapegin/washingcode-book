@@ -2,7 +2,7 @@
 
 # Code style
 
-I used to be very strict about [code style](https://blog.sapegin.me/all/prettier/). I thought my code style was better than others’, but later I’ve realized that it was just different. And it wasn’t the most popular, so anyone else’s code looked wrong to me.
+I used to be very strict about [code style](https://blog.sapegin.me/all/prettier/). I thought my code style was better than others’, but later I realized that it was just different. And it wasn’t the most popular, so anyone else’s code looked wrong to me.
 
 For example, after reading the [The Programmers’ Stone](https://www.datapacrat.com/Opinion/Reciprocality/r0/index.html) I was formatting braces like this for a long time:
 
@@ -20,14 +20,14 @@ else
 }
 ```
 
-Or I had two spaces in front of inline comments to better separate them from code:
+Or I had two spaces in front of inline comments to better separate them from the code:
 
 <!-- prettier-ignore -->
 ```js
 const volume = 200;  // ml
 ```
 
-So if any other developer touched my code, they would definitely make it inconsistent, because unlikely they would follow _my code style_ — so uncommon it was. And code review would be a nightmare if I wanted to enforce _my code style_.
+So if any other developer touched my code, they would definitely make it inconsistent, because it unlikely they would follow _my code style_ — so uncommon it was. And code review would be a nightmare if I wanted to enforce _my code style_.
 
 ## Not all code styles are good
 
@@ -114,7 +114,7 @@ test(() => {test2 = true})
 expect(test2).toBe(true);
 -->
 
-I think it really damages readability of the code. The longer the condition, the harder it is to see the body:
+I think it really damages the readability of the code. The longer the condition, the harder it is to see the body:
 
 <!-- function test(recipeDetails) { -->
 
@@ -257,7 +257,7 @@ expect(result).toBe(true)
 
 ## Nonsensical code styles
 
-Some code styles don’t solve any particular problem, but are expensive to maintain.
+Some code styles don’t solve any particular problem but are expensive to maintain.
 
 For example, aligning object values or right-hands of assignments horizontally to make them look “pretty”:
 
@@ -271,7 +271,7 @@ var fs       = require('fs')
 
 <!-- expect(examples).toEqual('./README.md') -->
 
-Editing code written in such style takes enormous amount of work, and luckily code formatters will remove all the artisanal handcrafted spaces and make code look equally good without requiring any work from a developer:
+Editing code written in such style takes an enormous amount of work, and luckily code formatters will remove all the artisanal handcrafted spaces and make code look equally good without requiring any work from a developer:
 
 ```js
 var fs = require('fs'),
@@ -291,7 +291,7 @@ const examples = reamde(fs.readFileSync('./README.md', 'utf-8'));
 
 <!-- expect(examples).toEqual('./README.md') -->
 
-This will not only make it slightly more readable but also easier to add, remove or move variable declarations.
+This will not only make it slightly more readable but also easier to add, remove, or move variable declarations.
 
 ## Improving readability
 
@@ -577,7 +577,7 @@ expect(test('dachshund')).toEqual('yogurt')
 expect(test('saluki')).toEqual(undefined)
 -->
 
-In longstringer code, we’ll see many ternaries, complex string templates, nesting, multiple operations on the same line, long variable names even in a very small scope, an so on.
+In longstringer code, we’ll see many ternaries, complex string templates, nesting, multiple operations on the same line, long variable names even in a very small scope, and so on.
 
 On the other hand, the shortstringers write code that looks like one side of a Christmas tree:
 
@@ -639,13 +639,13 @@ expect(test('dachshund')).toEqual('yogurt')
 expect(test('saluki')).toEqual(undefined)
 -->
 
-In shortstringer code, we’ll see early returns, extra functions and variables to reduce the number of operations in one line and give things names, less nesting, variable name lengths depending on the size or their scope (longer names for larger scope), and so on.
+In shortstringer code, we’ll see early returns, extra functions, and variables to reduce the number of operations in one line and give things names, less nesting, variable name lengths depending on the size or their scope (longer names for larger scope), and so on.
 
-It’s easier to follow conditions, notice `return` statements in the functions, and generally see what’s happening. The important code — like adding new values to an object — isn’t buried somewhere in a very long line, and clearly separated from the data management code (see [Separate what and how](#separate-what-and-how) chapter). The code has more whitespace and shape that makes it easier to scan.
+It’s easier to follow conditions, notice `return` statements in the functions, and generally see what’s happening. The important code — like adding new values to an object — isn’t buried somewhere in a very long line, and clearly separated from the data management code (see [Separate what and how](#separate-what-and-how) chapter). The code has more whitespace and shape which makes it easier to scan.
 
 I’m clearly a shortstringer.
 
-Another issue of the longstringer approach is that Prettier with default setting of 80 characters will likely make the code ugly and quite unreadable:
+Another issue of the longstringer approach is that Prettier with a default setting of 80 characters will likely make the code ugly and quite unreadable:
 
 <!-- const puppies = [{id: 1, name: 'Dessi', parentId: 3 },{id: 2, name: 'Tsiri', parentId: 3 },{id: 3, name: 'Cthulhu' },] -->
 
@@ -705,29 +705,29 @@ expect(test('saluki')).toEqual(undefined)
 
 The shortstringer code stays the same.
 
-And coming back to screens with limited number of characters, I now use 27" screen, split into two windows side by side. Each side fit around 80 characters plus a sidebar with the repository tree.
+And coming back to screens with a limited number of characters, I now use 27" screen, split into two windows side by side. Each side fits around 80 characters plus a sidebar with the repository tree.
 
 ![Coding on 27" screen](images/27inches.png)
 
 ## Make it easy to remember and use
 
-Some conventions are easy to use, some are not so much. Let’s compare three popular conventions for _title casing_:
+Some conventions are easy to use, and some are not so much. Let’s compare three popular conventions for _title casing_:
 
 - **sentence case:** only the first word is capitalized, like in a regular sentence (example: _Breakfast: The most important book about the best meal of the day_);
 - **upper case:** all words are capitalized (example: _Breakfast: The Most Important Book About the Best Meal Of The Day_);
 - **AP/APA:** see below (example: _Breakfast: The Most Important Book About the Best Meal of the Day_).
 
-The first two are easy to remember: it’s all or nothing. The last one, hovewer, not at all. Here are the rules of the AP/APA title style (quoted from the [ap-style-title-case](https://github.com/words/ap-style-title-case) package docs):
+The first two are easy to remember: it’s all or nothing. The last one, however, not at all. Here are the rules of the AP/APA title style (quoted from the [ap-style-title-case](https://github.com/words/ap-style-title-case) package docs):
 
 - always capitalize the first word, even if it’s a stop word
 - always capitalize the last word, even if it’s a stop word
 - lowercase these words: `a`, `an`, `and`, `at`, `but`, `by`, `for`, `in`, `nor`, `of`, `on`, `or`, `so`, `the`, `to`, `up`, `yet`
 
-> Many writers make the error of leaving `to be` verbs in lower case. Even though `is`, `are`, `was`, and `be`, are all short words, they should still be capitalized in a title because they are verbs.
+> Many writers make the error of leaving `to be` verbs in lowercase. Even though `is`, `are`, `was`, and `be`, are all short words, they should still be capitalized in a title because they are verbs.
 >
 > When you write titles that contain prepositions, your word processor will likely tell you that you should leave words like `with`, `about`, and `around` lowercase. Defiantly look past the squiggly line indicating a potential error, and remember that in AP title case, prepositions with four or more letters should be capitalized.
 
-This is way to much to rember and it has too many exceptions to be practical. It also doesn’t make text more readable, and, to my taste, prettier. Automation could help with managing complexity, but then the convention should have significant benefits, and this one doesn’t. That’s why I use sentence case in all my writing, including this book.
+This is way too much to remember and it has too many exceptions to be practical. It also doesn’t make text more readable, and, to my taste, prettier. Automation could help with managing complexity, but then the convention should have significant benefits, and this one doesn’t. That’s why I use sentence case in all my writing, including this book.
 
 This is an extreme case of an inconvenient convention. Programmers rarely go that far but sometimes they try.
 
@@ -737,11 +737,11 @@ One example is [Microsoft .NET naming conventions](https://learn.microsoft.com/e
 
 > A special case is made for two-letter acronyms in which both letters are capitalized, as shown in the following identifier: `IOStream`.
 
-I don’t see how this improves anything: `IoStream` is easier to read than `IOStream`, and there’s no need to remember about a special rule.
+I don’t see how this improves anything: `IoStream` is easier to read than `IOStream`, and there’s no need to remember a special rule.
 
 And then even Microsoft couldn’t follow their own guidelines with [XMLHttpRequest](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest).
 
-So, choose the simplest convention, unless more complex rules bring huge benefits. If that is so, thorougly document and automate it.
+So, choose the simplest convention, unless more complex rules bring huge benefits. If that is so, thoroughly document and automate it.
 
 ## The rest doesn’t matter
 
@@ -778,7 +778,7 @@ function ingredientToString({ name, quantity }) {
 
 I prefer the last one for the reasons I explain in the [Naming is hard](#naming-is-hard) chapter, but I wouldn’t ask another developer to change their code just because they use another option: they are all fine.
 
-A few more examples below.
+A few more examples are below.
 
 Old-style functions or arrow functions, explicit return or implicit return:
 
@@ -824,16 +824,16 @@ const {container: c1} = RTL.render(<Button>Tacos</Button>);
 expect(c1.textContent).toEqual('Tacos')
 -->
 
-I can probably write a whole book of such examples, and let’s not forget the eternal debate of tabs vesus spaces.
+I can probably write a whole book of such examples, and let’s not forget the eternal debate of tabs versus spaces.
 
 In all the examples above I prefer the last variation but I’d never ask someone to change their code during code review if they use another variation.
 
-There’s zero code readability improvement. The code is just different, none of the variations are better than the other. And even the consistency argument isn’t good enough, unless we can automate code replacement completely transparently for the developer. Otherwise the cost of maintaining the convention would be too high.
+There’s zero code readability improvement. The code is just different, none of the variations are better than the other. And even the consistency argument isn’t good enough unless we can automate code replacement completely transparently for the developer. Otherwise, the cost of maintaining the convention would be too high.
 
 ## Conclusion
 
-My rule of thumb here is: automate or forget. For example, [Prettier](https://prettier.io/) (see the [Autoformat your code](#autoformat-your-code) chapter) formats code with almost zero config, which saves enormous amount of time while you write code, read someone else’s code or discuss code style in your team.
+My rule of thumb here is: automate or forget. For example, [Prettier](https://prettier.io/) (see the [Autoformat your code](#autoformat-your-code) chapter) formats code with almost zero config, which saves an enormous amount of time while you write code, read someone else’s code or discuss code style in your team.
 
-Be vigilant when you adapt [a popular code styles](https://blog.sapegin.me/all/javascript-code-styles/): many are too opinionated and want us to write code in a very specific way, even when it doesn’t improve readability or maintainability of the code, or reduce the number of bugs.
+Be vigilant when you adapt [a popular code styles](https://blog.sapegin.me/all/javascript-code-styles/): many are too opinionated and want us to write code in a very specific way, even when it doesn’t improve the readability or maintainability of the code, or reduce the number of bugs.
 
 Prefer explicit over implicit, write code to maximize readability but don’t be too strict with others when they don’t do it the same way you would. Next time you review someone else’s code and want to ask them to change a piece of code, ask yourself: does it really make code more readable and maintainable or just makes it look more familiar to me. If it’s the latter, please don’t write that comment.
