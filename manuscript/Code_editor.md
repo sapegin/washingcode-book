@@ -33,7 +33,7 @@ This is how I would do it:
 7. Type `from`.
 8. Press Cmd+Right and then Backspace twice to remove the `)` at the end of each line.
 
-![Using multiple cursors](resources/images/multiple-cursors.png)
+![Using multiple cursors](images/multiple-cursors.png)
 
 We’ll end up with this after reformatting the code:
 
