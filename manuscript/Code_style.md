@@ -27,7 +27,7 @@ Or I had two spaces in front of inline comments to better separate them from the
 const volume = 200;  // ml
 ```
 
-So if any other developer touched my code, they would definitely make it inconsistent, because it unlikely they would follow _my code style_ — so uncommon it was. And code review would be a nightmare if I wanted to enforce _my code style_.
+So if any other developer touched my code, they would definitely make it inconsistent, because it’s unlikely that they would follow _my code style_ — so uncommon it was. And code review would be a nightmare if I wanted to enforce _my code style_.
 
 ## Not all code styles are good
 
