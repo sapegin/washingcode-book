@@ -8,7 +8,6 @@ Avoid_comments.md
 Naming_is_hard.md
 Code_style.md
 Constants.md
-Separate_what_and_how.md
 Divide_and_conquer.md
 Dont_make_me_think.md
 Make_impossible_states_impossible.md
