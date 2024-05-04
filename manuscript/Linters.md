@@ -278,7 +278,7 @@ expect(somethingToSomethingElse(42)).toBe(1)
 expect(somethingToSomethingElse(41)).toBe(2)
 -->
 
-I prefer the latter, but I’d never force anyone to write either of them — both are perfectly fine. I call this pattern _parallel code_ (see more in [Don’t make me think](#dont-make-me-think) chapter).
+I prefer the latter, but I’d never force anyone to write either of them — both are perfectly fine. I call this pattern _parallel code_ (see more in [Don’t make me think](#thinking) chapter).
 
 #### [id-length](https://eslint.org/docs/rules/id-length)
 

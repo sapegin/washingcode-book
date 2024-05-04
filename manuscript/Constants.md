@@ -250,7 +250,7 @@ const SIZE_SMALL = 'small';
 const SIZE_MEDIUM = 'medium';
 ```
 
-Here, the common part of the names, the `SIZE_` prefix, is aligned. I call this _parallel coding_. (We talk more about parallel coding in the [Don’t make me think](#dont-make-me-think) chapter.)
+Here, the common part of the names, the `SIZE_` prefix, is aligned. I call this _parallel coding_. (We talk more about parallel coding in the [Don’t make me think](#thinking) chapter.)
 
 Another option is to use an object:
 
