@@ -236,7 +236,11 @@ This rule disallows the use of `undefined`.
 
 One of the many JavaScript quirks is that there are two keywords that do pretty much the same but at the same time are disturbingly different: `undefined` and `null`.
 
-I always preferred `undefined` over `null`, and it looks like the language itself does the same: for example, default values for function parameters and in object destructuring are triggered on `undefined` values, not on `null`. I [almost never use `null`](https://github.com/sindresorhus/meta/discussions/7), disallowing `undefined` would make us write awkward code without solving any real problems. The ability to overwrite the value of `undefined` mentioned in the rule docs is so 2000s, I wouldn’t bother about this.
+I always preferred `undefined` over `null`, and it looks like the language itself does the same: for example, default values for function parameters and in object destructuring are triggered on `undefined` values, not on `null`. I [almost never use `null`](https://github.com/sindresorhus/meta/discussions/7), disallowing `undefined` would make us write awkward code without solving any real problems.
+
+It’s true that one can overwrite the value of `undefined`, but I wouldn’t bother about this now, especially if we’re using TypeScript.
+
+Some people believe that `null` and `undefined` have different semantics: they say that `null` is _intentional absence of any value_, and `undefined` is like _the value was never defined or unknown_. For me, it’s 50 shades of nothingness, and I doubt many developers reading code, that’s using both, would know the difference.
 
 #### [no-else-return](https://eslint.org/docs/rules/no-else-return)
 
@@ -353,7 +357,7 @@ This rule disallows `TODO` and `FIXME` comments. This is how it’s described in
 
 This statement is totally disconnected from reality: in real projects, it’s often impossible or impractical to fix all issues before code hits production, and disallowing such comments will only lead to lower quality of the comments, not higher quality of the code.
 
-We talk more about comments, `TODO` comments in particular, in the [Avoid comments](#avoid-comments) chapter.
+We talk more about comments, todo comments in particular, in the [Avoid comments](#avoid-comments) chapter.
 
 ### [one-var](https://eslint.org/docs/latest/rules/one-var) and [vars-on-top](https://eslint.org/docs/latest/rules/vars-on-top)
 
@@ -464,8 +468,6 @@ expect(result).toBe('TRUE')
 -->
 
 In my projects, this pattern isn’t common enough to allow an exception, and I can write an expanded comparison using `===` when I need it.
-
-Personally, I avoid `null` in my code whenever possible and use `undefined` but there are some legacy or obscure APIs that still use it.
 
 Shockingly, this rule isn’t included in the recommended ESLint config.
 
