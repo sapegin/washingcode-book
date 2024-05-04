@@ -2,17 +2,33 @@
 
 ## Learn your code editor
 
+### Make it your own
+
+One of the biggest features of moderns development environments and code editors is their flexibility and customizability: hundreds of color schemes, fonts made specifically for programming, any part of UI can be hidden or adjusted...
+
+I [don’t do well with distractions](https://sapegin.me/blog/adhd-focus/) and overstimulation, so my environment is very minimal and with very low contrast. In some editors it’s called _zen mode_ but for me it’s my normal mode.
+
+1. Choose a nice coding font. I’ve been using different fonts over the years – Consolas, Hack... For the past few years I use MonoLisa.
+
+2. Choose a comfortable theme with the right amount of color and contrast: the one that won’t make you tired after looking at it all day long. I had to make my own color theme because there aren’t many good looking light themes, and most of them have very high contrast too me. Bright and contrast colors distract and tire me.
+
+3. Customize the UI
+
+4. Learn / customize the shortcuts
+
+5. TODO
+
+TODO: screenshot
+
+### Code navigation
+
 TODO: navigation to previous editing position
 
 TODO: Navigation to symbol definition and usages
 
-TODO: search (regexps?)
+TODO: Symbols
 
-TODO: refactoring
-
-TODO: AI
-
-## Multiple cursors
+### Multiple cursors
 
 I use multiple cursors all the time when I edit code. Usually, I use them in one of three ways:
 
@@ -54,3 +70,35 @@ This sounds like a lot, but it’s faster than changing each line manually or ma
 Multiple cursors also help to avoid premature abstraction, when we have a few lines of code that look the same.
 
 TODO: Find an example
+
+### Code search
+
+TODO: search (regexps?)
+
+TODO: Fuzzy file open
+
+### Automated refactoring
+
+TODO: refactoring
+
+My favorite refactorings are:
+
+- Inline: replaces all usages of a variable or a function with their bodies.
+- TODO
+
+### Artificial intelligence
+
+Artificial intelligence (AI) is a new useful tool that’s already changing software development for better and for worse. I have many feelings and opinions on these changes, though they are probably out of scope of this book.
+
+I regularly use AI to help me write code, and here are my most common use cases:
+
+- Bootstrapping a new project, especially with a tech stack I’m not very familiar with and can’t copypaste files from an existing project.
+- Small utility functions (I used to copy them from Stack Overflow).
+- Draft code when I’m stuck.
+- Throw-away code, like scripts that I want to run only once.
+- Coding “bureaucracy”: generating TypeScript types or some tricky syntax I never remember.
+- Asking random questions on how to use a certain library or implement a certain thing, similar to Stack Overflow.
+
+I use two tools: [GitHub Copilot](https://github.com/features/copilot) and (rarely) ChatGPT.
+
+![GitHub Copilot inline chat](images/github-copilot-inline-chat.png)
