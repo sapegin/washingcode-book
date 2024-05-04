@@ -91,16 +91,16 @@ And any hack should be explained in a _hack comment_:
 <!-- class Test { -->
 
 ```js
-  // HACK: Importing defaultProps from another module crashes Storybook Docs,
-  // so we have to duplicate them here
-  static defaultProps = {
-    label: '',
-  }
+// HACK: Importing defaultProps from another module crashes Storybook Docs,
+// so we have to duplicate them here
+static defaultProps = {
+  label: '',
+}
 ```
 
-You may encounter various styles of hack comments: `HACK`, `XXX`, `@hack`, and so on, though I prefer `HACK`.
-
 <!-- } -->
+
+You may encounter various styles of hack comments: `HACK`, `XXX`, `@hack`, and so on, though I prefer `HACK`.
 
 _Todo comments_ are also okay (more like _okayish_) too if they contain a ticket number when something will be done. Otherwise, they are just dreams that will likely never come true. Unless _a dream_ is exactly what we want to document: a desire that the code was doing more than it does – error handling, special cases, supporting more platforms, minor features, and so on – but it wasn’t implemented due to, probably, lack of time.
 
