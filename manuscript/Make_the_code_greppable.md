@@ -11,3 +11,5 @@ http://jamie-wong.com/2013/07/12/grep-test/
 TODO: This might be less important in TypeScript but not really
 
 TODO: Why default exports are bad: decreased greppability
+
+TODO: unique module names

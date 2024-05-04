@@ -18,7 +18,6 @@ Make_the_code_greppable.md
 Cargo_cult_programming.md
 Not_invented_here_syndrome.md
 Refactoring_is_inevitable.md
-Code_is_evil.md
 Linters.md
 Code_formatters.md
 Types.md
