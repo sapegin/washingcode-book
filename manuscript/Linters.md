@@ -564,6 +564,8 @@ expect(test({method: 'GET'})).toBe(undefined)
 expect(test({method: 'POST'})).toBe(true)
 -->
 
+It also gives it a familiar shape, which makes it easier to spot a condition while quickly scanning the code. Without braces, it looks like any other line.
+
 This rule is autofixable but not included in the recommended config.
 
 #### [max-params](https://eslint.org/docs/rules/max-params)
