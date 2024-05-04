@@ -84,9 +84,9 @@ Comments are useful to answer _why_ code is written in a certain, often mysterio
 
 Such comments will save us from accidental “refactoring” that makes code easier but removes some necessary functionality or breaks it for some users.
 
-High-level comments, explaining how code works, are useful too. If the code implements an algorithm, explained somewhere else, a link to that place would be useful.
+High-level comments, explaining how code works, are useful too. If the code implements an algorithm, explained somewhere else, a link to that place would be useful. However, if a piece of code is too difficult to explain and require a long convoluted comment, perhaps we should rewrite it instead.
 
-And any hack should be explained in a `HACK` or `FIXME` comment:
+And any hack should be explained in a _hack comment_:
 
 <!-- class Test { -->
 
@@ -98,9 +98,11 @@ And any hack should be explained in a `HACK` or `FIXME` comment:
   }
 ```
 
+You may encounter various styles of hack comments: `HACK`, `XXX`, `@hack`, and so on, though I prefer `HACK`.
+
 <!-- } -->
 
-`TODO` comments are okay (more like _okayish_) too if they contain a ticket number when something will be done. Otherwise, they are just dreams that will likely never come true. Unless _a dream_ is exactly what we want to document: a desire that the code was doing more than it does – error handling, special cases, supporting more platforms, minor features, and so on – but it wasn’t implemented due to, probably, lack of time.
+_Todo comments_ are also okay (more like _okayish_) too if they contain a ticket number when something will be done. Otherwise, they are just dreams that will likely never come true. Unless _a dream_ is exactly what we want to document: a desire that the code was doing more than it does – error handling, special cases, supporting more platforms, minor features, and so on – but it wasn’t implemented due to, probably, lack of time.
 
 <!--
 const Environment = {
@@ -170,6 +172,24 @@ try {
 ```
 
 Now, it’s clear whether we intentionally ignore errors or we want to add error handling in the future.
+
+You may encounter various styles of todo comments: `TODO`, `FIXME`, `UNDONE`, `@todo`, `@fixme`, and so on, though I prefer `TODO`.
+
+However, there’s a type of todo comments I don’t recommend – comments with expiration date:
+
+```js
+// TODO [2024-05-12]: Refactor this code before the sprint ends
+```
+
+We can check these todo comments with [unicorn/expiring-todo-comments](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/expiring-todo-comments.md) lint rule, so our build will fail after the date mentioned in the comment. This is unhelpful because it usually happens when we work on an unrelated part of the code, and so we’re forced to deal with the comment right away — most likely by adding another months to the date.
+
+There are other conditions in the `unicorn/expiring-todo-comments` rule that might be more useful, for example, dependency version:
+
+```js
+// TODO [react@>=18]: Use useId hook instead of generating IDs manually
+```
+
+This is a better use case because it’s going to fail only when someone updates React, and fixing such todos should probably be part of the upgrade.
 
 ## Bad comments
 
