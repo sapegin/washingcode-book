@@ -316,7 +316,7 @@ expect(props).toHaveProperty('data-codeception-id', 'type-Col-2')
 
 Now it’s really hard to see if there’s any difference in these two lines of code. Remember these pairs of pictures where one had to spot ten differences? This is exactly what this kind of code does for the reader.
 
-Generally, I’m a bit skeptical about extreme code DRYing (don’t repeat yourself) but this is a good case for it:
+Generally, I’m a bit skeptical about extreme code DRYing (don’t repeat yourself, see the [Divide and conquer, or merge and relax](#divide-and-conquer) chapter) but this is a good case for it:
 
 <!-- const type = 'type', columnName = 'col', rowIndex = 2, toTitleCase = x => _.startCase(_.toLower(x)) -->
 

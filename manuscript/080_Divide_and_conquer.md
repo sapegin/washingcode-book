@@ -12,7 +12,7 @@ It’s nice to have a global Button component but if it’s too flexible and has
 
 ## Let abstractions grow
 
-We, developers, hate to do the same work twice. _Don’t repeat yourself_ (DRY) is our mantra. But when we have two or three pieces of code that kinda do the same thing, it may be still too early to introduce an abstraction, no matter how tempting it may feel.
+We, developers, hate to do the same work twice. [Don’t repeat yourself](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) (DRY) is our mantra. But when we have two or three pieces of code that kinda do the same thing, it may be still too early to introduce an abstraction, no matter how tempting it may feel.
 
 Live with the pain of code duplication for a while, maybe it’s not so bad in the end, and the code is actually not exactly the same. Some level of code duplication is healthy and allows us to iterate and evolve code faster, without caring so much that we break something.
 
@@ -73,11 +73,11 @@ This is sometimes called _colocation_. Another example here is React components:
 
 _Change reason_ is also known as the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle): “every module, class, or function should have responsibility over a single part of the functionality provided by the software, and that responsibility should be entirely encapsulated by the class”.
 
-It might be a good idea to no allow other teams use our code unless it’s designed and marked as shared. [Dependency cruiser](https://github.com/sverweij/dependency-cruiser) is a tool that could help to set up such rules on a project.
+T> It might be a good idea to no allow other teams use our code unless it’s designed and marked as shared. [Dependency cruiser](https://github.com/sverweij/dependency-cruiser) is a tool that could help to set up such rules on a project.
 
 ## Sweep that ugly code under the rug
 
-Sometimes, we have to use an API that’s especially difficult to use, or requre several steps in a particular order with particular parameters that are always the same. This is a good reason to create a utility function to make sure we always to it right. As a bonus: we could now write tests for this piece of code.
+Sometimes, we have to use an API that’s especially difficult to use, or require several steps in a particular order with particular parameters that are always the same. This is a good reason to create a utility function to make sure we always to it right. As a bonus: we could now write tests for this piece of code.
 
 Various string manipulations, like URLs and filenames, are often good candidates for abstraction. And most likely, there’s already a library for what we’re trying to do.
 
@@ -220,7 +220,7 @@ Now we have less code, it’s easier to understand, and autocompletion show the 
 
 {#separate-what-and-how}
 
-# Separate “what” and “how”
+## Separate “what” and “how”
 
 Declarative code describes the result and imperative explains how to achieve it.
 
@@ -241,6 +241,79 @@ For example, a form validation (see “Avoid conditions” for the code) could b
 - a function that validates form values using a list of validations.
 
 TODO: The last two things are pretty generic.
+
+## Stay hydrated
+
+To troll the DRYers someone invented another term: [WET](https://overreacted.io/the-wet-codebase/), _write everything twice_ or _we enjoy typing_, meaning we should duplicate code at least twice until we replace it with an abstraction. It is a joke and I don’t fully agree with te idea (sometimes it okay to duplicate some code more than twice) but it’s a good reminder that all good things are good in moderation.
+
+Consider this example:
+
+<!--
+let visitStory = () => {}
+let tester = { should: () => {}, click: () => {} }
+let cy = { findByText: () => tester, findByTestId: () => tester, }
+let it = (_, fn) => fn()
+-->
+
+```js
+const stories = {
+  YOUR_RECIPES: 'page--yourrecipes',
+  ALL_RECIPES: 'page--allrecipes',
+  CUISINES: 'page--cuisines',
+  RECIPE: 'page--recipe'
+};
+
+const testIds = {
+  ADD_TO_FAVORITES: 'add-to-favs-button',
+  QR_CLOSE: 'qr-close-button',
+  QR_CODE: 'qr-code',
+  MOBILE_CTA: 'transfer-button'
+};
+
+const copyTesters = {
+  titleRecipe: /Cochinita Pibil Tacos/,
+  titleYourRecipes: /Your favorite recipes on a single page/,
+  addedToFavorites: /In favorites/
+  // Many more lines...
+};
+
+it('Your recipes', () => {
+  visitStory(stories.RECIPE);
+
+  cy.findByText(copyTesters.titleRecipe).should('exist');
+
+  cy.findByTestId(testIds.ADD_TO_FAVORITES).click();
+  cy.findByText(copyTesters.addedToFavorites).should('exist');
+
+  // Lots of lines in similar style...
+});
+```
+
+This an extreme example of code DRYing, and it doesn’t make code neither more readable nor mor maintainable. Especially, because most of these constants are used only ones. Seeing variable names instead of actual strings is unhelpful.
+
+Let’s inline all these extra variables. Unfortunately, inline refactoring in Visual Studio Code doesn’t support inlining object properties, so we have to do it manually:
+
+<!--
+let visitStory = () => {}
+let tester = { should: () => {}, click: () => {} }
+let cy = { findByText: () => tester, findByTestId: () => tester, }
+let it = (_, fn) => fn()
+-->
+
+```js
+it('Your recipes', () => {
+  visitStory('page--recipe');
+
+  cy.findByText(/Cochinita Pibil Tacos/).should('exist');
+
+  cy.findByTestId('add-to-favs-button').click();
+  cy.findByText(/In favorites/).should('exist');
+
+  // Lots of lines in similar style...
+});
+```
+
+Now, we have significantly less code, and it’s easier to understand what’s going on, and easier to update or delete tests.
 
 ---
 
