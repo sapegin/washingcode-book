@@ -170,6 +170,35 @@ const isExpectedType =
 
 Both refactored versions make the intention of the code clearer and leave fewer doubts that the code is correct. We can probably make the `isExpectedType` variable name more explicit, especially in the second refactoring.
 
+## Chaining multiple operations
+
+I’ve seen developers trying to squeeze everything into a single `reduce()` method to avoid extra iterations. Consider this example:
+
+<!-- let cart = [{price: 25, quantity: 2}, {price: 11, quantity: 5}] -->
+
+```js
+const totalPrice = cart.reduce(
+  (acc, item) => acc + item.price * item.quantity,
+  0
+);
+```
+
+<!-- expect(totalPrice).toBe(105) -->
+
+Here, we’re calculating a total price of all items in a shopping cart. This code is okay, but I’d split it into two steps: calculating a sum for the desired quantity of each item, and then calculating a sum of all items:
+
+<!-- let cart = [{price: 25, quantity: 2}, {price: 11, quantity: 5}] -->
+
+```js
+const totalPrice = cart
+  .map(item => item.price * item.quantity)
+  .reduce((acc, val) => acc + val);
+```
+
+Now the purpose of each step is more clear. Using the `reduce()` to calculate a sum of all array items is one of the most typical use cases for this method, and this pattern is easier to recognize here than in the original code.
+
+<!-- expect(totalPrice).toBe(105) -->
+
 ## Dealing with side effects
 
 Side effects make code harder to understand because we can no longer treat a function as a black box: a function with side effects doesn’t just transform input to output but can affect the environment in unpredictable ways. Functions with side effects are also hard to test because we’ll need to recreate the environment before each test is run and verify it after.
