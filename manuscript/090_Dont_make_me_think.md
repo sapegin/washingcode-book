@@ -511,31 +511,154 @@ function RecipeName({ name, subrecipe }) {
 
 Now, both return values are on the same indentation level and it’s easier to compare them. This pattern works when none of the condition branches are handling errors, in which case an early return would be a better pattern (we talk about it in the [Avoid conditions](#avoid-conditions) chapter).
 
-Another way to make branches easier to compare is, of course, getting rid of the condition and replacing it with a map. We talk about this a lot in the [Avoid conditions](#avoid-conditions) chapter.
+Here’s another example:
 
-Now consider this example:
+<!--
+let Button = ({link}) => <button>{link}</button>
+let previewLink = 'http://example.com'
+let onOpenViewConfirmation = () => {}
+let Render = ({platform: Platform}) => { return (
+-->
 
-```js
-const isSmall = size => size == '1' || size == '2' || size == '3';
+```jsx
+<Button
+          onPress={Platform.OS !== 'web' ? onOpenViewConfirmation : undefined}
+          link={Platform.OS === 'web' ? previewLink : undefined}
+          target="_empty"
+>
 ```
 
 <!--
-expect(isSmall('2')).toBe(true)
-expect(isSmall('5')).toBe(false)
+</Button> )}
+const {container: c1} = RTL.render(<Render platform={{OS: 'web'}} />);
+expect(c1.textContent).toEqual(previewLink)
+const {container: c2} = RTL.render(<Render platform={{OS: 'native'}} />);
+expect(c2.textContent).toEqual('')
 -->
 
-Here, we’re repeating the `size` three times, and this makes the values we compare it to further apart. We could use an array instaed:
+In this example, we have a button that behaves like a link in the browser, and shows a confirmation modal in an app. Reversed condition for the `onPress` prop makes this logic hard to see.
 
-```js
-const isSmall = size => ['1', '2', '3'].includes(size);
+Let’s make both conditions positive:
+
+<!--
+let Button = ({link}) => <button>{link}</button>
+let previewLink = 'http://example.com'
+let onOpenViewConfirmation = () => {}
+let Render = ({platform: Platform}) => { return (
+-->
+
+```jsx
+<Button
+          onPress={Platform.OS === 'web' ? undefined: onOpenViewConfirmation}
+          link={Platform.OS === 'web' ? previewLink : undefined}
+          target="_empty"
+>
 ```
 
 <!--
-expect(isSmall('2')).toBe(true)
-expect(isSmall('5')).toBe(false)
+</Button> )}
+const {container: c1} = RTL.render(<Render platform={{OS: 'web'}} />);
+expect(c1.textContent).toEqual(previewLink)
+const {container: c2} = RTL.render(<Render platform={{OS: 'native'}} />);
+expect(c2.textContent).toEqual('')
 -->
 
-Now, all the value are grouped together which makes it more readable.
+Now, it’s clear we either set `onPress` or `link` props depending on the platform.
+
+We can stop here or go one step further, depending on the the number of `Platform.OS === 'web'` conditions in this component or number of props we need to set conditionally.
+
+If we often need to check the platform in the same component or module, I’d extract the condition into its own variable:
+
+<!-- let Platform = {OS: 'web'} -->
+
+```js
+const isWeb = Platform.OS === 'web';
+```
+
+And use it instead of hardcoding the whole condition every time:
+
+<!--
+let Button = ({link}) => <button>{link}</button>
+let previewLink = 'http://example.com'
+let onOpenViewConfirmation = () => {}
+let Render = ({platform: Platform}) => {
+  let isWeb = Platform.OS === 'web';
+  return (
+-->
+
+```jsx
+
+<Button
+          onPress={isWeb ? undefined: onOpenViewConfirmation}
+          link={isWeb ? previewLink : undefined}
+          target="_empty"
+>
+```
+
+<!--
+</Button> )}
+const {container: c1} = RTL.render(<Render platform={{OS: 'web'}} />);
+expect(c1.textContent).toEqual(previewLink)
+const {container: c2} = RTL.render(<Render platform={{OS: 'native'}} />);
+expect(c2.textContent).toEqual('')
+-->
+
+However, if I had to set many props conditionally, I’d create a function that return an object with props:
+
+```js
+function getButtonLinkProps({ Platform, link, onPress }) {
+  return Platform.OS === 'web'
+    ? {
+        link,
+        target: '_empty'
+      }
+    : {
+        onPress
+      };
+}
+```
+
+<!--
+let link = 'http://example.com'
+let onPress = () => {}
+expect(getButtonLinkProps({Platform: {OS: 'web'}, link, onPress})).toEqual({link, target: '_empty'})
+expect(getButtonLinkProps({Platform: {OS: 'native'}, link, onPress})).toEqual({onPress})
+-->
+
+We can spread the result of this function when we render our button:
+
+<!--
+function getButtonLinkProps({Platform, link, onPress}) {
+  return Platform.OS === 'web' ? {
+    link,
+    target: "_empty"
+  } : {
+    onPress
+  }
+}
+let Button = ({link}) => <button>{link}</button>
+let previewLink = 'http://example.com'
+let onOpenViewConfirmation = () => {}
+let Platform = {OS: 'web'}
+let Render = ({platform: Platform}) => { return (
+-->
+
+```jsx
+
+<Button
+        { ...getButtonLinkProps({Platform, link: previewLink, onPress: onOpenViewConfirmation })}
+>
+```
+
+<!--
+</Button> )}
+const {container: c1} = RTL.render(<Render platform={{OS: 'web'}} />);
+expect(c1.textContent).toEqual(previewLink)
+const {container: c2} = RTL.render(<Render platform={{OS: 'native'}} />);
+expect(c2.textContent).toEqual('')
+-->
+
+I’ve also moved the `target` prop to the web branch because it’s not used by the app anyway.
 
 {#name-things}
 
@@ -665,7 +788,7 @@ function Toggle() {
 
 It makes the code clear and obvious: if we have user details after the data has been fetched, the user must be logged in.
 
----
+### Conclusion
 
 When I was 20-years-old, it wasn’t a huge problem to remember things. I could remember books I’ve read, I could remember all the functions of a project I was working with... Now, that I’m almost 40, it’s no longer the case. Now, I value simple code that doesn’t use any tricks. Now, I value search engines, quick access to the docs, and tooling that allow me to reason about the code and navigate the project without remembering things.
 

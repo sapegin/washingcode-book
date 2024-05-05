@@ -635,7 +635,31 @@ The next step would be out of the scope of this chapter: the code inside `// 70 
 
 ## Repeated conditions
 
-Repeated conditions can make code barely readable. Let’s have a look at this function that returns special offers for a product in our pet shops. We have two brands, Horns & Hooves and Paws & Tails, and they have unique special offers. For historical reasons, we store them in the cache differently:
+One way to simplify conditions is to replace multiple conditions for the same variable with an array. Consider this example:
+
+```js
+const isSmall = size => size == '1' || size == '2' || size == '3';
+```
+
+<!--
+expect(isSmall('2')).toBe(true)
+expect(isSmall('5')).toBe(false)
+-->
+
+Here, we have three conditions that compare the `size` variable to three different values, and this makes the values we compare it to far apart. We could use an array instead:
+
+```js
+const isSmall = size => ['1', '2', '3'].includes(size);
+```
+
+<!--
+expect(isSmall('2')).toBe(true)
+expect(isSmall('5')).toBe(false)
+-->
+
+Now, all the value are grouped together which makes it more readable and maintainable — now it’s easy to add and remove items.
+
+Repeated conditions can make code barely readable. Let’s have a look at this function that returns special offers for a product in our pet shop. We have two brands, Horns & Hooves and Paws & Tails, and they have unique special offers. For historical reasons, we store them in the cache differently:
 
 <!-- const SPECIAL_OFFERS_CACHE_KEY = 'offers', getHornsAndHoovesSpecialOffers = () => ['horns'], getPawsAndTailsSpecialOffers = () => ['paws'], Session = { set: jest.fn(), get: jest.fn() }  -->
 
@@ -846,7 +870,7 @@ It may seem like I prefer small functions or even very small functions, but that
 
 One of my favorite techniques for improving _(read: avoiding)_ conditions is replacing them with tables or maps. With JavaScript, we can create a table or a map using a plain object.
 
-We’ve just done this as a part of our "special offers" refactoring example above. Let’s have a look at a simpler example now. This example may be a bit extreme, but I actually wrote this code 19 years ago:
+We’ve just done this as a part of our “special offers” refactoring example above. Let’s have a look at a simpler example now. This example may be a bit extreme, but I actually wrote this code 19 years ago:
 
 <!-- let month = 'may' -->
 
@@ -1176,9 +1200,9 @@ expect(validate({name: 'Chuck Norris'}, validations)).toEqual({})
 
 One more time we’ve separated the “what” from the “how”: we have a readable and maintainable list of validations (“what”), a collection of reusable validation functions, and a `validate` function to validate form values (“how”) that also can be reused.
 
-_Tip: Using a third-party library, like [Zod](https://zod.dev/), [Yup](https://github.com/jquense/yup), or [Joi](https://github.com/hapijs/joi) will make code even shorter and save us from needing to write validation functions ourselves._
+T> Using a third-party library, like [Zod](https://zod.dev/), [Yup](https://github.com/jquense/yup), or [Joi](https://github.com/hapijs/joi) will make code even shorter and save us from needing to write validation functions ourselves.\_
 
-You may feel that I have too many similar examples in this book, and you’re right. But I think such code is so common, and the readability and maintainability benefits of replacing conditions with tables are so huge, so it’s worth repeating. So here is one more example (the last one, I promise!):
+You may feel that I have too many similar examples in this book, and you’re right. But I think such code is so common, and the readability and maintainability benefits of replacing conditions with tables are so huge that it’s worth repeating. So here is one more example (the last one, I promise!):
 
 <!-- const DATE_FORMAT_ISO = 'iso', DATE_FORMAT_DE = 'de', DATE_FORMAT_UK = 'uk', DATE_FORMAT_US = 'us' -->
 
