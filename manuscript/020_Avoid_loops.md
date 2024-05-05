@@ -216,6 +216,134 @@ for (const error of errors) {
 expect(console.error.mock.calls).toEqual([['dope'], ['nope']])
 -->
 
+## Iterating over objects
+
+There are [many ways to iterate over objects](https://stackoverflow.com/a/5737136/1973105) in JavaScript. I equally dislike them all, so it’s hard to choose the best one. Unfortunately, there’s no `map()` for objects, though Lodash does have three methods for object iteration, so it’s a good option if we’re already using Lodash in our project.
+
+```js
+const allNames = {
+  hobbits: ['Bilbo', 'Frodo'],
+  dwarfs: ['Fili', 'Kili']
+};
+const kebabNames = _.mapValues(allNames, names =>
+  names.map(name => _.kebabCase(name))
+);
+```
+
+<!--
+expect(kebabNames).toEqual({
+  hobbits: ['bilbo', 'frodo'],
+  dwarfs: ['fili', 'kili']
+})
+-->
+
+If we don’t need the result as an object, like in the example above, `Object.keys()`, `Object.values()` and `Object.entries()` are also good:
+
+<!-- const console = { log: jest.fn() } -->
+
+```js
+const allNames = {
+  hobbits: ['Bilbo', 'Frodo'],
+  dwarfs: ['Fili', 'Kili']
+};
+Object.keys(allNames).forEach(race =>
+  console.log(race, '->', allNames[race])
+);
+```
+
+<!--
+expect(console.log.mock.calls).toEqual([['hobbits', '->', ['Bilbo', 'Frodo']], ['dwarfs', '->', ['Fili', 'Kili']]])
+-->
+
+Or:
+
+<!-- const console = { log: jest.fn() } -->
+
+```js
+const allNames = {
+  hobbits: ['Bilbo', 'Frodo'],
+  dwarfs: ['Fili', 'Kili']
+};
+Object.entries(allNames).forEach(([race, value]) =>
+  console.log(race, '->', value)
+);
+```
+
+<!--
+expect(console.log.mock.calls).toEqual([['hobbits', '->', ['Bilbo', 'Frodo']], ['dwarfs', '->', ['Fili', 'Kili']]])
+-->
+
+I don’t have a strong preference between them. `Object.entries()` has more verbose syntax, but if we use the value (`names` in the example above) more than once, the code would be cleaner than `Object.keys()`, where we’d have to write `allNames[race]` every time or cache this value into a variable at the beginning of the callback function.
+
+If I stopped here, I’d be lying. Most of the articles about iteration over objects have examples with `console.log()`, but in reality, we’d often want to convert an object to another data structure, like in the example with `_.mapValues()` above. And that’s where things start getting uglier.
+
+Let’s rewrite our example using `reduce()`:
+
+```js
+const allNames = {
+  hobbits: ['Bilbo', 'Frodo'],
+  dwarfs: ['Fili', 'Kili']
+};
+const kebabNames = Object.entries(allNames).reduce(
+  (newNames, [race, names]) => {
+    newNames[race] = names.map(name => _.kebabCase(name));
+    return newNames;
+  },
+  {}
+);
+```
+
+<!--
+expect(kebabNames).toEqual({
+  hobbits: ['bilbo', 'frodo'],
+  dwarfs: ['fili', 'kili']
+})
+-->
+
+With `.forEach()`:
+
+```js
+const allNames = {
+  hobbits: ['Bilbo', 'Frodo'],
+  dwarfs: ['Fili', 'Kili']
+};
+const kebabNames = {};
+Object.entries(allNames).forEach(([race, names]) => {
+  kebabNames[race] = names.map(name => name.toLowerCase());
+});
+```
+
+<!--
+expect(kebabNames).toEqual({
+  hobbits: ['bilbo', 'frodo'],
+  dwarfs: ['fili', 'kili']
+})
+-->
+
+And with a loop:
+
+```js
+const allNames = {
+  hobbits: ['Bilbo', 'Frodo'],
+  dwarfs: ['Fili', 'Kili']
+};
+const kebabNames = {};
+for (let [race, names] of Object.entries(allNames)) {
+  kebabNames[race] = names.map(name => name.toLowerCase());
+}
+```
+
+<!--
+expect(kebabNames).toEqual({
+  hobbits: ['bilbo', 'frodo'],
+  dwarfs: ['fili', 'kili']
+})
+-->
+
+And again `.reduce()` is the least readable option.
+
+In later chapters, I’ll urge you to avoid not only loops but also reassigning variables and mutation. Like loops, they _often_ lead to poor code readability, but _sometimes_ they are the best choice.
+
 ## Sometimes loops aren’t so bad
 
 Array methods aren’t always better than loops. For example, the `reduce()` method often makes code less readable than a regular loop.
@@ -344,134 +472,6 @@ const tableData =
 <!-- expect(tableData).toEqual([{ errorLevel: 2, errorMessage: 'nope', usedIn: 'Pizza' }]) -->
 
 If I was to review such code, I would be happy to pass both versions but would prefer the original with double `for` loops. _(Though `tableData` is a really bad variable name.)_
-
-## Iterating over objects
-
-There are [many ways to iterate over objects](https://stackoverflow.com/a/5737136/1973105) in JavaScript. I equally dislike them all, so it’s hard to choose the best one. Unfortunately, there’s no `map()` for objects, though Lodash does have three methods for object iteration, so it’s a good option if we’re already using Lodash in our project.
-
-```js
-const allNames = {
-  hobbits: ['Bilbo', 'Frodo'],
-  dwarfs: ['Fili', 'Kili']
-};
-const kebabNames = _.mapValues(allNames, names =>
-  names.map(name => _.kebabCase(name))
-);
-```
-
-<!--
-expect(kebabNames).toEqual({
-  hobbits: ['bilbo', 'frodo'],
-  dwarfs: ['fili', 'kili']
-})
--->
-
-If we don’t need the result as an object, like in the example above, `Object.keys()`, `Object.values()` and `Object.entries()` are also good:
-
-<!-- const console = { log: jest.fn() } -->
-
-```js
-const allNames = {
-  hobbits: ['Bilbo', 'Frodo'],
-  dwarfs: ['Fili', 'Kili']
-};
-Object.keys(allNames).forEach(race =>
-  console.log(race, '->', allNames[race])
-);
-```
-
-<!--
-expect(console.log.mock.calls).toEqual([['hobbits', '->', ['Bilbo', 'Frodo']], ['dwarfs', '->', ['Fili', 'Kili']]])
--->
-
-Or:
-
-<!-- const console = { log: jest.fn() } -->
-
-```js
-const allNames = {
-  hobbits: ['Bilbo', 'Frodo'],
-  dwarfs: ['Fili', 'Kili']
-};
-Object.entries(allNames).forEach(([race, value]) =>
-  console.log(race, '->', value)
-);
-```
-
-<!--
-expect(console.log.mock.calls).toEqual([['hobbits', '->', ['Bilbo', 'Frodo']], ['dwarfs', '->', ['Fili', 'Kili']]])
--->
-
-I don’t have a strong preference between them. `Object.entries()` has more verbose syntax, but if we use the value (`names` in the example above) more than once, the code would be cleaner than `Object.keys()`, where we’d have to write `allNames[race]` every time or cache this value into a variable at the beginning of the callback function.
-
-If I stopped here, I’d be lying. Most of the articles about iteration over objects have examples with `console.log()`, but in reality, we’d often want to convert an object to another data structure, like in the example with `_.mapValues()` above. And that’s where things start getting uglier.
-
-Let’s rewrite our example using `reduce()`:
-
-```js
-const allNames = {
-  hobbits: ['Bilbo', 'Frodo'],
-  dwarfs: ['Fili', 'Kili']
-};
-const kebabNames = Object.entries(allNames).reduce(
-  (newNames, [race, names]) => {
-    newNames[race] = names.map(name => _.kebabCase(name));
-    return newNames;
-  },
-  {}
-);
-```
-
-<!--
-expect(kebabNames).toEqual({
-  hobbits: ['bilbo', 'frodo'],
-  dwarfs: ['fili', 'kili']
-})
--->
-
-With `.forEach()`:
-
-```js
-const allNames = {
-  hobbits: ['Bilbo', 'Frodo'],
-  dwarfs: ['Fili', 'Kili']
-};
-const kebabNames = {};
-Object.entries(allNames).forEach(([race, names]) => {
-  kebabNames[race] = names.map(name => name.toLowerCase());
-});
-```
-
-<!--
-expect(kebabNames).toEqual({
-  hobbits: ['bilbo', 'frodo'],
-  dwarfs: ['fili', 'kili']
-})
--->
-
-And with a loop:
-
-```js
-const allNames = {
-  hobbits: ['Bilbo', 'Frodo'],
-  dwarfs: ['Fili', 'Kili']
-};
-const kebabNames = {};
-for (let [race, names] of Object.entries(allNames)) {
-  kebabNames[race] = names.map(name => name.toLowerCase());
-}
-```
-
-<!--
-expect(kebabNames).toEqual({
-  hobbits: ['bilbo', 'frodo'],
-  dwarfs: ['fili', 'kili']
-})
--->
-
-And again `.reduce()` is the least readable option.
-
-In later chapters, I’ll urge you to avoid not only loops but also reassigning variables and mutation. Like loops, they _often_ lead to poor code readability, but _sometimes_ they are the best choice.
 
 ## But aren’t array methods slow?
 
