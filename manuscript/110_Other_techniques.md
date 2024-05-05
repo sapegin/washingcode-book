@@ -256,7 +256,7 @@ I’m a big fan of parallel code, and, even though the original code was already
 
 (We talk more about parallel code in [Don’t make me think](#thinking) chapter.)
 
-Some people [even believe](https://www.reddit.com/r/programming/comments/2tjoc8/the_boy_scout_rule_of_coding/) that we shouldn’t touch what’s working and refactoring has no business value for the product but I fiercely disagree. Our job is not only do what we’re told to do by the businessfolks but also to keep our software easy to change so we can quickly react to new business requirements. This is only possible if we care about maintanability, don’t let the tech debt pile up.
+Some people [even believe](https://www.reddit.com/r/programming/comments/2tjoc8/the_boy_scout_rule_of_coding/) that we shouldn’t touch what’s working and refactoring has no business value for the product but I fiercely disagree. Our job is not only do what we’re told to do by the businessfolks but also to keep our software easy to change so we can quickly react to new business requirements. This is only possible if we care about maintainability, don’t let the tech debt pile up.
 
 {#greppability}
 
@@ -390,6 +390,8 @@ Some developers will brag that all their functions are only one or two lines lon
 
 I think it’s a wrong problem to solve and the size itself is rarely a problem. However, long functions often hide real issues, like too many responsibilities or deep nesting.
 
+See the [Lint your code](#linting) chapter for more details.
+
 ### Always comment your code
 
 Developers who believe that they must comment each (or at least most) line of their code are having a dangerous lifestyle, and not really better than those who _never_ write any comments.
@@ -404,7 +406,9 @@ See the [Naming is hard](#naming-is-hard) chapter for more details.
 
 ### Never repeat yourself
 
-Don’t repeat yourself (DRY) principle is probably the most overrated idea in software development. See the “Let abstractions grow” section for more details.
+Don’t repeat yourself (DRY) principle is probably the most overrated idea in software development.
+
+See the [Divide and conquer, or merge and relax](#divide-and-conquer) chapter for more details.
 
 <!-- textlint-disable -->
 

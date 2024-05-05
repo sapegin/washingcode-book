@@ -84,7 +84,9 @@ TODO: refactoring
 My favorite refactorings are:
 
 - Inline: replaces all usages of a variable or a function with their bodies.
-- TODO
+- Rename: renames a symbol and all its usages (including the ones in other files).
+
+I never learned to use more complex refactoring because they always need too much fixing after, and I feel that it’s easier to do the refactoring manually.
 
 ### Artificial intelligence
 
