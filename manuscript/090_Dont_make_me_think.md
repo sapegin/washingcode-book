@@ -524,7 +524,7 @@ Often, it’s hard to understand what a certain value is when it doesn’t have 
 
 ### Give names to magic numbers
 
-We’ll cover this in great detail in the [Constants](#constants) chapter.
+We’ll cover this in great detail in the [Naming is hard chapter](#naming-is-hard) chapter.
 
 ### Name function parameters
 
