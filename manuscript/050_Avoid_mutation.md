@@ -857,6 +857,78 @@ if (drinksAlcohol) {
 
 I’m hesitant to say which one is more more readable.
 
+Let’s look at another example:
+
+<!-- let friendNames = ['Kili', 'Bilbo', 'Frodo', 'Kili'] -->
+
+```js
+const counts = {};
+friendNames.forEach(x => {
+  if (counts[x]) {
+    counts[x]++;
+  } else {
+    counts[x] = 1;
+  }
+});
+```
+
+<!-- expect(counts).toEqual({Kili: 2, Bilbo: 1, Frodo: 1}) -->
+
+We have a list of friend names, and we’re calculating how many friends we have with the same name. We can try to avoid mutation with the `reduce()` method:
+
+<!-- let friendNames = ['Kili', 'Bilbo', 'Frodo', 'Kili'] -->
+
+```js
+const counts = friendNames.reduce((counts, x) => {
+  if (counts[x]) {
+    counts[x]++;
+  } else {
+    counts[x] = 1;
+  }
+  return counts;
+}, {});
+```
+
+<!-- expect(counts).toEqual({Kili: 2, Bilbo: 1, Frodo: 1}) -->
+
+What I don’t like about the `reduce()` is that return part. Unless the body of reduce is a single line, and we can use implicit return, the code looks too complex in comparison to the `forEach()`. The difference is even more noticeable if we compare it to a for loop:
+
+<!-- let friendNames = ['Kili', 'Bilbo', 'Frodo', 'Kili'] -->
+
+```js
+const counts = {};
+for (const name of friendNames) {
+  if (counts[name]) {
+    counts[name]++;
+  } else {
+    counts[name] = 1;
+  }
+}
+```
+
+<!-- expect(counts).toEqual({Kili: 2, Bilbo: 1, Frodo: 1}) -->
+
+This is my favorite option so far.
+
+However, I usually write such counters slightly differently:
+
+<!-- let friendNames = ['Kili', 'Bilbo', 'Frodo', 'Kili'] -->
+
+```js
+const counts = {};
+for (const name of friendNames) {
+  if (name in counts === false) {
+    counts[name] = 0;
+  }
+
+  counts[name]++;
+}
+```
+
+<!-- expect(counts).toEqual({Kili: 2, Bilbo: 1, Frodo: 1}) -->
+
+I like it more because we’ve separated the initialization code and the actual counter, so we can change them independently. It also works well when either the initialization or the update code is more complex.
+
 Here’s a more complex example:
 
 <!-- const addDays = x => x + 1 -->
