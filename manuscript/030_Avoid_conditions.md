@@ -1260,6 +1260,84 @@ expect(getDateFormat()).toBe('M/D')
 
 The improved version isn’t much shorter, but now it’s easy to see all date formats. We’ve extracted the data to a short and readable object and separated it from the code that accesses the right piece of this data.
 
+Here’s one more example:
+
+```js
+function getDiscountAmount(discountOptions) {
+  if (
+    discountOptions?.userDiscount?.discountAmount?.displayCurrency
+  ) {
+    if (
+      discountOptions?.promoDiscount?.discountAmount?.displayCurrency
+    ) {
+      if (
+        discountOptions.userDiscount.discountAmount.displayCurrency
+          .valueInCents >
+        discountOptions?.promoDiscount?.discountAmount
+          ?.displayCurrency.valueInCents
+      ) {
+        return discountOptions?.userDiscount?.discountAmount
+          ?.displayCurrency;
+      } else {
+        return discountOptions?.promoDiscount?.discountAmount
+          ?.displayCurrency;
+      }
+    } else {
+      return discountOptions?.userDiscount?.discountAmount
+        ?.displayCurrency;
+    }
+  } else if (
+    discountOptions?.promoDiscount?.discountAmount?.displayCurrency
+  ) {
+    return discountOptions?.promoDiscount?.discountAmount
+      ?.displayCurrency;
+  }
+
+  return { currency: 'EUR', valueInCents: 0 };
+}
+```
+
+<!--
+let v0 = { currency: 'EUR', valueInCents: 0};
+let v25 = { currency: 'EUR', valueInCents: 25};
+let v10 = { currency: 'EUR', valueInCents: 10};
+expect(getDiscountAmount({userDiscount: {discountAmount: {displayCurrency: v25}}})).toEqual(v25)
+expect(getDiscountAmount({promoDiscount: {discountAmount: {displayCurrency: v25}}})).toEqual(v25)
+expect(getDiscountAmount({promoDiscount: {discountAmount: {displayCurrency: v10}}, userDiscount: {discountAmount: {displayCurrency: v25}}})).toEqual(v25)
+expect(getDiscountAmount({promoDiscount: {discountAmount: {displayCurrency: v25}}, userDiscount: {discountAmount: {displayCurrency: v10}}})).toEqual(v25)
+expect(getDiscountAmount({})).toEqual(v0)
+-->
+
+Here, we calculate a discount — maximum of either user’s personal discount or current site-wide promotion. If the user has no discount and there’s no promotion now, the discount is 0.
+
+My brain is refusing to even try to understand what’s going on here. Let’s try to simplify it a bit:
+
+```js
+function getDiscountAmount(discountOptions) {
+  const amounts = [
+    discountOptions?.userDiscount?.discountAmount?.displayCurrency,
+    discountOptions?.promoDiscount?.discountAmount?.displayCurrency
+  ];
+  const maxAmount = _.maxBy(amounts, amount => amount?.valueInCents);
+  return maxAmount ?? { currency: 'EUR', valueInCents: 0 };
+}
+```
+
+<!--
+let v0 = { currency: 'EUR', valueInCents: 0};
+let v25 = { currency: 'EUR', valueInCents: 25};
+let v10 = { currency: 'EUR', valueInCents: 10};
+expect(getDiscountAmount({userDiscount: {discountAmount: {displayCurrency: v25}}})).toEqual(v25)
+expect(getDiscountAmount({promoDiscount: {discountAmount: {displayCurrency: v25}}})).toEqual(v25)
+expect(getDiscountAmount({promoDiscount: {discountAmount: {displayCurrency: v10}}, userDiscount: {discountAmount: {displayCurrency: v25}}})).toEqual(v25)
+expect(getDiscountAmount({promoDiscount: {discountAmount: {displayCurrency: v25}}, userDiscount: {discountAmount: {displayCurrency: v10}}})).toEqual(v25)
+expect(getDiscountAmount({})).toEqual(v0)
+-->
+
+Here, we create an array with all possible discounts, then we use Lodash’s [maxBy()](https://lodash.com/docs/4.17.15#maxBy) method to find the maximum value, and we use nullish coalescing operator to either return the maximum or 0.
+
+Now it’s clear that we want to find the maximum of two types of discounts, otherwise return 0.
+
 ## Formulas
 
 Similar to tables, a single formula could often replace a whole bunch of conditions. Consider [this example](https://twitter.com/JeroenFrijters/status/1615204074588180481):
