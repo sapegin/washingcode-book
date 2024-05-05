@@ -513,13 +513,20 @@ inside = true
 expect(inside).toBe(false)
 -->
 
+One minor improvement in the modern JavaScript is _numeric separators_, which allows us to separate thousands with an underscore (`_`) ot make large numbers easier to read:
+
+```js
+const earthToSun1 = 149597870700;
+const earthToSun2 = 149_597_870_700;
+```
+
 ## Christmas trees vs. sausages
 
 I used to have a limit of 120 characters per line because why not, I have a big screen that could fit a lot of code, I should use the space available to me! Then I lowered it to 100 characters, and then to 80, which is a Prettier’s default value that in their docs they [highly recommend not to change](https://prettier.io/docs/en/options.html#print-width).
 
 An argument for using 80 characters I’ve heard many times but never believed in is that some people may edit code in a terminal that only displays 80 characters, like in the old days. But how many people are really doing this now?
 
-![QuckBasic](images/quickbasic.png)
+![QuickBasic](images/quickbasic.png)
 
 Some developers seem to prefer long strings, some short.
 
