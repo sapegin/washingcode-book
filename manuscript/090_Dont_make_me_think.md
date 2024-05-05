@@ -12,7 +12,7 @@ There are many ways to express the same idea in the code. However, some of them 
 
 Let’s look at some examples. Try to cover an answer and guess what these code snippets do. And count how many you’ve guessed right.
 
-Example 1:
+**Example 1:**
 
 <!-- const percent = 5 -->
 
@@ -32,7 +32,7 @@ const percentString = `${percent}%`;
 
 <!-- expect(percentString).toBe('5%') -->
 
-Example 2:
+**Example 2:**
 
 <!--
 const url = 'index.html?id=5'
@@ -83,7 +83,7 @@ if (url.includes('id')) {
 expect(result).toBe(true)
 -->
 
-Example 3:
+**Example 3:**
 
 <!--
 let result = (
@@ -115,7 +115,7 @@ Math.floor(3.14)
 expect(result).toBe(3)
 -->
 
-Example 4:
+**Example 4:**
 
 <!--
 const dogs = [1], cats = [2]
@@ -149,7 +149,7 @@ if (dogs.length > 0 && cats.length > 0) {
 expect(result).toBe(true)
 -->
 
-Example 5:
+**Example 5:**
 
 ```js
 const header = 'filename="pizza.rar"';
@@ -182,7 +182,7 @@ const filename = new URLSearchParams(header)
 
 _These quotes are weird though. Normally we don’t need quotes around URL params, so talking to the backend developer could be a good idea._
 
-Example 6:
+**Example 6:**
 
 <!-- const condition = true -->
 
@@ -218,7 +218,28 @@ const obj = {
 
 <!-- expect(obj).toEqual({ value: 42 }) -->
 
-So, what’s your score? I think mine would be around 3/6.
+**Example 7:**
+
+```js
+const array = [...Array(10).keys()];
+```
+
+<!-- expect(array).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) -->
+
+This [wonderful one-liner](https://stackoverflow.com/a/33352604/1973105) fills an array with numbers from 0 to 9. `Array(10)` creates an array with 10 _empty_ items, then the `keys()` method returns the keys (numbers from 0 to 9) as an iterator, which we then convert into a plain array using the spread syntax. Exploding head emoji...
+
+```js
+const array = [];
+for (var i = 0; i < 10; i++) {
+  array.push(i);
+}
+```
+
+<!-- expect(array).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) -->
+
+As much as like to avoid loops in my code, the loop version is more readable for me.
+
+So, what’s your score? I think mine would be around 3/7.
 
 ## Gray areas
 
