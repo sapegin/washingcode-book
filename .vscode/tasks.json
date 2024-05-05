@@ -1,0 +1,28 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "type": "npm",
+      "script": "test:watch",
+      "group": "build",
+      "isBackground": true,
+      "problemMatcher": [
+        {
+          "owner": "javascript",
+          "fileLocation": "relative",
+          "pattern": {
+            "regexp": "^FAIL(.*)$",
+            "file": 1
+          },
+          "background": {
+            "activeOnStart": true,
+            "beginsPattern": "^[nodemon] starting",
+            "endsPattern": "^Test Suites:"
+          }
+        }
+      ],
+      "label": "Run tests & watch",
+      "detail": "NODE_OPTIONS=--experimental-vm-modules nodemon --exec jest --watch 'manuscript/*.*'"
+    }
+  ]
+}
