@@ -216,7 +216,7 @@ console.log(
 
 #### Disable style rules
 
-In the past, we were using linters not only to find bugs in the code but also to establish a consistent code style on a project. Now, this job is done better by code formatters (see the [next chapter](#autoformat-your-code)), and there’s little need to keep style rules in our linter configs.
+In the past, we were using linters not only to find bugs in the code but also to establish a consistent code style on a project. Now, this job is done better by code formatters (see the [next chapter](#formatting)), and there’s little need to keep style rules in our linter configs.
 
 We’ll cover a few exceptions later in this chapter.
 

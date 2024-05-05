@@ -132,10 +132,9 @@ It’s called Premature abstraction, [premature generalization](https://www.code
 
 Focus on finding the simplest solution for the current requirements. It will be easier to review and test now, and to adapt to new requirements in the future.
 
-**Tip:** This approach is often referred to as [Yagni](https://martinfowler.com/bliki/Yagni.html) (You aren’t gonna need it) or [KISS](https://en.wikipedia.org/wiki/KISS_principle) (Keep it simple, stupid!).
+T> This approach is often referred to as [Yagni](https://martinfowler.com/bliki/Yagni.html) (You aren’t gonna need it) or [KISS](https://en.wikipedia.org/wiki/KISS_principle) (Keep it simple, stupid!).
 
 Write code that’s easy to delete. Isolate different features from each other, isolate UI from business logic. Make UI easy to change and move around.
-
 
 ## Become a code scout
 
@@ -275,7 +274,7 @@ TODO: Why default exports are bad: decreased greppability
 
 TODO: unique module names
 
-## Not invented here syndrome
+## Avoid not invented here syndrome
 
 Not invented here syndrome (NIH) represents fear or a ban of using third-party solutions. It could come from an internal developer’s need to prove themselves to the world, or from an employer, usually a huge one, that hired so many developers that there’s not enough actually useful work for everyone.
 
@@ -371,7 +370,7 @@ Another consideration is how difficult it is to introduce a new dependency on th
 
 Probably the best approach to using third-party libraries should be this: the bigger the project and the more developers work on it, the more stable should be its dependencies, with a focus on popular and established libraries rather than on microlibraries.
 
-## Cargo cult programming
+## Avoid cargo cult programming
 
 [Cargo cult programming](https://en.wikipedia.org/wiki/Cargo_cult_programming) is when developers use some technique because they’ve seen it works somewhere else, or they’ve been told it’s the right way of doing things.
 

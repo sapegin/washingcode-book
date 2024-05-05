@@ -743,6 +743,61 @@ And then even Microsoft couldn’t follow their own guidelines with [XMLHttpRequ
 
 So, choose the simplest convention, unless more complex rules bring huge benefits. If that is so, thoroughly document and automate it.
 
+## To semicolon or not
+
+JavaScript is one of the very few languages that doesn’t require a semicolon at the end of each line, but also doesn’t mind having them. This created countless arguments over the past two decades.
+
+Normally, I’d say I don’t care, as long as it’s automated. But there’s one thing that made me prefer having semicolons in JavaScript after each line. This reason is called Automatic semicolon insertion (ASI): JavaScript will try to guess where to put semicolons when there are non in the code, and sometime it does it wrong. This is a perfect example:
+
+<!-- prettier-ignore -->
+```js
+function semicolonOrNot() {
+  return
+  {
+    semi: 'colon'
+  }
+}
+```
+
+<!-- expect(semicolonOrNot()).toEqual(undefined) -->
+
+Most people would expect that it returns an object but it returns `undefined` because ASI always puts a semicolon after a stray `return`, and the code is interpreted like so:
+
+<!-- prettier-ignore -->
+```js
+function semicolonOrNot() {
+  return;
+  {
+    semi: 'colon'
+  }
+}
+```
+
+<!-- expect(semicolonOrNot()).toEqual(undefined) -->
+
+To fix the problem, we need to remove a line break after the `return` statement:
+
+<!-- prettier-ignore -->
+```js
+function semicolonOrNot() {
+  return {
+    semi: 'colon'
+  }
+}
+```
+
+<!-- expect(semicolonOrNot()).toEqual({semi: "colon" }) -->
+
+I prefer not to overload my brain with such questions and alway use semicolons.
+
+Luckily, semicolonless JavaScript projects are far less common now than they used to be some ten years ago.
+
+## Tabs or spaces
+
+Doesn’t matter, as long as we have a linter or autoformatter to automatically make it right. With modern code editors there’s no difference, and most of the time I don’t even know what projects, I’m working on, are using.
+
+(We talk more bout linters in the [Lint your code](#linting) chapter, and about code formatters in [Autoformat your code](#formatting) chapter.)
+
 ## The rest doesn’t matter
 
 There are so many ways to write code. For example, we could use function arguments like this:
@@ -832,7 +887,7 @@ There’s zero code readability improvement. The code is just different, none of
 
 ## Conclusion
 
-My rule of thumb here is: automate or forget. For example, [Prettier](https://prettier.io/) (see the [Autoformat your code](#autoformat-your-code) chapter) formats code with almost zero config, which saves an enormous amount of time while you write code, read someone else’s code or discuss code style in your team.
+My rule of thumb here is: automate or forget. For example, [Prettier](https://prettier.io/) (see the [Autoformat your code](#formatting) chapter) formats code with almost zero config, which saves an enormous amount of time while you write code, read someone else’s code or discuss code style in your team.
 
 Be vigilant when you adapt [a popular code styles](https://blog.sapegin.me/all/javascript-code-styles/): many are too opinionated and want us to write code in a very specific way, even when it doesn’t improve the readability or maintainability of the code, or reduce the number of bugs.
 

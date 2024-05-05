@@ -1,4 +1,4 @@
-{#autoformat-your-code}
+{#formatting}
 
 ## Autoformat your code
 
