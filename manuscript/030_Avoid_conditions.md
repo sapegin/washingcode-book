@@ -1439,7 +1439,7 @@ expect(c4.textContent).toEqual('Error loading products')
 
 I think it’s much easier to follow now: all special cases are at the top of the function, and the happy path is at the end.
 
-_We’ll come back to this example later in the [Make impossible states impossible](#make-impossible-states-impossible) chapter._
+_We’ll come back to this example later in the [Make impossible states impossible](#impossible-states) section._
 
 ---
 
