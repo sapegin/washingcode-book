@@ -73,9 +73,11 @@ TODO: Find an example
 
 ### Code search
 
-TODO: search (regexps?)
+The **fuzzy file opener** is one of my favorite tools. I use it all the time to open files I know exist, and, more importantly, to look for files I don’t know exist. For example, I need to save data in browser Local Storage. I don’t know if there’s any utility function to work with it already, so I’ll look for files with `localstorage` or `storage` in their name.
 
-TODO: Fuzzy file open
+![Fuzzy file opener in Visual Studio Code](images/fuzzy-file-opener.png)
+
+TODO: search (regexps?)
 
 ### Automated refactoring
 
