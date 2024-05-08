@@ -4,7 +4,7 @@
 
 ## Make impossible states impossible
 
-In UI programming, or _especially_ in UI programming we often use boolean flags to represent the current state of the UI or its parts: is data loading? is submit button disabled? has action failed?
+In UI programming, or _especially_ in UI programming we often use boolean flags to represent the current state of the UI or its parts: _is data loading?_ _is submit button disabled?_ _has action failed?_
 
 Often we end up with multiple booleans: one for each condition. Consider this typical data fetching handling in a React component:
 
@@ -53,7 +53,7 @@ function Tweets() {
 }
 ```
 
-We have two booleans here: _is loading_ and _has errors_. If we look closer how the code uses them, we’ll notice that only one boolean is `true` at any time in a component’s lifecycle. It’s hard to see now and it’s easy to make a mistake and correctly handle all possible state changes, so your component may end up in an _impossible state_, like `isLoading && isError`, and the only way to fix that would be reloading the page. This is exactly why switching off and on electronic devices often fixes weird issues.
+We have two booleans here: _is loading_ and _has errors_. If we look closer how the code uses them, we’ll notice that only one boolean is `true` at any time in a component’s lifecycle. It’s hard to see now, and it’s easy to make a mistake and correctly handle all possible state changes, so your component may end up in an _impossible state_, like `isLoading && isError`, and the only way to fix that would be reloading the page. This is exactly why switching off and on electronic devices often fixes weird issues.
 
 We can replace several _exclusive_ boolean flags, meaning only one is `true` at a time, with a single enum variable:
 
@@ -116,15 +116,13 @@ This is a very simple [finite-state machine](https://gedd.ski/post/state-machine
 
 Proper state machines have events that handle transitions between states, guards that define which transitions are allowed and side effects.
 
-TODO
-
 TODO: types
 
-TODO: <Button primary secondary>
+TODO: `<Button primary secondary>`
 
 ## Don’t try to predict the future
 
-Requirements are constantly changing, the business is constantly trying to make more money. Sometimes by improving user experience and making the app better, sometimes by exploiting _human psychology?_ and making app worse. In both cases we need to change the code all the time. People have invented agile software development to deal with the changing requirements: it’s better to develop software in small iterations than to spend months on writing detailed specs that became obsolete by the time we start implementing them.
+Requirements are constantly changing, the business is constantly trying to make more money. Sometimes by improving user experience and making the app better, sometimes by exploiting human psychology and making app worse. In both cases we need to change the code all the time. People have invented agile software development to deal with the changing requirements: it’s better to develop software in small iterations than to spend months on writing detailed specs that became obsolete by the time we start implementing them.
 
 Somehow, developers often try to think too far in the future: “_they_ will want to add pagination to the list of pizza toppings on our pizzeria site, let’s add support now to save time later.” But then _they_ want infinite scrolling or stop selling pizzas at all, and we end up removing most of our pagination code.
 
@@ -142,9 +140,9 @@ The _campsite rule_ (previously known as _boy scout rule_) states that we should
 
 Same in programming. For example, we’re done with a task, running the linter before committing the changes, and notice that there are some warnings but not in the lines we’ve written or even changed. If it’s not a lot of work and won’t make the diff too big, we should fix these warnings, and make code cleaner for the next person who’s going to work with it.
 
-I don’t fully agree with the idea that a particular code change (pull request) shouldn’t have any refactorings or improvements. If the fix is tiny, why not do it right away instead of postponing it for a separate pull request which likely will never happen. It does make code review slightly harder but often refactorings are easier to understand in the context of a change that caused them. Isolated refactorings often feel like refactorings for the sake of refactoring, which isn’t a good thing to do, and definitely not a good thing to spend our colleagues’ time in code reviews.
+I don’t fully agree with the idea that a particular code change (pull request) shouldn’t have any refactorings or improvements. If the fix is tiny, why not do it right away instead of postponing it for a separate pull request which likely will never happen. It does make code review slightly harder, but often refactorings are easier to understand in the context of a change that caused them. Isolated refactorings often feel like refactorings for the sake of refactoring, which isn’t a good thing to do, and definitely not a good thing to spend our colleagues’ time in code reviews.
 
-Often there’s no easy way to split things into several pull request, and often doing refactoring is actually easier than trying to hack a task into existing code. This also avoid problems with management who may see refactoring as a waste of time. For me it’s an inevitable part of work on features.
+Often there’s no easy way to split things into several pull requests, and often doing refactoring is actually easier than trying to hack a task into existing code. This also avoid problems with management who may see refactoring as a waste of time. For me, it’s an inevitable part of work on features.
 
 However, if the refactoring is really big, it’s better to postpone it or extract to a separate pull request if once we see that it makes the initial pull request too large (which I often do). If there’s no time to do it now, making a ticket explaining the improvement is a good idea.
 
@@ -160,7 +158,7 @@ It’s also worth mentioning the David Allen’s [2-minute rule](https://www.ski
 
 Same in programming. If fixing something takes less than two minutes, we should not postpone it, and fix it right away. And if it only takes two minutes to fix, it probably won’t make the pull request diff much larger.
 
-One may argue that doing all these improvements may introduce bugs and it’s true. However, with good test coverage, static typing, and modern tooling, the benefits are greater than the risks.
+One may argue that doing all these improvements may introduce bugs, and it’s true. However, with good test coverage, static typing, and modern tooling, the benefits are greater than the risks.
 
 I often do small improvements, like renaming variables, moving things around or adding comments, when I read the code. If something is confusing for me, I try to make it less confusing for my colleagues or future me.
 
@@ -256,7 +254,7 @@ I’m a big fan of parallel code, and, even though the original code was already
 
 (We talk more about parallel code in [Don’t make me think](#thinking) chapter.)
 
-Some people [even believe](https://www.reddit.com/r/programming/comments/2tjoc8/the_boy_scout_rule_of_coding/) that we shouldn’t touch what’s working and refactoring has no business value for the product but I fiercely disagree. Our job is not only do what we’re told to do by the businessfolks but also to keep our software easy to change so we can quickly react to new business requirements. This is only possible if we care about maintainability, don’t let the tech debt pile up.
+Some people [even believe](https://www.reddit.com/r/programming/comments/2tjoc8/the_boy_scout_rule_of_coding/) that we shouldn’t touch what’s working and refactoring has no business value for the product, but I fiercely disagree. Our job is not only do what we’re told to do by the businessfolks but also to keep our software easy to change, so we can quickly react to new business requirements. This is only possible if we care about maintainability, don’t let the tech debt pile up.
 
 {#greppability}
 
@@ -276,15 +274,15 @@ TODO: unique module names
 
 ## Avoid not invented here syndrome
 
-Not invented here syndrome (NIH) represents fear or a ban of using third-party solutions. It could come from an internal developer’s need to prove themselves to the world, or from an employer, usually a huge one, that hired so many developers that there’s not enough actually useful work for everyone.
+_Not invented here syndrome_ (NIH) represents fear or a ban on using third-party solutions. It could come from an internal developer’s need to prove themselves to the world or from an employer, usually a huge one, that hired so many developers that there’s not enough actually useful work for everyone.
 
-Like any extreme, discarding any third-party libraries in our work could be unhealthy. Many problems are generic enough and don’t need to be rewritten by every developer again and again. For many problems, there are popular open source libraries, that are well tested and documented.
+Like any extreme, discarding all third-party libraries in our work is unhealthy. Many problems are generic enough and don’t need to be rewritten by every developer on the planet again and again. For many problems, there are popular open source libraries, that are well tested and documented.
 
-In this chapter, I’ll focus on utility functions rather than on big frameworks, because I see developers reinventing utility functions far more often than big frameworks.
+In this section, I’ll focus on utility functions rather than on big frameworks, because I see developers reinventing utility functions far more often than big frameworks.
 
 ### What’s wrong with in-house solutions
 
-The worst case is inlining utility functions like so:
+The worst case is inlining utility functions like this:
 
 <!--
 const object = { o: 0 }
@@ -301,13 +299,14 @@ if (object && Object.keys(object).length > 0) {
 expect(result).toBe(true)
 -->
 
-This code is checking that the object isn’t empty, meaning it has at least one property. It’s hard to see the code intention immediately and it’s hard to remember to do the existence check to avoid runtime exceptions when the variable is `undefined`.
+This code is checking that the object isn’t empty, meaning it has at least one property. It’s hard to see the code intention immediately, and it’s hard to remember to do the existence check to avoid runtime exceptions when the variable is `undefined`.
 
 Having a function with a meaningful name that encapsulates all the required checks (including the ones we’ll come up with in the future) makes the intention of the code more clear:
 
 <!--
 const object = { o: 0 }
 let result = false
+let isEmpty = _.isEmpty
 -->
 
 ```js
@@ -320,55 +319,102 @@ if (isEmpty(object) === false) {
 expect(result).toBe(true)
 -->
 
-This is already much better. Now, the question is whether we write this function ourselves or we use one that somebody has written already.
+This is a bit more readable. Now, the question is whether we write this function ourselves or use one that somebody has already written.
 
-It might be tempting to quickly write our own function or copypaste the code from Stack Overflow — what’s here to write anyway? — but we should first consider potential problems of maintaining our own solution:
+It might be tempting to quickly write our own function or copypaste one from Stack Overflow — what’s here to write anyway? Our function could look like this:
 
-- Often poor tests and documentation, or no documentation at all.
-- Many bugs aren’t fixed because of a low number of users.
+```js
+function isEmpty(object) {
+  return Object.keys(object ?? {}).length === 0;
+}
+```
+
+<!--
+expect(isEmpty()).toBe(true)
+expect(isEmpty({})).toBe(true)
+expect(isEmpty({foo: 42})).toBe(false)
+-->
+
+However, we should first consider potential problems of maintaining our own solution:
+
+- Poor tests and documentation, or no documentation at all.
+- Not generic enough and built to cover only one or a few use cases.
+- Many bugs aren’t fixed because of a low number of users and a lack of tests.
 - No Google and Stack Overflow to help us when something isn’t working.
-- Maintenance may take a lot of time.
-- New developers, our company hires, need to learn its in-house artisanal libraries, which is often hard because of poor documentation and discoverability.
+- Maintenance may take a lot of time that we could spend adding new features or improving the product.
+- New developers our company hires need to learn how to use its in-house artisanal libraries, which is often hard because of poor documentation and discoverability.
+
+Let’s compare our own function with one from a popular library: [isEmpty from Lodash](https://lodash.com/docs/4.17.15#isEmpty). It looks quite similar, but it supports objects, arrays, maps, and sets; it’s documented with examples, and it’s tested. I wouldn’t want to deal will all these myself, if an alternative already exists.
+
+On a real project, I’d make sure that the `object` is always an object (never `undefined` or `null`, TypeScript can help with this), and then either use Lodash’s `isEmpty` function if available, or inline the `Object.keys(object).length > 0` condition where I need it (now we don’t need to check object existence first).
 
 ### Why third-party libraries might be better
 
-When using a good popular library:
+When using a popular, well-established library:
 
-- We have access to documentation, updates, and bugfixes.
-- New developers, joining the company, may already have experience with the library.
-- Fixing an obscure error message might be one Google search away.
+- Lots of information: documentation, articles, books, Stack Overflow answers, and conference talks (even whole conferences dedicated to a single library).
+- Big community: many plugins and additional libraries to use with it, and so on
+- Easier hiring and onboarding: many developers will already be familiar with a library and have experience working with it.
+- Most bugs have already been found and fixed.
+- Regular updates, and bugfixes.
 
 ### What to keep in mind when using third-party libraries
 
-However, there are things we need to keep in mind when using third-party libraries:
+Some things we need to keep in mind when using third-party libraries:
 
-- It’s hard to choose a good library, there are too many, and often all are far from great.
-- Open source libraries die every day for many reasons, for example, maintainers’ burnout.
-- It may significantly increase the bundle size. Use [Bundlephobia](https://bundlephobia.com/) to check the size of any npm package.
+- It’s hard to choose a good library: there are too many, and often all are far from great.
+- Open source libraries die every day for many reasons, for example, [maintainers’ burnout](https://sapegin.me/blog/open-source-no-more/).
+- It may significantly increase the bundle size.
 - Interoperability between different libraries: some libraries may require particular versions of some other libraries, or have incompatibilities that are hard to track and fix.
 - Security risks: it’s not uncommon that popular npm packages get compromised, and we may end up including some malicious code that will break our app in production or even destroy some data.
+
+T> Use [Bundlephobia](https://bundlephobia.com/) to check the size of any npm package.
 
 Another problem is when the library isn’t doing exactly what we want. In this case, we could:
 
 - Submit a pull request to the library, which may take a lot of time to be reviewed, approved, merged, and released; or it may never be merged.
-- Fork the library or copypaste the code to our own codebase, and do the changes there; so we’re essentially converting a third-party library into an in-house one, with all the problems of the artisanal libraries mentioned above.
-- Switch to another library that does what we want better, which may take a lot of time.
+- Fork the library or copy the code to our own codebase, and make the changes there; so we’re essentially converting a third-party library into an in-house one, with all the problems of the artisanal libraries mentioned above.
+- Switch to another library that does what we want better, which may take a lot of time and won’t really solve the problem long-term.
 
 ### My approach to using third-party libraries
 
 I don’t have any strict rules on using third-party libraries versus in-house ones, and balance is important here: both have their place in our work. For me, the choice depends on the complexity of the function I need, the type of the project (personal or not), my experience with a particular library that may do what I need, and so on.
 
-I use [Lodash](https://lodash.com/) on most of my web apps: it’s a hugely popular utility library for JavaScript that has lots of useful functions, and many developers have experience with it, so they’ll spend less time reading and understanding the code that uses these functions.
+I use [Lodash](https://lodash.com/) on most of my projects: it’s a hugely popular utility library for JavaScript that has lots of useful functions, and many developers have experience with it, so they’ll spend less time reading and understanding the code that uses these functions.
 
-I tend to use microlibraries on my personal projects but it’s more of a taste choice than a rational one, and my personal projects are pretty small and simple.
+I tend to use _microlibraries_ on my personal projects, but it’s more of a personal preference than a rational chose, and my personal projects are usually small and simple.
 
-Microlibrary is a tiny, often a one-liner, library that does one small task, and nothing else. The good thing about microlibraries — they don’t increase the bundle size much, the bad thing about them — we need to choose, install and update each library separately. Also, different libraries may have very different APIs and the documentation is less accessible (because we need to look for each library separately).
+A microlibrary is a tiny library, often a one-liner, that does one small task, and nothing else.
+
+Some examples of microlibraries are:
+
+- [clsx](https://github.com/lukeed/clsx): constructing `className` strings conditionally.
+- [dlv](https://github.com/developit/dlv): safely get a dot-notated path within a nested object.
+- [pretty-bytes](https://github.com/sindresorhus/pretty-bytes): convert bytes to a human-readable string.
+- [rgb-hex](https://github.com/sindresorhus/rgb-hex): convert colors from RGB to HEX.
+- [uid](https://github.com/lukeed/uid): generation of random IDs.
+
+The good things about microlibraries are:
+
+- Don’t increase the bundle size much.
+- Often don’t have dependencies.
+- One can read and understand the code in a few minutes.
+
+The bad things about microlibraries are:
+
+- We need to choose, install and update each library separately.
+- Different libraries may have very different APIs.
+- Documentation is less accessible because we need to look for each library separately.
+
+It would probably take me less time to write many of these microlibraries myself than to choose a decent one on npm. But then I’d need to write tests, types, comments… and the idea of writing my own utility function doesn’t seem so attractive anymore.
 
 I try to choose microlibraries from a few developers I trust: mainly [Luke Edwards](https://www.npmjs.com/~lukeed) and [Sindre Sorhus](https://www.npmjs.com/~sindresorhus).
 
-Another consideration is how difficult it is to introduce a new dependency on the project. For a small personal project, adding a new dependency is only `npm install something` but a large project may require many steps like presenting a proposal to the team and security approval. The latter makes adding new dependencies less likely, which might be frustrating but has some benefits too. It’s harder to keep track of all dependencies on a large project, to make sure there are no vulnerabilities and no multiple dependencies that do the same thing but are added by different developers.
+Another consideration is how difficult it is to introduce a new dependency on the project. For a small personal project, adding a new dependency is only one `npm install` away, but a large project may require many steps, like presenting a proposal to the team and obtaining security approval. The latter makes adding new dependencies less likely, which might be frustrating but has some benefits too. It’s harder to keep track of all dependencies on a large project to make sure there are no vulnerabilities and no multiple dependencies that do the same thing but are added by different developers.
 
-Probably the best approach to using third-party libraries should be this: the bigger the project and the more developers work on it, the more stable should be its dependencies, with a focus on popular and established libraries rather than on microlibraries.
+For larger projects, it makes a lot of sense to use popular, well-established libraries, like React, styled-components, or Tailwind.
+
+The best approach to using third-party libraries is probably this: the bigger the project and the more developers work on it, the more stable its dependencies should be, with a focus on popular and established libraries rather than on microlibraries.
 
 ## Avoid cargo cult programming
 

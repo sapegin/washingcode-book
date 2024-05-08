@@ -302,6 +302,7 @@ Consider this example:
 <!--
 const object = { o: 0 }
 let result = false
+let isEmpty = _.isEmpty
 -->
 
 ```js
@@ -319,6 +320,7 @@ It’s hard to notice the negation in `!i`. We could rewrite this code to avoid 
 <!--
 const object = { o: 0 }
 let result = false
+let isEmpty = _.isEmpty
 -->
 
 ```js
