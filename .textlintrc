@@ -8,7 +8,8 @@
       "severity": "warning",
       "exclude": [
         "divide and conquer",
-        "we all know that"
+        "we all know that",
+        "never say never"
       ]
     },
     "write-good": {
