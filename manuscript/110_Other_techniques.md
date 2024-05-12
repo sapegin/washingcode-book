@@ -456,11 +456,13 @@ Don’t repeat yourself (DRY) principle is probably the most overrated idea in s
 
 See the [Divide and conquer, or merge and relax](#divide-and-conquer) chapter for more details.
 
-<!-- textlint-disable -->
+### Always use only one return statement in a function
+
+There’s this idea that functions should have only one `return` statement. I’ve even seen it called a law: _the single return law_. It comes from a very old principle _single entry, single exit_ (SESE) that [comes from the days of FORTRAN and COBOL](https://softwareengineering.stackexchange.com/a/118793/338815) and made sense back then. Now it’s unnecessary, and often limiting yourself to a single `return` statement reduces the readability.
+
+However, as it often happens, the reason this rules existed is long gone, but the rule stayed.
 
 ### Never say never
-
-<!-- textlint-enable -->
 
 Never listen when someone says you should never do that or always do this, without any exceptions. Answer to most software development questions is “it depends”, and such generalizations often do more harm than good.
 
