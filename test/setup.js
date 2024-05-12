@@ -2,7 +2,6 @@ const _ = require('lodash');
 
 // Common libraries
 global._ = _;
-global.isEmpty = _.isEmpty;
 global.sortBy = _.sortBy;
 global.get = _.get;
 global.intersection = _.intersection;
