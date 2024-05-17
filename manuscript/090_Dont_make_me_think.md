@@ -565,7 +565,7 @@ expect(c2.textContent).toEqual('')
 
 Now, it’s clear we either set `onPress` or `link` props depending on the platform.
 
-We can stop here or go one step further, depending on the the number of `Platform.OS === 'web'` conditions in this component or number of props we need to set conditionally.
+We can stop here or go one step further, depending on the number of `Platform.OS === 'web'` conditions in this component or number of props we need to set conditionally.
 
 If we often need to check the platform in the same component or module, I’d extract the condition into its own variable:
 

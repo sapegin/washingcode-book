@@ -24,7 +24,7 @@ _Artem, Berlin_
 
 # How to read this book
 
-You don’t have to read the book in any particular order: all chapters aren’t connected and no chapter requires the knowledge from any other chapter. You could read the whole thing from start to finish, or you could read only chapters you’re curious about in order that suits you best.
+You don’t have to read the book in any particular order: all chapters aren’t connected and no chapter requires the knowledge from any other chapter. You could read the whole thing from start to finish, or you could read only chapters you’re curious about in any order that suits you best.
 
 The first four chapters are about the basics of writing clean code:
 

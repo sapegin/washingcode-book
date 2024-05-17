@@ -130,7 +130,7 @@ It’s called Premature abstraction, [premature generalization](https://www.code
 
 Focus on finding the simplest solution for the current requirements. It will be easier to review and test now, and to adapt to new requirements in the future.
 
-T> This approach is often referred to as [Yagni](https://martinfowler.com/bliki/Yagni.html) (You aren’t gonna need it) or [KISS](https://en.wikipedia.org/wiki/KISS_principle) (Keep it simple, stupid!).
+T> This approach is often called [Yagni](https://martinfowler.com/bliki/Yagni.html) (You aren’t gonna need it) or [KISS](https://en.wikipedia.org/wiki/KISS_principle) (Keep it simple, stupid!).
 
 Write code that’s easy to delete. Isolate different features from each other, isolate UI from business logic. Make UI easy to change and move around.
 
@@ -260,17 +260,132 @@ Some people [even believe](https://www.reddit.com/r/programming/comments/2tjoc8/
 
 ## Make the code greppable
 
-TODO: don’t concatenate identifiers
+Consider this example:
 
-TODO: Find the article about greppable code
+```js
+function BookCover({ title, type, width = 150, height = 194 }) {
+  return (
+    <img
+      className="book-cover"
+      src={`/images/cover-${type}.jpg`}
+      width={width}
+      height={height}
+      alt={`${title} book cover`}
+    />
+  );
+}
+```
 
-http://jamie-wong.com/2013/07/12/grep-test/
+<!--
+const {getByRole} = RTL.render(<BookCover title="Tacos" type="tacos" />);
+expect(getByRole('img').src).toBe('http://localhost/images/cover-tacos.jpg')
+-->
 
-TODO: This might be less important in TypeScript but not really
+The issues with this code is the dynamic generation of the image filename.
 
-TODO: Why default exports are bad: decreased greppability
+Imagine, we’re looking at the `/images/cover-washing-code.jpg` file and we wan to know where this file is used. We try to search `cover-washing-code.jpg` or `cover-washing-code` and don’t find anything. We may assume that this file is unused and delete it. Naturally, this breaks our app.
 
-TODO: unique module names
+We can have a similar situation in many other cases: filenames, translation keys, CSS class names, function and module names…
+
+There are two possible solutions to this.
+
+When we know all possible values in advance, we can map them:
+
+```js
+const COVERS = {
+  'washing-code': 'cover-washing-code.jpg',
+  tacos: 'cover-tacos.jpg'
+};
+function BookCover({ title, type, width = 150, height = 194 }) {
+  return (
+    <img
+      className="book-cover"
+      src={`/images/${COVERS[type]}`}
+      width={width}
+      height={height}
+      alt={`${title} book cover`}
+    />
+  );
+}
+```
+
+<!--
+const {getByRole} = RTL.render(<BookCover title="Tacos" type="tacos" />);
+expect(getByRole('img').src).toBe('http://localhost/images/cover-tacos.jpg')
+-->
+
+Here, we have a map with all possible filenames, so if we search by a filename (`cover-washing-code.jpg` or `cover-washing-code`), we’ll find this component.
+
+However, we don’t always know all the values in advance. In our example, we can move the files to a separate folder and use a complete name without extension as an identifier:
+
+```js
+function BookCover({ title, type, width = 150, height = 194 }) {
+  return (
+    <img
+      className="book-cover"
+      src={`/images/covers/${type}.jpg`}
+      width={width}
+      height={height}
+      alt={`${title} book cover`}
+    />
+  );
+}
+```
+
+<!--
+const {getByRole} = RTL.render(<BookCover title="Tacos" type="tacos" />);
+expect(getByRole('img').src).toBe('http://localhost/images/covers/tacos.jpg')
+-->
+
+Here, we can search either by a folder name (`/images/covers`) and find this component or by a filename (`cover-washing-code`) and find all usages of this component.
+
+I call such identifiers _greppable_, meaning we can search for them and find all places in the code where they are used. The name comes from the `grep` unix command that finds a substring in a file.
+
+I> This idea is also known as _the grep test_ and is greatly described in [Jamie Wong’s article with the same title](https://jamie-wong.com/2013/07/12/grep-test/).
+
+We can also create a map using types:
+
+```tsx
+type Cover = 'washing-code' | 'tacos';
+interface BookCoverProps {
+  title: string;
+  type: Cover;
+  width?: number;
+  height?: number;
+}
+
+function BookCover({
+  title,
+  type,
+  width = 150,
+  height = 194
+}: BookCoverProps) {
+  return (
+    <img
+      className="book-cover"
+      src={`/images/covers/${type}.jpg`}
+      width={width}
+      height={height}
+      alt={`${title} book cover`}
+    />
+  );
+}
+```
+
+<!--
+const {getByRole} = RTL.render(<BookCover title="Tacos" type="tacos" />);
+expect(getByRole('img').src).toBe('http://localhost/images/covers/tacos.jpg')
+-->
+
+The benefit of this approach over the map implemented as JavaScript object is that types won’t increase our bundle size and won’t be shipped to the client. This isn’t an issue for backend code though.
+
+Some tips to improve _code greppability_:
+
+- **Don’t concatenate identifiers**, try to write them fully.
+- **Avoid generic and ambiguous names** (like `processData()`) for things that are used in more than one module. Names that are too generic are harder to find in the code because we’ll get false positives: other things that have the same name but not the thing we’re looking for.
+- **Consider using a map** where all names are fully written if they depend on a parameter
+
+TypeScript helps a lot with these things: for example, we can now find all places where a particular function is used, even if it’s imported with a different name. However, for many other cases, it’s still important to keep identifiers greppable: filenames, translation keys, CSS class names, and so on.
 
 ## Avoid not invented here syndrome
 
@@ -460,7 +575,7 @@ See the [Divide and conquer, or merge and relax](#divide-and-conquer) chapter fo
 
 There’s this idea that functions should have only one `return` statement. I’ve even seen it called a law: _the single return law_. It comes from a very old principle _single entry, single exit_ (SESE) that [comes from the days of FORTRAN and COBOL](https://softwareengineering.stackexchange.com/a/118793/338815) and made sense back then. Now it’s unnecessary, and often limiting yourself to a single `return` statement reduces the readability.
 
-However, as it often happens, the reason this rules existed is long gone, but the rule stayed.
+However, as it often happens, we upgraded the technology, but kept using rules and best practices of the old tech.
 
 ### Never say never
 

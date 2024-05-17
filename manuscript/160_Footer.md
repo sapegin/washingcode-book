@@ -57,7 +57,7 @@ Until the book is final and available on Amazon, and so on, please send me your 
 
 ## Got feedback?
 
-This book is full of opinions, and I don’t expect you’ll agree with all of them. That’s expected and it was never my goal to convince my readers that my opinions are the only right ones. I wanted to make my readers think of certain things and start a dialogue.
+This book is full of opinions, and I don’t expect you’ll agree with them all. That’s expected and it was never my goal to convince my readers that my opinions are the only right ones. I wanted to make my readers think of certain things and start a dialogue.
 
 Let me know what you think at [mailto:artem@sapegin.ru](artem@sapegin.ru).
 

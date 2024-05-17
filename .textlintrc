@@ -15,6 +15,8 @@
     "write-good": {
       "severity": "warning",
       "adverb": false,
+      "cliches": false,
+      "illusion": true,
       "passive": false,
       "so": false,
       "thereIs": false,

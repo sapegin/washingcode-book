@@ -4,7 +4,7 @@
 
 ### Make it your own
 
-One of the biggest features of moderns development environments and code editors is their flexibility and customizability: hundreds of color schemes, fonts made specifically for programming, any part of UI can be hidden or adjusted...
+One of the biggest features of moderns development environments and code editors is their flexibility and customizability: hundreds of color schemes, fonts made specially for programming, any part of UI can be hidden or adjusted...
 
 I [don’t do well with distractions](https://sapegin.me/blog/adhd-focus/) and overstimulation, so my environment is very minimal and with very low contrast. In some editors it’s called _zen mode_ but for me it’s my normal mode.
 
@@ -87,6 +87,8 @@ My favorite refactorings are:
 
 - Inline: replaces all usages of a variable or a function with their bodies.
 - Rename: renames a symbol and all its usages (including the ones in other files).
+
+TODO: Why default exports are bad: rename don’t always change these names, and anyone can use custom names
 
 I never learned to use more complex refactoring because they always need too much fixing after, and I feel that it’s easier to do the refactoring manually.
 

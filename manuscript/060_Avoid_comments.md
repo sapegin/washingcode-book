@@ -84,7 +84,7 @@ Comments are useful to answer _why_ code is written in a certain, often mysterio
 
 Such comments will save us from accidental “refactoring” that makes code easier but removes some necessary functionality or breaks it for some users.
 
-High-level comments, explaining how code works, are useful too. If the code implements an algorithm, explained somewhere else, a link to that place would be useful. However, if a piece of code is too difficult to explain and require a long convoluted comment, perhaps we should rewrite it instead.
+High-level comments, explaining how code works, are useful too. If the code implements an algorithm, explained somewhere else, a link to that place would be useful. However, if a piece of code is too difficult to explain and require a long convoluted comment, maybe we should rewrite it instead.
 
 And any hack should be explained in a _hack comment_:
 

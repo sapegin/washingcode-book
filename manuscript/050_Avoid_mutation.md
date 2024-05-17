@@ -855,7 +855,7 @@ if (drinksAlcohol) {
 
 <!-- expect(drinks).toEqual(['coffee', 'tea', 'vodka']) -->
 
-I’m hesitant to say which one is more more readable.
+I’m hesitant to say which one is more readable.
 
 Let’s look at another example:
 
