@@ -4,9 +4,14 @@
 
 ## Make impossible states impossible
 
-In UI programming, or _especially_ in UI programming we often use boolean flags to represent the current state of the UI or its parts: _is data loading?_ _is submit button disabled?_ _has action failed?_
+In user interface (UI) programming, or _especially_ in UI programming, we often use boolean flags to represent the current state of the UI or its parts: _is data loading?_, _is submit button disabled?_, _has action failed?_
 
-Often we end up with multiple booleans: one for each condition. Consider this typical data fetching handling in a React component:
+Often, we end up with multiple booleans: one for each condition. Consider this typical implementation of data fetching in a React component:
+
+<!--
+let state;
+let useState = (x) => { state = x; return [x, (y) => state = y] }
+-->
 
 ```jsx
 function Tweets() {
@@ -30,11 +35,11 @@ function Tweets() {
   };
 
   if (isLoading) {
-    return 'Loading…';
+    return <p>Loading…</p>;
   }
 
   if (isError) {
-    return 'Something went wrong!';
+    return <p>Something went wrong!</p>;
   }
 
   if (tweets.length === 0) {
@@ -53,44 +58,150 @@ function Tweets() {
 }
 ```
 
-We have two booleans here: _is loading_ and _has errors_. If we look closer how the code uses them, we’ll notice that only one boolean is `true` at any time in a component’s lifecycle. It’s hard to see now, and it’s easy to make a mistake and correctly handle all possible state changes, so your component may end up in an _impossible state_, like `isLoading && isError`, and the only way to fix that would be reloading the page. This is exactly why switching off and on electronic devices often fixes weird issues.
+<!--
+const {container: c1} = RTL.render(<Tweets />);
+expect(c1.textContent).toEqual('Load tweets')
+-->
 
-We can replace several _exclusive_ boolean flags, meaning only one is `true` at a time, with a single enum variable:
+We have two booleans here: _is loading_, and _has errors_. If we look closer at how the code uses them, we’ll notice that only one boolean is `true` at any time in a component’s lifecycle. It’s hard to see now, and it’s easy to make a mistake and correctly handle all possible state changes, so our component may end up in an _impossible state_ like _is loading_ and _has errors_ at the same time, and the only way to fix that would be to reload the page. This is exactly why switching off and on electronic devices often fixes weird issues.
+
+We can replace several _exclusive_ boolean flags, meaning only one is `true` at a time, with a single enum:
+
+<!--
+let useState = React.useState
+function getTweets() { return Promise.resolve([{id: '1', username: 'taco', html: 'test'}, {id: '2', username: 'taco', html: 'test 2'}]) }
+-->
 
 ```jsx
-const STATUSES = {
-  IDLE: 'idle',
-  LOADING: 'loading',
-  SUCCESS: 'success',
-  ERROR: 'error'
+const Status = {
+  Idle: 'idle',
+  Loading: 'loading',
+  Ready: 'ready',
+  Failed: 'failed'
 };
 
 function Tweets() {
-  const [status, setStatus] = useState(STATUSES.IDLE);
+  const [status, setStatus] = useState(Status.Idle);
   const [tweets, setTweets] = useState([]);
 
   const handleLoadTweets = () => {
-    setStatus(STATUSES.LOADING);
+    setStatus(Status.Loading);
     getTweets()
       .then(tweets => {
         setTweets(tweets);
-        setStatus(STATUSES.SUCCESS);
+        setStatus(Status.Ready);
       })
       .catch(() => {
         setTweets([]);
-        setStatus(STATUSES.ERROR);
+        setStatus(Status.Failed);
       });
   };
 
-  if (status === STATUSES.LOADING) {
+  if (status === Status.Loading) {
+    return <p>Loading…</p>;
+  }
+
+  if (status === Status.Failed) {
+    return <p>Something went wrong!</p>;
+  }
+
+  if (status === Status.Idle) {
+    return <button onClick={handleLoadTweets}>Load tweets</button>;
+  }
+
+  if (tweets.length === 0) {
+    return <p>No tweets found</p>;
+  }
+
+  return (
+    <ul>
+      {tweets.map(({ id, username, html }) => (
+        <li key={id}>
+          {html} by {username}
+        </li>
+      ))}
+    </ul>
+  );
+}
+```
+
+<!--
+const {container: c1, getByRole, getByText} = RTL.render(<Tweets />);
+expect(c1.textContent).toEqual('Load tweets')
+-->
+
+The code is now easier to understand: we know that the component can only be in a single state at any time. We’ve also fixed a bug in the initial implementation: the result with no tweets was treated as no result, and the component was showing the “Load tweets” button again.
+
+For more complex cases, I’d go one step further and use `useReducer()` hook to manage all component state instead of separate `useState()` hooks:
+
+<!--
+let useReducer = React.useReducer
+function getTweets() { return Promise.resolve([{id: '1', username: 'taco', html: 'test'}, {id: '2', username: 'taco', html: 'test 2'}]) }
+-->
+
+```jsx
+const Status = {
+  Idle: 'idle',
+  Loading: 'loading',
+  Ready: 'ready',
+  Failed: 'failed'
+};
+
+const Action = {
+  Load: 'load',
+  LoadSuccess: 'load-success',
+  LoadFailed: 'load-failed'
+};
+
+const initialState = {
+  status: Status.Idle,
+  tweets: []
+};
+
+function reducer(state, action) {
+  switch (state.status) {
+    case Status.Idle:
+      switch (action.type) {
+        case Action.Load:
+          return { status: Status.Loading, tweets: [] };
+      }
+    case Status.Loading:
+      switch (action.type) {
+        case Action.LoadSuccess:
+          return { status: Status.Ready, tweets: action.tweets };
+        case Action.LoadFailed:
+          return { status: Status.Failed, tweets: [] };
+      }
+  }
+  return state;
+}
+
+export function Tweets() {
+  const [{ status, tweets }, dispatch] = useReducer(
+    reducer,
+    initialState
+  );
+
+  const handleLoadTweets = () => {
+    dispatch({ type: Action.Load });
+    getTweets()
+      .then(tweets => {
+        dispatch({ type: Action.LoadSuccess, tweets });
+      })
+      .catch(() => {
+        dispatch({ type: Action.LoadFailed });
+      });
+  };
+
+  if (status === Status.Loading) {
     return 'Loading…';
   }
 
-  if (status === STATUSES.ERROR) {
+  if (status === Status.Failed) {
     return 'Something went wrong!';
   }
 
-  if (status === STATUSES.IDLE) {
+  if (status === Status.Idle) {
     return <button onClick={handleLoadTweets}>Load tweets</button>;
   }
 
@@ -110,15 +221,126 @@ function Tweets() {
 }
 ```
 
-The code is now much easier to understand: we know that the component can be in a single state at any time. We’ve also fixed a bug in the initial implementation: the result with no tweets was treated as no result and the component was showing the “Load tweets” button again.
+<!--
+const {container: c1, getByRole, getByText} = RTL.render(<Tweets />);
+expect(c1.textContent).toEqual('Load tweets')
+-->
 
-This is a very simple [finite-state machine](https://gedd.ski/post/state-machines-in-react/). State machines are useful to make logic of your code clear and prevent bugs.
+It’s definitely more code, but now all the state management is contained in our reducer function. We also added another layer of protection: now certain actions are only allowed in certain statuses; for example, `LoadSuccess` only makes sense when we’re loading data (`Loading` status).
 
-Proper state machines have events that handle transitions between states, guards that define which transitions are allowed and side effects.
+We’ve created a very simple _finite-state machine_:
 
-TODO: types
+![State machine diagram](images/tweets-state-machine.svg)
 
-TODO: `<Button primary secondary>`
+I> Proper state machines have many useful features, like events that handle transitions between states, or guards that define which transitions are allowed, and side effects. Here’s a good introduction to [state machines in React](https://mastery.games/post/state-machines-in-react/).
+
+Reducers and state machines are even more powerful with TypeScript, where we can define more precise types for each status. For example, we can say that the `tweets` array only exists in the `Ready` status.
+
+<!-- test-skip -->
+
+```jsx
+type Status = "Idle" | "Loading" | "Ready" | "Failed";
+type ActionType = "Load" | "LoadSuccess" | "LoadFailed";
+
+type Tweet = {
+  id: string;
+  username: string;
+  html: string;
+};
+
+type State =
+  | {
+      status: "Ready";
+      tweets: Tweet[];
+    }
+  | {
+      status: Exclude<Status, "Ready">;
+    };
+
+type Action =
+  | {
+      type: "LoadSuccess";
+      tweets: Tweet[];
+    }
+  | {
+      type: Exclude<ActionType, "LoadSuccess">;
+    };
+
+const initialState: State = {
+  status: "Idle",
+};
+
+function reducer(state: State, action: Action): State {
+  switch (state.status) {
+    case "Idle":
+      switch (action.type) {
+        case "Load":
+          return { status: "Loading" };
+      }
+    case "Loading":
+      switch (action.type) {
+        case "LoadSuccess":
+          return { status: "Ready", tweets: action.tweets };
+        case "LoadFailed":
+          return { status: "Failed" };
+      }
+  }
+  return state;
+}
+
+export function Tweets() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const handleLoadTweets = () => {
+    dispatch({ type: "Load" });
+    getTweets()
+      .then((tweets) => {
+        dispatch({ type: "LoadSuccess", tweets });
+      })
+      .catch(() => {
+        dispatch({ type: "LoadFailed" });
+      });
+  };
+
+  if (state.status === "Loading") {
+    return <p>Loading…</p>;
+  }
+
+  if (state.status === "Idle") {
+    return <button onClick={handleLoadTweets}>Load tweets</button>;
+  }
+
+  if (state.status === "Ready") {
+    if (state.tweets.length === 0) {
+      return <p>No tweets found</p>;
+    }
+
+    return (
+      <ul>
+        {state.tweets.map(({ id, username, html }) => (
+          <li key={id}>
+            {html} by {username}
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
+  return <p>Something went wrong!</p>;
+}
+```
+
+<!-- Can't test TypeScript yet -->
+
+It’s about the same amount of code as the plain JavaScript implementation, but it’s much more bulletproof. We also got rid of the enums and simplified the code since TypeScript can check if the status and action types are correct. This method even helped me find several bugs in my initial JavaScript implementation of this example.
+
+UI components can have similar issues caused by multiple conflicting styles. Consider a button component that supports primary and secondary styles. We change the style using component props: `<Button primary>` or `<Button secondary>`.
+
+But what if we try to use it as `<Button primary secondary>`? Probably something ugly will appear on the screen that will give hiccups to our designer.
+
+We can fix it the same way we fixed the previous example: by replacing two boolean props with a single one, let’s call it `variant`: `<Button variant="primary">` or `<Button variant="secondary">`.
+
+Now it’s clear that we can only use one variant of a button at a time.
 
 ## Don’t try to predict the future
 
