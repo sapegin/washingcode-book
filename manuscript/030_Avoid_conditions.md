@@ -603,7 +603,7 @@ Now we have at most one level of nesting inside the function and the main return
 
 I’m not so sure what the code inside the second condition does, but it looks like it’s wrapping a single item in an array as we did in the previous section.
 
-_And no, I have no idea what `tmpBottle` means, nor why it was needed._
+_And no, I have no idea what `tmpBottle` means, or why it was needed._
 
 The next step here could be improving the `getOrderIds()` function’s API. It can return three different things: `undefined`, a single item, or an array. We have to deal with each separately, so we have two conditions at the very beginning of the function, and we’re reassigning the `idsArrayObj` variable (see [Avoid reassigning variables](#avoid-reassigning-variables) below).
 
@@ -632,6 +632,94 @@ function postOrderStatus(orderId) {
 Now that’s a big improvement over the initial version. I’ve also renamed the `idsArrayObj` variable, because “array object” doesn’t make any sense to me.
 
 The next step would be out of the scope of this chapter: the code inside `// 70 lines of code` mutates the `fullRecordsArray`, see the [Avoid mutation](#avoid-mutation) chapter below to learn why mutations aren’t good and how to avoid them.
+
+Here’s another example:
+
+<!--
+let Cmpnt = ({data}) => <p>{data.join('|')}</p>
+let ErrorMessage = () => <p>Error</p>
+let EmptyMessage = () => <p>No data</p>
+let LoadingSpinner = () => <p>Loading…</p>
+-->
+
+```jsx
+function Container({
+  component: Component,
+  isError,
+  isLoading,
+  data
+}) {
+  return isError ? (
+    <ErrorMessage />
+  ) : isLoading ? (
+    <LoadingSpinner />
+  ) : data.length > 0 ? (
+    <Component data={data} />
+  ) : (
+    <EmptyMessage />
+  );
+}
+```
+
+<!--
+const {container: c1} = RTL.render(<Container component={Cmpnt} isError={true} />);
+expect(c1.textContent).toEqual('Error')
+const {container: c2} = RTL.render(<Container component={Cmpnt} isLoading={true} />);
+expect(c2.textContent).toEqual('Loading…')
+const {container: c3} = RTL.render(<Container component={Cmpnt} data={[]} />);
+expect(c3.textContent).toEqual('No data')
+const {container: c4} = RTL.render(<Container component={Cmpnt} data={[2, 4]} />);
+expect(c4.textContent).toEqual('2|4')
+-->
+
+I have trouble reading nested ternaries in general, and prefer not to nest them. Here’s an extreme example of nesting: the good path code, rendering the `Component` is quite hidden. It’s and a perfect use case for guard clauses.
+
+Let’s refactor it:
+
+<!--
+let Cmpnt = ({data}) => <p>{data.join('|')}</p>
+let ErrorMessage = () => <p>Error</p>
+let EmptyMessage = () => <p>No data</p>
+let LoadingSpinner = () => <p>Loading…</p>
+-->
+
+```jsx
+function Container({
+  component: Component,
+  isError,
+  isLoading,
+  data
+}) {
+  if (isError) {
+    return <ErrorMessage />;
+  }
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (data.length === 0) {
+    return <EmptyMessage />;
+  }
+
+  return <Component data={data} />;
+}
+```
+
+<!--
+const {container: c1} = RTL.render(<Container component={Cmpnt} isError={true} />);
+expect(c1.textContent).toEqual('Error')
+const {container: c2} = RTL.render(<Container component={Cmpnt} isLoading={true} />);
+expect(c2.textContent).toEqual('Loading…')
+const {container: c3} = RTL.render(<Container component={Cmpnt} data={[]} />);
+expect(c3.textContent).toEqual('No data')
+const {container: c4} = RTL.render(<Container component={Cmpnt} data={[2, 4]} />);
+expect(c4.textContent).toEqual('2|4')
+-->
+
+Here, the default, happy path isn’t intertwined with the exception cases. The default case is at the very bottom of the component, and all exception cases are in front, as guard clauses.
+
+T> We discuss a better way of managing loading and error states in the [Make impossible states impossible](#impossible-states) section.
 
 ## Repeated conditions
 
