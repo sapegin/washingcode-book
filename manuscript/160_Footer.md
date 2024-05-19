@@ -14,9 +14,9 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 
 ## Books
 
-- [The Art of Readable Code](https://www.amazon.com/gp/product/0596802293/?tag=artesapesphot-20) by Dustin Boswell
-- [Clean Code: A Handbook of Agile Software Craftsmanship](https://www.amazon.com/Clean-Code-Handbook-Software-Craftsmanship/dp/0132350882/?tag=artesapesphot-20) by Robert C. Martin
-- [Code Complete: A Practical Handbook of Software Construction](https://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670/?tag=artesapesphot-20) by Steve McConnell
+- [The Art of Readable Code](https://www.amazon.com/gp/product/0596802293/) by Dustin Boswell
+- [Code Complete: A Practical Handbook of Software Construction](https://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670/) by Steve McConnell
+- [The Pragmatic Programmer: Your journey to mastery, 20th Anniversary Edition](https://www.amazon.com/Pragmatic-Programmer-journey-mastery-Anniversary-ebook/dp/B07VRS84D1/) by David Thomas and Andrew Hunt
 
 ## Articles
 
