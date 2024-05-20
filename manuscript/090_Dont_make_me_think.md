@@ -482,6 +482,109 @@ expect(getAssetDirs({assetsDir: ['pizza', 'tacos']})).toEqual([{from: 'pizza'}, 
 
 I don’t like that Lodash’s `castArray()` function wraps `undefined` in an array, which isn’t what I’d expect, but still the result is simpler.
 
+## Avoid shortcuts
+
+CSS has [shorthand properties](https://developer.mozilla.org/en-US/docs/Web/CSS/Shorthand_properties), and developers often overuse them. The idea is that we can use a single property to define several properties at the same time. Here’s a good example:
+
+```css
+.block {
+  margin: 1rem;
+}
+```
+
+Which would be the same as:
+
+```css
+.block {
+  margin-top: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 1rem;
+}
+```
+
+One line of code instead of four, and still clear what’s happening: we set the same margin to all four sides of an element.
+
+Now, look at this example:
+
+```css
+.block-1 {
+  margin: 1rem 2rem 3rem 4rem;
+}
+.block-3 {
+  margin: 1rem 2rem 3rem;
+}
+.block-2 {
+  margin: 1rem 2rem;
+}
+```
+
+To understand what they do, we need to know that when `margin` property has four values, the order is top, right, bottom, left. When it has three values, the order is top, left/right, bottom. And when it has two values, the order is top/bottom, left/right. This creates unnecessary cognitive load, makes code harder to read, edit, and review. I avoid such shorthands.
+
+Other problem with shorthand properties is that they may set properties we’re not expecting. Consider this example:
+
+```css
+.block {
+  font: italic bold 2rem Helvetica;
+}
+```
+
+This declaration sets Helvetica font family, font size of 2rem, and makes the text italic and bold. What we don’t see here is that it also changes line height to the default value of `normal`.
+
+My rule of thumb is to only use shorthand properties when they set a single value, otherwise I use longhand properties.
+
+These are good examples:
+
+```css
+.block {
+  /* Set margin on all four sides */
+  margin: 1rem;
+
+  /* Set top/bottom and left/right margin */
+  margin-block: 1rem;
+  margin-inline: 2rem;
+
+  /* Set border radius to all four corners */
+  border-radius: 0.5rem;
+
+  /* Set border-width, border-style and border-color
+   * This is a bit of an outlier but it’s very common and it’s hard to
+   * misinterpret it because all values have different types */
+  border: 1px solid #c0ffee;
+
+  /* Set top, right, bottom, and left */
+  inset: 0;
+}
+```
+
+And these are bad examples:
+
+```css
+.block {
+  /* Set top/bottom and left/right margin */
+  margin: 1rem 2rem;
+
+  /* Set border radius to top-left/bottom-right,
+   * and top-right/bottom-left corners */
+  border-radius: 1em 2em;
+  /* Set border radius to top-left, top-right/bottom-left,
+   * and bottom-right corners */
+  border-radius: 1em 2em 3em;
+  /* Set border radius to top-left, top-right, bottom-right,
+   * and bottom-left corners */
+  border-radius: 1em 2em 3em 4em;
+
+  /* Set background-color, background-image, background-repeat,
+   * and background-position */
+  background: #bada55 url(images/tacocat.gif) no-repeat left top;
+
+  /* Set top, right, bottom, and left */
+  inset: 0 20px 0 20px;
+}
+```
+
+Shorthand properties indeed make the code shorter, but often they make it significantly harder to read, so use them with caution.
+
 ## Write parallel code
 
 It’s not always possible to eliminate the condition. However there are ways to make the difference in code branches easier to spot. One of my favorite ways is what I call _parallel coding_.
@@ -522,14 +625,16 @@ let Render = ({platform: Platform}) => { return (
 
 ```jsx
 <Button
-          onPress={Platform.OS !== 'web' ? onOpenViewConfirmation : undefined}
-          link={Platform.OS === 'web' ? previewLink : undefined}
-          target="_empty"
+  onPress={Platform.OS !== 'web' ? onOpenViewConfirmation : undefined}
+  link={Platform.OS === 'web' ? previewLink : undefined}
+  target="_empty"
 >
+  Continue
+</Button>
 ```
 
 <!--
-</Button> )}
+)}
 const {container: c1} = RTL.render(<Render platform={{OS: 'web'}} />);
 expect(c1.textContent).toEqual(previewLink)
 const {container: c2} = RTL.render(<Render platform={{OS: 'native'}} />);
@@ -549,14 +654,16 @@ let Render = ({platform: Platform}) => { return (
 
 ```jsx
 <Button
-          onPress={Platform.OS === 'web' ? undefined: onOpenViewConfirmation}
-          link={Platform.OS === 'web' ? previewLink : undefined}
-          target="_empty"
+  onPress={Platform.OS === 'web' ? undefined : onOpenViewConfirmation}
+  link={Platform.OS === 'web' ? previewLink : undefined}
+  target="_empty"
 >
+  Continue
+</Button>
 ```
 
 <!--
-</Button> )}
+ )}
 const {container: c1} = RTL.render(<Render platform={{OS: 'web'}} />);
 expect(c1.textContent).toEqual(previewLink)
 const {container: c2} = RTL.render(<Render platform={{OS: 'native'}} />);
@@ -587,16 +694,17 @@ let Render = ({platform: Platform}) => {
 -->
 
 ```jsx
-
 <Button
-          onPress={isWeb ? undefined: onOpenViewConfirmation}
-          link={isWeb ? previewLink : undefined}
-          target="_empty"
+  onPress={isWeb ? undefined : onOpenViewConfirmation}
+  link={isWeb ? previewLink : undefined}
+  target="_empty"
 >
+  Continue
+</Button>
 ```
 
 <!--
-</Button> )}
+)}
 const {container: c1} = RTL.render(<Render platform={{OS: 'web'}} />);
 expect(c1.textContent).toEqual(previewLink)
 const {container: c2} = RTL.render(<Render platform={{OS: 'native'}} />);
@@ -788,7 +896,7 @@ function Toggle() {
 
 It makes the code clear and obvious: if we have user details after the data has been fetched, the user must be logged in.
 
-### Conclusion
+## Conclusion
 
 When I was 20-years-old, it wasn’t a huge problem to remember things. I could remember books I’ve read, I could remember all the functions of a project I was working with... Now, that I’m almost 40, it’s no longer the case. Now, I value simple code that doesn’t use any tricks. Now, I value search engines, quick access to the docs, and tooling that allow me to reason about the code and navigate the project without remembering things.
 
