@@ -636,7 +636,7 @@ The next step would be out of the scope of this chapter: the code inside `// 70 
 Here’s another example:
 
 <!--
-let Cmpnt = ({data}) => <p>{data.join('|')}</p>
+let Inner = ({data}) => <p>{data.join('|')}</p>
 let ErrorMessage = () => <p>Error</p>
 let EmptyMessage = () => <p>No data</p>
 let LoadingSpinner = () => <p>Loading…</p>
@@ -662,13 +662,13 @@ function Container({
 ```
 
 <!--
-const {container: c1} = RTL.render(<Container component={Cmpnt} isError={true} />);
+const {container: c1} = RTL.render(<Container component={Inner} isError={true} />);
 expect(c1.textContent).toEqual('Error')
-const {container: c2} = RTL.render(<Container component={Cmpnt} isLoading={true} />);
+const {container: c2} = RTL.render(<Container component={Inner} isLoading={true} />);
 expect(c2.textContent).toEqual('Loading…')
-const {container: c3} = RTL.render(<Container component={Cmpnt} data={[]} />);
+const {container: c3} = RTL.render(<Container component={Inner} data={[]} />);
 expect(c3.textContent).toEqual('No data')
-const {container: c4} = RTL.render(<Container component={Cmpnt} data={[2, 4]} />);
+const {container: c4} = RTL.render(<Container component={Inner} data={[2, 4]} />);
 expect(c4.textContent).toEqual('2|4')
 -->
 
@@ -677,7 +677,7 @@ I have trouble reading nested ternaries in general, and prefer not to nest them.
 Let’s refactor it:
 
 <!--
-let Cmpnt = ({data}) => <p>{data.join('|')}</p>
+let Inner = ({data}) => <p>{data.join('|')}</p>
 let ErrorMessage = () => <p>Error</p>
 let EmptyMessage = () => <p>No data</p>
 let LoadingSpinner = () => <p>Loading…</p>
@@ -707,13 +707,13 @@ function Container({
 ```
 
 <!--
-const {container: c1} = RTL.render(<Container component={Cmpnt} isError={true} />);
+const {container: c1} = RTL.render(<Container component={Inner} isError={true} />);
 expect(c1.textContent).toEqual('Error')
-const {container: c2} = RTL.render(<Container component={Cmpnt} isLoading={true} />);
+const {container: c2} = RTL.render(<Container component={Inner} isLoading={true} />);
 expect(c2.textContent).toEqual('Loading…')
-const {container: c3} = RTL.render(<Container component={Cmpnt} data={[]} />);
+const {container: c3} = RTL.render(<Container component={Inner} data={[]} />);
 expect(c3.textContent).toEqual('No data')
-const {container: c4} = RTL.render(<Container component={Cmpnt} data={[2, 4]} />);
+const {container: c4} = RTL.render(<Container component={Inner} data={[2, 4]} />);
 expect(c4.textContent).toEqual('2|4')
 -->
 

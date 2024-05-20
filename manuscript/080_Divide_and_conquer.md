@@ -2,6 +2,8 @@
 
 # Divide and conquer, or merge and relax
 
+<!-- cspell:ignore favs -->
+
 It’s nice to have a global Button component but if it’s too flexible and has a dozen of boolean props to switch between different variations, it will be difficult to use. However, if it’s too strict, developers will create their own button components instead of using a shared one.
 
 ## Let abstractions grow
@@ -328,8 +330,8 @@ let it = (_, fn) => fn()
 
 ```js
 const stories = {
-  YOUR_RECIPES: 'page--yourrecipes',
-  ALL_RECIPES: 'page--allrecipes',
+  YOUR_RECIPES: 'page--your-recipes',
+  ALL_RECIPES: 'page--all-recipes',
   CUISINES: 'page--cuisines',
   RECIPE: 'page--recipe'
 };

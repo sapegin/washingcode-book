@@ -1,27 +1,3 @@
 {
-  "editor.rulers": [70],
-  "cSpell.words": [
-    "Baggins",
-    "Cheburashka",
-    "cochinita",
-    "Codeception",
-    "concat",
-    "Dessi",
-    "eins",
-    "Fili",
-    "Gollum",
-    "hola",
-    "Immer",
-    "Kili",
-    "longstringer",
-    "pibil",
-    "polizei",
-    "Roomba",
-    "semicolonless",
-    "sheltie",
-    "shortstringer",
-    "shortstringers",
-    "Tsiri",
-    "zwei"
-  ]
+  "editor.rulers": [70]
 }

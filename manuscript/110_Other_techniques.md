@@ -476,7 +476,7 @@ I’m a big fan of parallel code, and, even though the original code was already
 
 (We talk more about parallel code in [Don’t make me think](#thinking) chapter.)
 
-Some people [even believe](https://www.reddit.com/r/programming/comments/2tjoc8/the_boy_scout_rule_of_coding/) that we shouldn’t touch what’s working and refactoring has no business value for the product, but I fiercely disagree. Our job is not only do what we’re told to do by the businessfolks but also to keep our software easy to change, so we can quickly react to new business requirements. This is only possible if we care about maintainability, don’t let the tech debt pile up.
+Some people [even believe](https://www.reddit.com/r/programming/comments/2tjoc8/the_boy_scout_rule_of_coding/) that we shouldn’t touch what’s working and refactoring has no business value for the product, but I fiercely disagree. Our job is not only do what we’re told to do by the business people but also to keep our software easy to change, so we can quickly react to new business requirements. This is only possible if we care about maintainability, don’t let the tech debt pile up.
 
 {#greppability}
 

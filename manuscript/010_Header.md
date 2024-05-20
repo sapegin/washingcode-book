@@ -58,7 +58,7 @@ In the **Lint your code** chapter, we talk about how linters can help us maintai
 
 In the **Autoformat your code** chapter, we talk about how autoformatting tools can make our lives much easier by automatic code formatting.
 
-In the **Typecheck your code** chapter, we talk about using languages with type checking, and how it can make our code more robust and bulletproof.
+In the **Check types in your code** chapter, we talk about using languages with type checking, and how it can make our code more robust and bulletproof.
 
 In the last chapter, **Learn your code editor**, we talk about different techniques for _editing_ code and customizing our environment to make our work more efficient and less tiring.
 
@@ -66,4 +66,8 @@ In the last chapter, **Learn your code editor**, we talk about different techniq
 
 These folks helped me with the book in one way or another.
 
+<!-- cspell:disable -->
+
 Thanks to [Manuel Bieh](https://twitter.com/ManuelBieh), [Inês Carvalho](https://imcarvalho.github.io/), [Evan Davis](https://github.com/evandavis), [Dr. Margarita Diaz Cortes](https://drtaco.net), [Ohans Emmanuel](https://www.ohansemmanuel.com/), [Troy Giunipero](https://github.com/giuniperoo), [Anssi Hautamäki](https://github.com/kosminen), [Oleg Isonen](https://twitter.com/oleg008), [Darek Kay](https://darekkay.com/), Anita Kiss, [Giorgi Kotchlamazashvili](https://github.com/hertzg), [Andy Krings-Stern](https://github.com/ankri) [Veniamin Krol](https://vkrol.dev/), [Monica Lent](https://monicalent.com/), [Mihail Malostanidis](https://twitter.com/qm3ster), Diana Martinez, [Nick Plekhanov](https://nikkhan.com), Rostislav U, [Dr. Axel Rauschmayer](https://dr-axel.de/), [Misha Reyzlin](https://mishareyzlin.com), [Dan Uhl](https://github.com/danieluhl), [Juho Vepsäläinen](https://survivejs.com/), [Michel Weststrate](https://twitter.com/mweststrate), [Mark Wiltshire](https://github.com/mwiltshire).
+
+<!-- cspell:enable -->

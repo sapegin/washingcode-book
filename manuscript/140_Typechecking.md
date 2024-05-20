@@ -1,4 +1,4 @@
-## Typecheck your code
+## Check types in your code
 
 Most of the examples in this book are written in JavaScript which isn’t how I write code in the past five or so years. These days I mostly write in TypeScript — JavaScript with types. And before that I was using Flow for several years, which is now forgotten.
 

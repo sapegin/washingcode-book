@@ -2,6 +2,8 @@
 
 # Naming is hard
 
+<!-- cspell:ignore arru, typoses, deprature -->
+
 We all know that naming is one of the hardest problems in programming, and probably most of us have written code like this when we just started programming:
 
 <!-- prettier-ignore -->
@@ -787,7 +789,7 @@ Now, the code is short and clear, with enough information to understand it.
 
 ## Group related constants
 
-We often use constans for ranges of values:
+We often use constants for ranges of values:
 
 ```js
 const SMALL = 'small';

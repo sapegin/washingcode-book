@@ -2,6 +2,8 @@
 
 # Avoid loops
 
+<!-- cspell:ignore lenght -->
+
 Traditional loops, like `for` or `while`, are too low-level for common tasks. They are verbose and prone to [off-by-one errors](https://en.wikipedia.org/wiki/Off-by-one_error). We have to manage the index variable ourselves, and I always make typos with `lenght`. They don’t have any particular semantic value beyond telling us that some operation is probably repeated.
 
 ## Replacing loops with array methods
