@@ -833,6 +833,8 @@ enum Size {
 }
 ```
 
+T> Usually, enum names are singular nouns in PascalCase, like `Month`, `Color`, `OrderStatus`, or `ProductType`.
+
 Which is essentially the same as an object but we can also use it as a type:
 
 ```ts
