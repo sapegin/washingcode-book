@@ -6,7 +6,11 @@ Clever code is a kind of code we may see in job interview questions or language 
 
 Some people confuse _brevity_ with _clarity_. Short code (brevity) isn’t always the clearest code (clarity), often the opposite. Trying to make your code shorter is a noble goal but it should never make it harder to read.
 
+<!-- textlint-disable alex -->
+
 There are many ways to express the same idea in the code. However, some of them are easier to understand then others. We should always try to reduce the cognitive load, the mental effort required to understand the code, of the next developer who’ll read out code. Every time we stumble on something that isn’t immediately obvious, we waist our brain’s resources.
+
+<!-- textlint-enable -->
 
 ## Dark patterns of JavaScript
 

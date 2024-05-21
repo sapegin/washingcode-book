@@ -22,6 +22,21 @@
       "thereIs": false,
       "tooWordy": false,
       "weasel": false
+    },
+    "alex": {
+      "profanitySureness": 2,
+      "allow": [
+        "color",
+        "easy",
+        "invalid",
+        "just",
+        "obvious",
+        "simple",
+        "special",
+        "straightforward",
+        "vomit",
+        "whitespace"
+      ]
     }
   },
   "filters": {

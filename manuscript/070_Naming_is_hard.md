@@ -1001,7 +1001,7 @@ setCount(prevCount => prevCount + 1);
 
 <!-- expect(count).toBe(1) -->
 
-Here, we have a simple counter function that returns the next counter value. The `prev` prefix makes it clear that this value is out of date.
+Here, we have a basic counter function that returns the next counter value. The `prev` prefix makes it clear that this value is out of date.
 
 Similarly, when the value is not yet applied and the function either lets us modify it or prevent the update:
 

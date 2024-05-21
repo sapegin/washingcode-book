@@ -130,6 +130,8 @@ expect(test({allIngredients: [1]})).toBe(undefined);
 
 I’m 102% sure, I’d not notice the `return` here when reading the code for the first time.
 
+T> My color theme [Squirrelsong](https://sapegin.me/squirrelsong/) shows `!` and other operators in bold to make them more noticeable.
+
 Compare it with:
 
 <!-- function test(recipeDetails) { -->
@@ -148,7 +150,7 @@ expect(test({allIngredients: [1]})).toBe(undefined);
 
 Now the `return` statement is more noticeable.
 
-Of course, there are worse ways of writing code:
+As usual, there are worse ways to write code:
 
 <!-- function test(pizza) { -->
 
@@ -167,7 +169,7 @@ expect(test2).toBe(true);
 
 Shorter isn’t always better. (I’m fine with `pizza?.()` though, sometimes.)
 
-**Tip:** Use `curly` ESLint rule to make sure all conditions have braces. See more in the [Lint your code](#linting) chapter.
+T> Use `curly` ESLint rule to make sure all conditions have braces. See more in the [Lint your code](#linting) chapter.
 
 ## Obsolete code styles
 
@@ -652,9 +654,9 @@ expect(test('saluki')).toEqual(undefined)
 
 In shortstringer code, we’ll see early returns, extra functions, and variables to reduce the number of operations in one line and give things names, less nesting, variable name lengths depending on the size or their scope (longer names for larger scope), and so on.
 
-It’s easier to follow conditions, notice `return` statements in the functions, and generally see what’s happening. The important code — like adding new values to an object — isn’t buried somewhere in a very long line, and clearly separated from the data management code (see the [Separate what and how](#separate-what-and-how) section of the Divide and conquer, or merge and relax chapter). The code has more whitespace and shape which makes it easier to scan.
+It’s easier to follow conditions, notice `return` statements in the functions, and generally see what’s happening. The important code — like adding new values to an object — isn’t buried somewhere in a very long line, and separated from the data management code (see the [Separate what and how](#separate-what-and-how) section of the Divide and conquer, or merge and relax chapter). The code has more whitespace and shape which makes it easier to scan.
 
-I’m clearly a shortstringer.
+I’m a shortstringer.
 
 Another issue of the longstringer approach is that Prettier with a default setting of 80 characters will likely make the code ugly and quite unreadable:
 
