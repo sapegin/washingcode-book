@@ -11,6 +11,5 @@
 110_Other_techniques.md
 120_Linting.md
 130_Formatting.md
-140_Typechecking.md
 150_Editing.md
 160_Footer.md
