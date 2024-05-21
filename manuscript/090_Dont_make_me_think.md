@@ -239,6 +239,26 @@ for (var i = 0; i < 10; i++) {
 
 As much as like to avoid loops in my code, the loop version is more readable for me.
 
+Somewhere in the middle would be using the `Array.from()` method:
+
+```js
+const array = Array.from({ length: 10 }).map((_, i) => i);
+```
+
+<!-- expect(array).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) -->
+
+Here, `Array.from({length: 10})` creates an array with 10 _empty_ items, then using the `map()` method we fill the array with numbers from 0 to 9.
+
+We can write it shorter by using `Array.from`’s map callback:
+
+```js
+const array = Array.from({ length: 10 }, (_, i) => i);
+```
+
+<!-- expect(array).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) -->
+
+Explicit `map()` is slightly more readable, and we don’t need to remember what the second argument of `Array.from()` does. And `Array.from({length: 10})` is slightly more readable than `Array(10)`. But only slightly.
+
 So, what’s your score? I think mine would be around 3/7.
 
 ## Gray areas
