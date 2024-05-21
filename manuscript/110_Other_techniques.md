@@ -238,9 +238,9 @@ Reducers and state machines are even more powerful with TypeScript, where we can
 
 <!-- test-skip -->
 
-```jsx
-type Status = "Idle" | "Loading" | "Ready" | "Failed";
-type ActionType = "Load" | "LoadSuccess" | "LoadFailed";
+```tsx
+type Status = 'Idle' | 'Loading' | 'Ready' | 'Failed';
+type ActionType = 'Load' | 'LoadSuccess' | 'LoadFailed';
 
 type Tweet = {
   id: string;
@@ -250,39 +250,39 @@ type Tweet = {
 
 type State =
   | {
-      status: "Ready";
+      status: 'Ready';
       tweets: Tweet[];
     }
   | {
-      status: Exclude<Status, "Ready">;
+      status: Exclude<Status, 'Ready'>;
     };
 
 type Action =
   | {
-      type: "LoadSuccess";
+      type: 'LoadSuccess';
       tweets: Tweet[];
     }
   | {
-      type: Exclude<ActionType, "LoadSuccess">;
+      type: Exclude<ActionType, 'LoadSuccess'>;
     };
 
 const initialState: State = {
-  status: "Idle",
+  status: 'Idle'
 };
 
 function reducer(state: State, action: Action): State {
   switch (state.status) {
-    case "Idle":
+    case 'Idle':
       switch (action.type) {
-        case "Load":
-          return { status: "Loading" };
+        case 'Load':
+          return { status: 'Loading' };
       }
-    case "Loading":
+    case 'Loading':
       switch (action.type) {
-        case "LoadSuccess":
-          return { status: "Ready", tweets: action.tweets };
-        case "LoadFailed":
-          return { status: "Failed" };
+        case 'LoadSuccess':
+          return { status: 'Ready', tweets: action.tweets };
+        case 'LoadFailed':
+          return { status: 'Failed' };
       }
   }
   return state;
@@ -292,25 +292,25 @@ export function Tweets() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const handleLoadTweets = () => {
-    dispatch({ type: "Load" });
+    dispatch({ type: 'Load' });
     getTweets()
-      .then((tweets) => {
-        dispatch({ type: "LoadSuccess", tweets });
+      .then(tweets => {
+        dispatch({ type: 'LoadSuccess', tweets });
       })
       .catch(() => {
-        dispatch({ type: "LoadFailed" });
+        dispatch({ type: 'LoadFailed' });
       });
   };
 
-  if (state.status === "Loading") {
+  if (state.status === 'Loading') {
     return <p>Loading…</p>;
   }
 
-  if (state.status === "Idle") {
+  if (state.status === 'Idle') {
     return <button onClick={handleLoadTweets}>Load tweets</button>;
   }
 
-  if (state.status === "Ready") {
+  if (state.status === 'Ready') {
     if (state.tweets.length === 0) {
       return <p>No tweets found</p>;
     }
