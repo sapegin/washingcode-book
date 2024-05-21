@@ -1,0 +1,6 @@
+[files]
+extend-exclude = ["*.svg"]
+
+[default.extend-words]
+# I say that I often misspell length as lenght
+lenght = "lenght"

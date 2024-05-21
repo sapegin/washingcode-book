@@ -2,8 +2,6 @@
 
 # Code style
 
-<!-- cspell:ignore reamde -->
-
 I used to be very strict about [code style](https://blog.sapegin.me/all/prettier/). I thought my code style was better than others’, but later I realized that it was just different. And it wasn’t the most popular, so anyone else’s code looked wrong to me.
 
 For example, after reading the [The Programmers’ Stone](https://www.datapacrat.com/Opinion/Reciprocality/r0/index.html) I was formatting braces like this for a long time:
@@ -261,13 +259,13 @@ expect(result).toBe(true)
 
 Some code styles don’t solve any particular problem but are expensive to maintain.
 
-For example, aligning object values or right-hands of assignments horizontally to make them look “pretty”:
+For example, aligning object values or assignments’ right-hands horizontally to make them look “pretty”:
 
 <!-- prettier-ignore -->
 ```js
 var fs       = require('fs')
-  , reamde   = require('reamde')
-  , examples = reamde(fs.readFileSync('./README.md', 'utf-8'))
+  , readme   = require('./readme')
+  , examples = readme(fs.readFileSync('./README.md', 'utf-8'))
   ;
 ```
 
@@ -277,8 +275,8 @@ Editing code written in such style takes an enormous amount of work, and luckily
 
 ```js
 var fs = require('fs'),
-  reamde = require('reamde'),
-  examples = reamde(fs.readFileSync('./README.md', 'utf-8'));
+  readme = require('./readme'),
+  examples = readme(fs.readFileSync('./README.md', 'utf-8'));
 ```
 
 <!-- expect(examples).toEqual('./README.md') -->
@@ -287,13 +285,15 @@ I’d go one step further, and replace a single `var` with a one `var` per line 
 
 ```js
 const fs = require('fs');
-const reamde = require('reamde');
-const examples = reamde(fs.readFileSync('./README.md', 'utf-8'));
+const readme = require('./readme');
+const examples = readme(fs.readFileSync('./README.md', 'utf-8'));
 ```
 
 <!-- expect(examples).toEqual('./README.md') -->
 
 This will not only make it slightly more readable but also easier to add, remove, or move variable declarations.
+
+I> Read more about code autoformatting in the [Autoformat your code](#formatting) chapter.
 
 ## Improving readability
 
@@ -517,7 +517,7 @@ inside = true
 expect(inside).toBe(false)
 -->
 
-One minor improvement in the modern JavaScript is _numeric separators_, which allows us to separate thousands with an underscore (`_`) ot make large numbers easier to read:
+One minor improvement in the modern JavaScript is _numeric separators_, which allows us to separate thousands with an underscore (`_`) to make large numbers easier to read:
 
 ```js
 const earthToSun1 = 149597870700;
@@ -799,7 +799,7 @@ function semicolonOrNot() {
 
 <!-- expect(semicolonOrNot()).toEqual({semi: "colon" }) -->
 
-I prefer not to overload my brain with such questions and alway use semicolons.
+I prefer not to overload my brain with such questions and always use semicolons.
 
 Luckily, semicolonless JavaScript projects are far less common now than they used to be some ten years ago.
 
@@ -807,7 +807,7 @@ Luckily, semicolonless JavaScript projects are far less common now than they use
 
 Doesn’t matter, as long as we have a linter or autoformatter to automatically make it right. With modern code editors there’s no difference, and most of the time I don’t even know what projects, I’m working on, are using.
 
-(We talk more bout linters in the [Lint your code](#linting) chapter, and about code formatters in [Autoformat your code](#formatting) chapter.)
+I> We talk more bout linters in the [Lint your code](#linting) chapter, and about code formatters in [Autoformat your code](#formatting) chapter.
 
 ## The rest doesn’t matter
 

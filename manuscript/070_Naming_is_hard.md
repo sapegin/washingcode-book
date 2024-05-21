@@ -647,7 +647,7 @@ const dateWithoutTime = date.slice(0, CHARACTERS_IN_ISO_DATE);
 
 <!-- expect(dateWithoutTime).toBe('2023-03-22') -->
 
-Here, we remove the time portion of a string containing date ane time in ISO format (for example, `2023-03-22T08:20:00+01:00`) by keeping only the first 10 characters – the length of the date part. The name is quite clear but the code is still a bit confusing and brittle. We can do better:
+Here, we remove the time portion of a string containing date and time in ISO format (for example, `2023-03-22T08:20:00+01:00`) by keeping only the first 10 characters – the length of the date part. The name is quite clear but the code is still a bit confusing and brittle. We can do better:
 
 <!-- const date = '2023-03-22T08:20:00+01:00' -->
 

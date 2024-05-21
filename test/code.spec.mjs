@@ -42,7 +42,7 @@ const vm = new NodeVM({
       fs: {
         readFileSync: x => x
       },
-      reamde: x => x,
+      './readme': x => x,
       'fs-extra': x => x,
       glob: x => x,
       'user-home': x => x,

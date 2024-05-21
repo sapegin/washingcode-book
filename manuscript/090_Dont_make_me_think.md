@@ -831,11 +831,7 @@ appendScriptTag(`https://example.com/falafel.js`, false);
 
 What are we disabling here? Don’t try to answer, it was a rhetorical question. We’ll never know that.
 
-<!-- cspell:disable -->
-
-~~Wie viel Falafel ist zu viel Falafel?~~ How many is too many? In my experience, more than two is already too many. And an additional rule: any boolean is automatically too many.
-
-<!-- cspell:enable -->
+How many is too many? In my experience, more than two is already too many. And an additional rule: any boolean is automatically too many.
 
 Some languages have _named parameters_ to solve this problems. For example, in Python we could do this:
 
