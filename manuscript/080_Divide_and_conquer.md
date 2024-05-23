@@ -388,6 +388,175 @@ it('Your recipes', () => {
 
 Now, we have significantly less code, and it’s easier to understand what’s going on and easier to update or delete tests.
 
+I’ve seen so many hopeless abstractions in tests. For example, this pattern is very common:
+
+<!--
+let Pony = () => null
+let mount = () => ({find: () => ({ prop: () => {} })})
+let expect = () => ({toBe: () => {}})
+let beforeEach = (fn) => fn()
+let test = (_, fn) => fn()
+-->
+
+```js
+let wrapper;
+beforeEach(() => {
+  wrapper = mount(<Pony color="pink" />);
+});
+
+test('pony has pink tail', () => {
+  expect(wrapper.find('.tail').prop('value')).toBe('pink');
+});
+
+// More tests that use `wrapper`...
+```
+
+This pattern tries to avoid duplication of `mount(...)` in each test case, but it makes tests more confusing than they should be. Let’s inline `mount()` calls:
+
+<!--
+let Pony = () => null
+let mount = () => ({find: () => ({ prop: () => {} })})
+let expect = () => ({toBe: () => {}})
+let beforeEach = (fn) => fn()
+let test = (_, fn) => fn()
+-->
+
+```js
+test('pony has pink tail', () => {
+  const wrapper = mount(<Pony color="pink" />);
+  expect(wrapper.find('.tail').prop('value')).toBe('pink');
+});
+
+// More tests that use `wrapper`...
+```
+
+In addition, `beforeEach` pattern only works when we want to initialize each test case with the same values, which is rarely the case:
+
+<!--
+let Pony = () => null
+let mount = () => ({find: () => ({ prop: () => {} })})
+let expect = () => ({toBe: () => {}, toBeVisible: () => {}})
+let beforeEach = (fn) => fn()
+let test = (_, fn) => fn()
+-->
+
+```js
+test('pony has pink tail', () => {
+  const wrapper = mount(<Pony color="pink" />);
+  expect(wrapper.find('.tail').prop('value')).toBe('pink');
+});
+
+test('pony can breath fire', () => {
+  const wrapper = mount(<Pony color="pink" breathFire />);
+  expect(wrapper.find('.fire')).toBeVisible();
+});
+```
+
+To avoid _some_ duplication when testing React components, I often add `defaultProps` object and spread it inside each test case:
+
+<!--
+let Pony = () => null
+let mount = () => ({find: () => ({ prop: () => {} })})
+let expect = () => ({toBe: () => {}, toBeVisible: () => {}})
+let beforeEach = (fn) => fn()
+let test = (_, fn) => fn()
+-->
+
+```js
+const defaultProps = { color: 'pink' };
+
+test('pony has pink tail', () => {
+  const wrapper = mount(<Pony {...defaultProps} />);
+  expect(wrapper.find('.tail').prop('value')).toBe('pink');
+});
+
+test('pony can breath fire', () => {
+  const wrapper = mount(<Pony {...defaultProps} breathFire={true} />);
+  expect(wrapper.find('.fire')).toBeVisible();
+});
+```
+
+This way we don’t have too much duplication but at the same time each test case is isolated and readable: the difference between test cases is now clearer because it’s easier to see unique props of each test case.
+
+Here’s a more extreme variation of the same pattern:
+
+<!--
+let getSelector = (x) => x
+let expect = () => ({toBe: () => {}})
+let beforeEach = (fn) => fn()
+let test = (_, fn) => fn()
+-->
+
+```js
+let css;
+let res;
+
+beforeEach(() => {
+  css = '';
+  res = '';
+});
+
+test('works with basic selectors', () => {
+  css = 'div\n{}';
+  res = 'div\n';
+  expect(getSelector(css)).toBe(res);
+});
+
+test('works with lobotomized owl selector', () => {
+  css = '.stack > * + *\n{}';
+  res = '.stack > * + *\n';
+  expect(getSelector(css)).toBe(res);
+});
+
+// More tests that use `css` and `res`...
+```
+
+We can inline `beforeEach()` the same way we did in the previous example:
+
+<!--
+let getSelector = (x) => x
+let expect = () => ({toBe: () => {}})
+let beforeEach = (fn) => fn()
+let test = (_, fn) => fn()
+-->
+
+```js
+test('works with basic selectors', () => {
+  const css = 'div\n{}';
+  const res = 'div\n';
+  expect(getSelector(css)).toBe(res);
+});
+
+test('works with lobotomized owl selector', () => {
+  const css = '.stack > * + *\n{}';
+  const res = '.stack > * + *\n';
+  expect(getSelector(css)).toBe(res);
+});
+
+// More tests that use `css` and `res`...
+```
+
+I’d go even further, and use `test.each()` method because we run the same test with a bunch of different inputs:
+
+<!--
+let getSelector = (x) => x
+let expect = () => ({toBe: () => {}})
+let beforeEach = (fn) => fn()
+let test = {each: () => (_, fn) => fn()}
+-->
+
+```js
+test.each([
+  ['div\n{}', 'div\n'],
+  ['.stack > * + *\n{}', '.stack > * + *\n']
+  // More inputs...
+])('selector: %s', (css, expected) => {
+  expect(getSelector(css)).toBe(expected);
+});
+```
+
+Now, we collected all the test inputs with their expected results in one place, and it’s easier to add new test cases.
+
 ## Conclusion
 
 The biggest challenge with abstractions is finding a balance between being too rigid and too flexible, and knowing where to start abstracting things and when to stop. It’s worth waiting to see whether we really need to abstract something — often it’s better not to.
@@ -395,3 +564,4 @@ The biggest challenge with abstractions is finding a balance between being too r
 Start thinking about:
 
 - Before adding another option to an abstraction, think whether this new use case really belongs there.
+- Before making tests DRY, think whether is would make them more readable or maintainable, or a bit of code duplication isn’t an issue.
