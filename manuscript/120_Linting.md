@@ -212,7 +212,7 @@ console.log(
 );
 ```
 
-**Tip:** Developing command-line tools is a rare case where disabling `console.log()` for the whole file might be a good idea — we’ll likely have way too many of these logs, and disabling linter for each would clutter the code and reduce its readability.
+T> Developing command-line tools is a rare case where disabling `console.log()` for the whole file might be a good idea — we’ll likely have way too many of these logs, and disabling linter for each would clutter the code and reduce its readability.
 
 #### Disable style rules
 
@@ -678,7 +678,7 @@ This rule goes a bit further and disallows even abbreviations that I’m okay wi
 
 This rule is autofixable unless there are multiple replacements for a certain abbreviation.
 
-**Tip:** [Unicorn ESLint plugin](https://github.com/sindresorhus/eslint-plugin-unicorn) has many useful rules to improve codebase consistency and promote modern features of JavaScript. Most of these rules are autofixable.
+T> [Unicorn ESLint plugin](https://github.com/sindresorhus/eslint-plugin-unicorn) has many useful rules to improve codebase consistency and promote modern features of JavaScript. Most of these rules are autofixable.
 
 ### The ideal linting setup (dream)
 

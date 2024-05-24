@@ -1371,7 +1371,7 @@ It’s a good idea to use well-known and widely adopted terms for programming an
 
 Using different words for the same concept is confusing: a person reading the code may think since the words are different then these things aren’t the same and will try to understand the difference between the two. It will also make the code less _greppable_ (meaning it would be harder to find all usages of the same thing, see [Make the code greppable](#greppability) section for more).
 
-**Idea:** Having a project dictionary, or even a linter, might be a good idea to avoid using different words for the same things. I use a similar approach for writing this book: I use [Textlint terminology plugin](https://github.com/sapegin/textlint-rule-terminology) to make sure I use the terms consistently and spell them correctly.
+T> Having a project dictionary, or even a linter, might be a good idea to avoid using different words for the same things. I use a similar approach for writing this book: I use [Textlint terminology plugin](https://github.com/sapegin/textlint-rule-terminology) to make sure I use the terms consistently and spell them correctly in my writing.
 
 ## Use common opposite pairs
 

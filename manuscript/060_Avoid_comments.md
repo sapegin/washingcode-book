@@ -131,7 +131,7 @@ expect(getEnvironment('www.example.com')).toBe('PROD')
 expect(getEnvironment('localhost')).toBe('DEV')
 -->
 
-**Idea:** Maybe we should start using `DREAM` comments for such cases...
+T> Maybe we should start using `DREAM` comments for such cases…
 
 Comments can make code more intentional. Consider this example:
 
