@@ -201,6 +201,8 @@ Now the purpose of each step is more clear. Using the `reduce()` to calculate a 
 
 <!-- expect(totalPrice).toBe(105) -->
 
+T> I often see something that I call _the reduce rabbit hole_ during interviews and code reviews: a developer starts writing code with the `reduce()` method, and then keeps digging their own complexity pit by adding more and more thing to it, instead of stopping and rewriting the `reduce()` to something simpler. TkDodo has [a great article](https://tkdodo.eu/blog/why-i-dont-like-reduce) on pitfalls of `reduce()`.
+
 ## Dealing with side effects
 
 Side effects make code harder to understand because we can no longer treat a function as a black box: a function with side effects doesn’t just transform input to output but can affect the environment in unpredictable ways. Functions with side effects are also hard to test because we’ll need to recreate the environment before each test is run and verify it after.
