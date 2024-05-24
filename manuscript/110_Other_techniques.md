@@ -812,3 +812,13 @@ Never listen when someone says you should never do that or always do this, witho
 A few more examples:
 
 - _Never_ put state and markup in one component (_always_ use container / presenter pattern).
+
+## Go for a walk or talk to a rubber duck
+
+Not once this situation happened to me: I spend hours debugging a particularly hairy issue; I stop working and switch to another task, go out for a walk, or go home (if I’m in the office); and suddenly the solution appears in my mind.
+
+When we spend too much time on a single task, our brain get blurry and stops seeing what would be obvious to us after a break.
+
+Another approach is called _rubberducking_, or [rubber duck debugging](https://en.wikipedia.org/wiki/Rubber_duck_debugging). The idea is to explain a problem in detail to someone else: a friend, colleague, or, to a rubber duck. The recipient isn’t important here and supposed to just listen. Often the act of explaining the issue helps us to see where the problem is and come up with a solution.
+
+This is similar to how writing an article on a certain topic helps us to spot any gaps in our understanding of the topic and forces us to learn it much deeper. This is my favorite way of learning new things.
