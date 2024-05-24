@@ -27,6 +27,7 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 - [Clever code considered harmful](https://www.joshwcomeau.com/career/clever-code-considered-harmful/) by Josh Comeau
 - [Code Health: Reduce Nesting, Reduce Complexity](https://testing.googleblog.com/2017/06/code-health-reduce-nesting-reduce.html?m=1) by Elliott Karpilovsky
 - [Code Health: To Comment or Not to Comment?](https://testing.googleblog.com/2017/07/code-health-to-comment-or-not-to-comment.html?m=1) by Dori Reuveni and Kevin Bourrillion
+- [Colocation](https://kentcdodds.com/blog/colocation) by Kent C. Dodds
 - [Everything is a Component](https://medium.com/@level_out/everything-is-a-component-cf9f469ad981) by Luke Hedger
 - [Is High Quality Software Worth the Cost?](https://martinfowler.com/articles/is-quality-worth-cost.html) by Martin Fowler
 - [John Carmack on Inlined Code](http://number-none.com/blow/blog/programming/2014/09/26/carmack-on-inlined-code.html)
@@ -41,6 +42,7 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 - [The Law of Leaky Abstractions](https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/) by Joel Spolsky
 - [The wrong abstraction](https://www.sandimetz.com/blog/2016/1/20/the-wrong-abstraction) by Sandi Metz
 - [Too DRY – The Grep Test](http://jamie-wong.com/2013/07/12/grep-test/) by Jamie Wong
+- [Why I don’t like reduce](https://tkdodo.eu/blog/why-i-dont-like-reduce) by TkDodo
 - [Why the Boy Scout Rule Is Insufficient](https://www.codewithjason.com/boy-scout-rule-insufficient/) by Jason Swett
 - [Write code that is easy to delete, not easy to extend](https://programmingisterrible.com/post/139222674273/write-code-that-is-easy-to-delete-not-easy-to)
 - [Writing system software: code comments](http://antirez.com/news/124)

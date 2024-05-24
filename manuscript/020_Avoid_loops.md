@@ -226,7 +226,7 @@ errors.forEach(error => {
 expect(console.error.mock.calls).toEqual([['dope'], ['nope']])
 -->
 
-A `for of` loop is even better:
+A `for of` loop would be even better:
 
 - it doesn’t have any of the problems of regular `for` loops, mentioned at the beginning of this chapter;
 - we can avoid reassignments and mutations since we don’t have a return value;

@@ -63,9 +63,14 @@ The same applies to functions that are meant to be used only together with a cer
 
 Another benefit is that when we delete a module, we automatically delete its dependencies. Code in shared modules often stays in the codebase forever because it’s often hard to know whether it’s used anywhere or not (TypeScript makes it much easier, though).
 
-If we often have to change several modules or functions at the same time, it may be better to merge them into a single module or function. [Ducks convention](https://github.com/erikras/ducks-modular-redux) for Redux is a great example of that.
+If we often have to change several modules or functions at the same time, it may be better to merge them into a single module or function. This is sometimes called _colocation_.
 
-This is sometimes called _colocation_. Another example here is React components: keeping everything a component needs in the same file, including markup (JSX), styles, and logic, makes it easier to change, move, or delete such a component.
+Couple of examples of colocation:
+
+- [Ducks convention](https://github.com/erikras/ducks-modular-redux) for Redux: keep related actions, action creators, and reducers in the same file (for example, `src/ducks/feature.js`), as opposed to having three files in separate folders (for example, `src/actions/feature.js`, `src/actionCreators/feature.js`, and `src/reducers/feature.js`).
+- React components: keeping everything a component needs in the same file, including markup (JSX), styles, and logic. Also, keeping tests next to the component file. For example, `src/components/Button.tsx`, and `src/components/Button.test.ts`.
+
+T> Kent C. Dodds has [a nice article on colocation](https://kentcdodds.com/blog/colocation).
 
 A common complaint about this approach is that it makes components too large. If that’s the case, it’s better to extract some parts into their own components, together with their markup, styles and logic.
 
@@ -563,5 +568,6 @@ The biggest challenge with abstractions is finding a balance between being too r
 
 Start thinking about:
 
+- Colocating related code in the same file folder folder to make it easier to change, move, or delete.
 - Before adding another option to an abstraction, think whether this new use case really belongs there.
 - Before making tests DRY, think whether is would make them more readable or maintainable, or a bit of code duplication isn’t an issue.
