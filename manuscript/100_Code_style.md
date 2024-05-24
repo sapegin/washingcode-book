@@ -654,7 +654,7 @@ expect(test('saluki')).toEqual(undefined)
 
 In shortstringer code, we’ll see early returns, extra functions, and variables to reduce the number of operations in one line and give things names, less nesting, variable name lengths depending on the size or their scope (longer names for larger scope), and so on.
 
-It’s easier to follow conditions, notice `return` statements in the functions, and generally see what’s happening. The important code — like adding new values to an object — isn’t buried somewhere in a very long line, and separated from the data management code (see the [Separate what and how](#separate-what-and-how) section of the Divide and conquer, or merge and relax chapter). The code has more whitespace and shape which makes it easier to scan.
+It’s easier to follow conditions, notice `return` statements in the functions, and generally see what’s happening. The important code — like adding new values to an object — isn’t buried somewhere in a very long line, and separated from the data management code (see the [Separate what and how](#separate-what-and-how) section of the Divide and conquer, or merge and relax chapter). The code has more whitespace and more distinctive shape which makes it easier to scan.
 
 I’m a shortstringer.
 

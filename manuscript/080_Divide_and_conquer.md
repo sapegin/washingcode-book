@@ -568,6 +568,6 @@ The biggest challenge with abstractions is finding a balance between being too r
 
 Start thinking about:
 
-- Colocating related code in the same file folder folder to make it easier to change, move, or delete.
+- Colocating related code in the same file folder to make it easier to change, move, or delete.
 - Before adding another option to an abstraction, think whether this new use case really belongs there.
 - Before making tests DRY, think whether is would make them more readable or maintainable, or a bit of code duplication isn’t an issue.

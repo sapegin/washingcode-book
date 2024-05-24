@@ -1,0 +1,25 @@
+<svg viewBox="0 0 850 335" style="max-width: 100%;" xmlns="http://www.w3.org/2000/svg" width="100%" xmlns:xlink="http://www.w3.org/1999/xlink">
+
+  <!-- No braces -->
+  <rect y="-105" x="1" height="25" width="100" ry="3" rx="3" stroke="#dddddd" fill="#f4f4f4"></rect>
+  <rect y="-70" x="1" height="25" width="60" ry="3" rx="3" stroke="#dddddd" fill="#f4f4f4"></rect>
+  <rect y="-35" x="1" height="25" width="220" ry="3" rx="3" stroke="#dddddd" fill="#f4f4f4"></rect>
+  <rect y="1" x="1" height="25" width="40" ry="3" rx="3" stroke="#dacef3" fill="#ececff"></rect>
+  <rect y="1" x="50" height="25" width="200" ry="3" rx="3" stroke="#dddddd" fill="#f4f4f4"></rect>
+  <rect y="1" x="260" height="25" width="90" ry="3" rx="3" stroke="#dacef3" fill="#ececff"></rect>
+  <rect y="35" x="1" height="25" width="200" ry="3" rx="3" stroke="#dddddd" fill="#f4f4f4"></rect>
+  <rect y="70" x="1" height="25" width="140" ry="3" rx="3" stroke="#dddddd" fill="#f4f4f4"></rect>
+  <rect y="105" x="1" height="25" width="90" ry="3" rx="3" stroke="#dddddd" fill="#f4f4f4"></rect>
+
+  <!-- Braces -->
+  <rect y="-105" x="400" height="25" width="100" ry="3" rx="3" stroke="#dddddd" fill="#f4f4f4"></rect>
+  <rect y="-70" x="400" height="25" width="60" ry="3" rx="3" stroke="#dddddd" fill="#f4f4f4"></rect>
+  <rect y="-35" x="400" height="25" width="220" ry="3" rx="3" stroke="#dddddd" fill="#f4f4f4"></rect>
+  <rect y="1" x="400" height="25" width="40" ry="3" rx="3" stroke="#dacef3" fill="#ececff"></rect>
+  <rect y="1" x="450" height="25" width="200" ry="3" rx="3" stroke="#dddddd" fill="#f4f4f4"></rect>
+  <rect y="1" x="660" height="25" width="10" ry="3" rx="3" stroke="#dacef3" fill="#ececff"></rect>
+  <rect y="35" x="430" height="25" width="90" ry="3" rx="3" stroke="#dacef3" fill="#ececff"></rect>
+  <rect y="70" x="400" height="25" width="10" ry="3" rx="3" stroke="#dacef3" fill="#ececff"></rect>
+  <rect y="105" x="400" height="25" width="200" ry="3" rx="3" stroke="#dddddd" fill="#f4f4f4"></rect>
+
+</svg>
