@@ -50,7 +50,7 @@ In the **Don’t make me think** chapter, we talk about all the different ways p
 
 In the **Code style** chapter, we talk about code styles and which ones are actually improving readability and which are just opinions and don’t matter much.
 
-In the **Other techniques and issues** chapter, we talk about everything else that didn’t fit into the nine chapters.
+In the **Other techniques** chapter, we talk about everything else that didn’t fit into the nine chapters.
 
 The last four chapters are about tooling:
 

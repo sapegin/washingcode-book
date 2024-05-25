@@ -1,4 +1,6 @@
-# Other techniques and issues
+{#otter}
+
+# Other techniques
 
 {#impossible-states}
 
