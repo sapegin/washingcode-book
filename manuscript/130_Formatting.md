@@ -34,6 +34,6 @@ The goal here is to avoid any distractions when writing code, or the need to run
 
 _Tip:_ [Use Mrm](https://mrm.js.org/) to add Prettier and Husky/lint-staged to the project.
 
-Don’t use Prettier as a ESLint plugin, because it’ll mark each place formatted "incorrectly" as an error in our code. This isn’t helpful and distracts from the actual linting errors that we need to take care of. The whole idea of code autoformatting is that we no longer need to care about it. There’s no need to tell us that something is wrong when the robot can fix it without our help.
+Don’t use Prettier as a ESLint plugin, because it’ll mark each place formatted “incorrectly” as an error in our code. This isn’t helpful and distracts from the actual linting errors that we need to take care of. The whole idea of code autoformatting is that we no longer need to care about it. There’s no need to tell us that something is wrong when the robot can fix it without our help.
 
 ![The curse of linting](images/curse-of-linting.jpeg)

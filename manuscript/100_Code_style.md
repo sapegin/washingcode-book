@@ -718,9 +718,9 @@ expect(test('saluki')).toEqual(undefined)
 
 The shortstringer code stays the same.
 
-And coming back to screens with a limited number of characters, I now use 27" screen, split into two windows side by side. Each side fits around 80 characters plus a sidebar with the repository tree.
+And coming back to screens with a limited number of characters, I now use 27-inch screen, split into two windows side by side. Each side fits around 80 characters plus a sidebar with the repository tree.
 
-![Coding on 27" screen](images/27inches.png)
+![Coding on 27-inch screen](images/27inches.png)
 
 ## Make it easy to remember and use
 

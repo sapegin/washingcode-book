@@ -388,7 +388,7 @@ The opposite to the campsite rule is [the broken windows theory](https://en.wiki
 
 Same in programming. Minor “crimes” here could be leaving linting warning unfixed, leaving debug code, unused or commented out code, sloppy and cluttered code. This creates an environment when nobody cares, because one new linting warning won’t make code with 1473 warnings significantly worse. It feels different when we introduce a new linting warning to a project that has none.
 
-It’s also worth mentioning the David Allen’s [2-minute rule](https://www.skillpacks.com/2-minute-rule/) that states "if an action will take less than two minutes, it should be done now it is defined".
+It’s also worth mentioning the David Allen’s [2-minute rule](https://www.skillpacks.com/2-minute-rule/) that states “if an action will take less than two minutes, it should be done now it is defined”.
 
 Same in programming. If fixing something takes less than two minutes, we should not postpone it, and fix it right away. And if it only takes two minutes to fix, it probably won’t make the pull request diff much larger.
 
