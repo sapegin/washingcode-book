@@ -386,7 +386,7 @@ It’s also worth mentioning the David Allen’s [2-minute rule](https://www.ski
 
 Same in programming. If fixing something takes less than two minutes, we should not postpone it, and fix it right away. And if it only takes two minutes to fix, it probably won’t make the pull request diff much larger.
 
-One may argue that doing all these improvements may introduce bugs, and it’s true. However, with good test coverage, static typing, and modern tooling, the benefits are greater than the risks.
+One may argue that doing all these improvements may introduce bugs, and it’s true. However, with good code coverage, static typing, and modern tooling, the benefits are greater than the risks.
 
 I often do small improvements, like renaming variables, moving things around or adding comments, when I read the code. If something is confusing for me, I try to make it less confusing for my colleagues or future me.
 
@@ -805,17 +805,73 @@ There’s this idea that functions should have only one `return` statement. I’
 
 However, as it often happens, we upgraded the technology, but kept using rules and best practices of the old tech.
 
+### 100% code coverage
+
+I often see that management demands a certain percentage of lines of code covered by automated tests: it could be anywhere from 70% to even 100%.
+
+I> I used to use _code coverage_ and _test coverage_ interchangeably. However, they are different terms: code coverage measures the proportion of lines of code executed during a test run, and test coverage measures how well tests cover the functionality requirements.
+
+Automated tests are useful, however, testing every line of code isn’t achievable or useful. After reaching maybe 70% increasing code coverage gets harder and harder, it’s often impossible to go higher than a certain number by writing meaningful tests. Test quality is getting worse, developers waste lots of time writing and fixing tests… and at the same time the management is happy to see the coverage number growing higher.
+
+High code coverage gives us a false sense of security: faking the coverage number, intentionally or now, isn’t that difficult. For example, we can write a test like this:
+
+<!--
+let MainPage = () => null
+let test = (_, fn) => fn()
+let render = () => {}
+-->
+
+```jsx
+test('renders the landing page', () => {
+  render(<MainPage />);
+});
+```
+
+<!-- // This is an implicit assertion: let it be -->
+
+This test alone can give us 60-70% code coverage without a single assertion, or actually testing any functionality, because code coverage measures numbers lines _executed_ from test, it doesn’t measure tests’ quality.
+
+T> The test about isn’t entirely pointless and is better than no test at all. At least it makes sure that the page renders without exceptions. Artem Zakharchenko [wrote a great article](https://www.epicweb.dev/implicit-assertions) about such tests that are called implicit assertions.
+
+Usually, if an organization uses a certain metric to measure performance, employees will optimize their work to increase this metric. Often, at the expense of the quality of their work.
+
+In addition, not all kinds of tests are equally useful for all projects. For example, for frontend tests integration test are usually more useful than unit tests, so requiring a high unit code coverage would be unproductive.
+
+I> I have a big series of articles on my blog on [best practices of React testing](https://sapegin.me/blog/react-testing-1-best-practices/).
+
 ### Never say never
 
 Never listen when someone says you should never do that or always do this, without any exceptions. Answer to most software development questions is “it depends”, and such generalizations often do more harm than good.
 
-A few more examples:
+## Debug code with emojis
 
-- _Never_ put state and markup in one component (_always_ use container / presenter pattern).
+Using `console.log()` is my favorite way of debugging JavaScript and TypeScript code. I’ve been trying to use more fancy techniques, like a debugger, but I always come back to console.log(), because it’s the simplest and it works for me.
+
+The way I do it is by adding a separate log for each variable I want to track, like so:
+
+<!--
+let buffer = ''
+let console = {log: (a, b) => buffer = `${a} ${b}` }
+-->
+
+```js
+function bugMaybeHere(something) {
+  console.log('🍕 something', something);
+}
+```
+
+<!--
+bugMaybeHere('tacocat')
+expect(buffer).toBe('🍕 something tacocat')
+-->
+
+I always add a different emoji at the beginning, so it’s easy to differentiate logs in the browser console.
+
+T> I created a Visual Studio Code extension to add such `console.log`s using a hotkey: [Emoji Console Log](https://marketplace.visualstudio.com/items?itemName=sapegin.emoji-console-log).
 
 ## Go for a walk or talk to a rubber duck
 
-Not once this situation happened to me: I spend hours debugging a particularly hairy issue; I stop working and switch to another task, go out for a walk, or go home (if I’m in the office); and suddenly the solution appears in my mind.
+Not once this situation happened to me: I spend hours debugging an especially hairy issue; I stop working and switch to another task, go out for a walk, or go home (if I’m in the office); and suddenly the solution appears in my mind.
 
 When we spend too much time on a single task, our brain get blurry and stops seeing what would be obvious to us after a break.
 

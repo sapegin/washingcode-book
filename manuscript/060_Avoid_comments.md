@@ -191,7 +191,7 @@ There are other conditions in the `unicorn/expiring-todo-comments` rule that mig
 
 This is a better use case because it’s going to fail only when someone updates React, and fixing such todos should probably be part of the upgrade.
 
-T> I made a Visual Studio Code extension to highlight different kinds of todo comments: [Todo Tomorrow](https://marketplace.visualstudio.com/items?itemName=sapegin.todo-tomorrow).
+T> I made a Visual Studio Code extension to highlight todo and hack comments: [Todo Tomorrow](https://marketplace.visualstudio.com/items?itemName=sapegin.todo-tomorrow).
 
 ## Bad comments
 

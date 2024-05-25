@@ -29,10 +29,12 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 - [Code Health: To Comment or Not to Comment?](https://testing.googleblog.com/2017/07/code-health-to-comment-or-not-to-comment.html?m=1) by Dori Reuveni and Kevin Bourrillion
 - [Colocation](https://kentcdodds.com/blog/colocation) by Kent C. Dodds
 - [Everything is a Component](https://medium.com/@level_out/everything-is-a-component-cf9f469ad981) by Luke Hedger
+- [Implicit Assertions](https://www.epicweb.dev/implicit-assertions) by Artem Zakharchenko
 - [Is High Quality Software Worth the Cost?](https://martinfowler.com/articles/is-quality-worth-cost.html) by Martin Fowler
 - [John Carmack on Inlined Code](http://number-none.com/blow/blog/programming/2014/09/26/carmack-on-inlined-code.html)
 - [Learning Code Readability](https://medium.com/@egonelbre/learning-code-readability-a80e311d3a20) by Egon Elbre
 - [Making Wrong Code Look Wrong](https://www.joelonsoftware.com/2005/05/11/making-wrong-code-look-wrong/) by Joel Spolsky
+- [Modern React Testing](https://sapegin.me/blog/react-testing-1-best-practices/) by Artem Sapegin
 - [Naming conventions in programming – a review of scientific literature](https://makimo.pl/blog/scientific-perspective-on-naming-in-programming/) by Iwo Herka
 - [On the changing notion of code readability](http://firstclassthoughts.co.uk/Articles/Readability/TheChangingNotionOfReadability.html) by Kasper B. Graversen
 - [Outliving the Great Variable Shortage](https://waura1.rssing.com/chan-1910818/latest.php) by Tim Ottinger
