@@ -25,6 +25,7 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 
 - [AHA programming](https://kentcdodds.com/blog/aha-programming) by Kent C. Dodds
 - [Array reduce vs chaining vs for loop](https://kentcdodds.com/blog/array-reduce-vs-chaining-vs-for-loop) by Kent C. Dodds
+- [The case for Discriminated Union Types with TypeScript](https://thoughtbot.com/blog/the-case-for-discriminated-union-types-with-typescript) by Alejandro Dustet
 - [Clever code considered harmful](https://www.joshwcomeau.com/career/clever-code-considered-harmful/) by Josh Comeau
 - [Code Health: Reduce Nesting, Reduce Complexity](https://testing.googleblog.com/2017/06/code-health-reduce-nesting-reduce.html?m=1) by Elliott Karpilovsky
 - [Code Health: To Comment or Not to Comment?](https://testing.googleblog.com/2017/07/code-health-to-comment-or-not-to-comment.html?m=1) by Dori Reuveni and Kevin Bourrillion

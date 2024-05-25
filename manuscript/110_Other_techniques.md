@@ -336,6 +336,8 @@ export function Tweets() {
 
 It’s about the same amount of code as the plain JavaScript implementation, but it’s much more bulletproof. We also got rid of the enums and simplified the code since TypeScript can check if the status and action types are correct. This method even helped me find several bugs in my initial JavaScript implementation of this example.
 
+I> The pattern we used for `State` and `Action` types is called _discriminated unions_, read more about it in [an article by Alejandro Dustet](https://thoughtbot.com/blog/the-case-for-discriminated-union-types-with-typescript).
+
 UI components can have similar issues caused by multiple conflicting styles. Consider a button component that supports primary and secondary styles. We change the style using component props: `<Button primary>` or `<Button secondary>`.
 
 But what if we try to use it as `<Button primary secondary>`? Probably something ugly will appear on the screen that will give hiccups to our designer.
