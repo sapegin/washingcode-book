@@ -10,7 +10,7 @@ That’s where the _linters_ come in. Linters check our code to make sure it fol
 
 Like any tool, linters could be used to make our lives easier, and our codebase more consistent and free of bugs, or they could be abused and make our lives full of pain.
 
-Almost anything that automates or simplifies bug fixing or code reviews worth implementing as a lint rule. However, there are many-many ways linting can go wrong, and that is what we’re going to talk about in this chapter.
+Almost anything that automates or simplifies bug fixing or code reviews worth implementing as a linter rule. However, there are many-many ways linting can go wrong, and that is what we’re going to talk about in this chapter.
 
 Linting in JavaScript has a long history that started in 2002 with JSLint by Douglas Crockford which was allowing developers catch some bugs but also was rigid and promoting a code style that nobody wanted to use. JSLint was later replaced by JSHint, which was less opinionated and more configurable, and then by [ESLint’s](https://eslint.org), which is now the standard for JavaScript linting with dozens of rules and plugins. There were a few other linters as well, like JSCS or Standard, but they were never as popular as these three.
 
@@ -18,9 +18,9 @@ Linting in JavaScript has a long history that started in 2002 with JSLint by Dou
 
 Let’s start with some healthy linting habits, and how to make linters work for the team, not against it.
 
-#### Prefer to have too few lint rules than too many
+#### Prefer to have too few linter rules than too many
 
-It’s a good idea to start with recommended configs (like ESLint’s `eslint:recommended`), and only add rules that are important for the team. A road to hell is paved with useless lint rules.
+It’s a good idea to start with recommended configs (like ESLint’s `eslint:recommended`), and only add rules that are important for the team. A road to hell is paved with useless linter rules.
 
 For example, the most minimal ESLint config could look like this:
 
@@ -32,9 +32,9 @@ export default [js.configs.recommended];
 
 Here, we only include [recommended rules](https://eslint.org/docs/latest/rules/).
 
-#### Define lint rules as errors, not warnings
+#### Define linter rules as errors, not warnings
 
-Developers don’t fix warnings; most of the time, they don’t even see them. And there’s nothing more annoying than working on a project with hundreds of unfixed lint warnings — they distract from actual errors when you edit code, and have linter highlighting enabled in the editor.
+Developers don’t fix warnings; most of the time, they don’t even see them. And there’s nothing more annoying than working on a project with hundreds of unfixed linting warnings — they distract from actual errors when you edit code, and have linter highlighting enabled in the editor.
 
 If we want developers to stop and fix something, we should make it an error, and setup a pre-commit hook or a CI check that will prevent the merging of the code with errors.
 
@@ -51,7 +51,7 @@ export default [
 ];
 ```
 
-#### Define autofixable lint rules as warnings
+#### Define autofixable linter rules as warnings
 
 Ideally, anything that could be fixed by a machine shouldn’t be marked as an error or warning or highlighted at all while we’re writing code; there’s no reason to distract us with things that don’t require our immediate attention.
 
@@ -70,7 +70,7 @@ export default [
 
 #### Clean up rules regularly
 
-If developers often disable a particular lint rule using special comments (like `eslint-disable`), we should probably remove this rule.
+If developers often disable a particular linter rule using special comments (like `eslint-disable`), we should probably remove this rule.
 
 Consider this example:
 
@@ -149,7 +149,7 @@ And even this example can be improved with some examples.
 
 #### Don’t disable linter rules for the whole file
 
-Disabling lint rules for a particular line instead of the whole file, will allow the linter to find violations of the same rule in other lines.
+Disabling linter rules for a particular line instead of the whole file, will allow the linter to find violations of the same rule in other lines.
 
 This will disable the [no-await-in-loop](https://eslint.org/docs/latest/rules/no-await-in-loop) rule for the whole file:
 
@@ -199,7 +199,7 @@ console.log(
 
 We’re disabling all rules for a line, and this line may trigger at least two rules: [no-console](https://eslint.org/docs/latest/rules/no-console) because of using `console.log()`, and [eqeqeq](https://eslint.org/docs/latest/rules/eqeqeq) because of using `==` instead of `===`. Both rules are useful: the first prevents us from committing debug output, and the second prevents us from using less strict comparisons.
 
-However, here we do want to use `console.log()` to show the results to the user, but `==` instead of `===` is a typo, and we want to be warned about it by the linter so we can fix it. We can achieve this by disabling a particular lint rule for this line:
+However, here we do want to use `console.log()` to show the results to the user, but `==` instead of `===` is a typo, and we want to be warned about it by the linter so we can fix it. We can achieve this by disabling a particular linter rule for this line:
 
 <!-- let files = [] -->
 
@@ -224,9 +224,9 @@ We’ll cover a few exceptions later in this chapter.
 
 Unless the coding culture in the team is especially miserable (and in this case, instead of fighting it, you’re better off updating your CV), a linting setup that’s too rigid does more harm than good. It’s better to trust our colleagues and expect that they know how to do their job, so we can use linters to catch bugs and code reviews to discuss different approaches. There’s always more than one correct way of doing something in programming, and having a linter that allows only one way isn’t solving any real problem but makes our colleagues suffer more.
 
-### My top 11 lint rules that should have never existed
+### My top 11 linter rules that should have never existed
 
-Many lint rules don’t solve any actual problem with the code; they merely enforce a particular way of writing code that one of the team members likes the most. Many of such rules are purely aesthetic.
+Many linter rules don’t solve any actual problem with the code; they merely enforce a particular way of writing code that one of the team members likes the most. Many of such rules are purely aesthetic.
 
 Below is a selection of rules that create more problems than they solve. Some are popular and even included in recommended presets; some are quite obscure but still could be good reminders that we shouldn’t try to validate and control everything. And I’m not the only one who [gets mad because of a linter rule](https://twitter.com/iamsapegin/status/1230760798584098817).
 
@@ -290,7 +290,7 @@ See more about naming in the [Naming is hard](#naming-is-hard) chapter.
 
 This rule limits the number of JavaScript classes in a file. Usually set to 1, meaning we could declare only one class per file.
 
-This is an artificial requirement. Splitting code into modules is a skill that can’t be simplified to a lint rule. Often, keeping tiny utility classes, functions, or components at the top of the module makes the code easier to navigate and maintain. (See more in the [Divide and conquer, or merge and relax](#divide-and-conquer) chapter.)
+This is an artificial requirement. Splitting code into modules is a skill that can’t be simplified to a linter rule. Often, keeping tiny utility classes, functions, or components at the top of the module makes the code easier to navigate and maintain. (See more in the [Divide and conquer, or merge and relax](#divide-and-conquer) chapter.)
 
 There are other similar rules that try to artificially limit the number of React components, lines of code, statements, and so on. The only useful rule of this kind is `max-params` (see below).
 
@@ -680,6 +680,22 @@ This rule is autofixable unless there are multiple replacements for a certain ab
 
 T> [Unicorn ESLint plugin](https://github.com/sindresorhus/eslint-plugin-unicorn) has many useful rules to improve codebase consistency and promote modern features of JavaScript. Most of these rules are autofixable.
 
+### Linting legacy code
+
+Setting up a linter on an existing project can be challenging. The recommended ESLint config alone, without any extra plugins, can report thousands of issues. Fixing them all at once would take too much time, so we need to introduce them gradually.
+
+My approach would be as follows:
+
+1. Autofix all autofixable issues.
+2. Review the most common issues, and decide which ones aren’t important for your team. Disabled them.
+3. Define the rest of the failing rules as warnings, so they don’t block committing (if you run the linter on the pre-commit hook) or merging (if we run the linter on CI).
+4. Agree with your team to fix all warnings on the code they modify.
+5. Enable rules one by one or organize a _lint day_: the whole team spends one day fixing as many linting issues as possible.
+
+I> Fixing all linting issues in a file while making changes in this file is a good application of the campsite rule. We talk about it more in the [Become a code scout](#campsite-rule) section of the Other techniques chapter.
+
+Having multiple configs may also help: for example, add a separate, less strict config for integration tests.
+
 ### The ideal linting setup (dream)
 
 Unfortunately, [the ideal linting setup](https://twitter.com/iamsapegin/status/1527553857416462336), as I see it, isn’t possible with the current tools. The UX of linters is still very poor and hasn’t improved in the last ten years. Mostly, they just vomit a bunch of cryptic error messages without any explanation and leave you to deal with them alone.
@@ -772,16 +788,16 @@ There are hundreds of plugins for ESLint; few are useful. I have these plugins o
 
 Linters are useful to prevent bugs and maintain a consistent codebase but can be misused.
 
-On the one hand, it can be a good idea to automate code style checks by adding lint rules for every item in our coding style guide. On the other hand, a codebase with too many lint rules, can be intimidating for developers working with it.
+On the one hand, it can be a good idea to automate code style checks by adding linter rules for every item in our coding style guide. On the other hand, a codebase with too many linter rules, can be intimidating for developers working with it.
 
-Ideally, all lint rules should be autofixable, so developers don’t waste time tailoring their code to satisfy esoteric lint rules. If it’s impossible or too difficult to make an autofixable rule, we should really think whether it’s worth having such rule at all.
+Ideally, all linter rules should be autofixable, so developers don’t waste time tailoring their code to satisfy esoteric linter rules. If it’s impossible or too difficult to make an autofixable rule, we should really think whether it’s worth having such rule at all.
 
-And no lint rule is coded in stone: it’s always up to a developer writing code whether to follow a certain rule, disable it for a single line, or remove it from the lint config altogether.
+And no linter rule is coded in stone: it’s always up to a developer writing code whether to follow a certain rule, disable it for a single line, or remove it from the lint config altogether.
 
 ---
 
 Start thinking about:
 
-- Adding lint rules for things you often comment during code reviews.
-- Removing lint rules that are frustrating or you often disable using a comment.
-- Adding lint rules for typos and bugs that often stay unnoticed.
+- Adding linter rules for things you often comment during code reviews.
+- Removing linter rules that are frustrating or you often disable using a comment.
+- Adding linter rules for typos and bugs that often stay unnoticed.

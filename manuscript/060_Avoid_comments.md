@@ -181,7 +181,7 @@ However, there’s a type of todo comments I don’t recommend – comments with
 // TODO [2024-05-12]: Refactor this code before the sprint ends
 ```
 
-We can check these todo comments with [unicorn/expiring-todo-comments](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/expiring-todo-comments.md) lint rule, so our build will fail after the date mentioned in the comment. This is unhelpful because it usually happens when we work on an unrelated part of the code, and so we’re forced to deal with the comment right away — most likely by adding another months to the date.
+We can check these todo comments with [unicorn/expiring-todo-comments](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/expiring-todo-comments.md) linter rule, so our build will fail after the date mentioned in the comment. This is unhelpful because it usually happens when we work on an unrelated part of the code, and so we’re forced to deal with the comment right away — most likely by adding another months to the date.
 
 There are other conditions in the `unicorn/expiring-todo-comments` rule that might be more useful, for example, dependency version:
 

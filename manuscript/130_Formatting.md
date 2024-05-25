@@ -10,7 +10,7 @@ How I was writing code 10 years ago: carefully crafting each line of code making
 
 How I write code now: write everything in a single line, press Cmd+S — BOOM! — everything is perfectly formatted.
 
-How we made sure the code is formatted consistently in the past: enable dozens of lint rules to check code formatting that would yell at us all the time, forcing us to tweak whitespace, move pieces of the code around, and sacrifice a unicorn until the Gods Of Linting are satisfied. Add to that constant debates about the best coding style between developers.
+How we made sure the code is formatted consistently in the past: enable dozens of linter rules to check code formatting that would yell at us all the time, forcing us to tweak whitespace, move pieces of the code around, and sacrifice a unicorn until the Gods Of Linting are satisfied. Add to that constant debates about the best coding style between developers.
 
 How we make sure that the code is formatted consistently now: add Prettier as a pre-commit hook to silently reformat the code. Not action needed from a developer, the team is happy and productive.
 
@@ -34,6 +34,6 @@ The goal here is to avoid any distractions when writing code, or the need to run
 
 _Tip:_ [Use Mrm](https://mrm.js.org/) to add Prettier and Husky/lint-staged to the project.
 
-Don’t use Prettier as a ESLint plugin, because it’ll mark each place formatted "incorrectly" as an error in our code. This isn’t helpful and distracts from the actual lint errors that we need to take care of. The whole idea of code autoformatting is that we no longer need to care about it. There’s no need to tell us that something is wrong when the robot can fix it without our help.
+Don’t use Prettier as a ESLint plugin, because it’ll mark each place formatted "incorrectly" as an error in our code. This isn’t helpful and distracts from the actual linting errors that we need to take care of. The whole idea of code autoformatting is that we no longer need to care about it. There’s no need to tell us that something is wrong when the robot can fix it without our help.
 
 ![The curse of linting](images/curse-of-linting.jpeg)

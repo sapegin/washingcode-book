@@ -362,6 +362,8 @@ I> This approach is often called [Yagni](https://martinfowler.com/bliki/Yagni.ht
 
 Write code that’s easy to delete. Isolate different features from each other, isolate UI from business logic. Make UI easy to change and move around.
 
+{#campsite-rule}
+
 ## Become a code scout
 
 The _campsite rule_ (previously known as _boy scout rule_) states that we should leave the campground cleaner than we found it. For example, if someone else has left garbage, we should take it with us.
@@ -382,7 +384,7 @@ Having a good test suit makes any refactoring safer, especially when tests aren�
 
 The opposite to the campsite rule is [the broken windows theory](https://en.wikipedia.org/wiki/Broken_windows_theory). It states that an environment with visible signs of crime or disorder, like an unfixed broken window, encourages more crime and disorder. And that “fixing” these minor crimes creates an environment that prevents more serious crime.
 
-Same in programming. Minor “crimes” here could be leaving lint warning unfixed, leaving debug code, unused or commented out code, sloppy and cluttered code. This creates an environment when nobody cares, because one new lint warning won’t make code with 1473 warnings significantly worse. It feels different when we introduce a new lint warning to a project that has none.
+Same in programming. Minor “crimes” here could be leaving linting warning unfixed, leaving debug code, unused or commented out code, sloppy and cluttered code. This creates an environment when nobody cares, because one new linting warning won’t make code with 1473 warnings significantly worse. It feels different when we introduce a new linting warning to a project that has none.
 
 It’s also worth mentioning the David Allen’s [2-minute rule](https://www.skillpacks.com/2-minute-rule/) that states "if an action will take less than two minutes, it should be done now it is defined".
 
