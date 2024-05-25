@@ -1401,13 +1401,9 @@ Some of these common pairs are:
 
 ## Check the spelling of your names
 
-Typos in names and comments are very common. They don’t cause bugs _most of the time_ but could still reduce readability a bit, and code with many typoses look sloppy.
+Typos in names and comments are very common. They don’t cause bugs _most of the time_ but could still reduce readability a bit, and code with many typoses look sloppy. So having a spell checker in the code editor is a good idea.
 
-Recently, I found this name in our codebase: `depratureDateTime`, and I immediately noticed it because I have a spellchecker enabled in my WebStorm editor:
-
-![Spellchecker in WebStorm](images/spellchecker.png)
-
-Spellchecker helps me immensely, as I’m not a native English speaker. It also helps to make the code more greppable: when we search for a certain term, we likely won’t find misspelled occurrences of it.
+I> We talk more about spell checking in the [Spell checking](#spell-checking) section of the Learn your code editor chapter.
 
 {#use-destructuring}
 

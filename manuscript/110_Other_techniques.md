@@ -807,7 +807,7 @@ However, as it often happens, we upgraded the technology, but kept using rules a
 
 ### 100% code coverage
 
-I often see that management demands a certain percentage of lines of code covered by automated tests: it could be anywhere from 70% to even 100%.
+I often see that management demands a certain number of lines of code covered by automated tests: it could be anywhere from 70% to even 100%. This values is called _code coverage_.
 
 I> I used to use _code coverage_ and _test coverage_ interchangeably. However, they are different terms: code coverage measures the proportion of lines of code executed during a test run, and test coverage measures how well tests cover the functionality requirements.
 

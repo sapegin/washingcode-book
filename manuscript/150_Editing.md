@@ -2,6 +2,8 @@
 
 ## Learn your code editor
 
+W> This chapter isn’t finished yet
+
 ### Make it your own
 
 One of the biggest features of moderns development environments and code editors is their flexibility and customizability: hundreds of color schemes, fonts made specially for programming, any part of UI can be hidden or adjusted...
@@ -78,6 +80,22 @@ The **fuzzy file opener** is one of my favorite tools. I use it all the time to 
 ![Fuzzy file opener in Visual Studio Code](images/fuzzy-file-opener.png)
 
 TODO: search (regexps?)
+
+{#spell-checking}
+
+### Spell checking
+
+English isn’t my native language, and having a spell checker pointing out typos in my code is immensely helpful. I’ve seen many misspelled words in comments, variable or function names, and so on, that could have been avoided with a specialized code spell checker.
+
+![Code Spell Checker for Visual Studio Code](images/code-spell-checker.png)
+
+<!-- cspell:disable -->
+
+Typos in the comments and names not only make the code slightly harder to read but also make it harder to search for. If we’re searching for `departureDate` but in some places it’s misspelled `depratureDate`, we’re not going to find those places.
+
+T> I use two spell checking extension for Visual Studio Code: [Code Spell Checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker) and [Typos spell checker](https://marketplace.visualstudio.com/items?itemName=tekumara.typos-vscode) — they compliment each other well. The Code Spell Checker is a more traditional spell checker and only checks words longer than three words, and the Typos fixes common misspellings (for example, `ot` instead of `to`). WebStorm comes with a good spell checker too.
+
+<!-- cspell:enable -->
 
 ### Automated refactoring
 
