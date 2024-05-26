@@ -50,6 +50,7 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 - [Why the Boy Scout Rule Is Insufficient](https://www.codewithjason.com/boy-scout-rule-insufficient/) by Jason Swett
 - [Write code that is easy to delete, not easy to extend](https://programmingisterrible.com/post/139222674273/write-code-that-is-easy-to-delete-not-easy-to)
 - [Writing system software: code comments](http://antirez.com/news/124)
+- [The Zen of Python](https://peps.python.org/pep-0020/)
 
 ## Talks
 
