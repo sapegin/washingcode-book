@@ -2,6 +2,8 @@
 
 # Other techniques
 
+<!-- description: Everything else that didn’t fit into other chapters -->
+
 {#impossible-states}
 
 ## Make impossible states impossible

@@ -2,6 +2,8 @@
 
 # Avoid loops
 
+<!-- description: Working with iterations and why traditional `for` loops may not be the best way of doing that -->
+
 <!-- cspell:ignore lenght -->
 
 Traditional loops, like `for` or `while`, are too low-level for common tasks. They are verbose and prone to [off-by-one errors](https://en.wikipedia.org/wiki/Off-by-one_error). We have to manage the index variable ourselves, and I always make typos with `lenght`. They don’t have any particular semantic value beyond telling us that some operation is probably repeated.
@@ -104,6 +106,8 @@ Array methods aren’t just shorter and more readable; each method has its own c
 Traditional loops don’t help with understanding what the code is doing until we read the whole thing.
 
 We’re separating the “what” (our data) from the “how” (how to loop over it). More than that, with array methods we only need to worry about our data, which we’re passing in as a callback function.
+
+I> We talk about separation of “what” and “how” in the [Separate “what” and “how”](#separate-what-and-how) section of the Divide and conquer, or merge and relax chapter.
 
 When all simple cases are covered by array methods, every time we see a traditional loop, we know that something unusual is going on. And that’s good: fewer chances we’ll miss a bug during code review.
 

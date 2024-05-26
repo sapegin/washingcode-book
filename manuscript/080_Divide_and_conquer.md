@@ -2,6 +2,8 @@
 
 # Divide and conquer, or merge and relax
 
+<!-- description: Splitting code into functions and modules, when is the right time to introduce an abstraction, and when it’s better to wait -->
+
 <!-- cspell:ignore favs -->
 
 It’s nice to have a global Button component but if it’s too flexible and has a dozen of boolean props to switch between different variations, it will be difficult to use. However, if it’s too strict, developers will create their own button components instead of using a shared one.

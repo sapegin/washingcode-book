@@ -2,6 +2,8 @@
 
 # Naming is hard
 
+<!-- description: How clear names make it easier to understand the code, and how to improve naming in our apps -->
+
 <!-- cspell:ignore arru, typoses, deprature -->
 
 We all know that naming is one of the hardest problems in programming, and probably most of us have written code like this when we just started programming:

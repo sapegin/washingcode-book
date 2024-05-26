@@ -1,5 +1,7 @@
 # Avoid comments
 
+<!-- description: Writing useful comments, when to write them and when not -->
+
 Some developers never comment their code, and some comment too much. The former kind believes that the code should be self-documenting, the latter kind read somewhere that they should always comment their code.
 
 Both are wrong.

@@ -2,6 +2,8 @@
 
 # Don’t make me think
 
+<!-- description: All the different ways programmers like to write clever code, and why we should avoid it as much as possible -->
+
 Clever code is a kind of code we may see in job interview questions or language quizzes. When they expect us to know how a language feature, we probably have never seen before, works. My answer to all these questions is: “it won’t pass code review”.
 
 Some people confuse _brevity_ with _clarity_. Short code (brevity) isn’t always the clearest code (clarity), often the opposite. Trying to make your code shorter is a noble goal but it should never make it harder to read.

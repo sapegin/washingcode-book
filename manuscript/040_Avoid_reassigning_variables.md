@@ -2,6 +2,8 @@
 
 # Avoid reassigning variables
 
+<!-- description: Improving code readability by making it easier to understand what variables are doing and how they are used in the code -->
+
 Reassigning variables is like changing the past. When we see:
 
 ```js

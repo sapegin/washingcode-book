@@ -2,6 +2,8 @@
 
 # Code style
 
+<!-- description: Which code styles are actually improving readability and which are just opinions that don’t matter much -->
+
 I used to be very strict about [code style](https://blog.sapegin.me/all/prettier/). I thought my code style was better than others’, but later I realized that it was just different. And it wasn’t the most popular, so anyone else’s code looked wrong to me.
 
 For example, after reading the [The Programmers’ Stone](https://www.datapacrat.com/Opinion/Reciprocality/r0/index.html) I was formatting braces like this for a long time:
@@ -732,9 +734,9 @@ Some conventions are easy to use, and some are not so much. Let’s compare thre
 
 The first two are easy to remember: it’s all or nothing. The last one, however, not at all. Here are the rules of the AP/APA title style (quoted from the [ap-style-title-case](https://github.com/words/ap-style-title-case) package docs):
 
-- always capitalize the first word, even if it’s a stop word
-- always capitalize the last word, even if it’s a stop word
-- lowercase these words: `a`, `an`, `and`, `at`, `but`, `by`, `for`, `in`, `nor`, `of`, `on`, `or`, `so`, `the`, `to`, `up`, `yet`
+- always capitalize the first word, even if it’s a stop word;
+- always capitalize the last word, even if it’s a stop word;
+- lowercase these words: `a`, `an`, `and`, `at`, `but`, `by`, `for`, `in`, `nor`, `of`, `on`, `or`, `so`, `the`, `to`, `up`, `yet`.
 
 > Many writers make the error of leaving `to be` verbs in lower case. Even though `is`, `are`, `was`, and `be`, are all short words, they should still be capitalized in a title because they are verbs.
 >

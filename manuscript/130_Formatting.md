@@ -2,6 +2,8 @@
 
 ## Autoformat your code
 
+<!-- description: How tools can make our lives much easier by formatting code for us -->
+
 W> This chapter isn’t finished yet
 
 Developers could waste days arguing where to put spaces in the code, which doesn’t matter at all, but everyone has an opinion on it. Luckily, these arguments are mostly in the past, thanks to automatic code formatting.

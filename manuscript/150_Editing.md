@@ -2,6 +2,8 @@
 
 ## Learn your code editor
 
+<!-- description: Different techniques for _editing_ code and customizing our environment to make our work more efficient and less tiring -->
+
 W> This chapter isn’t finished yet
 
 ### Make it your own

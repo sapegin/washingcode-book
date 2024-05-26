@@ -2,6 +2,8 @@
 
 # Avoid conditions
 
+<!-- description: Writing good conditions and simplifying the code by avoiding them -->
+
 Conditions make code harder to read and test. They add nesting and make lines of code longer, so we have to split them into several lines. Each condition increases the minimum number of test cases we need to write for a certain module or function.
 
 ## Unnecessary conditions
@@ -1288,7 +1290,9 @@ expect(validate({name: 'Chuck Norris'}, validations)).toEqual({})
 
 One more time we’ve separated the “what” from the “how”: we have a readable and maintainable list of validations (“what”), a collection of reusable validation functions, and a `validate` function to validate form values (“how”) that also can be reused.
 
-T> Using a third-party library, like [Zod](https://zod.dev/), [Yup](https://github.com/jquense/yup), or [Joi](https://github.com/hapijs/joi) will make code even shorter and save us from needing to write validation functions ourselves.\_
+I> We talk about separation of “what” and “how” in the [Separate “what” and “how”](#separate-what-and-how) section of the Divide and conquer, or merge and relax chapter.
+
+T> Using a third-party library, like [Zod](https://zod.dev/), [Yup](https://github.com/jquense/yup), or [Joi](https://github.com/hapijs/joi) will make code even shorter and save us from needing to write validation functions ourselves.
 
 You may feel that I have too many similar examples in this book, and you’re right. But I think such code is so common, and the readability and maintainability benefits of replacing conditions with tables are so huge that it’s worth repeating. So here is one more example (the last one, I promise!):
 

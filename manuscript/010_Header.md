@@ -32,9 +32,9 @@ In the **Avoid loops** chapter, we talk about working with iterations and why tr
 
 In the **Avoid conditions** chapter, we continue exploring the best ways to write clean code: writing good conditions and simplifying our code by avoiding them.
 
-In the **Avoid reassigning variables** chapter, we talk about improving code readability by making it easier to reason with variables and how they are used in the code.
+In the **Avoid reassigning variables** chapter, we talk about improving code readability by making it easier to understand what variables are doing and how they are used in the code.
 
-In the **Avoid mutation** chapter, we continue the topic of working with variables and talk about mutation: why they are hindering code readability and what can we do about that.
+In the **Avoid mutation** chapter, we continue the topic of working with variables and talk about mutation: why it’s hindering code readability and what can we do about it.
 
 The next two chapters are about more humanistic side of coding:
 
@@ -46,17 +46,17 @@ The next four chapters are a bit of a mix of architecture, heuristics, tips and 
 
 In the **Divide and conquer, or merge and relax** chapter, we talk about splitting code into functions and modules, when is the right time to introduce an abstraction, and when it’s better to wait.
 
-In the **Don’t make me think** chapter, we talk about all the different ways programmers like to write clever code and why we should avoid it as much as possible.
+In the **Don’t make me think** chapter, we talk about all the different ways programmers like to write clever code, and why we should avoid it as much as possible.
 
-In the **Code style** chapter, we talk about code styles and which ones are actually improving readability and which are just opinions and don’t matter much.
+In the **Code style** chapter, we talk about code styles: which ones are actually improving readability and which are just opinions that don’t matter much.
 
-In the **Other techniques** chapter, we talk about everything else that didn’t fit into the nine chapters.
+In the **Other techniques** chapter, we talk about everything else that didn’t fit into other chapters.
 
 The last four chapters are about tooling:
 
 In the **Lint your code** chapter, we talk about how linters can help us maintain consistent and modern codebase, and promote some of the techniques discussed in the previous chapters.
 
-In the **Autoformat your code** chapter, we talk about how autoformatting tools can make our lives much easier by automatic code formatting.
+In the **Autoformat your code** chapter, we talk about how tools can make our lives much easier by formatting code for us.
 
 In the last chapter, **Learn your code editor**, we talk about different techniques for _editing_ code and customizing our environment to make our work more efficient and less tiring.
 
