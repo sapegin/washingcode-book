@@ -353,7 +353,6 @@ articles.upvote('/cats-better-than-dogs');
 articles.upvote('/dogs-better-than-cats', 5);
 articles.downvote('/cats-better-than-dogs');
 articles.get('/dogs-better-than-cats');
-// => 5
 ```
 
 <!--
@@ -537,7 +536,7 @@ Now we could call the `onError` function whenever we need, and it won’t fail. 
 
 ## Early return
 
-Applying _guard clauses_, or _early returns_, is a great way to avoid nested conditions. A series of nested conditions, also known as the [arrow antipattern](http://wiki.c2.com/?ArrowAntiPattern) or _dangerously deep nesting_, is often used for error handling:
+Applying _guard clauses_, or _early returns_, is a great way to avoid nested conditions. A series of nested conditions is often used for error handling:
 
 <!-- const getOrderIds = () => ([]), sendOrderStatus = () => {} -->
 
@@ -569,6 +568,8 @@ function postOrderStatus(orderId) {
 <!-- expect(() => postOrderStatus(0)).not.toThrowError() -->
 
 There are 120 lines between the first condition and its `else` block. And the main return value is somewhere inside three levels of conditions.
+
+I> Deeply nested conditions are also known as the [arrow antipattern](http://wiki.c2.com/?ArrowAntiPattern) or _dangerously deep nesting_.
 
 Let’s untangle this spaghetti monster:
 
@@ -956,7 +957,9 @@ expect(getSpecialOffersArray('tacos', BRANDS.HORNS_AND_HOOVES)).toEqual(['horns'
 
 We were able to separate all low-level code and hide it in another module.
 
-It may seem like I prefer small functions or even very small functions, but that’s not the case. The main reason to extract code into separate functions here is a violation of the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle). The original function had too many responsibilities: getting special offers, generating cache keys, reading data from the cache, and storing data in the cache. Each with two branches for our two brands.
+It may seem like I prefer small functions or even very small functions, but that’s not the case. The main reason to extract code into separate functions here is a violation of the _single responsibility principle_. The original function had too many responsibilities: getting special offers, generating cache keys, reading data from the cache, and storing data in the cache. Each with two branches for our two brands.
+
+I> The [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle) states that any module, class, or method should have only one reason to change, or in other words we should keep code that changes for the same reason. We talk more about this topic in the [Divide and conquer, or merge and relax](#divide-and-conquer) chapter.
 
 ## Tables or maps
 
@@ -1207,11 +1210,11 @@ But if we look closer, there are just three unique validations:
 First, let’s extract all validations into their own functions so we can reuse them later:
 
 ```js
-const hasStringValue = value => value && value.trim() !== '';
+const hasStringValue = value => value?.trim() !== '';
 const hasLengthLessThanOrEqual = max => value =>
-  !hasStringValue(value) || (value && value.length <= max);
+  hasStringValue(value) === false || value.length <= max;
 const hasNoSpaces = value =>
-  !hasStringValue(value) || (value && !value.includes(' '));
+  hasStringValue(value) === false || value?.includes(' ') === false;
 ```
 
 <!--
@@ -1230,15 +1233,15 @@ Note that `hasLengthLessThanOrEqual` and `hasNoSpaces` only check the conditio
 
 Now we can define our validations table. There are two ways of doing this:
 
-- using an object where keys represent form fields
-- using an array
+- using an object where keys represent form fields;
+- using an array.
 
 We’re going to use the second option because we want to have several validations with different error messages for some fields, for example, a field can be required _and_ have a maximum length:
 
 <!--
-const hasStringValue = value => value && value.trim() !== ''
+const hasStringValue = value => value?.trim() !== ''
 const hasLengthLessThanOrEqual = max => value =>
-  !hasStringValue(value) || (value && value.length <= max)
+  !hasStringValue(value) || (value?.length <= max)
 -->
 
 ```js
@@ -1256,6 +1259,13 @@ const validations = [
   // All other fields
 ];
 ```
+
+<!--
+expect(validations[0].validation('tacocat')).toBe(true)
+expect(validations[0].validation('')).toBe(false)
+expect(validations[1].validation('tacocat')).toBe(true)
+expect(validations[1].validation('x'.repeat(81))).toBe(false)
+-->
 
 Now we need to iterate over this array and run validations for all fields:
 
@@ -1428,7 +1438,7 @@ expect(getDiscountAmount({promoDiscount: {discountAmount: {displayCurrency: v25}
 expect(getDiscountAmount({})).toEqual(v0)
 -->
 
-Here, we create an array with all possible discounts, then we use Lodash’s [maxBy()](https://lodash.com/docs/4.17.15#maxBy) method to find the maximum value, and we use nullish coalescing operator to either return the maximum or 0.
+Here, we create an array with all possible discounts, then we use Lodash’s [maxBy()](https://lodash.com/docs#maxBy) method to find the maximum value, and we use nullish coalescing operator to either return the maximum or 0.
 
 Now it’s clear that we want to find the maximum of two types of discounts, otherwise return 0.
 
@@ -1635,7 +1645,7 @@ expect(c4.textContent).toEqual('Error loading products')
 
 I think it’s much easier to follow now: all special cases are at the top of the function, and the happy path is at the end.
 
-_We’ll come back to this example later in the [Make impossible states impossible](#impossible-states) section._
+I> We’ll come back to this example later in the [Make impossible states impossible](#impossible-states) section of the Other techniques chapter.
 
 ---
 

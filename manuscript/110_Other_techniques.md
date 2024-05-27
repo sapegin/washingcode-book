@@ -334,7 +334,7 @@ export function Tweets() {
 }
 ```
 
-<!-- Can't test TypeScript yet -->
+<!-- TODO: Can't test TypeScript yet -->
 
 It’s about the same amount of code as the plain JavaScript implementation, but it’s much more bulletproof. We also got rid of the enums and simplified the code since TypeScript can check if the status and action types are correct. This method even helped me find several bugs in my initial JavaScript implementation of this example.
 
@@ -407,7 +407,7 @@ const MenuListItem = ({concatenateText}) => concatenateText
 const OrderIdIcon = () => null, CopyIcon = () => null
 -->
 
-```tsx
+```jsx
 function OrderIdSection() {
   const { orderId } = useOrderDetails();
 
@@ -450,7 +450,7 @@ const MenuListItem = ({concatenateText}) => concatenateText
 const OrderIdIcon = () => null, CopyIcon = () => null
 -->
 
-```tsx
+```jsx
 function OrderIdSection() {
   const { orderId } = useOrderDetails();
 
@@ -498,7 +498,7 @@ Some people [even believe](https://www.reddit.com/r/programming/comments/2tjoc8/
 
 Consider this example:
 
-```js
+```jsx
 function BookCover({ title, type, width = 150, height = 194 }) {
   return (
     <img
@@ -527,7 +527,7 @@ There are two possible solutions to this.
 
 When we know all possible values in advance, we can map them:
 
-```js
+```jsx
 const COVERS = {
   'washing-code': 'cover-washing-code.jpg',
   tacos: 'cover-tacos.jpg'
@@ -554,7 +554,7 @@ Here, we have a map with all possible filenames, so if we search by a filename (
 
 However, we don’t always know all the values in advance. In our example, we can move the files to a separate folder and use a complete name without extension as an identifier:
 
-```js
+```jsx
 function BookCover({ title, type, width = 150, height = 194 }) {
   return (
     <img
@@ -625,7 +625,7 @@ TypeScript helps a lot with these things: for example, we can now find all place
 
 ## Avoid not invented here syndrome
 
-_Not invented here syndrome_ (NIH) represents fear or a ban on using third-party solutions. It could come from an internal developer’s need to prove themselves to the world or from an employer, usually a huge one, that hired so many developers that there’s not enough actually useful work for everyone.
+[Not invented here](https://en.wikipedia.org/wiki/Not_invented_here) syndrome (NIH) represents fear or a ban on using third-party solutions. It could come from an internal developer’s need to prove themselves to the world or from an employer, usually a huge one, that hired so many developers that there’s not enough actually useful work for everyone.
 
 Like any extreme, discarding all third-party libraries in our work is unhealthy. Many problems are generic enough and don’t need to be rewritten by every developer on the planet again and again. For many problems, there are popular open source libraries, that are well tested and documented.
 
@@ -695,7 +695,7 @@ However, we should first consider potential problems of maintaining our own solu
 - Maintenance may take a lot of time that we could spend adding new features or improving the product.
 - New developers our company hires need to learn how to use its in-house artisanal libraries, which is often hard because of poor documentation and discoverability.
 
-Let’s compare our own function with one from a popular library: [isEmpty from Lodash](https://lodash.com/docs/4.17.15#isEmpty). It looks quite similar, but it supports objects, arrays, maps, and sets; it’s documented with examples, and it’s tested. I wouldn’t want to deal will all these myself, if an alternative already exists.
+Let’s compare our own function with one from a popular library: [isEmpty from Lodash](https://lodash.com/docs#isEmpty). It looks quite similar, but it supports objects, arrays, maps, and sets; it’s documented with examples, and it’s tested. I wouldn’t want to deal will all these myself, if an alternative already exists.
 
 On a real project, I’d make sure that the `object` is always an object (never `undefined` or `null`, TypeScript can help with this), and then either use Lodash’s `isEmpty` function if available, or inline the `Object.keys(object).length > 0` condition where I need it (now we don’t need to check object existence first).
 
@@ -787,25 +787,25 @@ Some developers will brag that all their functions are only one or two lines lon
 
 I think it’s a wrong problem to solve and the size itself is rarely a problem. However, long functions often hide real issues, like too many responsibilities or deep nesting.
 
-See the [Lint your code](#linting) chapter for more details.
+I> We talk about measuring length of code in the [Lint your code](#linting) chapter.
 
 ### Always comment your code
 
 Developers who believe that they must comment each (or at least most) line of their code are having a dangerous lifestyle, and not really better than those who _never_ write any comments.
 
-See the [Avoid comments](#avoid-comments) chapter for more details.
+I> We talk about commenting code in the [Avoid comments](#avoid-comments) chapter.
 
 ### Always use constants for magic numbers
 
 Using constants instead of magic numbers is a great practice, but not all numbers are magic. Often developer make code less readable by following this principle without thinking and converting all literal values, number and strings, to constants.
 
-See the [Naming is hard](#naming-is-hard) chapter for more details.
+I> We talk about naming in the [Naming is hard](#naming-is-hard) chapter.
 
 ### Never repeat yourself
 
 Don’t repeat yourself (DRY) principle is probably the most overrated idea in software development.
 
-See the [Divide and conquer, or merge and relax](#divide-and-conquer) chapter for more details.
+I> We talk about DRY principle and organizing code in the [Divide and conquer, or merge and relax](#divide-and-conquer) chapter.
 
 ### Always use only one return statement in a function
 

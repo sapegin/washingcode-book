@@ -10,6 +10,8 @@ And remember: we write code for our colleagues and future us, so they can unders
 
 Also remember this: _code is evil_. Our job isn’t writing code but solving our client’s problems, whether it’s our employer or ourselves. Code is a by-product, a necessary evil. Don’t be too attached to your code: one day it’ll be rewritten or deleted, that’s why we call it _software_.
 
+<!-- cspell:disable -->
+
 # Resources
 
 ## Books
@@ -17,11 +19,10 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 - [The Art of Readable Code](https://www.amazon.com/gp/product/0596802293/) by Dustin Boswell
 - [Code Complete: A Practical Handbook of Software Construction](https://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670/) by Steve McConnell
 - [The Pragmatic Programmer: Your journey to mastery, 20th Anniversary Edition](https://www.amazon.com/Pragmatic-Programmer-journey-mastery-Anniversary-ebook/dp/B07VRS84D1/) by David Thomas and Andrew Hunt
+- [The Programmers’ Stone](https://www.datapacrat.com/Opinion/Reciprocality/r0/index.html) by Alan Carter and Colston Sanger
 - [Refactoring: Improving the Design of Existing Code](https://www.amazon.com/Refactoring-Improving-Existing-Addison-Wesley-Signature/dp/0134757599) by Martin Fowler
 
 ## Articles
-
-<!-- cspell:disable -->
 
 - [AHA programming](https://kentcdodds.com/blog/aha-programming) by Kent C. Dodds
 - [Array reduce vs chaining vs for loop](https://kentcdodds.com/blog/array-reduce-vs-chaining-vs-for-loop) by Kent C. Dodds
@@ -48,6 +49,7 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 - [Too DRY – The Grep Test](http://jamie-wong.com/2013/07/12/grep-test/) by Jamie Wong
 - [Why I don’t like reduce](https://tkdodo.eu/blog/why-i-dont-like-reduce) by TkDodo
 - [Why the Boy Scout Rule Is Insufficient](https://www.codewithjason.com/boy-scout-rule-insufficient/) by Jason Swett
+- [Why you should enforce Dangling Commas for Multiline Statements](https://medium.com/@nikgraf/why-you-should-enforce-dangling-commas-for-multiline-statements-d034c98e36f8) by Nik Graf
 - [Write code that is easy to delete, not easy to extend](https://programmingisterrible.com/post/139222674273/write-code-that-is-easy-to-delete-not-easy-to)
 - [Writing system software: code comments](http://antirez.com/news/124)
 - [The Zen of Python](https://peps.python.org/pep-0020/)

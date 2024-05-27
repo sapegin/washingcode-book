@@ -10,7 +10,9 @@ It’s nice to have a global Button component but if it’s too flexible and has
 
 ## Let abstractions grow
 
-We, developers, hate to do the same work twice. [Don’t repeat yourself](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) (DRY) is our mantra. But when we have two or three pieces of code that kinda do the same thing, it may be still too early to introduce an abstraction, no matter how tempting it may feel.
+We, developers, hate to do the same work twice. DRY is a mantra of many. However, when we have two or three pieces of code that kinda do the same thing, it may be still too early to introduce an abstraction, no matter how tempting it may feel.
+
+I> The [Don’t repeat yourself](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself) (DRY) principle demands that “every piece of knowledge must have a single, unambiguous, authoritative representation within a system”, which is often interpreted as _any code duplication is strictly verboten_.
 
 Live with the pain of code duplication for a while; maybe it’s not so bad in the end, and the code is actually not exactly the same. Some level of code duplication is healthy and allows us to iterate and evolve code faster without caring so much that we break something.
 
@@ -22,7 +24,9 @@ Imagine team A is adding a comment form to their page: a name, a message, and a 
 
 Sometimes, we have to roll back an abstraction. When we start adding conditions and options, we should ask ourselves: is it still a variation of the same thing or a new thing that should be separated? Adding too many conditions and parameters to a module can make the API hard to use and the code hard to maintain and test.
 
-[Duplication is cheaper](https://www.sandimetz.com/blog/2016/1/20/the-wrong-abstraction) and healthier than the wrong abstraction.
+Duplication is cheaper and healthier than the wrong abstraction.
+
+I> See Sandi Metz’s article [The Wrong Abstraction](https://www.sandimetz.com/blog/2016/1/20/the-wrong-abstraction) for a great explanation.
 
 The higher level of the code is, the longer we should wait before we abstract it. Low-level utility abstractions are much more obvious and stable than business logic.
 
@@ -38,7 +42,7 @@ You probably won’t find a lot of small functions in my code. In my experience,
 
 Let’s start with the _change frequency_. Business logic is changing much more often than utility functions. It makes sense to keep code that changes often separately from the code that is very stable.
 
-The comment form in the previous section is an example of the former; a function that converts `camelCase` strings to `kebab-case` is an example of the latter. The comment form is likely to change and diverge with time when new business requirements arrive; the conversion function is unlikely to change at all, and it’s safe to reuse in many places.
+The comment form in the previous section is an example of the former; a function that converts camelCase strings to kebab-case is an example of the latter. The comment form is likely to change and diverge with time when new business requirements arrive; the conversion function is unlikely to change at all, and it’s safe to reuse in many places.
 
 Imagine that we’re making a nice-looking table with editable fields. We may think we’ll never need this table design again, so we decide to keep the whole table in a single module.
 
@@ -72,13 +76,13 @@ Couple of examples of colocation:
 - [Ducks convention](https://github.com/erikras/ducks-modular-redux) for Redux: keep related actions, action creators, and reducers in the same file (for example, `src/ducks/feature.js`), as opposed to having three files in separate folders (for example, `src/actions/feature.js`, `src/actionCreators/feature.js`, and `src/reducers/feature.js`).
 - React components: keeping everything a component needs in the same file, including markup (JSX), styles, and logic. Also, keeping tests next to the component file. For example, `src/components/Button.tsx`, and `src/components/Button.test.ts`.
 
-T> Kent C. Dodds has [a nice article on colocation](https://kentcdodds.com/blog/colocation).
+I> Kent C. Dodds has [a nice article on colocation](https://kentcdodds.com/blog/colocation).
 
 A common complaint about this approach is that it makes components too large. If that’s the case, it’s better to extract some parts into their own components, together with their markup, styles and logic.
 
 The idea of colocation also conflicts with _separation of concerns_: an outdated idea that led web developers to keep HTML, CSS, and JavaScript in separate files (and often in separate folders) for too long and made us edit three files at the same time to make even the most basic changes on web pages.
 
-The _change reason_ is also known as the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle): “every module, class, or function should have responsibility over a single part of the functionality provided by the software, and that responsibility should be entirely encapsulated by the class.”
+I> The _change reason_ is also known as the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle): “every module, class, or function should have responsibility over a single part of the functionality provided by the software, and that responsibility should be entirely encapsulated by the class.”
 
 T> It might be a good idea to forbid other teams to use our code unless it’s designed and marked as shared. The [Dependency cruiser](https://github.com/sverweij/dependency-cruiser) is a tool that could help set up such rules on a project.
 
@@ -255,6 +259,13 @@ function validate(values) {
 }
 ```
 
+<!--
+expect(validate({name: 'Chuck', login: 'chuck'})).toEqual({})
+expect(validate({name: '', login: 'chuck'})).toEqual({name: 'Name is required'})
+expect(validate({name: 'Chuck', login: ''})).toEqual({login: 'Login is required'})
+expect(validate({name: 'Chuck', login: 'c norris'})).toEqual({login: 'No spaces are allowed in login'})
+-->
+
 It’s quite difficult to grasp what’s going on here: validation logic is mixed error messages, many checks are repeated…
 
 We could split this function into several pieces, each responsible for one thing only:
@@ -291,11 +302,20 @@ const validations = [
 ];
 ```
 
+<!--
+expect(validations[0].validation('tacocat')).toBe(true)
+expect(validations[0].validation('')).toBe(false)
+expect(validations[1].validation('tacocat')).toBe(true)
+expect(validations[1].validation('')).toBe(false)
+expect(validations[2].validation('tacocat')).toBe(true)
+expect(validations[2].validation('taco cat')).toBe(false)
+-->
+
 Each validation and the function that runs them are pretty generic, and are good candidates for an abstraction or looking for a third-party library.
 
 So now, we can add validation for any form by describing which fields need which validations and what error to show in each case.
 
-T> See [Avoid conditions](#avoid-conditions) chapter for the complete code of this example, and more detailed explanation.
+I> See [Avoid conditions](#avoid-conditions) chapter for the complete code of this example, and more detailed explanation.
 
 I call this process _separating of “what” and “how”_. The benefits are:
 
@@ -324,7 +344,7 @@ My rule of thumb is this:
 
 ## Stay hydrated
 
-To troll the DRYers, someone invented another term: [WET](https://overreacted.io/the-wet-codebase/), _write everything twice_, or _we enjoy typing_, meaning we should duplicate code at least twice until we replace it with an abstraction. It is a joke, and I don’t fully agree with the idea (sometimes it’s okay to duplicate some code more than twice), but it’s a good reminder that all good things are good in moderation.
+To troll the DRYers (developers who never repeat their code), someone invented another term: [WET](https://overreacted.io/the-wet-codebase/), _write everything twice_, or _we enjoy typing_, meaning we should duplicate code at least twice until we replace it with an abstraction. It is a joke, and I don’t fully agree with the idea (sometimes it’s okay to duplicate some code more than twice), but it’s a good reminder that all good things are good in moderation.
 
 Consider this example:
 
@@ -369,6 +389,8 @@ it('Your recipes', () => {
 });
 ```
 
+<!-- // No actual test, just executing the code -->
+
 This is an extreme example of code DRYing, and it doesn’t make the code more readable or more maintainable. Especially with most of these constants used only once. Seeing variable names instead of actual strings is unhelpful.
 
 Let’s inline all these extra variables. (Unfortunately, inline refactoring in Visual Studio Code doesn’t support inlining object properties, so we have to do it manually.)
@@ -392,6 +414,8 @@ it('Your recipes', () => {
   // Lots of lines in similar style...
 });
 ```
+
+<!-- // No actual test, just executing the code -->
 
 Now, we have significantly less code, and it’s easier to understand what’s going on and easier to update or delete tests.
 
@@ -418,6 +442,8 @@ test('pony has pink tail', () => {
 // More tests that use `wrapper`...
 ```
 
+<!-- // No actual test, just executing the code -->
+
 This pattern tries to avoid duplication of `mount(...)` in each test case, but it makes tests more confusing than they should be. Let’s inline `mount()` calls:
 
 <!--
@@ -436,6 +462,8 @@ test('pony has pink tail', () => {
 
 // More tests that use `wrapper`...
 ```
+
+<!-- // No actual test, just executing the code -->
 
 In addition, `beforeEach` pattern only works when we want to initialize each test case with the same values, which is rarely the case:
 
@@ -458,6 +486,8 @@ test('pony can breath fire', () => {
   expect(wrapper.find('.fire')).toBeVisible();
 });
 ```
+
+<!-- // No actual test, just executing the code -->
 
 To avoid _some_ duplication when testing React components, I often add `defaultProps` object and spread it inside each test case:
 
@@ -482,6 +512,8 @@ test('pony can breath fire', () => {
   expect(wrapper.find('.fire')).toBeVisible();
 });
 ```
+
+<!-- // No actual test, just executing the code -->
 
 This way we don’t have too much duplication but at the same time each test case is isolated and readable: the difference between test cases is now clearer because it’s easier to see unique props of each test case.
 
@@ -518,6 +550,8 @@ test('works with lobotomized owl selector', () => {
 // More tests that use `css` and `res`...
 ```
 
+<!-- // No actual test, just executing the code -->
+
 We can inline `beforeEach()` the same way we did in the previous example:
 
 <!--
@@ -543,6 +577,8 @@ test('works with lobotomized owl selector', () => {
 // More tests that use `css` and `res`...
 ```
 
+<!-- // No actual test, just executing the code -->
+
 I’d go even further, and use `test.each()` method because we run the same test with a bunch of different inputs:
 
 <!--
@@ -561,6 +597,8 @@ test.each([
   expect(getSelector(css)).toBe(expected);
 });
 ```
+
+<!-- // No actual test, just executing the code -->
 
 Now, we collected all the test inputs with their expected results in one place, and it’s easier to add new test cases.
 

@@ -12,7 +12,7 @@ Traditional loops, like `for` or `while`, are too low-level for common tasks.
 
 Modern languages have better ways to express iterative operations, and [JavaScript has many useful methods](http://exploringjs.com/impatient-js/ch_arrays.html#methods-iteration-and-transformation-.find-.map-.filter-etc) to transform and iterate over arrays, like `map()` or `find()`.
 
-For example, let’s convert an array of strings to `kebab-case` with a `for` loop:
+For example, let’s convert an array of strings to kebab-case with a `for` loop:
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
@@ -23,6 +23,8 @@ for (let i = 0; i < names.length; i++) {
 ```
 
 <!-- expect(kebabNames).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
+
+I> _Kebab case_ is one of popular naming convention, where lowercase words are separated by a dash: `chuck-norris`. It’s called like this because it looks a bit like several kebabs on a skewer. Other conventions are: _camelCase_, _PascalCase_, _snake_case_, and _SCREAMING_SNAKE_CASE_. I spell each name in the book in its own convention so it’s easier to remember which one is which.
 
 And with the `map()` method instead of a `for` loop:
 
@@ -92,7 +94,7 @@ const foundName = names.find(name => name.startsWith('B'));
 
 <!-- expect(foundName).toEqual('Bilbo Baggins') -->
 
-In both cases, I much prefer array methods when compared to `for` loops. They are shorter, and we’re not bloating the code with iteration mechanics.
+In both examples, I much prefer array methods when compared to `for` loops. They are shorter, and we’re not bloating the code with iteration mechanics.
 
 ## Implied semantics of array methods
 
@@ -255,7 +257,7 @@ expect(console.error.mock.calls).toEqual([['dope'], ['nope']])
 
 ## Iterating over objects
 
-There are [many ways to iterate over objects](https://stackoverflow.com/a/5737136/1973105) in JavaScript. I equally dislike them all, so it’s hard to choose the best one. Unfortunately, there’s no `map()` for objects, though Lodash does have three methods for object iteration, so it’s a good option if we’re already using Lodash in our project.
+There are [many ways to iterate over object keys or values](https://stackoverflow.com/a/5737136/1973105) in JavaScript. I equally dislike them all, so it’s hard to choose the best one. Unfortunately, there’s no `map()` for objects, though Lodash does have three methods for object iteration, so it’s a good option if we’re already using Lodash in our project.
 
 ```js
 const allNames = {

@@ -58,7 +58,7 @@ const dogs = [
 ];
 ```
 
-[Trailing, or dangling, commas](https://medium.com/@nikgraf/why-you-should-enforce-dangling-commas-for-multiline-statements-d034c98e36f8) solve both problems without making code any harder to write or read:
+_Trailing, or dangling, commas_ solve both problems without making code any harder to write or read:
 
 <!-- prettier-ignore -->
 ```js
@@ -79,6 +79,8 @@ const dogs = [
 +  'whippet',
 ];
 ```
+
+I> Nik Graf wrote [a great article on benefits of dangling commas](https://medium.com/@nikgraf/why-you-should-enforce-dangling-commas-for-multiline-statements-d034c98e36f8).
 
 And if there was one particular code style I really dislike, it would be code blocks without brackets:
 
@@ -150,9 +152,11 @@ expect(test({allIngredients: []})).toBe(null);
 expect(test({allIngredients: [1]})).toBe(undefined);
 -->
 
-Now the `return` statement is more noticeable.
+Now the `return` statement is more noticeable: it has its own line, braces create extra negative space around it, and, most important, it has a familiar shape of an `if` statement. Without braces, it looks like any other line:
 
-As usual, there are worse ways to write code:
+![Shapes of if conditions without and with braces](images/if-shapes.svg)
+
+Of course, there are worse ways to write code:
 
 <!-- function test(pizza) { -->
 
@@ -297,7 +301,7 @@ const examples = readme(fs.readFileSync('./README.md', 'utf-8'));
 
 This will not only make it slightly more readable but also easier to add, remove, or move variable declarations.
 
-I> Read more about code autoformatting in the [Autoformat your code](#formatting) chapter.
+I> We talk about code autoformatting in the [Autoformat your code](#formatting) chapter.
 
 ## Improving readability
 
@@ -656,9 +660,11 @@ expect(test('saluki')).toEqual(undefined)
 
 In shortstringer code, we’ll see early returns, extra functions, and variables to reduce the number of operations in one line and give things names, less nesting, variable name lengths depending on the size or their scope (longer names for larger scope), and so on.
 
-It’s easier to follow conditions, notice `return` statements in the functions, and generally see what’s happening. The important code — like adding new values to an object — isn’t buried somewhere in a very long line, and separated from the data management code (see the [Separate what and how](#separate-what-and-how) section of the Divide and conquer, or merge and relax chapter). The code has more whitespace and more distinctive shape which makes it easier to scan.
+It’s easier to follow conditions, notice `return` statements in the functions, and generally see what’s happening. The important code, like adding new values to an object, isn’t buried somewhere in a very long line, and separated from the data management code. The code has more whitespace and more distinctive shape which makes it easier to scan.
 
 I’m a shortstringer.
+
+I> We talk more about separating data and data-managing code in the the [Separate what and how](#separate-what-and-how) section of the Divide and conquer, or merge and relax chapter.
 
 Another issue of the longstringer approach is that Prettier with a default setting of 80 characters will likely make the code ugly and quite unreadable:
 
@@ -749,7 +755,7 @@ This is an extreme case of an inconvenient convention. Programmers rarely go tha
 One example is [Microsoft .NET naming conventions](https://learn.microsoft.com/en-us/dotnet/standard/design-guidelines/capitalization-conventions), where they make a special case for two-letter acronyms:
 
 > The PascalCasing convention, used for all identifiers except parameter names, capitalizes the first character of each word (including acronyms over two letters in length), as shown in the following examples: `PropertyDescriptor`, `HtmlTag`.
-
+>
 > A special case is made for two-letter acronyms in which both letters are capitalized, as shown in the following identifier: `IOStream`.
 
 I don’t see how this improves anything: `IoStream` is easier to read than `IOStream`, and there’s no need to remember a special rule.
@@ -805,13 +811,13 @@ function semicolonOrNot() {
 
 I prefer not to overload my brain with such questions and always use semicolons.
 
-Luckily, semicolonless JavaScript projects are far less common now than they used to be some ten years ago.
+Luckily, _semicolonless_ JavaScript projects are far less common now than they used to be some ten years ago.
 
 ## Tabs or spaces
 
 Doesn’t matter, as long as we have a linter or autoformatter to automatically make it right. With modern code editors there’s no difference, and most of the time I don’t even know what projects, I’m working on, are using.
 
-I> We talk more bout linters in the [Lint your code](#linting) chapter, and about code formatters in [Autoformat your code](#formatting) chapter.
+I> We talk about linters in the [Lint your code](#linting) chapter, and about code formatters in [Autoformat your code](#formatting) chapter.
 
 ## The rest doesn’t matter
 
@@ -902,7 +908,9 @@ There’s zero code readability improvement. The code is just different, none of
 
 ## Conclusion
 
-My rule of thumb here is: automate or forget. For example, [Prettier](https://prettier.io/) (see the [Autoformat your code](#formatting) chapter) formats code with almost zero config, which saves an enormous amount of time while you write code, read someone else’s code or discuss code style in your team.
+My rule of thumb here is: _automate or forget_. For example, [Prettier](https://prettier.io/) formats code with almost zero config, which saves an enormous amount of time while you write code, read someone else’s code or discuss code style in your team.
+
+I> We talk about Prettier and code formatting in the [Autoformat your code](#formatting) chapter.
 
 Be vigilant when you adapt [a popular code styles](https://blog.sapegin.me/all/javascript-code-styles/): many are too opinionated and want us to write code in a very specific way, even when it doesn’t improve the readability or maintainability of the code, or reduce the number of bugs.
 

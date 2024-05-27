@@ -517,7 +517,7 @@ keys.forEach(key => {
 
 <!-- expect(calls).toBe(2) -->
 
-(See [Avoid loops](#avoid-loops) chapter for more examples.)
+I> See [Avoid loops](#avoid-loops) chapter for more examples.
 
 ## The shorter the scope the better
 
@@ -528,7 +528,9 @@ The extreme cases would be:
 - One-liner functions, where the scope of a variable is a single line: easy to follow (example: `[8, 16].map(x => x + 'px')`).
 - Global variables: a variable can be used or modified anywhere in the project, and there’s no way to know which value it holds at any given moment, which often leads to bugs. That’s why many developers are [advocating against global variables](https://wiki.c2.com/?GlobalVariablesAreBad) for decades.
 
-Usually, the shorter the scope, the better. However, religious scope shortening has the same issues as splitting code into many teeny-tiny functions (see [Divide and conquer, or merge and relax](#divide-and-conquer) chapter): it’s easy to overdo it and make the code less readable, not more.
+Usually, the shorter the scope, the better. However, religious scope shortening has the same issues as splitting code into many teeny-tiny functions: it’s easy to overdo it and make the code less readable, not more.
+
+I> We talk about splitting code into functions in the [Divide and conquer, or merge and relax](#divide-and-conquer) chapter.
 
 I found that reducing the lifespan of a variable works as well, and doesn’t produce lots of tiny functions. The idea here is to reduce the number of lines between the variable declaration and the line where it’s accessed for the last time. The scope might be a whole 200-line function but if the lifespan of a particular variable is three lines, then we only need to look at these three lines to understand how this variable is used.
 
@@ -564,7 +566,7 @@ expect(getRelatedPosts(posts, {slug: 'c', tags: ['sleeping', 'tacos'], timestamp
 
 Here, the lifespan of the `sorted` variable is only two lines. This kind of sequential processing is a common use case for the technique.
 
-(See a larger example in the “Avoid Pascal style variables” section in the [Avoid reassigning variables](#avoid-reassigning-variables) chapter.)
+I> See a larger example in the [Avoid Pascal style variables](#no-pascal-vars) section in the Avoid reassigning variables chapter.
 
 ## Making magic numbers less magic
 
@@ -610,7 +612,7 @@ const {container: c1} = RTL.render(<Test />);
 expect(c1.textContent).toEqual('1:6')
 -->
 
-Is 6 Saturday, Sunday or Monday? Are we counting from 0 or 1? Does week start on Monday or Sunday?
+Is 6 a Saturday, Sunday or Monday? Are we counting from 0 or 1? Does week start on a Monday or Sunday?
 
 Defining constants for these values makes it clear:
 
@@ -812,7 +814,9 @@ const SIZE_SMALL = 'small';
 const SIZE_MEDIUM = 'medium';
 ```
 
-Here, the common part of the names, the `SIZE_` prefix, is aligned. I call this _parallel coding_. (We talk more about parallel coding in the [Don’t make me think](#thinking) chapter.)
+Here, the common part of the names, the `SIZE_` prefix, is aligned. I call this _parallel coding_.
+
+I> We talk more about parallel coding in the [Don’t make me think](#thinking) chapter.
 
 Another option is to use an object:
 
@@ -986,7 +990,7 @@ interface Coordinates {
 
 I would generally avoid repeating information in the name that’s already accessible in its type, class name, or namespace.
 
-(We talk a bit more about conventions in the [Code style](#code-style) chapter.)
+I> We talk a bit more about conventions in the [Code style](#code-style) chapter.
 
 ## Dealing with updates
 
@@ -1371,7 +1375,9 @@ It’s a good idea to use well-known and widely adopted terms for programming an
 
 ## Use a single term for each concept
 
-Using different words for the same concept is confusing: a person reading the code may think since the words are different then these things aren’t the same and will try to understand the difference between the two. It will also make the code less _greppable_ (meaning it would be harder to find all usages of the same thing, see [Make the code greppable](#greppability) section for more).
+Using different words for the same concept is confusing: a person reading the code may think since the words are different then these things aren’t the same and will try to understand the difference between the two. It will also make the code less _greppable_, meaning it would be harder to find all usages of the same thing
+
+I> We talk more about greppability in the [Make the code greppable](#greppability) section of the Other techniques chapter.
 
 T> Having a project dictionary, or even a linter, might be a good idea to avoid using different words for the same things. I use a similar approach for writing this book: I use [Textlint terminology plugin](https://github.com/sapegin/textlint-rule-terminology) to make sure I use the terms consistently and spell them correctly in my writing.
 

@@ -271,14 +271,12 @@ So, what’s your score? I think mine would be around 3/7.
 
 Some patterns are on the border of cleverness.
 
-For examples, using `Boolean` to filter out falsy array items:
+For examples, using `Boolean` to filter out falsy array items (`null` and `0` in this example):
 
 <!-- let result = ( -->
 
-<!-- prettier-ignore -->
 ```js
-['Not', null, 'enough', 0, 'cheese.'].filter(Boolean)
-// -> ["Not", "enough", "cheese."]
+const words = ['Not', null, 'enough', 0, 'cheese.'].filter(Boolean);
 ```
 
 <!--
@@ -290,10 +288,10 @@ I think this pattern is acceptable, and, though we need to learn it once, it’s
 
 <!-- let result = ( -->
 
-<!-- prettier-ignore -->
 ```js
-['Not', null, 'enough', 0, 'cheese.'].filter(item => !!item)
-// -> ["Not", "enough", "cheese."]
+const words = ['Not', null, 'enough', 0, 'cheese.'].filter(
+  item => !!item
+);
 ```
 
 <!--
@@ -305,10 +303,10 @@ However, we should keep in mind that both variations filter out _falsy_ values, 
 
 <!-- let result = ( -->
 
-<!-- prettier-ignore -->
 ```js
-['Not', null, 'enough', 0, 'cheese.'].filter(item => item != null)
-// -> ["Not", "enough", 0, "cheese."]
+const words = ['Not', null, 'enough', 0, 'cheese.'].filter(
+  item => item != null
+);
 ```
 
 <!--
@@ -342,7 +340,9 @@ expect(props).toHaveProperty('data-codeception-id', 'type-Col-2')
 
 Now it’s really hard to see if there’s any difference in these two lines of code. Remember these pairs of pictures where one had to spot ten differences? This is exactly what this kind of code does for the reader.
 
-Generally, I’m a bit skeptical about extreme code DRYing (don’t repeat yourself, see the [Divide and conquer, or merge and relax](#divide-and-conquer) chapter) but this is a good case for it:
+Generally, I’m a bit skeptical about extreme code DRYing but this is a good case for it.
+
+I> We talk more about Don’t repeat yourself principle in the [Divide and conquer, or merge and relax](#divide-and-conquer) chapter.
 
 <!-- const type = 'type', columnName = 'col', rowIndex = 2, toTitleCase = x => _.startCase(_.toLower(x)) -->
 
@@ -638,7 +638,9 @@ function RecipeName({ name, subrecipe }) {
 }
 ```
 
-Now, both return values are on the same indentation level and it’s easier to compare them. This pattern works when none of the condition branches are handling errors, in which case an early return would be a better pattern (we talk about it in the [Avoid conditions](#avoid-conditions) chapter).
+Now, both return values are on the same indentation level and it’s easier to compare them. This pattern works when none of the condition branches are handling errors, in which case an early return would be a better pattern.
+
+I> We talk about early returns in the [Avoid conditions](#avoid-conditions) chapter.
 
 Here’s another example:
 
@@ -778,14 +780,18 @@ let Render = ({platform: Platform}) => { return (
 -->
 
 ```jsx
-
 <Button
-        { ...getButtonLinkProps({Platform, link: previewLink, onPress: onOpenViewConfirmation })}
+  {...getButtonLinkProps({
+    Platform,
+    link: previewLink,
+    onPress: onOpenViewConfirmation
+  })}
 >
+  Continue
+</Button>
 ```
 
-<!--
-</Button> )}
+<!-- )}
 const {container: c1} = RTL.render(<Render platform={{OS: 'web'}} />);
 expect(c1.textContent).toEqual(previewLink)
 const {container: c2} = RTL.render(<Render platform={{OS: 'native'}} />);

@@ -566,9 +566,7 @@ expect(test({method: 'GET'})).toBe(undefined)
 expect(test({method: 'POST'})).toBe(true)
 -->
 
-It also gives the condition a familiar shape, which makes it easier to spot while quickly scanning the code. Without braces, it looks like any other line:
-
-![Shapes of if conditions without and with braces](images/if-shapes.svg)
+It also gives the condition a familiar shape, which makes it easier to spot while quickly scanning the code.
 
 This rule is autofixable but not included in the recommended config.
 

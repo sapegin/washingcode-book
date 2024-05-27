@@ -144,7 +144,9 @@ Now it’s easier to understand what the code does, and the possible shapes of t
 
 ## Beware of the mutating array methods
 
-Not all methods in JavaScript return a new array or object. [Some methods mutate](https://doesitmutate.xyz/) the original value in place. For example, `push()` is one of the most commonly used.
+Not all methods in JavaScript return a new array or object. Some methods mutate the original value in place. For example, the `push()` method is one of the most commonly used.
+
+I> Use [Does it mutate](https://doesitmutate.xyz/) to quickly check whether an array method mutating or not.
 
 Replacing imperative code, full of loops and conditions, with declarative code is one of my favorite refactorings. And one of the most common suggestions I give in code reviews.
 
@@ -313,7 +315,7 @@ expect(defaults).toEqual({foo: 1, bar: 2})
 expect(prompts).toEqual([{name: 'foo', initial: 1, message: 'Foo'}, {name: 'bar', initial: 2}])
 -->
 
-Other [mutating array methods](https://doesitmutate.xyz/) to watch out for are:
+Other mutating array methods to watch out for are:
 
 - [copyWithin()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/copyWithin)
 - [fill()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/fill)
@@ -697,7 +699,7 @@ This does the same thing but is less verbose, and no need to remember `Object.as
 
 And before the [Object.assign()](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) method in ECMAScript 2015, we didn’t even try to avoid mutations: it was too painful.
 
-Redux has a great [page on immutable update patterns](https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns): it describes patterns for updating arrays and objects without mutations, and it’s useful even if we don’t use Redux.
+I> Redux has a great [page on immutable update patterns](https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns): it describes patterns for updating arrays and objects without mutations, and it’s useful even if we don’t use Redux.
 
 And still, spread syntax quickly gets incredibly verbose:
 
@@ -796,7 +798,7 @@ I think it’s a good idea, because there’s no runtime cost, though it makes t
 
 I’d prefer [an option in TypeScript](https://github.com/microsoft/TypeScript/issues/32758) to make all types read-only by default with a way to opt out.
 
-Similar to making objects read-only on the type level, we can make them read-only at runtime with `Object.freeze`. `Object.freeze` is also shallow, so we’d have to use a library like [deep-freeze](https://github.com/substack/deep-freeze) to ensure that nested objects are also frozen, and we might want to have freezing only in development since it can otherwise slow our app down.
+Similar to making objects read-only on the type level, we can make them read-only at runtime with `Object.freeze`. `Object.freeze` is also shallow, so we’d have to [deep freezing](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze) to ensure that nested objects are also frozen, and we might want to have freezing only in development since it can otherwise slow our app down.
 
 I don’t think freezing is worth it on its own unless it is part of another library.
 

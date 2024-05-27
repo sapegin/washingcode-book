@@ -2,7 +2,7 @@
 
 _For Dessi, the one and only programming dachshund._
 
-This book is about what I’ve learned about writing code since I retyped my first BASIC program from a book into a Soviet clone of ZX Spectrum in 1997. I’ve learned many other things since then, but this book focuses on the craft of programming — writing clean code.
+This book is about what I’ve learned about writing code since I retyped my first BASIC program from a book into a Soviet clone of ZX Spectrum in 1997. Of course, I’ve learned many other things since then, but this book focuses on the craft of programming — writing clean code.
 
 Everything I’ve learned while working as a frontend engineer for almost 20 years. Everything I’ve learned on my personal projects. Everything I’ve learned by developing and maintaining my open source projects. Everything I’ve learned reviewing hundreds of pull requests…
 
