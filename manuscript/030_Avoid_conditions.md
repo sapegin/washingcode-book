@@ -420,7 +420,7 @@ Now we don’t have any logic duplication. We’re normalizing the data structur
 
 I often see a similar issue when someone calls a function with different parameters:
 
-<!-- const log = jest.fn(), errorMessage = 'nope', LOG_LEVEL = {ERROR: 'error'}, DEFAULT_ERROR_MESSAGE = 'nooooope'  -->
+<!-- const log = vi.fn(), errorMessage = 'nope', LOG_LEVEL = {ERROR: 'error'}, DEFAULT_ERROR_MESSAGE = 'nooooope'  -->
 
 ```js
 if (errorMessage) {
@@ -434,7 +434,7 @@ if (errorMessage) {
 
 Let’s move a condition inside the function call:
 
-<!-- const log = jest.fn(), errorMessage = 'nope', LOG_LEVEL = {ERROR: 'error'}, DEFAULT_ERROR_MESSAGE = 'nooooope'  -->
+<!-- const log = vi.fn(), errorMessage = 'nope', LOG_LEVEL = {ERROR: 'error'}, DEFAULT_ERROR_MESSAGE = 'nooooope'  -->
 
 ```js
 log(LOG_LEVEL.ERROR, errorMessage || DEFAULT_ERROR_MESSAGE);
@@ -467,7 +467,7 @@ function getRandomJoke(onDone, onError) {
 ```
 
 <!--
-const onDone = jest.fn(), onError = jest.fn()
+const onDone = vi.fn(), onError = vi.fn()
 getRandomJoke(onDone, onError)
 expect(onDone).toBeCalledWith('pizza')
 expect(onError).toBeCalledWith('nope')
@@ -495,7 +495,7 @@ function getRandomJoke(onDone, onError) {
 ```
 
 <!--
-const onDone = jest.fn(), onError = jest.fn()
+const onDone = vi.fn(), onError = vi.fn()
 getRandomJoke(onDone, onError)
 expect(onDone).toBeCalledWith('pizza')
 expect(onError).toBeCalledWith('nope')
@@ -525,7 +525,7 @@ function getRandomJoke(onDone, onError = () => {}) {
 ```
 
 <!--
-const onDone = jest.fn(), onError = jest.fn()
+const onDone = vi.fn(), onError = vi.fn()
 getRandomJoke(onDone, onError)
 expect(onDone).toBeCalledWith('pizza')
 expect(onError).toBeCalledWith('nope')
@@ -604,7 +604,7 @@ This function is still long but it’s much easier to follow because of a more s
 
 Now we have at most one level of nesting inside the function and the main return value is at the very end without nesting. We’ve added two guard clauses to exit the function early when there’s no data to process.
 
-I> One of the the [Zen of Python’s](https://peps.python.org/pep-0020/) principles is _flat is better than nested_, which is exactly what we did with this refactoring.
+I> One of the [Zen of Python’s](https://peps.python.org/pep-0020/) principles is _flat is better than nested_, which is exactly what we did with this refactoring.
 
 I’m not so sure what the code inside the second condition does, but it looks like it’s wrapping a single item in an array as we did in the previous section.
 
@@ -754,7 +754,7 @@ Now, all the value are grouped together which makes it more readable and maintai
 
 Repeated conditions can make code barely readable. Let’s have a look at this function that returns special offers for a product in our pet shop. We have two brands, Horns & Hooves and Paws & Tails, and they have unique special offers. For historical reasons, we store them in the cache differently:
 
-<!-- const SPECIAL_OFFERS_CACHE_KEY = 'offers', getHornsAndHoovesSpecialOffers = () => ['horns'], getPawsAndTailsSpecialOffers = () => ['paws'], Session = { set: jest.fn(), get: jest.fn() }  -->
+<!-- const SPECIAL_OFFERS_CACHE_KEY = 'offers', getHornsAndHoovesSpecialOffers = () => ['horns'], getPawsAndTailsSpecialOffers = () => ['paws'], Session = { set: vi.fn(), get: vi.fn() }  -->
 
 ```js
 function getSpecialOffersArray(sku, isHornsAndHooves) {
@@ -787,7 +787,7 @@ The `isHornsAndHooves` condition is repeated three times. Two of them create th
 
 Let’s try to make it simpler:
 
-<!-- const SPECIAL_OFFERS_CACHE_KEY = 'offers', getHornsAndHoovesSpecialOffers = () => ['horns'], getPawsAndTailsSpecialOffers = () => ['paws'], Session = { set: jest.fn(), get: jest.fn() }  -->
+<!-- const SPECIAL_OFFERS_CACHE_KEY = 'offers', getHornsAndHoovesSpecialOffers = () => ['horns'], getPawsAndTailsSpecialOffers = () => ['paws'], Session = { set: vi.fn(), get: vi.fn() }  -->
 
 ```js
 function getSpecialOffersArray(sku, isHornsAndHooves) {
@@ -817,7 +817,7 @@ expect(getSpecialOffersArray('tacos', true)).toEqual(['horns'])
 
 This is already more readable and it could be a good idea to stop here. But if I had some time I’d go further and extract cache management. Not because this function is too long or that it’s potentially reusable, but because cache management distracts me from the main purpose of the function and it’s too low level.
 
-<!-- const SPECIAL_OFFERS_CACHE_KEY = 'offers', getHornsAndHoovesSpecialOffers = () => ['horns'], getPawsAndTailsSpecialOffers = () => ['paws'], Session = { set: jest.fn(), get: jest.fn() }  -->
+<!-- const SPECIAL_OFFERS_CACHE_KEY = 'offers', getHornsAndHoovesSpecialOffers = () => ['horns'], getPawsAndTailsSpecialOffers = () => ['paws'], Session = { set: vi.fn(), get: vi.fn() }  -->
 
 ```js
 const getSessionKey = (key, isHornsAndHooves, sku) =>
@@ -856,7 +856,7 @@ expect(getSpecialOffersArray('tacos', true)).toEqual(['horns'])
 
 It may not look much better but I think it’s a bit easier to understand what’s happening in the main function. What annoys me here is `isHornsAndHooves`. I’d rather pass a brand name and keep all brand-specific information in tables:
 
-<!-- const SPECIAL_OFFERS_CACHE_KEY = 'offers', getHornsAndHoovesSpecialOffers = () => ['horns'], getPawsAndTailsSpecialOffers = () => ['paws'], Session = { set: jest.fn(), get: jest.fn() }  -->
+<!-- const SPECIAL_OFFERS_CACHE_KEY = 'offers', getHornsAndHoovesSpecialOffers = () => ['horns'], getPawsAndTailsSpecialOffers = () => ['paws'], Session = { set: vi.fn(), get: vi.fn() }  -->
 
 ```js
 const BRANDS = {
@@ -905,7 +905,7 @@ expect(getSpecialOffersArray('tacos', BRANDS.HORNS_AND_HOOVES)).toEqual(['horns'
 
 Now it’s clear that the only piece of business logic here is `getSpecialOffersForBrand`, and the rest is caching. If we’re using this pattern more than once I’d extract it into its own module, similar to the [memoize function](https://lodash.com/docs#memoize) from Lodash:
 
-<!-- const SPECIAL_OFFERS_CACHE_KEY = 'offers', getHornsAndHoovesSpecialOffers = () => ['horns'], getPawsAndTailsSpecialOffers = () => ['paws'], Session = { set: jest.fn(), get: jest.fn() }  -->
+<!-- const SPECIAL_OFFERS_CACHE_KEY = 'offers', getHornsAndHoovesSpecialOffers = () => ['horns'], getPawsAndTailsSpecialOffers = () => ['paws'], Session = { set: vi.fn(), get: vi.fn() }  -->
 
 ```js
 const BRANDS = {

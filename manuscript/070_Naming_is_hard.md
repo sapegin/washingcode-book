@@ -554,7 +554,7 @@ function getRelatedPosts(
     })
     .filter(post => post.weight > 0);
 
-  const sorted = sortBy(weighted, 'weight').reverse();
+  const sorted = _.sortBy(weighted, 'weight').reverse();
   return sorted.slice(0, MAX_RELATED);
 }
 ```
@@ -1140,13 +1140,16 @@ const currencyReducer = (state = new Currency(), action) => {
         return state;
       }
 
-      const iso = get(action, 'res.data.query.userInfo.userCurrency');
-      const obj = get(action, `res.data.currencies[${iso}]`);
+      const iso = _.get(
+        action,
+        'res.data.query.userInfo.userCurrency'
+      );
+      const obj = _.get(action, `res.data.currencies[${iso}]`);
 
       return state
         .set('iso', iso)
-        .set('name', get(obj, 'name'))
-        .set('symbol', get(obj, 'symbol'));
+        .set('name', _.get(obj, 'name'))
+        .set('symbol', _.get(obj, 'symbol'));
     default:
       return state;
   }
@@ -1445,6 +1448,7 @@ Now we could access `minutes` and `seconds` directly.
 Functions with optional parameters grouped in an object are another common example:
 
 <!--
+let document = window.document;
 const hiddenInput = (name, value) => {
   const input = document.createElement('input');
   input.type = 'hidden';
@@ -1452,21 +1456,9 @@ const hiddenInput = (name, value) => {
   input.value = value;
   return input;
 };
-let document = {
-  createElement() {
-    return {
-      appendChild() {},
-      submit() {}
-    }
-  },
-  body: {
-    appendChild() {},
-    removeChild() {}
-  }
-};
 -->
 
-```ts
+```tsx
 function submitFormData(
   action: string,
   options: {
@@ -1503,24 +1495,13 @@ expect(submitFormData('/foo', { method: 'post', target: '_top' }))
 Here, `options` object is never used as a whole (for example, to pass it to another function), only to access separate properties in it. We could use destructuring to simplify the code:
 
 <!--
+let document = window.document;
 const hiddenInput = (name, value) => {
   const input = document.createElement('input');
   input.type = 'hidden';
   input.name = name;
   input.value = value;
   return input;
-};
-let document = {
-  createElement() {
-    return {
-      appendChild() {},
-      submit() {}
-    }
-  },
-  body: {
-    appendChild() {},
-    removeChild() {}
-  }
 };
 -->
 
@@ -1648,7 +1629,7 @@ class X {
   props = {x: 42, y: 24};
 -->
 
-```js
+```jsx
 render() {
   let p = this.props;
   return <BaseComponent {...p} />;
@@ -1670,7 +1651,7 @@ class X {
   props = {x: 42, y: 24};
 -->
 
-```js
+```jsx
 render() {
   return <BaseComponent {...this.props} />;
 }

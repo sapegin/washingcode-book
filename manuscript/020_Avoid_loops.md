@@ -218,7 +218,7 @@ All array methods mentioned in the previous section, except `forEach()`, imply t
 The `forEach()` method doesn’t return any value, and that’s the right choice for handling side effects when we really need them:
 
 <!--
-const console = { error: jest.fn() }
+const console = { error: vi.fn() }
 const errors = ['dope', 'nope']
 -->
 
@@ -241,7 +241,7 @@ A `for of` loop would be even better:
 Let’s rewrite our example using a `for of` loop:
 
 <!--
-const console = { error: jest.fn() }
+const console = { error: vi.fn() }
 const errors = ['dope', 'nope']
 -->
 
@@ -278,7 +278,7 @@ expect(kebabNames).toEqual({
 
 If we don’t need the result as an object, like in the example above, `Object.keys()`, `Object.values()` and `Object.entries()` are also good:
 
-<!-- const console = { log: jest.fn() } -->
+<!-- const console = { log: vi.fn() } -->
 
 ```js
 const allNames = {
@@ -296,7 +296,7 @@ expect(console.log.mock.calls).toEqual([['hobbits', '->', ['Bilbo', 'Frodo']], [
 
 Or:
 
-<!-- const console = { log: jest.fn() } -->
+<!-- const console = { log: vi.fn() } -->
 
 ```js
 const allNames = {

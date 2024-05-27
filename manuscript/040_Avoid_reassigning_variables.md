@@ -41,7 +41,7 @@ Here the `category` variable is used to store a category ID, a list of products
 
 Also, a new value is reassigned to a function parameter, known as _function parameter shadowing_. I think it’s no different from regular reassignment, so I’ll treat it the same way.
 
-I> [Variable shadowing](https://en.wikipedia.org/wiki/Variable_shadowing) happens when we define a variable with the same name that already exists in an outer scope. For example, we define a `text` variable inside a function but there’s already a module-level `text` variable. Shadowing makes it hard to know know which variable we’re looking at at any moment.
+I> [Variable shadowing](https://en.wikipedia.org/wiki/Variable_shadowing) happens when we define a variable with the same name that already exists in an outer scope. For example, we define a `text` variable inside a function but there’s already a module-level `text` variable. Shadowing makes it hard to know which variable we’re looking at any moment.
 
 This case is the easiest to fix: we need to use separate variables for each value:
 
@@ -105,7 +105,7 @@ Anyway, this code appends an error message to the `errors` string variable for e
 Let’s separate validation and formatting:
 
 <!--
-const console = { log: jest.fn() }
+const console = { log: vi.fn() }
 const ERROR_MESSAGES = {
   InconsistentWidthHeight: 'Inconsistent width and height',
   InvalidVideoFiles: 'Invalid video files',
@@ -176,7 +176,7 @@ Also now we can swap the formatting function and render errors as an HTML list, 
 
 ```jsx
 function VideoUploader() {
-  const [video, setVideo] = React.useState();
+  const [video, setVideo] = useState();
   const errors = validateVideo(video);
   return (
     <>
@@ -319,7 +319,7 @@ end;
 Some people use this style in languages where they don’t have to do it:
 
 <!--
-const submitOrder = jest.fn()
+const submitOrder = vi.fn()
 const DELIVERY_METHODS = {PIGEON: 'PIGEON', TRAIN_CONDUCTOR: 'TRAIN_CONDUCTOR'}
 const deliveryMethod = DELIVERY_METHODS.PIGEON, products = [], address = '', firstName = '', lastName = ''
 -->
@@ -366,7 +366,7 @@ Long variable lifespan makes us scroll a lot to understand the current value of 
 We can make code more readable by moving variable declarations as close to their usage as possible and by avoiding reassignments:
 
 <!--
-const submitOrder = jest.fn()
+const submitOrder = vi.fn()
 const DELIVERY_METHODS = {PIGEON: 'PIGEON', TRAIN_CONDUCTOR: 'TRAIN_CONDUCTOR'}
 const deliveryMethod = DELIVERY_METHODS.PIGEON, products = [], address = '', firstName = '', lastName = ''
 -->

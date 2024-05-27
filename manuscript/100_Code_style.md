@@ -664,7 +664,7 @@ It’s easier to follow conditions, notice `return` statements in the functions,
 
 I’m a shortstringer.
 
-I> We talk more about separating data and data-managing code in the the [Separate what and how](#separate-what-and-how) section of the Divide and conquer, or merge and relax chapter.
+I> We talk more about separating data and data-managing code in the [Separate what and how](#separate-what-and-how) section of the Divide and conquer, or merge and relax chapter.
 
 Another issue of the longstringer approach is that Prettier with a default setting of 80 characters will likely make the code ugly and quite unreadable:
 
@@ -877,7 +877,7 @@ const getDropdownOptions = options =>
 
 Or the same with default export:
 
-```js
+```jsx
 const Button = props => <button className="Button" {...props} />;
 export default Button;
 ```
@@ -889,7 +889,7 @@ expect(c1.textContent).toEqual('Tacos')
 
 Or:
 
-```js
+```jsx
 export default function Button(props) {
   return <button className="Button" {...props} />;
 }

@@ -2,11 +2,19 @@ import fs from 'fs';
 import path from 'path';
 import _ from 'lodash';
 import glob from 'glob';
-import babel from '@babel/core';
+import { describe, test, afterEach } from 'vitest';
+import { build } from 'esbuild';
 import { NodeVM } from 'vm2';
 import { remark } from 'remark';
 import { visit } from 'unist-util-visit';
-import { parse as qs } from 'qs';
+import { cleanup } from '@testing-library/react';
+import { environment } from './environment';
+
+// @vitest-environment happy-dom
+afterEach(() => {
+  // Cleanup DOM, otherwise RTL appends each render to the existing DOM
+  cleanup();
+});
 
 const MANUSCRIPT_PATTERN = path.resolve('manuscript/*.md');
 
@@ -18,55 +26,7 @@ const IGNORE = [
 ];
 const SKIP_TAG = 'test-skip';
 
-// For some reason Node's URLSearchParams isn't available inside the VM
-// This is a super primitive polyfill, just for the thing we use in the book
-class URLSearchParams {
-  constructor(search) {
-    this.params = qs(search);
-  }
-  get(param) {
-    return this.params[param];
-  }
-}
-
-const vm = new NodeVM({
-  sandbox: {
-    ...global,
-    URLSearchParams
-  },
-  require: {
-    context: 'sandbox',
-    external: true,
-    builtin: ['*'],
-    mock: {
-      fs: {
-        readFileSync: x => x
-      },
-      './readme': x => x,
-      'fs-extra': x => x,
-      glob: x => x,
-      'user-home': x => x,
-      express: { Router: () => ({ use: () => {}, get: () => {} }) },
-      // TODO: Once we migrate to ESLint 9, we could try to import actual modules
-      '@eslint/js': {
-        config(x) {
-          return x;
-        },
-        configs: {
-          recommended: []
-        }
-      },
-      'typescript-eslint': {
-        config(x) {
-          return x;
-        },
-        configs: {
-          recommended: []
-        }
-      }
-    }
-  }
-});
+const vm = new NodeVM(environment);
 
 function isInstruction(node) {
   return (
@@ -151,14 +111,28 @@ function getTestName(title) {
   return `${title} ${testNameIndices[title]}`;
 }
 
-async function executeCode(source, filename) {
-  const { code } = await babel.transformAsync(source, {
-    filename
+async function executeCode(source, filename, lang) {
+  const { outputFiles } = await build({
+    stdin: {
+      contents: source,
+      sourcefile: filename.replace('.md', `.${lang}`),
+      loader: lang
+    },
+    logLevel: 'info',
+    jsx: 'automatic',
+    platform: 'node',
+    format: 'cjs',
+    target: 'node20',
+    write: false,
+    bundle: false,
+    minify: false,
+    sourcemap: false
   });
-  vm.run(code, filename);
+  vm.run(outputFiles[0].text, filename);
 }
 
 function testMarkdown(markdown, filepath) {
+  let testCount = 0;
   const filename = path.basename(filepath);
 
   function visitor() {
@@ -188,15 +162,20 @@ function testMarkdown(markdown, filepath) {
         test(
           getTestName(getChapterTitle(siblings, index)),
           async () => {
-            await executeCode(code, `${filename}.${node.lang}`);
+            await executeCode(code, filename, node.lang);
           }
         );
+        testCount++;
       });
     };
   }
 
   describe(filename, () => {
     remark().use(visitor).processSync(markdown);
+    if (testCount === 0) {
+      // Vitest fails if there are not test cases in a file
+      test('No test cases in this file', () => {});
+    }
   });
 }
 

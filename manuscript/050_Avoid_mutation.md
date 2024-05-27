@@ -20,7 +20,7 @@ Here we’re _mutating_ the original `puppy` object by changing its `age` proper
 
 Mutations are often problematic. Consider this function:
 
-<!-- const console = { log: jest.fn() } -->
+<!-- const console = { log: vi.fn() } -->
 
 ```js
 function printSortedArray(array) {

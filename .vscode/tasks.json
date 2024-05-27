@@ -22,7 +22,7 @@
         }
       ],
       "label": "Run tests & watch",
-      "detail": "NODE_OPTIONS=--experimental-vm-modules nodemon --exec jest --watch 'manuscript/*.*'"
+      "detail": "nodemon --watch 'manuscript' --ext md --exec 'vitest'"
     }
   ]
 }

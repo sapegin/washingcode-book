@@ -122,7 +122,7 @@ Other candidates for abstraction are dates, device capabilities, internationaliz
 
 Sometimes we get carried away and produce abstractions that don’t make code easier to read or even shorter:
 
-```js
+```jsx
 // my_feature_util.js
 const noop = () => {};
 
@@ -164,7 +164,7 @@ The best thing we can do in such cases is to apply the almighty _inline refactor
 
 The first example becomes:
 
-```js
+```jsx
 function MyComponent() {
   return <h1>Hola!</h1>;
 }
@@ -429,7 +429,7 @@ let beforeEach = (fn) => fn()
 let test = (_, fn) => fn()
 -->
 
-```js
+```jsx
 let wrapper;
 beforeEach(() => {
   wrapper = mount(<Pony color="pink" />);
@@ -454,7 +454,7 @@ let beforeEach = (fn) => fn()
 let test = (_, fn) => fn()
 -->
 
-```js
+```jsx
 test('pony has pink tail', () => {
   const wrapper = mount(<Pony color="pink" />);
   expect(wrapper.find('.tail').prop('value')).toBe('pink');
@@ -475,7 +475,7 @@ let beforeEach = (fn) => fn()
 let test = (_, fn) => fn()
 -->
 
-```js
+```jsx
 test('pony has pink tail', () => {
   const wrapper = mount(<Pony color="pink" />);
   expect(wrapper.find('.tail').prop('value')).toBe('pink');
@@ -499,7 +499,7 @@ let beforeEach = (fn) => fn()
 let test = (_, fn) => fn()
 -->
 
-```js
+```jsx
 const defaultProps = { color: 'pink' };
 
 test('pony has pink tail', () => {

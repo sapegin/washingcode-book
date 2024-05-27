@@ -177,6 +177,8 @@ const filename = header.match(/filename="(.*?)"/)[1];
 
 Or the `URLSearchParams` API if I had access to it:
 
+<!-- let URLSearchParams = window.URLSearchParams -->
+
 ```js
 const header = 'filename="pizza.rar"';
 const filename = new URLSearchParams(header)
@@ -273,20 +275,13 @@ Some patterns are on the border of cleverness.
 
 For examples, using `Boolean` to filter out falsy array items (`null` and `0` in this example):
 
-<!-- let result = ( -->
-
 ```js
 const words = ['Not', null, 'enough', 0, 'cheese.'].filter(Boolean);
 ```
 
-<!--
-)
-expect(result).toEqual( ["Not", "enough", "cheese."])
--->
+<!-- expect(words).toEqual( ["Not", "enough", "cheese."]) -->
 
 I think this pattern is acceptable, and, though we need to learn it once, it’s better than the alternative:
-
-<!-- let result = ( -->
 
 ```js
 const words = ['Not', null, 'enough', 0, 'cheese.'].filter(
@@ -294,14 +289,9 @@ const words = ['Not', null, 'enough', 0, 'cheese.'].filter(
 );
 ```
 
-<!--
-)
-expect(result).toEqual( ["Not", "enough", "cheese."])
--->
+<!-- expect(words).toEqual( ["Not", "enough", "cheese."]) -->
 
 However, we should keep in mind that both variations filter out _falsy_ values, so if zeroes or empty strings are important to us, we need to explicitly filter for `undefined` or `null`:
-
-<!-- let result = ( -->
 
 ```js
 const words = ['Not', null, 'enough', 0, 'cheese.'].filter(
@@ -309,10 +299,7 @@ const words = ['Not', null, 'enough', 0, 'cheese.'].filter(
 );
 ```
 
-<!--
-)
-expect(result).toEqual( ["Not", "enough", 0, "cheese."])
--->
+<!-- expect(words).toEqual( ["Not", "enough", 0, "cheese."]) -->
 
 ## Make differences in code obvious
 

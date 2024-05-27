@@ -72,7 +72,6 @@ We have two booleans here: _is loading_, and _has errors_. If we look closer at 
 We can replace several _exclusive_ boolean flags, meaning only one is `true` at a time, with a single enum:
 
 <!--
-let useState = React.useState
 function getTweets() { return Promise.resolve([{id: '1', username: 'taco', html: 'test'}, {id: '2', username: 'taco', html: 'test 2'}]) }
 -->
 
@@ -139,7 +138,6 @@ The code is now easier to understand: we know that the component can only be in 
 For more complex cases, I’d go one step further and use `useReducer()` hook to manage all component state instead of separate `useState()` hooks:
 
 <!--
-let useReducer = React.useReducer
 function getTweets() { return Promise.resolve([{id: '1', username: 'taco', html: 'test'}, {id: '2', username: 'taco', html: 'test 2'}]) }
 -->
 
@@ -514,7 +512,7 @@ function BookCover({ title, type, width = 150, height = 194 }) {
 
 <!--
 const {getByRole} = RTL.render(<BookCover title="Tacos" type="tacos" />);
-expect(getByRole('img').src).toBe('http://localhost/images/cover-tacos.jpg')
+expect(getByRole('img').src).toBe('http://localhost:3000/images/cover-tacos.jpg')
 -->
 
 The issues with this code is the dynamic generation of the image filename.
@@ -547,7 +545,7 @@ function BookCover({ title, type, width = 150, height = 194 }) {
 
 <!--
 const {getByRole} = RTL.render(<BookCover title="Tacos" type="tacos" />);
-expect(getByRole('img').src).toBe('http://localhost/images/cover-tacos.jpg')
+expect(getByRole('img').src).toBe('http://localhost:3000/images/cover-tacos.jpg')
 -->
 
 Here, we have a map with all possible filenames, so if we search by a filename (`cover-washing-code.jpg` or `cover-washing-code`), we’ll find this component.
@@ -570,7 +568,7 @@ function BookCover({ title, type, width = 150, height = 194 }) {
 
 <!--
 const {getByRole} = RTL.render(<BookCover title="Tacos" type="tacos" />);
-expect(getByRole('img').src).toBe('http://localhost/images/covers/tacos.jpg')
+expect(getByRole('img').src).toBe('http://localhost:3000/images/covers/tacos.jpg')
 -->
 
 Here, we can search either by a folder name (`/images/covers`) and find this component or by a filename (`cover-washing-code`) and find all usages of this component.
@@ -610,7 +608,7 @@ function BookCover({
 
 <!--
 const {getByRole} = RTL.render(<BookCover title="Tacos" type="tacos" />);
-expect(getByRole('img').src).toBe('http://localhost/images/covers/tacos.jpg')
+expect(getByRole('img').src).toBe('http://localhost:3000/images/covers/tacos.jpg')
 -->
 
 The benefit of this approach over the map implemented as JavaScript object is that types won’t increase our bundle size and won’t be shipped to the client. This isn’t an issue for backend code though.
