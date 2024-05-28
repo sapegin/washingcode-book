@@ -238,7 +238,9 @@ I> Proper state machines have many useful features, like events that handle tran
 
 Reducers and state machines are even more powerful with TypeScript, where we can define more precise types for each status. For example, we can say that the `tweets` array only exists in the `Ready` status.
 
-<!-- test-skip -->
+<!--
+function getTweets() { return Promise.resolve([{id: '1', username: 'taco', html: 'test'}, {id: '2', username: 'taco', html: 'test 2'}]) }
+-->
 
 ```tsx
 type Status = 'Idle' | 'Loading' | 'Ready' | 'Failed';

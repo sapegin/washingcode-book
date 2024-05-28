@@ -489,13 +489,21 @@ This rule demands us to use `return` statement in array method callbacks (`map`,
 
 This helps to avoid bugs when we forget to return a value from a callback:
 
-<!-- test-skip -->
+<!--
+let array = ['Eins', 'Zwei', 'Drei']
+let fn = () => {
+-->
 
 ```js
 const indexMap = array.reduce((memo, item, index) => {
   memo[item] = index;
 }, {});
 ```
+
+<!--
+}
+expect(fn).toThrow(`Cannot set properties of undefined (setting 'Zwei')`);
+-->
 
 This code will fail at runtime because on the second iteration, the accumulator (`memo`) will be undefined. We need to return the accumulator:
 

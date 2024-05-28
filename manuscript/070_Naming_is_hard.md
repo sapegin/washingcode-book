@@ -1723,18 +1723,23 @@ const crocodiles = getCrocodiles({ color: 'darkolivegreen' });
 
 Here, it’s clear which one is the function, and which one is the array with the returned from the function value. Now consider this:
 
-<!-- test-skip -->
+<!--
+let crocodiles = [{type: 'raccoon'}]
+let isCrocodile = x => x.type === 'croc'
+-->
 
 ```js
-const isCrocodile = isCrocodile(crocodiles[0]);
+const _o_0_ = isCrocodile(crocodiles[0]);
 ```
+
+<!-- expect(_o_0_).toBe(false) -->
 
 Here, our naming choices are limited:
 
 - `isCrocodile` is a natural choice but clashes with the function name;
 - `crocodile` would mean that this variable holds one item of the `crocodiles` array.
 
-So, what can we do about it? A few things:
+So, what can we do about it? Not a lot:
 
 - choose a domain-specific name (example: `shouldShowGreeting`);
 - inline the function call, and avoid a local variable at all;
