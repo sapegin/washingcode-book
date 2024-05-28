@@ -175,7 +175,7 @@ expect(test2).toBe(true);
 
 Shorter isn’t always better. (I’m fine with `pizza?.()` though, sometimes.)
 
-T> Use `curly` ESLint rule to make sure all conditions have braces. See more in the [Lint your code](#linting) chapter.
+T> Use `curly` ESLint rule to make sure all conditions have braces: see the [Lint your code](#linting) chapter.
 
 ## Obsolete code styles
 

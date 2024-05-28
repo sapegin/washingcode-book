@@ -280,7 +280,9 @@ expect(store['#book_download']['hidden-node']).toBe(false)
 expect(store['#book_retry']['disabled']).toBe(true)
 -->
 
-Now it’s much easier to read. (And we’ll talk about names like `data` later.)
+Now it’s much easier to read.
+
+I> We talk about names like `data` later in this chapter.
 
 ## The larger the scope, the longer the name
 
