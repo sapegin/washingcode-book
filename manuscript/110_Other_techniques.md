@@ -332,7 +332,10 @@ export function Tweets() {
 }
 ```
 
-<!-- TODO: Can't test TypeScript yet -->
+<!--
+const {container: c1, getByRole, getByText} = RTL.render(<Tweets />);
+expect(c1.textContent).toEqual('Load tweets')
+-->
 
 It’s about the same amount of code as the plain JavaScript implementation, but it’s much more bulletproof. We also got rid of the enums and simplified the code since TypeScript can check if the status and action types are correct. This method even helped me find several bugs in my initial JavaScript implementation of this example.
 
