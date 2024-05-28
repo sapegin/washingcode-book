@@ -1,3 +1,5 @@
+{#no-comments}
+
 # Avoid comments
 
 <!-- description: Writing useful comments, when to write them and when not -->
@@ -76,7 +78,7 @@ However, I don’t think that splitting a linear algorithm, even a long one, int
 
 Overall, I don’t like when the code is measured by its physical metrics, like the number of lines. Long functions aren’t always hard to read and modify, And the really complex code could be tiny.
 
-I> We talk about code splitting in more detail in the [Divide and conquer, or merge and relax](#divide-and-conquer) chapter.
+I> We talk about code splitting in more detail in the [Divide and conquer, or merge and relax](#divide) chapter.
 
 ## Good comments
 
@@ -270,7 +272,9 @@ $color--facebook: #3b5998; // Facebook brand color
 
 In any case, it’s our responsibility to ask _why_ as many times as necessary.
 
-Same with comments that explain conditions: there may be no need for a special case, and we could remove the whole condition with its comment. See more in the [Avoid conditions](#avoid-conditions) chapter.
+Same with comments that explain conditions: there may be no need for a special case, and we could remove the whole condition with its comment.
+
+I> We talk about removing conditions in the [Avoid conditions](#no-conditions) chapter.
 
 ---
 

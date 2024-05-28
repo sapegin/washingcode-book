@@ -1,4 +1,4 @@
-{#avoid-reassigning-variables}
+{no-reassigning}
 
 # Avoid reassigning variables
 
@@ -19,7 +19,7 @@ We can’t be sure that our pizza will always have salami and jalapeños on it, 
 
 Knowing that both things are possible makes us think, every time we see `pizza` in the code, which value it has _now_. That’s a huge and unnecessary cognitive load that we should avoid.
 
-And most of the time we can avoid both. Let’s start with reassigning and come back to mutation in the [next chapter](#avoid-mutation).
+And most of the time we can avoid both. Let’s start with reassigning and come back to mutation in the [next chapter](#no-mutation).
 
 ## Don’t reuse variables
 
@@ -98,7 +98,7 @@ expect(validateVideo({videoFiles: [], title: 'Cat on Roomba', id: 'X-13'})).toBe
 
 I’ve shortened the comments a bit, the original code had lines longer than 200 characters. If we have a very big screen, it looks like a pretty table, otherwise like an unreadable mess. Any autoformatting tool, like Prettier, will make an unreadable mess out of it too, so we shouldn’t rely on manual code formatting. It’s also really hard to maintain: if any “column” becomes longer than all existing “columns” after our changes, we have to adjust whitespace for all other “columns”.
 
-I> We’ll talk about code formatting and Prettier in the [Autoformat your code](#formatting) chapter.
+I> We talk about code formatting and Prettier in the [Autoformat your code](#formatting) chapter.
 
 Anyway, this code appends an error message to the `errors` string variable for every failed validation. But now it’s hard to see because the message formatting code is mangled with the validation code. This makes it hard to read and modify. To add another validation, we have to understand and copy the formatting code. Or to print errors as an HTML list, we have to change each line of this function.
 
@@ -549,7 +549,9 @@ There’s an important difference between a variable defined with the `const` k
 
 Both conventions reduce the cognitive load a little bit and make the code easier to understand.
 
-Unfortunately, JavaScript has no true constants, and _mutation_ is still possible even when we define a variable with the `const` keyword. We’ll talk about mutations in [the next chapter](#avoid-mutation).
+Unfortunately, JavaScript has no true constants, and _mutation_ is still possible even when we define a variable with the `const` keyword.
+
+I> We talk about mutations in [the next chapter](#no-mutation).
 
 ---
 

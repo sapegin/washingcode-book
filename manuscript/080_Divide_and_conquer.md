@@ -1,4 +1,4 @@
-{#divide-and-conquer}
+{#divide}
 
 # Divide and conquer, or merge and relax
 
@@ -231,7 +231,7 @@ Now, we have less code, it’s equally easy to understand, and autocompletion sh
 
 ![Autocompletion with literal values](images/autocompletion-literals.png)
 
-{#separate-what-and-how}
+{#what-how}
 
 ## Separate “what” and “how”
 
@@ -315,7 +315,7 @@ Each validation and the function that runs them are pretty generic, and are good
 
 So now, we can add validation for any form by describing which fields need which validations and what error to show in each case.
 
-I> See [Avoid conditions](#avoid-conditions) chapter for the complete code of this example, and more detailed explanation.
+I> See the [Avoid conditions](#no-conditions) chapter for the complete code of this example, and more detailed explanation.
 
 I call this process _separating of “what” and “how”_. The benefits are:
 

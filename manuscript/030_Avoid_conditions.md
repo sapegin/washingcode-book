@@ -1,4 +1,4 @@
-{#avoid-conditions}
+{#no-conditions}
 
 # Avoid conditions
 
@@ -322,7 +322,7 @@ Here we’re wrapping a single item in an array, so we can use the same code to 
 
 ## Deduplicating an algorithm
 
-Examples in the previous section are introducing an important technique: algorithm deduplication. Instead of having several branches of the main logic depending on the nature of the input, we have just one. But we’re normalizing the input before running the algorithm. This technique can be used in other places.
+Examples in the previous section are introducing an important technique: _algorithm deduplication_. Instead of having several branches of the main logic depending on the nature of the input, we have just one. But we’re normalizing the input before running the algorithm. This technique can be used in other places.
 
 Imagine an article vote counter, similar to Medium, where we can vote multiple times:
 
@@ -610,7 +610,9 @@ I’m not so sure what the code inside the second condition does, but it looks l
 
 _And no, I have no idea what `tmpBottle` means, or why it was needed._
 
-The next step here could be improving the `getOrderIds()` function’s API. It can return three different things: `undefined`, a single item, or an array. We have to deal with each separately, so we have two conditions at the very beginning of the function, and we’re reassigning the `idsArrayObj` variable (see [Avoid reassigning variables](#avoid-reassigning-variables) below).
+The next step here could be improving the `getOrderIds()` function’s API. It can return three different things: `undefined`, a single item, or an array. We have to deal with each separately, so we have two conditions at the very beginning of the function, and we’re reassigning the `idsArrayObj` variable.
+
+I> We talk about reassignments in the next chapter, [Avoid reassigning variables](no-reassigning).
 
 By making the `getOrderIds()` function always return an array, and making sure that the code inside `// 70 lines of code` works with an empty array, we could remove both conditions:
 
@@ -636,7 +638,9 @@ function postOrderStatus(orderId) {
 
 Now that’s a big improvement over the initial version. I’ve also renamed the `idsArrayObj` variable, because “array object” doesn’t make any sense to me.
 
-The next step would be out of the scope of this chapter: the code inside `// 70 lines of code` mutates the `fullRecordsArray`, see the [Avoid mutation](#avoid-mutation) chapter below to learn why mutations aren’t good and how to avoid them.
+The next step would be out of the scope of this chapter: the code inside the `// 70 lines of code` mutates the `fullRecordsArray`. I usually try to avoid mutation, especially for variables with such a long lifespan.
+
+I> We talk about mutations in the [Avoid mutation](#no-mutation) chapter.
 
 Here’s another example:
 
@@ -959,7 +963,7 @@ We were able to separate all low-level code and hide it in another module.
 
 It may seem like I prefer small functions or even very small functions, but that’s not the case. The main reason to extract code into separate functions here is a violation of the _single responsibility principle_. The original function had too many responsibilities: getting special offers, generating cache keys, reading data from the cache, and storing data in the cache. Each with two branches for our two brands.
 
-I> The [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle) states that any module, class, or method should have only one reason to change, or in other words we should keep code that changes for the same reason. We talk more about this topic in the [Divide and conquer, or merge and relax](#divide-and-conquer) chapter.
+I> The [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle) states that any module, class, or method should have only one reason to change, or in other words we should keep code that changes for the same reason. We talk more about this topic in the [Divide and conquer, or merge and relax](#divide) chapter.
 
 ## Tables or maps
 
@@ -1302,7 +1306,7 @@ expect(validate({name: 'Chuck Norris'}, validations)).toEqual({})
 
 One more time we’ve separated the “what” from the “how”: we have a readable and maintainable list of validations (“what”), a collection of reusable validation functions, and a `validate` function to validate form values (“how”) that also can be reused.
 
-I> We talk about separation of “what” and “how” in the [Separate “what” and “how”](#separate-what-and-how) section of the Divide and conquer, or merge and relax chapter.
+I> We talk about separation of “what” and “how” in the [Separate “what” and “how”](#what-how) section of the _Divide and conquer, or merge and relax_ chapter.
 
 T> Using a third-party library, like [Zod](https://zod.dev/), [Yup](https://github.com/jquense/yup), or [Joi](https://github.com/hapijs/joi) will make code even shorter and save us from needing to write validation functions ourselves.
 
@@ -1645,7 +1649,7 @@ expect(c4.textContent).toEqual('Error loading products')
 
 I think it’s much easier to follow now: all special cases are at the top of the function, and the happy path is at the end.
 
-I> We’ll come back to this example later in the [Make impossible states impossible](#impossible-states) section of the Other techniques chapter.
+I> We’ll come back to this example later in the [Make impossible states impossible](#impossible-states) section of the _Other techniques_ chapter.
 
 ---
 

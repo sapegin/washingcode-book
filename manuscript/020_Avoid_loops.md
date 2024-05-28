@@ -1,4 +1,4 @@
-{#avoid-loops}
+{#no-loops}
 
 # Avoid loops
 
@@ -10,7 +10,7 @@ Traditional loops, like `for` or `while`, are too low-level for common tasks.
 
 ## Replacing loops with array methods
 
-Modern languages have better ways to express iterative operations, and [JavaScript has many useful methods](http://exploringjs.com/impatient-js/ch_arrays.html#methods-iteration-and-transformation-.find-.map-.filter-etc) to transform and iterate over arrays, like `map()` or `find()`.
+Modern languages have better ways to express iterative operations, and [JavaScript has many useful methods](https://exploringjs.com/impatient-js/ch_arrays.html#methods-iteration-and-transformation-.find-.map-.filter-etc.) to transform and iterate over arrays, like `map()` or `find()`.
 
 For example, let’s convert an array of strings to kebab-case with a `for` loop:
 
@@ -109,7 +109,7 @@ Traditional loops don’t help with understanding what the code is doing until w
 
 We’re separating the “what” (our data) from the “how” (how to loop over it). More than that, with array methods we only need to worry about our data, which we’re passing in as a callback function.
 
-I> We talk about separation of “what” and “how” in the [Separate “what” and “how”](#separate-what-and-how) section of the Divide and conquer, or merge and relax chapter.
+I> We talk about separation of “what” and “how” in the [Separate “what” and “how”](#what-how) section of the _Divide and conquer, or merge and relax_ chapter.
 
 When all simple cases are covered by array methods, every time we see a traditional loop, we know that something unusual is going on. And that’s good: fewer chances we’ll miss a bug during code review.
 

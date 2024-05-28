@@ -1,4 +1,4 @@
-{#naming-is-hard}
+{#naming}
 
 # Naming is hard
 
@@ -517,7 +517,7 @@ keys.forEach(key => {
 
 <!-- expect(calls).toBe(2) -->
 
-I> See [Avoid loops](#avoid-loops) chapter for more examples.
+I> See the [Avoid loops](#no-loops) chapter for more examples.
 
 ## The shorter the scope the better
 
@@ -530,7 +530,7 @@ The extreme cases would be:
 
 Usually, the shorter the scope, the better. However, religious scope shortening has the same issues as splitting code into many teeny-tiny functions: it’s easy to overdo it and make the code less readable, not more.
 
-I> We talk about splitting code into functions in the [Divide and conquer, or merge and relax](#divide-and-conquer) chapter.
+I> We talk about splitting code into functions in the [Divide and conquer, or merge and relax](#divide) chapter.
 
 I found that reducing the lifespan of a variable works as well, and doesn’t produce lots of tiny functions. The idea here is to reduce the number of lines between the variable declaration and the line where it’s accessed for the last time. The scope might be a whole 200-line function but if the lifespan of a particular variable is three lines, then we only need to look at these three lines to understand how this variable is used.
 
@@ -566,7 +566,7 @@ expect(getRelatedPosts(posts, {slug: 'c', tags: ['sleeping', 'tacos'], timestamp
 
 Here, the lifespan of the `sorted` variable is only two lines. This kind of sequential processing is a common use case for the technique.
 
-I> See a larger example in the [Avoid Pascal style variables](#no-pascal-vars) section in the Avoid reassigning variables chapter.
+I> See a larger example in the [Avoid Pascal style variables](#no-pascal-vars) section in the _Avoid reassigning variables_ chapter.
 
 ## Making magic numbers less magic
 
@@ -816,7 +816,7 @@ const SIZE_MEDIUM = 'medium';
 
 Here, the common part of the names, the `SIZE_` prefix, is aligned. I call this _parallel coding_.
 
-I> We talk more about parallel coding in the [Don’t make me think](#thinking) chapter.
+I> We talk more about parallel coding in the [Don’t make me think](#no-thinking) chapter.
 
 Another option is to use an object:
 
@@ -852,6 +852,8 @@ interface ButtonProps {
 ```
 
 The latter would be my choice for TypeScript.
+
+{#abbr}
 
 ## Abbreviations and acronyms
 
@@ -990,7 +992,7 @@ interface Coordinates {
 
 I would generally avoid repeating information in the name that’s already accessible in its type, class name, or namespace.
 
-I> We talk a bit more about conventions in the [Code style](#code-style) chapter.
+I> We talk more about conventions in the [Code style](#code-style) chapter.
 
 ## Dealing with updates
 
@@ -1380,7 +1382,7 @@ It’s a good idea to use well-known and widely adopted terms for programming an
 
 Using different words for the same concept is confusing: a person reading the code may think since the words are different then these things aren’t the same and will try to understand the difference between the two. It will also make the code less _greppable_, meaning it would be harder to find all usages of the same thing
 
-I> We talk more about greppability in the [Make the code greppable](#greppability) section of the Other techniques chapter.
+I> We talk more about greppability in the [Make the code greppable](#greppability) section of the _Other techniques_ chapter.
 
 T> Having a project dictionary, or even a linter, might be a good idea to avoid using different words for the same things. I use a similar approach for writing this book: I use [Textlint terminology plugin](https://github.com/sapegin/textlint-rule-terminology) to make sure I use the terms consistently and spell them correctly in my writing.
 
@@ -1414,9 +1416,7 @@ Some of these common pairs are:
 
 Typos in names and comments are very common. They don’t cause bugs _most of the time_ but could still reduce readability a bit, and code with many typoses look sloppy. So having a spell checker in the code editor is a good idea.
 
-I> We talk more about spell checking in the [Spell checking](#spell-checking) section of the Learn your code editor chapter.
-
-{#use-destructuring}
+I> We talk more about spell checking in the [Spell checking](#spell-checking) section of the _Learn your code editor_ chapter.
 
 ## Use destructuring
 
@@ -1664,7 +1664,7 @@ const {container: c1} = RTL.render(instance.render());
 expect(c1.textContent).toEqual('42')
 -->
 
-Destructuring could be another solution here, see the [Use destructuring](#use-destructuring) section above.
+Destructuring could be another solution here — we’ve covered it already.
 
 Sometimes, intermediate variables can serve as comments, explaining the data they hold, that otherwise might not be clear:
 

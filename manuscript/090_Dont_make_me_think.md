@@ -1,4 +1,4 @@
-{#thinking}
+{#no-thinking}
 
 # Don’t make me think
 
@@ -10,7 +10,7 @@ Some people confuse _brevity_ with _clarity_. Short code (brevity) isn’t alway
 
 <!-- textlint-disable alex -->
 
-There are many ways to express the same idea in the code. However, some of them are easier to understand then others. We should always try to reduce the cognitive load, the mental effort required to understand the code, of the next developer who’ll read out code. Every time we stumble on something that isn’t immediately obvious, we waist our brain’s resources.
+There are many ways to express the same idea in the code. However, some of them are easier to understand then others. We should always try to reduce the cognitive load, the mental effort required to understand the code, of the next developer who’ll read out code. Every time we stumble on something that isn’t immediately obvious, we waste our brain’s resources.
 
 <!-- textlint-enable -->
 
@@ -329,7 +329,7 @@ Now it’s really hard to see if there’s any difference in these two lines of 
 
 Generally, I’m a bit skeptical about extreme code DRYing but this is a good case for it.
 
-I> We talk more about Don’t repeat yourself principle in the [Divide and conquer, or merge and relax](#divide-and-conquer) chapter.
+I> We talk more about the Don’t repeat yourself principle in the [Divide and conquer, or merge and relax](#divide) chapter.
 
 <!-- const type = 'type', columnName = 'col', rowIndex = 2, toTitleCase = x => _.startCase(_.toLower(x)) -->
 
@@ -627,7 +627,7 @@ function RecipeName({ name, subrecipe }) {
 
 Now, both return values are on the same indentation level and it’s easier to compare them. This pattern works when none of the condition branches are handling errors, in which case an early return would be a better pattern.
 
-I> We talk about early returns in the [Avoid conditions](#avoid-conditions) chapter.
+I> We talk about early returns in the [Avoid conditions](#no-conditions) chapter.
 
 Here’s another example:
 
@@ -795,7 +795,7 @@ Often, it’s hard to understand what a certain value is when it doesn’t have 
 
 ### Give names to magic numbers
 
-We’ll cover this in great detail in the [Naming is hard chapter](#naming-is-hard) chapter.
+We’ll cover this in great detail in the [Naming is hard](#naming) chapter.
 
 ### Name function parameters
 

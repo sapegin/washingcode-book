@@ -1,4 +1,4 @@
-{#avoid-mutation}
+{#no-mutation}
 
 # Avoid mutation
 
@@ -38,16 +38,18 @@ expect(console.log.mock.calls).toEqual([[1], [2], [3]])
 
 The problem here is that the `sort()` array method mutates the array we’re passing into our function, likely not what we’d expect when calling a function named `printSortedArray()`.
 
-Some of the problems with mutation:
+Some of the problems with mutations:
 
-- Mutation may lead to unexpected and hard-to-debug issues, where data becomes incorrect somewhere, and we have no idea where it happens.
-- Mutation makes code harder to understand: at any time, an array or object may have a different value, so we need to be very careful when reading the code.
+- Mutations may lead to unexpected and hard-to-debug issues, where data becomes incorrect somewhere, and we have no idea where it happens.
+- Mutations make code harder to understand: at any time, an array or object may have a different value, so we need to be very careful when reading the code.
 - Mutation of function parameters makes the behavior of a function surprising.
-- Mutation is often unexpected. It’s too easy to forget which methods mutate the original data, and which don’t. Both could return the same value, and there’s no naming convention of any kind to differentiate them, at least in JavaScript.
+- Mutations are often unexpected. It’s too easy to forget which methods mutate the original data, and which don’t. Both could return the same value, and there’s no naming convention of any kind to differentiate them, at least in JavaScript.
 
 _Immutability_ or _immutable data structures_, meaning that to change a value we have to create a new array or object, would solve this problem. Unfortunately, JavaScript doesn’t support immutability natively, and all solutions are more crutches than actual solutions. But even just _avoiding_ mutations in our code makes it easier to understand.
 
-Also, don’t forget that `const` in JavaScript only prevents reassignments — not mutations. We’ve discussed reassignments in the previous chapter, [Avoid reassigning variables](#avoid-reassigning-variables).
+Also, don’t forget that `const` in JavaScript only prevents reassignments — not mutations.
+
+I> We talk about reassignments in the previous chapter, [Avoid reassigning variables](no-reassigning).
 
 ## Avoid mutating operations
 
@@ -751,9 +753,11 @@ While we’re waiting for JavaScript [to get native immutability](https://github
 
 **Preventing mutations** is good because it’s so easy to miss them during code reviews, and then spend many hours debugging weird issues.
 
-One way to prevent mutations is to use a linter. ESLint has several plugins that try to do just that, and we’ll discuss them in the [Lint your code](#linting) chapter.
+One way to prevent mutations is to use a linter, and ESLint has several plugins that try to do just that.
 
-[eslint-plugin-better-mutation](https://github.com/sloops77/eslint-plugin-better-mutation) disallows any mutations, except for local variables in functions. This is a great idea because it prevents bugs caused by the mutation of shared objects but allows us to use mutations locally. Unfortunately, it breaks even in simple cases, such as a mutation occurring inside `.forEach()`.
+I> We talk about linting in the [Lint your code](#linting) chapter.
+
+The [eslint-plugin-better-mutation](https://github.com/sloops77/eslint-plugin-better-mutation) plugin disallows any mutations, except for local variables in functions. This is a great idea because it prevents bugs caused by the mutation of shared objects but allows us to use mutations locally. Unfortunately, it breaks even in simple cases, such as a mutation occurring inside `.forEach()`.
 
 Another way to prevent mutations is to mark all objects and arrays as read-only in TypeScript or Flow.
 
@@ -792,7 +796,7 @@ expect(result).toEqual([1, 2, 3])
 
 Note that both `readonly` modifier and `Readonly` utility type are shallow, so we need to add them to all nested objects too.
 
-[eslint-plugin-functional](https://github.com/jonaskello/eslint-plugin-functional) has the rule to require read-only types everywhere, which may be more convenient than remembering to do that ourselves. Unfortunately, it only supports `readonly` modifier but not `Readonly` utility type.
+The [eslint-plugin-functional](https://github.com/jonaskello/eslint-plugin-functional) plugin has the rule to require read-only types everywhere, which may be more convenient than remembering to do that ourselves. Unfortunately, it only supports `readonly` modifier but not `Readonly` utility type.
 
 I think it’s a good idea, because there’s no runtime cost, though it makes type definitions more verbose.
 

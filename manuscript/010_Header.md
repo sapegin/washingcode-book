@@ -28,37 +28,37 @@ You don’t have to read the book in any particular order: all chapters aren’t
 
 The first four chapters are about the basics of writing clean code:
 
-In the **Avoid loops** chapter, we talk about working with iterations and why traditional `for` loops may not be the best way of doing that.
+In the [Avoid loops](#no-loops) chapter, we talk about working with iterations and why traditional `for` loops may not be the best way of doing that.
 
-In the **Avoid conditions** chapter, we continue exploring the best ways to write clean code: writing good conditions and simplifying our code by avoiding them.
+In the [Avoid conditions](#no-conditions) chapter, we continue exploring the best ways to write clean code: writing good conditions and simplifying our code by avoiding them.
 
-In the **Avoid reassigning variables** chapter, we talk about improving code readability by making it easier to understand what variables are doing and how they are used in the code.
+In the [Avoid reassigning variables](no-reassigning) chapter, we talk about improving code readability by making it easier to understand what variables are doing and how they are used in the code.
 
-In the **Avoid mutation** chapter, we continue the topic of working with variables and talk about mutation: why it’s hindering code readability and what can we do about it.
+In the [Avoid mutation](#no-mutation) chapter, we continue the topic of working with variables and talk about mutations: why it’s hindering code readability and what can we do about it.
 
 The next two chapters are about more humanistic side of coding:
 
-In the **Avoid comments** chapter, we talk about writing useful comments, when to write them and when not.
+In the [Avoid comments](#no-comments) chapter, we talk about writing useful comments, when to write them and when not.
 
-In the **Naming is hard** chapter, we talk about how clear names make it easier to understand the code, and how to improve naming in our apps.
+In the [Naming is hard](#naming) chapter, we talk about how clear names make it easier to understand the code, and how to improve naming in our apps.
 
 The next four chapters are a bit of a mix of architecture, heuristics, tips and tricks, and so on:
 
-In the **Divide and conquer, or merge and relax** chapter, we talk about splitting code into functions and modules, when is the right time to introduce an abstraction, and when it’s better to wait.
+In the [Divide and conquer, or merge and relax](#divide) chapter, we talk about splitting code into functions and modules, when is the right time to introduce an abstraction, and when it’s better to wait.
 
-In the **Don’t make me think** chapter, we talk about all the different ways programmers like to write clever code, and why we should avoid it as much as possible.
+In the [Don’t make me think](#no-thinking) chapter, we talk about all the different ways programmers like to write clever code, and why we should avoid it as much as possible.
 
-In the **Code style** chapter, we talk about code styles: which ones are actually improving readability and which are just opinions that don’t matter much.
+In the [Code style](#code-style) chapter, we talk about code styles: which ones are actually improving readability and which are just opinions that don’t matter much.
 
-In the **Other techniques** chapter, we talk about everything else that didn’t fit into other chapters.
+In the [Other techniques](#otter) chapter, we talk about everything else that didn’t fit into other chapters.
 
 The last four chapters are about tooling:
 
-In the **Lint your code** chapter, we talk about how linters can help us maintain consistent and modern codebase, and promote some of the techniques discussed in the previous chapters.
+In the [Lint your code](#linting) chapter, we talk about how linters can help us maintain consistent and modern codebase, and promote some of the techniques discussed in the previous chapters.
 
-In the **Autoformat your code** chapter, we talk about how tools can make our lives much easier by formatting code for us.
+In the [Autoformat your code](#formatting) chapter, we talk about how tools can make our lives much easier by formatting code for us.
 
-In the last chapter, **Learn your code editor**, we talk about different techniques for _editing_ code and customizing our environment to make our work more efficient and less tiring.
+In the last chapter, [Learn your code editor](#editing), we talk about different techniques for _editing_ code and customizing our environment to make our work more efficient and less tiring.
 
 # JavaScript of TypeScript?
 

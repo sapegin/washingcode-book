@@ -301,7 +301,7 @@ const examples = readme(fs.readFileSync('./README.md', 'utf-8'));
 
 This will not only make it slightly more readable but also easier to add, remove, or move variable declarations.
 
-I> We talk about code autoformatting in the [Autoformat your code](#formatting) chapter.
+I> We talk about code formatting in the [Autoformat your code](#formatting) chapter.
 
 ## Improving readability
 
@@ -664,7 +664,7 @@ It’s easier to follow conditions, notice `return` statements in the functions,
 
 I’m a shortstringer.
 
-I> We talk more about separating data and data-managing code in the [Separate what and how](#separate-what-and-how) section of the Divide and conquer, or merge and relax chapter.
+I> We talk more about separating data and data-managing code in the [Separate “what” and “how”](#what-how) section of the _Divide and conquer, or merge and relax_ chapter.
 
 Another issue of the longstringer approach is that Prettier with a default setting of 80 characters will likely make the code ugly and quite unreadable:
 
@@ -852,7 +852,7 @@ function ingredientToString({ name, quantity }) {
 
 <!-- expect(ingredientToString({name: 'Pizza', quantity: 6})).toBe('Pizza (6)') -->
 
-I prefer the last one for the reasons I explain in the [Naming is hard](#naming-is-hard) chapter, but I wouldn’t ask another developer to change their code just because they use another option: they are all fine.
+I prefer the last one for the reasons I explain in the [Naming is hard](#naming) chapter, but I wouldn’t ask another developer to change their code just because they use another option: they are all fine.
 
 A few more examples are below.
 

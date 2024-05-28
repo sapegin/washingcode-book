@@ -97,7 +97,7 @@ Typos in the comments and names not only make the code slightly harder to read b
 
 T> I use two spell checking extension for Visual Studio Code: [Code Spell Checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker) and [Typos spell checker](https://marketplace.visualstudio.com/items?itemName=tekumara.typos-vscode) — they compliment each other well. The Code Spell Checker is a more traditional spell checker and only checks words longer than three words, and the Typos fixes common misspellings (for example, `ot` instead of `to`). WebStorm comes with a good spell checker too.
 
-I> We talk more about greppability (the quality that makes code findable) in the [Make the code greppable](#greppability) section of the Other techniques chapter.
+I> We talk more about greppability (the quality that makes code findable) in the [Make the code greppable](#greppability) section of the _Other techniques_ chapter.
 
 <!-- cspell:enable -->
 

@@ -10,6 +10,8 @@ Conventions are good because they are easy to implement: document the decision a
 
 That’s where the _linters_ come in. Linters check our code to make sure it follows the team’s code style or to prevent some common bugs. Sometimes linters fix our code automatically; sometimes they just slap our hands with a keyboard when we try to commit our code, or later, during the continues integration (CI) run.
 
+I> We talk about code styles in the [Code style](#code-style) chapter.
+
 Like any tool, linters could be used to make our lives easier, and our codebase more consistent and free of bugs, or they could be abused and make our lives full of pain.
 
 Almost anything that automates or simplifies bug fixing or code reviews worth implementing as a linter rule. However, there are many-many ways linting can go wrong, and that is what we’re going to talk about in this chapter.
@@ -218,9 +220,9 @@ T> Developing command-line tools is a rare case where disabling `console.log()` 
 
 #### Disable style rules
 
-In the past, we were using linters not only to find bugs in the code but also to establish a consistent code style on a project. Now, this job is done better by code formatters (see the [next chapter](#formatting)), and there’s little need to keep style rules in our linter configs.
+In the past, we were using linters not only to find bugs in the code but also to establish a consistent code style on a project. Now, this job is done better by code formatters, and there’s little need to keep style rules in our linter configs.
 
-We’ll cover a few exceptions later in this chapter.
+I> We’ll cover a few exceptions later in this chapter. We talk more code style in the [Code style](#code-style) chapter, and about code formatting in the [Autoformat your code](#formatting).
 
 #### Don’t overpolice the code
 
@@ -280,19 +282,23 @@ expect(somethingToSomethingElse(42)).toBe(1)
 expect(somethingToSomethingElse(41)).toBe(2)
 -->
 
-I prefer the latter, but I’d never force anyone to write either of them — both are perfectly fine. I call this pattern _parallel code_ (see more in [Don’t make me think](#thinking) chapter).
+I prefer the latter, but I’d never force anyone to write either of them — both are perfectly fine. I call this pattern _parallel coding_.
+
+I> We talk more about parallel coding in the [Don’t make me think](#no-thinking) chapter.
 
 #### [id-length](https://eslint.org/docs/rules/id-length)
 
 This rule allows us to define the minimum and maximum length for an identifier, because short names could be potentially less readable, which is true in many cases. However, like any attempt to measure code quality by its physical dimensions, this rule causes more damage than good.
 
-See more about naming in the [Naming is hard](#naming-is-hard) chapter.
+I> We talk about naming in the [Naming is hard](#naming) chapter.
 
 #### [max-classes-per-file](https://eslint.org/docs/rules/max-classes-per-file)
 
 This rule limits the number of JavaScript classes in a file. Usually set to 1, meaning we could declare only one class per file.
 
-This is an artificial requirement. Splitting code into modules is a skill that can’t be simplified to a linter rule. Often, keeping tiny utility classes, functions, or components at the top of the module makes the code easier to navigate and maintain. (See more in the [Divide and conquer, or merge and relax](#divide-and-conquer) chapter.)
+This is an artificial requirement. Splitting code into modules is a skill that can’t be simplified to a linter rule. Often, keeping tiny utility classes, functions, or components at the top of the module makes the code easier to navigate and maintain.
+
+I> We talk about splitting code into functions in the [Divide and conquer, or merge and relax](#divide) chapter.
 
 There are other similar rules that try to artificially limit the number of React components, lines of code, statements, and so on. The only useful rule of this kind is `max-params` (see below).
 
@@ -359,7 +365,7 @@ This rule disallows `TODO` and `FIXME` comments. This is how it’s described in
 
 This statement is totally disconnected from reality: in real projects, it’s often impossible or impractical to fix all issues before code hits production, and disallowing such comments will only lead to lower quality of the comments, not higher quality of the code.
 
-We talk more about comments, todo comments in particular, in the [Avoid comments](#avoid-comments) chapter.
+I> We talk more about comments, and todo comments in particular, in the [Avoid comments](#no-comments) chapter.
 
 ### [one-var](https://eslint.org/docs/latest/rules/one-var) and [vars-on-top](https://eslint.org/docs/latest/rules/vars-on-top)
 
@@ -384,7 +390,9 @@ expect(find([1, 2, 3], 2)).toBe(true)
 expect(find([1, 2, 3], 5)).toBe(false)
 -->
 
-This style makes code harder to read, and we talk about it in the [Avoid Pascal style variables](#avoid-pascal-style-variables) section of the Avoid reassigning variables chapter.
+I call this style _Pascal style_, and it makes code harder to read:
+
+I> We talk about it in the [Avoid Pascal style variables](#no-pascal-vars) section of the _Avoid reassigning variables_ chapter.
 
 ### [sort-vars](https://eslint.org/docs/latest/rules/sort-vars), [sort-keys](https://eslint.org/docs/latest/rules/sort-keys), and others
 
@@ -433,7 +441,9 @@ function isItCake(a, b, c) {
 expect(isItCake(true, false, false)).toBe(true)
 -->
 
-I’m not a huge fan of teeny-tiny functions in general (see [Divide and conquer, or merge and relax](#divide-and-conquer) chapter), especially when the linter is the one demanding them, and I think having an arbitrary limit isn’t helping anyone.
+I’m not a huge fan of teeny-tiny functions in general, especially when the linter is the one demanding them, and I think having an arbitrary limit isn’t helping anyone.
+
+I> We talk about splitting code into functions in the [Divide and conquer, or merge and relax](#divide) chapter.
 
 ### Good rules when used correctly
 
@@ -520,7 +530,7 @@ errorMessage.forEach(message => {
 });
 ```
 
-See the [Avoid loops](#avoid-loops) chapter for many more examples of using array methods.
+I> See the [Avoid loops](#no-loops) chapter for many more examples of using array methods.
 
 This rule is not autofixable and is not included in the recommended config.
 
@@ -609,7 +619,7 @@ resizeImage(filepath, {
 
 Now everything is clear, and we can make any of the parameters optional.
 
-To learn more about the problem it solves, see the [Name things](#name-things) section of the Don’t make me think chapter.
+I> To learn more about the problem it solves, see the [Name things](#name-things) section of the _Don’t make me think_ chapter.
 
 This rule is not autofixable and is not included in the recommended config.
 
@@ -672,7 +682,7 @@ This rule is not autofixable but is included in the recommended config (with the
 
 #### [unicorn/prevent-abbreviations](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prevent-abbreviations.md)
 
-This rule improves readability by disallowing some abbreviations. We already talked about abbreviations in the [Abbreviations and acronyms](#abbreviations-and-acronyms) section of the Naming is hard chapter.
+This rule improves readability by disallowing some abbreviations. We already talked about abbreviations in the [Abbreviations and acronyms](#abbr) section of the _Naming is hard_ chapter.
 
 This rule goes a bit further and disallows even abbreviations that I’m okay with (`arg` → `argument`, `param` → `parameter`) but better have too few abbreviations than too many. Some abbreviations can be ambiguous: `dir` could be `direction` or `directory`, `res` could be `resource` or `result`, and so on.
 
@@ -692,7 +702,7 @@ My approach would be as follows:
 4. Agree with your team to fix all warnings on the code they modify.
 5. Enable rules one by one or organize a _lint day_: the whole team spends one day fixing as many linting issues as possible.
 
-I> Fixing all linting issues in a file while making changes in this file is a good application of the campsite rule. We talk about it more in the [Become a code scout](#campsite-rule) section of the Other techniques chapter.
+I> Fixing all linting issues in a file while making changes in this file is a good application of the campsite rule. We talk about it more in the [Become a code scout](#campsite-rule) section of the _Other techniques_ chapter.
 
 Having multiple configs may also help: for example, add a separate, less strict config for integration tests.
 

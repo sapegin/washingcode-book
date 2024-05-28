@@ -388,6 +388,8 @@ The opposite to the campsite rule is [the broken windows theory](https://en.wiki
 
 Same in programming. Minor “crimes” here could be leaving linting warning unfixed, leaving debug code, unused or commented out code, sloppy and cluttered code. This creates an environment when nobody cares, because one new linting warning won’t make code with 1473 warnings significantly worse. It feels different when we introduce a new linting warning to a project that has none.
 
+I> We talk about linting in the [Lint your code](#linting) chapter.
+
 It’s also worth mentioning the David Allen’s [2-minute rule](https://www.skillpacks.com/2-minute-rule/) that states “if an action will take less than two minutes, it should be done now it is defined”.
 
 Same in programming. If fixing something takes less than two minutes, we should not postpone it, and fix it right away. And if it only takes two minutes to fix, it probably won’t make the pull request diff much larger.
@@ -486,7 +488,7 @@ Now, there’s no question which props are different, and which are the same.
 
 I’m a big fan of parallel code, and, even though the original code was already parallel, thanks to two branches of a ternary operator, now it’s easy to see the difference between branches that was buried in duplicate code before.
 
-I> We talk more about parallel code in [Don’t make me think](#thinking) chapter.
+I> We talk more about parallel code in [Don’t make me think](#no-thinking) chapter.
 
 Some people [even believe](https://www.reddit.com/r/programming/comments/2tjoc8/the_boy_scout_rule_of_coding/) that we shouldn’t touch what’s working and refactoring has no business value for the product, but I fiercely disagree. Our job is not only do what we’re told to do by the business people but also to keep our software easy to change, so we can quickly react to new business requirements. This is only possible if we care about maintainability, don’t let the tech debt pile up.
 
@@ -627,7 +629,7 @@ TypeScript helps a lot with these things: for example, we can now find all place
 
 Like any extreme, discarding all third-party libraries in our work is unhealthy. Many problems are generic enough and don’t need to be rewritten by every developer on the planet again and again. For many problems, there are popular open source libraries, that are well tested and documented.
 
-In this section, I’ll focus on utility functions rather than on big frameworks, because I see developers reinventing utility functions far more often than big frameworks.
+In this section, we focus on utility functions rather than on big frameworks, because I see developers reinventing utility functions far more often than big frameworks.
 
 ### What’s wrong with in-house solutions
 
@@ -785,25 +787,25 @@ Some developers will brag that all their functions are only one or two lines lon
 
 I think it’s a wrong problem to solve and the size itself is rarely a problem. However, long functions often hide real issues, like too many responsibilities or deep nesting.
 
-I> We talk about measuring length of code in the [Lint your code](#linting) chapter.
+I> We talk about measuring code dimensions in the [Lint your code](#linting) chapter.
 
 ### Always comment your code
 
 Developers who believe that they must comment each (or at least most) line of their code are having a dangerous lifestyle, and not really better than those who _never_ write any comments.
 
-I> We talk about commenting code in the [Avoid comments](#avoid-comments) chapter.
+I> We talk about commenting code in the [Avoid comments](#no-comments) chapter.
 
 ### Always use constants for magic numbers
 
 Using constants instead of magic numbers is a great practice, but not all numbers are magic. Often developer make code less readable by following this principle without thinking and converting all literal values, number and strings, to constants.
 
-I> We talk about naming in the [Naming is hard](#naming-is-hard) chapter.
+I> We talk about naming in the [Naming is hard](#naming) chapter.
 
 ### Never repeat yourself
 
 Don’t repeat yourself (DRY) principle is probably the most overrated idea in software development.
 
-I> We talk about DRY principle and organizing code in the [Divide and conquer, or merge and relax](#divide-and-conquer) chapter.
+I> We talk about DRY principle and organizing code in the [Divide and conquer, or merge and relax](#divide) chapter.
 
 ### Always use only one return statement in a function
 
