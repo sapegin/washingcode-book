@@ -1,4 +1,4 @@
-{no-reassigning}
+{#no-reassigning}
 
 # Avoid reassigning variables
 

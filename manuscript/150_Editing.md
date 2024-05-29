@@ -1,4 +1,4 @@
-{#editors}
+{#editing}
 
 ## Learn your code editor
 
