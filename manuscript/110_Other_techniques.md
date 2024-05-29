@@ -3,6 +3,7 @@
 # Other techniques
 
 <!-- description: Everything else that didn’t fit into other chapters -->
+<!-- show-sections: true -->
 
 {#impossible-states}
 
