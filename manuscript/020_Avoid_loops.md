@@ -2,7 +2,7 @@
 
 # Avoid loops
 
-<!-- description: Working with iterations and why traditional `for` loops may not be the best way of doing that -->
+<!-- description: Working with iterations and why traditional for loops may not be the best way of doing that -->
 
 <!-- cspell:ignore lenght -->
 
