@@ -234,7 +234,7 @@ Many linter rules don’t solve any actual problem with the code; they merely en
 
 Below is a selection of rules that create more problems than they solve. Some are popular and even included in recommended presets; some are quite obscure but still could be good reminders that we shouldn’t try to validate and control everything. And I’m not the only one who [gets mad because of a linter rule](https://twitter.com/iamsapegin/status/1230760798584098817).
 
-#### [no-undefined](https://eslint.org/docs/rules/no-undefined])
+#### [no-undefined](https://eslint.org/docs/rules/no-undefined)
 
 This rule disallows the use of `undefined`.
 
