@@ -521,7 +521,7 @@ expect(getMessageProps(1, 5, 0, 2, 0)).toEqual([
 ])
 -->
 
-I’m not a huge fan of `.reduce()` because it often makes code harder to read and the intent less clear. With `.map()` / `.filter()` chaining, it’s clear that we’re first converting an array to another array with the same number of items, and then removing array items we don’t need. With `.reduce()` it’s less obvious.
+I’m not a huge fan of `reduce()` because it often makes code harder to read and the intent less clear. With `map()` / `filter()` chaining, it’s clear that we’re first converting an array to another array with the same number of items, and then removing array items we don’t need. With `reduce()` it’s less obvious.
 
 So I’d stop two steps ago with this refactoring.
 
@@ -759,7 +759,7 @@ One way to prevent mutations is to use a linter, and ESLint has several plugins 
 
 I> We talk about linting in the [Lint your code](#linting) chapter.
 
-The [eslint-plugin-better-mutation](https://github.com/sloops77/eslint-plugin-better-mutation) plugin disallows any mutations, except for local variables in functions. This is a great idea because it prevents bugs caused by the mutation of shared objects but allows us to use mutations locally. Unfortunately, it breaks even in simple cases, such as a mutation occurring inside `.forEach()`.
+The [eslint-plugin-better-mutation](https://github.com/sloops77/eslint-plugin-better-mutation) plugin disallows any mutations, except for local variables in functions. This is a great idea because it prevents bugs caused by the mutation of shared objects but allows us to use mutations locally. Unfortunately, it breaks even in simple cases, such as a mutation occurring inside `forEach()`.
 
 Another way to prevent mutations is to mark all objects and arrays as read-only in TypeScript or Flow.
 

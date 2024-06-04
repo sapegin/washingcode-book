@@ -339,7 +339,7 @@ expect(kebabNames).toEqual({
 })
 -->
 
-With `.forEach()`:
+With `forEach()`:
 
 ```js
 const allNames = {
@@ -379,7 +379,7 @@ expect(kebabNames).toEqual({
 })
 -->
 
-And again `.reduce()` is the least readable option.
+And again `reduce()` is the least readable option.
 
 In later chapters, I’ll urge you to avoid not only loops but also reassigning variables and mutation. Like loops, they _often_ lead to poor code readability, but _sometimes_ they are the best choice.
 
@@ -529,7 +529,7 @@ for (var i = 0, namesLength = names.length; i < namesLength; i++) {
 
 It’s not slow anymore, though, and there are other examples where engines optimize for simpler code patterns and make manual optimization unnecessary.
 
-Also, `.every()`, `.some()`, `.find()` and `.findIndex()` will short circuit, meaning they won’t iterate over more array elements than necessary.
+Also, `every()`, `some()`, `find()` and `findIndex()` will short circuit, meaning they won’t iterate over more array elements than necessary.
 
 In any case, we should measure performance to know what to optimize and see whether our changes really make code faster in all important browsers and environments.
 
