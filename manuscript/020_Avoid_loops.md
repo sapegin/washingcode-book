@@ -100,7 +100,7 @@ In both examples, I much prefer array methods when compared to `for` loops. They
 
 Array methods aren’t just shorter and more readable; each method has its own clear semantics:
 
-- `map()` says we’re _mapping_ an array to a new array with the same number of elements and transform each array item;
+- `map()` says we’re _mapping_ an array to a new array with the same number of elements and transform each array element;
 - `find()` says we’re _finding_ a single element in an array;
 - `some()` says we’re testing that the condition is true for _some_ elements of the array;
 - `every()` says we’re testing that the condition is true for _every_ element of the array.
@@ -134,7 +134,7 @@ const kebabNames = names.map(name => _.kebabCase(name));
 
 <!-- expect(kebabNames).toEqual(['bilbo-baggins', 'gandalf', 'gollum']) -->
 
-This version is much easier to read because we know that the `map()` method transforms an array by keeping the same number of items. And, unlike `forEach()`, it doesn’t require a custom implementation or mutating an output array. Also, the callback function is now pure: it merely transforms input parameters to the output value without any side effects.
+This version is much easier to read because we know that the `map()` method transforms an array by keeping the same number of elements. And, unlike `forEach()`, it doesn’t require a custom implementation or mutating an output array. Also, the callback function is now pure: it merely transforms input parameters to the output value without any side effects.
 
 We run into similar problems when we abuse array method semantics:
 
@@ -149,7 +149,7 @@ products.map(product => {
 
 <!-- expect(isExpectedType).toEqual(false) -->
 
-Here, the `map()` method is used to _reduce_ an array to a single value by having a side effect instead of returning a new item value from the callback function.
+Here, the `map()` method is used to _reduce_ an array to a single value by having a side effect instead of returning a new element’s value from the callback function.
 
 It’s hard to say what this code is doing, and it feels like there’s a bug: it only cares about the last product in a list.
 
@@ -165,7 +165,7 @@ const isExpectedType = products.some(
 
 <!-- expect(isExpectedType).toEqual(true) -->
 
-If the behavior of the original code was correct, then we actually don’t need to iterate at all. We can check the latest array item directly:
+If the behavior of the original code was correct, then we actually don’t need to iterate at all. We can check the latest array element directly:
 
 <!-- const products = [{type: 'pizza'}, {type: 'coffee'}], expectedType = 'pizza' -->
 
@@ -203,7 +203,7 @@ const totalPrice = cart
   .reduce((acc, val) => acc + val);
 ```
 
-Now the purpose of each step is more clear. Using the `reduce()` to calculate a sum of all array items is one of the most typical use cases for this method, and this pattern is easier to recognize here than in the original code.
+Now the purpose of each step is more clear. Using the `reduce()` to calculate a sum of all array elements is one of the most typical use cases for this method, and this pattern is easier to recognize here than in the original code.
 
 <!-- expect(totalPrice).toBe(105) -->
 
@@ -514,7 +514,7 @@ If I was to review such code, I would be happy to pass both versions but would p
 
 ## But aren’t array methods slow?
 
-One may think that using functions is slower than loops, and likely it is. Most of the time, however, it doesn’t matter unless we’re working with millions of items.
+One may think that using functions is slower than loops, and likely it is. Most of the time, however, it doesn’t matter unless we’re working with millions of elements.
 
 Modern JavaScript engines are very fast and optimized for popular code patterns. Back in the day, we used to write loops like this because checking the array length on every iteration was too slow:
 

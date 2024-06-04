@@ -35,7 +35,7 @@ So if any other developer touched my code, they would definitely make it inconsi
 
 I wasn’t entirely wrong though: not every code style makes code easy to read and maintain.
 
-For example, this way of defining arrays makes it harder to move or add new items:
+For example, this way of defining arrays makes it harder to move or add new elements:
 
 <!-- prettier-ignore -->
 ```js
@@ -192,7 +192,7 @@ const dogs = [
 ];
 ```
 
-The goal of this style was the same as of trailing commas in the previous section — to make adding new items easier and diffs more readable, but there are no reasons to use this anymore: Internet Explorer 8 was the last browser that didn’t support trailing commas.
+The goal of this style was the same as of trailing commas in the previous section — to make adding new elements easier and diffs more readable, but there are no reasons to use this anymore: Internet Explorer 8 was the last browser that didn’t support trailing commas.
 
 Another example is [Yoda conditions](https://en.wikipedia.org/wiki/Yoda_conditions), a style where a literal is on the left side of a condition:
 

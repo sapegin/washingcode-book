@@ -234,7 +234,7 @@ const array = [...Array(10).keys()];
 
 <!-- expect(array).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) -->
 
-This [wonderful one-liner](https://stackoverflow.com/a/33352604/1973105) fills an array with numbers from 0 to 9. `Array(10)` creates an array with 10 _empty_ items, then the `keys()` method returns the keys (numbers from 0 to 9) as an iterator, which we then convert into a plain array using the spread syntax. Exploding head emoji...
+This [wonderful one-liner](https://stackoverflow.com/a/33352604/1973105) fills an array with numbers from 0 to 9. `Array(10)` creates an array with 10 _empty_ elements, then the `keys()` method returns the keys (numbers from 0 to 9) as an iterator, which we then convert into a plain array using the spread syntax. Exploding head emoji...
 
 ```js
 const array = [];
@@ -255,7 +255,7 @@ const array = Array.from({ length: 10 }).map((_, i) => i);
 
 <!-- expect(array).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) -->
 
-Here, `Array.from({length: 10})` creates an array with 10 _empty_ items, then using the `map()` method we fill the array with numbers from 0 to 9.
+Here, `Array.from({length: 10})` creates an array with 10 _empty_ elements, then using the `map()` method we fill the array with numbers from 0 to 9.
 
 We can write it shorter by using `Array.from`’s map callback:
 
@@ -273,7 +273,7 @@ So, what’s your score? I think mine would be around 3/7.
 
 Some patterns are on the border of cleverness.
 
-For examples, using `Boolean` to filter out falsy array items (`null` and `0` in this example):
+For examples, using `Boolean` to filter out falsy array elements (`null` and `0` in this example):
 
 ```js
 const words = ['Not', null, 'enough', 0, 'cheese.'].filter(Boolean);

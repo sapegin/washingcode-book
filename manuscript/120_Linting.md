@@ -528,7 +528,7 @@ errorMessage.map(message => {
 });
 ```
 
-We should only use `map()` when we want to produce a new array based on an existing one, and only when both arrays have the same number of items. For side effects, we should use `forEach()`:
+We should only use `map()` when we want to produce a new array based on an existing one, and only when both arrays have the same number of elements. For side effects, we should use `forEach()`:
 
 <!-- let errorMessage = [] -->
 
@@ -806,7 +806,7 @@ There are hundreds of plugins for ESLint; few are useful. I have these plugins o
 
 Linters are useful to prevent bugs and maintain a consistent codebase but can be misused.
 
-On the one hand, it can be a good idea to automate code style checks by adding linter rules for every item in our coding style guide. On the other hand, a codebase with too many linter rules, can be intimidating for developers working with it.
+On the one hand, it can be a good idea to automate code style checks by adding linter rules for every section of our coding style guide. On the other hand, a codebase with too many linter rules, can be intimidating for developers working with it.
 
 Ideally, all linter rules should be autofixable, so developers don’t waste time tailoring their code to satisfy esoteric linter rules. If it’s impossible or too difficult to make an autofixable rule, we should really think whether it’s worth having such rule at all.
 

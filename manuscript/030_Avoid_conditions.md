@@ -193,7 +193,7 @@ We had to split the component into two to use early return but the logic is now 
 
 ## Processing arrays
 
-It’s common to check an array’s length before running a loop over its items:
+It’s common to check an array’s length before running a loop over its elements:
 
 ```js
 function getProductsDropdownItems(response) {
@@ -298,9 +298,9 @@ We still have a condition but the overall code structure is simpler.
 
 In all these examples we’re removing a separate branch and dealing with the absence of data by normalizing the input — converting it to an array — as early as possible, and then running a generic algorithm on normalized data.
 
-Arrays are convenient because we don’t have to worry about how many items they contain: the same code will work with a hundred items, one item, or even no items.
+Arrays are convenient because we don’t have to worry about how many elements they contain: the same code will work with a hundred elements, one element, or even no elements.
 
-A similar technique works when the input is a single item or an array:
+A similar technique works when the input is a single value or an array:
 
 ```js
 function getProductsDropdownItems({ products }) {
@@ -318,7 +318,7 @@ expect(getProductsDropdownItems({products: {id: '1', name: 'Tacos'}})).toEqual([
 expect(getProductsDropdownItems({products: [{id: '1', name: 'Tacos'}]})).toEqual([{label: 'Tacos', value: '1'}])
 -->
 
-Here we’re wrapping a single item in an array, so we can use the same code to work with single items and arrays.
+Here we’re wrapping a single element in an array, so we can use the same code to work with single values and arrays.
 
 ## Deduplicating an algorithm
 
@@ -606,11 +606,11 @@ Now we have at most one level of nesting inside the function and the main return
 
 I> One of the [Zen of Python’s](https://peps.python.org/pep-0020/) principles is _flat is better than nested_, which is exactly what we did with this refactoring.
 
-I’m not so sure what the code inside the second condition does, but it looks like it’s wrapping a single item in an array as we did in the previous section.
+I’m not so sure what the code inside the second condition does, but it looks like it’s wrapping a single value in an array as we did in the previous section.
 
 _And no, I have no idea what `tmpBottle` means, or why it was needed._
 
-The next step here could be improving the `getOrderIds()` function’s API. It can return three different things: `undefined`, a single item, or an array. We have to deal with each separately, so we have two conditions at the very beginning of the function, and we’re reassigning the `idsArrayObj` variable.
+The next step here could be improving the `getOrderIds()` function’s API. It can return three different things: `undefined`, a single value, or an array. We have to deal with each separately, so we have two conditions at the very beginning of the function, and we’re reassigning the `idsArrayObj` variable.
 
 I> We talk about reassignments in the next chapter, [Avoid reassigning variables](no-reassigning).
 

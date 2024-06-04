@@ -284,7 +284,7 @@ expect(defaults).toEqual({foo: 1, bar: 2})
 expect(prompts).toEqual([{name: 'foo', initial: 1, message: 'Foo'}, {name: 'bar', initial: 2}])
 -->
 
-At first sight, this code doesn’t look very bad: it converts an object into an array by pushing new items into the `prompts` array. But if we take a closer look, there’s another mutation inside a condition in the middle that mutates the `defaults` object. And this is a bigger problem because it’s easy to miss while reading the code.
+At first sight, this code doesn’t look very bad: it converts an object into an array by pushing new elements into the `prompts` array. But if we take a closer look, there’s another mutation inside a condition in the middle that mutates the `defaults` object. And this is a bigger problem because it’s easy to miss while reading the code.
 
 The code is actually doing two loops: one to convert the `task.parameters` object to the `prompts` array, and another to update `defaults` with values from `task.parameters`. I’d split them to make it clear:
 
@@ -462,7 +462,7 @@ expect(getMessageProps(1, 5, 0, 2, 0)).toEqual([
 ])
 -->
 
-Now it’s easier to understand what the code does. There’s no repetition, and the intent is clear: the `getMessageProps()` function converts a list of values to an array of objects and removes “empty” items.
+Now it’s easier to understand what the code does. There’s no repetition, and the intent is clear: the `getMessageProps()` function converts a list of values to an array of objects and removes “empty” elements.
 
 We can simplify it further:
 
@@ -521,7 +521,7 @@ expect(getMessageProps(1, 5, 0, 2, 0)).toEqual([
 ])
 -->
 
-I’m not a huge fan of `reduce()` because it often makes code harder to read and the intent less clear. With `map()` / `filter()` chaining, it’s clear that we’re first converting an array to another array with the same number of items, and then removing array items we don’t need. With `reduce()` it’s less obvious.
+I’m not a huge fan of `reduce()` because it often makes code harder to read and the intent less clear. With `map()` / `filter()` chaining, it’s clear that we’re first converting an array to another array with the same number of elements, and then removing array elements we don’t need. With `reduce()` it’s less obvious.
 
 So I’d stop two steps ago with this refactoring.
 
