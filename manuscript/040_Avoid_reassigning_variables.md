@@ -559,6 +559,6 @@ Start thinking about:
 
 - Using different variables with meaningful names instead of reusing the same variable for different purposes.
 - Separating data from an algorithm to make code more readable and maintainable.
-- Building a shape of a complex object in a single place instead of building it piece by piece.
-- Declaring variables as close as possible to the place where they are used reduces the lifespan of a variable and makes it easier to understand which value a variable has at a particular moment.
+- Building a complete complex object in a single place instead of building it field by field.
+- Declaring variables as close as possible to the place where they are used to reduce the lifespan of a variable and to make it easier to understand which value a variable has at any particular moment.
 - Extracting a piece of code to a small function to avoid a temporary variable and use a function return value instead.

@@ -41,8 +41,8 @@ The problem here is that the `sort()` array method mutates the array we’re pas
 Some of the problems with mutations:
 
 - Mutations may lead to unexpected and hard-to-debug issues, where data becomes incorrect somewhere, and we have no idea where it happens.
-- Mutations make code harder to understand: at any time, an array or object may have a different value, so we need to be very careful when reading the code.
-- Mutation of function parameters makes the behavior of a function surprising.
+- Mutations make code harder to understand: at any time, an array or an object may have a different value, so we need to be very careful when reading the code.
+- Mutation of function parameters makes the behavior of a function surprising and crease unexpected side effects.
 - Mutations are often unexpected. It’s too easy to forget which methods mutate the original data, and which don’t. Both could return the same value, and there’s no naming convention of any kind to differentiate them, at least in JavaScript.
 
 _Immutability_ or _immutable data structures_, meaning that to change a value we have to create a new array or object, would solve this problem. Unfortunately, JavaScript doesn’t support immutability natively, and all solutions are more crutches than actual solutions. But even just _avoiding_ mutations in our code makes it easier to understand.
@@ -349,10 +349,10 @@ mutate(person);
 
 Here the `person` object is mutated inside the `mutate()` function.
 
-Function parameter mutation can be intentional and accidental, and both are problematic:
+Function parameter mutation can be intentional or accidental, and both are problematic:
 
 - It’s harder to understand how a function works and how to use it because it doesn’t return a value but changes one of the incoming parameters.
-- Accidental parameter mutation is even worse because function consumers don’t expect it. And it can lead to hard-to-find bugs when a value that is mutated inside a function is later used somewhere else.
+- Accidental parameter mutation is even worse because function consumers don’t expect it. And it can lead to hard-to-find bugs when a value that is mutated inside a function is later used outside this function.
 
 Consider this example:
 
@@ -746,10 +746,12 @@ Also, spread and `Object.assign()` only do shallow cloning: only the first level
 
 Keeping our objects as shallow as possible might be a good idea if we update them often.
 
-While we’re waiting for JavaScript [to get native immutability](https://github.com/tc39/proposal-record-tuple), there are two non-exclusive ways we can make our lives easier today:
+While we’re waiting for JavaScript to get native immutability, there are two non-exclusive ways we can make our lives easier today:
 
 - prevent mutations;
 - simplify object updates.
+
+I> The [JavaScript records & tuples proposal](https://github.com/tc39/proposal-record-tuple) is now in Stage 2.
 
 **Preventing mutations** is good because it’s so easy to miss them during code reviews, and then spend many hours debugging weird issues.
 
@@ -957,9 +959,9 @@ const getDateRange = (startDate, endDate) => {
 
 Here we’re making an array of dates to fill a given date range.
 
-I don’t have good ideas on how to rewrite this code without an imperative loop, reassignment, and mutation. And here we can live with this:
+I don’t have good ideas on how to rewrite this code without an imperative loop, reassignment, and mutation. And here we can live with them:
 
-- all “bad” things are isolated in a small function;
+- all “bad” things are isolated inside a small function;
 - the function has a meaningful name;
 - the code is clear enough;
 - the function is pure: it doesn’t have any internal state and avoids mutating its parameters.
@@ -978,6 +980,6 @@ Start thinking about:
 - Keeping the complete object shape in a single place; when we create a new object, make its shape as clear as possible.
 - Deduplicating logic and separating “what” from “how.”
 - Avoiding mutation of function parameters to prevent hard-to-find bugs.
-- Using `.map()` / `.filter()` chaining instead of `.reduce()`.
-- Making mutations explicit if we have to use them.
-- Preventing mutations in our code using a linter or read-only types.
+- Using `map()` / `filter()` chaining instead of `reduce()`.
+- Making mutations explicit if you have to use them.
+- Preventing mutations in your code using a linter or read-only types.

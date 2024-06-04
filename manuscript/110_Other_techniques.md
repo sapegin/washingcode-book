@@ -624,8 +624,8 @@ The benefit of this approach over the map implemented as JavaScript object is th
 Some tips to improve _code greppability_:
 
 - **Don’t concatenate identifiers**, try to write them fully.
-- **Avoid generic and ambiguous names** (like `processData()`) for things that are used in more than one module. Names that are too generic are harder to find in the code because we’ll get false positives: other things that have the same name but not the thing we’re looking for.
-- **Consider using a map** where all names are fully written if they depend on a parameter
+- **Avoid generic and ambiguous names** (like `processData()`) for things that are used in more than one module. Generic names are harder to find in the codebase because we’ll get false positives: other things that have the same name but not the thing we’re looking for.
+- **Consider using a map**, where all names are fully written, if they depend on a parameter.
 
 TypeScript helps a lot with these things: for example, we can now find all places where a particular function is used, even if it’s imported with a different name. However, for many other cases, it’s still important to keep identifiers greppable: filenames, translation keys, CSS class names, and so on.
 
@@ -696,7 +696,7 @@ However, we should first consider potential problems of maintaining our own solu
 
 - Poor tests and documentation, or no documentation at all.
 - Not generic enough and built to cover only one or a few use cases.
-- Many bugs aren’t fixed because of a low number of users and a lack of tests.
+- Many bugs aren’t fixed because of a small number of users and a lack of tests.
 - No Google and Stack Overflow to help us when something isn’t working.
 - Maintenance may take a lot of time that we could spend adding new features or improving the product.
 - New developers our company hires need to learn how to use its in-house artisanal libraries, which is often hard because of poor documentation and discoverability.
@@ -709,21 +709,21 @@ On a real project, I’d make sure that the `object` is always an object (never 
 
 When using a popular, well-established library:
 
-- Lots of information: documentation, articles, books, Stack Overflow answers, and conference talks (even whole conferences dedicated to a single library).
-- Big community: many plugins and additional libraries to use with it, and so on
-- Easier hiring and onboarding: many developers will already be familiar with a library and have experience working with it.
-- Most bugs have already been found and fixed.
-- Regular updates, and bugfixes.
+- **Lots of information:** documentation, articles, books, Stack Overflow answers, and conference talks (even whole conferences dedicated to a single library).
+- **Big community:** many plugins and additional libraries to use with it, and so on
+- **Easier hiring and onboarding:** many developers will already be familiar with a library and have experience working with it.
+- **Few bugs:** most bugs have already been found and fixed.
+- **Regular updates,** and bugfixes.
 
 ### What to keep in mind when using third-party libraries
 
 Some things we need to keep in mind when using third-party libraries:
 
-- It’s hard to choose a good library: there are too many, and often all are far from great.
-- Open source libraries die every day for many reasons, for example, [maintainers’ burnout](https://sapegin.me/blog/open-source-no-more/).
-- It may significantly increase the bundle size.
-- Interoperability between different libraries: some libraries may require particular versions of some other libraries, or have incompatibilities that are hard to track and fix.
-- Security risks: it’s not uncommon that popular npm packages get compromised, and we may end up including some malicious code that will break our app in production or even destroy some data.
+- **Hard to choose** a good library: there are too many, and often all are far from great.
+- **May be abandoned:** open source libraries die every day for many reasons, for example, [maintainers’ burnout](https://sapegin.me/blog/open-source-no-more/).
+- **Bundle size:** they may significantly increase the bundle size.
+- **Interoperability:** some libraries may require particular versions of some other libraries, or have incompatibilities that are hard to track and fix.
+- **Security risks:** it’s not uncommon that popular npm packages get compromised, and we may end up including some malicious code that will break our app in production or even destroy some data.
 
 T> Use [Bundlephobia](https://bundlephobia.com/) to check the size of any npm package.
 
@@ -753,15 +753,15 @@ Some examples of microlibraries are:
 
 The good things about microlibraries are:
 
-- Don’t increase the bundle size much.
-- Often don’t have dependencies.
-- One can read and understand the code in a few minutes.
+- **Small size:** don’t increase the bundle size much.
+- **Zero or few dependencies:** often don’t have dependencies.
+- **Understandable:** one can read and understand the code in a few minutes.
 
 The bad things about microlibraries are:
 
-- We need to choose, install and update each library separately.
-- Different libraries may have very different APIs.
-- Documentation is less accessible because we need to look for each library separately.
+- **Hard to choose:** we need to choose, install and update each library separately.
+- **Inconsistent:** Different libraries may have very different APIs.
+- **Lack of documentation:** it’s less accessible because we need to look for each library separately.
 
 It would probably take me less time to write many of these microlibraries myself than to choose a decent one on npm. But then I’d need to write tests, types, comments… and the idea of writing my own utility function doesn’t seem so attractive anymore.
 

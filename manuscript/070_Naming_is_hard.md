@@ -528,7 +528,7 @@ We talked a bit about the scope in the previous section. The length of the varia
 The extreme cases would be:
 
 - One-liner functions, where the scope of a variable is a single line: easy to follow (example: `[8, 16].map(x => x + 'px')`).
-- Global variables: a variable can be used or modified anywhere in the project, and there’s no way to know which value it holds at any given moment, which often leads to bugs. That’s why many developers are [advocating against global variables](https://wiki.c2.com/?GlobalVariablesAreBad) for decades.
+- Global variables, whose shope is infinite: a variable can be used or modified anywhere in the project, and there’s no way to know which value it holds at any given moment, which often leads to bugs. That’s why many developers are [advocating against global variables](https://wiki.c2.com/?GlobalVariablesAreBad) for decades.
 
 Usually, the shorter the scope, the better. However, religious scope shortening has the same issues as splitting code into many teeny-tiny functions: it’s easy to overdo it and make the code less readable, not more.
 
@@ -823,16 +823,16 @@ I> We talk more about parallel coding in the [Don’t make me think](#no-thinkin
 Another option is to use an object:
 
 ```js
-const SIZE = {
-  SMALL: 'small',
-  MEDIUM: 'medium'
+const Size = {
+  Small: 'small',
+  Medium: 'medium'
 };
 ```
 
 It has some additional benefits over separate constants:
 
-- We only need to import it once (`import { SIZE } from '...'` vs `import { SIZE_SMALL, SIZE_MEDIUM } from '...'`).
-- Better autocomplete after typing `SIZE.`
+- We only need to import it once (`import { Size } from '...'` vs `import { SIZE_SMALL, SIZE_MEDIUM } from '...'`).
+- Better autocomplete after typing `Size.`
 
 And yet another option is to use a TypeScript enum:
 
@@ -884,13 +884,13 @@ Common abbreviations are okay, we don’t even think of most of them as abbrevia
 
 As well as common acronyms:
 
-- HTML
-- HTTP
-- JSON
-- PDF
-- RGB
-- URL
-- XML
+- HTML;
+- HTTP;
+- JSON;
+- PDF;
+- RGB;
+- URL;
+- XML.
 
 And possibly a few very common ones used on a project but they still should be documented (new team members will be very thankful for that!), and shouldn’t be ambiguous.
 
@@ -899,13 +899,13 @@ And possibly a few very common ones used on a project but they still should be d
 I like to use a few prefixes for variable and function names:
 
 - `is`, `are`, `has`, or `should` for booleans (examples: `isPhoneNumberValid`, `hasCancellableTickets`).
-- `get` for (mostly) pure functions that return a value (example: `getPageTitle`).
-- `set` for functions that store a value or React state (example: `setProducts`)
+- `get` for functions that return a value (example: `getPageTitle`).
+- `set` for functions that store a value or update React state (example: `setProducts`)
 - `fetch` for functions that fetch data from the backend (example: `fetchMessages`).
 - `to` for functions that convert the data to a certain type (examples: `toString`, `hexToRgb`, `urlToSlug`).
 - `on` and `handle` for event handlers (examples: `onClick`, `handleSubmit`).
 
-I think these conventions make code easier to read, and distinguish functions that return values and ones with side effects.
+These conventions make code easier to read and distinguish functions that return values from the ones with side effects.
 
 However, don’t combine `get` with other prefixes: I often see names like `getIsCompaniesFilterDisabled` or `getShouldShowPasswordHint`, which should be just `isCompaniesFilterDisabled` or `shouldShowPasswordHint`, or even better `isCompaniesFilterEnabled`. On the other hand, `setIsVisible` is perfectly fine when paired with `isVisible`:
 
@@ -1116,10 +1116,10 @@ _Abstract_ and _imprecise_ names are probably more unhelpful than dangerous, lik
 
 **Abstract names** are too generic to give any useful information about the data they hold:
 
-- `data`
-- `list`
-- `array`
-- `object`
+- `data`;
+- `list`;
+- `array`;
+- `object`.
 
 The problem with such names is that any variable contains _data_, and any array is a _list_ of something. These names don’t say what kind of data it is, or what kind of things the list holds. Essentially, such names aren’t better than `x`/`y`/`z`, `foo`/`bar`/`baz`, `New Folder 39`, or `Untitled 47`.
 
@@ -1737,7 +1737,7 @@ const _o_0_ = isCrocodile(crocodiles[0]);
 Here, our naming choices are limited:
 
 - `isCrocodile` is a natural choice but clashes with the function name;
-- `crocodile` would mean that this variable holds one item of the `crocodiles` array.
+- `crocodile` would mean that this variable holds one element of the `crocodiles` array.
 
 So, what can we do about it? Not a lot:
 
@@ -1746,7 +1746,7 @@ So, what can we do about it? Not a lot:
 - choose a more specific name (examples: `isFirstItemCrocodile` or `isGreenCrocodile`);
 - shorten the name, if the scope is small (example: `isCroc`).
 
-All options are somewhat not ideal, though:
+Unfortunately, all options are somewhat not ideal:
 
 - Inlining can make the code more verbose, especially if the result of the function is used several times, or if the function has multiple parameters. It could also affect performance, though it usually doesn’t.
 - Longer names could also make the code a bit more verbose.
@@ -1861,7 +1861,7 @@ This only matters when either the type or the component is exported and reused i
 
 Start thinking about:
 
-- Replacing negative booleans with positive.
+- Replacing negative booleans with positive ones.
 - Reducing the scope or the lifespan of variables.
 - Choosing more specific names for symbols with larger scope or longer lifespan.
 - Choosing shorter names for symbols with small scope and short lifespan.

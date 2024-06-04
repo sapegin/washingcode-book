@@ -100,7 +100,7 @@ In both examples, I much prefer array methods when compared to `for` loops. They
 
 Array methods aren’t just shorter and more readable; each method has its own clear semantics:
 
-- `map()` says we’re transforming an array into another array with the same number of elements;
+- `map()` says we’re _mapping_ an array to a new array with the same number of elements and transform each array item;
 - `find()` says we’re _finding_ a single element in an array;
 - `some()` says we’re testing that the condition is true for _some_ elements of the array;
 - `every()` says we’re testing that the condition is true for _every_ element of the array.
@@ -234,9 +234,9 @@ expect(console.error.mock.calls).toEqual([['dope'], ['nope']])
 
 A `for of` loop would be even better:
 
-- it doesn’t have any of the problems of regular `for` loops, mentioned at the beginning of this chapter;
+- it doesn’t have any of the problems of regular `for` loops mentioned at the beginning of this chapter;
 - we can avoid reassignments and mutations since we don’t have a return value;
-- it has clear semantics of iteration over all array elements since we can’t manipulate the number of iterations, like in a regular `for` loop. (Well, almost, we can abort the loops with `break`.)
+- it has clear semantics of iteration over all array elements since we can’t manipulate the number of iterations, like in a regular `for` loop. (Well, almost, we can abort the loop with a `break`.)
 
 Let’s rewrite our example using a `for of` loop:
 
@@ -537,5 +537,5 @@ In any case, we should measure performance to know what to optimize and see whet
 
 Start thinking about:
 
-- Replacing loops with array methods, like `.map()` or `.filter()`.
+- Replacing loops with array methods, like `map()` or `filter()`.
 - Avoiding side effects in functions.

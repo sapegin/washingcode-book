@@ -734,8 +734,8 @@ And coming back to screens with a limited number of characters, I now use 27-inc
 
 Some conventions are easy to use, and some are not so much. Let’s compare three popular conventions for _title casing_:
 
-- **sentence case:** only the first word is capitalized, like in a regular sentence (example: _Breakfast: The most important book about the best meal of the day_);
-- **upper case:** all words are capitalized (example: _Breakfast: The Most Important Book About the Best Meal Of The Day_);
+- **Sentence case:** only the first word is capitalized, like in a regular sentence (example: _Breakfast: The most important book about the best meal of the day_).
+- **Upper case:** all words are capitalized (example: _Breakfast: The Most Important Book About the Best Meal Of The Day_).
 - **AP/APA:** see below (example: _Breakfast: The Most Important Book About the Best Meal of the Day_).
 
 The first two are easy to remember: it’s all or nothing. The last one, however, not at all. Here are the rules of the AP/APA title style (quoted from the [ap-style-title-case](https://github.com/words/ap-style-title-case) package docs):

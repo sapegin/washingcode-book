@@ -1208,7 +1208,7 @@ This function is very long, with lots and lots of repetitive boilerplate code. I
 But if we look closer, there are just three unique validations:
 
 - a required field (in some cases leading and trailing whitespace is ignored, in some not — hard to tell whether it’s intentional or not);
-- maximum length (always 80);
+- maximum length (always 80 characters);
 - no spaces allowed.
 
 First, let’s extract all validations into their own functions so we can reuse them later:
@@ -1604,9 +1604,9 @@ But maybe it’s intentional, and a sign that we should rewrite it.
 In this example we’re rendering one of four UI states:
 
 - a spinner (loading);
-- error message (failure);
+- an error message (failure);
 - a list of products (success);
-- a message that there are no products (also success).
+- a no products message (also success).
 
 Let’s rewrite this code using the already familiar early return pattern:
 
@@ -1655,8 +1655,8 @@ I> We’ll come back to this example later in the [Make impossible states imposs
 
 Start thinking about:
 
-- Removing unnecessary conditions, like conveying an already boolean value to `true` or `false` manually.
-- Normalizing the input data by converting the absence of data to an array early to avoid branching and dealing with no data separately.
+- Removing unnecessary conditions, like explicitly comparing a boolean value to `true` or `false`.
+- Normalizing the input data by converting the absence of data to an array early on to avoid branching and dealing with no data separately.
 - Normalizing the state to avoid algorithm duplication.
 - Caching repeated conditions in a variable.
 - Replacing long groups of conditions with tables or maps.

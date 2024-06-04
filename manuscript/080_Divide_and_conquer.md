@@ -50,8 +50,8 @@ Next sprint, we get a task to add another column to the table, so we copy the co
 
 Our table module has at least two _reasons to change_, or _responsibilities_:
 
-- New business requirements, like a new table column.
-- Design changes, like replacing borders with striped row backgrounds.
+- new business requirements, like a new table column;
+- design changes, like replacing borders with striped row backgrounds.
 
 This makes the module harder to understand and harder to change: to make a change in any of the responsibilities, we need to read and modify more code. This makes it harder and slower to iterate on both: business logic and design.
 
@@ -71,10 +71,10 @@ Another benefit is that when we delete a module, we automatically delete its dep
 
 If we often have to change several modules or functions at the same time, it may be better to merge them into a single module or function. This is sometimes called _colocation_.
 
-Couple of examples of colocation:
+A couple of examples of colocation:
 
 - [Ducks convention](https://github.com/erikras/ducks-modular-redux) for Redux: keep related actions, action creators, and reducers in the same file (for example, `src/ducks/feature.js`), as opposed to having three files in separate folders (for example, `src/actions/feature.js`, `src/actionCreators/feature.js`, and `src/reducers/feature.js`).
-- React components: keeping everything a component needs in the same file, including markup (JSX), styles, and logic. Also, keeping tests next to the component file. For example, `src/components/Button.tsx`, and `src/components/Button.test.ts`.
+- React components: keeping everything a component needs in the same file, including markup (JSX), styles (CSS in JS), and logic. Also, keeping tests next to the component file. For example, `src/components/Button.tsx`, and `src/components/Button.test.ts`.
 
 I> Kent C. Dodds has [a nice article on colocation](https://kentcdodds.com/blog/colocation).
 
@@ -270,9 +270,9 @@ It’s quite difficult to grasp what’s going on here: validation logic is mixe
 
 We could split this function into several pieces, each responsible for one thing only:
 
-- A list of validations for a particular form.
-- A collection of validation functions (like `isEmail()`).
-- A function that validates all form values using a list of validations.
+- a list of validations for a particular form;
+- a collection of validation functions (like `isEmail()`);
+- a function that validates all form values using a list of validations.
 
 The list could be written declaratively, as an array of validations and error messages:
 
@@ -319,8 +319,8 @@ I> See the [Avoid conditions](#no-conditions) chapter for the complete code of t
 
 I call this process _separating of “what” and “how”_. The benefits are:
 
-- **Readability:** the “what” can be often written in a declarative way, using basic data structures like arrays and objects, or even imported from a file (like JSON).
-- **Maintainability:** we change “what” much more often than “how”, and now they are separated.
+- **Readability:** the “what” can often be written in a declarative way, using basic data structures like arrays and objects.
+- **Maintainability:** we change “what” much more often than “how”, and now they are separated. The “what” can be imported from a file (like JSON), or loaded from a database, so updates don’t require code changes.
 - **Reusability:** often the “how” is generic and can be reused, or even imported from a third-party library.
 - **Testability:** each validation and the validation runner function are isolated and can be tested separately.
 
@@ -333,14 +333,14 @@ Many projects have a file called `utils.js`, `helpers.js`, or `misc.js` where de
 Monster utility files have several issues:
 
 - **Poor discoverability:** since all functions are in the same file, we can’t use fuzzy file opener to find them.
-- **They outlive their callers:** often such functions are never reused again and stay in the codebase, even after the code that was using them is removed.
+- **May outlive their callers:** often such functions are never reused again and stay in the codebase, even after the code that was using them is removed.
 - **Not generic enough:** such functions are often made for a single use case and won’t cover other use cases.
 
-My rule of thumb is this:
+My rules of thumb are these:
 
 - If the function is small and used only once, keep it in the same module where it’s used.
 - If the function is long or used more than once, put it in a separate file in `util`, `shared`, or `helpers` folder.
-- If we want more organization, instead of creating files like `utils/validators.js`, we can create a file for each function: `utils/validators/isEmail.js`, and so on.
+- If we want more organization, instead of creating files like `utils/validators.js`, we can group related function (each in its own file) in a folder: `utils/validators/isEmail.js`.
 
 ## Stay hydrated
 
@@ -608,6 +608,6 @@ The biggest challenge with abstractions is finding a balance between being too r
 
 Start thinking about:
 
-- Colocating related code in the same file folder to make it easier to change, move, or delete.
+- Colocating related code in the same file or folder to make it easier to change, move, or delete.
 - Before adding another option to an abstraction, think whether this new use case really belongs there.
-- Before making tests DRY, think whether is would make them more readable or maintainable, or a bit of code duplication isn’t an issue.
+- Before making tests DRY, think whether is would make them more readable and maintainable, or a bit of code duplication isn’t an issue.

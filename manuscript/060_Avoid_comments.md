@@ -82,10 +82,10 @@ I> We talk about code splitting in more detail in the [Divide and conquer, or me
 
 ## Good comments
 
-Comments are useful to answer _why_ code is written in a certain, often mysterious, way:
+Comments are useful to answer _why_ code is written in a certain, sometimes mysterious, way:
 
-- If the code is fixing a bug or is a workaround for a bug in a third-party library, a ticket number or a link will be useful.
-- If there’s an obvious simpler alternative solution, a comment should explain why this solution doesn’t work in this case.
+- If the code is fixing a bug or is a workaround for a bug in a third-party library, a ticket number or a link to the issue will be useful.
+- If there’s an obvious simpler alternative solution, a comment should explain why this solution doesn’t work for this case.
 - If different platforms behave differently, and the code accounts for this, it should be also mentioned in a comment.
 
 Such comments will save us from accidental “refactoring” that makes code easier but removes some necessary functionality or breaks it for some users.

@@ -107,8 +107,8 @@ TODO: refactoring
 
 My favorite refactorings are:
 
-- Inline: replaces all usages of a variable or a function with their bodies.
-- Rename: renames a symbol and all its usages (including the ones in other files).
+- **Inline:** replaces all usages of a variable or a function with their bodies.
+- **Rename:** renames a symbol and all its usages (including the ones in other files).
 
 TODO: Why default exports are bad: rename don’t always change these names, and anyone can use custom names
 
