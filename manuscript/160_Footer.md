@@ -38,7 +38,7 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 - [Learning Code Readability](https://medium.com/@egonelbre/learning-code-readability-a80e311d3a20) by Egon Elbre
 - [Making Wrong Code Look Wrong](https://www.joelonsoftware.com/2005/05/11/making-wrong-code-look-wrong/) by Joel Spolsky
 - [Modern React Testing](https://sapegin.me/blog/react-testing-1-best-practices/) by Artem Sapegin
-- [Naming conventions in programming – a review of scientific literature](https://makimo.pl/blog/scientific-perspective-on-naming-in-programming/) by Iwo Herka
+- [Naming conventions in programming — a review of scientific literature](https://makimo.pl/blog/scientific-perspective-on-naming-in-programming/) by Iwo Herka
 - [On the changing notion of code readability](http://firstclassthoughts.co.uk/Articles/Readability/TheChangingNotionOfReadability.html) by Kasper B. Graversen
 - [Outliving the Great Variable Shortage](https://waura1.rssing.com/chan-1910818/latest.php) by Tim Ottinger
 - [Psychology of Code Readability](https://medium.com/@egonelbre/psychology-of-code-readability-d23b1ff1258a) by Egon Elbre
@@ -46,7 +46,7 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 - [The “Bug-O” Notation](https://overreacted.io/the-bug-o-notation/) by Dan Abramov
 - [The Law of Leaky Abstractions](https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/) by Joel Spolsky
 - [The wrong abstraction](https://www.sandimetz.com/blog/2016/1/20/the-wrong-abstraction) by Sandi Metz
-- [Too DRY – The Grep Test](http://jamie-wong.com/2013/07/12/grep-test/) by Jamie Wong
+- [Too DRY — The Grep Test](http://jamie-wong.com/2013/07/12/grep-test/) by Jamie Wong
 - [Why I don’t like reduce](https://tkdodo.eu/blog/why-i-dont-like-reduce) by TkDodo
 - [Why the Boy Scout Rule Is Insufficient](https://www.codewithjason.com/boy-scout-rule-insufficient/) by Jason Swett
 - [Why you should enforce Dangling Commas for Multiline Statements](https://medium.com/@nikgraf/why-you-should-enforce-dangling-commas-for-multiline-statements-d034c98e36f8) by Nik Graf

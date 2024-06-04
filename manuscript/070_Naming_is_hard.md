@@ -55,7 +55,7 @@ end;
 
 I wrote this code more than 20 years ago in Delphi, and, honestly, I don’t really remember what the app was supposed to do. It has it all: single-character names (`i`, `j`), abbreviations (`...Cnt`, `buf`), acronyms (`E`, `sr`, `fp`). It has some comments though! (And I kept the original indentation for full immersion.)
 
-I once worked with a very senior developer who used mostly very short names, and never wrote any comments or tests. Working with their code was like working with Assembler – very difficult. Often we were wasting days tracking and fixing bugs in this code.
+I once worked with a very senior developer who used mostly very short names, and never wrote any comments or tests. Working with their code was like working with Assembler — very difficult. Often we were wasting days tracking and fixing bugs in this code.
 
 Let’s look at these (and many other) naming antipatterns, and how to fix them.
 
@@ -193,7 +193,7 @@ expect(yep.validateInputs({firstName: 'Chuck', lastName: 'Norris'})).toBe(true)
 expect(yep.errors).toEqual([])
 -->
 
-I’d also split this method into two to isolate side effects and make the code more testable, then remove the condition around `this.set()` call – setting an empty array when there are no errors seems safe enough:
+I’d also split this method into two to isolate side effects and make the code more testable, then remove the condition around `this.set()` call — setting an empty array when there are no errors seems safe enough:
 
 <!--
 class X {
@@ -653,7 +653,7 @@ const dateWithoutTime = date.slice(0, CHARACTERS_IN_ISO_DATE);
 
 <!-- expect(dateWithoutTime).toBe('2023-03-22') -->
 
-Here, we remove the time portion of a string containing date and time in ISO format (for example, `2023-03-22T08:20:00+01:00`) by keeping only the first 10 characters – the length of the date part. The name is quite clear but the code is still a bit confusing and brittle. We can do better:
+Here, we remove the time portion of a string containing date and time in ISO format (for example, `2023-03-22T08:20:00+01:00`) by keeping only the first 10 characters — the length of the date part. The name is quite clear but the code is still a bit confusing and brittle. We can do better:
 
 <!-- const date = '2023-03-22T08:20:00+01:00' -->
 
@@ -802,7 +802,7 @@ const SMALL = 'small';
 const MEDIUM = 'medium';
 ```
 
-These constants are related – they define different values of the same scale, size of something, and likely could be used interchangeably. However, it’s not clear from the names that they are related. We could add a suffix:
+These constants are related — they define different values of the same scale, size of something, and likely could be used interchangeably. However, it’s not clear from the names that they are related. We could add a suffix:
 
 ```js
 const SMALL_SIZE = 'small';
@@ -1372,11 +1372,11 @@ test('creates new user', async () => {
 
 Now it’s clear which request data we’re accessing at any time.
 
-For the new version of a module, I’d try to rename the old one to something like `ModuleLegacy` instead of naming the new one `Module2` or `ModuleNew`, and keep using the original name for the new implementation. It’s not always possible but it makes using the old, deprecated, module more awkward than the new, improved, one – exactly what we want to achieve. Also, names tend to stick forever, even when the original module is long gone. Names like `Module2` or `ModuleNew` are fine during development though, when the new module isn’t yet fully functional or well tested.
+For the new version of a module, I’d try to rename the old one to something like `ModuleLegacy` instead of naming the new one `Module2` or `ModuleNew`, and keep using the original name for the new implementation. It’s not always possible but it makes using the old, deprecated, module more awkward than the new, improved, one — exactly what we want to achieve. Also, names tend to stick forever, even when the original module is long gone. Names like `Module2` or `ModuleNew` are fine during development though, when the new module isn’t yet fully functional or well tested.
 
 ## Use common terms
 
-It’s a good idea to use well-known and widely adopted terms for programming and domain concepts instead of inventing something that might be cute or clever but likely will be misunderstood. This is especially problematic for non-native English speakers – we don’t know many rare and obscure words.
+It’s a good idea to use well-known and widely adopted terms for programming and domain concepts instead of inventing something that might be cute or clever but likely will be misunderstood. This is especially problematic for non-native English speakers — we don’t know many rare and obscure words.
 
 [A “great” example](https://stackoverflow.com/questions/33742899/where-does-reacts-scryrendereddomcomponentswithclass-method-name-come-from) of this is React codebase where they used “scry” (which means something like _peeping into the future through a crystal ball_) instead of “find”.
 
@@ -1778,7 +1778,7 @@ const {container: c2} = RTL.render(<UserProfile user={{type: 'che', name: 'Chebu
 expect(c2.textContent).toEqual('Name: CheburashkaAge: 12')
 -->
 
-Here, the name describes how the value is used (domain-specific name) – to check _whether we need to show a greeting_, as opposed to the value itself – _whether the user is a crocodile_. This has another benefit: if we decide to change the condition, we don’t need to rename a variable.
+Here, the name describes how the value is used (domain-specific name) — to check _whether we need to show a greeting_, as opposed to the value itself — _whether the user is a crocodile_. This has another benefit: if we decide to change the condition, we don’t need to rename a variable.
 
 For example, we could decide to greet crocodiles only in the morning:
 

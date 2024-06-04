@@ -293,7 +293,7 @@ const queryValues = {
   words: ""
 }) -->
 
-Now, the query object always has the same shape, but some properties can be `undefined`. The code feels more declarative and it’s easier to understand what it’s doing – building an object – and see the final shape of this object.
+Now, the query object always has the same shape, but some properties can be `undefined`. The code feels more declarative and it’s easier to understand what it’s doing — building an object — and see the final shape of this object.
 
 {#no-pascal-vars}
 

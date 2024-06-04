@@ -74,7 +74,7 @@ expect(test.test('MacInter', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Ap
 
 Now, the condition is shorter and more readable, because names help us to understand what the condition does in the context of the code.
 
-However, I don’t think that splitting a linear algorithm, even a long one, into several functions, and then calling them one after another, makes code more readable. Jumping between functions (and even more so – files) is harder than scrolling, and if we have to look into functions’ implementations to understand the code, then the abstraction wasn’t the right one. Naming could be a problem too when all the extracted functions are parts of the same algorithm.
+However, I don’t think that splitting a linear algorithm, even a long one, into several functions, and then calling them one after another, makes code more readable. Jumping between functions (and even more so — files) is harder than scrolling, and if we have to look into functions’ implementations to understand the code, then the abstraction wasn’t the right one. Naming could be a problem too when all the extracted functions are parts of the same algorithm.
 
 Overall, I don’t like when the code is measured by its physical metrics, like the number of lines. Long functions aren’t always hard to read and modify, And the really complex code could be tiny.
 
@@ -108,7 +108,7 @@ static defaultProps = {
 
 I> You may encounter various styles of hack comments: `HACK`, `XXX`, `@hack`, and so on, though I prefer `HACK`.
 
-_Todo comments_ are also okay (more like _okayish_) too if they contain a ticket number when something will be done. Otherwise, they are just dreams that will likely never come true. Unless _a dream_ is exactly what we want to document: a desire that the code was doing more than it does – error handling, special cases, supporting more platforms, minor features, and so on – but it wasn’t implemented due to, probably, lack of time.
+_Todo comments_ are also okay (more like _okayish_) too if they contain a ticket number when something will be done. Otherwise, they are just dreams that will likely never come true. Unless _a dream_ is exactly what we want to document: a desire that the code was doing more than it does — error handling, special cases, supporting more platforms, minor features, and so on — but it wasn’t implemented due to, probably, lack of time.
 
 <!--
 const Environment = {
@@ -181,7 +181,7 @@ Now, it’s clear whether we intentionally ignore errors or we want to add error
 
 I> You may encounter various styles of todo comments: `TODO`, `FIXME`, `UNDONE`, `@todo`, `@fixme`, and so on, though I prefer `TODO`.
 
-However, there’s a type of todo comments I don’t recommend – comments with expiration date:
+However, there’s a type of todo comments I don’t recommend — comments with expiration date:
 
 ```js
 // TODO [2024-05-12]: Refactor this code before the sprint ends

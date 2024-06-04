@@ -12,7 +12,7 @@ One of the biggest features of moderns development environments and code editors
 
 I [don’t do well with distractions](https://sapegin.me/blog/adhd-focus/) and overstimulation, so my environment is very minimal and with very low contrast. In some editors it’s called _zen mode_ but for me it’s my normal mode.
 
-1. Choose a nice coding font. I’ve been using different fonts over the years – Consolas, Hack... For the past few years I use MonoLisa.
+1. Choose a nice coding font. I’ve been using different fonts over the years — Consolas, Hack... For the past few years I use MonoLisa.
 
 2. Choose a comfortable theme with the right amount of color and contrast: the one that won’t make you tired after looking at it all day long. I had to make my own color theme because there aren’t many good looking light themes, and most of them have very high contrast too me. Bright and contrast colors distract and tire me.
 
