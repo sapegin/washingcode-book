@@ -1,12 +1,12 @@
 {#editing}
 
-## Learn your code editor
+# Learn your code editor
 
 <!-- description: Different techniques for editing code and customizing our environment to make our work more efficient and less tiring -->
 
 W> This chapter isn’t finished yet
 
-### Make it your own
+## Make it your own
 
 One of the biggest features of moderns development environments and code editors is their flexibility and customizability: hundreds of color schemes, fonts made specially for programming, any part of UI can be hidden or adjusted...
 
@@ -24,7 +24,7 @@ I [don’t do well with distractions](https://sapegin.me/blog/adhd-focus/) and o
 
 TODO: screenshot
 
-### Code navigation
+## Code navigation
 
 TODO: navigation to previous editing position
 
@@ -32,7 +32,7 @@ TODO: Navigation to symbol definition and usages
 
 TODO: Symbols
 
-### Multiple cursors
+## Multiple cursors
 
 I use multiple cursors all the time when I edit code. Usually, I use them in one of three ways:
 
@@ -75,7 +75,7 @@ Multiple cursors also help to avoid premature abstraction, when we have a few li
 
 TODO: Find an example
 
-### Code search
+## Code search
 
 The **fuzzy file opener** is one of my favorite tools. I use it all the time to open files I know exist, and, more importantly, to look for files I don’t know exist. For example, I need to save data in browser Local Storage. I don’t know if there’s any utility function to work with it already, so I’ll look for files with `localstorage` or `storage` in their name.
 
@@ -85,7 +85,7 @@ TODO: search (regexps?)
 
 {#spell-checking}
 
-### Spell checking
+## Spell checking
 
 English isn’t my native language, and having a spell checker pointing out typos in my code is immensely helpful. I’ve seen many misspelled words in comments, variable or function names, and so on, that could have been avoided with a specialized code spell checker.
 
@@ -101,7 +101,7 @@ I> We talk more about greppability (the quality that makes code findable) in the
 
 <!-- cspell:enable -->
 
-### Automated refactoring
+## Automated refactoring
 
 TODO: refactoring
 
@@ -114,7 +114,7 @@ TODO: Why default exports are bad: rename don’t always change these names, and
 
 I never learned to use more complex refactoring because they always need too much fixing after, and I feel that it’s easier to do the refactoring manually.
 
-### Artificial intelligence
+## Artificial intelligence
 
 Artificial intelligence (AI) is a new useful tool that’s already changing software development for better and for worse. I have many feelings and opinions on these changes, though they are probably out of scope of this book.
 

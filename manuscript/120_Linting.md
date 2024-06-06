@@ -1,6 +1,6 @@
 {#linting}
 
-## Lint your code
+# Lint your code
 
 <!-- description: How linters can help us maintain consistent and modern codebase, and promote some of the techniques discussed in the previous chapters -->
 
@@ -18,11 +18,11 @@ Almost anything that automates or simplifies bug fixing or code reviews worth im
 
 Linting in JavaScript has a long history that started in 2002 with JSLint by Douglas Crockford which was allowing developers catch some bugs but also was rigid and promoting a code style that nobody wanted to use. JSLint was later replaced by JSHint, which was less opinionated and more configurable, and then by [ESLint’s](https://eslint.org), which is now the standard for JavaScript linting with dozens of rules and plugins. There were a few other linters as well, like JSCS or Standard, but they were never as popular as these three.
 
-### Linting best practices
+## Linting best practices
 
 Let’s start with some healthy linting habits, and how to make linters work for the team, not against it.
 
-#### Prefer to have too few linter rules than too many
+### Prefer to have too few linter rules than too many
 
 It’s a good idea to start with recommended configs (like ESLint’s `eslint:recommended`), and only add rules that are important for the team. A road to hell is paved with useless linter rules.
 
@@ -36,7 +36,7 @@ export default [js.configs.recommended];
 
 Here, we only include [recommended rules](https://eslint.org/docs/latest/rules/).
 
-#### Define linter rules as errors, not warnings
+### Define linter rules as errors, not warnings
 
 Developers don’t fix warnings; most of the time, they don’t even see them. And there’s nothing more annoying than working on a project with hundreds of unfixed linting warnings — they distract from actual errors when you edit code, and have linter highlighting enabled in the editor.
 
@@ -55,7 +55,7 @@ export default [
 ];
 ```
 
-#### Define autofixable linter rules as warnings
+### Define autofixable linter rules as warnings
 
 Ideally, anything that could be fixed by a machine shouldn’t be marked as an error or warning or highlighted at all while we’re writing code; there’s no reason to distract us with things that don’t require our immediate attention.
 
@@ -72,7 +72,7 @@ export default [
 ];
 ```
 
-#### Clean up rules regularly
+### Clean up rules regularly
 
 If developers often disable a particular linter rule using special comments (like `eslint-disable`), we should probably remove this rule.
 
@@ -109,7 +109,7 @@ Such rules are too opinionated and lack the nuance that experienced developers h
 
 (Now, we can also rewrite this code using optional chaining: `post?.description ?? post?.shortDescription`, which wasn’t common when this code was written.)
 
-#### Document rules
+### Document rules
 
 There’s nothing more annoying than a linter demanding to change the code just because there’s a rule saying that one way of coding a particular pattern is better than any other.
 
@@ -151,7 +151,7 @@ export default [
 
 And even this example can be improved with some examples.
 
-#### Don’t disable linter rules for the whole file
+### Don’t disable linter rules for the whole file
 
 Disabling linter rules for a particular line instead of the whole file, will allow the linter to find violations of the same rule in other lines.
 
@@ -184,7 +184,7 @@ for (;;) {
 
 <!-- expect(allPhotos).toEqual(['https://example.com']) -->
 
-#### Don’t disable all linter rules for a line
+### Don’t disable all linter rules for a line
 
 Disabling a particular linter rule that is expected in a particular line of code, instead of all rules, will allow the linter to find other issues in the same file. Similar to the previous tip.
 
@@ -218,23 +218,23 @@ console.log(
 
 T> Developing command-line tools is a rare case where disabling `console.log()` for the whole file might be a good idea — we’ll likely have way too many of these logs, and disabling linter for each would clutter the code and reduce its readability.
 
-#### Disable style rules
+### Disable style rules
 
 In the past, we were using linters not only to find bugs in the code but also to establish a consistent code style on a project. Now, this job is done better by code formatters, and there’s little need to keep style rules in our linter configs.
 
 I> We’ll cover a few exceptions later in this chapter. We talk more code style in the [Code style](#code-style) chapter, and about code formatting in the [Autoformat your code](#formatting).
 
-#### Don’t overpolice the code
+### Don’t overpolice the code
 
 Unless the coding culture in the team is especially miserable (and in this case, instead of fighting it, you’re better off updating your CV), a linting setup that’s too rigid does more harm than good. It’s better to trust our colleagues and expect that they know how to do their job, so we can use linters to catch bugs and code reviews to discuss different approaches. There’s always more than one correct way of doing something in programming, and having a linter that allows only one way isn’t solving any real problem but makes our colleagues suffer more.
 
-### My top 11 linter rules that should have never existed
+## My top 11 linter rules that should have never existed
 
 Many linter rules don’t solve any actual problem with the code; they merely enforce a particular way of writing code that one of the team members likes the most. Many of such rules are purely aesthetic.
 
 Below is a selection of rules that create more problems than they solve. Some are popular and even included in recommended presets; some are quite obscure but still could be good reminders that we shouldn’t try to validate and control everything. And I’m not the only one who [gets mad because of a linter rule](https://twitter.com/iamsapegin/status/1230760798584098817).
 
-#### [no-undefined](https://eslint.org/docs/rules/no-undefined)
+### [no-undefined](https://eslint.org/docs/rules/no-undefined)
 
 This rule disallows the use of `undefined`.
 
@@ -246,7 +246,7 @@ It’s true that one can overwrite the value of `undefined`, but I wouldn’t bo
 
 Some people believe that `null` and `undefined` have different semantics: they say that `null` is _intentional absence of any value_, and `undefined` is like _the value was never defined or unknown_. For me, it’s 50 shades of nothingness, and I doubt many developers reading code, that’s using both, would know the difference.
 
-#### [no-else-return](https://eslint.org/docs/rules/no-else-return)
+### [no-else-return](https://eslint.org/docs/rules/no-else-return)
 
 This rule forces us to write:
 
@@ -286,13 +286,13 @@ I prefer the latter, but I’d never force anyone to write either of them — bo
 
 I> We talk more about parallel coding in the [Don’t make me think](#no-thinking) chapter.
 
-#### [id-length](https://eslint.org/docs/rules/id-length)
+### [id-length](https://eslint.org/docs/rules/id-length)
 
 This rule allows us to define the minimum and maximum length for an identifier, because short names could be potentially less readable, which is true in many cases. However, like any attempt to measure code quality by its physical dimensions, this rule causes more damage than good.
 
 I> We talk about naming in the [Naming is hard](#naming) chapter.
 
-#### [max-classes-per-file](https://eslint.org/docs/rules/max-classes-per-file)
+### [max-classes-per-file](https://eslint.org/docs/rules/max-classes-per-file)
 
 This rule limits the number of JavaScript classes in a file. Usually set to 1, meaning we could declare only one class per file.
 
@@ -302,7 +302,7 @@ I> We talk about splitting code into functions in the [Divide and conquer, or me
 
 There are other similar rules that try to artificially limit the number of React components, lines of code, statements, and so on. The only useful rule of this kind is `max-params` (see below).
 
-#### [no-constant-condition](https://eslint.org/docs/rules/no-constant-condition)
+### [no-constant-condition](https://eslint.org/docs/rules/no-constant-condition)
 
 This rule prevents us from writing unnecessary conditions where the condition is constant:
 
@@ -357,7 +357,7 @@ I don’t see any problem with either way of writing an infinite loop, and don�
 
 We can disable loop checking in the rule settings. However, the usefulness of this rule is questionable.
 
-#### [no-warning-comments](https://eslint.org/docs/latest/rules/no-warning-comments)
+### [no-warning-comments](https://eslint.org/docs/latest/rules/no-warning-comments)
 
 This rule disallows `TODO` and `FIXME` comments. This is how it’s described in the docs:
 
@@ -445,9 +445,9 @@ I’m not a huge fan of teeny-tiny functions in general, especially when the lin
 
 I> We talk about splitting code into functions in the [Divide and conquer, or merge and relax](#divide) chapter.
 
-### Good rules when used correctly
+## Good rules when used correctly
 
-#### [eqeqeq](https://archive.eslint.org/docs/rules/eqeqeq)
+### [eqeqeq](https://archive.eslint.org/docs/rules/eqeqeq)
 
 This rule requires us to use type-safe equality operators `===` and `!==` instead of `==` and `!=` that do type coercion. This is generally considered a good practice because it may prevent certain bugs where the type coercion gives unexpected results.
 
@@ -483,7 +483,7 @@ In my projects, this pattern isn’t common enough to allow an exception, and I 
 
 Shockingly, this rule isn’t included in the recommended ESLint config.
 
-#### [array-callback-return](https://eslint.org/docs/latest/rules/array-callback-return)
+### [array-callback-return](https://eslint.org/docs/latest/rules/array-callback-return)
 
 This rule demands us to use `return` statement in array method callbacks (`map`, `filter`, `find`, `reduce`, etc.).
 
@@ -542,7 +542,7 @@ I> See the [Avoid loops](#no-loops) chapter for many more examples of using arra
 
 This rule is not autofixable and is not included in the recommended config.
 
-#### [curly](https://archive.eslint.org/docs/rules/curly)
+### [curly](https://archive.eslint.org/docs/rules/curly)
 
 I rarely complain about code style, but conditions and loops written without braces are my pet peeve. For me, they are too easy to miss when reading code, especially when the condition or loop header is long:
 
@@ -588,7 +588,7 @@ It also gives the condition a familiar shape, which makes it easier to spot whil
 
 This rule is autofixable but not included in the recommended config.
 
-#### [max-params](https://eslint.org/docs/rules/max-params)
+### [max-params](https://eslint.org/docs/rules/max-params)
 
 This rule limits the number of parameters a function can have. It may sound similar to `max-classes-per-file` but it’s actually useful.
 
@@ -631,7 +631,7 @@ I> To learn more about the problem it solves, see the [Name things](#name-things
 
 This rule is not autofixable and is not included in the recommended config.
 
-#### [sort-imports](https://eslint.org/docs/rules/sort-imports)
+### [sort-imports](https://eslint.org/docs/rules/sort-imports)
 
 This rule requires us to sort `import` statements in a particular way: by type or alphabetically. The only benefit is aesthetic, and unless it could be done without distracting developers and making them move the imports manually, this rule does much more harm than good.
 
@@ -643,7 +643,7 @@ In WebStorm and Visual Studio Code, we could hide the block of import statements
 
 This rule is partially autofixable but not included in the recommended config.
 
-#### [@typescript-eslint/ban-ts-comment](https://typescript-eslint.io/rules/ban-ts-comment/)
+### [@typescript-eslint/ban-ts-comment](https://typescript-eslint.io/rules/ban-ts-comment/)
 
 TypeScript is a great tool, but sometimes it’s impossible or too hard to type things correctly. Often, this is because of the incomplete or incorrect types for third-party libraries. Sometimes, we need to tell the TypeScript compiler to shut the duck up with the `// @ts-ignore` comment, and then we need to tell the linter to shut the duck up because there’s a rule that disallows `ts-ignore` comments... So we end up with this:
 
@@ -688,7 +688,7 @@ Unfortunately, we still can’t specify a particular TypeScript error (similar t
 
 This rule is not autofixable but is included in the recommended config (with the default value of 3 — the same I’d use myself).
 
-#### [unicorn/prevent-abbreviations](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prevent-abbreviations.md)
+### [unicorn/prevent-abbreviations](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prevent-abbreviations.md)
 
 This rule improves readability by disallowing some abbreviations. We already talked about abbreviations in the [Abbreviations and acronyms](#abbr) section of the _Naming is hard_ chapter.
 
@@ -698,7 +698,7 @@ This rule is autofixable unless there are multiple replacements for a certain ab
 
 T> [Unicorn ESLint plugin](https://github.com/sindresorhus/eslint-plugin-unicorn) has many useful rules to improve codebase consistency and promote modern features of JavaScript. Most of these rules are autofixable.
 
-### Linting legacy code
+## Linting legacy code
 
 Setting up a linter on an existing project can be challenging. The recommended ESLint config alone, without any extra plugins, can report thousands of issues. Fixing them all at once would take too much time, so we need to introduce them gradually.
 
@@ -714,7 +714,7 @@ I> Fixing all linting issues in a file while making changes in this file is a go
 
 Having multiple configs may also help: for example, add a separate, less strict config for integration tests.
 
-### The ideal linting setup (dream)
+## The ideal linting setup (dream)
 
 Unfortunately, [the ideal linting setup](https://twitter.com/iamsapegin/status/1527553857416462336), as I see it, isn’t possible with the current tools. The UX of linters is still very poor and hasn’t improved in the last ten years. Mostly, they just vomit a bunch of cryptic error messages without any explanation and leave you to deal with them alone.
 
@@ -728,7 +728,7 @@ Not sure it’s worth the trouble, though.
 
 I wish linters would allow us show links to the team style guide for each error, so developers could read an explanation why a particular rule was added by a particular team. The explanations in the linter docs are hopelessly generic and unhelpful.
 
-### The ideal linting setup (reality)
+## The ideal linting setup (reality)
 
 In reality, there’s not much we can do to improve the linting experience. Here’s how I set up ESLint:
 
@@ -787,7 +787,7 @@ export default [
 
 _Tip:_ [Use Mrm](https://mrm.js.org/) to add ESLint and Husky/lint-staged to the project.
 
-### Recommended ESLint plugins
+## Recommended ESLint plugins
 
 There are hundreds of plugins for ESLint; few are useful. I have these plugins on many of my projects and find them more useful than annoying:
 
@@ -802,7 +802,7 @@ There are hundreds of plugins for ESLint; few are useful. I have these plugins o
 - [Cypress](https://github.com/cypress-io/eslint-plugin-cypress): rules for Cypress.
 - [Unicorn](https://github.com/sindresorhus/eslint-plugin-unicorn): useful rules to improve codebase consistency and promote modern JavaScript.
 
-### Conclusion
+## Conclusion
 
 Linters are useful to prevent bugs and maintain a consistent codebase but can be misused.
 
