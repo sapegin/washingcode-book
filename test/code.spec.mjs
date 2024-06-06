@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import _ from 'lodash';
-import glob from 'glob';
+import { globSync } from 'glob';
 import { describe, test, afterEach } from 'vitest';
 import { build } from 'esbuild';
 import { NodeVM } from 'vm2';
@@ -180,7 +180,7 @@ function testMarkdown(markdown, filepath) {
 }
 
 // RUN!
-glob.sync(MANUSCRIPT_PATTERN).forEach(filepath => {
+globSync(MANUSCRIPT_PATTERN).forEach(filepath => {
   const content = fs.readFileSync(filepath, 'utf8');
   testMarkdown(content, filepath);
 });
