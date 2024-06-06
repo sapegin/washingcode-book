@@ -1,0 +1,4 @@
+flowchart TD
+    A(Idle) -->|Load| B(Loading)
+    B -->|LoadingSuccess| D(Ready)
+    B -->|LoadingFailed| E(Failed)

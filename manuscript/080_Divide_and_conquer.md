@@ -222,7 +222,7 @@ const spacing = {
   large: 24,
   xlarge: 32,
   xxlarge: 40
-};
+} as const;
 ```
 
 <!-- expect(spacing.xlarge).toEqual(32) -->
