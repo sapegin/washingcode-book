@@ -637,9 +637,9 @@ This rule requires us to sort `import` statements in a particular way: by type o
 
 I prefer not to see imports at all, and let my editor manage them. In this case enabling this rule as a warning and enabling autofixing on pre-commit isn’t such a bad idea. Otherwise auto importing would make the code messy. I wish this was actually working without issues!
 
-In WebStorm and Visual Studio Code, we could hide the block of import statements by default and expand it only when we need it:
+T> In Visual Studio Code and WebStorm, we could hide the block of import statements by default, and expand it only when we need it:
 
-![Hidden by default imports in WebStorm](images/webstorm-import-spoiler.png)
+![Hidden by default imports in Visual Studio Code](images/folded-imports.png)
 
 This rule is partially autofixable but not included in the recommended config.
 
