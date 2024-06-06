@@ -810,33 +810,31 @@ I don’t think freezing is worth it on its own unless it is part of another lib
 
 **Simplifying object updates** is another option that we can combine with mutation prevention.
 
-One of the ways to simplify object updates is to use a library like [Immutable.js](https://immutable-js.github.io/immutable-js/):
+One of the ways to simplify object updates is to use a library like [Immutable.js](https://immutable-js.com):
 
 ```js
 import { Map } from 'immutable';
 const map1 = Map({ food: 'pizza', drink: 'coffee' });
 const map2 = map1.set('drink', 'vodka');
-// -> Map({ food: 'pizza', drink: 'vodka' })
 ```
 
 <!-- expect(map2.toJS()).toEqual({ food: 'pizza', drink: 'vodka' }) -->
 
-I’m not a big fan of it because it has a completely custom API that one has to learn. Also, converting arrays and objects from plain JavaScript to Immutable.js and back every time we need to work with any native JavaScript API or almost any third-party API, is annoying and feels like Immutable.js creates more problems than it solves.
+I’m not a big fan of it because one has to work with Immutable objects instead of plain JavaScript objects or arrays, and they have a completely custom API that one has to learn. Also, converting arrays and objects from plain JavaScript to Immutable.js and back every time we need to work with any native JavaScript API or almost any third-party API, is annoying and overall, it feels like Immutable.js creates more problems than it solves.
 
-Another option is [Immer](https://immerjs.github.io/immer/), which allows us to use any mutating operations on a _draft_ version of an object, without affecting the original object in any way. Immer intercepts each operation, and creates a new object:
+Another option is [Immer](https://immerjs.github.io/immer/), which allows us to use any mutating operations on a _draft_ version of an object, without affecting the original object in any way. Immer intercepts each operation, and returns a new object:
 
 ```js
-import produce from 'immer';
+import { produce } from 'immer';
 const map1 = { food: 'pizza', drink: 'coffee' };
-const map2 = produce(map1, draftState => {
-  draftState.drink = 'vodka';
+const map2 = produce(map1, draft => {
+  draft.drink = 'vodka';
 });
-// -> { food: 'pizza', drink: 'vodka' }
 ```
 
 <!-- expect(map2).toEqual({ food: 'pizza', drink: 'vodka' }) -->
 
-And Immer will freeze the resulting object in development.
+T> Immer freezes the resulting object using `Object.freeze()` in development environment to avoid accidental mutation.
 
 ## Even mutation is not so bad sometimes
 
