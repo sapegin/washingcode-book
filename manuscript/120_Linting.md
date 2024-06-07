@@ -739,6 +739,8 @@ In reality, there’s not much we can do to improve the linting experience. Here
 5. Enable ESLint autofix on file save in the editor.
 6. Add ESLint with autofix to the Git pre-commit hook using [Husky](https://github.com/typicode/husky) and [lint-staged](https://github.com/okonet/lint-staged) to make sure that all the code in the repository is linted.
 
+T> Some developers don’t like to have linters on a pre-commit hook because they want to be able to commit unfinished code to a branch either as a backup or to share it with someone. Running only linters (with autofix) and formatters but not type checking and tests in a hook is a good compromise, and works in most cases. We can always skip the hooks with the `--no-verify` option of the `git commit` command.
+
 Our ESLint config could look like this:
 
 ```js
@@ -785,7 +787,7 @@ export default [
 ];
 ```
 
-_Tip:_ [Use Mrm](https://mrm.js.org/) to add ESLint and Husky/lint-staged to the project.
+T> [Use Mrm](https://mrm.js.org/) to add ESLint and Husky/lint-staged to the project.
 
 ## Recommended ESLint plugins
 
