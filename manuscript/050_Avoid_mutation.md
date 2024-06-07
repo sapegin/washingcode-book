@@ -329,7 +329,7 @@ Other mutating array methods to watch out for are:
 - [splice()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
 - [unshift()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift)
 
-I> Thanks to the [Change Array by copy](https://github.com/tc39/proposal-change-array-by-copy) proposal, JavaScript will have immutable alternatives to several of the mentioned above methods: `toReversed()`, `toSorted()`, `toSpliced()`, and `with()`. The proposal will be included in ECMAScript 2023.
+I> Thanks to the [Change Array by copy](https://github.com/tc39/proposal-change-array-by-copy) proposal, JavaScript will have immutable alternatives to several of the mentioned above methods: `toReversed()`, `toSorted()`, `toSpliced()`, and `with()`. The proposal is included in ECMAScript 2023.
 
 ## Avoid mutation of function parameters
 
@@ -751,7 +751,7 @@ While we’re waiting for JavaScript to get native immutability, there are two n
 - prevent mutations;
 - simplify object updates.
 
-I> The [JavaScript records & tuples proposal](https://github.com/tc39/proposal-record-tuple) is now in Stage 2.
+I> The [JavaScript records & tuples proposal](https://github.com/tc39/proposal-record-tuple) that introduces deeply immutable object-like (`Record`s) and array-like (`Tuple`s) structures is now in Stage 2.
 
 **Preventing mutations** is good because it’s so easy to miss them during code reviews, and then spend many hours debugging weird issues.
 
