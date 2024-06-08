@@ -40,7 +40,8 @@
         "whitespace"
       ]
     },
-    "@textlint-rule/no-unmatched-pair": true
+    "@textlint-rule/no-unmatched-pair": true,
+    "doubled-spaces": true
   },
   "filters": {
     "comments": true
