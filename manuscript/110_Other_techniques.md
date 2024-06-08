@@ -891,4 +891,6 @@ When we spend too much time on a single task, our brain get blurry and stops see
 
 Another approach is called _rubberducking_, or [rubber duck debugging](https://en.wikipedia.org/wiki/Rubber_duck_debugging). The idea is to explain a problem in detail to someone else: a friend, colleague, or, to a rubber duck. The recipient isn’t important here and supposed to just listen. Often the act of explaining the issue helps us to see where the problem is and come up with a solution.
 
+![Rubberducking](images/rubberducking.jpg)
+
 This is similar to how writing an article on a certain topic helps us to spot any gaps in our understanding of the topic and forces us to learn it much deeper. This is my favorite way of learning new things.
