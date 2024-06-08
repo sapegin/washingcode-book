@@ -52,7 +52,7 @@ module.exports = {
     '@textlint-rule/no-unmatched-pair': true,
     'doubled-spaces': true,
     'alive-link': {
-      ignore: [url => url.startsWith('https://www.amazon.com/')],
+      preferGET: ['https://www.amazon.com', 'https://www.reddit.com'],
       checkRelative: true,
       baseURI: url => {
         // Images
