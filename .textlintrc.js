@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { globSync } = require('glob');
 
+// Read all content files to use for relative links validation
 const chapters = globSync('manuscript/*.md').map(filename => ({
   filename,
   text: fs.readFileSync(filename, 'utf8')
@@ -52,7 +53,13 @@ module.exports = {
     '@textlint-rule/no-unmatched-pair': true,
     'doubled-spaces': true,
     'alive-link': {
-      preferGET: ['https://www.amazon.com', 'https://www.reddit.com'],
+      preferGET: ['https://www.amazon.com'],
+      ignore: [
+        // Skip on GitHub because it always fails there
+        url =>
+          process.env.GITHUB_ACTIONS &&
+          url.startsWith('https://www.reddit.com')
+      ],
       checkRelative: true,
       baseURI: url => {
         // Images
@@ -62,6 +69,7 @@ module.exports = {
 
         // Chapter links
         if (url.startsWith('#')) {
+          // Try to find a chapter with the anchor (`{#pizza}`)
           const chapter = chapters.find(({ text }) =>
             text.includes(`{${url}}`)
           );
