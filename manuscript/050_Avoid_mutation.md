@@ -757,11 +757,11 @@ I> The [JavaScript records & tuples proposal](https://github.com/tc39/proposal-r
 
 One way to prevent mutations is to use a linter, and ESLint has several plugins that try to do just that.
 
+T> The [eslint-plugin-better-mutation](https://github.com/sloops77/eslint-plugin-better-mutation) plugin disallows any mutations, except for local variables in functions. This is a great idea because it prevents bugs caused by the mutation of shared objects but allows us to use mutations locally. Unfortunately, it breaks even in simple cases, such as a mutation occurring inside `forEach()`.
+
 I> We talk about linting in the [Lint your code](#linting) chapter.
 
-The [eslint-plugin-better-mutation](https://github.com/sloops77/eslint-plugin-better-mutation) plugin disallows any mutations, except for local variables in functions. This is a great idea because it prevents bugs caused by the mutation of shared objects but allows us to use mutations locally. Unfortunately, it breaks even in simple cases, such as a mutation occurring inside `forEach()`.
-
-Another way to prevent mutations is to mark all objects and arrays as read-only in TypeScript or Flow.
+Another way to prevent mutations is to mark all objects and arrays as read-only in TypeScript.
 
 For example, using the `readonly` modifier in TypeScript:
 
@@ -798,11 +798,9 @@ expect(result).toEqual([1, 2, 3])
 
 Note that both `readonly` modifier and `Readonly` utility type are shallow, so we need to add them to all nested objects too.
 
-The [eslint-plugin-functional](https://github.com/jonaskello/eslint-plugin-functional) plugin has the rule to require read-only types everywhere, which may be more convenient than remembering to do that ourselves. Unfortunately, it only supports `readonly` modifier but not `Readonly` utility type.
+T> The [eslint-plugin-functional](https://github.com/jonaskello/eslint-plugin-functional) plugin has the rule to require read-only types everywhere, which may be more convenient than remembering to do that ourselves.
 
-I think it’s a good idea, because there’s no runtime cost, though it makes type definitions more verbose.
-
-I’d prefer [an option in TypeScript](https://github.com/microsoft/TypeScript/issues/32758) to make all types read-only by default with a way to opt out.
+I think adding `readonly` modifiers is a good idea, because there’s no runtime cost, though it makes type definitions more verbose. However, I’d prefer [an option in TypeScript](https://github.com/microsoft/TypeScript/issues/32758) to make all types read-only by default with a way to opt out.
 
 Similar to making objects read-only on the type level, we can make them read-only at runtime with `Object.freeze`. `Object.freeze` is also shallow, so we’d have to [deep freezing](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze) to ensure that nested objects are also frozen, and we might want to have freezing only in development since it can otherwise slow our app down.
 

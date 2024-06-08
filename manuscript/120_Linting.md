@@ -714,6 +714,15 @@ I> Fixing all linting issues in a file while making changes in this file is a go
 
 Having multiple configs may also help: for example, add a separate, less strict config for integration tests.
 
+## Not just for JavaScript
+
+Linters exist for almost any programming or markup language. I have experience with two:
+
+- [Stylelint](https://stylelint.io): linter for CSS, also supports CSS preprocessors and styled-components.
+- [Textlint](https://textlint.github.io): linter for Markdown and plain text. I use it extensively for checking this book and [my blog](https://sapegin.me/blog/).
+
+T> I created [several plugins for Textlint](https://www.npmjs.com/search?q=maintainer%3Asapegin%20keywords%3Atextlint) to ensure consistent terminology, avoid buzzwords and falses, an so on.
+
 ## The ideal linting setup (dream)
 
 Unfortunately, [the ideal linting setup](https://twitter.com/iamsapegin/status/1527553857416462336), as I see it, isn’t possible with the current tools. The UX of linters is still very poor and hasn’t improved in the last ten years. Mostly, they just vomit a bunch of cryptic error messages without any explanation and leave you to deal with them alone.
@@ -803,6 +812,11 @@ There are hundreds of plugins for ESLint; few are useful. I have these plugins o
 - [Jest DOM](https://github.com/testing-library/eslint-plugin-jest-dom): rules for jest-dom.
 - [Cypress](https://github.com/cypress-io/eslint-plugin-cypress): rules for Cypress.
 - [Unicorn](https://github.com/sindresorhus/eslint-plugin-unicorn): useful rules to improve codebase consistency and promote modern JavaScript.
+
+Other plugins mentioned in the book:
+
+- [Better mutation](https://github.com/sloops77/eslint-plugin-better-mutation): disallows any mutations, except for local variables in functions.
+- [Functional](https://github.com/jonaskello/eslint-plugin-functional): disables mutation and promotes functional programming.
 
 ## Conclusion
 
