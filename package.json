@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@testing-library/react": "^16.0.0",
+    "@textlint-rule/textlint-rule-no-unmatched-pair": "^2.0.2",
     "cspell": "^8.8.4",
     "esbuild": "^0.21.4",
     "eslint": "^8.56.0",

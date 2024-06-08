@@ -39,7 +39,8 @@
         "vomit",
         "whitespace"
       ]
-    }
+    },
+    "@textlint-rule/no-unmatched-pair": true
   },
   "filters": {
     "comments": true
