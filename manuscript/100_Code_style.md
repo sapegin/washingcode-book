@@ -4,7 +4,7 @@
 
 <!-- description: Which code styles are actually improving readability and which are just opinions that don’t matter much -->
 
-I used to be very strict about [code style](https://blog.sapegin.me/all/prettier/). I thought my code style was better than others’, but later I realized that it was just different. And it wasn’t the most popular, so anyone else’s code looked wrong to me.
+I used to be very strict about [code style](https://sapegin.me/blog/prettier/). I thought my code style was better than others’, but later I realized that it was just different. And it wasn’t the most popular, so anyone else’s code looked wrong to me.
 
 For example, after reading the [The Programmers’ Stone](https://www.datapacrat.com/Opinion/Reciprocality/r0/index.html) I was formatting braces like this for a long time:
 
@@ -362,7 +362,7 @@ if (!('garlic' in guacamole)) {
 expect(result).toBe(true)
 -->
 
-This pattern was always awkward to write and read for me until my friend Oleg [opened a whole new world for me](https://twitter.com/oleg008/status/1519593163803049984). We could do the same trick as above to make it more readable:
+This pattern was always awkward to write and read for me until my friend Oleg [opened a whole new world for me](https://x.com/oleg008/status/1519593163803049984). We could do the same trick as above to make it more readable:
 
 <!--
 const guacamole = {}
@@ -447,7 +447,7 @@ expect(result).toBe(false)
 
 Now the conditions look significantly different and there’s no way to misinterpret them.
 
-I’m starting to think that using `!` in conditions is [generally an antipattern](https://twitter.com/Jack_Franklin/status/1189477268764188672), so instead of:
+I’m starting to think that using `!` in conditions is [generally an antipattern](https://x.com/Jack_Franklin/status/1189477268764188672), so instead of:
 
 <!--
 const isFriday = false
@@ -912,6 +912,6 @@ My rule of thumb here is: _automate or forget_. For example, [Prettier](https://
 
 I> We talk about Prettier and code formatting in the [Autoformat your code](#formatting) chapter.
 
-Be vigilant when you adapt [a popular code styles](https://blog.sapegin.me/all/javascript-code-styles/): many are too opinionated and want us to write code in a very specific way, even when it doesn’t improve the readability or maintainability of the code, or reduce the number of bugs.
+Be vigilant when you adapt [a popular code styles](https://sapegin.me/blog/javascript-code-styles/): many are too opinionated and want us to write code in a very specific way, even when it doesn’t improve the readability or maintainability of the code, or reduce the number of bugs.
 
 Prefer explicit over implicit, write code to maximize readability but don’t be too strict with others when they don’t do it the same way you would. Next time you review someone else’s code and want to ask them to change a piece of code, ask yourself: does it really make code more readable and maintainable or just makes it look more familiar to me. If it’s the latter, please don’t write that comment.

@@ -26,7 +26,7 @@ Sometimes, we have to roll back an abstraction. When we start adding conditions 
 
 Duplication is cheaper and healthier than the wrong abstraction.
 
-I> See Sandi Metz’s article [The Wrong Abstraction](https://www.sandimetz.com/blog/2016/1/20/the-wrong-abstraction) for a great explanation.
+I> See Sandi Metz’s article [The Wrong Abstraction](https://sandimetz.com/blog/2016/1/20/the-wrong-abstraction) for a great explanation.
 
 The higher level of the code is, the longer we should wait before we abstract it. Low-level utility abstractions are much more obvious and stable than business logic.
 
@@ -34,7 +34,7 @@ The higher level of the code is, the longer we should wait before we abstract it
 
 _Code reuse_ isn’t the only or even most important reason to extract a piece of code into a separate function or module.
 
-_Code length_ is often [used as a metric](https://softwareengineering.stackexchange.com/questions/27798/what-should-be-the-maximum-length-of-a-function) when we should split a module or a function, but size alone doesn’t make code hard to read or maintain, and often splitting code into many teeny-tiny functions makes it harder to read and modify.
+_Code length_ is often [used as a metric](https://softwareengineering.stackexchange.com/questions/27798/what-is-proven-as-a-good-maximum-length-of-a-function) when we should split a module or a function, but size alone doesn’t make code hard to read or maintain, and often splitting code into many teeny-tiny functions makes it harder to read and modify.
 
 You probably won’t find a lot of small functions in my code. In my experience, the most useful reasons to split code are _change frequency_ and _change reason_.
 

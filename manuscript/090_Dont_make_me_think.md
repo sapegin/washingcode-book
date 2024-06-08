@@ -234,7 +234,7 @@ const array = [...Array(10).keys()];
 
 <!-- expect(array).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) -->
 
-This [wonderful one-liner](https://stackoverflow.com/a/33352604/1973105) fills an array with numbers from 0 to 9. `Array(10)` creates an array with 10 _empty_ elements, then the `keys()` method returns the keys (numbers from 0 to 9) as an iterator, which we then convert into a plain array using the spread syntax. Exploding head emoji...
+This [wonderful one-liner](https://stackoverflow.com/questions/3746725/how-to-create-an-array-containing-1-n/33352604#33352604) fills an array with numbers from 0 to 9. `Array(10)` creates an array with 10 _empty_ elements, then the `keys()` method returns the keys (numbers from 0 to 9) as an iterator, which we then convert into a plain array using the spread syntax. Exploding head emoji...
 
 ```js
 const array = [];

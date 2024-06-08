@@ -49,7 +49,7 @@ _Immutability_ or _immutable data structures_, meaning that to change a value we
 
 Also, don’t forget that `const` in JavaScript only prevents reassignments — not mutations.
 
-I> We talk about reassignments in the previous chapter, [Avoid reassigning variables](no-reassigning).
+I> We talk about reassignments in the previous chapter, [Avoid reassigning variables](#no-reassigning).
 
 ## Avoid mutating operations
 
@@ -676,7 +676,7 @@ I’d advice against it: spreading is slightly more readable, though both method
 
 ## Updating objects
 
-Modern JavaScript makes it easier to do immutable data updates thanks to [the spread syntax](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax). Before the spread syntax, we had to write something like:
+Modern JavaScript makes it easier to do immutable data updates thanks to [the spread syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax). Before the spread syntax, we had to write something like:
 
 ```js
 const prev = { coffee: 1 };
@@ -699,9 +699,9 @@ const next = { ...prev, pizza: 42 };
 
 This does the same thing but is less verbose, and no need to remember `Object.assign()`’s quirks.
 
-And before the [Object.assign()](http://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) method in ECMAScript 2015, we didn’t even try to avoid mutations: it was too painful.
+And before the [Object.assign()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) method in ECMAScript 2015, we didn’t even try to avoid mutations: it was too painful.
 
-I> Redux has a great [page on immutable update patterns](https://redux.js.org/recipes/structuring-reducers/immutable-update-patterns): it describes patterns for updating arrays and objects without mutations, and it’s useful even if we don’t use Redux.
+I> Redux has a great [page on immutable update patterns](https://redux.js.org/usage/structuring-reducers/immutable-update-patterns): it describes patterns for updating arrays and objects without mutations, and it’s useful even if we don’t use Redux.
 
 And still, spread syntax quickly gets incredibly verbose:
 
@@ -798,7 +798,7 @@ expect(result).toEqual([1, 2, 3])
 
 Note that both `readonly` modifier and `Readonly` utility type are shallow, so we need to add them to all nested objects too.
 
-T> The [eslint-plugin-functional](https://github.com/jonaskello/eslint-plugin-functional) plugin has the rule to require read-only types everywhere, which may be more convenient than remembering to do that ourselves.
+T> The [eslint-plugin-functional](https://github.com/eslint-functional/eslint-plugin-functional) plugin has the rule to require read-only types everywhere, which may be more convenient than remembering to do that ourselves.
 
 I think adding `readonly` modifiers is a good idea, because there’s no runtime cost, though it makes type definitions more verbose. However, I’d prefer [an option in TypeScript](https://github.com/microsoft/TypeScript/issues/32758) to make all types read-only by default with a way to opt out.
 

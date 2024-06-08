@@ -232,9 +232,9 @@ Unless the coding culture in the team is especially miserable (and in this case,
 
 Many linter rules don’t solve any actual problem with the code; they merely enforce a particular way of writing code that one of the team members likes the most. Many of such rules are purely aesthetic.
 
-Below is a selection of rules that create more problems than they solve. Some are popular and even included in recommended presets; some are quite obscure but still could be good reminders that we shouldn’t try to validate and control everything. And I’m not the only one who [gets mad because of a linter rule](https://twitter.com/iamsapegin/status/1230760798584098817).
+Below is a selection of rules that create more problems than they solve. Some are popular and even included in recommended presets; some are quite obscure but still could be good reminders that we shouldn’t try to validate and control everything. And I’m not the only one who [gets mad because of a linter rule](https://x.com/iamsapegin/status/1230760798584098817).
 
-### [no-undefined](https://eslint.org/docs/rules/no-undefined)
+### [no-undefined](https://eslint.org/docs/latest/rules/no-undefined)
 
 This rule disallows the use of `undefined`.
 
@@ -246,7 +246,7 @@ It’s true that one can overwrite the value of `undefined`, but I wouldn’t bo
 
 Some people believe that `null` and `undefined` have different semantics: they say that `null` is _intentional absence of any value_, and `undefined` is like _the value was never defined or unknown_. For me, it’s 50 shades of nothingness, and I doubt many developers reading code, that’s using both, would know the difference.
 
-### [no-else-return](https://eslint.org/docs/rules/no-else-return)
+### [no-else-return](https://eslint.org/docs/latest/rules/no-else-return)
 
 This rule forces us to write:
 
@@ -286,13 +286,13 @@ I prefer the latter, but I’d never force anyone to write either of them — bo
 
 I> We talk more about parallel coding in the [Don’t make me think](#no-thinking) chapter.
 
-### [id-length](https://eslint.org/docs/rules/id-length)
+### [id-length](https://eslint.org/docs/latest/rules/id-length)
 
 This rule allows us to define the minimum and maximum length for an identifier, because short names could be potentially less readable, which is true in many cases. However, like any attempt to measure code quality by its physical dimensions, this rule causes more damage than good.
 
 I> We talk about naming in the [Naming is hard](#naming) chapter.
 
-### [max-classes-per-file](https://eslint.org/docs/rules/max-classes-per-file)
+### [max-classes-per-file](https://eslint.org/docs/latest/rules/max-classes-per-file)
 
 This rule limits the number of JavaScript classes in a file. Usually set to 1, meaning we could declare only one class per file.
 
@@ -302,7 +302,7 @@ I> We talk about splitting code into functions in the [Divide and conquer, or me
 
 There are other similar rules that try to artificially limit the number of React components, lines of code, statements, and so on. The only useful rule of this kind is `max-params` (see below).
 
-### [no-constant-condition](https://eslint.org/docs/rules/no-constant-condition)
+### [no-constant-condition](https://eslint.org/docs/latest/rules/no-constant-condition)
 
 This rule prevents us from writing unnecessary conditions where the condition is constant:
 
@@ -588,7 +588,7 @@ It also gives the condition a familiar shape, which makes it easier to spot whil
 
 This rule is autofixable but not included in the recommended config.
 
-### [max-params](https://eslint.org/docs/rules/max-params)
+### [max-params](https://eslint.org/docs/latest/rules/max-params)
 
 This rule limits the number of parameters a function can have. It may sound similar to `max-classes-per-file` but it’s actually useful.
 
@@ -631,7 +631,7 @@ I> To learn more about the problem it solves, see the [Name things](#name-things
 
 This rule is not autofixable and is not included in the recommended config.
 
-### [sort-imports](https://eslint.org/docs/rules/sort-imports)
+### [sort-imports](https://eslint.org/docs/latest/rules/sort-imports)
 
 This rule requires us to sort `import` statements in a particular way: by type or alphabetically. The only benefit is aesthetic, and unless it could be done without distracting developers and making them move the imports manually, this rule does much more harm than good.
 
@@ -671,7 +671,7 @@ export default tseslint.config({
 });
 ```
 
-Here, we allow only [@ts-expect-error](https://typescript-eslint.io/rules/prefer-ts-expect-error) comments and require an explanation for each of them.
+Here, we allow only [@ts-expect-error](https://typescript-eslint.io/rules/prefer-ts-expect-error/) comments and require an explanation for each of them.
 
 Then we can write something like this, and it won’t trigger a lint error:
 
@@ -725,7 +725,7 @@ T> I created [several plugins for Textlint](https://www.npmjs.com/search?q=maint
 
 ## The ideal linting setup (dream)
 
-Unfortunately, [the ideal linting setup](https://twitter.com/iamsapegin/status/1527553857416462336), as I see it, isn’t possible with the current tools. The UX of linters is still very poor and hasn’t improved in the last ten years. Mostly, they just vomit a bunch of cryptic error messages without any explanation and leave you to deal with them alone.
+Unfortunately, [the ideal linting setup](https://x.com/iamsapegin/status/1527553857416462336), as I see it, isn’t possible with the current tools. The UX of linters is still very poor and hasn’t improved in the last ten years. Mostly, they just vomit a bunch of cryptic error messages without any explanation and leave you to deal with them alone.
 
 It doesn’t make sense to distract developers with autofixable issues and show squiggles under them in the code: they don’t require any action from a developer. It might be nice to have a log explaining what and why the linter autofixed but it shouldn’t distract us from the work we’re doing.
 
@@ -741,12 +741,12 @@ I wish linters would allow us show links to the team style guide for each error,
 
 In reality, there’s not much we can do to improve the linting experience. Here’s how I set up ESLint:
 
-1. Start with [the recommended ESLint rules](https://eslint.org/docs/rules/), `eslint:recommended`.
+1. Start with [the recommended ESLint rules](https://eslint.org/docs/latest/rules/), `eslint:recommended`.
 2. Add recommended configs of ESLint plugins for the project’s stack (see below).
 3. Add a few extra rules that make sense for our team.
 4. Install ESLint plugin for the code editor.
 5. Enable ESLint autofix on file save in the editor.
-6. Add ESLint with autofix to the Git pre-commit hook using [Husky](https://github.com/typicode/husky) and [lint-staged](https://github.com/okonet/lint-staged) to make sure that all the code in the repository is linted.
+6. Add ESLint with autofix to the Git pre-commit hook using [Husky](https://github.com/typicode/husky) and [lint-staged](https://github.com/lint-staged/lint-staged) to make sure that all the code in the repository is linted.
 
 T> Some developers don’t like to have linters on a pre-commit hook because they want to be able to commit unfinished code to a branch either as a backup or to share it with someone. Running only linters (with autofix) and formatters but not type checking and tests in a hook is a good compromise, and works in most cases. We can always skip the hooks with the `--no-verify` option of the `git commit` command.
 
@@ -805,7 +805,7 @@ There are hundreds of plugins for ESLint; few are useful. I have these plugins o
 - [Import](https://github.com/import-js/eslint-plugin-import): validates imports in our code, makes sure modules we’re trying to import exist, and export what we’re importing. It’s useful for vanilla JavaScript projects; TypeScript already does most of these checks.
 - [TypeScript](https://github.com/typescript-eslint/typescript-eslint): rules specific to TypeScript; also includes replacements for built-in ESLint rules that work with TypeScript.
 - [React](https://github.com/jsx-eslint/eslint-plugin-react): React and JSX specific rules.
-- [React Hooks](https://www.npmjs.com/package/eslint-plugin-react-hooks): enforcing the [Rules of Hooks](https://reactjs.org/docs/hooks-rules.html) for React projects.
+- [React Hooks](https://www.npmjs.com/package/eslint-plugin-react-hooks): enforcing the [Rules of Hooks](https://react.dev/reference/rules/rules-of-hooks) for React projects.
 - [JSX Accessibility](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y): accessibility in JSX, uses Axe Core.
 - [Jest](https://github.com/jest-community/eslint-plugin-jest): makes sure our tests are doing what we expect, we’re not committing disabled tests, and so on.
 - [Testing Library](https://github.com/testing-library/eslint-plugin-testing-library): rules for Testing Library.
@@ -816,7 +816,7 @@ There are hundreds of plugins for ESLint; few are useful. I have these plugins o
 Other plugins mentioned in the book:
 
 - [Better mutation](https://github.com/sloops77/eslint-plugin-better-mutation): disallows any mutations, except for local variables in functions.
-- [Functional](https://github.com/jonaskello/eslint-plugin-functional): disables mutation and promotes functional programming.
+- [Functional](https://github.com/eslint-functional/eslint-plugin-functional): disables mutation and promotes functional programming.
 
 ## Conclusion
 

@@ -38,15 +38,15 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 - [Learning Code Readability](https://medium.com/@egonelbre/learning-code-readability-a80e311d3a20) by Egon Elbre
 - [Making Wrong Code Look Wrong](https://www.joelonsoftware.com/2005/05/11/making-wrong-code-look-wrong/) by Joel Spolsky
 - [Modern React Testing](https://sapegin.me/blog/react-testing-1-best-practices/) by Artem Sapegin
-- [Naming conventions in programming — a review of scientific literature](https://makimo.pl/blog/scientific-perspective-on-naming-in-programming/) by Iwo Herka
-- [On the changing notion of code readability](http://firstclassthoughts.co.uk/Articles/Readability/TheChangingNotionOfReadability.html) by Kasper B. Graversen
-- [Outliving the Great Variable Shortage](https://waura1.rssing.com/chan-1910818/latest.php) by Tim Ottinger
+- [Naming conventions in programming — a review of scientific literature](https://makimo.com/blog/scientific-perspective-on-naming-in-programming/) by Iwo Herka
+- [On the changing notion of code readability](https://github.com/kbilsted/CodeQualityAndReadability/blob/master/Articles/Readability/TheChangingNotionOfReadability.md) by Kasper B. Graversen
+- [Outliving the Great Variable Shortage](https://www.rssing.com/noserver.html?a=4) by Tim Ottinger
 - [Psychology of Code Readability](https://medium.com/@egonelbre/psychology-of-code-readability-d23b1ff1258a) by Egon Elbre
-- [Small Functions considered Harmful](https://medium.com/@copyconstruct/small-functions-considered-harmful-91035d316c29) by Cindy Sridharan
+- [Small Functions considered Harmful](https://copyconstruct.medium.com/small-functions-considered-harmful-91035d316c29) by Cindy Sridharan
 - [The “Bug-O” Notation](https://overreacted.io/the-bug-o-notation/) by Dan Abramov
 - [The Law of Leaky Abstractions](https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/) by Joel Spolsky
-- [The wrong abstraction](https://www.sandimetz.com/blog/2016/1/20/the-wrong-abstraction) by Sandi Metz
-- [Too DRY — The Grep Test](http://jamie-wong.com/2013/07/12/grep-test/) by Jamie Wong
+- [The wrong abstraction](https://sandimetz.com/blog/2016/1/20/the-wrong-abstraction) by Sandi Metz
+- [Too DRY — The Grep Test](https://jamie-wong.com/2013/07/12/grep-test/) by Jamie Wong
 - [Why I don’t like reduce](https://tkdodo.eu/blog/why-i-dont-like-reduce) by TkDodo
 - [Why the Boy Scout Rule Is Insufficient](https://www.codewithjason.com/boy-scout-rule-insufficient/) by Jason Swett
 - [Why you should enforce Dangling Commas for Multiline Statements](https://medium.com/@nikgraf/why-you-should-enforce-dangling-commas-for-multiline-statements-d034c98e36f8) by Nik Graf
@@ -66,14 +66,14 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 
 If you liked the book, I’ll appreciate your review! I’ve spent many hours writing and editing it, and your review will help to make it more visible to other people and help me continue improving it.
 
-Until the book is final and available on Amazon, and so on, please send me your review at [mailto:artem@sapegin.ru](artem@sapegin.ru).
+Until the book is final and available on Amazon, and so on, please send me your review at [artem@sapegin.ru](mailto:artem@sapegin.ru).
 
 ## Got feedback?
 
 This book is full of opinions, and I don’t expect you’ll agree with them all. That’s expected and it was never my goal to convince my readers that my opinions are the only right ones. I wanted to make my readers think of certain things and start a dialogue.
 
-Let me know what you think at [mailto:artem@sapegin.ru](artem@sapegin.ru).
+Let me know what you think at [artem@sapegin.ru](mailto:artem@sapegin.ru).
 
 ## Found an issue?
 
-I’ve tried my best to check all the facts, fix all the typos, and test all the examples in the book, but I’m sure I missed many. If you spot anything fishy, please [file an issue on GitHub](https://github.com/sapegin/washingcode-book/issues) or write me at [mailto:artem@sapegin.ru](artem@sapegin.ru).
+I’ve tried my best to check all the facts, fix all the typos, and test all the examples in the book, but I’m sure I missed many. If you spot anything fishy, please [file an issue on GitHub](https://github.com/sapegin/washingcode-book/issues) or write me at [artem@sapegin.ru](mailto:artem@sapegin.ru).

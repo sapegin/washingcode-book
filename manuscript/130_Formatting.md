@@ -33,7 +33,7 @@ TODO
 The goal here is to avoid any distractions when writing code, or the need to run formatting manually.
 
 1. Add Prettier to the project, try to keep as many options as defaults as possible.
-2. Add Prettier formatting to the Git pre-commit hook using [Husky](https://github.com/typicode/husky) and [lint-staged](https://github.com/okonet/lint-staged) to make sure that all the code in the repository is formatted.
+2. Add Prettier formatting to the Git pre-commit hook using [Husky](https://github.com/typicode/husky) and [lint-staged](https://github.com/lint-staged/lint-staged) to make sure that all the code in the repository is formatted.
 3. Enable code formatting on save in the editor for that extra moment of satisfaction when we save the file and the machine makes it pretty.
 
 T> I only enable autofixing and formatting on explicit saving with Cmd+S in my editor, not with autosave. Often I need to look up something in the docs or google half way into writing a line of code, and autoformat messes up incomplete code too much.

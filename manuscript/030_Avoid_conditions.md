@@ -612,7 +612,7 @@ _And no, I have no idea what `tmpBottle` means, or why it was needed._
 
 The next step here could be improving the `getOrderIds()` function’s API. It can return three different things: `undefined`, a single value, or an array. We have to deal with each separately, so we have two conditions at the very beginning of the function, and we’re reassigning the `idsArrayObj` variable.
 
-I> We talk about reassignments in the next chapter, [Avoid reassigning variables](no-reassigning).
+I> We talk about reassignments in the next chapter, [Avoid reassigning variables](#no-reassigning).
 
 By making the `getOrderIds()` function always return an array, and making sure that the code inside `// 70 lines of code` works with an empty array, we could remove both conditions:
 
@@ -1448,7 +1448,7 @@ Now it’s clear that we want to find the maximum of two types of discounts, oth
 
 ## Formulas
 
-Similar to tables, a single formula could often replace a whole bunch of conditions. Consider [this example](https://twitter.com/JeroenFrijters/status/1615204074588180481):
+Similar to tables, a single formula could often replace a whole bunch of conditions. Consider [this example](https://x.com/JeroenFrijters/status/1615204074588180481):
 
 ```js
 function getPercentageRounds(percentage) {
