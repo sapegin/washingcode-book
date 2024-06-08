@@ -58,7 +58,9 @@ module.exports = {
         // Skip on GitHub because it always fails there
         url =>
           process.env.GITHUB_ACTIONS &&
-          url.startsWith('https://www.reddit.com')
+          url.startsWith('https://www.reddit.com'),
+        // Fails half of the time
+        url => url.startsWith('https://www.rssing.com')
       ],
       checkRelative: true,
       baseURI: url => {
