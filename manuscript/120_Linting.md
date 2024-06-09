@@ -721,7 +721,7 @@ Linters exist for almost any programming or markup language. I have experience w
 - [Stylelint](https://stylelint.io): linter for CSS, also supports CSS preprocessors and styled-components.
 - [Textlint](https://textlint.github.io): linter for Markdown and plain text. I use it extensively for checking this book and [my blog](https://sapegin.me/blog/).
 
-T> I created [several plugins for Textlint](https://www.npmjs.com/search?q=maintainer%3Asapegin%20keywords%3Atextlint) to ensure consistent terminology, avoid buzzwords and falses, an so on.
+T> I created [several plugins for Textlint](https://www.npmjs.com/search?q=maintainer%3Asapegin%20keywords%3Atextlint) to ensure consistent terminology, avoid buzzwords and clichés, and so on.
 
 ## The ideal linting setup (dream)
 
