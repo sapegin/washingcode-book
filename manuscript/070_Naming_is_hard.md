@@ -898,7 +898,7 @@ And possibly a few very common ones used on a project but they still should be d
 
 I like to use a few prefixes for variable and function names:
 
-- `is`, `are`, `has`, or `should` for booleans (examples: `isPhoneNumberValid`, `hasCancellableTickets`).
+- `is`, `are`, `has`, or `should` for booleans (examples: `isPhoneNumberValid`, `hasCancelableTickets`).
 - `get` for functions that return a value (example: `getPageTitle`).
 - `set` for functions that store a value or update React state (example: `setProducts`)
 - `fetch` for functions that fetch data from the backend (example: `fetchMessages`).
@@ -1386,7 +1386,33 @@ Using different words for the same concept is confusing: a person reading the co
 
 I> We talk more about greppability in the [Make the code greppable](#greppability) section of the _Other techniques_ chapter.
 
-T> Having a project dictionary, or even a linter, might be a good idea to avoid using different words for the same things. I use a similar approach for writing this book: I use [Textlint terminology plugin](https://github.com/sapegin/textlint-rule-terminology) to make sure I use the terms consistently and spell them correctly in my writing.
+T> Having a project dictionary, or even a linter, might be a good idea to avoid using different words for the same things. [CSpell](https://cspell.org) allows us to create a project dictionary, as well as ban certain words that shouldn’t be used. I use a similar approach for writing this book: I use [Textlint terminology plugin](https://github.com/sapegin/textlint-rule-terminology) to make sure I use the terms consistently and spell them correctly in my writing.
+
+## Prefer US English
+
+Most APIs and programming languages use US English, and it makes a lot of sense to use US English for naming in our project as well. Unless we’re working on a British, Canadian, or Australian project that may prefer a local language.
+
+In any case, consistency is more important than language choice. On several projects, I’ve seen US and UK terms used interchangeably. For example, `canceling` (US) and `cancelling` (UK). Curiously, `cancellation` is the correct spelling in both.
+
+Some common words that are spelled differently:
+
+<!-- cspell:disable -->
+
+| US English | UK English |
+| ---------- | ---------- |
+| behavior   | behaviour  |
+| canceling  | cancelling |
+| center     | centre     |
+| color      | colour     |
+| customize  | customise  |
+| favorite   | favourite  |
+| license    | licence    |
+| math       | maths      |
+| optimize   | optimise   |
+
+<!-- cspell:enable -->
+
+T> [CSpell](https://cspell.org) allows us to choose between US and UK English and will highlight inconsistencies in code and comments, though some words are present in both dictionaries.
 
 ## Use common opposite pairs
 
