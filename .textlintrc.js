@@ -52,6 +52,7 @@ module.exports = {
     },
     '@textlint-rule/no-unmatched-pair': true,
     'doubled-spaces': true,
+    // 'no-todo': true,
     'alive-link': {
       preferGET: ['https://www.amazon.com'],
       ignore: [
