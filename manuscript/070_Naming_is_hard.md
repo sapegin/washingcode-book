@@ -1384,7 +1384,7 @@ It’s a good idea to use well-known and widely adopted terms for programming an
 
 Using different words for the same concept is confusing: a person reading the code may think since the words are different then these things aren’t the same and will try to understand the difference between the two. It will also make the code less _greppable_, meaning it would be harder to find all usages of the same thing
 
-I> We talk more about greppability in the [Make the code greppable](#greppability) section of the _Other techniques_ chapter.
+I> We talk more about greppability in the [Write greppable code](#greppability) section of the _Other techniques_ chapter.
 
 T> Having a project dictionary, or even a linter, might be a good idea to avoid using different words for the same things. [CSpell](https://cspell.org) allows us to create a project dictionary, as well as ban certain words that shouldn’t be used. I use a similar approach for writing this book: I use [Textlint terminology plugin](https://github.com/sapegin/textlint-rule-terminology) to make sure I use the terms consistently and spell them correctly in my writing.
 
@@ -1445,6 +1445,12 @@ Some of these common pairs are:
 Typos in names and comments are very common. They don’t cause bugs _most of the time_ but could still reduce readability a bit, and code with many typoses look sloppy. So having a spell checker in the code editor is a good idea.
 
 I> We talk more about spell checking in the [Spell checking](#spell-checking) section of the _Learn your code editor_ chapter.
+
+## Use established naming (casing?) conventions
+
+TODO: Camel, and so on whatever is used in the language. JS with snake_case would be awkward to wirte because nobody does it
+
+TODO: True CamelCase: T> I prefer true CamelCase for names, and I find names like `WebiOS` hard to read. I’d read it as `webi os` and it’d take me some time to understand that it should be `web ios` instead. I’d spell this name as `WebIos`. We talk more about naming in the [#naming](Naming is hard) chapter.
 
 ## Use destructuring
 
