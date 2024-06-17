@@ -522,7 +522,11 @@ To summarize: it’s easier to test small pure functions. I don’t always follo
 Let’s look at an example:
 
 <!--
-import { UAParser } from 'ua-parser-js'
+class UAParser {
+  getOS() {
+    return {name: 'Windows'}
+  }
+}
 let isTouchDevice = () => false
 let DeviceType = {
   Desktop: 'Desktop',
@@ -565,7 +569,7 @@ function getDeviceType() {
 }
 ```
 
-<!-- expect(getDeviceType()).toBe('Other') -->
+<!-- expect(getDeviceType()).toBe('Desktop') -->
 
 This function takes a browser user agent, and returns a device name based on user’s operating system with some corrections.
 
@@ -660,7 +664,7 @@ function getDeviceType({ uaParser, hasTouch }) {
     }
     case 'Linux': {
       // Sometimes Samsung Internet on Galaxy Tab returns Linux
-      return parser.getBrowser().name === 'Samsung Internet'
+      return uaParser.getBrowser().name === 'Samsung Internet'
         ? DeviceType.Android
         : DeviceType.Desktop;
     }
@@ -671,7 +675,7 @@ function getDeviceType({ uaParser, hasTouch }) {
 }
 ```
 
-<!-- expect(getDeviceType({uaParser: new UAParser(), hasTouch: false})).toBe('Other') -->
+<!-- expect(getDeviceType({uaParser: new UAParser('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/604.1'), hasTouch: false})).toBe('Desktop') -->
 
 Now testing becomes straightforward:
 
