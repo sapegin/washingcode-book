@@ -498,9 +498,211 @@ I> We talk more about parallel code in [Don’t make me think](#no-thinking) cha
 
 Some people [even believe](https://www.reddit.com/r/programming/comments/2tjoc8/the_boy_scout_rule_of_coding/?rdt=48062) that we shouldn’t touch what’s working and refactoring has no business value for the product, but I fiercely disagree. Our job is not only do what we’re told to do by the business people but also to keep our software easy to change, so we can quickly react to new business requirements. This is only possible if we care about maintainability, don’t let the tech debt pile up.
 
+{#testability}
+
+## Write testable code
+
+Generally I prefer _integration or end-to-end tests_ for testing functionality because they are more resistant to code changes. They need to know little about the internal organization of the app, and as long as the functionality and UX are the same, they’ll continue working, even if the code was completely rewritten. End-to-end tests also better resemble user behavior, and makes sure a app works as a whole, not just its separate modules.
+
+_Unit tests_ require more care because they are close to the code they are testing, so most code changes would require some test updates. Moving or even renaming functions would require moving tests or updating imports. However, unit tests are good for testing utility functions, where it could be hard to test all edge cases by testing the whole app. Unit tests are also much faster than end-to-end test, and we can run them in watch mode and have an immediate feedback to every code change.
+
+I> I have a big series of articles on my blog on [best practices of frontend testing](https://sapegin.me/blog/react-testing-1-best-practices/).
+
+Here are the qualities that make functions testable:
+
+- **Deterministic**: given a certain input, a function should always return the same result. This makes such function predictable, we can write test cases for various input and be sure that the results will be always the same.
+- **Has no side effects:** a function doesn’t change anything outside its code, and the only way it may affect its outer scope is via its return value.
+- **Responsible for one thing:** it’s easier to test all possible scenarios of a function when it doesn’t do too much.
+- **Doesn’t control presentation, only logic:** it’s easier to test raw data (number, arrays, objects, an so on) than its presentation (strings, HTML, and so on). Also, the presentation usually changes more often than logic, which means we’d have to update our tests more often if we were testing presentation.
+
+I> We talk more about separation of logic and presentation in the [Divide and conquer, or merge and relax](#divide) chapter.
+
+To summarize: it’s easier to test small pure functions. I don’t always follow these principles, because I write unit tests only when I need to test some complex logic. In such cases, these principles make testing simpler and test more resilient to further code changes.
+
+Let’s look at an example:
+
+<!--
+import { UAParser } from 'ua-parser-js'
+let isTouchDevice = () => false
+let DeviceType = {
+  Desktop: 'Desktop',
+  iOS: 'iOS',
+  Android: 'Android',
+  Tablet: 'Tablet',
+  Other: 'Other',
+}
+-->
+
+```js
+function getDeviceType() {
+  const parser = new UAParser();
+  const os = parser.getOS();
+  const hasTouch = isTouchDevice();
+  switch (os.name) {
+    case 'Windows': {
+      return DeviceType.Desktop;
+    }
+    case 'Mac OS': {
+      // iPadOS returns MacOS instead when in desktop mode
+      return hasTouch ? DeviceType.iOS : DeviceType.Desktop;
+    }
+    case 'iOS': {
+      return DeviceType.iOS;
+    }
+    case 'Android': {
+      return DeviceType.Android;
+    }
+    case 'Linux': {
+      // Sometimes Samsung Internet on Galaxy Tab returns Linux
+      return parser.getBrowser().name === 'Samsung Internet'
+        ? DeviceType.Android
+        : DeviceType.Desktop;
+    }
+    default: {
+      return DeviceType.Other;
+    }
+  }
+}
+```
+
+<!-- expect(getDeviceType()).toBe('Other') -->
+
+This function takes a browser user agent, and returns a device name based on user’s operating system with some corrections.
+
+Let’s try to apply the guidelines of testable functions we’ve defined above to this function:
+
+- Is it deterministic? No, it doesn’t take any parameters but the result depends on user’s environment that we cannot control when we call the function.
+- Is has no side effects? Yes, it doesn’t change anything outside the function, and instead returns a value back to the caller.
+- Is it responsible for one thing? Yes, it determines user device name based on their environment.
+- Does it control only logic, not presentation? Yes, it returns TODO...
+
+It doesn’t sound so bad but how do we test it?
+
+A conventional way to test such function would be by mocking its dependencies: the `UAParser` class (or the actual user agent string — `navigator.userAgent`) and `isTouchDevice` function:
+
+<!--
+let jest = {
+  mock: (name, fn) => fn(),
+  spyOn: (obj, prop, action) => ({mockReturnValue: (val) => val})
+}
+let describe = (name, fn) => fn()
+let test = (name, fn) => fn()
+let getDeviceType = () => 'iOS'
+-->
+
+```js
+// Mock the isTouchDevice() function
+let hasTouch = false;
+jest.mock('deviceInfo', () => {
+  return {
+    isTouchDevice: () => hasTouch
+  };
+});
+
+describe('getDeviceType', () => {
+  test('Safari on iPad in desktop mode', () => {
+    // Tell isTouchDevice() mock to return true
+    hasTouch = true;
+    // Mock the browser user agent string
+    jest
+      .spyOn(window.navigator, 'userAgent', 'get')
+      .mockReturnValue(
+        'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/604.1'
+      );
+    expect(getDeviceType()).toStrictEqual('iOS');
+  });
+});
+```
+
+<!-- // Run the code and hope it works... -->
+
+This is very convoluted and requires a lot of boilerplate code. There’s also a bug: once we set `hasTouch` to `true`, all following test cases will also get it as `true`. We need to reset the mock value after each test case:
+
+<!-- let afterEach = fn => fn() -->
+
+```js
+afterEach(() => {
+  hasTouch = false;
+});
+```
+
+This adds even more complexity, and make this approach error-prone.
+
+A better solution is to use _dependency injection_: pass function dependencies as parameters, so we can redefine them in tests. We’ll also add default values, so we won’t need to pass all the dependencies every time we want to use the function, only when we want to redefine them.
+
+<!--
+import { UAParser } from 'ua-parser-js'
+let DeviceType = {
+  Desktop: 'Desktop',
+  iOS: 'iOS',
+  Android: 'Android',
+  Tablet: 'Tablet',
+  Other: 'Other',
+}
+-->
+
+```js
+function getDeviceType({ uaParser, hasTouch }) {
+  const os = uaParser.getOS();
+  switch (os.name) {
+    case 'Windows': {
+      return DeviceType.Desktop;
+    }
+    case 'Mac OS': {
+      // iPadOS returns MacOS instead when in desktop mode
+      return hasTouch ? DeviceType.iOS : DeviceType.Desktop;
+    }
+    case 'iOS': {
+      return DeviceType.iOS;
+    }
+    case 'Android': {
+      return DeviceType.Android;
+    }
+    case 'Linux': {
+      // Sometimes Samsung Internet on Galaxy Tab returns Linux
+      return parser.getBrowser().name === 'Samsung Internet'
+        ? DeviceType.Android
+        : DeviceType.Desktop;
+    }
+    default: {
+      return DeviceType.Other;
+    }
+  }
+}
+```
+
+<!-- expect(getDeviceType({uaParser: new UAParser(), hasTouch: false})).toBe('Other') -->
+
+Now testing becomes straightforward:
+
+<!--
+import { UAParser } from 'ua-parser-js'
+let describe = (name, fn) => fn()
+let test = (name, fn) => fn()
+let getDeviceType = () => 'iOS'
+-->
+
+```js
+describe('getDeviceType', () => {
+  test('Safari on iPad in desktop mode', () => {
+    const uaParser = new UAParser(
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/604.1'
+    );
+    const hasTouch = true;
+    expect(getDeviceType({ uaParser, hasTouch })).toStrictEqual(
+      'iOS'
+    );
+  });
+});
+```
+
+<!-- // Run the code and hope it works... -->
+
+With dependency injection we can test any combination of user agent string and touch support by passing these values directly in test cases. No need for mocks, resetting the state after each test, and so on.
+
 {#greppability}
 
-## Make the code greppable
+## Write greppable code
 
 Consider this example:
 
@@ -851,7 +1053,7 @@ Usually, if an organization uses a certain metric to measure performance, employ
 
 In addition, not all kinds of tests are equally useful for all projects. For example, for frontend tests integration test are usually more useful than unit tests, so requiring a high unit code coverage would be unproductive.
 
-I> I have a big series of articles on my blog on [best practices of React testing](https://sapegin.me/blog/react-testing-1-best-practices/).
+I> I have a big series of articles on my blog on [best practices of frontend testing](https://sapegin.me/blog/react-testing-1-best-practices/).
 
 ### Never say never
 

@@ -19,7 +19,7 @@
     "lint:typos": "command -v typos > /dev/null 2>&1 && typos 'manuscript'",
     "lint:text:fix": "npm run lint:text -- --fix",
     "lint:typos:fix": "typos 'manuscript' --write-changes",
-    "format": "prettier --log-level warn --write \"**/*.{js,md}\"",
+    "format": "prettier --log-level warn --write \"**/*.{js,mjs,ts,tsx,json,md}\"",
     "test": "vitest run",
     "test:watch": "nodemon --watch 'manuscript' --ext md --exec 'vitest'",
     "posttest": "npm run lint && npm run format",
@@ -32,8 +32,8 @@
     "lodash": "4.17.21",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "styled-components": "^6.1.11",
-    "ua-parser-js": "^1.0.38"
+    "styled-components": "6.1.11",
+    "ua-parser-js": "1.0.38"
   },
   "devDependencies": {
     "@testing-library/react": "^16.0.0",
@@ -67,8 +67,8 @@
     "vm2": "^3.9.13"
   },
   "lint-staged": {
-    "*.{js,mjs,md}": "prettier --write",
-    "*.js": "eslint --cache --fix",
+    "*.{js,mjs,ts,tsx,json,md}": "prettier --write",
+    "*.{js,mjs,ts,tsx}": "eslint --cache --fix",
     "*.md": "textlint --fix"
   }
 }
