@@ -22,6 +22,8 @@ I [don’t do well with distractions](https://sapegin.me/blog/adhd-focus/) and o
 
 5. TODO
 
+T> [Coding Fonts](https://coding-fonts.netlify.app/fonts/anonymous-pro/?theme=light) is a nice page to compare many programming fonts and choose the one you like.
+
 TODO: screenshot
 
 ## Code navigation
@@ -31,6 +33,16 @@ TODO: navigation to previous editing position
 TODO: Navigation to symbol definition and usages
 
 TODO: Symbols
+
+## Autosave
+
+I like autosave feature in editors: you switch to another app — usually a browser — and the file is automatically save causing the hot reload to apply the changes to the the page.
+
+One thing I’ve struggled with for a long time is that autoformatting on autosave isn’t always desirable. For example, I start typing something, then google how to use a certain API, come back to the editor, and now everything is messed up by autoformatting.
+
+I solved this by disabling autoformatting on save, and running autoformat and save on Cmd+S.
+
+Another useful option here is disabling autosave when there’s a syntax error in the file.
 
 ## Multiple cursors
 
@@ -97,7 +109,7 @@ Typos in the comments and names not only make the code slightly harder to read b
 
 T> I use two spell checking extension for Visual Studio Code: [Code Spell Checker](https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker) (based on CSpell) and [Typos spell checker](https://marketplace.visualstudio.com/items?itemName=tekumara.typos-vscode) — they compliment each other well. The Code Spell Checker is a more traditional spell checker and only checks words longer than three words, and the Typos fixes common misspellings (for example, `ot` instead of `to`). WebStorm comes with a good spell checker too.
 
-I> We talk more about greppability (the quality that makes code findable) in the [Make the code greppable](#greppability) section of the _Other techniques_ chapter.
+I> We talk more about greppability (the quality that makes code findable) in the [Write greppable code](#greppability) section of the _Other techniques_ chapter.
 
 <!-- cspell:enable -->
 

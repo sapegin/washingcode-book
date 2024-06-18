@@ -57,6 +57,8 @@ This makes the module harder to understand and harder to change: to make a chang
 
 The extraction of a generic table as a separate module solves this problem. Now, to add another column to a table, we only need to understand and modify one of the two modules. We don’t need to know anything about the generic table module except its public API.
 
+I> This approach is usually known as _separation of logic and presentation_.
+
 Even code reuse can be a valid reason to separate code: if we use some component on one page, we’ll likely need it on another page soon.
 
 ## Keep together code that changes together
