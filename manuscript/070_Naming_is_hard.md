@@ -1446,11 +1446,71 @@ Typos in names and comments are very common. They don’t cause bugs _most of th
 
 I> We talk more about spell checking in the [Spell checking](#spell-checking) section of the _Learn your code editor_ chapter.
 
-## Use established naming (casing?) conventions
+## Use established naming conventions
 
-TODO: Camel, and so on whatever is used in the language. JS with snake_case would be awkward to wirte because nobody does it
+Each programming language has its own conventions and idiomatic way of doing certain things, including the way programmers spell names of variables, functions, and other symbols in the code: _naming conventions_.
 
-TODO: True CamelCase: T> I prefer true CamelCase for names, and I find names like `WebiOS` hard to read. I’d read it as `webi os` and it’d take me some time to understand that it should be `web ios` instead. I’d spell this name as `WebIos`. We talk more about naming in the [#naming](Naming is hard) chapter.
+The most popular naming conventions are:
+
+- camelCase;
+- kebab-case.
+- PascalCase;
+- SCREAMING_SNAKE_CASE;
+- snake_case;
+
+Most JavaScript and TypeScript style guides suggest the following:
+
+- CamelCase for variable names and functions;
+- PascalCase for class names and types;
+- SCREAMING_SNAKE_CASE for constants.
+
+The code that doesn’t follow the established naming conventions for a particular language looks awkward for developers who are used to these conventions:
+
+<!-- let console = { log: vi.fn() } -->
+
+```js
+const fruits = ['Guava', 'Papaya', 'Pineapple'];
+const loud_fruits = fruits.map(fruit => fruit.toUpperCase());
+console.log(loud_fruits);
+```
+
+<!-- expect(loud_fruits).toEqual(['GUAVA', 'PAPAYA', 'PINEAPPLE']) -->
+
+Now, compare it with the same code using camelCase:
+
+<!-- let console = { log: vi.fn() } -->
+
+```js
+const fruits = ['Guava', 'Papaya', 'Pineapple'];
+const loudFruits = fruits.map(fruit => fruit.toUpperCase());
+console.log(loudFruits);
+```
+
+<!-- expect(loudFruits).toEqual(['GUAVA', 'PAPAYA', 'PINEAPPLE']) -->
+
+However, in Python, where kebab_case is common, it looks fine:
+
+```python
+fruits = ['Guava', 'Papaya', 'Pineapple']
+loud_fruits = [fruit.upper() for fruit in fruits]
+print(loud_fruits)
+```
+
+Also, JavaScript’s own methods, and browser APIs are all using CamelCase: `forEach()`, `toUpperCase()`, `scrollIntoView()`, and so on.
+
+One thing that developers often disagree on is how to spell acronyms (for example, HTML) and words with unusual casing (for example, iOS). There are several approaches:
+
+<!-- cspell:disable -->
+
+- Keep the original spelling: `dangerouslySetInnerHTML`, `WebiOS`;
+- Do something weird: `XMLHttpRequest`, `DatePickerIOS`, `HTMLHRElement`;
+- Normalize the words: `WebIos`, `HtmlHrElement`.
+
+Unfortunately, the most readable approach, normalization, seems to be the least popular. Since we can’t use spaces in names, it can be hard to separate words: `WebiOS` could be read as “webi os” instead of “web ios”, and it takes extra time to read it right. Such names also don’t work well with code spell checkers: they mark “webi” and “htmlhr” as incorrect words.
+
+<!-- cspell:enable -->
+
+The normalized spelling doesn’t have these issues: `dangerouslySetInnerHtml`, `WebIos`, `XmlHttpRequest`, `DatePickerIos`, `HtmlHrElement`.
 
 ## Use destructuring
 
