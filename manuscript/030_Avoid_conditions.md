@@ -1452,35 +1452,26 @@ Similar to tables, a single formula could often replace a whole bunch of conditi
 
 ```js
 function getPercentageRounds(percentage) {
-  if (percentage === 0) return '⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️';
-  if (percentage > 0 && percentage <= 0.1)
-    return '🔵⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️';
-  if (percentage > 0.1 && percentage <= 0.2)
-    return '🔵🔵⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️';
-  if (percentage > 0.2 && percentage <= 0.3)
-    return '🔵🔵🔵⚪️⚪️⚪️⚪️⚪️⚪️⚪️';
-  if (percentage > 0.3 && percentage <= 0.4)
-    return '🔵🔵🔵🔵⚪️⚪️⚪️⚪️⚪️⚪️';
-  if (percentage > 0.4 && percentage <= 0.5)
-    return '🔵🔵🔵🔵🔵⚪️⚪️⚪️⚪️⚪️';
-  if (percentage > 0.5 && percentage <= 0.6)
-    return '🔵🔵🔵🔵🔵🔵⚪️⚪️⚪️⚪️';
-  if (percentage > 0.6 && percentage <= 0.7)
-    return '🔵🔵🔵🔵🔵🔵🔵⚪️⚪️⚪️';
-  if (percentage > 0.7 && percentage <= 0.8)
-    return '🔵🔵🔵🔵🔵🔵🔵🔵⚪️⚪️';
-  if (percentage > 0.8 && percentage <= 0.9)
-    return '🔵🔵🔵🔵🔵🔵🔵🔵🔵⚪️';
-  return '🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵';
+  if (percentage === 0) return '__________';
+  if (percentage > 0 && percentage <= 0.1) return 'X_________';
+  if (percentage > 0.1 && percentage <= 0.2) return 'XX________';
+  if (percentage > 0.2 && percentage <= 0.3) return 'XXX_______';
+  if (percentage > 0.3 && percentage <= 0.4) return 'XXXX______';
+  if (percentage > 0.4 && percentage <= 0.5) return 'XXXXX_____';
+  if (percentage > 0.5 && percentage <= 0.6) return 'XXXXXX____';
+  if (percentage > 0.6 && percentage <= 0.7) return 'XXXXXXX___';
+  if (percentage > 0.7 && percentage <= 0.8) return 'XXXXXXXX__';
+  if (percentage > 0.8 && percentage <= 0.9) return 'XXXXXXXXX_';
+  return 'XXXXXXXXXX';
 }
 ```
 
 <!--
-expect(getPercentageRounds(0)).toBe('⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️')
-expect(getPercentageRounds(0.01)).toBe('🔵⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️')
-expect(getPercentageRounds(0.1)).toBe('🔵⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️')
-expect(getPercentageRounds(0.11)).toBe('🔵🔵⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️')
-expect(getPercentageRounds(0.91)).toBe('🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵')
+expect(getPercentageRounds(0)).toBe('__________')
+expect(getPercentageRounds(0.01)).toBe('X_________')
+expect(getPercentageRounds(0.1)).toBe('X_________')
+expect(getPercentageRounds(0.11)).toBe('XX________')
+expect(getPercentageRounds(0.91)).toBe('XXXXXXXXXX')
 -->
 
 Folks in replies on Twitter argue that this code is easy to understand and doesn’t need any improvements. I agree that it’s easy to understand but it has a very large surface for bugs: every number and every condition could be wrong, and there are many of them. This code will also need many test cases to make sure it’s correct.
@@ -1488,8 +1479,8 @@ Folks in replies on Twitter argue that this code is easy to understand and doesn
 Let’s try to replace conditions with a formula:
 
 ```js
-const FULL_ROUND_ICON = '🔵';
-const EMPTY_ROUND_ICON = '⚪️';
+const FULL_ROUND_ICON = 'X';
+const EMPTY_ROUND_ICON = '_';
 function getPercentageRounds(percentage) {
   const fullRounds = Math.ceil(percentage * 10);
   return [
@@ -1500,11 +1491,11 @@ function getPercentageRounds(percentage) {
 ```
 
 <!--
-expect(getPercentageRounds(0)).toBe('⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️')
-expect(getPercentageRounds(0.01)).toBe('🔵⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️')
-expect(getPercentageRounds(0.1)).toBe('🔵⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️')
-expect(getPercentageRounds(0.11)).toBe('🔵🔵⚪️⚪️⚪️⚪️⚪️⚪️⚪️⚪️')
-expect(getPercentageRounds(0.91)).toBe('🔵🔵🔵🔵🔵🔵🔵🔵🔵🔵')
+expect(getPercentageRounds(0)).toBe('__________')
+expect(getPercentageRounds(0.01)).toBe('X_________')
+expect(getPercentageRounds(0.1)).toBe('X_________')
+expect(getPercentageRounds(0.11)).toBe('XX________')
+expect(getPercentageRounds(0.91)).toBe('XXXXXXXXXX')
 -->
 
 It is a bit harder to understand than the initial implementation but it needs significantly fewer test cases, and we’ve separated the design and the code. The images will likely change but I doubt that the algorithm will.

@@ -7,3 +7,5 @@ Thumbs.db
 *.log
 yarn.lock
 .eslintcache
+dist/
+generator/fonts/MonoLisa-*
