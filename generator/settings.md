@@ -24,10 +24,7 @@ toc-own-page: true
 book: true
 # Fonts
 fontfamily: "PT Serif"
-fontsize: 14
-
-# Don't show date in the header (doesn't work)
-header-right: "test"
+fontsize: 14pt
 
 # geometry: 'left=3cm, top=2cm, right=3cm, bottom=2cm'
 # linestretch: 1.25
