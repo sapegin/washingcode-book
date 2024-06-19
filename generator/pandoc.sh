@@ -1,6 +1,6 @@
 # TODO: Internal links ({#linting})
 # TODO: Remove "Chapter X"
-# TODO: LeanPub tips (I>, T>)
+# TODO: LeanPub tips / callouts / alerts (I>, T>)
 # TODO: Font sizes
 # TODO: Fonts
 # TODO: Unicode characters?
@@ -30,6 +30,7 @@ pandoc $CHAPTERS_FILES \
 	--table-of-contents --toc-depth=2 \
   --template="generator/eisvogel.latex" \
 	--highlight-style "generator/theme.theme" \
+  -f gfm \
 	-M date="$DATE"
 
 	# -V linkcolor:blue \

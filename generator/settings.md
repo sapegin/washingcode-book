@@ -10,9 +10,11 @@ lof: false
 lof-own-page: true
 toc-own-page: true
 titlepage: false
-colorlinks: true
+
+papersize: a5
 
 # Print links as footnotes
+colorlinks: true
 links-as-notes: true
 footnotes-pretty: true
 
@@ -28,5 +30,12 @@ toc-own-page: true
 book: true
 
 # Bigger font size
-fontsize: 14pt
+fontsize: 12pt
+
+pandoc-latex-environment:
+  noteblock: [note]
+  tipblock: [tip]
+  warningblock: [warning]
+  cautionblock: [caution]
+  importantblock: [important]
 ---
