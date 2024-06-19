@@ -142,97 +142,15 @@ $endif$
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
 \else % if luatex or xetex
-$if(mathspec)$
-  \ifXeTeX
-    \usepackage{mathspec} % this also loads fontspec
-  \else
-    \usepackage{unicode-math} % this also loads fontspec
-  \fi
-$else$
   \usepackage{unicode-math} % this also loads fontspec
-$endif$
   \defaultfontfeatures{Scale=MatchLowercase}$-- must come before Beamer theme
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
-$if(fontfamily)$
-$else$
-$-- Set default font before Beamer theme so the theme can override it
-\usepackage{lmodern}
-$endif$
-$-- Set Beamer theme before user font settings so they can override theme
-$if(beamer)$
-$if(theme)$
-\usetheme[$for(themeoptions)$$themeoptions$$sep$,$endfor$]{$theme$}
-$endif$
-$if(colortheme)$
-\usecolortheme{$colortheme$}
-$endif$
-$if(fonttheme)$
-\usefonttheme{$fonttheme$}
-$endif$
-$if(mainfont)$
-\usefonttheme{serif} % use mainfont rather than sansfont for slide text
-$endif$
-$if(innertheme)$
-\useinnertheme{$innertheme$}
-$endif$
-$if(outertheme)$
-\useoutertheme{$outertheme$}
-$endif$
-$endif$
-$-- User font settings (must come after default font and Beamer theme)
-$if(fontfamily)$
-\usepackage[$for(fontfamilyoptions)$$fontfamilyoptions$$sep$,$endfor$]{$fontfamily$}
-$endif$
-\ifPDFTeX\else
-  % xetex/luatex font selection
-$if(mainfont)$
-  \setmainfont[$for(mainfontoptions)$$mainfontoptions$$sep$,$endfor$]{$mainfont$}
-$endif$
-$if(sansfont)$
-  \setsansfont[$for(sansfontoptions)$$sansfontoptions$$sep$,$endfor$]{$sansfont$}
-$endif$
-$if(monofont)$
-  \setmonofont[$for(monofontoptions)$$monofontoptions$$sep$,$endfor$]{$monofont$}
-$endif$
-$for(fontfamilies)$
-  \newfontfamily{$fontfamilies.name$}[$for(fontfamilies.options)$$fontfamilies.options$$sep$,$endfor$]{$fontfamilies.font$}
-$endfor$
-$if(mathfont)$
-$if(mathspec)$
-  \ifXeTeX
-    \setmathfont(Digits,Latin,Greek)[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
-  \else
-    \setmathfont[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
-  \fi
-$else$
-  \setmathfont[$for(mathfontoptions)$$mathfontoptions$$sep$,$endfor$]{$mathfont$}
-$endif$
-$endif$
-$if(CJKmainfont)$
-  \ifXeTeX
-    \usepackage{xeCJK}
-    \setCJKmainfont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmainfont$}
-    $if(CJKsansfont)$
-      \setCJKsansfont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKsansfont$}
-    $endif$
-    $if(CJKmonofont)$
-      \setCJKmonofont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmonofont$}
-    $endif$
-  \fi
-$endif$
 $if(luatexjapresetoptions)$
   \ifLuaTeX
     \usepackage[$for(luatexjapresetoptions)$$luatexjapresetoptions$$sep$,$endfor$]{luatexja-preset}
   \fi
 $endif$
-$if(CJKmainfont)$
-  \ifLuaTeX
-    \usepackage[$for(luatexjafontspecoptions)$$luatexjafontspecoptions$$sep$,$endfor$]{luatexja-fontspec}
-    \setmainjfont[$for(CJKoptions)$$CJKoptions$$sep$,$endfor$]{$CJKmainfont$}
-  \fi
-$endif$
-\fi
 $if(zero-width-non-joiner)$
 %% Support for zero-width non-joiner characters.
 \makeatletter
@@ -641,56 +559,26 @@ $endif$
 \item\relax\color{blockquote-text}\ignorespaces}{\unskip\unskip\endlist\end{customblockquote}}
 
 %
-% Source Sans Pro as the default font family
-% Source Code Pro for monospace text
+% Fonts
 %
-% 'default' option sets the default
-% font family to Source Sans Pro, not \sfdefault.
-%
-\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
-  $if(fontfamily)$
-  $else$
-  \usepackage[default]{sourcesanspro}
-  \usepackage{sourcecodepro}
-  $endif$
-\else % if not pdftex
-  $if(mainfont)$
-  $else$
-  \usepackage[default]{sourcesanspro}
-  \usepackage{sourcecodepro}
 
-  % XeLaTeX specific adjustments for straight quotes: https://tex.stackexchange.com/a/354887
-  % This issue is already fixed (see https://github.com/silkeh/latex-sourcecodepro/pull/5) but the
-  % fix is still unreleased.
-  % TODO: Remove this workaround when the new version of sourcecodepro is released on CTAN.
-  \ifxetex
-    \makeatletter
-    \defaultfontfeatures[\ttfamily]
-      { Numbers   = \sourcecodepro@figurestyle,
-        Scale     = \SourceCodePro@scale,
-        Extension = .otf }
-    \setmonofont
-      [ UprightFont    = *-\sourcecodepro@regstyle,
-        ItalicFont     = *-\sourcecodepro@regstyle It,
-        BoldFont       = *-\sourcecodepro@boldstyle,
-        BoldItalicFont = *-\sourcecodepro@boldstyle It ]
-      {SourceCodePro}
-    \makeatother
-  \fi
-  $endif$
-\fi
+\usepackage[T1]{fontenc}
+
+% Main font: Paratype Serif, https://www.tug.org/FontCatalogue/paratypeserif/
+\usepackage{paratype}
+
+% Headings font: Lato, https://www.tug.org/FontCatalogue/lato/
+\usepackage[defaultsans]{lato}
+
+% Monospace font: DejaVu Sans Mono, https://www.tug.org/FontCatalogue/dejavumono/
+\usepackage{DejaVuSansMono}
 
 %
-% heading color
+% Headings
 %
-\definecolor{heading-color}{RGB}{40,40,40}
-$if(beamer)$
-$else$
+\definecolor{heading-color}{RGB}{0,0,0}
+\addtokomafont{section}{\sffamily}
 \addtokomafont{section}{\color{heading-color}}
-$endif$
-% When using the classes report, scrreprt, book,
-% scrbook or memoir, uncomment the following line.
-%\addtokomafont{chapter}{\color{heading-color}}
 
 %
 % variables for title, author and date

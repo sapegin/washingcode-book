@@ -22,15 +22,7 @@ titlepage-background: manuscript/resources/images/cover.jpg
 toc-own-page: true
 # Typeset as book
 book: true
-# Fonts
-fontfamily: "PT Serif"
+# Bigger font size
 fontsize: 14pt
 
-# geometry: 'left=3cm, top=2cm, right=3cm, bottom=2cm'
-# linestretch: 1.25
-# fontsize: 12pt
-# fontfamily: charterbt
-# mainfont: generator/fonts/pt-serif_regular.ttf
-# sansfont: generator/fonts/pt-sans_regular.ttf
-# monofont: generator/fonts/MonoLisa-Regular.ttf
 ---
