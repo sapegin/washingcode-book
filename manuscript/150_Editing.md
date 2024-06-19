@@ -36,7 +36,7 @@ TODO: Symbols
 
 ## Autosave
 
-I like autosave feature in editors: you switch to another app — usually a browser — and the file is automatically save causing the hot reload to apply the changes to the the page.
+I like autosave feature in editors: you switch to another app — usually a browser — and the file is automatically save causing the hot reload to apply the changes to the page.
 
 One thing I’ve struggled with for a long time is that autoformatting on autosave isn’t always desirable. For example, I start typing something, then google how to use a certain API, come back to the editor, and now everything is messed up by autoformatting.
 

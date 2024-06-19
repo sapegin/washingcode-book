@@ -821,7 +821,7 @@ I> We talk about linters in the [Lint your code](#linting) chapter, and about co
 
 ## The rest doesn’t matter
 
-There are so many ways to write code. For example, we could use function arguments like this:
+There are so many ways to write code. For example, we could use function parameters like this:
 
 ```js
 function ingredientToString(options) {
