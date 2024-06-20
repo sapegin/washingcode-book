@@ -48,17 +48,17 @@ $if(CJKmainfont)$
 \PassOptionsToPackage{space}{xeCJK}
 $endif$
 
-% Layout
+% Layout: 7.5"×9.25" (19.0cm×23.5cm)
 \documentclass[a5paper,twoside,12pt,captions=tableheading]{scrbook}
-\usepackage[paperwidth=6in,paperheight=9in,inner=2cm,outer=2cm,top=2cm,bottom=2cm,includehead=false,includefoot=false]{geometry}
+\usepackage[paperwidth=7.5in,paperheight=9.25in,inner=2cm,outer=2cm,top=2cm,bottom=2cm,includehead=false,includefoot=false]{geometry}
 
 % Fancy blockquotes
 \usepackage{tcolorbox}
 
 \usepackage{amsmath,amssymb}
 
-% Use setspace to change the line spacing.
-% The spacing is changed early to affect the titlepage and the TOC.
+% Use setspace to change the line spacing
+% The spacing is changed early to affect the titlepage and the TOC
 \usepackage{setspace}
 \setstretch{1.2}
 
@@ -338,12 +338,6 @@ $endif$
 \author{$for(author)$$author$$sep$ \and $endfor$}
 \date{$date$}
 
-
-
-%%
-%% added
-%%
-
 % Break long URLs into multiple lines
 \PassOptionsToPackage{hyphens}{url}
 
@@ -453,127 +447,73 @@ $endif$
 \setkomafont{pageheadfoot}{\normalfont\normalcolor\footnotesize}
 \setkomafont{pagenumber}{\normalfont\normalcolor\footnotesize}
 
-% Only show page numbers in the footer
+% Show page numbers in the footer
 \newpairofpagestyles{header-footer}{
   \clearpairofpagestyles
   \ifoot{\thepage}
 }
 \pagestyle{header-footer}
 
-%%
-%% end added
-%%
-
 \begin{document}
 
-%%
-%% begin titlepage
-%%
-$if(titlepage)$
-\begin{titlepage}
-\newgeometry{left=6cm}
-$if(titlepage-color)$
-\definecolor{titlepage-color}{HTML}{$titlepage-color$}
-\newpagecolor{titlepage-color}\afterpage{\restorepagecolor}
-$endif$
-\newcommand{\colorRule}[3][black]{\textcolor[HTML]{#1}{\rule{#2}{#3}}}
-\begin{flushleft}
-\noindent
-\\[-1em]
-\color[HTML]{$if(titlepage-text-color)$$titlepage-text-color$$else$5F5F5F$endif$}
-\makebox[0pt][l]{\colorRule[$if(titlepage-rule-color)$$titlepage-rule-color$$else$435488$endif$]{1.3\textwidth}{$if(titlepage-rule-height)$$titlepage-rule-height$$else$4$endif$pt}}
-\par
-\noindent
 
-\setstretch{1.4}
+% TODO: Empty page between the cover and the title page
+% \cleardoublepage
+
+%
+% Title page
+%
+
+\begin{titlepage}
+\noindent\\[-4em]\par
 \vfill
-\noindent {\huge \textbf{\textsf{$title$}}}
-$if(subtitle)$
+{\Huge \textbf{\textsf{$title$}}}
 \vskip 1em
 {\Large \textsf{$subtitle$}}
-$endif$
-\vskip 2em
-\noindent {\Large \textsf{$for(author)$$author$$sep$, $endfor$}}
+\vskip 6em
+{\large \textsf{$for(author)$$author$$sep$, $endfor$}}
 \vfill
-
-\textsf{$date$}
-\end{flushleft}
+{\small \textsf{Version: $date$}}
 \end{titlepage}
-\restoregeometry
-\pagenumbering{arabic}
-$endif$
 
-%%
-%% end titlepage
-%%
+%
+% Front matter
+%
 
-$if(has-frontmatter)$
-\frontmatter
+\setstretch{1.5}
+{\large \textbf{\textsf{$title$}}}
+\newline
+{\normalsize \textsf{By $author$}}
+\vskip 1em
+$if(first-published)$
+{\normalsize \textsf{First published: $first-published$}}
+\newline
 $endif$
-$if(title)$
-$if(abstract)$
-\begin{abstract}
-$abstract$
-\end{abstract}
+$if(isbn)$
+{\normalsize \textsf{ISBN: $isbn$}}
 $endif$
-$endif$
+\vfill
+{\normalsize \textsf{© $year$ $author$}}
+\newline
+{\normalsize \textsf{Published under Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License.}}
+\newpage
 
-$if(first-chapter)$
-\setcounter{chapter}{$first-chapter$}
-\addtocounter{chapter}{-1}
-$endif$
+%
+% Table of contents (TOC)
+%
 
-$for(include-before)$
-$include-before$
-
-$endfor$
-$if(toc)$
-$if(toc-title)$
-\renewcommand*\contentsname{$toc-title$}
-$endif$
-\hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$$endif$}
+\renewcommand*\contentsname{Table of contents}
 \setcounter{tocdepth}{$toc-depth$}
 \tableofcontents
-$if(toc-own-page)$
 \newpage
-$endif$
-$endif$
-$if(lof)$
-\listoffigures
-$endif$
-$if(lot)$
-\listoftables
-$endif$
-$if(linestretch)$
-\setstretch{$linestretch$}
-$endif$
-$if(has-frontmatter)$
-\mainmatter
-$endif$
+
+%
+% Main content
+%
+
+% Turn on page numbers
+\pagenumbering{arabic}
+
 $body$
 
-$if(has-frontmatter)$
-\backmatter
-$endif$
-$if(natbib)$
-$if(bibliography)$
-$if(biblio-title)$
-$if(has-chapters)$
-\renewcommand\bibname{$biblio-title$}
-$else$
-\renewcommand\refname{$biblio-title$}
-$endif$
-$endif$
-\bibliography{$for(bibliography)$$bibliography$$sep$,$endfor$}
-
-$endif$
-$endif$
-$if(biblatex)$
-\printbibliography$if(biblio-title)$[title=$biblio-title$]$endif$
-
-$endif$
-$for(include-after)$
-$include-after$
-
-$endfor$
 \end{document}
