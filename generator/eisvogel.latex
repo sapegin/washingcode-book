@@ -135,11 +135,9 @@ $highlighting-macros$
 \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,fontsize=\small,commandchars=\\\{\}}
 
 $endif$
-$if(tables)$
+
 \usepackage{longtable,booktabs,array}
-$if(multirow)$
 \usepackage{multirow}
-$endif$
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
@@ -149,7 +147,7 @@ $endif$
 % Allow footnotes in longtable head/foot
 \IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
 \makesavenoteenv{longtable}
-$endif$
+
 % add backlinks to footnote references, cf. https://tex.stackexchange.com/questions/302266/make-footnote-clickable-both-ways
 $if(footnotes-disable-backlinks)$
 $else$
@@ -390,9 +388,7 @@ $endif$
 % Headings
 %
 
-\definecolor{heading-color}{RGB}{0,0,0}
 \addtokomafont{section}{\sffamily}
-\addtokomafont{section}{\color{heading-color}}
 
 %
 % variables for title, author and date
@@ -403,37 +399,14 @@ $endif$
 \date{$date$}
 
 %
-% tables
+% Tables
 %
-$if(tables)$
-
-\definecolor{table-row-color}{HTML}{F5F5F5}
-\definecolor{table-rule-color}{HTML}{999999}
-
-%\arrayrulecolor{black!40}
+\definecolor{table-rule-color}{HTML}{000000}
 \arrayrulecolor{table-rule-color}     % color of \toprule, \midrule, \bottomrule
-\setlength\heavyrulewidth{0.3ex}      % thickness of \toprule, \bottomrule
+\setlength\heavyrulewidth{0.2ex}      % thickness of \toprule, \bottomrule
 \renewcommand{\arraystretch}{1.3}     % spacing (padding)
 
-$if(table-use-row-colors)$
-% Unfortunately the colored cells extend beyond the edge of the
-% table because pandoc uses @-expressions (@{}) like so:
-%
-% \begin{longtable}[]{@{}ll@{}}
-% \end{longtable}
-%
-% https://en.wikibooks.org/wiki/LaTeX/Tables#.40-expressions
-\usepackage{etoolbox}
-\AtBeginEnvironment{longtable}{\rowcolors{2}{}{table-row-color!100}}
-\preto{\toprule}{\hiderowcolors}{}{}
-\appto{\endhead}{\showrowcolors}{}{}
-\appto{\endfirsthead}{\showrowcolors}{}{}
-$endif$
-$endif$
-
-%
-% remove paragraph indentation
-%
+% Remove paragraph indentation
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{6pt plus 2pt minus 1pt}
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
@@ -480,6 +453,7 @@ $endif$
 % Front matter
 %
 
+\pagenumbering{gobble}
 \setstretch{1.5}
 {\large \textbf{\textsf{$title$}}}
 \newline
@@ -513,6 +487,9 @@ $endif$
 
 % Turn on page numbers
 \pagenumbering{arabic}
+
+% Set back the main line height
+\setstretch{1.2}
 
 $body$
 

@@ -1,6 +1,28 @@
 import fs from 'fs-extra';
 import { globSync } from 'glob';
 import _ from 'lodash';
+import richtypo from 'richtypo';
+import {
+  shortWords,
+  orphans,
+  ellipses,
+  dashesBasic,
+  numberUnits,
+  degreeSigns,
+  prepositions,
+  quotes
+} from 'richtypo-rules-en';
+
+const rules = [
+  shortWords,
+  prepositions,
+  orphans,
+  dashesBasic,
+  ellipses,
+  numberUnits,
+  degreeSigns,
+  quotes
+];
 
 const SOURCE_DIR = 'manuscript';
 const DEST_DIR = 'generator/content';
@@ -29,6 +51,8 @@ const updateAnchors = contents =>
     ($, anchor, heading) => `${heading} {#${anchor}}`
   );
 
+const typo = contents => richtypo(rules, contents);
+
 console.log();
 console.log('[MD] Preparing Markdown files...');
 const files = globSync(`${SOURCE_DIR}/*.md`);
@@ -38,7 +62,7 @@ fs.ensureDir(DEST_DIR);
 for (const filepath of files) {
   console.log(`[MD] 👉 ${filepath}`);
   const markuaText = read(filepath);
-  const gfmText = _.flow(updateAnchors, updateTips)(markuaText);
+  const gfmText = _.flow(typo, updateAnchors, updateTips)(markuaText);
 
   fs.writeFileSync(filepath.replace(SOURCE_DIR, DEST_DIR), gfmText);
 }

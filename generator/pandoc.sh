@@ -1,4 +1,4 @@
-# TODO: Rich typo
+# TODO: SVG images
 
 BOOK_FILE="washing-code"
 BOOK_TITLE="Washing your code: clean code for frontend developers"
