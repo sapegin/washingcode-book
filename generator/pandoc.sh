@@ -1,21 +1,11 @@
-# TODO: Internal links ({#linting})
-# TODO: Remove "Chapter X"
-# TODO: LeanPub tips / callouts / alerts (I>, T>)
-# TODO: Font sizes
-# TODO: Fonts
-# TODO: Unicode characters?
 # TODO: Rich typo
-# TODO: Links in footnotes
 
 BOOK_FILE="washing-code"
 BOOK_TITLE="Washing your code: clean code for frontend developers"
-CHAPTERS_FILES="generator/settings.md \
-	manuscript/010_Header.md \
-	manuscript/020_Avoid_loops.md \
-  manuscript/030_Avoid_conditions.md"
+CHAPTERS_FILES="generator/settings.md generator/content/*.md"
 # TODO: Add the rest of the chapters
 COVER="manuscript/resources/images/cover.jpg"
-DATE=$(date "+%B %e, %Y")
+VERSION="Version: $(date "+%B %e, %Y")"
 DIST_DIR=dist
 
 mkdir -p "$DIST_DIR"
@@ -30,8 +20,9 @@ pandoc $CHAPTERS_FILES \
 	--table-of-contents --toc-depth=2 \
   --template="generator/eisvogel.latex" \
 	--highlight-style "generator/theme.theme" \
-  -f gfm \
-	-M date="$DATE"
+  --lua-filter "generator/filters/tips.lua" \
+  -f commonmark_x \
+	-M date="$VERSION"
 
 	# -V linkcolor:blue \
 	# -V documentclass=report \
@@ -55,4 +46,4 @@ pandoc $CHAPTERS_FILES \
 # 	--metadata title="$BOOK_FILE" \
 # 	--highlight-style theme.json \
 # 	--css epub.css \
-# 	-M date="$DATE"
+# 	-M date="$VERSION"

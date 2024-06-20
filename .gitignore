@@ -8,4 +8,4 @@ Thumbs.db
 yarn.lock
 .eslintcache
 dist/
-generator/fonts/MonoLisa-*
+generator/content/

@@ -47,64 +47,27 @@
 $if(CJKmainfont)$
 \PassOptionsToPackage{space}{xeCJK}
 $endif$
-%
-\documentclass[
-$if(fontsize)$
-  $fontsize$,
-$endif$
-$if(papersize)$
-  $papersize$paper,
-$else$
-  paper=a4,
-$endif$
-$for(classoption)$
-  $classoption$$sep$,
-$endfor$
-  ,captions=tableheading
-]{scrbook}
+
+% Layout
+\documentclass[a5paper,twoside,12pt,captions=tableheading]{scrbook}
+\usepackage[paperwidth=6in,paperheight=9in,inner=2cm,outer=2cm,top=2cm,bottom=2cm,includehead=false,includefoot=false]{geometry}
+
+% Fancy blockquotes
+\usepackage{tcolorbox}
+
 \usepackage{amsmath,amssymb}
-$if(linestretch)$
-\usepackage{setspace}
-$else$
-% Use setspace anyway because we change the default line spacing.
+
+% Use setspace to change the line spacing.
 % The spacing is changed early to affect the titlepage and the TOC.
 \usepackage{setspace}
 \setstretch{1.2}
-$endif$
+
 \usepackage{iftex}
-\ifPDFTeX
-  \usepackage[$if(fontenc)$$fontenc$$else$T1$endif$]{fontenc}
-  \usepackage[utf8]{inputenc}
-  \usepackage{textcomp} % provide euro and other symbols
-\else % if luatex or xetex
-  \usepackage{unicode-math} % this also loads fontspec
-  \defaultfontfeatures{Scale=MatchLowercase}
-  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
-\fi
-$if(luatexjapresetoptions)$
-  \ifLuaTeX
-    \usepackage[$for(luatexjapresetoptions)$$luatexjapresetoptions$$sep$,$endfor$]{luatexja-preset}
-  \fi
-$endif$
-$if(zero-width-non-joiner)$
-%% Support for zero-width non-joiner characters.
-\makeatletter
-\def\zerowidthnonjoiner{%
-  % Prevent ligatures and adjust kerning, but still support hyphenating.
-  \texorpdfstring{%
-    \TextOrMath{\nobreak\discretionary{-}{}{\kern.03em}%
-      \ifvmode\else\nobreak\hskip\z@skip\fi}{}%
-  }{}%
-}
-\makeatother
-\ifPDFTeX
-  \DeclareUnicodeCharacter{200C}{\zerowidthnonjoiner}
-\else
-  \catcode`^^^^200c=\active
-  \protected\def ^^^^200c{\zerowidthnonjoiner}
-\fi
-%% End of ZWNJ support
-$endif$
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{textcomp} % provide euro and other symbols
+
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 \IfFileExists{microtype.sty}{% use microtype if available
@@ -127,39 +90,34 @@ $endif$
 $if(verbatim-in-note)$
 \usepackage{fancyvrb}
 $endif$
+
+%
+% Colors
+%
+
 \usepackage{xcolor}
 \definecolor{default-linkcolor}{HTML}{000000}
 \definecolor{default-filecolor}{HTML}{000000}
 \definecolor{default-citecolor}{HTML}{000000}
 \definecolor{default-urlcolor}{HTML}{000000}
-$if(footnotes-pretty)$
+\definecolor{tip-info-bg}{HTML}{dfe8ef}
+\definecolor{tip-info-border}{HTML}{80a4be}
+\definecolor{tip-warning-bg}{HTML}{f7e7d5}
+\definecolor{tip-warning-border}{HTML}{de9e59}
+
+
+
 % load footmisc in order to customize footnotes (footmisc has to be loaded before hyperref, cf. https://tex.stackexchange.com/a/169124/144087)
 \usepackage[hang,flushmargin,bottom,multiple]{footmisc}
 \setlength{\footnotemargin}{0.8em} % set space between footnote nr and text
 \setlength{\footnotesep}{\baselineskip} % set space between multiple footnotes
 \setlength{\skip\footins}{0.3cm} % set space between page content and footnote
 \setlength{\footskip}{0.9cm} % set space between footnote and page bottom
-$endif$
-$if(geometry)$
-\usepackage[$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
-$else$
-\usepackage[margin=2.5cm,includehead=true,includefoot=true,centering,$for(geometry)$$geometry$$sep$,$endfor$]{geometry}
-$endif$
-$if(titlepage-logo)$
-\usepackage[export]{adjustbox}
-\usepackage{graphicx}
-$endif$
-$if(listings)$
-\usepackage{listings}
-\newcommand{\passthrough}[1]{#1}
-\lstset{defaultdialect=[5.3]Lua}
-\lstset{defaultdialect=[x86masm]Assembler}
-$endif$
-$if(listings-no-page-break)$
-\usepackage{etoolbox}
-\BeforeBeginEnvironment{lstlisting}{\par\noindent\begin{minipage}{\linewidth}}
-\AfterEndEnvironment{lstlisting}{\end{minipage}\par\addvspace{\topskip}}
-$endif$
+
+% Disable content justification but keep hyphenation
+\usepackage{ragged2e}
+\RaggedRight
+
 $if(lhs)$
 \lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
 $endif$
@@ -174,7 +132,7 @@ $highlighting-macros$
 % the help of fvextra). Redefinition is necessary because it is unlikely that
 % pandoc includes fvextra in the default template.
 \usepackage{fvextra}
-\DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,fontsize=$if(code-block-font-size)$$code-block-font-size$$else$\small$endif$,commandchars=\\\{\}}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,fontsize=\small,commandchars=\\\{\}}
 
 $endif$
 $if(tables)$
@@ -215,9 +173,10 @@ $if(graphics)$
 \floatplacement{figure}{$if(float-placement-figure)$$float-placement-figure$$else$H$endif$}
 \makeatother
 $endif$
-$if(svg)$
+
+
 \usepackage{svg}
-$endif$
+
 $if(strikeout)$
 $-- also used for underline
 \ifLuaTeX
@@ -294,31 +253,12 @@ $if(csl-refs)$
 \newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 $endif$
-$if(lang)$
-\ifLuaTeX
-\usepackage[bidi=basic]{babel}
-\else
-\usepackage[bidi=default]{babel}
-\fi
-$if(babel-lang)$
-\babelprovide[main,import]{$babel-lang$}
-$if(mainfont)$
-\ifPDFTeX
-\else
-\babelfont{rm}[$for(mainfontoptions)$$mainfontoptions$$sep$,$endfor$]{$mainfont$}
-\fi
-$endif$
-$endif$
-$for(babel-otherlangs)$
-\babelprovide[import]{$babel-otherlangs$}
-$endfor$
-$for(babelfonts/pairs)$
-\babelfont[$babelfonts.key$]{rm}{$babelfonts.value$}
-$endfor$
-% get rid of language-specific shorthands (see #6817):
-\let\LanguageShortHands\languageshorthands
-\def\languageshorthands#1{}
-$endif$
+
+\usepackage[english]{babel}
+
+\hyphenpenalty=50
+% \usepackage[htt]{hyphenat}
+
 $for(header-includes)$
 $header-includes$
 $endfor$
@@ -353,10 +293,10 @@ $endif$
 \IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
 \urlstyle{$if(urlstyle)$$urlstyle$$else$same$endif$}
-$if(links-as-notes)$
+
 % Make links footnotes instead of hotlinks:
 \DeclareRobustCommand{\href}[2]{#2\footnote{\url{#1}}}
-$endif$
+
 $if(verbatim-in-note)$
 \VerbatimFootnotes % allow verbatim text in footnotes
 $endif$
@@ -376,15 +316,11 @@ $endif$
 $if(keywords)$
   pdfkeywords={$for(keywords)$$keywords$$sep$, $endfor$},
 $endif$
-$if(colorlinks)$
   colorlinks=true,
   linkcolor={$if(linkcolor)$$linkcolor$$else$default-linkcolor$endif$},
   filecolor={$if(filecolor)$$filecolor$$else$default-filecolor$endif$},
   citecolor={$if(citecolor)$$citecolor$$else$default-citecolor$endif$},
   urlcolor={$if(urlcolor)$$urlcolor$$else$default-urlcolor$endif$},
-$else$
-  hidelinks,
-$endif$
   breaklinks=true,
   pdfcreator={Artem Sapegin}}
 $if(title)$
@@ -408,28 +344,7 @@ $endif$
 %% added
 %%
 
-$if(page-background)$
-\usepackage[pages=all]{background}
-$endif$
-
-%
-% for the background color of the title page
-%
-$if(titlepage)$
-\usepackage{pagecolor}
-\usepackage{afterpage}
-$if(titlepage-background)$
-\usepackage{tikz}
-$endif$
-$if(geometry)$
-$else$
-\usepackage[margin=2.5cm,includehead=true,includefoot=true,centering]{geometry}
-$endif$
-$endif$
-
-%
-% break urls
-%
+% Break long URLs into multiple lines
 \PassOptionsToPackage{hyphens}{url}
 
 %
@@ -442,7 +357,7 @@ $endif$
 % captions
 %
 \definecolor{caption-color}{HTML}{777777}
-\usepackage[font={stretch=1.2}, textfont={color=caption-color}, position=top, skip=4mm, labelfont=bf, singlelinecheck=false, justification=$if(caption-justification)$$caption-justification$$else$raggedright$endif$]{caption}
+\usepackage[font={stretch=1.2}, textfont={color=caption-color}, position=top, skip=4mm, labelfont=bf, singlelinecheck=false, justification=raggedright]{caption}
 \setcapindent{0em}
 
 %
@@ -459,8 +374,6 @@ $endif$
 % Fonts
 %
 
-\usepackage[T1]{fontenc}
-
 % Main font: Paratype Serif, https://www.tug.org/FontCatalogue/paratypeserif/
 \usepackage{paratype}
 
@@ -471,8 +384,18 @@ $endif$
 \usepackage{DejaVuSansMono}
 
 %
+%  Emojis
+%
+
+\usepackage{pifont}
+\DeclareUnicodeCharacter{1F355}{\ding{44}} % Pizza emoji → Klatz hand
+\DeclareUnicodeCharacter{2729}{\ding{73}} % Empty star
+\DeclareUnicodeCharacter{2605}{\ding{72}} % Filled star
+
+%
 % Headings
 %
+
 \definecolor{heading-color}{RGB}{0,0,0}
 \addtokomafont{section}{\sffamily}
 \addtokomafont{section}{\color{heading-color}}
@@ -522,160 +445,20 @@ $endif$
 \setlength{\emergencystretch}{3em}  % prevent overfull lines
 
 %
-%
-% Listings
-%
-%
-
-$if(listings)$
-
-%
-% general listing colors
-%
-\definecolor{listing-background}{HTML}{F7F7F7}
-\definecolor{listing-rule}{HTML}{B3B2B3}
-\definecolor{listing-numbers}{HTML}{B3B2B3}
-\definecolor{listing-text-color}{HTML}{000000}
-\definecolor{listing-keyword}{HTML}{435489}
-\definecolor{listing-keyword-2}{HTML}{1284CA} % additional keywords
-\definecolor{listing-keyword-3}{HTML}{9137CB} % additional keywords
-\definecolor{listing-identifier}{HTML}{435489}
-\definecolor{listing-string}{HTML}{00999A}
-\definecolor{listing-comment}{HTML}{8E8E8E}
-
-\lstdefinestyle{eisvogel_listing_style}{
-  language         = java,
-$if(listings-disable-line-numbers)$
-  xleftmargin      = 0.6em,
-  framexleftmargin = 0.4em,
-$else$
-  numbers          = left,
-  xleftmargin      = 2.7em,
-  framexleftmargin = 2.5em,
-$endif$
-  backgroundcolor  = \color{listing-background},
-  basicstyle       = \color{listing-text-color}\linespread{1.0}%
-                      \lst@ifdisplaystyle%
-                      $if(code-block-font-size)$$code-block-font-size$$else$\small$endif$%
-                      \fi\ttfamily{},
-  breaklines       = true,
-  frame            = single,
-  framesep         = 0.19em,
-  rulecolor        = \color{listing-rule},
-  frameround       = ffff,
-  tabsize          = 4,
-  numberstyle      = \color{listing-numbers},
-  aboveskip        = 1.0em,
-  belowskip        = 0.1em,
-  abovecaptionskip = 0em,
-  belowcaptionskip = 1.0em,
-  keywordstyle     = {\color{listing-keyword}\bfseries},
-  keywordstyle     = {[2]\color{listing-keyword-2}\bfseries},
-  keywordstyle     = {[3]\color{listing-keyword-3}\bfseries\itshape},
-  sensitive        = true,
-  identifierstyle  = \color{listing-identifier},
-  commentstyle     = \color{listing-comment},
-  stringstyle      = \color{listing-string},
-  showstringspaces = false,
-  escapeinside     = {/*@}{@*/}, % Allow LaTeX inside these special comments
-  literate         =
-  {á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
-  {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
-  {à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
-  {À}{{\`A}}1 {È}{{\`E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
-  {ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
-  {Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
-  {â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
-  {Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
-  {œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
-  {ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
-  {€}{{\EUR}}1 {£}{{\pounds}}1 {«}{{\guillemotleft}}1
-  {»}{{\guillemotright}}1 {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {¿}{{?`}}1
-  {…}{{\ldots}}1 {≥}{{>=}}1 {≤}{{<=}}1 {„}{{\glqq}}1 {“}{{\grqq}}1
-  {”}{{''}}1
-}
-\lstset{style=eisvogel_listing_style}
-
-%
-% Java (Java SE 12, 2019-06-22)
-%
-\lstdefinelanguage{Java}{
-  morekeywords={
-    % normal keywords (without data types)
-    abstract,assert,break,case,catch,class,continue,default,
-    do,else,enum,exports,extends,final,finally,for,if,implements,
-    import,instanceof,interface,module,native,new,package,private,
-    protected,public,requires,return,static,strictfp,super,switch,
-    synchronized,this,throw,throws,transient,try,volatile,while,
-    % var is an identifier
-    var
-  },
-  morekeywords={[2] % data types
-    % primitive data types
-    boolean,byte,char,double,float,int,long,short,
-    % String
-    String,
-    % primitive wrapper types
-    Boolean,Byte,Character,Double,Float,Integer,Long,Short
-    % number types
-    Number,AtomicInteger,AtomicLong,BigDecimal,BigInteger,DoubleAccumulator,DoubleAdder,LongAccumulator,LongAdder,Short,
-    % other
-    Object,Void,void
-  },
-  morekeywords={[3] % literals
-    % reserved words for literal values
-    null,true,false,
-  },
-  sensitive,
-  morecomment  = [l]//,
-  morecomment  = [s]{/*}{*/},
-  morecomment  = [s]{/**}{*/},
-  morestring   = [b]",
-  morestring   = [b]',
-}
-
-\lstdefinelanguage{XML}{
-  morestring      = [b]",
-  moredelim       = [s][\bfseries\color{listing-keyword}]{<}{\ },
-  moredelim       = [s][\bfseries\color{listing-keyword}]{</}{>},
-  moredelim       = [l][\bfseries\color{listing-keyword}]{/>},
-  moredelim       = [l][\bfseries\color{listing-keyword}]{>},
-  morecomment     = [s]{<?}{?>},
-  morecomment     = [s]{<!--}{-->},
-  commentstyle    = \color{listing-comment},
-  stringstyle     = \color{listing-string},
-  identifierstyle = \color{listing-identifier}
-}
-$endif$
-
-%
-% header and footer
+% Header and footer
 %
 \usepackage{scrlayer-scrpage}
 
-\newpairofpagestyles{eisvogel-header-footer}{
+% Smaller font size: https://www.sascha-frank.com/latex-font-size.html
+\setkomafont{pageheadfoot}{\normalfont\normalcolor\footnotesize}
+\setkomafont{pagenumber}{\normalfont\normalcolor\footnotesize}
+
+% Only show page numbers in the footer
+\newpairofpagestyles{header-footer}{
   \clearpairofpagestyles
-  \ofoot*{\thepage}
-  \addtokomafont{pageheadfoot}{\upshape}
+  \ifoot{\thepage}
 }
-\pagestyle{eisvogel-header-footer}
-
-$if(book)$
-\deftripstyle{ChapterStyle}{}{}{}{}{\pagemark}{}
-\renewcommand*{\chapterpagestyle}{ChapterStyle}
-$endif$
-
-$if(page-background)$
-\backgroundsetup{
-scale=1,
-color=black,
-opacity=$if(page-background-opacity)$$page-background-opacity$$else$0.2$endif$,
-angle=0,
-contents={%
-  \includegraphics[width=\paperwidth,height=\paperheight]{$page-background$}
-  }%
-}
-$endif$
+\pagestyle{header-footer}
 
 %%
 %% end added
@@ -688,17 +471,10 @@ $endif$
 %%
 $if(titlepage)$
 \begin{titlepage}
-$if(titlepage-background)$
-\newgeometry{top=2cm, right=4cm, bottom=3cm, left=4cm}
-$else$
 \newgeometry{left=6cm}
-$endif$
 $if(titlepage-color)$
 \definecolor{titlepage-color}{HTML}{$titlepage-color$}
 \newpagecolor{titlepage-color}\afterpage{\restorepagecolor}
-$endif$
-$if(titlepage-background)$
-\tikz[remember picture,overlay] \node[inner sep=0pt] at (current page.center){\includegraphics[width=\paperwidth,height=\paperheight]{$titlepage-background$}};
 $endif$
 \newcommand{\colorRule}[3][black]{\textcolor[HTML]{#1}{\rule{#2}{#3}}}
 \begin{flushleft}
@@ -709,45 +485,18 @@ $endif$
 \par
 \noindent
 
-$if(titlepage-background)$
-% The titlepage with a background image has other text spacing and text size
-{
-  \setstretch{2}
-  \vfill
-  \vskip -8em
-  \noindent {\huge \textbf{\textsf{$title$}}}
-  $if(subtitle)$
-  \vskip 1em
-  {\Large \textsf{$subtitle$}}
-  $endif$
-  \vskip 2em
-  \noindent {\Large \textsf{$for(author)$$author$$sep$, $endfor$} \vskip 0.6em \textsf{$date$}}
-  \vfill
-}
-$else$
-{
-  \setstretch{1.4}
-  \vfill
-  \noindent {\huge \textbf{\textsf{$title$}}}
-  $if(subtitle)$
-  \vskip 1em
-  {\Large \textsf{$subtitle$}}
-  $endif$
-  \vskip 2em
-  \noindent {\Large \textsf{$for(author)$$author$$sep$, $endfor$}}
-  \vfill
-}
+\setstretch{1.4}
+\vfill
+\noindent {\huge \textbf{\textsf{$title$}}}
+$if(subtitle)$
+\vskip 1em
+{\Large \textsf{$subtitle$}}
 $endif$
+\vskip 2em
+\noindent {\Large \textsf{$for(author)$$author$$sep$, $endfor$}}
+\vfill
 
-$if(titlepage-logo)$
-\noindent
-\includegraphics[width=$if(logo-width)$$logo-width$$else$35mm$endif$, left]{$titlepage-logo$}
-$endif$
-
-$if(titlepage-background)$
-$else$
 \textsf{$date$}
-$endif$
 \end{flushleft}
 \end{titlepage}
 \restoregeometry
@@ -782,9 +531,7 @@ $if(toc)$
 $if(toc-title)$
 \renewcommand*\contentsname{$toc-title$}
 $endif$
-$if(colorlinks)$
 \hypersetup{linkcolor=$if(toccolor)$$toccolor$$else$$endif$}
-$endif$
 \setcounter{tocdepth}{$toc-depth$}
 \tableofcontents
 $if(toc-own-page)$
