@@ -889,8 +889,7 @@ As well as common acronyms:
 - JSON;
 - PDF;
 - RGB;
-- URL;
-- XML.
+- URL.
 
 And possibly a few very common ones used on a project but they still should be documented (new team members will be very thankful for that!), and shouldn’t be ambiguous.
 
@@ -1023,7 +1022,7 @@ class Component {
 }
 -->
 
-```jsx
+```tsx
 class ReactExample extends Component<ReactExampleProps> {
   public shouldComponentUpdate(nextProps: ReactExampleProps) {
     return this.props.code !== nextProps.code;
@@ -1552,7 +1551,7 @@ const hiddenInput = (name, value) => {
 };
 -->
 
-```jsx
+```tsx
 function submitFormData(
   action: string,
   options: {
@@ -1768,7 +1767,7 @@ const Flex = ({children}) => <>{children}</>
 const Body = ({children}) => <>{children}</>
 -->
 
-```jsx
+```tsx
 function Tip({ type, content }: TipProps) {
   const shouldBeWrapped = hasTextLikeOnlyChildren(content);
 
@@ -1903,7 +1902,7 @@ The name still makes sense, when something like `isCroc` would require a change.
 
 Unfortunately, I don’t have a good solution for clashing React components and TypeScript types. This usually happens when we create a component to render an object or a certain type:
 
-```jsx
+```tsx
 interface User {
   name: string;
   email: string;
@@ -1927,7 +1926,7 @@ Though TypeScript allows us to use a type and a value with the same name in the 
 
 The only solution I see is renaming either the type or the component. I usually try to rename a component, though it requires some creativity to come up with a name that’s not confusing. For example, names like `UserComponent` or `UserView` would be confusing because other components don’t have these suffixes. But something like `UserProfile` may work in this case:
 
-```jsx
+```tsx
 interface User {
   name: string;
   email: string;

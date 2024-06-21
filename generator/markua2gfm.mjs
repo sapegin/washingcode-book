@@ -13,6 +13,11 @@ import {
   quotes
 } from 'richtypo-rules-en';
 
+/**
+ * Convert Markdown files from Markua dialect used by LeanPub to
+ * GitHub Flavored Markdown (GFM) / Commonmark used by Pandoc
+ */
+
 const rules = [
   shortWords,
   prepositions,
@@ -51,6 +56,10 @@ const updateAnchors = contents =>
     ($, anchor, heading) => `${heading} {#${anchor}}`
   );
 
+/** Pandoc doesn't support TSX syntax highlighting */
+const updateCode = contents => contents.replace(/```tsx/, '```jsx');
+
+/** Pretty typography */
 const typo = contents => richtypo(rules, contents);
 
 console.log();
@@ -62,7 +71,16 @@ fs.ensureDir(DEST_DIR);
 for (const filepath of files) {
   console.log(`[MD] 👉 ${filepath}`);
   const markuaText = read(filepath);
-  const gfmText = _.flow(typo, updateAnchors, updateTips)(markuaText);
+  const gfmText = _.flow(
+    typo,
+    updateAnchors,
+    updateTips,
+    updateCode
+  )(markuaText);
 
   fs.writeFileSync(filepath.replace(SOURCE_DIR, DEST_DIR), gfmText);
 }
+
+console.log();
+console.log('[MD] 🦜 Done');
+console.log();

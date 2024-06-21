@@ -1470,7 +1470,7 @@ function getStarRating(percentage) {
 expect(getStarRating(0)).toBe('✩✩✩✩✩✩✩✩✩✩')
 expect(getStarRating(0.01)).toBe('★✩✩✩✩✩✩✩✩✩')
 expect(getStarRating(0.1)).toBe('★✩✩✩✩✩✩✩✩✩')
-expect(getStarRating(0.11)).toBe('★✩✩✩✩✩✩✩✩')
+expect(getStarRating(0.11)).toBe('★★✩✩✩✩✩✩✩✩')
 expect(getStarRating(0.91)).toBe('★★★★★★★★★★')
 -->
 

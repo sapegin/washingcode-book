@@ -9,5 +9,5 @@ cover-image: manuscript/resources/images/cover.jpg
 year: 2024
 first-published: June 2024
 isbn: TEST
-www: sapegin.me
+toc-title: Table of contents
 ---

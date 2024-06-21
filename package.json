@@ -23,7 +23,7 @@
     "test": "vitest run",
     "test:watch": "nodemon --watch 'manuscript' --ext md --exec 'vitest'",
     "posttest": "npm run lint && npm run format",
-    "generate-books": "node generator/markua2gfm.mjs",
+    "generate-books": "node generator/markua2gfm.mjs; generator/pandoc.sh",
     "prepare": "husky"
   },
   "keywords": [],

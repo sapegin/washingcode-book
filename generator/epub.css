@@ -1,0 +1,109 @@
+body {
+  margin: 1rem;
+  text-align: left;
+  font-size: large;
+  font-family: Charter, 'Bitstream Charter', 'Sitka Text', Cambria,
+    Georgia, serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 2em;
+  margin-bottom: 1em;
+  font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova',
+    'Nimbus Sans', Arial, sans-serif;
+}
+h1:first-child {
+  margin-top: 0;
+}
+
+hr {
+  width: 50%;
+  margin: 2rem auto;
+  border: none;
+  height: 1px;
+  background-color: #000;
+}
+
+/* Book subtitle on the frontmatter page */
+.subtitle {
+  font-size: large;
+}
+
+/* Table of contents */
+
+nav#toc ol {
+  padding: 0;
+  margin-left: 1em;
+}
+nav#toc ol li {
+  margin: 0.25rem 0;
+  margin-bottom: 1rem;
+  padding: 0;
+  font-weight: bold;
+  list-style-type: none;
+}
+nav#toc ol ol li {
+  margin-bottom: 0.25rem;
+  font-weight: normal;
+}
+
+code {
+  font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo,
+    Consolas, 'DejaVu Sans Mono', monospace;
+  white-space: pre-wrap;
+  font-size: medium;
+}
+
+/* Tips */
+
+.tip,
+.note,
+.warning {
+  margin-bottom: 2rem;
+  background-color: #dfe8ef;
+  border: 2px solid #80a4be;
+  border-radius: 0.25rem;
+  padding: 1rem;
+}
+.tip .title,
+.note .title,
+.warning .title {
+  margin: -1rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  background-color: #80a4be;
+  color: #fff;
+  font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova',
+    'Nimbus Sans', Arial, sans-serif;
+}
+.tip .title p::before,
+.note .title p::before,
+.warning .title p::before {
+  content: '☛';
+  display: inline-block;
+  margin-right: 0.5em;
+  font-family: Arial, sans-serif;
+}
+.tip p:first-child,
+.note p:first-child,
+.warning p:first-child {
+  margin-top: 0;
+}
+.tip p:last-child,
+.note p:last-child,
+.warning p:last-child {
+  margin-bottom: 0;
+}
+
+.warning {
+  background-color: #f7e7d5;
+  border-color: #de9e59;
+}
+.warning .title {
+  background-color: #de9e59;
+}

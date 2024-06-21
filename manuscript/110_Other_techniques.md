@@ -243,7 +243,7 @@ Reducers and state machines are even more powerful with TypeScript, where we can
 function getTweets() { return Promise.resolve([{id: '1', username: 'taco', html: 'test'}, {id: '2', username: 'taco', html: 'test 2'}]) }
 -->
 
-```jsx
+```tsx
 type Status = 'Idle' | 'Loading' | 'Ready' | 'Failed';
 type ActionType = 'Load' | 'LoadSuccess' | 'LoadFailed';
 
@@ -793,7 +793,7 @@ I> This idea is also known as _the grep test_ and is greatly described in [Jamie
 
 We can also create a map using types:
 
-```jsx
+```tsx
 type Cover = 'washing-code' | 'tacos';
 interface BookCoverProps {
   title: string;

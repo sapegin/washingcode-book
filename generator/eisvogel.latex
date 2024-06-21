@@ -476,7 +476,7 @@ $endif$
 % Table of contents (TOC)
 %
 
-\renewcommand*\contentsname{Table of contents}
+\renewcommand*\contentsname{$toc-title$}
 \setcounter{tocdepth}{$toc-depth$}
 \tableofcontents
 \newpage
