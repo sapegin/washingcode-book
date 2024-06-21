@@ -78,16 +78,22 @@ code {
   font-weight: bold;
   background-color: #80a4be;
   color: #fff;
+}
+.tip .title p,
+.note .title p,
+.warning .title p {
+  display: flex;
+  align-items: center;
+  /* TODO: This doesn't work for some reason */
   font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova',
     'Nimbus Sans', Arial, sans-serif;
 }
 .tip .title p::before,
 .note .title p::before,
 .warning .title p::before {
-  content: '☛';
+  content: '☞';
   display: inline-block;
   margin-right: 0.5em;
-  font-family: Arial, sans-serif;
 }
 .tip p:first-child,
 .note p:first-child,
