@@ -673,7 +673,7 @@ export default tseslint.config({
 
 Here, we allow only [@ts-expect-error](https://typescript-eslint.io/rules/prefer-ts-expect-error/) comments and require an explanation for each of them.
 
-Then we can write something like this, and it won’t trigger a lint error:
+Then we can write something like this, and it won’t trigger a linting error:
 
 <!-- let makePizza = () => {}, dough, sauce, salami -->
 

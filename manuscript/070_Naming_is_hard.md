@@ -1505,7 +1505,7 @@ One thing that developers often disagree on is how to spell acronyms (for exampl
 - Do something weird: `XMLHttpRequest`, `DatePickerIOS`, `HTMLHRElement`;
 - Normalize the words: `WebIos`, `HtmlHrElement`.
 
-Unfortunately, the most readable approach, normalization, seems to be the least popular. Since we can’t use spaces in names, it can be hard to separate words: `WebiOS` could be read as “webi os” instead of “web ios”, and it takes extra time to read it right. Such names also don’t work well with code spell checkers: they mark “webi” and “htmlhr” as incorrect words.
+Unfortunately, the most readable approach, normalization, seems to be the least popular. Since we can’t use spaces in names, it can be hard to separate words: `WebiOS` could be read as `webi os` instead of `web ios`, and it takes extra time to read it right. Such names also don’t work well with code spell checkers: they mark `webi` and `htmlhr` as incorrect words.
 
 <!-- cspell:enable -->
 

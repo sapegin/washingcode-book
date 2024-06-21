@@ -93,7 +93,7 @@ The **fuzzy file opener** is one of my favorite tools. I use it all the time to 
 
 ![Fuzzy file opener in Visual Studio Code](images/fuzzy-file-opener.png)
 
-TODO: search (regexps?)
+TODO: search (regular expressions?)
 
 {#spell-checking}
 
