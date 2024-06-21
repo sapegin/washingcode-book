@@ -889,8 +889,7 @@ As well as common acronyms:
 - JSON;
 - PDF;
 - RGB;
-- URL;
-- XML.
+- URL.
 
 And possibly a few very common ones used on a project but they still should be documented (new team members will be very thankful for that!), and shouldn’t be ambiguous.
 
