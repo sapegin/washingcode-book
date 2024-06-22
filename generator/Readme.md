@@ -4,7 +4,7 @@
 
 - [Pandoc](https://pandoc.org)
 - [MacTeX](https://tug.org/mactex/)
-- [Poppler](https://www.mankier.com/package/poppler-utils)
+- [Poppler](https://poppler.freedesktop.org)
 - [Eisvogel pandoc LaTeX template](https://github.com/Wandmalfarbe/pandoc-latex-template)
 
 ## Installation on macOS
