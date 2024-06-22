@@ -3,8 +3,8 @@
 
 BOOK_FILE="washing-code"
 BOOK_TITLE="Washing your code: clean code for frontend developers"
-CHAPTERS_FILES="generator/settings.md generator/content/*.md"
-COVER="media/cover.jpg"
+CHAPTERS_FILES_EPUB="generator/settings.md generator/content-epub/*.md"
+CHAPTERS_FILES_PDF="generator/settings.md generator/content-pdf/*.md"
 VERSION="$(date "+%B %e, %Y")"
 
 mkdir -p "dist"
@@ -13,7 +13,7 @@ mkdir -p "dist"
 echo
 echo "[BUILD] Generate PDF ebook..."
 
-pandoc $CHAPTERS_FILES \
+pandoc $CHAPTERS_FILES_PDF \
   --resource-path="manuscript/resources" \
   --output="dist/$BOOK_FILE-content.pdf" \
   --top-level-division=chapter \
@@ -34,7 +34,7 @@ rm "dist/$BOOK_FILE-content.pdf"
 echo
 echo "[BUILD] Generate Epub ebook..."
 
-pandoc $CHAPTERS_FILES \
+pandoc $CHAPTERS_FILES_EPUB \
   --resource-path="manuscript/resources" \
   --output="dist/$BOOK_FILE.epub" \
   --top-level-division=chapter \

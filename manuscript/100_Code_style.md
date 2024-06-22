@@ -728,7 +728,7 @@ The shortstringer code stays the same.
 
 And coming back to screens with a limited number of characters, I now use 27-inch screen, split into two windows side by side. Each side fits around 80 characters plus a sidebar with the repository tree.
 
-![Coding on 27-inch screen](images/27inches.png)
+![Coding on 27-inch screen](images/27inches.jpg)
 
 ## Make it easy to remember and use
 

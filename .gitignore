@@ -8,4 +8,5 @@ Thumbs.db
 yarn.lock
 .eslintcache
 dist/
-generator/content/
+generator/content-pdf/
+generator/content-epub/

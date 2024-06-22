@@ -44,15 +44,30 @@
 \PassOptionsToPackage{unicode$for(hyperrefoptions)$,$hyperrefoptions$$endfor$}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 \PassOptionsToPackage{dvipsnames,svgnames,x11names,table}{xcolor}
-$if(CJKmainfont)$
-\PassOptionsToPackage{space}{xeCJK}
-$endif$
 
 % Layout: 7.5"×9.25" (19.0cm×23.5cm)
 \documentclass[a5paper,twoside,12pt,captions=tableheading]{scrbook}
 \usepackage[paperwidth=7.5in,paperheight=9.25in,inner=2cm,outer=2cm,top=2cm,bottom=2cm,includehead=false,includefoot=false]{geometry}
 
-% Fancy blockquotes
+%
+% Colors
+%
+
+\usepackage{xcolor}
+\definecolor{link-color}{HTML}{000000}
+\definecolor{file-color}{HTML}{000000}
+\definecolor{cite-color}{HTML}{000000}
+\definecolor{url-color}{HTML}{000000}
+\definecolor{caption-color}{HTML}{767676}
+\definecolor{blockquote-border}{HTML}{CCCCCC}
+\definecolor{blockquote-text}{HTML}{767676}
+\definecolor{table-rule-color}{HTML}{000000}
+\definecolor{tip-info-bg}{HTML}{dfe8ef}
+\definecolor{tip-info-border}{HTML}{80a4be}
+\definecolor{tip-warning-bg}{HTML}{f7e7d5}
+\definecolor{tip-warning-border}{HTML}{de9e59}
+
+% Fancy boxes (used for tips)
 \usepackage{tcolorbox}
 
 \usepackage{amsmath,amssymb}
@@ -74,8 +89,7 @@ $endif$
   \usepackage[$for(microtypeoptions)$$microtypeoptions$$sep$,$endfor$]{microtype}
   \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
 }{}
-$if(indent)$
-$else$
+
 \makeatletter
 \@ifundefined{KOMAClassName}{% if non-KOMA class
   \IfFileExists{parskip.sty}{%
@@ -86,26 +100,6 @@ $else$
 }{% if KOMA class
   \KOMAoptions{parskip=half}}
 \makeatother
-$endif$
-$if(verbatim-in-note)$
-\usepackage{fancyvrb}
-$endif$
-
-%
-% Colors
-%
-
-\usepackage{xcolor}
-\definecolor{default-linkcolor}{HTML}{000000}
-\definecolor{default-filecolor}{HTML}{000000}
-\definecolor{default-citecolor}{HTML}{000000}
-\definecolor{default-urlcolor}{HTML}{000000}
-\definecolor{tip-info-bg}{HTML}{dfe8ef}
-\definecolor{tip-info-border}{HTML}{80a4be}
-\definecolor{tip-warning-bg}{HTML}{f7e7d5}
-\definecolor{tip-warning-border}{HTML}{de9e59}
-
-
 
 % load footmisc in order to customize footnotes (footmisc has to be loaded before hyperref, cf. https://tex.stackexchange.com/a/169124/144087)
 \usepackage[hang,flushmargin,bottom,multiple]{footmisc}
@@ -118,10 +112,10 @@ $endif$
 \usepackage{ragged2e}
 \RaggedRight
 
-$if(lhs)$
-\lstnewenvironment{code}{\lstset{language=Haskell,basicstyle=\small\ttfamily}}{}
-$endif$
-$if(highlighting-macros)$
+%
+% Syntax highlighting
+%
+
 $highlighting-macros$
 
 % Workaround/bugfix from jannick0.
@@ -134,26 +128,27 @@ $highlighting-macros$
 \usepackage{fvextra}
 \DefineVerbatimEnvironment{Highlighting}{Verbatim}{breaklines,fontsize=\small,commandchars=\\\{\}}
 
-$endif$
-
 \usepackage{longtable,booktabs,array}
 \usepackage{multirow}
 \usepackage{calc} % for calculating minipage widths
+
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
 \makeatletter
 \patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
 \makeatother
+
 % Allow footnotes in longtable head/foot
 \IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
 \makesavenoteenv{longtable}
 
 % add backlinks to footnote references, cf. https://tex.stackexchange.com/questions/302266/make-footnote-clickable-both-ways
-$if(footnotes-disable-backlinks)$
-$else$
 \usepackage{footnotebackref}
-$endif$
-$if(graphics)$
+
+%
+% Images handling
+%
+
 \usepackage{graphicx}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -162,169 +157,39 @@ $if(graphics)$
 % Scale images if necessary, so that they will not overflow the page
 % margins by default, and it is still possible to overwrite the defaults
 % using explicit options in \includegraphics[width, height, ...]{}
-\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-% Set default figure placement to htbp
-\makeatletter
-% Make use of float-package and set default placement for figures to H.
-% The option H means 'PUT IT HERE' (as  opposed to the standard h option which means 'You may put it here if you like').
-\usepackage{float}
-\floatplacement{figure}{$if(float-placement-figure)$$float-placement-figure$$else$H$endif$}
-\makeatother
-$endif$
+% \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\setkeys{Gin}{width=0.75\linewidth,height=\maxheight,keepaspectratio}
 
-
-\usepackage{svg}
-
-$if(strikeout)$
-$-- also used for underline
-\ifLuaTeX
-  \usepackage{luacolor}
-  \usepackage[soul]{lua-ul}
-\else
 \usepackage{soul}
-$if(CJKmainfont)$
-  \ifXeTeX
-    % soul's \st doesn't work for CJK:
-    \usepackage{xeCJKfntef}
-    \renewcommand{\st}[1]{\sout{#1}}
-  \fi
-$endif$
-\fi
-$endif$
+
 \setlength{\emergencystretch}{3em} % prevent overfull lines
+
 \providecommand{\tightlist}{%
   \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
-$if(numbersections)$
-\setcounter{secnumdepth}{$if(secnumdepth)$$secnumdepth$$else$5$endif$}
-$else$
 \setcounter{secnumdepth}{-\maxdimen} % remove section numbering
-$endif$
-$if(subfigure)$
-\usepackage{subcaption}
-$endif$
-$if(block-headings)$
-% Make \paragraph and \subparagraph free-standing
-\ifx\paragraph\undefined\else
-  \let\oldparagraph\paragraph
-  \renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-  \let\oldsubparagraph\subparagraph
-  \renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
-$endif$
-$if(pagestyle)$
-\pagestyle{$pagestyle$}
-$endif$
-$if(csl-refs)$
-% definitions for citeproc citations
-\NewDocumentCommand\citeproctext{}{}
-\NewDocumentCommand\citeproc{mm}{%
-  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
-\makeatletter
- % allow citations to break across lines
- \let\@cite@ofmt\@firstofone
- % avoid brackets around text for \cite:
- \def\@biblabel#1{}
- \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
-\makeatother
-\newlength{\cslhangindent}
-\setlength{\cslhangindent}{1.5em}
-\newlength{\csllabelwidth}
-\setlength{\csllabelwidth}{3em}
-\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
-  {\begin{list}{}{%
-   \setlength{\itemindent}{0pt}
-   \setlength{\leftmargin}{0pt}
-   \setlength{\parsep}{0pt}
-   % turn on hanging indent if param 1 is 1
-   \ifodd #1
-    \setlength{\leftmargin}{\cslhangindent}
-    \setlength{\itemindent}{-1\cslhangindent}
-   \fi
-   % set entry spacing
-   \setlength{\itemsep}{#2\baselineskip}}}
-  {\end{list}}
-\usepackage{calc}
-\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
-\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
-\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
-\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
-$endif$
 
 \usepackage[english]{babel}
-
-\hyphenpenalty=50
-% \usepackage[htt]{hyphenat}
-
-$for(header-includes)$
-$header-includes$
-$endfor$
-\ifLuaTeX
-  \usepackage{selnolig}  % disable illegal ligatures
-\fi
-$if(dir)$
-\ifPDFTeX
-  \TeXXeTstate=1
-  \newcommand{\RL}[1]{\beginR #1\endR}
-  \newcommand{\LR}[1]{\beginL #1\endL}
-  \newenvironment{RTL}{\beginR}{\endR}
-  \newenvironment{LTR}{\beginL}{\endL}
-\fi
-$endif$
-$if(natbib)$
-\usepackage[$natbiboptions$]{natbib}
-\bibliographystyle{$if(biblio-style)$$biblio-style$$else$plainnat$endif$}
-$endif$
-$if(biblatex)$
-\usepackage[$if(biblio-style)$style=$biblio-style$,$endif$$for(biblatexoptions)$$biblatexoptions$$sep$,$endfor$]{biblatex}
-$for(bibliography)$
-\addbibresource{$bibliography$}
-$endfor$
-$endif$
-$if(nocite-ids)$
-\nocite{$for(nocite-ids)$$it$$sep$, $endfor$}
-$endif$
-$if(csquotes)$
-\usepackage{csquotes}
-$endif$
-\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
-\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\urlstyle{$if(urlstyle)$$urlstyle$$else$same$endif$}
 
 % Make links footnotes instead of hotlinks:
 \DeclareRobustCommand{\href}[2]{#2\footnote{\url{#1}}}
 
-$if(verbatim-in-note)$
-\VerbatimFootnotes % allow verbatim text in footnotes
-$endif$
 \hypersetup{
-$if(title-meta)$
   pdftitle={$title-meta$},
-$endif$
-$if(author-meta)$
   pdfauthor={$author-meta$},
-$endif$
-$if(lang)$
   pdflang={$lang$},
-$endif$
-$if(subject)$
   pdfsubject={$subject$},
-$endif$
-$if(keywords)$
   pdfkeywords={$for(keywords)$$keywords$$sep$, $endfor$},
-$endif$
   colorlinks=true,
-  linkcolor={$if(linkcolor)$$linkcolor$$else$default-linkcolor$endif$},
-  filecolor={$if(filecolor)$$filecolor$$else$default-filecolor$endif$},
-  citecolor={$if(citecolor)$$citecolor$$else$default-citecolor$endif$},
-  urlcolor={$if(urlcolor)$$urlcolor$$else$default-urlcolor$endif$},
+  linkcolor={$link-color$},
+  filecolor={$file-color$},
+  citecolor={$cite-color$},
+  urlcolor={$url-color$},
   breaklinks=true,
-  pdfcreator={Artem Sapegin}}
-$if(title)$
-\title{$title$$if(thanks)$\thanks{$thanks$}$endif$}
-$endif$
-$if(subtitle)$
+  pdfcreator={$author$}
+}
+
+\title{$title$}
+
 \usepackage{etoolbox}
 \makeatletter
 \providecommand{\subtitle}[1]{% add subtitle to \maketitle
@@ -332,7 +197,7 @@ $if(subtitle)$
 }
 \makeatother
 \subtitle{$subtitle$}
-$endif$
+
 \author{$for(author)$$author$$sep$ \and $endfor$}
 \date{$date$}
 
@@ -348,15 +213,12 @@ $endif$
 %
 % captions
 %
-\definecolor{caption-color}{HTML}{777777}
 \usepackage[font={stretch=1.2}, textfont={color=caption-color}, position=top, skip=4mm, labelfont=bf, singlelinecheck=false, justification=raggedright]{caption}
 \setcapindent{0em}
 
 %
-% blockquote
+% Blockquotes
 %
-\definecolor{blockquote-border}{RGB}{221,221,221}
-\definecolor{blockquote-text}{RGB}{119,119,119}
 \usepackage{mdframed}
 \newmdenv[rightline=false,bottomline=false,topline=false,linewidth=3pt,linecolor=blockquote-border,skipabove=\parskip]{customblockquote}
 \renewenvironment{quote}{\begin{customblockquote}\list{}{\rightmargin=0em\leftmargin=0em}%
@@ -401,7 +263,6 @@ $endif$
 %
 % Tables
 %
-\definecolor{table-rule-color}{HTML}{000000}
 \arrayrulecolor{table-rule-color}     % color of \toprule, \midrule, \bottomrule
 \setlength\heavyrulewidth{0.2ex}      % thickness of \toprule, \bottomrule
 \renewcommand{\arraystretch}{1.3}     % spacing (padding)
