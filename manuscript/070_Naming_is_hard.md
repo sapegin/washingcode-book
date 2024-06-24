@@ -1671,14 +1671,14 @@ const result = handleUpdateResponse(response.status);
 this.setState(result);
 ```
 
-And this one:
-
 <!--
 }}
 const instance = new X()
 instance.update({ status: 200 })
 expect(instance.state).toBe(200)
 -->
+
+And this one:
 
 <!--
 const response = { json: () => Promise.resolve(42) }
@@ -1709,14 +1709,14 @@ class X {
 this.setState(handleUpdateResponse(response.status));
 ```
 
-Or for the second example:
-
 <!--
 }}
 const instance = new X()
 instance.update({ status: 200 })
 expect(instance.state).toBe(200)
 -->
+
+Or for the second example:
 
 <!--
 const response = { json: () => Promise.resolve(42) }

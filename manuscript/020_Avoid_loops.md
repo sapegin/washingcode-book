@@ -365,12 +365,12 @@ const kebabNames = {};
 Object.entries(allNames).forEach(([race, names]) => {
   kebabNames[race] = names.map(name => name.toLowerCase());
 });
-// → { hobbits: ['bilbo-baggins'], dwarfs: ['fili', 'kili'] }
+// → { hobbits: ['bilbo baggins'], dwarfs: ['fili', 'kili'] }
 ```
 
 <!--
 expect(kebabNames).toEqual({
-  hobbits: ['bilbo-baggins'],
+  hobbits: ['bilbo baggins'],
   dwarfs: ['fili', 'kili']
 })
 -->
@@ -386,12 +386,12 @@ const kebabNames = {};
 for (let [race, names] of Object.entries(allNames)) {
   kebabNames[race] = names.map(name => name.toLowerCase());
 }
-// → { hobbits: ['bilbo-baggins'], dwarfs: ['fili', 'kili'] }
+// → { hobbits: ['bilbo baggins'], dwarfs: ['fili', 'kili'] }
 ```
 
 <!--
 expect(kebabNames).toEqual({
-  hobbits: ['bilbo-baggins'],
+  hobbits: ['bilbo baggins'],
   dwarfs: ['fili', 'kili']
 })
 -->
