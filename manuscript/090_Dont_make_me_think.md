@@ -276,7 +276,9 @@ Some patterns are on the border of cleverness.
 For examples, using `Boolean` to filter out falsy array elements (`null` and `0` in this example):
 
 ```js
-const words = ['Not', null, 'enough', 0, 'cheese.'].filter(Boolean);
+const words = ['Not', null, 'enough', 0, 'cheese.'].filter(
+  Boolean
+);
 ```
 
 <!-- expect(words).toEqual( ["Not", "enough", "cheese."]) -->
@@ -378,7 +380,9 @@ The only difference here is the parameter we pass to our function with a very lo
 ```js
 function handleSomething(documentId) {
   dispatch(
-    changeIsWordDocumentExportSuccessful(documentId !== undefined)
+    changeIsWordDocumentExportSuccessful(
+      documentId !== undefined
+    )
   );
 }
 ```
@@ -426,7 +430,11 @@ const props = {
     ? joinEnzymeId(type, toTitleCase(columnName), rowIndex)
     : null,
   'data-codeception-id': columnName
-    ? joinCodeceptionId(type, toTitleCase(columnName), rowIndex)
+    ? joinCodeceptionId(
+        type,
+        toTitleCase(columnName),
+        rowIndex
+      )
     : null
 };
 ```
@@ -483,7 +491,9 @@ This code has two conditions for corner cases: `assetsDir` doesn’t exist and `
 ```js
 const getAssetDirs = config =>
   config.assetsDir
-    ? _.castArray(config.assetsDir).map(dir => ({ from: dir }))
+    ? _.castArray(config.assetsDir).map(dir => ({
+        from: dir
+      }))
     : [];
 ```
 
@@ -561,8 +571,10 @@ These are good examples:
   border-radius: 0.5rem;
 
   /* Set border-width, border-style and border-color
-   * This is a bit of an outlier but it’s very common and it’s hard to
-   * misinterpret it because all values have different types */
+   * This is a bit of an outlier but it’s very common and
+   * it’s hard to misinterpret it because all values have
+   * different types
+   */
   border: 1px solid #c0ffee;
 
   /* Set top, right, bottom, and left */
@@ -578,18 +590,23 @@ And these are bad examples:
   margin: 1rem 2rem;
 
   /* Set border radius to top-left/bottom-right,
-   * and top-right/bottom-left corners */
+   * and top-right/bottom-left corners
+   */
   border-radius: 1em 2em;
   /* Set border radius to top-left, top-right/bottom-left,
-   * and bottom-right corners */
+   * and bottom-right corners
+   */
   border-radius: 1em 2em 3em;
   /* Set border radius to top-left, top-right, bottom-right,
-   * and bottom-left corners */
+   * and bottom-left corners
+   */
   border-radius: 1em 2em 3em 4em;
 
   /* Set background-color, background-image, background-repeat,
-   * and background-position */
-  background: #bada55 url(images/tacocat.gif) no-repeat left top;
+   * and background-position
+   */
+  background: #bada55 url(images/tacocat.gif) no-repeat left
+    top;
 
   /* Set top, right, bottom, and left */
   inset: 0 20px 0 20px;
@@ -607,7 +624,9 @@ Consider this example:
 ```jsx
 function RecipeName({ name, subrecipe }) {
   if (subrecipe) {
-    return <Link href={`/recipes/${subrecipe.slug}`}>{name}</Link>;
+    return (
+      <Link href={`/recipes/${subrecipe.slug}`}>{name}</Link>
+    );
   }
   return name;
 }
@@ -618,7 +637,9 @@ It might be my personal pet peeve but I dislike that the `return` statements are
 ```jsx
 function RecipeName({ name, subrecipe }) {
   if (subrecipe) {
-    return <Link href={`/recipes/${subrecipe.slug}`}>{name}</Link>;
+    return (
+      <Link href={`/recipes/${subrecipe.slug}`}>{name}</Link>
+    );
   } else {
     return name;
   }
@@ -640,7 +661,9 @@ let Render = ({platform: Platform}) => { return (
 
 ```jsx
 <Button
-  onPress={Platform.OS !== 'web' ? onOpenViewConfirmation : undefined}
+  onPress={
+    Platform.OS !== 'web' ? onOpenViewConfirmation : undefined
+  }
   link={Platform.OS === 'web' ? previewLink : undefined}
   target="_empty"
 >
@@ -669,7 +692,9 @@ let Render = ({platform: Platform}) => { return (
 
 ```jsx
 <Button
-  onPress={Platform.OS === 'web' ? undefined : onOpenViewConfirmation}
+  onPress={
+    Platform.OS === 'web' ? undefined : onOpenViewConfirmation
+  }
   link={Platform.OS === 'web' ? previewLink : undefined}
   target="_empty"
 >
@@ -829,9 +854,15 @@ const resolver = { doResolve: (...args) => x = args.length }
 -->
 
 ```js
-resolver.doResolve(target, fixedRequest, null, ctx, (err, result) => {
-  /* ... */
-});
+resolver.doResolve(
+  target,
+  fixedRequest,
+  null,
+  ctx,
+  (err, result) => {
+    /* ... */
+  }
+);
 ```
 
 <!-- expect(x).toBe(5) -->
@@ -865,7 +896,9 @@ Unfortunately, JavaScript doesn’t support named parameters yet, but we can use
 <!-- let x; const appendScriptTag = (a, b) => x = b.useCORS -->
 
 ```js
-appendScriptTag(`https://example.com/falafel.js`, { useCORS: false });
+appendScriptTag(`https://example.com/falafel.js`, {
+  useCORS: false
+});
 ```
 
 <!-- expect(x).toBe(false) -->
@@ -901,7 +934,8 @@ Here it’s hard to see why we’re shortcutting the function. However, if we gi
 ```js
 function Toggle() {
   const { userDetails, status } = useAuth();
-  const isUserLoggedIn = status === 'fetched' && Boolean(userDetails);
+  const isUserLoggedIn =
+    status === 'fetched' && Boolean(userDetails);
 
   if (isUserLoggedIn) {
     return null;

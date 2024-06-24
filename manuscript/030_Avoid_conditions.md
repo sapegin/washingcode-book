@@ -170,7 +170,9 @@ const RefundLabelMessage = ({
     return typeLabels[type];
   }
 
-  return hasUserSelectableRefundOptions ? 'Estimated:' : 'Total:';
+  return hasUserSelectableRefundOptions
+    ? 'Estimated:'
+    : 'Total:';
 };
 
 const RefundLabel = props => (
@@ -304,7 +306,9 @@ A similar technique works when the input is a single value or an array:
 
 ```js
 function getProductsDropdownItems({ products }) {
-  const productList = Array.isArray(products) ? products : [products];
+  const productList = Array.isArray(products)
+    ? products
+    : [products];
   return productList.map(product => ({
     label: product.name,
     value: product.id
@@ -735,7 +739,8 @@ T> We discuss a better way of managing loading and error states in the [Make imp
 One way to simplify conditions is to replace multiple conditions for the same variable with an array. Consider this example:
 
 ```js
-const isSmall = size => size == '1' || size == '2' || size == '3';
+const isSmall = size =>
+  size == '1' || size == '2' || size == '3';
 ```
 
 <!--
@@ -766,7 +771,8 @@ function getSpecialOffersArray(sku, isHornsAndHooves) {
     ? Session.get(SPECIAL_OFFERS_CACHE_KEY + '_' + sku)
     : Session.get(SPECIAL_OFFERS_CACHE_KEY);
   if (!specialOffersArray) {
-    const hornsAndHoovesOffers = getHornsAndHoovesSpecialOffers();
+    const hornsAndHoovesOffers =
+      getHornsAndHoovesSpecialOffers();
     const pawsAndTailsOffers = getPawsAndTailsSpecialOffers();
     specialOffersArray = isHornsAndHooves
       ? hornsAndHoovesOffers
@@ -831,7 +837,10 @@ const sessionGet = (key, isHornsAndHooves, sku) =>
   Session.get(getSessionKey(key, isHornsAndHooves, sku));
 
 const sessionSet = (key, sku, isHornsAndHooves, value) =>
-  Session.set(getSessionKey(key, isHornsAndHooves, sku), value);
+  Session.set(
+    getSessionKey(key, isHornsAndHooves, sku),
+    value
+  );
 
 function getSpecialOffersArray(sku, isHornsAndHooves) {
   const cachedOffers = sessionGet(
@@ -847,7 +856,12 @@ function getSpecialOffersArray(sku, isHornsAndHooves) {
     ? getHornsAndHoovesSpecialOffers()
     : getPawsAndTailsSpecialOffers();
 
-  sessionSet(SPECIAL_OFFERS_CACHE_KEY, isHornsAndHooves, sku, offers);
+  sessionSet(
+    SPECIAL_OFFERS_CACHE_KEY,
+    isHornsAndHooves,
+    sku,
+    offers
+  );
 
   return offers;
 }
@@ -948,7 +962,8 @@ const getSpecialOffersArray = withSessionCache(
   SPECIAL_OFFERS_CACHE_KEY,
   brand =>
     ({
-      [BRANDS.HORNS_AND_HOOVES]: getHornsAndHoovesSpecialOffers,
+      [BRANDS.HORNS_AND_HOOVES]:
+        getHornsAndHoovesSpecialOffers,
       [BRANDS.PAWS_AND_TAILS]: getPawsAndTailsSpecialOffers
     })[brand]()
 );
@@ -1124,7 +1139,10 @@ Another realistic and common example is form validation:
 function validate(values) {
   const errors = {};
 
-  if (!values.name || (values.name && values.name.trim() === '')) {
+  if (
+    !values.name ||
+    (values.name && values.name.trim() === '')
+  ) {
     errors.name = 'Name is required';
   }
 
@@ -1140,7 +1158,10 @@ function validate(values) {
     errors.email = 'Email is required';
   }
 
-  if (!values.login || (values.login && values.login.trim() === '')) {
+  if (
+    !values.login ||
+    (values.login && values.login.trim() === '')
+  ) {
     errors.login = 'Login is required';
   }
 
@@ -1218,7 +1239,8 @@ const hasStringValue = value => value?.trim() !== '';
 const hasLengthLessThanOrEqual = max => value =>
   hasStringValue(value) === false || value.length <= max;
 const hasNoSpaces = value =>
-  hasStringValue(value) === false || value?.includes(' ') === false;
+  hasStringValue(value) === false ||
+  value?.includes(' ') === false;
 ```
 
 <!--
@@ -1373,14 +1395,16 @@ Here’s one more example:
 ```js
 function getDiscountAmount(discountOptions) {
   if (
-    discountOptions?.userDiscount?.discountAmount?.displayCurrency
+    discountOptions?.userDiscount?.discountAmount
+      ?.displayCurrency
   ) {
     if (
-      discountOptions?.promoDiscount?.discountAmount?.displayCurrency
+      discountOptions?.promoDiscount?.discountAmount
+        ?.displayCurrency
     ) {
       if (
-        discountOptions.userDiscount.discountAmount.displayCurrency
-          .valueInCents >
+        discountOptions.userDiscount.discountAmount
+          .displayCurrency.valueInCents >
         discountOptions?.promoDiscount?.discountAmount
           ?.displayCurrency.valueInCents
       ) {
@@ -1395,7 +1419,8 @@ function getDiscountAmount(discountOptions) {
         ?.displayCurrency;
     }
   } else if (
-    discountOptions?.promoDiscount?.discountAmount?.displayCurrency
+    discountOptions?.promoDiscount?.discountAmount
+      ?.displayCurrency
   ) {
     return discountOptions?.promoDiscount?.discountAmount
       ?.displayCurrency;
@@ -1423,10 +1448,15 @@ My brain is refusing to even try to understand what’s going on here. Let’s t
 ```js
 function getDiscountAmount(discountOptions) {
   const amounts = [
-    discountOptions?.userDiscount?.discountAmount?.displayCurrency,
-    discountOptions?.promoDiscount?.discountAmount?.displayCurrency
+    discountOptions?.userDiscount?.discountAmount
+      ?.displayCurrency,
+    discountOptions?.promoDiscount?.discountAmount
+      ?.displayCurrency
   ];
-  const maxAmount = _.maxBy(amounts, amount => amount?.valueInCents);
+  const maxAmount = _.maxBy(
+    amounts,
+    amount => amount?.valueInCents
+  );
   return maxAmount ?? { currency: 'EUR', valueInCents: 0 };
 }
 ```
@@ -1453,15 +1483,24 @@ Similar to tables, a single formula could often replace a whole bunch of conditi
 ```js
 function getStarRating(percentage) {
   if (percentage === 0) return '✩✩✩✩✩✩✩✩✩✩';
-  if (percentage > 0 && percentage <= 0.1) return '★✩✩✩✩✩✩✩✩✩';
-  if (percentage > 0.1 && percentage <= 0.2) return '★★✩✩✩✩✩✩✩✩';
-  if (percentage > 0.2 && percentage <= 0.3) return '★★★✩✩✩✩✩✩✩';
-  if (percentage > 0.3 && percentage <= 0.4) return '★★★★✩✩✩✩✩✩';
-  if (percentage > 0.4 && percentage <= 0.5) return '★★★★★✩✩✩✩✩';
-  if (percentage > 0.5 && percentage <= 0.6) return '★★★★★★✩✩✩✩';
-  if (percentage > 0.6 && percentage <= 0.7) return '★★★★★★★✩✩✩';
-  if (percentage > 0.7 && percentage <= 0.8) return '★★★★★★★★✩✩';
-  if (percentage > 0.8 && percentage <= 0.9) return '★★★★★★★★★✩';
+  if (percentage > 0 && percentage <= 0.1)
+    return '★✩✩✩✩✩✩✩✩✩';
+  if (percentage > 0.1 && percentage <= 0.2)
+    return '★★✩✩✩✩✩✩✩✩';
+  if (percentage > 0.2 && percentage <= 0.3)
+    return '★★★✩✩✩✩✩✩✩';
+  if (percentage > 0.3 && percentage <= 0.4)
+    return '★★★★✩✩✩✩✩✩';
+  if (percentage > 0.4 && percentage <= 0.5)
+    return '★★★★★✩✩✩✩✩';
+  if (percentage > 0.5 && percentage <= 0.6)
+    return '★★★★★★✩✩✩✩';
+  if (percentage > 0.6 && percentage <= 0.7)
+    return '★★★★★★★✩✩✩';
+  if (percentage > 0.7 && percentage <= 0.8)
+    return '★★★★★★★★✩✩';
+  if (percentage > 0.8 && percentage <= 0.9)
+    return '★★★★★★★★★✩';
   return '★★★★★★★★★★';
 }
 ```

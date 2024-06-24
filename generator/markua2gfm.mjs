@@ -61,13 +61,15 @@ const updateAnchors = contents =>
  * Pandoc doesn't support TSX syntax highlighting:
  * Replace it with JSX that seems to look good enough.
  */
-const updateCode = contents => contents.replace(/```tsx/, '```jsx');
+const updateCode = contents =>
+  contents.replace(/```tsx/g, '```jsx');
 
 /**
  * Pandoc doesn't work well with SVG images in PDFs:
  * Replace them with PNG files.
  */
-const updateImages = contents => contents.replace(/\.svg/, '.png');
+const updateImages = contents =>
+  contents.replace(/\.svg/, '.png');
 
 /** Pretty typography */
 const typo = contents => richtypo(rules, contents);

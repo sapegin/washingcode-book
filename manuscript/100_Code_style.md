@@ -152,7 +152,7 @@ expect(test({allIngredients: []})).toBe(null);
 expect(test({allIngredients: [1]})).toBe(undefined);
 -->
 
-Now the `return` statement is more noticeable: it has its own line, braces create extra negative space around it, and, most important, it has a familiar shape of an `if` statement. Without braces, it looks like any other line:
+Now the `return` statement is more noticeable: it has its own line, braces create extra negative space around it, and, most important, it has a familiar shape of an `if` statement. Without braces, it looks like any other line (see the illustration).
 
 ![Shapes of if conditions without and with braces](images/if-shapes.svg)
 
@@ -294,7 +294,9 @@ I’d go one step further, and replace a single `var` with a one `var` per line 
 ```js
 const fs = require('fs');
 const readme = require('./readme');
-const examples = readme(fs.readFileSync('./README.md', 'utf-8'));
+const examples = readme(
+  fs.readFileSync('./README.md', 'utf-8')
+);
 ```
 
 <!-- expect(examples).toEqual('./README.md') -->
@@ -536,7 +538,7 @@ const earthToSun2 = 149_597_870_700;
 
 I used to have a limit of 120 characters per line because why not, I have a big screen that could fit a lot of code, I should use the space available to me! Then I lowered it to 100 characters, and then to 80, which is a Prettier’s default value that in their docs they [highly recommend not to change](https://prettier.io/docs/en/options.html#print-width).
 
-An argument for using 80 characters I’ve heard many times but never believed in is that some people may edit code in a terminal that only displays 80 characters, like in the old days. But how many people are really doing this now?
+An argument for using 80 characters I’ve heard many times but never believed in is that some people may edit code in a terminal that only displays 80 characters, like in the old days of MS-DOS and IDEs like QuickBasic and Turbo Pascal. But how many people are really doing this now?
 
 ![QuickBasic](images/quickbasic.png)
 
@@ -878,7 +880,9 @@ const getDropdownOptions = options =>
 Or the same with default export:
 
 ```jsx
-const Button = props => <button className="Button" {...props} />;
+const Button = props => (
+  <button className="Button" {...props} />
+);
 export default Button;
 ```
 

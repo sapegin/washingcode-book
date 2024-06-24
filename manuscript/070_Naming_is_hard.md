@@ -293,7 +293,9 @@ I’m okay, and even prefer, very short variable names for one-liners. Consider 
 <!-- const TRANSITION = {'0xbada55': 0, '0xc0ffee': 1}, BREAKPOINT_MOBILE = 480, BREAKPOINT_TABLET = 768, BREAKPOINT_DESKTOP = 1024 -->
 
 ```js
-const inputRange = Object.keys(TRANSITION).map(x => parseInt(x, 16));
+const inputRange = Object.keys(TRANSITION).map(x =>
+  parseInt(x, 16)
+);
 
 const breakpoints = [
   BREAKPOINT_MOBILE,
@@ -318,7 +320,9 @@ Another convention I’m okay with is using `a`/`b` names for sorting and compar
 <!-- const dates = ['2022-02-26T00:21:00.000+01:00', '2021-05-11T10:30:00.000+01:00'] -->
 
 ```js
-dates.sort((a, b) => new Date(a).valueOf() - new Date(b).valueOf());
+dates.sort(
+  (a, b) => new Date(a).valueOf() - new Date(b).valueOf()
+);
 ```
 
 <!-- expect(dates).toEqual(['2021-05-11T10:30:00.000+01:00', '2022-02-26T00:21:00.000+01:00']) -->
@@ -540,7 +544,11 @@ I found that reducing the lifespan of a variable works as well, and doesn’t pr
 
 ```ts
 function getRelatedPosts(
-  posts: { slug: string; tags: string[]; timestamp: string }[],
+  posts: {
+    slug: string;
+    tags: string[];
+    timestamp: string;
+  }[],
   { slug, tags }: { slug: string; tags: string[] }
 ) {
   const weighted = posts
@@ -633,7 +641,9 @@ const Test = () => (
 -->
 
 ```jsx
-<Calendar disabledDaysOfWeek={[WEEKDAY_MONDAY, WEEKDAY_SATURDAY]} />
+<Calendar
+  disabledDaysOfWeek={[WEEKDAY_MONDAY, WEEKDAY_SATURDAY]}
+/>
 ```
 
 <!--
@@ -727,7 +737,10 @@ const Test = () => (
 -->
 
 ```jsx
-<Modal title="Out of cheese error" minWidth={MODAL_MIN_WIDTH} />
+<Modal
+  title="Out of cheese error"
+  minWidth={MODAL_MIN_WIDTH}
+/>
 ```
 
 <!--
@@ -767,7 +780,10 @@ const startOfDay = x => x - 0.1
 const DAYS_TO_ADD_IN_TO_FIELD = 1;
 const SECONDS_TO_REMOVE_IN_TO_FIELD = -1;
 const getEndOfDayFromDate = date => {
-  const nextDay = addDays(startOfDay(date), DAYS_TO_ADD_IN_TO_FIELD);
+  const nextDay = addDays(
+    startOfDay(date),
+    DAYS_TO_ADD_IN_TO_FIELD
+  );
   return addSeconds(nextDay, SECONDS_TO_REMOVE_IN_TO_FIELD);
 };
 ```
@@ -867,20 +883,20 @@ I’d even go further and create a list of _approved_ abbreviations. I could onl
 
 Common abbreviations are okay, we don’t even think of most of them as abbreviations:
 
-| Abbreviation | Full term                                     |
-| ------------ | --------------------------------------------- |
-| `alt`        | alternative                                   |
-| `app`        | application                                   |
-| `arg`        | argument                                      |
-| `err`        | error                                         |
-| `info`       | information                                   |
-| `init`       | initialize                                    |
-| `lat`        | latitude                                      |
-| `lon`        | longitude                                     |
-| `max`        | maximum                                       |
-| `min`        | minimum                                       |
-| `param`      | parameter                                     |
-| `prev`       | previous (especially when paired with `next`) |
+| Abbreviation | Full term |
+| --- | --- |
+| `alt` | alternative |
+| `app` | application |
+| `arg` | argument |
+| `err` | error |
+| `info` | information |
+| `init` | initialize |
+| `lat` | latitude |
+| `lon` | longitude |
+| `max` | maximum |
+| `min` | minimum |
+| `param` | parameter |
+| `prev` | previous (especially when paired with `next`) |
 
 As well as common acronyms:
 
@@ -1052,7 +1068,8 @@ _Incorrect_ names are worse than magic numbers. With magic numbers, we can make 
 Consider this example:
 
 ```js
-// Constant used to correct a Date object's time to reflect a UTC timezone
+// Constant used to correct a Date object's time to reflect
+// a UTC timezone
 const TIMEZONE_CORRECTION = 60000;
 const getUTCDateTime = datetime =>
   new Date(
@@ -1070,7 +1087,7 @@ What’s actually happening here is `getTime()` returns milliseconds and `getTim
 Let’s correct the name:
 
 ```js
-const MILLISECONDS_IN_MINUTE = 60000;
+const MILLISECONDS_IN_MINUTE = 60_000;
 const getUTCDateTime = datetime =>
   new Date(
     datetime.getTime() -
@@ -1147,7 +1164,10 @@ const currencyReducer = (state = new Currency(), action) => {
         action,
         'res.data.query.userInfo.userCurrency'
       );
-      const obj = _.get(action, `res.data.currencies[${iso}]`);
+      const obj = _.get(
+        action,
+        `res.data.currencies[${iso}]`
+      );
 
       return state
         .set('iso', iso)
@@ -1189,7 +1209,8 @@ const currencyReducer = (state = new Currency(), action) => {
       }
 
       const iso = data.query.userInfo?.userCurrency;
-      const { name = '', symbol = '' } = data.currencies[iso] || {};
+      const { name = '', symbol = '' } =
+        data.currencies[iso] || {};
 
       return state.merge({ iso, name, symbol });
     default:
@@ -1210,8 +1231,9 @@ Such names are also okay for generic utility functions, like array filtering or 
 ```js
 function findFirstNonEmptyArray(...arrays) {
   return (
-    arrays.find(array => Array.isArray(array) && array.length > 0) ||
-    []
+    arrays.find(
+      array => Array.isArray(array) && array.length > 0
+    ) || []
   );
 }
 ```
@@ -1270,7 +1292,9 @@ test('creates new user', async () => {
   expect(response.body.data).toEqual(
     expect.objectContaining({
       username,
-      password: expect.stringMatching(/^[a-z]+-[a-z]+-[a-z]+$/)
+      password: expect.stringMatching(
+        /^[a-z]+-[a-z]+-[a-z]+$/
+      )
     })
   );
 
@@ -1338,7 +1362,9 @@ test('creates new user', async () => {
   expect(createRes.body.data).toEqual(
     expect.objectContaining({
       username,
-      password: expect.stringMatching(/^[a-z]+-[a-z]+-[a-z]+$/)
+      password: expect.stringMatching(
+        /^[a-z]+-[a-z]+-[a-z]+$/
+      )
     })
   );
 
@@ -1515,13 +1541,16 @@ The normalized spelling doesn’t have these issues: `dangerouslySetInnerHtml`, 
 
 Often we end up with awkward names for intermediate values, like function parameters or function return values:
 
-<!-- const parseMs = (x) => ({minutes: x, seconds: 0}), durationSec = 5 -->
+<!--
+const console = { log: vi.fn() }
+const parseMs = (x) => ({minutes: x, seconds: 0}), durationSec = 5
+-->
 
 ```js
 const duration = parseMs(durationSec * 1000);
-// Then later we work with the result like so:
-duration.minutes;
-duration.seconds;
+
+// Then later we access the values like so:
+console.log(duration.minutes, duration.seconds);
 ```
 
 <!-- expect(duration.minutes).toBe(5000)-->
@@ -1551,15 +1580,8 @@ const hiddenInput = (name, value) => {
 };
 -->
 
-```tsx
-function submitFormData(
-  action: string,
-  options: {
-    method: string;
-    target: '_top';
-    parameters?: { [key: string]: string };
-  }
-) {
+```js
+function submitFormData(action, options) {
   const form = document.createElement('form');
 
   form.method = options.method;
@@ -1569,7 +1591,7 @@ function submitFormData(
   if (options.parameters) {
     Object.keys(options.parameters)
       .map(paramName =>
-        hiddenInput(paramName, options.parameters![paramName])
+        hiddenInput(paramName, options.parameters[paramName])
       )
       .forEach(form.appendChild.bind(form));
   }
@@ -1600,16 +1622,8 @@ const hiddenInput = (name, value) => {
 
 ```ts
 function submitFormData(
-  action: string,
-  {
-    method,
-    target,
-    parameters
-  }: {
-    method: string;
-    target: '_top';
-    parameters?: { [key: string]: string };
-  }
+  action,
+  { method, target, parameters }
 ) {
   const form = document.createElement('form');
 
@@ -1620,7 +1634,7 @@ function submitFormData(
   if (parameters) {
     Object.keys(parameters)
       .map(paramName =>
-        hiddenInput(paramName, parameters![paramName])
+        hiddenInput(paramName, parameters[paramName])
       )
       .forEach(form.appendChild.bind(form));
   }
@@ -1642,7 +1656,7 @@ Here, we’ve removed the `options` object, that was used in almost every line o
 
 Often we add intermediate variables to store the result of some operation before passing it somewhere else or returning it from the function. In many cases, this variable is unnecessary.
 
-Consider these two examples:
+Consider this example:
 
 <!--
 const handleUpdateResponse = x => x
@@ -1656,6 +1670,8 @@ class X {
 const result = handleUpdateResponse(response.status);
 this.setState(result);
 ```
+
+And this one:
 
 <!--
 }}
@@ -1679,7 +1695,7 @@ return data;
 expect(x()).resolves.toBe(42)
 -->
 
-In both cases, the `result` and the `data` variables don’t add much to the code. The names aren’t adding new information, and the code is short enough to be inlined:
+In both cases, the `result`, and `data` variables don’t add much to the code. The names aren’t adding new information, and the code is short enough to be inlined:
 
 <!--
 const handleUpdateResponse = x => x
@@ -1692,6 +1708,8 @@ class X {
 ```js
 this.setState(handleUpdateResponse(response.status));
 ```
+
+Or for the second example:
 
 <!--
 }}
@@ -1767,13 +1785,17 @@ const Flex = ({children}) => <>{children}</>
 const Body = ({children}) => <>{children}</>
 -->
 
-```tsx
-function Tip({ type, content }: TipProps) {
+```jsx
+function Tip({ type, content }) {
   const shouldBeWrapped = hasTextLikeOnlyChildren(content);
 
   return (
     <Flex alignItems="flex-start">
-      {shouldBeWrapped ? <Body type={type}>{content}</Body> : content}
+      {shouldBeWrapped ? (
+        <Body type={type}>{content}</Body>
+      ) : (
+        content
+      )}
     </Flex>
   );
 }
@@ -1853,7 +1875,10 @@ function UserProfile({ user }) {
   return (
     <section>
       {shouldShowGreeting && (
-        <p>Welcome back, green crocodile, the ruler of the Earth!</p>
+        <p>
+          Welcome back, green crocodile, the ruler of the
+          Earth!
+        </p>
       )}
       <p>Name: {user.name}</p>
       <p>Age: {user.age}</p>
@@ -1882,7 +1907,10 @@ function UserProfile({ user, date }) {
   return (
     <section>
       {shouldShowGreeting && (
-        <p>Guten Morgen, green crocodile, the ruler of the Earth!</p>
+        <p>
+          Guten Morgen, green crocodile, the ruler of the
+          Earth!
+        </p>
       )}
       <p>Name: {user.name}</p>
       <p>Age: {user.age}</p>

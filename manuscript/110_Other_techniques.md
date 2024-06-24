@@ -48,7 +48,9 @@ function Tweets() {
   }
 
   if (tweets.length === 0) {
-    return <button onClick={handleLoadTweets}>Load tweets</button>;
+    return (
+      <button onClick={handleLoadTweets}>Load tweets</button>
+    );
   }
 
   return (
@@ -110,7 +112,9 @@ function Tweets() {
   }
 
   if (status === Status.Idle) {
-    return <button onClick={handleLoadTweets}>Load tweets</button>;
+    return (
+      <button onClick={handleLoadTweets}>Load tweets</button>
+    );
   }
 
   if (tweets.length === 0) {
@@ -171,7 +175,10 @@ function reducer(state, action) {
     case Status.Loading:
       switch (action.type) {
         case Action.LoadSuccess:
-          return { status: Status.Ready, tweets: action.tweets };
+          return {
+            status: Status.Ready,
+            tweets: action.tweets
+          };
         case Action.LoadFailed:
           return { status: Status.Failed, tweets: [] };
       }
@@ -205,7 +212,9 @@ export function Tweets() {
   }
 
   if (status === Status.Idle) {
-    return <button onClick={handleLoadTweets}>Load tweets</button>;
+    return (
+      <button onClick={handleLoadTweets}>Load tweets</button>
+    );
   }
 
   if (tweets.length === 0) {
@@ -231,7 +240,7 @@ expect(c1.textContent).toEqual('Load tweets')
 
 It’s definitely more code, but now all the state management is contained in our reducer function. We also added another layer of protection: now certain actions are only allowed in certain statuses; for example, `LoadSuccess` only makes sense when we’re loading data (`Loading` status).
 
-We’ve created a very simple _finite-state machine_:
+We’ve created a very simple _finite-state machine_.
 
 ![State machine diagram](images/tweets-state-machine.svg)
 
@@ -312,7 +321,9 @@ export function Tweets() {
   }
 
   if (state.status === 'Idle') {
-    return <button onClick={handleLoadTweets}>Load tweets</button>;
+    return (
+      <button onClick={handleLoadTweets}>Load tweets</button>
+    );
   }
 
   if (state.status === 'Ready') {
@@ -693,9 +704,9 @@ describe('getDeviceType', () => {
       'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/604.1'
     );
     const hasTouch = true;
-    expect(getDeviceType({ uaParser, hasTouch })).toStrictEqual(
-      'iOS'
-    );
+    expect(
+      getDeviceType({ uaParser, hasTouch })
+    ).toStrictEqual('iOS');
   });
 });
 ```
@@ -711,7 +722,12 @@ With dependency injection we can test any combination of user agent string and t
 Consider this example:
 
 ```jsx
-function BookCover({ title, type, width = 150, height = 194 }) {
+function BookCover({
+  title,
+  type,
+  width = 150,
+  height = 194
+}) {
   return (
     <img
       className="book-cover"
@@ -744,7 +760,12 @@ const COVERS = {
   'washing-code': 'cover-washing-code.jpg',
   tacos: 'cover-tacos.jpg'
 };
-function BookCover({ title, type, width = 150, height = 194 }) {
+function BookCover({
+  title,
+  type,
+  width = 150,
+  height = 194
+}) {
   return (
     <img
       className="book-cover"
@@ -767,7 +788,12 @@ Here, we have a map with all possible filenames, so if we search by a filename (
 However, we don’t always know all the values in advance. In our example, we can move the files to a separate folder and use a complete name without extension as an identifier:
 
 ```jsx
-function BookCover({ title, type, width = 150, height = 194 }) {
+function BookCover({
+  title,
+  type,
+  width = 150,
+  height = 194
+}) {
   return (
     <img
       className="book-cover"

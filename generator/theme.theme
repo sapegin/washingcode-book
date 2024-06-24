@@ -1,6 +1,6 @@
 {
-  "text-color": null,
-  "background-color": "#ffffff",
+  "text-color": "#565a67",
+  "background-color": null,
   "line-number-color": "#6c7693",
   "line-number-background-color": null,
   "text-styles": {
@@ -35,7 +35,7 @@
     "Function": {
       "text-color": "#0f73a7",
       "background-color": null,
-      "bold": false,
+      "bold": true,
       "italic": false,
       "underline": false
     },
@@ -47,14 +47,14 @@
       "underline": false
     },
     "ControlFlow": {
-      "text-color": "#565a67",
+      "text-color": "#7859a6",
       "background-color": null,
-      "bold": false,
+      "bold": true,
       "italic": false,
       "underline": false
     },
     "Operator": {
-      "text-color": "#7859a6",
+      "text-color": "#565a67",
       "background-color": null,
       "bold": false,
       "italic": false,
@@ -75,9 +75,9 @@
       "underline": false
     },
     "Alert": {
-      "text-color": "#b71818",
+      "text-color": "#565a67",
       "background-color": null,
-      "bold": false,
+      "bold": true,
       "italic": false,
       "underline": false
     },
@@ -88,15 +88,22 @@
       "italic": false,
       "underline": false
     },
+    "BuiltIn": {
+      "text-color": "#0f73a7",
+      "background-color": null,
+      "bold": false,
+      "italic": false,
+      "underline": false
+    },
     "Extension": {
-      "text-color": null,
+      "text-color": "#ff00ff",
       "background-color": null,
       "bold": false,
       "italic": false,
       "underline": false
     },
     "Preprocessor": {
-      "text-color": "#7859a6",
+      "text-color": "#0f73a7",
       "background-color": null,
       "bold": false,
       "italic": false,
@@ -131,7 +138,7 @@
       "underline": false
     },
     "Import": {
-      "text-color": null,
+      "text-color": "#7859a6",
       "background-color": null,
       "bold": false,
       "italic": false,

@@ -210,7 +210,7 @@ const spacing = {
 
 <!-- expect(spacing.xlarge).toEqual(32) -->
 
-It looks totally fine, and won’t raise any questions during a code review. However, every time we try to use these values, autocompletion will show just `number` instead of the actual values. This makes it harder to choose the right value.
+It looks totally fine, and won’t raise any questions during a code review. However, every time we try to use these values, autocompletion will show just `number` instead of the actual values (see an illustration). This makes it harder to choose the right value.
 
 ![Autocompletion with calculated values](images/autocompletion-formula.png)
 
@@ -229,7 +229,7 @@ const spacing = {
 
 <!-- expect(spacing.xlarge).toEqual(32) -->
 
-Now, we have less code, it’s equally easy to understand, and autocompletion shows the actual values. And I don’t think this code will often change — probably never.
+Now, we have less code, it’s equally easy to understand, and autocompletion shows the actual values (see the illustration). And I don’t think this code will often change — probably never.
 
 ![Autocompletion with literal values](images/autocompletion-literals.png)
 
@@ -243,11 +243,17 @@ Consider this excerpt from a form validation function:
 function validate(values) {
   const errors = {};
 
-  if (!values.name || (values.name && values.name.trim() === '')) {
+  if (
+    !values.name ||
+    (values.name && values.name.trim() === '')
+  ) {
     errors.name = 'Name is required';
   }
 
-  if (!values.login || (values.login && values.login.trim() === '')) {
+  if (
+    !values.login ||
+    (values.login && values.login.trim() === '')
+  ) {
     errors.login = 'Login is required';
   }
 
@@ -510,7 +516,9 @@ test('pony has pink tail', () => {
 });
 
 test('pony can breath fire', () => {
-  const wrapper = mount(<Pony {...defaultProps} breathFire={true} />);
+  const wrapper = mount(
+    <Pony {...defaultProps} breathFire={true} />
+  );
   expect(wrapper.find('.fire')).toBeVisible();
 });
 ```

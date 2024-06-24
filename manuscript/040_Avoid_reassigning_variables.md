@@ -127,7 +127,8 @@ const VIDEO_VALIDATIONS = [
   },
   {
     // Must have ONE OF either a file or a URL
-    isValid: video => validateVideoFileAndUrl(video.videoFiles),
+    isValid: video =>
+      validateVideoFileAndUrl(video.videoFiles),
     message: ERROR_MESSAGES.InvalidVideoFiles
   },
   {
@@ -183,7 +184,9 @@ function VideoUploader() {
       <FileUpload value={video} onChange={setVideo} />
       {errors.length > 0 && (
         <>
-          <Text variation="error">Nooooo, upload failed:</Text>
+          <Text variation="error">
+            Nooooo, upload failed:
+          </Text>
           <ul>
             {errors.map(error => (
               <Text key={error} as="li" variation="error">
@@ -245,7 +248,10 @@ let queryValues = {
 if (dateRangeFrom && dateRangeTo) {
   queryValues = {
     ...queryValues,
-    from: format(dateRangeFrom.setHours(0, 0, 0, 0), DATE_FORMAT),
+    from: format(
+      dateRangeFrom.setHours(0, 0, 0, 0),
+      DATE_FORMAT
+    ),
     to: format(dateRangeTo.setHours(23, 59, 59), DATE_FORMAT)
   };
 }
@@ -424,7 +430,9 @@ Here we’re checking that _every_ event is valid, which would be more clear wit
 
 ```js
 function areEventsValid(events) {
-  return events.every(event => event.fromDate <= event.toDate);
+  return events.every(
+    event => event.fromDate <= event.toDate
+  );
 }
 ```
 
@@ -456,8 +464,11 @@ expect(handleChangeEstimationHours({target: {value: 1}})).toEqual({estimationHou
 Like this:
 
 ```js
-const handleChangeEstimationHours = ({ target: { value } }) => {
-  const estimationHours = value !== '' && value >= 0 ? value : 0;
+const handleChangeEstimationHours = ({
+  target: { value }
+}) => {
+  const estimationHours =
+    value !== '' && value >= 0 ? value : 0;
   return { estimationHours };
 };
 ```
@@ -479,7 +490,8 @@ const getAllRejectionReasons = () => ([{value: REJECTION_REASONS.TOO_DRAMATIC}])
 let rejectionReasons = getAllRejectionReasons();
 if (isAdminUser) {
   rejectionReasons = rejectionReasons.filter(
-    reason => reason.value !== REJECTION_REASONS.HAS_SWEAR_WORDS
+    reason =>
+      reason.value !== REJECTION_REASONS.HAS_SWEAR_WORDS
   );
 }
 ```
@@ -498,7 +510,8 @@ const getRejectionReasons = isAdminUser => {
   const rejectionReasons = getAllRejectionReasons();
   if (isAdminUser) {
     return rejectionReasons.filter(
-      reason => reason.value !== REJECTION_REASONS.HAS_SWEAR_WORDS
+      reason =>
+        reason.value !== REJECTION_REASONS.HAS_SWEAR_WORDS
     );
   }
   return rejectionReasons;

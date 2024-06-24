@@ -6,15 +6,17 @@
 
 W> This chapter isn’t finished yet
 
-Developers could waste days arguing where to put spaces in the code, which doesn’t matter at all, but everyone has an opinion on it. Luckily, these arguments are mostly in the past, thanks to automatic code formatting.
+Developers used to waste days arguing where to put spaces in the code. It doesn’t matter that much, but everyone has an opinion on it. Luckily, these arguments are mostly in the past, thanks to automatic code formatting.
 
-How I was writing code 10 years ago: carefully crafting each line of code making sure the code is perfectly formatted and aligned.
+I> We talk about code style in the [Code style](#code-style) chapter.
 
-How I write code now: write everything in a single line, press Cmd+S — BOOM! — everything is perfectly formatted.
+This is how I was writing code 10 years ago: carefully crafting each line of code, making sure the code is perfectly formatted and aligned.
 
-How we made sure the code is formatted consistently in the past: enable dozens of linter rules to check code formatting that would yell at us all the time, forcing us to tweak whitespace, move pieces of the code around, and sacrifice a unicorn until the Gods Of Linting are satisfied. Add to that constant debates about the best coding style between developers.
+This is how I write code now: write everything in a single line, press Cmd+S — BOOM! — everything is perfectly formatted.
 
-How we make sure that the code is formatted consistently now: add Prettier as a pre-commit hook to silently reformat the code. Not action needed from a developer, the team is happy and productive.
+This is how we made sure the code is formatted consistently in the past: enable dozens of linter rules to check code formatting that would yell at us all the time, forcing us to tweak whitespace, move pieces of the code around, and sacrifice a goat until the Gods Of Linting are satisfied. Add to that constant debates about the best coding style between developers.
+
+This is how we make sure that the code is formatted consistently now: add Prettier as a pre-commit hook to silently reformat the code. Not action needed from a developer, the team is happy and productive.
 
 The main difference between code formatters, like Prettier, and linters, like ESLint, is that code formatters are _reprinting_ code using their formatting rules, when linters only validate that certain, and usually very basic, code formatting rules are met. Even with autofixing, the results aren’t very consistent, and require a lot more configuration than code formatters.
 

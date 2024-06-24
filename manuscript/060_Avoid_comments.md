@@ -97,8 +97,8 @@ And any hack should be explained in a _hack comment_:
 <!-- class Test { -->
 
 ```js
-// HACK: Importing defaultProps from another module crashes Storybook Docs,
-// so we have to duplicate them here
+// HACK: Importing defaultProps from another module crashes
+// Storybook Docs, so we have to duplicate them here
 static defaultProps = {
   label: '',
 }
@@ -119,8 +119,11 @@ const Environment = {
 -->
 
 ```js
-// TODO: On React Native it always returns DEV, since there's no actual location available
-const getEnvironment = (hostname = window.location.hostname) => {
+// TODO: On React Native it always returns DEV, since there's
+// no actual location available
+const getEnvironment = (
+  hostname = window.location.hostname
+) => {
   if (hostname.includes('qa.')) {
     return Environment.QA;
   }
@@ -184,7 +187,7 @@ I> You may encounter various styles of todo comments: `TODO`, `FIXME`, `UNDONE`,
 However, there’s a type of todo comments I don’t recommend — comments with expiration date:
 
 ```js
-// TODO [2024-05-12]: Refactor this code before the sprint ends
+// TODO [2024-05-12]: Refactor before the sprint ends
 ```
 
 We can check these todo comments with [unicorn/expiring-todo-comments](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/expiring-todo-comments.md) linter rule, so our build will fail after the date mentioned in the comment. This is unhelpful because it usually happens when we work on an unrelated part of the code, and so we’re forced to deal with the comment right away — most likely by adding another months to the date.
@@ -192,7 +195,8 @@ We can check these todo comments with [unicorn/expiring-todo-comments](https://g
 There are other conditions in the `unicorn/expiring-todo-comments` rule that might be more useful, for example, dependency version:
 
 ```js
-// TODO [react@>=18]: Use useId hook instead of generating IDs manually
+// TODO [react@>=18]: Use useId hook instead of generating
+// IDs manually
 ```
 
 This is a better use case because it’s going to fail only when someone updates React, and fixing such todos should probably be part of the upgrade.
@@ -224,7 +228,8 @@ Next, _fake_ comments: they pretend to explain some decision, but they don’t e
 
 ```js
 // force 24 hours formatting for Chinese and Korean
-const hour12 = locale === 'zh' || locale === 'ko' ? false : undefined;
+const hour12 =
+  locale === 'zh' || locale === 'ko' ? false : undefined;
 ```
 
 <!-- expect(hour12).toBe(false) -->

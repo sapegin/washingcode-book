@@ -20,6 +20,7 @@ const kebabNames = [];
 for (let i = 0; i < names.length; i++) {
   kebabNames.push(_.kebabCase(names[i]));
 }
+// → ['bilbo-baggins', 'gandalf', 'gollum']
 ```
 
 <!-- expect(kebabNames).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
@@ -31,6 +32,7 @@ And with the `map()` method instead of a `for` loop:
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(name => _.kebabCase(name));
+// → ['bilbo-baggins', 'gandalf', 'gollum']
 ```
 
 <!-- expect(kebabNames).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
@@ -40,16 +42,23 @@ We can shorten it even more if our callback function accepts only one parameter:
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(_.kebabCase);
+// → ['bilbo-baggins', 'gandalf', 'gollum']
 ```
 
 <!-- expect(kebabNames).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
 
-This wouldn’t work with functions that accept more than one parameter because `map()` also passes an array index as the second parameter and a whole array as the third. Using `parseInt()`, a function that accepts the radix as its second parameter, would likely lead to unexpected results:
+This wouldn’t work with functions that accept more than one parameter because the `map()` also passes an array index as the second parameter, and a whole array as the third. Using the `parseInt()` function that accepts a radix as its second parameter would likely lead to unexpected results:
 
 ```js
 const inputs = ['1', '2', '3'];
-const integers_ = inputs.map(parseInt); // -> [1, NaN, NaN]
-const integers = inputs.map(value => parseInt(value)); // -> [1, 2, 3]
+
+// WARNING: Wrong
+const integers_ = inputs.map(parseInt);
+// → [1, NaN, NaN]
+
+// Correct
+const integers = inputs.map(value => parseInt(value));
+// → [1, 2, 3]
 ```
 
 <!--
@@ -57,7 +66,7 @@ expect(integers_).toEqual([1, NaN, NaN])
 expect(integers).toEqual([1, 2, 3])
 -->
 
-Here in the first example, `map()` calls `parseInt()` with an array index as a radix, which gives an incorrect result. In the second example, we’re explicitly passing only the value to the `parseInt()`, so it uses the default radix of 10.
+Here in the first example, the `map()` method calls the `parseInt()` function with an array index as a radix, which gives an incorrect result. In the second example, we’re explicitly passing only the value to the `parseInt()` function, so it uses the default radix of 10.
 
 But this may be a bit less readable than the expanded version because we don’t see what exactly we’re passing to a function. ECMAScript 6’s arrow functions made callbacks shorter and less cluttered compared to the old anonymous function syntax:
 
@@ -66,6 +75,7 @@ const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(function (name) {
   return _.kebabCase(name);
 });
+// → ['bilbo-baggins', 'gandalf', 'gollum']
 ```
 
 <!-- expect(kebabNames).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
@@ -90,6 +100,7 @@ And now with the `find()` method:
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const foundName = names.find(name => name.startsWith('B'));
+// → 'Bilbo Baggins'
 ```
 
 <!-- expect(foundName).toEqual('Bilbo Baggins') -->
@@ -121,6 +132,7 @@ const kebabNames = [];
 names.forEach(name => {
   kebabNames.push(_.kebabCase(name));
 });
+// → ['bilbo-baggins', 'gandalf', 'gollum']
 ```
 
 <!-- expect(kebabNames).toEqual(['bilbo-baggins', 'gandalf', 'gollum']) -->
@@ -130,6 +142,7 @@ This is a more cryptic and less semantic implementation of `map()`, so better us
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabNames = names.map(name => _.kebabCase(name));
+// → ['bilbo-baggins', 'gandalf', 'gollum']
 ```
 
 <!-- expect(kebabNames).toEqual(['bilbo-baggins', 'gandalf', 'gollum']) -->
@@ -261,17 +274,18 @@ There are [many ways to iterate over object keys or values](https://stackoverflo
 
 ```js
 const allNames = {
-  hobbits: ['Bilbo', 'Frodo'],
+  hobbits: ['Bilbo Baggins'],
   dwarfs: ['Fili', 'Kili']
 };
 const kebabNames = _.mapValues(allNames, names =>
   names.map(name => _.kebabCase(name))
 );
+// → { hobbits: ['bilbo-baggins'], dwarfs: ['fili', 'kili'] }
 ```
 
 <!--
 expect(kebabNames).toEqual({
-  hobbits: ['bilbo', 'frodo'],
+  hobbits: ['bilbo-baggins'],
   dwarfs: ['fili', 'kili']
 })
 -->
@@ -282,16 +296,16 @@ If we don’t need the result as an object, like in the example above, `Object.
 
 ```js
 const allNames = {
-  hobbits: ['Bilbo', 'Frodo'],
+  hobbits: ['Bilbo Baggins'],
   dwarfs: ['Fili', 'Kili']
 };
 Object.keys(allNames).forEach(race =>
-  console.log(race, '->', allNames[race])
+  console.log(race, '→', allNames[race])
 );
 ```
 
 <!--
-expect(console.log.mock.calls).toEqual([['hobbits', '->', ['Bilbo', 'Frodo']], ['dwarfs', '->', ['Fili', 'Kili']]])
+expect(console.log.mock.calls).toEqual([['hobbits', '→', ['Bilbo Baggins']], ['dwarfs', '→', ['Fili', 'Kili']]])
 -->
 
 Or:
@@ -300,16 +314,16 @@ Or:
 
 ```js
 const allNames = {
-  hobbits: ['Bilbo', 'Frodo'],
+  hobbits: ['Bilbo Baggins'],
   dwarfs: ['Fili', 'Kili']
 };
 Object.entries(allNames).forEach(([race, value]) =>
-  console.log(race, '->', value)
+  console.log(race, '→', value)
 );
 ```
 
 <!--
-expect(console.log.mock.calls).toEqual([['hobbits', '->', ['Bilbo', 'Frodo']], ['dwarfs', '->', ['Fili', 'Kili']]])
+expect(console.log.mock.calls).toEqual([['hobbits', '→', ['Bilbo Baggins']], ['dwarfs', '→', ['Fili', 'Kili']]])
 -->
 
 I don’t have a strong preference between them. `Object.entries()` has more verbose syntax, but if we use the value (`names` in the example above) more than once, the code would be cleaner than `Object.keys()`, where we’d have to write `allNames[race]` every time or cache this value into a variable at the beginning of the callback function.
@@ -320,7 +334,7 @@ Let’s rewrite our example using `reduce()`:
 
 ```js
 const allNames = {
-  hobbits: ['Bilbo', 'Frodo'],
+  hobbits: ['Bilbo Baggins'],
   dwarfs: ['Fili', 'Kili']
 };
 const kebabNames = Object.entries(allNames).reduce(
@@ -330,11 +344,12 @@ const kebabNames = Object.entries(allNames).reduce(
   },
   {}
 );
+// → { hobbits: ['bilbo-baggins'], dwarfs: ['fili', 'kili'] }
 ```
 
 <!--
 expect(kebabNames).toEqual({
-  hobbits: ['bilbo', 'frodo'],
+  hobbits: ['bilbo-baggins'],
   dwarfs: ['fili', 'kili']
 })
 -->
@@ -343,18 +358,19 @@ With `forEach()`:
 
 ```js
 const allNames = {
-  hobbits: ['Bilbo', 'Frodo'],
+  hobbits: ['Bilbo Baggins'],
   dwarfs: ['Fili', 'Kili']
 };
 const kebabNames = {};
 Object.entries(allNames).forEach(([race, names]) => {
   kebabNames[race] = names.map(name => name.toLowerCase());
 });
+// → { hobbits: ['bilbo-baggins'], dwarfs: ['fili', 'kili'] }
 ```
 
 <!--
 expect(kebabNames).toEqual({
-  hobbits: ['bilbo', 'frodo'],
+  hobbits: ['bilbo-baggins'],
   dwarfs: ['fili', 'kili']
 })
 -->
@@ -363,18 +379,19 @@ And with a loop:
 
 ```js
 const allNames = {
-  hobbits: ['Bilbo', 'Frodo'],
+  hobbits: ['Bilbo Baggins'],
   dwarfs: ['Fili', 'Kili']
 };
 const kebabNames = {};
 for (let [race, names] of Object.entries(allNames)) {
   kebabNames[race] = names.map(name => name.toLowerCase());
 }
+// → { hobbits: ['bilbo-baggins'], dwarfs: ['fili', 'kili'] }
 ```
 
 <!--
 expect(kebabNames).toEqual({
-  hobbits: ['bilbo', 'frodo'],
+  hobbits: ['bilbo-baggins'],
   dwarfs: ['fili', 'kili']
 })
 -->
@@ -520,7 +537,11 @@ Modern JavaScript engines are very fast and optimized for popular code patterns.
 
 ```js
 var names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
-for (var i = 0, namesLength = names.length; i < namesLength; i++) {
+for (
+  var i = 0, namesLength = names.length;
+  i < namesLength;
+  i++
+) {
   names[i] = _.kebabCase(names[i]);
 }
 ```

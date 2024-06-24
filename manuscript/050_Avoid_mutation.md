@@ -77,7 +77,7 @@ function parseExample(content, lang, modifiers) {
         example.settings = JSON.parse(modifiers);
       } catch (err) {
         return {
-          error: `Cannot parse modifiers`
+          error: 'Cannot parse modifiers'
         };
       }
     }
@@ -130,7 +130,7 @@ function parseExample(content, lang, modifiers) {
     };
   } catch (err) {
     return {
-      error: `Cannot parse modifiers`
+      error: 'Cannot parse modifiers'
     };
   }
 }
@@ -225,7 +225,8 @@ const rows = [
     product1: <ProductOptions options={product1.colors} />,
     product2: <ProductOptions options={product2.colors} />,
     isVisible: (product1, product2) =>
-      (product1.colors.length > 0 || product2.colors.length) > 0
+      (product1.colors.length > 0 || product2.colors.length) >
+      0
   },
   {
     row: 'Sizes',
@@ -300,7 +301,9 @@ const defaults = parameters.reduce(
   (acc, [name, prompt]) => ({
     ...acc,
     [name]:
-      prompt.initial !== undefined ? prompt.initial : options[name]
+      prompt.initial !== undefined
+        ? prompt.initial
+        : options[name]
   }),
   {}
 );
@@ -342,7 +345,7 @@ const mutate = object => {
 
 const person = { name: 'Chuck Norris' };
 mutate(person);
-// -> { name: 'Chuck Norris', secret: 'Loves pizza' }
+// → { name: 'Chuck Norris', secret: 'Loves pizza' }
 ```
 
 <!-- expect(person).toEqual({ name: 'Chuck Norris', secret: 'Loves pizza' }) -->
@@ -546,7 +549,8 @@ const MealTypeSelect = ({
   onChange
 }) => {
   const sortedMealTypes = allowedMealTypes.sort(
-    (a, b) => ALL_MEAL_TYPES.indexOf(a) - ALL_MEAL_TYPES.indexOf(b)
+    (a, b) =>
+      ALL_MEAL_TYPES.indexOf(a) - ALL_MEAL_TYPES.indexOf(b)
   );
 
   return (
@@ -589,7 +593,8 @@ const MealTypeSelect = ({
   onChange
 }) => {
   const sortedMealTypes = [...allowedMealTypes].sort(
-    (a, b) => ALL_MEAL_TYPES.indexOf(a) - ALL_MEAL_TYPES.indexOf(b)
+    (a, b) =>
+      ALL_MEAL_TYPES.indexOf(a) - ALL_MEAL_TYPES.indexOf(b)
   );
 
   return (
@@ -681,7 +686,7 @@ Modern JavaScript makes it easier to do immutable data updates thanks to [the sp
 ```js
 const prev = { coffee: 1 };
 const next = Object.assign({}, prev, { pizza: 42 });
-// -> { coffee: 1, pizza: 42 }
+// → { coffee: 1, pizza: 42 }
 ```
 
 <!-- expect(next).toEqual({coffee: 1, pizza: 42}) -->
@@ -843,7 +848,11 @@ Consider this example where we conditionally create an array:
 <!-- let drinksAlcohol = true -->
 
 ```js
-const drinks = ['coffee', 'tea', ...(drinksAlcohol ? ['vodka'] : [])];
+const drinks = [
+  'coffee',
+  'tea',
+  ...(drinksAlcohol ? ['vodka'] : [])
+];
 ```
 
 <!-- expect(drinks).toEqual(['coffee', 'tea', 'vodka']) -->

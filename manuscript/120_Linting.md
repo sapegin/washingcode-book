@@ -10,7 +10,7 @@ Conventions are good because they are easy to implement: document the decision a
 
 That’s where the _linters_ come in. Linters check our code to make sure it follows the team’s code style or to prevent some common bugs. Sometimes linters fix our code automatically; sometimes they just slap our hands with a keyboard when we try to commit our code, or later, during the continues integration (CI) run.
 
-I> We talk about code styles in the [Code style](#code-style) chapter.
+I> We talk about code style in the [Code style](#code-style) chapter.
 
 Like any tool, linters could be used to make our lives easier, and our codebase more consistent and free of bugs, or they could be abused and make our lives full of pain.
 
@@ -107,7 +107,17 @@ This doesn’t make any sense to me: we’re making the use of destructuring sli
 
 Such rules are too opinionated and lack the nuance that experienced developers have: they can decide whether to follow a certain pattern or not and whether to be consistent in one part of the code or another if being consistent in both isn’t an option.
 
-(Now, we can also rewrite this code using optional chaining: `post?.description ?? post?.shortDescription`, which wasn’t common when this code was written.)
+Now, we can also rewrite this code using _optional chaining_ and _nullish coalescing_ operators, which weren’t common when this code was written:
+
+<!-- let post = { shortDescription: 'pizza' } -->
+
+```js
+const { id, title, photos, shortDescription } = post;
+const description =
+  post?.description ?? post?.shortDescription;
+```
+
+<!-- expect(description).toBe('pizza') -->
 
 ### Document rules
 
@@ -122,22 +132,29 @@ This is a decent example of a linter config:
 export default [
   {
     rules: {
-      // * [2021-01-28]: the spirit of the rule is good, but clashes
-      // * with some naming conventions in Next.Js and React
+      // [2021-01-28]: the spirit of the rule is good, but
+      // clashes with some naming conventions in Next.Js
+      // and React
       'unicorn/prevent-abbreviations': [
         'error',
         {
-          ignore: ['.*Props', '.*Ref', 'props', 'params', 'ref']
+          ignore: [
+            '.*Props',
+            '.*Ref',
+            'props',
+            'params',
+            'ref'
+          ]
         }
       ],
 
-      // * [2021-02-16]: This conflicts with cases where you
-      // * explicitly want to provide `undefined` to a function, eg
-      // * the default variable of a hook
+      // [2021-02-16]: This conflicts with cases where you
+      // explicitly want to provide `undefined` to
+      // a function, eg the default variable of a hook
       'unicorn/no-useless-undefined': ['off'],
 
-      // * [2022-06-07]: Allow us to write event handlers without an
-      // * explicit return; on the last line
+      // [2022-06-07]: Allow us to write event handlers
+      // without an explicit return; on the last line
       '@typescript-eslint/no-misused-promises': [
         'error',
         {
@@ -637,9 +654,9 @@ This rule requires us to sort `import` statements in a particular way: by type o
 
 I prefer not to see imports at all, and let my editor manage them. In this case enabling this rule as a warning and enabling autofixing on pre-commit isn’t such a bad idea. Otherwise auto importing would make the code messy. I wish this was actually working without issues!
 
-T> In Visual Studio Code and WebStorm, we could hide the block of import statements by default, and expand it only when we need it:
+T> In Visual Studio Code and WebStorm, we could hide the block of import statements by default, and expand it only when we need it.
 
-![Hidden by default imports in Visual Studio Code](images/folded-imports.png)
+![Imports hidden in spoiler in Visual Studio Code](images/folded-imports.png)
 
 This rule is partially autofixable but not included in the recommended config.
 

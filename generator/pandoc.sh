@@ -1,5 +1,8 @@
-# TODO: SVG images
 # TODO: Dark mode
+# TODO: Make table headers bold
+# TODO: Size individual illustrations
+# TODO: Put nbsp in front of mdash
+# TODO: Correct diff syntax highlighting colors
 
 BOOK_FILE="washing-code"
 BOOK_TITLE="Washing your code: clean code for frontend developers"
@@ -21,7 +24,7 @@ pandoc $CHAPTERS_FILES_PDF \
   --template="generator/eisvogel.latex" \
   --highlight-style "generator/theme.theme" \
   --lua-filter "generator/filters/tips.lua" \
-  -f commonmark_x \
+  -f commonmark_x+implicit_figures \
   -M date="$VERSION"
 
 # Attach the cover

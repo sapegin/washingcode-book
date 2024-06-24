@@ -3,10 +3,12 @@ const path = require('path');
 const { globSync } = require('glob');
 
 // Read all content files to use for relative links validation
-const chapters = globSync('manuscript/*.md').map(filename => ({
-  filename,
-  text: fs.readFileSync(filename, 'utf8')
-}));
+const chapters = globSync('manuscript/*.md').map(
+  filename => ({
+    filename,
+    text: fs.readFileSync(filename, 'utf8')
+  })
+);
 
 module.exports = {
   rules: {
@@ -67,7 +69,11 @@ module.exports = {
       baseURI: url => {
         // Images
         if (url.startsWith('images/')) {
-          return path.join(__dirname, 'manuscript/resources', url);
+          return path.join(
+            __dirname,
+            'manuscript/resources',
+            url
+          );
         }
 
         // Chapter links

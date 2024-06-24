@@ -137,36 +137,42 @@ function testMarkdown(markdown, filepath) {
 
   function visitor() {
     return ast => {
-      visit(ast, 'code', (node, index, { children: siblings }) => {
-        if (!LANGS.includes(node.lang)) {
-          return;
-        }
-
-        const header = getHeader(siblings, index);
-        if (header === SKIP_TAG) {
-          return;
-        }
-
-        const footer = getFooter(siblings, index);
-        const linesToPad =
-          node.position.start.line - header.split('\n').length - 3;
-
-        const code = [
-          // Show correct line number in code snippets
-          '\n'.repeat(linesToPad),
-          header,
-          preprocessCode(node.value),
-          footer
-        ].join('\n\n');
-
-        test(
-          getTestName(getChapterTitle(siblings, index)),
-          async () => {
-            await executeCode(code, filename, node.lang);
+      visit(
+        ast,
+        'code',
+        (node, index, { children: siblings }) => {
+          if (!LANGS.includes(node.lang)) {
+            return;
           }
-        );
-        testCount++;
-      });
+
+          const header = getHeader(siblings, index);
+          if (header === SKIP_TAG) {
+            return;
+          }
+
+          const footer = getFooter(siblings, index);
+          const linesToPad =
+            node.position.start.line -
+            header.split('\n').length -
+            3;
+
+          const code = [
+            // Show correct line number in code snippets
+            '\n'.repeat(linesToPad),
+            header,
+            preprocessCode(node.value),
+            footer
+          ].join('\n\n');
+
+          test(
+            getTestName(getChapterTitle(siblings, index)),
+            async () => {
+              await executeCode(code, filename, node.lang);
+            }
+          );
+          testCount++;
+        }
+      );
     };
   }
 
