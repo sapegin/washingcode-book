@@ -2,8 +2,8 @@ body {
   margin: 1rem;
   text-align: left;
   font-size: large;
-  font-family: Charter, 'Bitstream Charter', 'Sitka Text', Cambria,
-    Georgia, serif;
+  font-family: Charter, 'Bitstream Charter', 'Sitka Text',
+    Cambria, Georgia, serif;
 }
 h1,
 h2,
@@ -29,6 +29,7 @@ hr {
 }
 
 /* Book subtitle on the frontmatter page */
+
 .subtitle {
   font-size: large;
 }
@@ -51,9 +52,23 @@ nav#toc ol ol li {
   font-weight: normal;
 }
 
+/* Illustrations */
+
+figure {
+  margin-block: 1rem;
+}
+figcaption {
+  margin-top: 0.5rem;
+  text-align: center;
+  color: #767676;
+}
+
+/* Inline code */
+
 code {
-  font-family: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo,
-    Consolas, 'DejaVu Sans Mono', monospace;
+  font-family: ui-monospace, 'Cascadia Code',
+    'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono',
+    monospace;
   white-space: pre-wrap;
   font-size: medium;
 }
@@ -68,6 +83,7 @@ code {
   border: 2px solid #80a4be;
   border-radius: 0.25rem;
   padding: 1rem;
+  color: #333;
 }
 .tip .title,
 .note .title,

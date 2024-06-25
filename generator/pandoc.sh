@@ -8,6 +8,7 @@ BOOK_FILE="washing-code"
 BOOK_TITLE="Washing your code: clean code for frontend developers"
 CHAPTERS_FILES_EPUB="generator/settings.md generator/content-epub/*.md"
 CHAPTERS_FILES_PDF="generator/settings.md generator/content-pdf/*.md"
+SOURCE_FORMAT="commonmark_x+implicit_figures"
 VERSION="$(date "+%B %e, %Y")"
 
 mkdir -p "dist"
@@ -24,7 +25,7 @@ pandoc $CHAPTERS_FILES_PDF \
   --template="generator/eisvogel.latex" \
   --highlight-style "generator/theme.theme" \
   --lua-filter "generator/filters/tips.lua" \
-  -f commonmark_x+implicit_figures \
+  --from "$SOURCE_FORMAT" \
   -M date="$VERSION"
 
 # Attach the cover
@@ -46,7 +47,7 @@ pandoc $CHAPTERS_FILES_EPUB \
   --epub-cover-image="media/cover.jpg" \
   --highlight-style "generator/theme.theme" \
   --css "generator/epub.css" \
-  -f commonmark_x \
+  --from "$SOURCE_FORMAT" \
   -M date="$VERSION"
 
 echo
