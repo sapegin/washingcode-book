@@ -589,7 +589,7 @@ Let’s try to apply the guidelines of testable functions we’ve defined above 
 - Is it deterministic? No, it doesn’t take any parameters but the result depends on user’s environment that we cannot control when we call the function.
 - Is has no side effects? Yes, it doesn’t change anything outside the function, and instead returns a value back to the caller.
 - Is it responsible for one thing? Yes, it determines user device name based on their environment.
-- Does it control only logic, not presentation? Yes, it returns TODO...
+- Does it control only logic, not presentation? Yes, it returns an enum value of the device type that has no opinion on how it should be displayed.
 
 It doesn’t sound so bad but how do we test it?
 
@@ -813,7 +813,7 @@ expect(getByRole('img').src).toBe('http://localhost:3000/images/covers/tacos.jpg
 
 Here, we can search either by a folder name (`/images/covers`) and find this component or by a filename (`cover-washing-code`) and find all usages of this component.
 
-I call such identifiers _greppable_, meaning we can search for them and find all places in the code where they are used. The name comes from the `grep` unix command that finds a substring in a file.
+I call such identifiers _greppable_, meaning we can search for them and find all places in the code where they are used. The name comes from the `grep` Unix command that finds a substring in a file.
 
 I> This idea is also known as _the grep test_ and is greatly described in [Jamie Wong’s article with the same title](https://jamie-wong.com/2013/07/12/grep-test/).
 
