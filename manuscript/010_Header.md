@@ -10,9 +10,9 @@ We, programmers, read code more often than we write it, so it makes more sense t
 
 This book is going to be opinionated, but you don’t have to agree with everything I’m saying. That’s not the goal of the book. The goal is to show you one of the possible paths, and inspire you to find your own. These techniques help me to write and review code every day, and I’ll be happy if you find some of them useful.
 
-The book is probably most useful for intermediate developers. If you’re a beginner, you’ll likely have plenty of other things to think about. If you have decades of experience, you can probably write a similar book yourself. Either way, I’d be happy to hear your feedback.
+The book is probably most useful for intermediate developers. If you’re a beginner, you’ll likely have plenty of other things to think about, though you still may find the book useful. If you have decades of experience, you can probably write a similar book yourself. Either way, I’d be happy to hear your feedback.
 
-Most of the examples in this book are in JavaScript with a bit of TypeScript because these are my main languages, but you can apply many ideas to other languages too. Sometimes you’ll see CSS and HTML because similar ideas can be applied there too.
+Although, most readers will probably be frontend or full stack developers, there’s enough useful content for everyone, even if you don’t use JavaScript or other frontend languages.
 
 I’ve taken most of the examples from real code, with only minor adaptations — mostly different names. I spend several hours every week reviewing other developers’ code, and that gives me enough experience to tell which patterns make the code more readable and which don’t.
 
@@ -22,7 +22,9 @@ And remember the “Answer to the Ultimate Question of Life, the Universe, and E
 
 _Artem, Berlin_
 
-# How to read this book
+# Introduction
+
+## How to read this book
 
 You don’t have to read the book in any particular order: all chapters aren’t connected and no chapter requires the knowledge from any other chapter. You could read the whole thing from start to finish, or you could read only chapters you’re curious about in any order that suits you best.
 
@@ -60,13 +62,19 @@ In the [Autoformat your code](#formatting) chapter, we talk about how tools can 
 
 In the last chapter, [Learn your code editor](#editing), we talk about different techniques for _editing_ code and customizing our environment to make our work more efficient and less tiring.
 
-# JavaScript of TypeScript?
+## JavaScript of TypeScript?
 
-Most of the examples in this book are written in JavaScript which isn’t how I write code in the past five or so years. These days I mostly write in TypeScript — JavaScript with types. And before that I was using Flow for several years, which is now forgotten.
+Most of the examples in this book are written in JavaScript which isn’t how I write code in the past few years. These days I mostly write in TypeScript: JavaScript with types. And before that I was using Flow for several years, which is another, now forgotten, implementation of types for JavaScript.
 
 I was debating whether to use JavaScript or TypeScript for the examples in the book. JavaScript is simpler, but TypeScript is more realistic. However, many “bad” examples are in JavaScript originally, and I’d have to either add types to them before doing all the refactorings or add types as part of the refactoring process. The latter would be more realistic but I feel it would distract from the topic of a particular chapter.
 
-# Acknowledgments
+I mostly work with React these days, so you’ll see examples using React quite often Sometimes you’ll see CSS and HTML because similar ideas can be applied there too.
+
+I try to keep the book up to date with the latest versions of JavaScript. The version used in this book is ECMAScript 2024.
+
+I> ECMAScript is the JavaScript spec that defines its syntax and behavior. To learn about new JavaScript features, check out Dr. Axel Rauschmayer’s [Exploring JavaScript](https://exploringjs.com/js/) book.
+
+## Acknowledgments
 
 These folks helped me with the book in one way or another.
 
