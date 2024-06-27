@@ -257,7 +257,7 @@ const array = Array.from({ length: 10 }).map((_, i) => i);
 
 Here, `Array.from({length: 10})` creates an array with 10 _empty_ elements, then using the `map()` method we fill the array with numbers from 0 to 9.
 
-We can write it shorter by using `Array.from`’s map callback:
+We can write it shorter by using `Array.from()`’s map callback:
 
 ```js
 const array = Array.from({ length: 10 }, (_, i) => i);

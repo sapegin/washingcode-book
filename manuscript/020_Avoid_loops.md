@@ -183,8 +183,7 @@ If the behavior of the original code was correct, then we actually don’t need 
 <!-- const products = [{type: 'pizza'}, {type: 'coffee'}], expectedType = 'pizza' -->
 
 ```js
-const isExpectedType =
-  products[products.length - 1].type === expectedType;
+const isExpectedType = products.at(-1).type === expectedType;
 ```
 
 <!-- expect(isExpectedType).toEqual(false) -->

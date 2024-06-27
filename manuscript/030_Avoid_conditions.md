@@ -73,7 +73,9 @@ There are more cases when a condition is unnecessary:
 + const hasProducts = Array.isArray(products);
 ```
 
-`Array.isArray` returns `false` for any falsy value, no need to check for it separately.
+The `Array.isArray()` method returns `false` for any _falsy_ value, no need to check for it separately.
+
+I> Falsy value is a value that is considered `false` during type conversion to a boolean, and includes `false`, `null`, `undefined`, `0`, `''`, and [a few others](https://developer.mozilla.org/en-US/docs/Glossary/Falsy).
 
 And a more complex but great (and real!) example of unnecessary conditions:
 
@@ -277,7 +279,7 @@ Or a default value for the destructured property of an object:
 + function getProductsDropdownItems({ products = [] }) {
 ```
 
-It’s more tricky if our data can be an array or `null`, because defaults are only used when the value is strictly `undefined`, not just falsy. In this case, we can use the nullish coalescing operator:
+It’s more tricky if our data can be an array or `null`, because defaults are only used when the value is strictly `undefined`, not just _falsy_. In this case, we can use the _nullish coalescing operator_:
 
 ```js
 function getProductsDropdownItems(products) {
@@ -297,6 +299,8 @@ expect(getProductsDropdownItems([{id: '1', name: 'Tacos'}])).toEqual([{label: 'T
 -->
 
 We still have a condition but the overall code structure is simpler.
+
+I> The nullish coalescing operator was introduced in ECMAScript 2020, and gives us a better alternative to the _logical or_ operator (`||`) because it only checks for _nullish_ values (`undefined` or `null`), not for _falsy_ values (which would also include often undesirable `false`, `''`, and `0`).
 
 In all these examples we’re removing a separate branch and dealing with the absence of data by normalizing the input — converting it to an array — as early as possible, and then running a generic algorithm on normalized data.
 
@@ -478,9 +482,9 @@ expect(onError).toBeCalledWith('nope')
 expect(() => getRandomJoke(onDone)).not.toThrowError()
 -->
 
-Here, the `onError` parameter is optional, and we check if it exists before calling it. The problem here is that we need to remember to wrap each call to an optional callback into a condition. It increases complexity and cognitive load and makes the code harder to read.
+Here, the `onError` parameter is optional, and we check if it exists before calling it. The problem here is that we need to remember to wrap each call to an optional callback with a condition. It increases complexity and cognitive load, and makes the code harder to read.
 
-One way to simplify the code here is by using optional chaining:
+One way to simplify the code here is by using the _optional chaining_ operator:
 
 <!-- const fetch = () => ({ then: (cb) => { cb({ json: () => {} } ); return ({ then: (cb) => { cb('pizza'); return ({ catch: (cb) => { cb({message: 'nope'}) } })} }) } })
  -->
@@ -507,6 +511,8 @@ expect(() => getRandomJoke(onDone)).not.toThrowError()
 -->
 
 It looks neater, however, it has the same issues as the `if` statement.
+
+I> Optional chaining operator (`?.`) was introduced in ECMAScript 2020, and allows us to access methods or properties of an object only when they exists. This saves us an `if` condition and often makes code simpler.
 
 I usually try to avoid these kinds of conditions and make sure all optional parameters are available, even if empty, so I could access them without checking if they are available first.
 

@@ -332,7 +332,7 @@ Other mutating array methods to watch out for are:
 - [splice()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/splice)
 - [unshift()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/unshift)
 
-I> Thanks to the [Change Array by copy](https://github.com/tc39/proposal-change-array-by-copy) proposal, JavaScript will have immutable alternatives to several of the mentioned above methods: `toReversed()`, `toSorted()`, `toSpliced()`, and `with()`. The proposal is included in ECMAScript 2023.
+I> Thanks to the [Change Array by copy](https://github.com/tc39/proposal-change-array-by-copy) proposal, JavaScript now have immutable alternatives to several of the methods mentioned above: `toReversed()`, `toSorted()`, `toSpliced()`, and `with()`. The proposal is included in ECMAScript 2023.
 
 ## Avoid mutation of function parameters
 
@@ -616,6 +616,50 @@ expect(items).toEqual(['Dinner', 'Luncheon'])
 
 Here, we create a copy of an incoming array before sorting it, so the original array never changes.
 
+Even better, we can use the new `toSorted()` array method that doesn’t mutate the original array:
+
+<!-- const Select = ({items}) => items.join('|') -->
+
+```jsx
+export const ALL_MEAL_TYPES = [
+  'Breakfast',
+  'Second Breakfast',
+  'Elevenses',
+  'Luncheon',
+  'Afternoon Tea',
+  'Dinner',
+  'Supper'
+];
+
+const MealTypeSelect = ({
+  selectedMealType,
+  allowedMealTypes = [],
+  onChange
+}) => {
+  const sortedMealTypes = allowedMealTypes.toSorted(
+    (a, b) =>
+      ALL_MEAL_TYPES.indexOf(a) - ALL_MEAL_TYPES.indexOf(b)
+  );
+
+  return (
+    <Select
+      value={selectedMealType}
+      items={sortedMealTypes}
+      onChange={onChange}
+    />
+  );
+};
+```
+
+<!--
+const items = ['Dinner', 'Luncheon'];
+const {container: c1} = RTL.render(<MealTypeSelect selectedMealType="Luncheon" allowedMealTypes={items} />);
+expect(c1.textContent).toEqual('Luncheon|Dinner')
+expect(items).toEqual(['Dinner', 'Luncheon'])
+-->
+
+I> The `toSorted()` method is included in ECMAScript 2023, and supported by all major browsers, as well as Node.js 20.
+
 Probably the only valid reason to mutate function parameters is performance optimization: when we work with a huge piece of data and creating a new object or array would be too slow. But like with all performance optimizations: measure first to know whether we actually have a problem, and avoid premature optimization.
 
 ## Make mutations explicit if they are necessary
@@ -678,6 +722,16 @@ const puppies = sortedCounts.map(n => `${n} puppies`);
 <!-- expect(puppies).toEqual(['2 puppies', '3 puppies', '6 puppies']) -->
 
 I’d advice against it: spreading is slightly more readable, though both methods require some explanation the first time one sees them.
+
+My favorite method though is using the ECMAScript 2023’s `toSorted()` method that does’t mutate the original array:
+
+```js
+const counts = [6, 3, 2];
+const sortedCounts = counts.toSorted();
+const puppies = sortedCounts.map(n => `${n} puppies`);
+```
+
+<!-- expect(puppies).toEqual(['2 puppies', '3 puppies', '6 puppies']) -->
 
 ## Updating objects
 

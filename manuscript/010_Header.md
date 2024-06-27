@@ -90,13 +90,15 @@ const integers = inputs.map(value => parseInt(value));
 
 And where the code is incorrect or won’t compile at all, I added warning comments:
 
+<!-- let inputs = ['1', '2', '3'] -->
+
 ```js
 // WARNING: This code is incorrect
 const integers = inputs.map(parseInt);
 // → [1, NaN, NaN]
 ```
 
-<!-- expect(integers_).toEqual([1, NaN, NaN]) -->
+<!-- expect(integers).toEqual([1, NaN, NaN]) -->
 
 Some examples have a comment with their filename. Mostly it’s either config files (where the filename is significant) or files that are later imported in some example:
 

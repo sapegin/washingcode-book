@@ -320,12 +320,12 @@ Another convention I’m okay with is using `a`/`b` names for sorting and compar
 <!-- const dates = ['2022-02-26T00:21:00.000+01:00', '2021-05-11T10:30:00.000+01:00'] -->
 
 ```js
-dates.sort(
+const sortedDates = dates.toSorted(
   (a, b) => new Date(a).valueOf() - new Date(b).valueOf()
 );
 ```
 
-<!-- expect(dates).toEqual(['2021-05-11T10:30:00.000+01:00', '2022-02-26T00:21:00.000+01:00']) -->
+<!-- expect(sortedDates).toEqual(['2021-05-11T10:30:00.000+01:00', '2022-02-26T00:21:00.000+01:00']) -->
 
 However, when the scope is longer, or when we have multiple variables, short names could be confusing:
 
@@ -538,7 +538,7 @@ Usually, the shorter the scope, the better. However, religious scope shortening 
 
 I> We talk about splitting code into functions in the [Divide and conquer, or merge and relax](#divide) chapter.
 
-I found that reducing the lifespan of a variable works as well, and doesn’t produce lots of tiny functions. The idea here is to reduce the number of lines between the variable declaration and the line where it’s accessed for the last time. The scope might be a whole 200-line function but if the lifespan of a particular variable is three lines, then we only need to look at these three lines to understand how this variable is used.
+I found that _reducing the lifespan of variables_ works as well, and doesn’t produce lots of tiny functions. The idea here is to reduce the number of lines between the variable declaration and the line where the variable is accessed for the last time. The variable’s _scope_ might be a whole 200-line function, but if the lifespan of a particular variable is three lines then we only need to look at these three lines to understand how this variable is used.
 
 <!-- const MAX_RELATED = 3 -->
 
@@ -564,14 +564,16 @@ function getRelatedPosts(
     })
     .filter(post => post.weight > 0);
 
-  const sorted = _.sortBy(weighted, 'weight').reverse();
+  const sorted = weighted.toSorted(
+    (a, b) => b.weight - a.weight
+  );
   return sorted.slice(0, MAX_RELATED);
 }
 ```
 
 <!--
-const posts = [{slug: 'a', tags: ['cooking'], timestamp: 111}, {slug: 'b', tags: ['cooking', 'sleeping'], timestamp: 222}]
-expect(getRelatedPosts(posts, {slug: 'c', tags: ['sleeping', 'tacos'], timestamp: 333})).toEqual([{slug: 'b', tags: ['cooking', 'sleeping'], timestamp: 222, weight: 222}])
+const posts = [{slug: 'a', tags: ['cooking'], timestamp: 111}, {slug: 'b', tags: ['cooking', 'sleeping'], timestamp: 222}, {slug: 'c', tags: ['cooking', 'tacos'], timestamp: 333}]
+expect(getRelatedPosts(posts, {slug: 'd', tags: ['cooking', 'tacos'], timestamp: 444})).toEqual([{slug: 'c', tags: ['cooking', 'tacos'], timestamp: 333, weight: 666}, {slug: 'b', tags: ['cooking', 'sleeping'], timestamp: 222, weight: 222}, {slug: 'a', tags: ['cooking'], timestamp: 111, weight: 111}])
 -->
 
 Here, the lifespan of the `sorted` variable is only two lines. This kind of sequential processing is a common use case for the technique.
@@ -1098,6 +1100,8 @@ const getUTCDateTime = datetime =>
 <!-- expect(getUTCDateTime({ getTime: () => 1686815699187, getTimezoneOffset: () => -120 }).toISOString()).toBe('2023-06-15T09:54:59.187Z') -->
 
 Now it’s much easier to understand the code.
+
+I> Underscores (`_`) as separators for numbers were introduced in ECMAScript 2021, and make long numbers easier to read: `60000` versus `60_000`.
 
 Types (like TypeScript) could help us see when names don’t represent the data correctly:
 

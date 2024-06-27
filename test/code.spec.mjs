@@ -45,7 +45,7 @@ function preprocessCode(code) {
   return (
     code
       // VM2 doesn't support async/await
-      .replace(/ await /, '/* await */')
+      .replaceAll(' await ', '/* await */')
   );
 }
 
