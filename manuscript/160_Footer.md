@@ -18,6 +18,7 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 
 - [The Art of Readable Code](https://www.amazon.com/gp/product/0596802293/) by Dustin Boswell
 - [Code Complete: A Practical Handbook of Software Construction](https://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670/) by Steve McConnell
+- [Exploring JavaScript](https://exploringjs.com/js/) by Dr. Axel Rauschmayer
 - [The Pragmatic Programmer: Your journey to mastery, 20th Anniversary Edition](https://www.amazon.com/Pragmatic-Programmer-journey-mastery-Anniversary-ebook/dp/B07VRS84D1/) by David Thomas and Andrew Hunt
 - [The Programmers’ Stone](https://www.datapacrat.com/Opinion/Reciprocality/r0/index.html) by Alan Carter and Colston Sanger
 - [Refactoring: Improving the Design of Existing Code](https://www.amazon.com/Refactoring-Improving-Existing-Addison-Wesley-Signature/dp/0134757599) by Martin Fowler
@@ -56,9 +57,9 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 
 ## Talks
 
-- [Building resilient frontend architecture](https://www.youtube.com/watch?v=brMZLmZ1HR0) by Monica Lent, React Finland 2019
 - [Beyond PEP 8: Best practices for beautiful intelligible code](https://www.youtube.com/watch?v=wf-BqAjZb8M) by Raymond Hettinger, PyCon 2015
-- [The WET codebase](https://overreacted.io/the-wet-codebase/) by Dan Abramov.
+- [Building resilient frontend architecture](https://www.youtube.com/watch?v=brMZLmZ1HR0) by Monica Lent, React Finland 2019
+- [The WET codebase](https://overreacted.io/the-wet-codebase/) by Dan Abramov, Deconstruct 2019.
 
 <!-- cspell:enable -->
 

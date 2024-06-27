@@ -62,7 +62,7 @@ In the [Autoformat your code](#formatting) chapter, we talk about how tools can 
 
 In the last chapter, [Learn your code editor](#editing), we talk about different techniques for _editing_ code and customizing our environment to make our work more efficient and less tiring.
 
-## JavaScript of TypeScript?
+## On code examples
 
 Most of the examples in this book are written in JavaScript which isn’t how I write code in the past few years. These days I mostly write in TypeScript: JavaScript with types. And before that I was using Flow for several years, which is another, now forgotten, implementation of types for JavaScript.
 
@@ -72,7 +72,39 @@ I mostly work with React these days, so you’ll see examples using React quite 
 
 I try to keep the book up to date with the latest versions of JavaScript. The version used in this book is ECMAScript 2024.
 
-I> ECMAScript is the JavaScript spec that defines its syntax and behavior. To learn about new JavaScript features, check out Dr. Axel Rauschmayer’s [Exploring JavaScript](https://exploringjs.com/js/) book.
+I> ECMAScript is the JavaScript spec that defines its syntax and behavior. To learn about new JavaScript features, check out Dr. Axel Rauschmayer’s book, [Exploring JavaScript](https://exploringjs.com/js/).
+
+The examples are formatted using Prettier with the maximum line length of 62 characters to avoid unnecessary wrapping in the PDF and print version of the book. This makes code examples more readable, though a bit narrower than most developers are used to.
+
+I> We talk about code formatting and Prettier in the [Autoformat your code](#formatting) chapter.
+
+Where appropriate, I added the result of calculations in the code using a comment like this:
+
+```js
+const inputs = ['1', '2', '3'];
+const integers = inputs.map(value => parseInt(value));
+// → [1, 2, 3]
+```
+
+<!-- expect(integers).toEqual([1, 2, 3]) -->
+
+And where the code is incorrect or won’t compile at all, I added warning comments:
+
+```js
+// WARNING: This code is incorrect
+const integers = inputs.map(parseInt);
+// → [1, NaN, NaN]
+```
+
+<!-- expect(integers_).toEqual([1, NaN, NaN]) -->
+
+Some examples have a comment with their filename. Mostly it’s either config files (where the filename is significant) or files that are later imported in some example:
+
+```js
+// eslint.config.js
+import js from '@eslint/js';
+export default [js.configs.recommended];
+```
 
 ## Acknowledgments
 

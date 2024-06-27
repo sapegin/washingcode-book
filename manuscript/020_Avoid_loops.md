@@ -52,7 +52,7 @@ This wouldn’t work with functions that accept more than one parameter because 
 ```js
 const inputs = ['1', '2', '3'];
 
-// WARNING: Wrong
+// WARNING: This code is incorrect
 const integers_ = inputs.map(parseInt);
 // → [1, NaN, NaN]
 
