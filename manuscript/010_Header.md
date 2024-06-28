@@ -117,7 +117,7 @@ const kebabNames = names.map(name => _.kebabCase(name));
 
 <!-- expect(kebabNames).toEqual(['bilbo-baggins', 'gandalf', 'gollum']) -->
 
-T> We talk abut third-party libraries and their trade offs in the [Avoid not invented here syndrome](#no-nih) section of the Other techniques chapter.
+T> We talk abut third-party libraries and their trade-offs in the [Avoid not invented here syndrome](#no-nih) section of the Other techniques chapter.
 
 ## Acknowledgments
 
