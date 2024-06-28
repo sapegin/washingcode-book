@@ -108,6 +108,17 @@ import js from '@eslint/js';
 export default [js.configs.recommended];
 ```
 
+I also use the [Lodash](https://lodash.com/) utility library in some examples. I try to provide alternative solutions without dependencies where it make sense but often the benefits of using a well-written popular library outweigh the cost. I always use Lodash methods from the `_` namespace:
+
+```js
+const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
+const kebabNames = names.map(name => _.kebabCase(name));
+```
+
+<!-- expect(kebabNames).toEqual(['bilbo-baggins', 'gandalf', 'gollum']) -->
+
+T> We talk abut third-party libraries and their trade offs in the [Avoid not invented here syndrome](#no-nih) section of the Other techniques chapter.
+
 ## Acknowledgments
 
 These folks helped me with the book in one way or another.

@@ -1188,7 +1188,7 @@ expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: 
 expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: { userInfo: { userCurrency: 'eur' } }, currencies: {} } } }).toJS()).toEqual({iso: 'eur', name: '', symbol: ''})
 -->
 
-Besides using Immutable.js and Lodash’s `get` method, which already makes the code hard to read, the `obj` variable makes the code even harder to understand.
+Besides using Immutable.js and Lodash’s [`get()` method](https://lodash.com/docs#get), which already makes the code hard to read, the `obj` variable makes the code even harder to understand.
 
 All this code does is reorganizes the data about the user’s currency into a neat object:
 

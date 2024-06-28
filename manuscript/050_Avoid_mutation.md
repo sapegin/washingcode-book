@@ -702,7 +702,7 @@ const puppies = safeSort(counts).map(n => `${n} puppies`);
 
 <!-- expect(puppies).toEqual(['2 puppies', '3 puppies', '6 puppies']) -->
 
-Or use a third-party library, like Lodash and its [`sortBy()` function](https://lodash.com/docs#sortBy):
+Or use a third-party library, like Lodash and its [`sortBy()` method](https://lodash.com/docs#sortBy):
 
 ```js
 const counts = [6, 3, 2];

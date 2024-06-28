@@ -82,7 +82,7 @@ module.exports = {
           const chapter = chapters.find(({ text }) =>
             text.includes(`{${url}}`)
           );
-          return chapter?.filename;
+          return chapter?.filename ?? '';
         }
 
         return '';

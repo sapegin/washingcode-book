@@ -37,7 +37,7 @@ const kebabNames = names.map(name => _.kebabCase(name));
 
 <!-- expect(kebabNames).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
 
-We can shorten it even more if our callback function accepts only one parameter: the value. Take [kebabCase from Lodash](https://lodash.com/docs#kebabCase) for example:
+We can shorten it even more if our callback function accepts only one parameter: the value. Take Lodash’s [`kebabCase()` method](https://lodash.com/docs#kebabCase) for example:
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
@@ -269,7 +269,7 @@ expect(console.error.mock.calls).toEqual([['dope'], ['nope']])
 
 ## Iterating over objects
 
-There are [many ways to iterate over object keys or values](https://stackoverflow.com/questions/684672/how-do-i-loop-through-or-enumerate-a-javascript-object/5737136#5737136) in JavaScript. I equally dislike them all, so it’s hard to choose the best one. Unfortunately, there’s no `map()` for objects, though Lodash does have three methods for object iteration, so it’s a good option if we’re already using Lodash in our project.
+There are [many ways to iterate over object keys or values](https://stackoverflow.com/questions/684672/how-do-i-loop-through-or-enumerate-a-javascript-object/5737136#5737136) in JavaScript. I equally dislike them all, so it’s hard to choose the best one. Unfortunately, there’s no `map()` for objects, though Lodash does have several methods for object iteration, so it’s a good option if we’re already using Lodash in our project. For example, we can use [the `mapValue()` method](https://lodash.com/docs#mapValues):
 
 ```js
 const allNames = {
@@ -289,7 +289,7 @@ expect(kebabNames).toEqual({
 })
 -->
 
-If we don’t need the result as an object, like in the example above, `Object.keys()`, `Object.values()` and `Object.entries()` are also good:
+If we don’t need the result as an object, like in the example above, `Object.keys()`, `Object.values()`, and `Object.entries()` are also good options:
 
 <!-- const console = { log: vi.fn() } -->
 

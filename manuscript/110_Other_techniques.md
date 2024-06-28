@@ -861,6 +861,8 @@ Some tips to improve _code greppability_:
 
 TypeScript helps a lot with these things: for example, we can now find all places where a particular function is used, even if it’s imported with a different name. However, for many other cases, it’s still important to keep identifiers greppable: filenames, translation keys, CSS class names, and so on.
 
+{#no-nih}
+
 ## Avoid not invented here syndrome
 
 [Not invented here](https://en.wikipedia.org/wiki/Not_invented_here) syndrome (NIH) represents fear or a ban on using third-party solutions. It could come from an internal developer’s need to prove themselves to the world or from an employer, usually a huge one, that hired so many developers that there’s not enough actually useful work for everyone.
@@ -933,9 +935,9 @@ However, we should first consider potential problems of maintaining our own solu
 - Maintenance may take a lot of time that we could spend adding new features or improving the product.
 - New developers our company hires need to learn how to use its in-house artisanal libraries, which is often hard because of poor documentation and discoverability.
 
-Let’s compare our own function with one from a popular library: [isEmpty from Lodash](https://lodash.com/docs#isEmpty). It looks quite similar, but it supports objects, arrays, maps, and sets; it’s documented with examples, and it’s tested. I wouldn’t want to deal will all these myself, if an alternative already exists.
+Let’s compare our own function with one from a popular library: [`isEmpty()` from Lodash](https://lodash.com/docs#isEmpty). It looks quite similar, but it supports objects, arrays, maps, and sets; it’s documented with examples, and it’s tested. I wouldn’t want to deal will all these myself, if an alternative already exists.
 
-On a real project, I’d make sure that the `object` is always an object (never `undefined` or `null`, TypeScript can help with this), and then either use Lodash’s `isEmpty` function if available, or inline the `Object.keys(object).length > 0` condition where I need it (now we don’t need to check object existence first).
+On a real project, I’d make sure that the `object` is always an object (never `undefined` or `null`, TypeScript can help with this), and then either use Lodash’s `isEmpty()` method if available, or inline the `Object.keys(object).length > 0` condition where I need it (now we don’t need to check object existence first).
 
 ### Why third-party libraries might be better
 

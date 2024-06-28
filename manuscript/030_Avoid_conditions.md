@@ -927,7 +927,7 @@ expect(getSpecialOffersArray('tacos', BRANDS.PAWS_AND_TAILS)).toEqual(['paws'])
 expect(getSpecialOffersArray('tacos', BRANDS.HORNS_AND_HOOVES)).toEqual(['horns'])
 -->
 
-Now it’s clear that the only piece of business logic here is `getSpecialOffersForBrand`, and the rest is caching. If we’re using this pattern more than once I’d extract it into its own module, similar to the [memoize function](https://lodash.com/docs#memoize) from Lodash:
+Now it’s clear that the only piece of business logic here is `getSpecialOffersForBrand`, and the rest is caching. If we’re using this pattern more than once, I’d extract it into its own module, similar to the Lodash’s [`memoize()` method](https://lodash.com/docs#memoize):
 
 <!-- const SPECIAL_OFFERS_CACHE_KEY = 'offers', getHornsAndHoovesSpecialOffers = () => ['horns'], getPawsAndTailsSpecialOffers = () => ['paws'], Session = { set: vi.fn(), get: vi.fn() }  -->
 
@@ -1478,7 +1478,7 @@ expect(getDiscountAmount({promoDiscount: {discountAmount: {displayCurrency: v25}
 expect(getDiscountAmount({})).toEqual(v0)
 -->
 
-Here, we create an array with all possible discounts, then we use Lodash’s [maxBy()](https://lodash.com/docs#maxBy) method to find the maximum value, and we use nullish coalescing operator to either return the maximum or 0.
+Here, we create an array with all possible discounts, then we use Lodash’s [`maxBy()` method](https://lodash.com/docs#maxBy) to find the maximum value, and we use nullish coalescing operator to either return the maximum or 0.
 
 Now it’s clear that we want to find the maximum of two types of discounts, otherwise return 0.
 
