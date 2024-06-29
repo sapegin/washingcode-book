@@ -253,6 +253,7 @@ $highlighting-macros$
 %
 
 \usepackage{pifont}
+\DeclareUnicodeCharacter{2009}{\hspace{0.14285714em}} % Thin space (1/7em)
 \DeclareUnicodeCharacter{1F355}{\ding{44}} % Pizza emoji → Klatz hand
 \DeclareUnicodeCharacter{2729}{\ding{73}} % Empty star
 \DeclareUnicodeCharacter{2605}{\ding{72}} % Filled star

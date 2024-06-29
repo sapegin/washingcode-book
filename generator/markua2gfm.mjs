@@ -2,32 +2,12 @@ import fs from 'fs-extra';
 import { globSync } from 'glob';
 import _ from 'lodash';
 import richtypo from 'richtypo';
-import {
-  shortWords,
-  orphans,
-  ellipses,
-  dashesBasic,
-  numberUnits,
-  degreeSigns,
-  prepositions,
-  quotes
-} from 'richtypo-rules-en';
+import rules from 'richtypo/rules/en';
 
 /**
  * Convert Markdown files from Markua dialect used by LeanPub to
  * GitHub Flavored Markdown (GFM) / Commonmark used by Pandoc
  */
-
-const rules = [
-  shortWords,
-  prepositions,
-  orphans,
-  dashesBasic,
-  ellipses,
-  numberUnits,
-  degreeSigns,
-  quotes
-];
 
 const SOURCE_DIR = 'manuscript';
 const DEST_DIR_EPUB = 'generator/content-epub';
