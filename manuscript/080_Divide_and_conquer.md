@@ -22,6 +22,8 @@ It’s hard to manage shared code in large projects with many developers and tea
 
 Imagine team A is adding a comment form to their page: a name, a message, and a submit button. Then team B needs a feedback form, so they find team A’s component and try to reuse it. Then team A also wants an email field, but they don’t know that team B uses their component, so they add a required email field and break the feature for team A users. Then team B needs a phone number field, but they know that team A is using the component without it, so they add an option to show a phone number field. A year later, two teams hate each other for breaking each other’s code, and a component is full of conditions and is impossible to maintain. Both teams would save a lot of time and have healthier relationships with each other if they maintained separate components composed of lower-lever shared components, like an input field or a button.
 
+T> It might be a good idea to forbid other teams to use our code unless it’s designed and marked as shared. The [Dependency cruiser](https://github.com/sverweij/dependency-cruiser) is a tool that could help set up such rules on a project.
+
 Sometimes, we have to roll back an abstraction. When we start adding conditions and options, we should ask ourselves: is it still a variation of the same thing or a new thing that should be separated? Adding too many conditions and parameters to a module can make the API hard to use and the code hard to maintain and test.
 
 Duplication is cheaper and healthier than the wrong abstraction.
@@ -34,7 +36,11 @@ The higher level of the code is, the longer we should wait before we abstract it
 
 _Code reuse_ isn’t the only or even most important reason to extract a piece of code into a separate function or module.
 
-_Code length_ is often [used as a metric](https://softwareengineering.stackexchange.com/questions/27798/what-is-proven-as-a-good-maximum-length-of-a-function) when we should split a module or a function, but size alone doesn’t make code hard to read or maintain, and often splitting code into many teeny-tiny functions makes it harder to read and modify.
+_Code length_ is often [used as a metric](https://softwareengineering.stackexchange.com/questions/27798/what-is-proven-as-a-good-maximum-length-of-a-function) when we should split a module or a function, but size alone doesn’t make code hard to read or maintain.
+
+Splitting a linear algorithm, even a long one, into several functions, and then calling them one after another, rarely makes code more readable. Jumping between functions (and even more so — files) is harder than scrolling, and if we have to look into functions’ implementations to understand the code, then the abstraction wasn’t the right one. Naming could be a problem too when all the extracted functions are parts of the same algorithm.
+
+I> Pierre “catwell” Chapuis has [a good example](https://blog.separateconcerns.com/2023-09-11-linear-code.html) of splitting a function gone wrong.
 
 You probably won’t find a lot of small functions in my code. In my experience, the most useful reasons to split code are _change frequency_ and _change reason_.
 
@@ -71,6 +77,8 @@ The same applies to functions that are meant to be used only together with a cer
 
 Another benefit is that when we delete a module, we automatically delete its dependencies. Code in shared modules often stays in the codebase forever because it’s often hard to know whether it’s used anywhere or not (TypeScript makes it much easier, though).
 
+I> Such modules are sometimes called _deep modules_: a relatively large module that encapsulates a complex problem, but has a simple API. The opposite of deep modules are _shallow modules_: many small modules that need to interact to each other.
+
 If we often have to change several modules or functions at the same time, it may be better to merge them into a single module or function. This is sometimes called _colocation_.
 
 A couple of examples of colocation:
@@ -82,11 +90,9 @@ I> Kent C. Dodds has [a nice article on colocation](https://kentcdodds.com/blog/
 
 A common complaint about this approach is that it makes components too large. If that’s the case, it’s better to extract some parts into their own components, together with their markup, styles and logic.
 
-The idea of colocation also conflicts with _separation of concerns_: an outdated idea that led web developers to keep HTML, CSS, and JavaScript in separate files (and often in separate folders) for too long and made us edit three files at the same time to make even the most basic changes on web pages.
+The idea of colocation also conflicts with _separation of concerns_: an outdated idea that led web developers to keep HTML, CSS, and JavaScript in separate files (and often in separate parts of the code tree) for too long and made us edit three files at the same time to make even the most basic changes on web pages.
 
 I> The _change reason_ is also known as the [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle): “every module, class, or function should have responsibility over a single part of the functionality provided by the software, and that responsibility should be entirely encapsulated by the class.”
-
-T> It might be a good idea to forbid other teams to use our code unless it’s designed and marked as shared. The [Dependency cruiser](https://github.com/sverweij/dependency-cruiser) is a tool that could help set up such rules on a project.
 
 ## Sweep that ugly code under the rug
 

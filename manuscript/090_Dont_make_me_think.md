@@ -10,7 +10,7 @@ Some people confuse _brevity_ with _clarity_. Short code (brevity) isn’t alway
 
 <!-- textlint-disable alex -->
 
-There are many ways to express the same idea in the code. However, some of them are easier to understand then others. We should always try to reduce the cognitive load, the mental effort required to understand the code, of the next developer who’ll read out code. Every time we stumble on something that isn’t immediately obvious, we waste our brain’s resources.
+There are many ways to express the same idea in the code. However, some of them are easier to understand then others. We should always try to reduce the cognitive load of the next developer who’ll read out code. Every time we stumble on something that isn’t immediately obvious, we waste our brain’s resources.
 
 <!-- textlint-enable -->
 
@@ -214,7 +214,7 @@ const obj = {
 
 <!-- expect(obj).toEqual({ value: 42 }) -->
 
-I usually prefer when object don’t change their shapes, so I’d move the condition inside the `value` field:
+I usually prefer when objects don’t change their shapes, so I’d move the condition inside the `value` field:
 
 <!-- const condition = true -->
 

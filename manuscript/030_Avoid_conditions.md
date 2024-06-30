@@ -482,7 +482,9 @@ expect(onError).toBeCalledWith('nope')
 expect(() => getRandomJoke(onDone)).not.toThrowError()
 -->
 
-Here, the `onError` parameter is optional, and we check if it exists before calling it. The problem here is that we need to remember to wrap each call to an optional callback with a condition. It increases complexity and cognitive load, and makes the code harder to read.
+Here, the `onError` parameter is optional, and we check if it exists before calling it. The problem here is that we need to remember to wrap each call to an optional callback with a condition. It increases complexity and cognitive load (the mental effort required to understand the code) and makes the code harder to read.
+
+I> Artem Zakirullin has a [great article on cognitive load in programming](https://github.com/zakirullin/cognitive-load).
 
 One way to simplify the code here is by using the _optional chaining_ operator:
 
@@ -988,9 +990,9 @@ I> The [single responsibility principle](https://en.wikipedia.org/wiki/Single_re
 
 ## Tables or maps
 
-One of my favorite techniques for improving _(read: avoiding)_ conditions is replacing them with tables or maps. With JavaScript, we can create a table or a map using a plain object.
+One of my favorite techniques for improving _(read: avoiding)_ conditions is replacing them with _tables_ or _maps_. In JavaScript, we can create a table or a map using a plain object.
 
-We’ve just done this as a part of our “special offers” refactoring example above. Let’s have a look at a simpler example now. This example may be a bit extreme, but I actually wrote this code 19 years ago:
+We’ve just done this as a part of our “special offers” refactoring example above. Let’s have a look at a simpler example now. This example may be a bit extreme, but I actually wrote this code in my early twenties:
 
 <!-- let month = 'may' -->
 
@@ -1395,6 +1397,8 @@ expect(getDateFormat()).toBe('M/D')
 -->
 
 The improved version isn’t much shorter, but now it’s easy to see all date formats. We’ve extracted the data to a short and readable object and separated it from the code that accesses the right piece of this data.
+
+I> There’s a proposal to add [pattern matching](https://github.com/tc39/proposal-pattern-matching) to JavaScript, which may give us another option: more flexible than tables but still readable.
 
 Here’s one more example:
 

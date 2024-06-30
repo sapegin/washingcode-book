@@ -31,12 +31,15 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 - [Clever code considered harmful](https://www.joshwcomeau.com/career/clever-code-considered-harmful/) by Josh Comeau
 - [Code Health: Reduce Nesting, Reduce Complexity](https://testing.googleblog.com/2017/06/code-health-reduce-nesting-reduce.html?m=1) by Elliott Karpilovsky
 - [Code Health: To Comment or Not to Comment?](https://testing.googleblog.com/2017/07/code-health-to-comment-or-not-to-comment.html?m=1) by Dori Reuveni and Kevin Bourrillion
+- [Cognitive Load is what matters](https://github.com/zakirullin/cognitive-load) by Artem Zakirullin
 - [Colocation](https://kentcdodds.com/blog/colocation) by Kent C. Dodds
 - [Everything is a Component](https://medium.com/@level_out/everything-is-a-component-cf9f469ad981) by Luke Hedger
 - [Implicit Assertions](https://www.epicweb.dev/implicit-assertions) by Artem Zakharchenko
 - [Is High Quality Software Worth the Cost?](https://martinfowler.com/articles/is-quality-worth-cost.html) by Martin Fowler
+- [It’s probably time to stop recommending Clean Code](https://qntm.org/clean) by qntm
 - [John Carmack on Inlined Code](http://number-none.com/blow/blog/programming/2014/09/26/carmack-on-inlined-code.html)
 - [Learning Code Readability](https://medium.com/@egonelbre/learning-code-readability-a80e311d3a20) by Egon Elbre
+- [Linear code is more readable](https://blog.separateconcerns.com/2023-09-11-linear-code.html) by Pierre “catwell” Chapuis
 - [Making Wrong Code Look Wrong](https://www.joelonsoftware.com/2005/05/11/making-wrong-code-look-wrong/) by Joel Spolsky
 - [Modern React Testing](https://sapegin.me/blog/react-testing-1-best-practices/) by Artem Sapegin
 - [Naming conventions in programming — a review of scientific literature](https://makimo.com/blog/scientific-perspective-on-naming-in-programming/) by Iwo Herka

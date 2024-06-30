@@ -72,11 +72,7 @@ expect(test.test('Mac_PowerPC', 'Mozilla/4.0 (compatible; MSIE 5.17; Mac_PowerPC
 expect(test.test('MacInter', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.50')).toBe(false)
 -->
 
-Now, the condition is shorter and more readable, because names help us to understand what the condition does in the context of the code.
-
-However, I don’t think that splitting a linear algorithm, even a long one, into several functions, and then calling them one after another, makes code more readable. Jumping between functions (and even more so — files) is harder than scrolling, and if we have to look into functions’ implementations to understand the code, then the abstraction wasn’t the right one. Naming could be a problem too when all the extracted functions are parts of the same algorithm.
-
-Overall, I don’t like when the code is measured by its physical metrics, like the number of lines. Long functions aren’t always hard to read and modify, And the really complex code could be tiny.
+Now, the condition is shorter and more readable, because names help us to understand what the condition does in the context of the code. However, I don’t think that splitting a function into multiple just because it’s “long” makes the code more readable.
 
 I> We talk about code splitting in more detail in the [Divide and conquer, or merge and relax](#divide) chapter.
 
