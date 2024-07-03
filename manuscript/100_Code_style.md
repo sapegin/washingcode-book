@@ -534,17 +534,13 @@ const earthToSun1 = 149597870700;
 const earthToSun2 = 149_597_870_700;
 ```
 
-## Christmas trees vs. sausages
+{#tree-vs-kebab}
 
-I used to have a limit of 120 characters per line because why not, I have a big screen that could fit a lot of code, I should use the space available to me! Then I lowered it to 100 characters, and then to 80, which is a Prettier’s default value that in their docs they [highly recommend not to change](https://prettier.io/docs/en/options.html#print-width).
-
-An argument for using 80 characters I’ve heard many times but never believed in is that some people may edit code in a terminal that only displays 80 characters, like in the old days of MS-DOS and IDEs like QuickBasic and Turbo Pascal. But how many people are really doing this now?
-
-![QuickBasic](images/quickbasic.png)
+## Christmas trees vs. kebabs
 
 Some developers seem to prefer long strings, some short.
 
-The longstringers write code that looks like a bunch of sausages on a grill:
+_The longstringers_ write code that looks like a kebab on a long skewer:
 
 <!-- const puppies = [{id: 1, name: 'Dessi', parentId: 3 },{id: 2, name: 'Tsiri', parentId: 3 },{id: 3, name: 'Cthulhu' },] -->
 
@@ -598,9 +594,9 @@ expect(test('dachshund')).toEqual('yogurt')
 expect(test('saluki')).toEqual(undefined)
 -->
 
-In longstringer code, we’ll see many ternaries, complex string templates, nesting, multiple operations on the same line, long variable names even in a very small scope, and so on.
+Longstringers use many ternaries, complex template literals, deep nesting, multiple operations on the same line, long variable names (even in a very small scope), and so on.
 
-On the other hand, the shortstringers write code that looks like one side of a Christmas tree:
+On the other hand, _the shortstringers_ write code that looks like one side of a Christmas tree:
 
 <!-- const puppies = [{id: 1, name: 'Dessi', parentId: 3 },{id: 2, name: 'Tsiri', parentId: 3 },{id: 3, name: 'Cthulhu' },] -->
 
@@ -660,11 +656,11 @@ expect(test('dachshund')).toEqual('yogurt')
 expect(test('saluki')).toEqual(undefined)
 -->
 
-In shortstringer code, we’ll see early returns, extra functions, and variables to reduce the number of operations in one line and give things names, less nesting, variable name lengths depending on the size or their scope (longer names for larger scope), and so on.
+Shortstringer prefer early returns, extra functions and variables (to reduce the number of operations in one line and name things), shallow nesting, shorter variable names when the scope is small, and so on.
 
-It’s easier to follow conditions, notice `return` statements in the functions, and generally see what’s happening. The important code, like adding new values to an object, isn’t buried somewhere in a very long line, and separated from the data management code. The code has more whitespace and more distinctive shape which makes it easier to scan.
+It’s easier to follow conditions, notice `return` statements in the functions, and generally see what’s happening. The important code, like adding new values to an object, isn’t buried somewhere in a very long line and separated from the data management code. The code has more whitespace and more distinctive shape which makes it easier to scan.
 
-I’m a shortstringer.
+_I’m a shortstringer._
 
 I> We talk more about separating data and data-managing code in the [Separate “what” and “how”](#what-how) section of the _Divide and conquer, or merge and relax_ chapter.
 
@@ -689,48 +685,7 @@ puppies.forEach(puppy => {
 
 <!-- expect(puppiesByParent).toEqual({3: [1, 2]}) -->
 
-Or:
-
-<!--
-const origin = 'https://example.com', intl = {formatMessage: () => 'test'}
-function test(hasTranslation) {
--->
-
-```js
-const downloadLink = hasTranslation
-  ? `${origin}/${intl.formatMessage({ id: 'download-link' })}`
-  : '/download';
-```
-
-<!--
-  return downloadLink
-}
-expect(test(true)).toEqual('https://example.com/test')
-expect(test(false)).toEqual('/download')
--->
-
-Or:
-
-<!--
-const DACHSHUND_FAVORITE_SNACK = 'yogurt'
-function test(breed) {
--->
-
-```js
-if (breed === 'dachshund') return DACHSHUND_FAVORITE_SNACK;
-```
-
-<!--
-}
-expect(test('dachshund')).toEqual('yogurt')
-expect(test('saluki')).toEqual(undefined)
--->
-
 The shortstringer code stays the same.
-
-And coming back to screens with a limited number of characters, I now use 27-inch screen, split into two windows side by side. Each side fits around 80 characters plus a sidebar with the repository tree.
-
-![Coding on 27-inch screen](images/27inches.jpg)
 
 ## Make it easy to remember and use
 

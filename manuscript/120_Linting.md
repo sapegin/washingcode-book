@@ -16,7 +16,9 @@ Like any tool, linters could be used to make our lives easier, and our codebase 
 
 Almost anything that automates or simplifies bug fixing or code reviews worth implementing as a linter rule. However, there are many-many ways linting can go wrong, and that is what we’re going to talk about in this chapter.
 
-Linting in JavaScript has a long history that started in 2002 with JSLint by Douglas Crockford which was allowing developers catch some bugs but also was rigid and promoting a code style that nobody wanted to use. JSLint was later replaced by JSHint, which was less opinionated and more configurable, and then by [ESLint’s](https://eslint.org), which is now the standard for JavaScript linting with dozens of rules and plugins. There were a few other linters as well, like JSCS or Standard, but they were never as popular as these three.
+Linting in JavaScript has a long history that started in 2002 with JSLint by Douglas Crockford which was allowing developers catch some bugs but also was rigid and promoting a code style that nobody wanted to use. JSLint was later replaced by JSHint, which was less opinionated and more configurable, and then by ESLint, which is now the standard for JavaScript linting with dozens of rules and plugins. There were a few other linters as well, like JSCS or Standard, but they were never as popular as these three.
+
+In this chapter, we’ll mostly talk about [ESLint](https://eslint.org): a linter for JavaScript and TypeScript.
 
 ## Linting best practices
 
@@ -812,8 +814,6 @@ export default [
   }
 ];
 ```
-
-T> [Use Mrm](https://mrm.js.org/) to add ESLint and Husky/lint-staged to the project.
 
 ## Recommended ESLint plugins
 

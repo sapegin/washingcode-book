@@ -43,6 +43,7 @@ module.exports = {
         'easy',
         'invalid',
         'just',
+        'nuts',
         'obvious',
         'of-course',
         'simple',
