@@ -1019,6 +1019,8 @@ Some examples of cargo cult programming:
 
 Code isn’t black and white: nothing is always bad (except global variables) or always good (except automation). We’re not working at an assembly line, and we should understand why we write each line of code.
 
+I> Steve McConnell has [a good article on an organizational side of cargo cult programming](https://stevemcconnell.com/articles/cargo-cult-software-engineering/).
+
 ### Never write functions longer than…
 
 If you google “how long should be my functions”, you’ll find a lot of answers: all kinds of random numbers, like [half-a-dozen](https://martinfowler.com/bliki/FunctionLength.html), 10, 25 or 60.
