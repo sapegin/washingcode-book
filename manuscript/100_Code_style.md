@@ -132,7 +132,7 @@ expect(test({allIngredients: []})).toBe(null);
 expect(test({allIngredients: [1]})).toBe(undefined);
 -->
 
-I’m 102% sure, I’d not notice the `return` here when reading the code for the first time.
+I’m 102% sure, I’ll miss the `return` statement here while reading the code for the first time.
 
 T> My color theme [Squirrelsong](https://sapegin.me/squirrelsong/) shows `!` and other operators in bold to make them more noticeable.
 
@@ -346,6 +346,14 @@ expect(result).toBe(true)
 -->
 
 Someone may argue that it doesn’t read like English — “not is empty” — but there’s no way someone might miss the negation.
+
+In some other languages negation is much more visible. For example, Python,:
+
+```python
+if not is_empty(object):
+```
+
+However, JavaScript inherited terse syntax from C that’s fast to type but might be hard to read later.
 
 Here’s another example:
 
