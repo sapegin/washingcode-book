@@ -378,7 +378,7 @@ We can disable loop checking in the rule settings. However, the usefulness of th
 
 ### [no-warning-comments](https://eslint.org/docs/latest/rules/no-warning-comments)
 
-This rule disallows `TODO` and `FIXME` comments. This is how it’s described in the docs:
+This rule disallows todo and fixme comments. This is how it’s described in the docs:
 
 > Developers often add comments to code which is not complete or needs review. Most likely you want to fix or review the code, and then remove the comment, before you consider the code to be production ready.
 
@@ -690,7 +690,7 @@ export default tseslint.config({
 });
 ```
 
-Here, we allow only [@ts-expect-error](https://typescript-eslint.io/rules/prefer-ts-expect-error/) comments and require an explanation for each of them.
+Here, we allow only `@ts-expect-error` comments and require an explanation for each of them.
 
 Then we can write something like this, and it won’t trigger a linting error:
 

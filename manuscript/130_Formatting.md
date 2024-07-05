@@ -4,8 +4,6 @@
 
 <!-- description: How tools can make our lives much easier by formatting code for us -->
 
-W> This chapter isn’t finished yet
-
 Developers used to waste days arguing where they should put spaces in the code. It doesn’t matter that much, but everyone has an opinion about it. Luckily, these arguments are mostly in the past, thanks to automatic code formatting.
 
 I> We talk about code style in the [Code style](#code-style) chapter.

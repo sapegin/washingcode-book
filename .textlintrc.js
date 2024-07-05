@@ -21,8 +21,9 @@ module.exports = {
       severity: 'warning',
       exclude: [
         'divide and conquer',
-        'we all know that',
-        'never say never'
+        'keep an eye on',
+        'never say never',
+        'we all know that'
       ]
     },
     'write-good': {
@@ -49,6 +50,7 @@ module.exports = {
         'simple',
         'special',
         'straightforward',
+        'threeway',
         'vomit',
         'whitespace'
       ]
