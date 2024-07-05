@@ -1,7 +1,5 @@
-# TODO: Dark mode
 # TODO: Make table headers bold
 # TODO: Size individual illustrations
-# TODO: Put nbsp in front of mdash
 # TODO: Correct diff syntax highlighting colors
 
 BOOK_FILE="washing-code"

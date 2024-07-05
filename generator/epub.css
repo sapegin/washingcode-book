@@ -24,8 +24,12 @@ hr {
   width: 50%;
   margin: 2rem auto;
   border: none;
-  height: 1px;
-  background-color: #000;
+  border-bottom: 1px solid #333;
+}
+@media (prefers-color-scheme: dark) {
+  hr {
+    border-color: rgba(255, 255, 255, 0.5);
+  }
 }
 
 /* Book subtitle on the frontmatter page */
@@ -62,6 +66,11 @@ figcaption {
   text-align: center;
   color: #767676;
 }
+@media (prefers-color-scheme: dark) {
+  figcaption {
+    font-style: italic;
+  }
+}
 
 /* Inline code */
 
@@ -71,6 +80,36 @@ code {
     monospace;
   white-space: pre-wrap;
   font-size: medium;
+}
+
+/* Tables */
+
+table {
+  border-top: 2px solid #333;
+  border-bottom: 2px solid #333;
+  border-collapse: collapse;
+}
+th {
+  padding-block: 0.5rem;
+  border-bottom: 1px solid #333;
+  text-align: left;
+}
+tr:first-child td {
+  padding-top: 0.5rem;
+}
+tr:last-child td {
+  padding-bottom: 0.5rem;
+}
+th:not(:last-child),
+tr:not(:last-child) {
+  padding-right: 1rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  table,
+  th {
+    border-color: rgba(255, 255, 255, 0.5);
+  }
 }
 
 /* Tips */
@@ -128,4 +167,17 @@ code {
 }
 .warning .title {
   background-color: #de9e59;
+}
+
+@media (prefers-color-scheme: dark) {
+  .tip,
+  .note,
+  .warning {
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+  .tip .title,
+  .note .title,
+  .warning .title {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  }
 }
