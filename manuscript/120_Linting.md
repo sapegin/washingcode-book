@@ -472,6 +472,8 @@ This rule requires us to use type-safe equality operators `===` and `!==` instea
 
 For example, `3 == '3'` is okay and expected but `[1] == true` is not (`[0] == false` though which is inconsistent with how conditions work where `[]`, `[0]`, and `[1]` are all truthy meaning `if ([0])` would take the `if` branch, not the `else` branch.).
 
+I> _Truthy value_ is a value that is considered `true` during type conversion to a boolean, and includes `true`, non-zero numbers (including negative numbers), non-empty strings, arrays and objects (even empty ones), and [a few others](https://developer.mozilla.org/en-US/docs/Glossary/Truthy).
+
 One common use case for `==` is comparison to `null`:
 
 <!-- let result = undefined -->
