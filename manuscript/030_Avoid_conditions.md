@@ -75,7 +75,7 @@ There are more cases when a condition is unnecessary:
 
 The `Array.isArray()` method returns `false` for any _falsy_ value, no need to check for it separately.
 
-I> _Falsy value_ is a value that is considered `false` during type conversion to a boolean, and includes `false`, `null`, `undefined`, `0`, `''`, and [a few others](https://developer.mozilla.org/en-US/docs/Glossary/Falsy).
+I> A _falsy value_ is a value that is considered `false` during type conversion to a boolean, and includes `false`, `null`, `undefined`, `0`, `''`, and [a few others](https://developer.mozilla.org/en-US/docs/Glossary/Falsy).
 
 And a more complex but great (and real!) example of unnecessary conditions:
 

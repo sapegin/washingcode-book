@@ -530,6 +530,8 @@ I> We talk more about separation of logic and presentation in the [Divide and co
 
 To summarize: it’s easier to test small pure functions. I don’t always follow these principles, because I write unit tests only when I need to test some complex logic. In such cases, these principles make testing simpler and test more resilient to further code changes.
 
+I> A _pure function_ is a function that always returns the same value if we pass the same arguments (meaning it doesn’t depend on any non-deterministic values like dates or random numbers, on any non-constant value outside the function, or on the function’s internal state), and doesn’t have side effects (meaning it doesn’t change any external variables, update the database, send network requests, and so on).
+
 Let’s look at an example:
 
 <!--
