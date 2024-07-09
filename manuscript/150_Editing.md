@@ -6,33 +6,64 @@
 
 W> This chapter isn’t finished yet
 
+Knowing how to use the code editor efficiently makes code writing and editing faster and easier. I use Visual Studio Code, but most tips can be used for other editors too.
+
+TODO
+
 ## Make it your own
 
-One of the biggest features of moderns development environments and code editors is their flexibility and customizability: hundreds of color schemes, fonts made specially for programming, any part of UI can be hidden or adjusted...
+One of the biggest features of moderns development environments and code editors is their flexibility and customizability: hundreds of color schemes (98% are dark though), fonts made specially for programming (from free to very expensive), almost any part of the interface can be hidden or adjusted, countless plugins and extensions (most are broken though), and so on and so forth…
 
-I [don’t do well with distractions](https://sapegin.me/blog/adhd-focus/) and overstimulation, so my environment is very minimal and with very low contrast. In some editors it’s called _zen mode_ but for me it’s my normal mode.
+It’s important to customize our environment so it works best for us.
 
-1. Choose a nice coding font. I’ve been using different fonts over the years — Consolas, Hack... For the past few years I use MonoLisa.
+For example, I [don’t do well with distractions](https://sapegin.me/blog/adhd-focus/) and overstimulation, so my environment is very minimal and low-contrast. In some editors it’s called _zen mode_ but for me it’s my normal mode. It’s even more minimal than the zen mode in Visual Studio Code. For example, I never use tabs, toolbars, or statusbars; and hide all panels by default.
 
-2. Choose a comfortable theme with the right amount of color and contrast: the one that won’t make you tired after looking at it all day long. I had to make my own color theme because there aren’t many good looking light themes, and most of them have very high contrast too me. Bright and contrast colors distract and tire me.
+Here are some things to look at:
 
-3. Customize the UI
+1. Choose a nice coding font. I’ve been using different fonts over the years — Consolas, Hack, and some others I don’t remember. For the past few years I use MonoLisa.
 
-4. Learn / customize the shortcuts
+2. Choose a comfortable theme with the right amount of color and contrast: the one that won’t make you tired after looking at it all day long. I had to make [my own color theme](https://sapegin.me/squirrelsong/) because there aren’t many good looking light themes, and most of them have very high contrast for me. Bright and contrast colors distract and tire me.
 
-5. TODO
+3. Customize the UI: hide anything you don’t use.
 
-T> [Coding Fonts](https://coding-fonts.netlify.app/fonts/anonymous-pro/?theme=light) is a nice page to compare many programming fonts and choose the one you like.
+4. Learn and customize the shortcuts. Keyboard shortcuts (hotkeys) can make our work much faster, but often it’s hard to remember them. Especially, chord shortcuts, where you need to press several shortcuts one after another. I ended up changing many default shortcuts to something that make more sense to me, and easier to remember.
+
+5. Add plugins for languages and frameworks you use. By default code editors come with dozens of panels and toolbars, most of which we’ll never use. It makes sense to only keep things we use regularly, and hide the rest.
+
+T> [MonoLisa](https://www.monolisa.dev) is a paid font, but there are good free alternatives. [Coding Fonts](https://coding-fonts.netlify.app/fonts/anonymous-pro/?theme=light) is a nice page to compare many programming fonts and choose the one you like.
+
+TODO: screenshot
+
+## File navigation
+
+The _fuzzy file opener_ is one of my favorite tools. I use it all the time to open files I know exist, and, more importantly, to look for files I don’t know exist. For example, I need to save data in browser’s localStorage. I don’t know if there’s any utility function to work with it already, so I’ll look for files with `localstorage` or `storage` in their name.
+
+![Fuzzy file opener in Visual Studio Code](images/fuzzy-file-opener.png)
+
+I regularly use _symbol navigation_, either inside the current file, or across the workspace:
+
+TODO: screenshot
+
+I also use _find all references_ often to see where a certain function is used:
+
+And, lastly, I use _go to definition_ (using a shortcut, or Cmd+click) to quickly open a function source code:
 
 TODO: screenshot
 
 ## Code navigation
 
-TODO: navigation to previous editing position
+Some developers only use keyboard to move the cursor across the code. This sounds cool, but I never learned how to do it. Overall, my approach is very minimalist: I heavily rely on just a few tools, and don’t afraid to use trackpad to move the cursor around. For me it often works better than trying to remember complex keyboard shortcuts.
 
-TODO: Navigation to symbol definition and usages
+T> Don’t feel bad if you can’t lear a certain tool. I’ve been struggling with many tools even after using them for over a decade: Git, Flexbox, and many others.
 
-TODO: Symbols
+Besides the basic navigation (home, end, jumping over one word, and so on) I regularly use these shortcuts:
+
+- duplicate current line or selection;
+- delete current line or selected lines;
+- move current line or selected lines up;
+- move current line or selected lines down.
+
+I’ve tried to use more shortcuts, like navigation to previous editing position, but ended up sticking to the few I already know.
 
 ## Autosave
 
@@ -89,10 +120,6 @@ TODO: Find an example
 
 ## Code search
 
-The **fuzzy file opener** is one of my favorite tools. I use it all the time to open files I know exist, and, more importantly, to look for files I don’t know exist. For example, I need to save data in browser’s localStorage. I don’t know if there’s any utility function to work with it already, so I’ll look for files with `localstorage` or `storage` in their name.
-
-![Fuzzy file opener in Visual Studio Code](images/fuzzy-file-opener.png)
-
 TODO: search (regular expressions?)
 
 {#spell-checking}
@@ -142,3 +169,28 @@ I regularly use AI to help me write code, and here are my most common use cases:
 I use two tools: [GitHub Copilot](https://github.com/features/copilot) and (rarely) ChatGPT.
 
 ![GitHub Copilot inline chat](images/github-copilot-inline-chat.png)
+
+## Plugins
+
+We already talked about some plugins in the book...
+
+TODO
+
+## Extras
+
+TODO: git-friendly
+
+TODO: Alfred workflow to open projects in Code
+
+## Conclusion
+
+Modern code editors have hundreds of features, and plugins add even more. It’s hard to remember them, and even harder to remember the shortcuts for the features we don’t use regularly. I often use the _command palette_ to access such features. For example, I use features like line sorting, case conversion, removing duplicate lines, and so on, probably a few times a week, but I don’t have shortcuts for them, and always access them using the command palette:
+
+TODO: screenshot
+
+---
+
+Start thinking about:
+
+- Adding shortcuts for features you use often.
+- Changing default shortcuts that you struggle to remember.
