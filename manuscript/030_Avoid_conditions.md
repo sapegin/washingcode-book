@@ -616,7 +616,7 @@ This function is still long but it’s much easier to follow because of a more s
 
 Now we have at most one level of nesting inside the function and the main return value is at the very end without nesting. We’ve added two guard clauses to exit the function early when there’s no data to process.
 
-I> One of the [Zen of Python’s](https://peps.python.org/pep-0020/) principles is _flat is better than nested_, which is exactly what we did with this refactoring.
+I> One of the [Zen of Python’s](https://peps.python.org/pep-0020/) principles is _flat is better than nested_, which is exactly what we did with this refactoring. I also call it _code flattening_.
 
 I’m not so sure what the code inside the second condition does, but it looks like it’s wrapping a single value in an array as we did in the previous section.
 

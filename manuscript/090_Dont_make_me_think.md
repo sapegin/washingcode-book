@@ -6,11 +6,11 @@
 
 Clever code is a kind of code we may see in job interview questions or language quizzes. When they expect us to know how a language feature, we probably have never seen before, works. My answer to all these questions is: “it won’t pass code review”.
 
-Some people confuse _brevity_ with _clarity_. Short code (brevity) isn’t always the clearest code (clarity), often the opposite. Trying to make your code shorter is a noble goal but it should never make it harder to read.
+Some people confuse _brevity_ with _clarity_. Short code (brevity) isn’t always the clearest code (clarity), often the opposite. Trying to make your code shorter is a noble goal, but it should never make it harder to read.
 
 <!-- textlint-disable alex -->
 
-There are many ways to express the same idea in the code. However, some of them are easier to understand then others. We should always try to reduce the cognitive load of the next developer who’ll read out code. Every time we stumble on something that isn’t immediately obvious, we waste our brain’s resources.
+There are many ways to express the same idea in the code. However, some of them are easier to understand than others. We should always try to reduce the cognitive load of the next developer who’ll read our code. Every time we stumble on something that isn’t immediately obvious, we waste our brain’s resources.
 
 <!-- textlint-enable -->
 
@@ -234,7 +234,7 @@ const array = [...Array(10).keys()];
 
 <!-- expect(array).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) -->
 
-This [wonderful one-liner](https://stackoverflow.com/questions/3746725/how-to-create-an-array-containing-1-n/33352604#33352604) fills an array with numbers from 0 to 9. `Array(10)` creates an array with 10 _empty_ elements, then the `keys()` method returns the keys (numbers from 0 to 9) as an iterator, which we then convert into a plain array using the spread syntax. Exploding head emoji...
+This [wonderful one-liner](https://stackoverflow.com/questions/3746725/how-to-create-an-array-containing-1-n/33352604#33352604) fills an array with numbers from 0 to 9. `Array(10)` creates an array with 10 _empty_ elements, then the `keys()` method returns the keys (numbers from 0 to 9) as an iterator, which we then convert into a plain array using the spread syntax. Exploding head emoji…
 
 ```js
 const array = [];
@@ -305,7 +305,7 @@ const words = ['Not', null, 'enough', 0, 'cheese.'].filter(
 
 ## Make differences in code obvious
 
-When I see two lines of tricky code that look the same, I assume they are actually different but I don’t see the difference yet. Otherwise, a programmer would create a variable for repeated pieces instead of copypasting them.
+When I see two lines of tricky code that look the same, I assume they are different, but I don’t see the difference yet. Otherwise, a programmer would create a variable for repeated pieces instead of copypasting them.
 
 For example, we have a code that generates test IDs for two different tools we use on a project, Enzyme and Codeception:
 
@@ -396,7 +396,7 @@ expect(result).toEqual(false);
 
 Now, we don’t have any similar code and the whole piece is shorter and easier to understand.
 
-Let’s look at a more tricky example. Imagine, we use different naming conventions for different testing tools:
+Let’s look at a trickier example. Imagine, we use different naming conventions for different testing tools:
 
 <!-- const type = 'type', columnName = 'col', rowIndex = 2, toTitleCase = x => _.startCase(_.toLower(x)) -->
 
@@ -467,7 +467,7 @@ expect(props).toHaveProperty('data-codeception-id', 'type_Col_2')
 
 This is an extreme case of using small functions and I generally try to avoid splitting code this far, but I think in this case it works well, assuming that there are already many places in the project where we can use the new `getTestIdProps()` function.
 
-In all cases where we have a condition that makes code slightly different, we should ask ourselves: is this condition really necessary? If the answer is “yes”, then we should ask ourselves again. Often there’s no _real_ reason to have a certain condition. For example, why do we even need to add test IDs for different tools separately? Can’t we set up one of the tools to use test IDs of another? If we dig deep enough we may be surprised to find out that nobody knows the answer, or that the initial reason is no longer relevant.
+In all cases where we have a condition that makes code slightly different, we should ask ourselves: is this condition really necessary? If the answer is “yes”, then we should ask ourselves again. Often there’s no _real_ reason to have a certain condition. For example, why do we even need to add test IDs for different tools separately? Can’t we set up one of the tools to use test IDs of another? If we dig deep enough, we may be surprised to find out that nobody knows the answer, or that the initial reason is no longer relevant.
 
 Consider this example:
 
@@ -486,7 +486,7 @@ expect(getAssetDirs({assetsDir: 'pizza'})).toEqual([{from: 'pizza'}])
 expect(getAssetDirs({assetsDir: ['pizza', 'tacos']})).toEqual([{from: 'pizza'}, {from: 'tacos'}])
 -->
 
-This code has two conditions for corner cases: `assetsDir` doesn’t exist and `assetsDir` isn’t an array. Also, the object generation code is duplicated. (And let’s not talk about nesting ternaries here...) We can get rid of duplication and at least one condition:
+This code has two conditions for corner cases: `assetsDir` doesn’t exist and `assetsDir` isn’t an array. Also, the object generation code is duplicated. (And let’s not talk about nesting ternaries here…) We can get rid of duplication and at least one condition:
 
 ```js
 const getAssetDirs = config =>
@@ -617,7 +617,7 @@ Shorthand properties indeed make the code shorter, but often they make it signif
 
 ## Write parallel code
 
-It’s not always possible to eliminate the condition. However there are ways to make the difference in code branches easier to spot. One of my favorite ways is what I call _parallel coding_.
+It’s not always possible to eliminate the condition. However, there are ways to make the difference in code branches easier to spot. One of my favorite ways is what I call _parallel coding_.
 
 Consider this example:
 
@@ -632,7 +632,7 @@ function RecipeName({ name, subrecipe }) {
 }
 ```
 
-It might be my personal pet peeve but I dislike that the `return` statements are on different levels, which makes it harder to compare them. Let’s add an `else` statement to fix it:
+It might be my personal pet peeve, but I dislike that the `return` statements are on different levels, which makes it harder to compare them. Let’s add an `else` statement to fix it:
 
 ```jsx
 function RecipeName({ name, subrecipe }) {
@@ -679,7 +679,7 @@ const {container: c2} = RTL.render(<Render platform={{OS: 'native'}} />);
 expect(c2.textContent).toEqual('')
 -->
 
-In this example, we have a button that behaves like a link in the browser, and shows a confirmation modal in an app. Reversed condition for the `onPress` prop makes this logic hard to see.
+In this example, we have a button that behaves like a link in the browser and shows a confirmation modal in an app. The reversed condition for the `onPress` prop makes this logic hard to see.
 
 Let’s make both conditions positive:
 
@@ -869,7 +869,7 @@ resolver.doResolve(
 
 This `null` in the middle is grotesque, and who knows what was supposed to be there and why we’re not passing it?
 
-However, probably the worst programming pattern of all times is positional boolean function parameters:
+However, probably the worst programming pattern of all time is positional boolean function parameters:
 
 <!-- let x; const appendScriptTag = (a, b) => x=b -->
 
@@ -883,7 +883,7 @@ What are we disabling here? Don’t try to answer, it was a rhetorical question.
 
 How many is too many? In my experience, more than two is already too many. And an additional rule: any boolean is automatically too many.
 
-Some languages have _named parameters_ to solve this problems. For example, in Python we could do this:
+Some languages have _named parameters_ to solve these problems. For example, in Python we could do this:
 
 ```python
 appendScriptTag('https://example.com/falafel.js', useCORS=false)
@@ -903,11 +903,11 @@ appendScriptTag(`https://example.com/falafel.js`, {
 
 <!-- expect(x).toBe(false) -->
 
-The code is slightly more verbose than in Python but it achieves the same result.
+The code is slightly more verbose than in Python, but it achieves the same result.
 
 ### Name complex conditions
 
-Some conditions are short and obvious and some are long and require us to understand the code well to make sense of them.
+Some conditions are short and obvious, and some are long and require us to understand the code well to make sense of them.
 
 Consider this code:
 
@@ -951,6 +951,6 @@ It makes the code clear and obvious: if we have user details after the data has 
 
 ## Conclusion
 
-When I was 20-years-old, it wasn’t a huge problem to remember things. I could remember books I’ve read, I could remember all the functions of a project I was working with... Now, that I’m almost 40, it’s no longer the case. Now, I value simple code that doesn’t use any tricks. Now, I value search engines, quick access to the docs, and tooling that allow me to reason about the code and navigate the project without remembering things.
+When I was in my twenties, it wasn’t a huge problem to remember things. I could remember books I’ve read; I could remember all the functions of a project I was working with… Now, that I’m in my forties, it’s no longer the case: I value simple code that doesn’t use any tricks; I value search engines, quick access to the docs, and tooling that allows me to reason about the code and navigate the project without keeping everything in my head.
 
-We shouldn’t write code for our current selves but for our selves in 10 or 20 years from now. Thinking is hard and programming require a lot of thinking even without deciphering tricky or unclear code.
+We shouldn’t write code for our current selves, but for ourselves in a few years from now. Thinking is hard, and programming requires a lot of thinking, even without deciphering tricky or unclear code.

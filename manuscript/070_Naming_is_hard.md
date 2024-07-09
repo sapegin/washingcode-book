@@ -1525,7 +1525,7 @@ loud_fruits = [fruit.upper() for fruit in fruits]
 print(loud_fruits)
 ```
 
-Also, JavaScript’s own methods, and browser APIs are all using CamelCase: `forEach()`, `toUpperCase()`, `scrollIntoView()`, and so on.
+Also, JavaScript’s own methods, and browser APIs are all using camelCase: `forEach()`, `toUpperCase()`, `scrollIntoView()`, and so on.
 
 One thing that developers often disagree on is how to spell acronyms (for example, HTML) and words with unusual casing (for example, iOS). There are several approaches:
 

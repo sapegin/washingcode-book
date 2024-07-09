@@ -6,7 +6,7 @@
 
 I used to be very strict about [code style](https://sapegin.me/blog/prettier/). I thought my code style was better than others’, but later I realized that it was just different. And it wasn’t the most popular, so anyone else’s code looked wrong to me.
 
-For example, after reading the [The Programmers’ Stone](https://www.datapacrat.com/Opinion/Reciprocality/r0/index.html) I was formatting braces like this for a long time:
+For example, after reading [The Programmers’ Stone](https://www.datapacrat.com/Opinion/Reciprocality/r0/index.html), I was formatting braces like this for a long time:
 
 <!-- const food = 'pizza', alert = () => {} -->
 
@@ -33,7 +33,7 @@ So if any other developer touched my code, they would definitely make it inconsi
 
 ## Not all code styles are good
 
-I wasn’t entirely wrong though: not every code style makes code easy to read and maintain.
+I wasn’t entirely wrong, though: not every code style makes code easy to read and maintain.
 
 For example, this way of defining arrays makes it harder to move or add new elements:
 
@@ -41,8 +41,8 @@ For example, this way of defining arrays makes it harder to move or add new elem
 ```js
 const dogs = [
   'dachshund',
-  'saluki',
-  'sheltie'
+  'sheltie',
+  'schnoodle'
 ];
 ```
 
@@ -51,10 +51,10 @@ That’s because we’ll have to change two lines every time we want to do somet
 ```diff
 const dogs = [
   'dachshund',
-  'saluki',
--  'sheltie'
-+  'sheltie',
-+  'whippet'
+  'sheltie',
+-  'schnoodle'
++  'schnoodle',
++  'niffler'
 ];
 ```
 
@@ -64,8 +64,8 @@ _Trailing, or dangling, commas_ solve both problems without making code any hard
 ```js
 const dogs = [
   'dachshund',
-  'saluki',
   'sheltie',
+  'schnoodle',
 ];
 ```
 
@@ -74,13 +74,13 @@ Now we need to change only one line:
 ```diff
 const dogs = [
   'dachshund',
-  'saluki',
   'sheltie',
-+  'whippet',
+  'schnoodle',
++  'niffler',
 ];
 ```
 
-I> Nik Graf wrote [a great article on benefits of dangling commas](https://medium.com/@nikgraf/why-you-should-enforce-dangling-commas-for-multiline-statements-d034c98e36f8).
+I> This style is called _dangling commas_, and Nik Graf wrote [a great article on their benefits](https://medium.com/@nikgraf/why-you-should-enforce-dangling-commas-for-multiline-statements-d034c98e36f8).
 
 And if there was one particular code style I really dislike, it would be code blocks without brackets:
 
@@ -132,7 +132,7 @@ expect(test({allIngredients: []})).toBe(null);
 expect(test({allIngredients: [1]})).toBe(undefined);
 -->
 
-I’m 102% sure, I’ll miss the `return` statement here while reading the code for the first time.
+I’m 102% sure I’ll miss the `return` statement here while reading the code for the first time.
 
 T> My color theme [Squirrelsong](https://sapegin.me/squirrelsong/) shows `!` and other operators in bold to make them more noticeable.
 
@@ -152,7 +152,7 @@ expect(test({allIngredients: []})).toBe(null);
 expect(test({allIngredients: [1]})).toBe(undefined);
 -->
 
-Now the `return` statement is more noticeable: it has its own line, braces create extra negative space around it, and, most important, it has a familiar shape of an `if` statement. Without braces, it looks like any other line (see the illustration).
+Now the `return` statement is more noticeable: it has its own line, braces create extra negative space around it, and, most importantly, it has the familiar shape of an `if` statement. Without braces, it looks like any other line (see the illustration).
 
 ![Shapes of if conditions without and with braces](images/if-shapes.svg)
 
@@ -181,18 +181,18 @@ T> Use `curly` ESLint rule to make sure all conditions have braces: see the [Lin
 
 Sometimes developers follow a particular code style even if the initial reasoning behind it is no longer relevant.
 
-For example, using leading commas in arrays and objects when JavaScript didn’t support trailing commas:
+For example, using leading commas in arrays and objects when JavaScript didn’t yet support trailing commas:
 
 <!-- prettier-ignore -->
 ```js
 const dogs = [
   'dachshund'
-, 'saluki'
 , 'sheltie'
+, 'schnoodle'
 ];
 ```
 
-The goal of this style was the same as of trailing commas in the previous section — to make adding new elements easier and diffs more readable, but there are no reasons to use this anymore: Internet Explorer 8 was the last browser that didn’t support trailing commas.
+The goal of this style was the same as trailing commas in the previous section — to make adding new elements easier and diffs more readable, but there are no reasons to use this anymore: Internet Explorer 8 was the last browser that didn’t support trailing commas.
 
 Another example is [Yoda conditions](https://en.wikipedia.org/wiki/Yoda_conditions), a style where a literal is on the left side of a condition:
 
@@ -246,7 +246,7 @@ if (meaning == 42) {
 expect(result).toBe(true)
 -->
 
-This is much less relevant in JavaScript where the strict equality (`===`, values and types must be equal) is the preferred style and on most projects a linter will complain if we try to use the loose equality (`==`, only values must be equal). It’s really hard to miss two equal signs when typing `===`. So normal order of conditions is fine and easier to read:
+This is much less relevant in JavaScript, where the strict equality (`===`, values and types must be equal) is the preferred style, and on most projects, a linter will complain if we try to use loose equality (`==`, only values must be equal). It’s really hard to miss two equal signs when typing `===`. So the normal order of conditions is fine and easier to read:
 
 <!--
 const meaning = 42
@@ -265,7 +265,7 @@ expect(result).toBe(true)
 
 ## Nonsensical code styles
 
-Some code styles don’t solve any particular problem but are expensive to maintain.
+Some code styles don’t solve any particular problem, but are expensive to maintain.
 
 For example, aligning object values or assignments’ right-hands horizontally to make them look “pretty”:
 
@@ -279,7 +279,7 @@ var fs       = require('fs')
 
 <!-- expect(examples).toEqual('./README.md') -->
 
-Editing code written in such style takes an enormous amount of work, and luckily code formatters will remove all the artisanal handcrafted spaces and make code look equally good without requiring any work from a developer:
+Editing code written in such a style takes an enormous amount of work, and luckily code formatters will remove all the artisanal, handcrafted spaces and make code look equally good without requiring any work from a developer:
 
 ```js
 var fs = require('fs'),
@@ -289,7 +289,7 @@ var fs = require('fs'),
 
 <!-- expect(examples).toEqual('./README.md') -->
 
-I’d go one step further, and replace a single `var` with a one `var` per line (or `const`):
+I’d go one step further and replace a single `var` with one `var` per line (or `const`):
 
 ```js
 const fs = require('fs');
@@ -307,7 +307,7 @@ I> We talk about code formatting in the [Autoformat your code](#formatting) chap
 
 ## Improving readability
 
-In many cases, some ways of writing code are more readable than other ways. Conditions, and especially conditions with negations are good examples. I used to write these as short as possible, now I prefer to be verbose and explicit. Saving a few keystrokes isn’t worth it when the code could be easily misinterpreted. Better learn touch typing.
+In many cases, some ways of writing code are more readable than others. Conditions, and especially conditions with negations, are good examples. I used to write these as short as possible; now I prefer to be verbose and explicit. Saving a few keystrokes isn’t worth it when the code could be easily misinterpreted. Better learn touch typing.
 
 Consider this example:
 
@@ -347,7 +347,7 @@ expect(result).toBe(true)
 
 Someone may argue that it doesn’t read like English — “not is empty” — but there’s no way someone might miss the negation.
 
-In some other languages negation is much more visible. For example, Python,:
+In some other languages, negation is much more visible. For example, Python:
 
 ```python
 if not is_empty(object):
@@ -455,7 +455,7 @@ if (puppies.length === 0) {
 expect(result).toBe(false)
 -->
 
-Now the conditions look significantly different and there’s no way to misinterpret them.
+Now the conditions look significantly different, and there’s no way to misinterpret them.
 
 I’m starting to think that using `!` in conditions is [generally an antipattern](https://x.com/Jack_Franklin/status/1189477268764188672), so instead of:
 
@@ -491,7 +491,7 @@ if (isFriday === false) {
 expect(result).toBe(true)
 -->
 
-Another example where we can improve readability a bit is checking whether a value is between two numbers. A naïve way to so would like so:
+Another example where we can improve readability a bit is checking whether a value is between two numbers. A naïve way to do so would be:
 
 <!-- let inside = false, x = 7 -->
 
@@ -505,7 +505,7 @@ inside = true
 expect(inside).toBe(true)
 -->
 
-This reads like “x is greater than 3 _and_ lower than 13”, which is fine but we can do better:
+This reads like “x is greater than 3 _and_ lower than 13,” which is fine, but we can still do better:
 
 <!-- let inside = false, x = 7 -->
 
@@ -535,7 +535,7 @@ inside = true
 expect(inside).toBe(false)
 -->
 
-One minor improvement in the modern JavaScript is _numeric separators_, which allows us to separate thousands with an underscore (`_`) to make large numbers easier to read:
+One minor improvement in modern JavaScript is _numeric separators_, which allows us to separate thousands with an underscore (`_`) to make large numbers easier to read:
 
 ```js
 const earthToSun1 = 149597870700;
@@ -599,7 +599,7 @@ if (breed === 'dachshund') return DACHSHUND_FAVORITE_SNACK;
 <!--
 }
 expect(test('dachshund')).toEqual('yogurt')
-expect(test('saluki')).toEqual(undefined)
+expect(test('niffler')).toEqual(undefined)
 -->
 
 Longstringers use many ternaries, complex template literals, deep nesting, multiple operations on the same line, long variable names (even in a very small scope), and so on.
@@ -661,18 +661,18 @@ if (breed in FAVORITE_SNACKS) {
 <!--
 }
 expect(test('dachshund')).toEqual('yogurt')
-expect(test('saluki')).toEqual(undefined)
+expect(test('niffler')).toEqual(undefined)
 -->
 
-Shortstringer prefer early returns, extra functions and variables (to reduce the number of operations in one line and name things), shallow nesting, shorter variable names when the scope is small, and so on.
+Shortstringers prefer early returns, extra functions and variables (to reduce the number of operations in one line and name things), shallow nesting, shorter variable names when the scope is small, and so on.
 
-It’s easier to follow conditions, notice `return` statements in the functions, and generally see what’s happening. The important code, like adding new values to an object, isn’t buried somewhere in a very long line and separated from the data management code. The code has more whitespace and more distinctive shape which makes it easier to scan.
+It’s easier to follow conditions, notice `return` statements in the functions, and generally see what’s happening. The important code, like adding new values to an object, isn’t buried somewhere in a very long line and separated from the data management code. The code has more whitespace and a more distinctive shape, which makes it easier to scan.
 
 _I’m a shortstringer._
 
 I> We talk more about separating data and data-managing code in the [Separate “what” and “how”](#what-how) section of the _Divide and conquer, or merge and relax_ chapter.
 
-Another issue of the longstringer approach is that Prettier with a default setting of 80 characters will likely make the code ugly and quite unreadable:
+Another issue with the longstringer approach is that Prettier with a default setting of 80 characters will likely make the code ugly and quite unreadable:
 
 <!-- const puppies = [{id: 1, name: 'Dessi', parentId: 3 },{id: 2, name: 'Tsiri', parentId: 3 },{id: 3, name: 'Cthulhu' },] -->
 
@@ -703,7 +703,7 @@ Some conventions are easy to use, and some are not so much. Let’s compare thre
 - **Upper case:** all words are capitalized (example: _Breakfast: The Most Important Book About the Best Meal Of The Day_).
 - **AP/APA:** see below (example: _Breakfast: The Most Important Book About the Best Meal of the Day_).
 
-The first two are easy to remember: it’s all or nothing. The last one, however, not at all. Here are the rules of the AP/APA title style (quoted from the [ap-style-title-case](https://github.com/words/ap-style-title-case) package docs):
+The first two are easy to remember: it’s all or nothing. The last one, however, is not at all. Here are the rules of the AP/APA title style (quoted from the [ap-style-title-case](https://github.com/words/ap-style-title-case) package docs):
 
 - always capitalize the first word, even if it’s a stop word;
 - always capitalize the last word, even if it’s a stop word;
@@ -713,7 +713,7 @@ The first two are easy to remember: it’s all or nothing. The last one, however
 >
 > When you write titles that contain prepositions, your word processor will likely tell you that you should leave words like `with`, `about`, and `around` lowercase. Defiantly look past the squiggly line indicating a potential error, and remember that in AP title case, prepositions with four or more letters should be capitalized.
 
-This is way too much to remember and it has too many exceptions to be practical. It also doesn’t make text more readable, and, to my taste, prettier. Automation could help with managing complexity, but then the convention should have significant benefits, and this one doesn’t. That’s why I use sentence case in all my writing, including this book.
+This is way too much to remember, and it has too many exceptions to be practical. It also doesn’t make text more readable, or, to my taste, prettier. Automation could help with managing complexity, but then the convention should have significant benefits, and this one doesn’t. That’s why I use sentence case in all my writing, including this book.
 
 This is an extreme case of an inconvenient convention. Programmers rarely go that far but sometimes they try.
 
@@ -731,9 +731,9 @@ So, choose the simplest convention, unless more complex rules bring huge benefit
 
 ## To semicolon or not
 
-JavaScript is one of the very few languages that doesn’t require a semicolon at the end of each line, but also doesn’t mind having them. This created countless arguments over the past two decades.
+JavaScript is one of the very few languages that doesn’t require a semicolon at the end of each line, but also doesn’t mind having them. This has created countless arguments over the past two decades.
 
-Normally, I’d say I don’t care, as long as it’s automated. But there’s one thing that made me prefer having semicolons in JavaScript after each line. This reason is called Automatic semicolon insertion (ASI): JavaScript will try to guess where to put semicolons when there are non in the code, and sometime it does it wrong. This is a perfect example:
+Normally, I’d say I don’t care, as long as it’s automated. But there’s one thing that made me prefer having semicolons in JavaScript after each line. This reason is called _automatic semicolon insertion_ (ASI): JavaScript will try to guess where to put semicolons when there are none in the code, and sometimes it does it wrong. This is a perfect example:
 
 <!-- prettier-ignore -->
 ```js
@@ -747,7 +747,7 @@ function semicolonOrNot() {
 
 <!-- expect(semicolonOrNot()).toEqual(undefined) -->
 
-Most people would expect that it returns an object but it returns `undefined` because ASI always puts a semicolon after a stray `return`, and the code is interpreted like so:
+Most people would expect that it returns an object, but it returns `undefined` because ASI always puts a semicolon after a stray `return`, and the code is interpreted like so:
 
 <!-- prettier-ignore -->
 ```js
@@ -774,13 +774,13 @@ function semicolonOrNot() {
 
 <!-- expect(semicolonOrNot()).toEqual({semi: "colon" }) -->
 
-I prefer not to overload my brain with such questions and always use semicolons.
+I prefer not to overload my brain with such questions, and always use semicolons.
 
-Luckily, _semicolonless_ JavaScript projects are far less common now than they used to be some ten years ago.
+Luckily, _semicolonless_ JavaScript projects are far less common now than they used to be ten years ago.
 
 ## Tabs or spaces
 
-Doesn’t matter, as long as we have a linter or autoformatter to automatically make it right. With modern code editors there’s no difference, and most of the time I don’t even know what projects, I’m working on, are using.
+It doesn’t matter, as long as we have a linter or autoformatter to automatically make it right. With modern code editors, there’s no difference, and most of the time I don’t even know what projects I’m working on are using.
 
 I> We talk about linters in the [Lint your code](#linting) chapter, and about code formatters in [Autoformat your code](#formatting) chapter.
 
@@ -840,7 +840,7 @@ const getDropdownOptions = options =>
 
 <!-- expect(getDropdownOptions([{value: 1}, {value: 2}])).toEqual([1, 2]) -->
 
-Or the same with default export:
+Or the same with the default export:
 
 ```jsx
 const Button = props => (
@@ -869,16 +869,22 @@ expect(c1.textContent).toEqual('Tacos')
 
 I can probably write a whole book of such examples, and let’s not forget the eternal debate of tabs versus spaces.
 
-In all the examples above I prefer the last variation but I’d never ask someone to change their code during code review if they use another variation.
+In all the examples above, I prefer the last variation, but I’d never ask someone to change their code during code review if they use another variation.
 
-There’s zero code readability improvement. The code is just different, none of the variations are better than the other. And even the consistency argument isn’t good enough unless we can automate code replacement completely transparently for the developer. Otherwise, the cost of maintaining the convention would be too high.
+This doesn’t improve readability. The code is just different; no variation is better than the other. And even the consistency argument isn’t good enough unless we can automate code replacement completely transparently for the developer. Otherwise, the cost of maintaining the convention would be too high.
 
 ## Conclusion
 
-My rule of thumb here is: _automate or forget_. For example, [Prettier](https://prettier.io/) formats code with almost zero config, which saves an enormous amount of time while you write code, read someone else’s code or discuss code style in your team.
+My rule of thumb here is: _automate or forget_. For example, [Prettier](https://prettier.io/) formats code with almost zero config, which saves an enormous amount of time while you write code, read someone else’s code, or discuss code style in your team.
 
 I> We talk about Prettier and code formatting in the [Autoformat your code](#formatting) chapter.
 
-Be vigilant when you adapt [a popular code styles](https://sapegin.me/blog/javascript-code-styles/): many are too opinionated and want us to write code in a very specific way, even when it doesn’t improve the readability or maintainability of the code, or reduce the number of bugs.
+Be vigilant when you adapt [a popular code style](https://sapegin.me/blog/javascript-code-styles/): many are too opinionated and want us to write code in a very specific way, even when it doesn’t improve the readability or maintainability of the code or reduce the number of bugs.
 
-Prefer explicit over implicit, write code to maximize readability but don’t be too strict with others when they don’t do it the same way you would. Next time you review someone else’s code and want to ask them to change a piece of code, ask yourself: does it really make code more readable and maintainable or just makes it look more familiar to me. If it’s the latter, please don’t write that comment.
+Prefer explicit over implicit; write code to maximize readability, but don’t be too strict with others when they don’t do it the same way you would.
+
+---
+
+Start thinking about:
+
+- Does the suggestion I’m about to make in a code review really make the code more readable and maintainable, or just make it look more familiar to me.
