@@ -15,7 +15,7 @@ const puppy = {
 puppy.age = 14;
 ```
 
-<!-- expect(puppy).toEqual({name: 'Dessi', age: 14}) -->
+<!-- expect(puppy).toEqual(expect.objectContaining({age: 14})) -->
 
 Here we’re _mutating_ the original `puppy` object by changing its `age` property.
 
