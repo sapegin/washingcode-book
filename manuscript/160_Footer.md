@@ -46,7 +46,7 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 - [Naming conventions in programming — a review of scientific literature](https://makimo.com/blog/scientific-perspective-on-naming-in-programming/) by Iwo Herka
 - [On the changing notion of code readability](https://github.com/kbilsted/CodeQualityAndReadability/blob/master/Articles/Readability/TheChangingNotionOfReadability.md) by Kasper B. Graversen
 - [Outliving the Great Variable Shortage](https://www.rssing.com/noserver.html?a=4) by Tim Ottinger
-- [Psychology of Code Readability](https://medium.com/@egonelbre/psychology-of-code-readability-d23b1ff1258a) by Egon Elbre
+- [Psychology of Code Readability](https://egonelbre.com/psychology-of-code-readability/) by Egon Elbre
 - [Small Functions considered Harmful](https://copyconstruct.medium.com/small-functions-considered-harmful-91035d316c29) by Cindy Sridharan
 - [The “Bug-O” Notation](https://overreacted.io/the-bug-o-notation/) by Dan Abramov
 - [The Law of Leaky Abstractions](https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/) by Joel Spolsky

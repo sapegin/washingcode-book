@@ -82,7 +82,7 @@ const dogs = [
 
 I> This style is called _dangling commas_, and Nik Graf wrote [a great article on their benefits](https://medium.com/@nikgraf/why-you-should-enforce-dangling-commas-for-multiline-statements-d034c98e36f8).
 
-And if there was one particular code style I really dislike, it would be code blocks without brackets:
+And if there was one particular code style I really dislike, it would be code blocks without braces:
 
 <!-- function test(pizza) { -->
 

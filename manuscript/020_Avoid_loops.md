@@ -574,7 +574,7 @@ This code is good, and though, it’s more in the spirit of this book, the origi
 
 I’d be happy to accept either the original, with the `for of` loop, or the last one, with the `flatMap()` and `map()` chain, during a code review. No `reduce()` for me, thank you!
 
-_(Though `tableData` is a terrible variable name.)_
+_Though `tableData` is a terrible variable name._
 
 I> We talk about naming in the [Naming is hard](#naming) chapter.
 
