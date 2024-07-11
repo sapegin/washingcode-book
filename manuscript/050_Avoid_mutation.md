@@ -9,12 +9,13 @@ Mutations happen when we change a JavaScript object or array without creating a 
 ```js
 const puppy = {
   name: 'Dessi',
-  age: 9
+  breed: 'Dachshund',
+  age: 13
 };
-puppy.age = 10;
+puppy.age = 14;
 ```
 
-<!-- expect(puppy).toEqual({name: 'Dessi', age: 10}) -->
+<!-- expect(puppy).toEqual({name: 'Dessi', age: 14}) -->
 
 Here we’re _mutating_ the original `puppy` object by changing its `age` property.
 
