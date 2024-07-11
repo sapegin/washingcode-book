@@ -1113,8 +1113,8 @@ const hasStringValue = value =>
   typeof value === 'string' && value.trim() !== '';
 
 /**
- * Validates whether a string is shorter than a given number of characters,
- * ignores empty strings and non-string values
+ * Validates whether a string is shorter than a given number
+ * of characters, ignores empty strings and non-string values
  */
 const hasLengthLessThanOrEqual = max => value =>
   hasStringValue(value) === false || value.length <= max;
