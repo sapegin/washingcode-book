@@ -669,23 +669,29 @@ Sometimes we can’t avoid mutations, for example, because of an unfortunate lan
 Array’s `sort()` method is an infamous example of that:
 
 ```js
-const counts = [6, 3, 2];
-const puppies = counts.sort().map(n => `${n} puppies`);
+const counts = [6, 3, 11];
+const puppies = counts
+  .sort((a, b) => a - b)
+  .map(n => `${n} puppies`);
+// → ['3 puppies', '6 puppies', '11 puppies']
 ```
 
-<!-- expect(puppies).toEqual(['2 puppies', '3 puppies', '6 puppies']) -->
+<!-- expect(puppies).toEqual(['3 puppies', '6 puppies', '11 puppies']) -->
 
 This example gives the impression that the `counts` array isn’t changing, and we’re just creating a new `puppies` array with the sorted array. But the `sort()` method returns a sorted array _and_ mutates the original array at the same time. This kind of code is hazardous and can lead to hard-to-find bugs. Many developers don’t realize that the `sort()` method is mutating because the code _seems_ to work fine.
+
+T> Another surprising thing about the `sort()` method is that by default it sorts elements by converting them to strings first, so `[6, 3, 11]` will be sorted as `[11, 3, 6]`, unless we provide a custom comparison function, like in the example above. This is a very poor design, and severely violates [the principle of least astonishment](https://en.wikipedia.org/wiki/Principle_of_least_astonishment).
 
 It’s better to make the mutation explicit:
 
 ```js
-const counts = [6, 3, 2];
-const sortedCounts = [...counts].sort();
+const counts = [6, 3, 11];
+const sortedCounts = [...counts].sort((a, b) => a - b);
 const puppies = sortedCounts.map(n => `${n} puppies`);
+// → ['3 puppies', '6 puppies', '11 puppies']
 ```
 
-<!-- expect(puppies).toEqual(['2 puppies', '3 puppies', '6 puppies']) -->
+<!-- expect(puppies).toEqual(['3 puppies', '6 puppies', '11 puppies']) -->
 
 Here we’re making a shallow copy of the `counts` array using the spread syntax and then sorting it, so the original array stays the same.
 
@@ -693,45 +699,49 @@ Another option is to wrap a mutating API into a new API that doesn’t mutate or
 
 ```js
 function safeSort(array) {
-  return [...counts].sort();
+  return [...counts].sort((a, b) => a - b);
 }
 
-const counts = [6, 3, 2];
+const counts = [6, 3, 11];
 const puppies = safeSort(counts).map(n => `${n} puppies`);
+// → ['3 puppies', '6 puppies', '11 puppies']
 ```
 
-<!-- expect(puppies).toEqual(['2 puppies', '3 puppies', '6 puppies']) -->
+<!-- expect(puppies).toEqual(['3 puppies', '6 puppies', '11 puppies']) -->
 
 Or use a third-party library, like Lodash and its [`sortBy()` method](https://lodash.com/docs#sortBy):
 
 ```js
-const counts = [6, 3, 2];
+const counts = [6, 3, 11];
 const puppies = _.sortBy(counts).map(n => `${n} puppies`);
+// → ['3 puppies', '6 puppies', '11 puppies']
 ```
 
-<!-- expect(puppies).toEqual(['2 puppies', '3 puppies', '6 puppies']) -->
+<!-- expect(puppies).toEqual(['3 puppies', '6 puppies', '11 puppies']) -->
 
 Another popular method is using the `slice()` method to create a copy of an array:
 
 ```js
-const counts = [6, 3, 2];
-const sortedCounts = counts.slice().sort();
+const counts = [6, 3, 11];
+const sortedCounts = counts.slice().sort((a, b) => a - b);
 const puppies = sortedCounts.map(n => `${n} puppies`);
+// → ['3 puppies', '6 puppies', '11 puppies']
 ```
 
-<!-- expect(puppies).toEqual(['2 puppies', '3 puppies', '6 puppies']) -->
+<!-- expect(puppies).toEqual(['3 puppies', '6 puppies', '11 puppies']) -->
 
 I’d advice against it: spreading is slightly more readable, though both methods require some explanation the first time one sees them.
 
 My favorite method though is using the ECMAScript 2023’s `toSorted()` method that does’t mutate the original array:
 
 ```js
-const counts = [6, 3, 2];
-const sortedCounts = counts.toSorted();
+const counts = [6, 3, 11];
+const sortedCounts = counts.toSorted((a, b) => a - b);
 const puppies = sortedCounts.map(n => `${n} puppies`);
+// → ['3 puppies', '6 puppies', '11 puppies']
 ```
 
-<!-- expect(puppies).toEqual(['2 puppies', '3 puppies', '6 puppies']) -->
+<!-- expect(puppies).toEqual(['3 puppies', '6 puppies', '11 puppies']) -->
 
 ## Updating objects
 
