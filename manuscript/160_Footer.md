@@ -1,6 +1,6 @@
 # Conclusion
 
-All the topics covered in this book, aren’t hard rules, but ideas for possible improvements. When I say _avoid conditions, mutations, reassignments, or something else_, I don’t mean _never use them_, more like _there might be a better solution_.
+All the topics covered in this book, aren’t hard rules, but ideas for possible improvements. When I say _avoid conditions, mutation, reassignments, or something else_, I don’t mean _never use them_, more like _there might be a better solution_.
 
 There are valid use cases for all programming techniques, maybe even `goto`, who knows. I’m probably too young to know. The only certain thing is that the answer to any question about programming is: _it depends_. No matter how many likes this solution has on Stack Overflow, it may not be the best choice for your case.
 

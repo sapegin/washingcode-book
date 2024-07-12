@@ -864,7 +864,7 @@ There are hundreds of plugins for ESLint; few are useful. I have these plugins o
 
 Other plugins mentioned in the book:
 
-- [Better mutation](https://github.com/sloops77/eslint-plugin-better-mutation): disallows any mutations, except for local variables in functions.
+- [Better mutation](https://github.com/sloops77/eslint-plugin-better-mutation): disallows any mutation, except for local variables in functions.
 - [Functional](https://github.com/eslint-functional/eslint-plugin-functional): disables mutation and promotes functional programming.
 
 ## Conclusion

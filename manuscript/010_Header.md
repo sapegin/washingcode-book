@@ -36,7 +36,7 @@ In the [Avoid conditions](#no-conditions) chapter, we continue exploring the bes
 
 In the [Avoid reassigning variables](#no-reassigning) chapter, we talk about improving code readability by making it easier to understand what variables are doing and how they are used in the code.
 
-In the [Avoid mutation](#no-mutation) chapter, we continue the topic of working with variables and talk about mutations: why it’s hindering code readability and what can we do about it.
+In the [Avoid mutation](#no-mutation) chapter, we continue the topic of working with variables and talk about mutation: why it’s hindering code readability and what can we do about it.
 
 The next two chapters are about more humanistic side of coding:
 

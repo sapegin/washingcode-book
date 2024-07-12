@@ -564,7 +564,7 @@ Both conventions reduce the cognitive load a little bit and make the code easier
 
 Unfortunately, JavaScript has no true constants, and _mutation_ is still possible even when we define a variable with the `const` keyword.
 
-I> We talk about mutations in [the next chapter](#no-mutation).
+I> We talk about mutation in [the next chapter](#no-mutation).
 
 ---
 

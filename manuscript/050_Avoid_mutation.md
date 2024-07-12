@@ -4,7 +4,7 @@
 
 <!-- description: Why mutation is hindering code readability and what can we do about it -->
 
-Mutations happen when we change a JavaScript object or array without creating a new variable or reassigning an existing one:
+Mutation happen when we change a JavaScript object or array without creating a new variable or reassigning an existing one:
 
 ```js
 const puppy = {
@@ -19,7 +19,7 @@ puppy.age = 14;
 
 Here we’re _mutating_ the original `puppy` object by changing its `age` property.
 
-Mutations are often problematic. Consider this function:
+Mutation is often problematic. Consider this function:
 
 <!-- const console = { log: vi.fn() } -->
 
@@ -39,16 +39,16 @@ expect(console.log.mock.calls).toEqual([[1], [2], [3]])
 
 The problem here is that the `sort()` array method mutates the array we’re passing into our function, likely not what we’d expect when calling a function named `printSortedArray()`.
 
-Some of the problems with mutations:
+Some of the problems with mutation:
 
-- Mutations may lead to unexpected and hard-to-debug issues, where data becomes incorrect somewhere, and we have no idea where it happens.
-- Mutations make code harder to understand: at any time, an array or an object may have a different value, so we need to be very careful when reading the code.
+- Mutation may lead to unexpected and hard-to-debug issues, where data becomes incorrect somewhere, and we have no idea where it happens.
+- Mutation makes code harder to understand: at any time, an array or an object may have a different value, so we need to be very careful when reading the code.
 - Mutation of function parameters makes the behavior of a function surprising and crease unexpected side effects.
-- Mutations are often unexpected. It’s too easy to forget which methods mutate the original data, and which don’t. Both could return the same value, and there’s no naming convention of any kind to differentiate them, at least in JavaScript.
+- Mutation is often unexpected. It’s too easy to forget which methods mutate the original data, and which don’t. Both could return the same value, and there’s no naming convention of any kind to differentiate them, at least in JavaScript.
 
-_Immutability_ or _immutable data structures_, meaning that to change a value we have to create a new array or object, would solve this problem. Unfortunately, JavaScript doesn’t support immutability natively, and all solutions are more crutches than actual solutions. But even just _avoiding_ mutations in our code makes it easier to understand.
+_Immutability_ or _immutable data structures_, meaning that to change a value we have to create a new array or object, would solve this problem. Unfortunately, JavaScript doesn’t support immutability natively, and all solutions are more crutches than actual solutions. But even just _avoiding_ mutation in our code makes it easier to understand.
 
-Also, don’t forget that `const` in JavaScript only prevents reassignments — not mutations.
+Also, don’t forget that `const` in JavaScript only prevents reassignments — not mutation.
 
 I> We talk about reassignments in the previous chapter, [Avoid reassigning variables](#no-reassigning).
 
@@ -143,7 +143,7 @@ expect(parseExample('pizza', 'js', '{"foo": true}')).toEqual({content: 'pizza', 
 expect(parseExample('pizza', 'js', 'foo bar')).toEqual({content: 'pizza', lang: 'js', settings: {foo: true, bar: true}})
 -->
 
-Now it’s easier to understand what the code does, and the possible shapes of the return object are clear. We’ve also removed all mutations and reduced nesting a little.
+Now it’s easier to understand what the code does, and the possible shapes of the return object are clear. We’ve also removed mutation and reduced nesting a little.
 
 ## Beware of the mutating array methods
 
@@ -202,7 +202,7 @@ expect(rows).toEqual([{"product1": <Text>pizza</Text>, "product2": <Text>pizza</
 
 Here we have two ways of defining table rows: a plain array with always visible rows, and a function that returns optional rows. The latter mutates the original array using the `push()` method.
 
-Array mutation itself isn’t the most significant issue of this code. However, code with mutations likely hides other issues — mutation is a good sign to look closer. Here the main problem is imperative array building and different ways of handling required and optional rows. Replacing imperative code with declarative and eliminating conditions often makes code more readable and maintainable.
+Array mutation itself isn’t the most significant issue of this code. However, code with mutation likely hides other issues — mutation is a good sign to look closer. Here the main problem is imperative array building and different ways of handling required and optional rows. Replacing imperative code with declarative and eliminating conditions often makes code more readable and maintainable.
 
 Let’s merge all possible rows into a single declarative array:
 
@@ -663,9 +663,9 @@ I> The `toSorted()` method is included in ECMAScript 2023, and supported by all 
 
 Probably the only valid reason to mutate function parameters is performance optimization: when we work with a huge piece of data and creating a new object or array would be too slow. But like with all performance optimizations: measure first to know whether we actually have a problem, and avoid premature optimization.
 
-## Make mutations explicit if they are necessary
+## Make mutation explicit if they are necessary
 
-Sometimes we can’t avoid mutations, for example, because of an unfortunate language API that does mutation.
+Sometimes we can’t avoid mutation, for example, because of an unfortunate language API that does mutation.
 
 Array’s `sort()` method is an infamous example of that:
 
@@ -769,9 +769,9 @@ const next = { ...prev, pizza: 42 };
 
 This does the same thing but is less verbose, and no need to remember `Object.assign()`’s quirks.
 
-And before the [Object.assign()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) method in ECMAScript 2015, we didn’t even try to avoid mutations: it was too painful.
+And before the [Object.assign()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign) method in ECMAScript 2015, we didn’t even try to avoid mutation: it was too painful.
 
-I> Redux has a great [page on immutable update patterns](https://redux.js.org/usage/structuring-reducers/immutable-update-patterns): it describes patterns for updating arrays and objects without mutations, and it’s useful even if we don’t use Redux.
+I> Redux has a great [page on immutable update patterns](https://redux.js.org/usage/structuring-reducers/immutable-update-patterns): it describes patterns for updating arrays and objects without mutation, and it’s useful even if we don’t use Redux.
 
 And still, spread syntax quickly gets incredibly verbose:
 
@@ -818,20 +818,20 @@ Keeping our objects as shallow as possible might be a good idea if we update the
 
 While we’re waiting for JavaScript to get native immutability, there are two non-exclusive ways we can make our lives easier today:
 
-- prevent mutations;
+- prevent mutation;
 - simplify object updates.
 
 I> The [JavaScript records & tuples proposal](https://github.com/tc39/proposal-record-tuple) that introduces deeply immutable object-like (`Record`s) and array-like (`Tuple`s) structures is now in Stage 2.
 
-**Preventing mutations** is good because it’s so easy to miss them during code reviews, and then spend many hours debugging weird issues.
+**Preventing mutation** is good because it’s so easy to miss them during code reviews, and then spend many hours debugging weird issues.
 
-One way to prevent mutations is to use a linter, and ESLint has several plugins that try to do just that.
+One way to prevent mutation is to use a linter, and ESLint has several plugins that try to do just that.
 
-T> The [eslint-plugin-better-mutation](https://github.com/sloops77/eslint-plugin-better-mutation) plugin disallows any mutations, except for local variables in functions. This is a great idea because it prevents bugs caused by the mutation of shared objects but allows us to use mutations locally. Unfortunately, it breaks even in simple cases, such as a mutation occurring inside `forEach()`.
+T> The [eslint-plugin-better-mutation](https://github.com/sloops77/eslint-plugin-better-mutation) plugin disallows any mutation, except for local variables in functions. This is a great idea because it prevents bugs caused by the mutation of shared objects but allows us to use mutation locally. Unfortunately, it breaks even in simple cases, such as a mutation occurring inside `forEach()`.
 
 I> We talk about linting in the [Lint your code](#linting) chapter.
 
-Another way to prevent mutations is to mark all objects and arrays as read-only in TypeScript.
+Another way to prevent mutation is to mark all objects and arrays as read-only in TypeScript.
 
 For example, using the `readonly` modifier in TypeScript:
 
@@ -906,7 +906,7 @@ T> Immer freezes the resulting object using `Object.freeze()` in development env
 
 ## Even mutation is not so bad sometimes
 
-In rare cases, imperative code with mutations isn’t so bad, and rewriting it in a declarative way without mutations doesn’t make it better.
+In rare cases, imperative code with mutation isn’t so bad, and rewriting it in a declarative way without mutation doesn’t make it better.
 
 Consider this example where we conditionally create an array:
 
@@ -1036,7 +1036,7 @@ I don’t have good ideas on how to rewrite this code without an imperative loop
 - the code is clear enough;
 - the function is pure: it doesn’t have any internal state and avoids mutating its parameters.
 
-It’s better to have simple and clear code with mutations than complex and messy code without them. But if we do use mutations, it’s wise to isolate them to a small function with a meaningful name and clear API.
+It’s better to have simple and clear code with mutation than complex and messy code without it. But if we do have mutation, it’s wise to isolate it to a small function with a meaningful name and clear API.
 
 Also, immutable operations could [significantly reduce performance](https://tkdodo.eu/blog/why-i-dont-like-reduce) if we work with large amounts of data and create a new object on each iteration.
 
@@ -1046,10 +1046,10 @@ I’d prefer to have a language that is immutable by default and use mutating op
 
 Start thinking about:
 
-- Rewriting imperative code with mutations in a purely declarative way to improve its readability.
+- Rewriting imperative code with mutation in a purely declarative way to improve its readability.
 - Keeping the complete object shape in a single place; when we create a new object, make its shape as clear as possible.
 - Deduplicating logic and separating “what” from “how.”
 - Avoiding mutation of function parameters to prevent hard-to-find bugs.
 - Using `map()` / `filter()` chaining instead of `reduce()`.
-- Making mutations explicit if you have to use them.
-- Preventing mutations in your code using a linter or read-only types.
+- Making mutation explicit if you have to have it.
+- Preventing mutation in your code using a linter or read-only types.

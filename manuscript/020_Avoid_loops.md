@@ -414,7 +414,7 @@ expect(kebabNames).toEqual({
 
 And again, the `reduce()` method is the least readable option.
 
-In later chapters, I’ll urge you to avoid not only loops, but also reassigning variables and mutations. Like loops, they _often_ lead to poor code readability, but _sometimes_ they are the best choice. Of all the examples above, I prefer the last one, with `for of` loop.
+In later chapters, I’ll urge you to avoid not only loops, but also reassigning variables and mutation. Like loops, they _often_ lead to poor code readability, but _sometimes_ they are the best choice. Of all the examples above, I prefer the last one, with `for of` loop.
 
 ## Sometimes loops aren’t so bad
 
