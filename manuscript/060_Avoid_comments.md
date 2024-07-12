@@ -140,7 +140,10 @@ T> Maybe we should start using `DREAM` comments for such cases…
 
 Comments can make code more intentional. Consider this example:
 
-<!-- const doOrDoNot = () => {} -->
+<!--
+const doOrDoNot = () => { throw new Error('x') }
+function test() {
+-->
 
 ```js
 try {
@@ -150,11 +153,19 @@ try {
 }
 ```
 
+<!--
+}
+expect(test).not.toThrowError()
+-->
+
 Here, we’re disabling the linter complaining about missing error handling. It’s, however, unclear why the error handling is missing.
 
 We can make the code clearer by adding a comment:
 
-<!-- const doOrDoNot = () => {} -->
+<!--
+const doOrDoNot = () => { throw new Error('x') }
+function test() {
+-->
 
 ```js
 try {
@@ -164,9 +175,17 @@ try {
 }
 ```
 
+<!--
+}
+expect(test).not.toThrowError()
+-->
+
 Or:
 
-<!-- const doOrDoNot = () => {} -->
+<!--
+const doOrDoNot = () => { throw new Error('x') }
+function test() {
+-->
 
 ```js
 try {
@@ -175,6 +194,11 @@ try {
   // TODO: Handle errors
 }
 ```
+
+<!--
+}
+expect(test).not.toThrowError()
+-->
 
 Now, it’s clear whether we intentionally ignore errors or we want to add error handling in the future.
 

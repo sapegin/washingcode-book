@@ -224,7 +224,7 @@ We often add conditions when some data might be missing. For example, an optiona
 <!-- const fetch = () => ({ then: (cb) => { cb({ json: () => {} } ); return ({ then: (cb) => { cb('pizza'); return ({ catch: (cb) => { cb({message: 'nope'}) } })} }) } })
  -->
 
-```ts
+```js
 function getRandomJoke(onDone, onError) {
   fetch('https://api.chucknorris.io/jokes/random')
     .then(result => result.json())
@@ -256,7 +256,7 @@ One way to simplify the code here is by using the _optional chaining_ operator:
 <!-- const fetch = () => ({ then: (cb) => { cb({ json: () => {} } ); return ({ then: (cb) => { cb('pizza'); return ({ catch: (cb) => { cb({message: 'nope'}) } })} }) } })
  -->
 
-```ts
+```js
 function getRandomJoke(onDone, onError) {
   fetch('https://api.chucknorris.io/jokes/random')
     .then(result => result.json())
@@ -286,7 +286,7 @@ My favorite way to do it is by lifting the condition to the function head using 
 <!-- const fetch = () => ({ then: (cb) => { cb({ json: () => {} } ); return ({ then: (cb) => { cb('pizza'); return ({ catch: (cb) => { cb({message: 'nope'}) } })} }) } })
  -->
 
-```ts
+```js
 function getRandomJoke(onDone, onError = () => {}) {
   fetch('https://api.chucknorris.io/jokes/random')
     .then(result => result.json())

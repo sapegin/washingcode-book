@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { vi, expect } from 'vitest';
+import { vi, expect, assert } from 'vitest';
 import { useState, useReducer } from 'react';
 import _ from 'lodash';
 import * as RTL from '@testing-library/react';
@@ -10,6 +10,7 @@ export const environment = {
     // Testing APIs
     vi,
     expect,
+    assert,
     RTL,
     // React
     useState,

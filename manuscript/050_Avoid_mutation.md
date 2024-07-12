@@ -396,7 +396,7 @@ expect(getMessageProps(1, 5, 0, 2, 0)).toEqual([
 It converts a bunch of number variables to a `messageProps` array that groups people of different ages with their count:
 
 ```js
-[
+const messageProps = [
   {
     id: 'ADULTS',
     count: 7
@@ -846,8 +846,8 @@ Or using the `Readonly` utility type:
 
 ```ts
 type Point = Readonly<{
-  readonly x: number;
-  readonly y: number;
+  x: number;
+  y: number;
 }>;
 ```
 

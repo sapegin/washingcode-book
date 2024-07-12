@@ -621,6 +621,8 @@ It’s not always possible to eliminate the condition. However, there are ways t
 
 Consider this example:
 
+<!-- let Link = ({href}) => href -->
+
 ```jsx
 function RecipeName({ name, subrecipe }) {
   if (subrecipe) {
@@ -632,7 +634,14 @@ function RecipeName({ name, subrecipe }) {
 }
 ```
 
+<!--
+const {container: c1} = RTL.render(<RecipeName name="Tacos" subrecipe={{slug: 'salsa', name: 'Salsa'}} />);
+expect(c1.textContent).toEqual('/recipes/salsa')
+-->
+
 It might be my personal pet peeve, but I dislike that the `return` statements are on different levels, which makes it harder to compare them. Let’s add an `else` statement to fix it:
+
+<!-- let Link = ({href}) => href -->
 
 ```jsx
 function RecipeName({ name, subrecipe }) {
@@ -645,6 +654,11 @@ function RecipeName({ name, subrecipe }) {
   }
 }
 ```
+
+<!--
+const {container: c1} = RTL.render(<RecipeName name="Tacos" subrecipe={{slug: 'salsa', name: 'Salsa'}} />);
+expect(c1.textContent).toEqual('/recipes/salsa')
+-->
 
 Now, both return values are on the same indentation level and it’s easier to compare them. This pattern works when none of the condition branches are handling errors, in which case an early return would be a better pattern.
 
@@ -721,6 +735,8 @@ If we often need to check the platform in the same component or module, I’d ex
 ```js
 const isWeb = Platform.OS === 'web';
 ```
+
+<!-- expect(isWeb).toBe(true) -->
 
 And use it instead of hardcoding the whole condition every time:
 

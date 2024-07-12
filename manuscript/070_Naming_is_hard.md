@@ -1040,12 +1040,12 @@ class Component {
 }
 -->
 
-```tsx
-class ReactExample extends Component<ReactExampleProps> {
-  public shouldComponentUpdate(nextProps: ReactExampleProps) {
+```jsx
+class ReactExample extends Component {
+  shouldComponentUpdate(nextProps) {
     return this.props.code !== nextProps.code;
   }
-  public render() {
+  render() {
     return <pre>{this.props.code}</pre>;
   }
 }
@@ -1624,7 +1624,7 @@ const hiddenInput = (name, value) => {
 };
 -->
 
-```ts
+```js
 function submitFormData(
   action,
   { method, target, parameters }
@@ -1812,7 +1812,7 @@ expect(c1.textContent).toEqual('Hola')
 
 Another good reason to use an intermediate variable is to split a long line of code into multiple lines:
 
-```ts
+```js
 const borderSvg = `<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><path d='M2 2h2v2H2zM4 0h2v2H4zM10 4h2v2h-2zM0 4h2v2H0zM6 0h2v2H6zM8 2h2v2H8zM8 8h2v2H8zM6 10h2v2H6zM0 6h2v2H0zM10 6h2v2h-2zM4 10h2v2H4zM2 8h2v2H2z' fill='%23000'/></svg>`;
 const borderImage = `url("data:image/svg+xml,${borderSvg}")`;
 ```

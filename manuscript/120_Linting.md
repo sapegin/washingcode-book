@@ -209,7 +209,10 @@ Disabling a particular linter rule that is expected in a particular line of code
 
 Consider this example:
 
-<!-- let files = [] -->
+<!--
+let console = { log: vi.fn() }
+let files = ['eins', 'zwei']
+-->
 
 ```js
 // eslint-disable-next-line
@@ -220,11 +223,16 @@ console.log(
 );
 ```
 
+<!-- expect(console.log).toHaveBeenCalledWith(2, 'files', 'processed') -->
+
 We’re disabling all rules for a line, and this line may trigger at least two rules: [no-console](https://eslint.org/docs/latest/rules/no-console) because of using `console.log()`, and [eqeqeq](https://eslint.org/docs/latest/rules/eqeqeq) because of using `==` instead of `===`. Both rules are useful: the first prevents us from committing debug output, and the second prevents us from using less strict comparisons.
 
 However, here we do want to use `console.log()` to show the results to the user, but `==` instead of `===` is a typo, and we want to be warned about it by the linter so we can fix it. We can achieve this by disabling a particular linter rule for this line:
 
-<!-- let files = [] -->
+<!--
+let console = { log: vi.fn() }
+let files = ['eins', 'zwei']
+-->
 
 ```js
 // eslint-disable-next-line no-console
@@ -234,6 +242,8 @@ console.log(
   'processed'
 );
 ```
+
+<!-- expect(console.log).toHaveBeenCalledWith(2, 'files', 'processed') -->
 
 T> Developing command-line tools is a rare case where disabling `console.log()` for the whole file might be a good idea — we’ll likely have way too many of these logs, and disabling linter for each would clutter the code and reduce its readability.
 
@@ -286,7 +296,7 @@ expect(somethingToSomethingElse(41)).toBe(2)
 
 Instead of:
 
-```ts
+```js
 function somethingToSomethingElse(something) {
   if (something === 42) {
     return 1;
@@ -541,23 +551,33 @@ const indexMap = array.reduce((memo, item, index) => {
 
 It also prevents abuse of array methods. For examples, using `map()` instead of `forEach()`:
 
-<!-- let errorMessage = [] -->
+<!--
+let console = { log: vi.fn() }
+let errorMessages = ['out of cheese']
+-->
 
 ```js
-errorMessage.map(message => {
+errorMessages.map(message => {
   console.log(message);
 });
 ```
+
+<!-- expect(console.log).toHaveBeenCalledWith('out of cheese') -->
 
 We should only use `map()` when we want to produce a new array based on an existing one, and only when both arrays have the same number of elements. For side effects, we should use `forEach()`:
 
-<!-- let errorMessage = [] -->
+<!--
+let console = { log: vi.fn() }
+let errorMessages = ['out of cheese']
+-->
 
 ```js
-errorMessage.forEach(message => {
+errorMessages.forEach(message => {
   console.log(message);
 });
 ```
+
+<!-- expect(console.log).toHaveBeenCalledWith('out of cheese') -->
 
 I> See the [Avoid loops](#no-loops) chapter for many more examples of using array methods.
 
@@ -668,13 +688,18 @@ This rule is partially autofixable but not included in the recommended config.
 
 TypeScript is a great tool, but sometimes it’s impossible or too hard to type things correctly. Often, this is because of the incomplete or incorrect types for third-party libraries. Sometimes, we need to tell the TypeScript compiler to shut the duck up with the `// @ts-ignore` comment, and then we need to tell the linter to shut the duck up because there’s a rule that disallows `ts-ignore` comments... So we end up with this:
 
-<!-- let makePizza = () => {}, dough, sauce, salami -->
+<!--
+let pizza, makePizza = (...x) => pizza = x.join('-')
+let dough = 'dough', sauce = 'sauce', salami = 'salami'
+-->
 
 ```ts
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 makePizza(dough, sauce, salami);
 ```
+
+<!-- expect(pizza).toBe('dough-sauce-salami') -->
 
 This is bloodcurdling and causes more problems than it solves. Fortunately, newer versions of TypeScript and ESLint TypeScript plugin have a better solution: TypeScript allows adding explanations to `@ts-*` comments, and the `@typescript-eslint/ban-ts-comment` rule allows us to require them. It also allows us to limit the types of `@ts-*` comments:
 
@@ -696,12 +721,17 @@ Here, we allow only `@ts-expect-error` comments and require an explanation for e
 
 Then we can write something like this, and it won’t trigger a linting error:
 
-<!-- let makePizza = () => {}, dough, sauce, salami -->
+<!--
+let pizza, makePizza = (...x) => pizza = x.join('-')
+let dough = 'dough', sauce = 'sauce', salami = 'salami'
+-->
 
 ```ts
 // @ts-expect-error: The Pizzalib types are incorrect
 makePizza(dough, sauce, salami);
 ```
+
+<!-- expect(pizza).toBe('dough-sauce-salami') -->
 
 The difference with the `@ts-ignore` comments is that `@ts-expect-error` will show an error when there’s no compiler error on the next line, making it easier to remove comments that are no longer needed. For example, if we add `@ts-expect-error` comment because of incorrect types in a third-party library, once the types are fixed, our code will stop compiling, requiring us to remove the `@ts-expect-error` comment.
 

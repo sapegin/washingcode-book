@@ -202,7 +202,7 @@ The result is not just shorter and more readable; now the reader won’t need to
 
 In many cases, a bit of repetition is good. Consider this example:
 
-```ts
+```js
 const baseSpacing = 8;
 const spacing = {
   tiny: baseSpacing / 2,
@@ -222,7 +222,7 @@ It looks totally fine, and won’t raise any questions during a code review. How
 
 We could inline the `baseSpacing` constant:
 
-```ts
+```js
 const spacing = {
   tiny: 4,
   small: 8,
@@ -230,7 +230,7 @@ const spacing = {
   large: 24,
   xlarge: 32,
   xxlarge: 40
-} as const;
+};
 ```
 
 <!-- expect(spacing.xlarge).toEqual(32) -->
