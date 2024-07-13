@@ -9,12 +9,67 @@
 Traditional loops, like `for` or `while`, are too low-level for everyday tasks:
 
 - they are verbose;
-- they are prone to [off-by-one errors](https://en.wikipedia.org/wiki/Off-by-one_error);
+- they are prone to off-by-one errors;
 - we have to manage the index variable ourselves;
 - we need to name the index variable, which often leads to confusion or bugs in nested loops;
 - they don’t convey any semantics beyond telling us that some operation is probably repeated.
 
-And on top of that, I always make typos in `lenght`.
+And on top of that, I always spell `length` as `lenght`.
+
+This is how a typical `for` loop looks like:
+
+<!-- let console = { log: vi.fn() } -->
+
+```js
+const array = ['eins', 'zwei', 'drei'];
+for (let i = 0; i < array.length; i++) {
+  console.log(array[i]);
+}
+```
+
+<!-- expect(console.log.mock.calls).toEqual([['eins'], ['zwei'], ['drei']]) -->
+
+Most programmers learned to recognize `i = 0; i < array.length; i++` as a pattern: iteration over each element of a given array. It looks almost the same in most programming languages created since the middle of the 20th century. The tradition of using `i`, `j`, and `k` as loop index variables is about as old.
+
+This structure allows us to change the way we iterate over elements: for example, iterate elements from last to first, skip every second element, and so on. However, with such power comes the risk of making a mistake. For example, all these loops look almost identical, but only the first one is correct:
+
+<!-- let array = [] -->
+
+```js
+// WARNING: Only the first line is correct
+for (let i = 0; i < array.length; i++) {}
+for (let i = 1; i < array.length; i++) {}
+for (let i = 0; i <= array.length; i++) {}
+for (let i = 0; i < array.length; ++i) {}
+```
+
+<!-- // Testing this would make the example much more verbose -->
+
+Such errors are called [off-by-one errors](https://en.wikipedia.org/wiki/Off-by-one_error) because we’re either missing one array element or trying to access an element that’s just outside the array bounds.
+
+And it gets worse when we nest loops:
+
+<!-- let console = { log: vi.fn() } -->
+
+```js
+const array = [
+  ['eins', 'zwei', 'drei'],
+  ['uno', 'dos', 'tres']
+];
+for (let i = 0; i < array.length; i++) {
+  for (let j = 0; j < array[i].length; j++) {
+    console.log(array[i][j]);
+  }
+}
+```
+
+<!-- expect(console.log.mock.calls).toEqual([
+  ['eins'], ['zwei'], ['drei'], ['uno'], ['dos'], ['tres']
+]) -->
+
+With each nested loop, we’re increasing the probability of a mistake, and decreasing the readability of the code.
+
+In this chapter, we’ll talk about modern ways of writing loops and where a more traditional approach is still better.
 
 ## Replacing loops with array methods
 
@@ -257,9 +312,7 @@ errors.forEach(error => {
 });
 ```
 
-<!--
-expect(console.error.mock.calls).toEqual([['dope'], ['nope']])
--->
+<!-- expect(console.error.mock.calls).toEqual([['dope'], ['nope']]) -->
 
 A `for of` loop would be even better:
 
@@ -280,9 +333,7 @@ for (const error of errors) {
 }
 ```
 
-<!--
-expect(console.error.mock.calls).toEqual([['dope'], ['nope']])
--->
+<!-- expect(console.error.mock.calls).toEqual([['dope'], ['nope']]) -->
 
 ## Iterating over objects
 
@@ -321,7 +372,9 @@ Object.keys(allNames).forEach(race =>
 ```
 
 <!--
-expect(console.log.mock.calls).toEqual([['hobbits', '→', ['Bilbo Baggins']], ['dwarfs', '→', ['Fili', 'Kili']]])
+expect(console.log.mock.calls).toEqual(
+  [['hobbits', '→', ['Bilbo Baggins']], ['dwarfs', '→', ['Fili', 'Kili']]]
+)
 -->
 
 Or:
