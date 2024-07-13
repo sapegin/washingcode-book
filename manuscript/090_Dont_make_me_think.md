@@ -28,7 +28,7 @@ const percentString = percent.toString().concat('%');
 
 <!-- expect(percentString).toBe('5%') -->
 
-This code only adds the `%` sing to a number, and should be rewritten as:
+This code only adds the `%` sing to a number, and should be rewritten as:
 
 <!-- const percent = 5 -->
 
@@ -202,7 +202,7 @@ const obj = {
 
 <!-- expect(obj).toEqual({ value: 42 }) -->
 
-Adding a property to an object when the `condition` is true, don’t do anything otherwise. The intention is more obvious when we explicitly define object to destructure, and don’t rely on destructuring of falsy values:
+Adding a property to an object when the `condition` is true, don’t do anything otherwise. The intention is more obvious when we explicitly define object to destructure, and don’t rely on destructuring of falsy values:
 
 <!-- const condition = true -->
 
@@ -273,7 +273,7 @@ So, what’s your score? I think mine would be around 3/7.
 
 Some patterns are on the border of cleverness.
 
-For examples, using `Boolean` to filter out falsy array elements (`null` and `0` in this example):
+For examples, using `Boolean` to filter out falsy array elements (`null` and `0` in this example):
 
 ```js
 const words = ['Not', null, 'enough', 0, 'cheese.'].filter(
@@ -293,7 +293,7 @@ const words = ['Not', null, 'enough', 0, 'cheese.'].filter(
 
 <!-- expect(words).toEqual( ["Not", "enough", "cheese."]) -->
 
-However, we should keep in mind that both variations filter out _falsy_ values, so if zeroes or empty strings are important to us, we need to explicitly filter for `undefined` or `null`:
+However, we should keep in mind that both variations filter out _falsy_ values, so if zeroes or empty strings are important to us, we need to explicitly filter for `undefined` or `null`:
 
 ```js
 const words = ['Not', null, 'enough', 0, 'cheese.'].filter(
@@ -465,7 +465,7 @@ expect(props).toHaveProperty('data-enzyme-id', 'type-Col-2')
 expect(props).toHaveProperty('data-codeception-id', 'type_Col_2')
 -->
 
-This is an extreme case of using small functions and I generally try to avoid splitting code this far, but I think in this case it works well, assuming that there are already many places in the project where we can use the new `getTestIdProps()` function.
+This is an extreme case of using small functions and I generally try to avoid splitting code this far, but I think in this case it works well, assuming that there are already many places in the project where we can use the new `getTestIdProps()` function.
 
 In all cases where we have a condition that makes code slightly different, we should ask ourselves: is this condition really necessary? If the answer is “yes”, then we should ask ourselves again. Often there’s no _real_ reason to have a certain condition. For example, why do we even need to add test IDs for different tools separately? Can’t we set up one of the tools to use test IDs of another? If we dig deep enough, we may be surprised to find out that nobody knows the answer, or that the initial reason is no longer relevant.
 

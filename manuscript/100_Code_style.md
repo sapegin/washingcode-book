@@ -192,7 +192,7 @@ const dogs = [
 ];
 ```
 
-The goal of this style was the same as trailing commas in the previous section — to make adding new elements easier and diffs more readable, but there are no reasons to use this anymore: Internet Explorer 8 was the last browser that didn’t support trailing commas.
+The goal of this style was the same as trailing commas in the previous section — to make adding new elements easier and diffs more readable, but there are no reasons to use this anymore: Internet Explorer 8 was the last browser that didn’t support trailing commas.
 
 Another example is [Yoda conditions](https://en.wikipedia.org/wiki/Yoda_conditions), a style where a literal is on the left side of a condition:
 

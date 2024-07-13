@@ -679,7 +679,7 @@ const tacos = counts
 
 <!-- expect(tacos).toEqual(['3 tacos', '6 tacos', '11 tacos']) -->
 
-This example gives the impression that the `counts` array isn’t changing, and we’re just creating a new `tacos` array with the sorted array. But the `sort()` method returns a sorted array _and_ mutates the original array at the same time. This kind of code is hazardous and can lead to hard-to-find bugs. Many developers don’t realize that the `sort()` method is mutating because the code _seems_ to work fine.
+This example gives the impression that the `counts` array isn’t changing, and we’re just creating a new `tacos` array with the sorted array. But the `sort()` method returns a sorted array _and_ mutates the original array at the same time. This kind of code is hazardous and can lead to hard-to-find bugs. Many developers don’t realize that the `sort()` method is mutating because the code _seems_ to work fine.
 
 T> Another surprising thing about the `sort()` method is that by default it sorts elements by converting them to strings first, so `[6, 3, 11]` will be sorted as `[11, 3, 6]`, unless we provide a custom comparison function, like in the example above. This is a very poor design, and severely violates [the principle of least astonishment](https://en.wikipedia.org/wiki/Principle_of_least_astonishment).
 
@@ -694,7 +694,7 @@ const tacos = sortedCounts.map(n => `${n} tacos`);
 
 <!-- expect(tacos).toEqual(['3 tacos', '6 tacos', '11 tacos']) -->
 
-Here we’re making a shallow copy of the `counts` array using the spread syntax and then sorting it, so the original array stays the same.
+Here we’re making a shallow copy of the `counts` array using the spread syntax and then sorting it, so the original array stays the same.
 
 Another option is to wrap a mutating API into a new API that doesn’t mutate original values:
 

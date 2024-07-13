@@ -81,7 +81,7 @@ const hasProducts =
 
 <!-- expect(hasProducts).toBe(true) -->
 
-First, the `Array.isArray()` method returns `false` for any _falsy_ value, so there’s no need to check this separately. Second, in most cases, we can use the _optional chaining operator_ instead of the explicit array check.
+First, the `Array.isArray()` method returns `false` for any _falsy_ value, so there’s no need to check this separately. Second, in most cases, we can use the _optional chaining operator_ instead of the explicit array check.
 
 I> A _falsy value_ is a value that is considered `false` during type conversion to a boolean, and includes `false`, `null`, `undefined`, `0`, `''`, and [a few others](https://developer.mozilla.org/en-US/docs/Glossary/Falsy).
 
@@ -331,7 +331,7 @@ expect(getProductsDropdownItems({products: []})).toEqual([])
 expect(getProductsDropdownItems({products: [{id: '1', name: 'Tacos'}]})).toEqual([{label: 'Tacos', value: '1'}])
 -->
 
-All loops and array functions, like `map()`, or `filter()`, work fine with empty arrays, so we can safely remove the check:
+All loops and array functions, like `map()`, or `filter()`, work fine with empty arrays, so we can safely remove the check:
 
 ```js
 function getProductsDropdownItems({ products }) {
@@ -403,7 +403,7 @@ expect(getProductsDropdownItems({products: []})).toEqual([])
 expect(getProductsDropdownItems({products: [{id: '1', name: 'Tacos'}]})).toEqual([{label: 'Tacos', value: '1'}])
 -->
 
-It’s more tricky if our data can be an array or `null`, because default values are only used when the value is strictly `undefined`, not just _falsy_. In this case, we can use the _nullish coalescing operator_:
+It’s more tricky if our data can be an array or `null`, because default values are only used when the value is strictly `undefined`, not just _falsy_. In this case, we can use the _nullish coalescing operator_:
 
 ```js
 function getProductsDropdownItems(productsMaybe) {
@@ -424,7 +424,7 @@ expect(getProductsDropdownItems([{id: '1', name: 'Tacos'}])).toEqual([{label: 'T
 
 We still have a condition, but the overall code structure is simpler.
 
-I> The _nullish coalescing operator_ (`??`) was introduced in ECMAScript 2020 and gives us a better alternative to the _logical or operator_ (`||`) because it only checks for _nullish_ values (`undefined` or `null`), not for _falsy_ values (which would also include, often undesirable, `false`, `''`, and `0`).
+I> The _nullish coalescing operator_ (`??`) was introduced in ECMAScript 2020 and gives us a better alternative to the _logical or operator_ (`||`) because it only checks for _nullish_ values (`undefined` or `null`), not for _falsy_ values (which would also include, often undesirable, `false`, `''`, and `0`).
 
 In all these examples, we’re removing a separate branch that deals with the absence of data by normalizing the input — converting it to an array — as early as possible and then running a generic algorithm on the normalized data.
 
@@ -614,7 +614,7 @@ function postOrderStatus() {
 
 <!-- expect(() => postOrderStatus(0)).not.toThrowError() -->
 
-There are 120 lines between the first condition and its `else` block. And the main return value is somewhere inside three levels of conditions.
+There are 120 lines between the first condition and its `else` block. And the main return value is somewhere inside three levels of conditions.
 
 I> Deeply nested conditions are also known as the [arrow antipattern](http://wiki.c2.com/?ArrowAntiPattern) or _dangerously deep nesting_.
 
@@ -1148,7 +1148,7 @@ expect(hasNoSpaces('')).toBe(true)
 
 I’ve assumed that different whitespace handling was a bug. I’ve also inverted all the conditions to validate the correct value, instead of an incorrect one, to make the code more readable.
 
-Note that `hasLengthLessThanOrEqual()` and `hasNoSpaces()` functions only check the condition if the value is present, which would allow us to make optional fields. Also, note that the `hasLengthLessThanOrEqual()` function is customizable: we need to pass the maximum length: `hasLengthLessThanOrEqual(80)`.
+Note that `hasLengthLessThanOrEqual()` and `hasNoSpaces()` functions only check the condition if the value is present, which would allow us to make optional fields. Also, note that the `hasLengthLessThanOrEqual()` function is customizable: we need to pass the maximum length: `hasLengthLessThanOrEqual(80)`.
 
 Now we can define our validation table. There are two ways of doing this:
 
@@ -1224,7 +1224,7 @@ expect(validate({name: 'Chuck Norris'}, validations)).toEqual({})
 expect(validate({name: 'x'.repeat(81)}, validations)).toEqual({name: "Maximum 80 characters allowed"})
 -->
 
-One more time we’ve separated the “what” from the “how”: we have a readable and maintainable list of validations (“what”), a collection of reusable validation functions, and a generic `validate()` function to validate form values (“how”) that we can reuse to validate other forms.
+One more time we’ve separated the “what” from the “how”: we have a readable and maintainable list of validations (“what”), a collection of reusable validation functions, and a generic `validate()` function to validate form values (“how”) that we can reuse to validate other forms.
 
 I> We talk about the separation of “what” and “how” in the [Separate “what” and “how”](#what-how) section of the _Divide and conquer, or merge and relax_ chapter.
 
@@ -1266,9 +1266,9 @@ expect(getDateFormat(DATE_FORMAT_US)).toBe('M/D')
 expect(getDateFormat()).toBe('M/D')
 -->
 
-It’s only 15 lines of code, but I find this code difficult to read. I think that the `switch` statement is unnecessary, and the `datePart` and `monthPart` variables clutter the code so much that it’s almost impossible to read.
+It’s only 15 lines of code, but I find this code difficult to read. I think that the `switch` statement is unnecessary, and the `datePart` and `monthPart` variables clutter the code so much that it’s almost impossible to read.
 
-Let’s try to replace the `switch` statement with a map, and inline `datePart` and `monthPart` variables:
+Let’s try to replace the `switch` statement with a map, and inline `datePart` and `monthPart` variables:
 
 <!-- const DATE_FORMAT_ISO = 'iso', DATE_FORMAT_DE = 'de', DATE_FORMAT_UK = 'uk', DATE_FORMAT_US = 'us' -->
 
@@ -1356,7 +1356,7 @@ expect(getSpecialOffersArray('tacos', false)).toEqual(['paws'])
 expect(getSpecialOffersArray('tacos', true)).toEqual(['horns'])
 -->
 
-The `isHornsAndHooves` condition is repeated three times. Two of them create the same session key. It’s hard to see what this function is doing: business logic is intertwined with low-level session management code.
+The `isHornsAndHooves` condition is repeated three times. Two of them create the same session key. It’s hard to see what this function is doing: business logic is intertwined with low-level session management code.
 
 Let’s try to simplify it a bit:
 
@@ -1623,7 +1623,7 @@ I> This approach is known as _separation of logic and presentation_.
 
 ## Nested ternaries
 
-A ternary operator is a short, one-line conditional operator. It’s very useful when we want to assign one of two values to a variable. Let’s take this `if` statement as an example:
+A ternary operator is a short, one-line conditional operator. It’s very useful when we want to assign one of two values to a variable. Let’s take this `if` statement as an example:
 
 ```js
 const caffeineLevel = 25;

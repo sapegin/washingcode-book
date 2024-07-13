@@ -48,7 +48,7 @@ You probably won’t find a lot of small functions in my code. In my experience,
 
 Let’s start with the _change frequency_. Business logic is changing much more often than utility functions. It makes sense to keep code that changes often separately from the code that is very stable.
 
-The comment form in the previous section is an example of the former; a function that converts camelCase strings to kebab-case is an example of the latter. The comment form is likely to change and diverge with time when new business requirements arrive; the conversion function is unlikely to change at all, and it’s safe to reuse in many places.
+The comment form in the previous section is an example of the former; a function that converts camelCase strings to kebab-case is an example of the latter. The comment form is likely to change and diverge with time when new business requirements arrive; the conversion function is unlikely to change at all, and it’s safe to reuse in many places.
 
 Imagine that we’re making a nice-looking table with editable fields. We may think we’ll never need this table design again, so we decide to keep the whole table in a single module.
 

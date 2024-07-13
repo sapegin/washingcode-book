@@ -2,11 +2,11 @@
 
 # Avoid loops
 
-<!-- description: Iterating over things, and why traditional for loops may not be the best way of doing that -->
+<!-- description: Iterating over collections and why traditional loops like `for` and `while` may not be the best approach -->
 
 <!-- cspell:ignore lenght -->
 
-Traditional loops, like `for` or`while`, are too low-level for everyday tasks:
+Traditional loops, like `for` or `while`, are too low-level for everyday tasks:
 
 - they are verbose;
 - they are prone to [off-by-one errors](https://en.wikipedia.org/wiki/Off-by-one_error);
@@ -20,7 +20,7 @@ And on top of that, I always make typos in `lenght`.
 
 Modern languages have better ways to express iteration over things, and [JavaScript has many useful methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array#iterative_methods) to transform or iterate over arrays, like `map()`, or `find()`.
 
-For example, let’s convert an array of strings to kebab-case using a `for` loop:
+For example, let’s convert an array of strings to kebab-case using a `for` loop:
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
@@ -78,7 +78,7 @@ expect(integers_).toEqual([1, NaN, NaN])
 expect(integers).toEqual([1, 2, 3])
 -->
 
-Here, in the first example, the `map()` method calls the `parseInt()` function with an element’s index as a radix, which gives an incorrect result. In the second example, we’re explicitly passing only the value to the `parseInt()` function, so it uses the default radix of 10.
+Here, in the first example, the `map()` method calls the `parseInt()` function with an element’s index as a radix, which gives an incorrect result. In the second example, we’re explicitly passing only the value to the `parseInt()` function, so it uses the default radix of 10.
 
 However, explicitly passing the value inside the `map()` callback function is a bit more readable and doesn’t make the code much more verbose thanks to the _arrow functions_, which are shorter and less cluttered compared to the old anonymous function syntax:
 
@@ -92,7 +92,7 @@ const kebabNames = names.map(function (name) {
 
 <!-- expect(kebabNames).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
 
-Let’s look at another example: finding an element in an array. First, using a `for` loop:
+Let’s look at another example: finding an element in an array. First, using a `for` loop:
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
@@ -170,7 +170,7 @@ products.map(product => {
 
 <!-- expect(isExpectedType).toEqual(false) -->
 
-Here, the `map()` method is used to _reduce_ an array to a single value by having a side effect instead of returning a new element’s value from the callback function.
+Here, the `map()` method is used to _reduce_ an array to a single value by having a side effect instead of returning a new element’s value from the callback function.
 
 It’s hard to say what this code is doing, and it feels like there’s a bug: it only cares about the last product in a list.
 
@@ -196,7 +196,7 @@ const isExpectedType = products.at(-1).type === expectedType;
 
 <!-- expect(isExpectedType).toEqual(false) -->
 
-Both refactored versions make the intention of the code clearer and leave fewer doubts that the code is correct. We can probably make the `isExpectedType` variable name more explicit, especially in the second refactoring.
+Both refactored versions make the intention of the code clearer and leave fewer doubts that the code is correct. We can probably make the `isExpectedType` variable name more explicit, especially in the second refactoring.
 
 ## Chaining multiple operations
 
@@ -286,7 +286,7 @@ expect(console.error.mock.calls).toEqual([['dope'], ['nope']])
 
 ## Iterating over objects
 
-There are [many ways to iterate over object keys or values](https://stackoverflow.com/questions/684672/how-do-i-loop-through-or-enumerate-a-javascript-object/5737136#5737136) in JavaScript. I equally dislike them all, so it’s hard to choose the best one. Unfortunately, there’s no `map()` for objects, though Lodash does have several methods for object iteration, so it’s a good option if we’re already using Lodash in our project. For example, we can use [the `mapValue()` method](https://lodash.com/docs#mapValues):
+There are [many ways to iterate over object keys or values](https://stackoverflow.com/questions/684672/how-do-i-loop-through-or-enumerate-a-javascript-object/5737136#5737136) in JavaScript. I equally dislike them all, so it’s hard to choose the best one. Unfortunately, there’s no `map()` for objects, though Lodash does have several methods for object iteration, so it’s a good option if we’re already using Lodash in our project. For example, we can use [the `mapValue()` method](https://lodash.com/docs#mapValues):
 
 ```js
 const allNames = {
@@ -306,7 +306,7 @@ expect(kebabNames).toEqual({
 })
 -->
 
-If we don’t need the result as an object, like in the example above, then `Object.keys()`, `Object.values()`, and `Object.entries()` methods are also good options:
+If we don’t need the result as an object, like in the example above, then `Object.keys()`, `Object.values()`, and `Object.entries()` methods are also good options:
 
 <!-- const console = { log: vi.fn() } -->
 
@@ -342,7 +342,7 @@ Object.entries(allNames).forEach(([race, value]) =>
 expect(console.log.mock.calls).toEqual([['hobbits', '→', ['Bilbo Baggins']], ['dwarfs', '→', ['Fili', 'Kili']]])
 -->
 
-I don’t have a strong preference between them. `Object.entries()` is more verbose, but if we use the value (`names` in the example above) more than once, the code would be cleaner than with `Object.keys()`, where we’d have to write `allNames[race]` every time or cache this value into a variable at the beginning of the callback function.
+I don’t have a strong preference between them. `Object.entries()` is more verbose, but if we use the value (`names` in the example above) more than once, the code would be cleaner than with `Object.keys()`, where we’d have to write `allNames[race]` every time or cache this value into a variable at the beginning of the callback function.
 
 If I stopped here, I’d be lying. Most of the articles about iteration over objects have examples with `console.log()`, but in reality, we’d often want to convert an object to another data structure, like in the example with `_.mapValues()` above. And that’s where things start getting ugly.
 
@@ -457,7 +457,7 @@ if (props.item && props.item.details) {
 
 <!-- expect(tableData).toEqual([{ errorLevel: 2, errorMessage: 'nope', usedIn: 'Pizza' }]) -->
 
-Let’s try to rewrite it using the `reduce()` method to _avoid loops_:
+Let’s try to rewrite it using the `reduce()` method to _avoid loops_:
 
 <!--
 const props = {

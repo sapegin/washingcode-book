@@ -37,7 +37,7 @@ function getProductsOnSale(category) {
 
 <!-- expect(getProductsOnSale('pizzas')).toEqual([{name: 'pizzas2', onSale: true}]) -->
 
-Here the `category` variable is used to store a category ID, a list of products in a category, and a list of filtered products. Even types of these values are different. This function isn’t completely hopeless because it’s short, but imagine more code between reassignments.
+Here the `category` variable is used to store a category ID, a list of products in a category, and a list of filtered products. Even types of these values are different. This function isn’t completely hopeless because it’s short, but imagine more code between reassignments.
 
 Also, a new value is reassigned to a function parameter, known as _function parameter shadowing_. I think it’s no different from regular reassignment, so I’ll treat it the same way.
 
@@ -208,7 +208,7 @@ expect(c1.textContent).toEqual('Nooooo, upload failed:Invalid video')
 
 We can also test each validation separately. Have you noticed that I’ve changed `false` to `null` in the last validation? That’s because `match()` returns `null` when there’s no match, not `false`. The original validation always returns `true`.
 
-I would even inline `ERROR_MESSAGES` constants unless they are reused somewhere else. They don’t make code easier to read but they make it harder to change because we have to make changes in two places.
+I would even inline `ERROR_MESSAGES` constants unless they are reused somewhere else. They don’t make code easier to read but they make it harder to change because we have to make changes in two places.
 
 <!-- const validateHeightWidthConsistency = (x, y) => x === y -->
 
@@ -226,7 +226,7 @@ const VIDEO_VALIDATIONS = [
 
 <!-- expect(VIDEO_VALIDATIONS[0].isValid(100, 100)).toBe(true) -->
 
-Now all the code we need to touch to add, remove, or change validations is contained in the `VIDEO_VALIDATIONS` array. Keep the code, that’s likely to be changed at the same time, in the same place.
+Now all the code we need to touch to add, remove, or change validations is contained in the `VIDEO_VALIDATIONS` array. Keep the code, that’s likely to be changed at the same time, in the same place.
 
 ## Building complex objects
 
@@ -265,7 +265,7 @@ if (dateRangeFrom && dateRangeTo) {
   words: ""
 }) -->
 
-Here we’re adding `from` and `to` properties only when they aren’t empty.
+Here we’re adding `from` and `to` properties only when they aren’t empty.
 
 The code would be clearer if we teach our backend to ignore empty values and build the whole object at once:
 
@@ -299,7 +299,7 @@ const queryValues = {
   words: ""
 }) -->
 
-Now, the query object always has the same shape, but some properties can be `undefined`. The code feels more declarative and it’s easier to understand what it’s doing — building an object — and see the final shape of this object.
+Now, the query object always has the same shape, but some properties can be `undefined`. The code feels more declarative and it’s easier to understand what it’s doing — building an object — and see the final shape of this object.
 
 {#no-pascal-vars}
 
@@ -401,9 +401,9 @@ submitOrder({
   isFreeDelivery: 1
 }) -->
 
-We’ve shortened `isFreeDelivery` variable lifespan from 100 lines to just 10. Now it’s also clear that its value is the one we assign at the first line.
+We’ve shortened `isFreeDelivery` variable lifespan from 100 lines to just 10. Now it’s also clear that its value is the one we assign at the first line.
 
-Don’t mix it with PascalCase though, this naming convention is still in use.
+Don’t mix it with PascalCase though, this naming convention is still in use.
 
 ## Avoid temporary variables for function return values
 
@@ -426,7 +426,7 @@ expect(areEventsValid([{fromDate: 4, toDate: 14}, {fromDate: 1, toDate: 2}])).to
 expect(areEventsValid([{fromDate: 4, toDate: 1}, {fromDate: 1, toDate: 2}])).toBe(false)
 -->
 
-Here we’re checking that _every_ event is valid, which would be more clear with the `every()` array method:
+Here we’re checking that _every_ event is valid, which would be more clear with the `every()` array method:
 
 ```js
 function areEventsValid(events) {
@@ -546,7 +546,7 @@ function getStartOfWeek(selectedDay) {
 
 <!-- expect(getStartOfWeek({getDay: () => 3}).getDay()).toEqual(0) -->
 
-Here we’re finding the start of the current week by moving one day back in a `while` loop and checking if it’s already Monday or not.
+Here we’re finding the start of the current week by moving one day back in a `while` loop and checking if it’s already Monday or not.
 
 Even if it’s possible to avoid a reassignment here, it will likely make the code less readable. Feel free to try and let me know how it goes though.
 
@@ -554,15 +554,15 @@ Reassignments aren’t pure evil and exterminating them all won’t make our cod
 
 ## Help the brain with conventions
 
-In all examples above I’m replacing `let` with `const` in variable declarations. This immediately tells the reader that the variable won’t be reassigned. And we can be sure, it won’t: the compiler will yell at us if we try. Every time we see `let` in the code, we know that this code is likely more complex and needs more brain power to understand.
+In all examples above I’m replacing `let` with `const` in variable declarations. This immediately tells the reader that the variable won’t be reassigned. And we can be sure, it won’t: the compiler will yell at us if we try. Every time we see `let` in the code, we know that this code is likely more complex and needs more brain power to understand.
 
-Another useful convention is using SCREAMING_SNAKE_CASE names for constants. This tells the reader that this is more of a configuration value, than a result of some computation. The lifespan of such constants is usually large: often the whole module or even the whole codebase, so when we read the code we usually don’t see the constant definition, but we still can be sure that the value never changes. And using such a constant in a function doesn’t make the function not pure.
+Another useful convention is using SCREAMING_SNAKE_CASE names for constants. This tells the reader that this is more of a configuration value, than a result of some computation. The lifespan of such constants is usually large: often the whole module or even the whole codebase, so when we read the code we usually don’t see the constant definition, but we still can be sure that the value never changes. And using such a constant in a function doesn’t make the function not pure.
 
-There’s an important difference between a variable defined with the `const` keyword and a true constant in JavaScript. The first only tells the compiler and the reader that the variable won’t be _reassigned_. The second describes the nature of the value as something global and static that never changes at runtime.
+There’s an important difference between a variable defined with the `const` keyword and a true constant in JavaScript. The first only tells the compiler and the reader that the variable won’t be _reassigned_. The second describes the nature of the value as something global and static that never changes at runtime.
 
 Both conventions reduce the cognitive load a little bit and make the code easier to understand.
 
-Unfortunately, JavaScript has no true constants, and _mutation_ is still possible even when we define a variable with the `const` keyword.
+Unfortunately, JavaScript has no true constants, and _mutation_ is still possible even when we define a variable with the `const` keyword.
 
 I> We talk about mutation in [the next chapter](#no-mutation).
 

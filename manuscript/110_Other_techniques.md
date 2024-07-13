@@ -70,7 +70,7 @@ const {container: c1} = RTL.render(<Tweets />);
 expect(c1.textContent).toEqual('Load tweets')
 -->
 
-We have two booleans here: _is loading_, and _has errors_. If we look closer at how the code uses them, we’ll notice that only one boolean is `true` at any time in a component’s lifecycle. It’s hard to see now, and it’s easy to make a mistake and correctly handle all possible state changes, so our component may end up in an _impossible state_ like _is loading_ and _has errors_ at the same time, and the only way to fix that would be to reload the page. This is exactly why switching off and on electronic devices often fixes weird issues.
+We have two booleans here: _is loading_, and _has errors_. If we look closer at how the code uses them, we’ll notice that only one boolean is `true` at any time in a component’s lifecycle. It’s hard to see now, and it’s easy to make a mistake and correctly handle all possible state changes, so our component may end up in an _impossible state_ like _is loading_ and _has errors_ at the same time, and the only way to fix that would be to reload the page. This is exactly why switching off and on electronic devices often fixes weird issues.
 
 We can replace several _exclusive_ boolean flags, meaning only one is `true` at a time, with a single enum:
 
