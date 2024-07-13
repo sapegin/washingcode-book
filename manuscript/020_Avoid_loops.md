@@ -4,8 +4,6 @@
 
 <!-- description: Iterating over collections and why traditional loops like `for` and `while` may not be the best approach -->
 
-<!-- cspell:ignore lenght -->
-
 Traditional loops, like `for` or `while`, are too low-level for everyday tasks:
 
 - they are verbose;
@@ -14,7 +12,7 @@ Traditional loops, like `for` or `while`, are too low-level for everyday tasks:
 - we need to name the index variable, which often leads to confusion or bugs in nested loops;
 - they don’t convey any semantics beyond telling us that some operation is probably repeated.
 
-And on top of that, I always spell `length` as `lenght`.
+And on top of that, I always spell `length` as <!-- cspell:disable -->`lenght`<!-- cspell:enable -->.
 
 This is how a typical `for` loop looks like:
 
@@ -88,9 +86,9 @@ for (let i = 0; i < names.length; i++) {
 
 <!-- expect(kebabNames).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
 
-I> The [`kebabCase()` method](https://lodash.com/docs#kebabCase) is coming from the Lodash library. We’ll use Lodash methods occasionally in this book, and every time using the `_` namespace.
+I> The [`kebabCase()` method](https://lodash.com/docs#kebabCase) is coming from the Lodash library. We’ll use Lodash methods occasionally in this book, and every time we’ll use the `_` namespace.
 
-I> The _kebab-case_ is a popular naming convention, where lowercase words are separated with a dash: `chuck-norris`, `bilbo-baggins`. It’s called kebab-case because it looks a bit like several kebabs on a skewer. Other common conventions are: _camelCase_, _PascalCase_, _snake_case_, and _SCREAMING_SNAKE_CASE_. I spell each name in the book in its own convention, so it’s easier to remember which one is which.
+I> The _kebab-case_ is a popular naming convention where lowercase words are separated with a dash, for example, `chuck-norris`, or `bilbo-baggins`. It’s called kebab-case because it looks a bit like several kebabs on a skewer. Other common conventions include _camelCase_, _PascalCase_, _snake_case_, and _SCREAMING_SNAKE_CASE_. I spell each name using the convention itself to make remembering them easier.
 
 Now, let’s use the `map()` array method instead of a `for` loop:
 
@@ -102,9 +100,9 @@ const kebabNames = names.map(name => _.kebabCase(name));
 
 <!-- expect(kebabNames).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
 
-Here, the code is less verbose and easier to follow. Half of the original code was managing the index variable, obscuring what we want to do during each loop iteration.
+Here, the code is less verbose and easier to follow because half of the original code was managing the index variable, which obscured what we wanted to do during each loop iteration.
 
-We can shorten the code even more if our callback function accepts only one parameter: the value. Lodash’s `kebabCase()` method that we’re using is this kind of function:
+We can shorten the code even more if our callback function accepts only one parameter, which is the value. Lodash’s `kebabCase()` method that we’re using is this type of function:
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
@@ -133,9 +131,9 @@ expect(integers_).toEqual([1, NaN, NaN])
 expect(integers).toEqual([1, 2, 3])
 -->
 
-Here, in the first example, the `map()` method calls the `parseInt()` function with an element’s index as a radix, which gives an incorrect result. In the second example, we’re explicitly passing only the value to the `parseInt()` function, so it uses the default radix of 10.
+Here, in the first example, the `map()` method calls the `parseInt()` function with an element’s index as a radix, resulting in an incorrect result. In the second example, we explicitly pass only the value to the `parseInt()` function, so it uses the default radix of 10.
 
-However, explicitly passing the value inside the `map()` callback function is a bit more readable and doesn’t make the code much more verbose thanks to the _arrow functions_, which are shorter and less cluttered compared to the old anonymous function syntax:
+However, explicitly passing the value inside the `map()` callback function is slightly more readable and doesn’t make the code much more verbose, thanks to _arrow functions_, which are shorter and less cluttered compared to the old anonymous function syntax:
 
 ```js
 const names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
@@ -173,7 +171,7 @@ const foundName = names.find(name => name.startsWith('B'));
 
 <!-- expect(foundName).toEqual('Bilbo Baggins') -->
 
-In both examples, I much prefer array methods when compared to `for` loops. They are shorter, and we’re not bloating the code with iteration mechanics.
+In both examples, I much prefer array methods compared to `for` loops because they are shorter and don’t bloat the code with iteration mechanics.
 
 ## Implied semantics of array methods
 
