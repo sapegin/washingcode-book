@@ -654,6 +654,83 @@ const {container: c1} = RTL.render(<Test />);
 expect(c1.textContent).toEqual('1:6')
 -->
 
+Another common use case for magic numbers, that is somehow widely accepted, is HTTP status codes:
+
+```js
+function getErrorMessage(error) {
+  if (error.response?.status === 404) {
+    return 'Not found';
+  }
+
+  if (error.response?.status === 429) {
+    return 'Rate limit exceeded';
+  }
+
+  return 'Something went wrong';
+}
+```
+
+<!--
+expect(getErrorMessage({ response: { status: 404 } })).toBe('Not found')
+expect(getErrorMessage({ response: { status: 429 } })).toBe('Rate limit exceeded')
+expect(getErrorMessage({ response: { status: 500 } })).toBe('Something went wrong')
+-->
+
+I know what [404](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404) status is, but who remembers what [429](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429) means?
+
+Let’s replace magic numbers with constants:
+
+```js
+const STATUS_NOT_FOUND = 404;
+const STATUS_TOO_MANY_REQUESTS = 429;
+
+function getErrorMessage(error) {
+  if (error.response?.status === STATUS_NOT_FOUND) {
+    return 'Not found';
+  }
+
+  if (error.response?.status === STATUS_TOO_MANY_REQUESTS) {
+    return 'Rate limit exceeded';
+  }
+
+  return 'Something went wrong';
+}
+```
+
+<!--
+expect(getErrorMessage({ response: { status: 404 } })).toBe('Not found')
+expect(getErrorMessage({ response: { status: 429 } })).toBe('Rate limit exceeded')
+expect(getErrorMessage({ response: { status: 500 } })).toBe('Something went wrong')
+-->
+
+Now, it’s clear which status we’re handling.
+
+Personally, I’d use a library like [http-status-codes](https://github.com/prettymuchbryce/http-status-codes) here if I needed to work with status codes often or use not-so-common codes:
+
+```js
+import { StatusCodes } from 'http-status-codes';
+
+function getErrorMessage(error) {
+  if (error.response?.status === StatusCodes.NOT_FOUND) {
+    return 'Not found';
+  }
+
+  if (
+    error.response?.status === StatusCodes.TOO_MANY_REQUESTS
+  ) {
+    return 'Rate limit exceeded';
+  }
+
+  return 'Something went wrong';
+}
+```
+
+<!--
+expect(getErrorMessage({ response: { status: 404 } })).toBe('Not found')
+expect(getErrorMessage({ response: { status: 429 } })).toBe('Rate limit exceeded')
+expect(getErrorMessage({ response: { status: 500 } })).toBe('Something went wrong')
+-->
+
 However, having a clear name is sometimes not enough:
 
 <!-- const date = '2023-03-22T08:20:00+01:00' -->
@@ -1487,11 +1564,15 @@ The most popular naming conventions are:
 - SCREAMING_SNAKE_CASE;
 - snake_case;
 
+T> There are also lowercase, UPPERCASE, and SpoNGEcAsE, but I wouldn’t recommend them because these conventions make it hard to distinguish separate words.
+
 Most JavaScript and TypeScript style guides suggest the following:
 
 - CamelCase for variable names and functions;
 - PascalCase for class names and types;
 - SCREAMING_SNAKE_CASE for constants.
+
+T> One of the benefits of naming conventions that use an underscore (`_`) or nothing to glue words together over conventions that use a dash (`-`) is that we can select a full name using a double click or Alt+Shift+Left or Alt+Shift+Right hotkeys (these hotkeys expand the selection to the end of the word).
 
 The code that doesn’t follow the established naming conventions for a particular language looks awkward for developers who are used to these conventions:
 
