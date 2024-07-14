@@ -14,7 +14,7 @@ Conditions make code harder to read and test:
 
 Many conditions are unnecessary or could be rewritten in a more readable way.
 
-For example, we may find code that returns a boolean value like this:
+For example, consider this code that returns a boolean value like this:
 
 ```js
 const value = '';
@@ -31,7 +31,7 @@ expect(hasValue).toBe(false)
 expect(hasProducts).toBe(true)
 -->
 
-Both, `value !== ''` and `products.length > 0` already give us booleans, so we can avoid the ternary operator:
+Both, `value !== ''` and `products.length > 0` already return boolean values, so we can avoid using the ternary operator:
 
 ```js
 const value = '';
@@ -48,7 +48,7 @@ expect(hasValue).toBe(false)
 expect(hasProducts).toBe(true)
 -->
 
-And even when the initial value isn’t a boolean:
+Even when the initial value isn’t a boolean:
 
 ```js
 const value = '';
@@ -95,7 +95,7 @@ const hasProducts = products?.length > 0;
 
 I> The _optional chaining operator_ (`?.`) was introduced in ECMAScript 2020 and allows us to access methods or properties of an object only when they exist. This saves us an `if` condition and often makes code simpler.
 
-Probably, the only case when this code will break is when `products` is a string, which also has the `length` property.
+The only case when this code might break is if `products` is a string, as strings also have the `length` property.
 
 T> I consider a variable that can be either `undefined` (or `null`) or an `array` an antipattern in most cases. I’d track the source of this value, make sure that it’s always an array, and use an empty array instead of `undefined`. This will save us a lot of checks and simplify types: we can use just `products.length > 0`, and don’t worry that `products` may not have the `length` property.
 
@@ -129,7 +129,7 @@ window.navigator.userAgent = 'Opera/9.63 (Macintosh; Intel Mac OS X; U; en) Pres
 expect(IsNetscapeOnSolaris()).toBe(false)
 -->
 
-The whole condition block could be replaced with a single expression:
+We can replace the entire condition block with a single expression:
 
 <!-- const window = { navigator: { userAgent: '' } } -->
 
@@ -155,7 +155,7 @@ window.navigator.userAgent = 'Opera/9.63 (Macintosh; Intel Mac OS X; U; en) Pres
 expect(IsNetscapeOnSolaris()).toBe(false)
 -->
 
-We’ve eliminated two levels of nesting and quite a lot of boilerplate code, so the actual condition is easier to understand.
+By eliminating two levels of nesting and reducing boilerplate code, we made the actual condition clearer.
 
 I often see two conditions for a single boolean variable:
 
@@ -598,10 +598,11 @@ function postOrderStatus() {
     }
 
     var fullRecordsArray = new Array();
-    // 70 lines of code
+
+    // Skipped 70 lines of code building the array…
 
     if (fullRecordsArray.length != 0) {
-      // 40 lines of code
+      // Skipped some 40 lines of code…
       return sendOrderStatus(fullRecordsArray);
     } else {
       return false;
@@ -635,12 +636,13 @@ function postOrderStatus() {
 
   const fullRecordsArray = [];
 
-  // 70 lines of code
+  // Skipped 70 lines of code building the array…
+
   if (fullRecordsArray.length === 0) {
     return false;
   }
 
-  // 40 lines of code
+  // Skipped some 40 lines of code…
   return sendOrderStatus(fullRecordsArray);
 }
 ```
@@ -661,7 +663,7 @@ The next step here could be improving the `getOrderIds()` function’s API. It c
 
 I> We talk about reassignments in the next chapter, [Avoid reassigning variables](#no-reassigning).
 
-By making the `getOrderIds()` function always return an array and making sure that the code inside `// 70 lines of code` works with an empty array, we could remove both conditions:
+By making the `getOrderIds()` function always return an array and making sure that the code inside the `// Skipped 70 lines of code building the array…` works with an empty array, we could remove both conditions:
 
 <!-- const getOrderIds = () => ([]), sendOrderStatus = () => {} -->
 
@@ -671,12 +673,13 @@ function postOrderStatus() {
 
   const fullRecords = [];
 
-  // 70 lines of code
+  // Skipped 70 lines of code building the array…
+
   if (fullRecords.length === 0) {
     return false;
   }
 
-  // 40 lines of code
+  // Skipped some 40 lines of code…
   return sendOrderStatus(fullRecords);
 }
 ```
@@ -687,7 +690,7 @@ Now, that’s a big improvement over the initial version. I’ve also renamed th
 
 I> We talk about naming in the [Naming is hard](#naming) chapter.
 
-The next step would be out of the scope of this chapter: the code inside the `// 70 lines of code` mutates the `fullRecords`. I usually try to avoid mutation, especially for variables with such a long lifespan.
+The next step would be out of the scope of this chapter: the code inside the `// Skipped 70 lines of code building the array…` mutates the `fullRecords`. I usually try to avoid mutation, especially for variables with such a long lifespan.
 
 I> We talk about mutation in the [Avoid mutation](#no-mutation) chapter.
 
@@ -783,7 +786,7 @@ T> We discuss a better way of managing loading and error states in the [Make imp
 
 One of my favorite techniques for improving _(read: avoiding)_ conditions is replacing them with _tables_ or _maps_. In JavaScript, we can create a table or a map using a plain object.
 
-This example may be a bit extreme, but I actually wrote this code in my early twenties:
+This example may seem extreme, but I actually wrote this code in my early twenties:
 
 <!-- prettier-ignore -->
 ```js
@@ -806,7 +809,7 @@ function getMonthNumberByName(month) {
 
 <!-- expect(getMonthNumberByName('may')).toBe(5) -->
 
-Let’s replace the conditions with a table:
+Let’s replace these conditions with a table:
 
 ```js
 const MONTH_NAME_TO_NUMBER = {
@@ -831,9 +834,9 @@ function getMonthNumberByName(monthName) {
 
 <!-- expect(getMonthNumberByName('may')).toBe(5) -->
 
-There’s almost no boilerplate code around the data, it’s more readable and looks like a table. Notice also that there are no braces in the original code: in most modern style guides, braces around condition bodies are required, and the body should be on its own line, so this code would be three times longer and even less readable.
+There’s almost no boilerplate code around the data; it’s more readable and looks like a table. Notice also that there are no braces in the original code: in most modern style guides, braces around condition bodies are required, and the body should be on its own line, so this code would be three times longer and even less readable.
 
-Another issue with the initial code is that the `month` variable’s initial type is string, but then it becomes a number. This is confusing, and if we were using a typed language (like TypeScript), we would have to check the type every time we wanted to access this variable.
+Another issue with the initial code is that the `month` variable’s initial type is a string, but then it becomes a number. This is confusing, and if we were using a typed language (like TypeScript), we would have to check the type every time we wanted to access this variable.
 
 Here’s a bit more realistic and common example:
 
@@ -1001,7 +1004,7 @@ This again changes the way we use the `DecisionButton` component:
 + <DecisionButton decision="maybe" />
 ```
 
-Now, the markup is simpler (and more idiomatic), we don’t need to import an enum every time we use the component, and we get a nice autocomplete for the `decision` prop value.
+Now, the markup is simpler and more idiomatic. We don’t need to import an enum every time we use the component, and we get a nice autocomplete for the `decision` prop value.
 
 Another realistic and common example is form validation:
 
@@ -1043,7 +1046,7 @@ function validate(values) {
     errors.address1 = 'Maximum 80 characters allowed';
   }
 
-  // 100 lines of other validations
+  // Skipped some 100 lines of other validations…
 
   return errors;
 }
@@ -1096,7 +1099,7 @@ expect(validate({
 
 This function is very long, with lots and lots of repetitive boilerplate code. It’s really hard to read and maintain. Sometimes validations for the same field aren’t together, which makes it even harder to understand all the requirements for a particular field.
 
-However, if we look closer, there are only three unique validations:
+However, if we look closely, there are only three unique validations:
 
 - required field (in some cases leading and trailing whitespace is ignored, in others not — hard to tell whether it’s intentional or not);
 - maximum length (always 80 characters);
@@ -1146,7 +1149,7 @@ expect(hasNoSpaces('x y')).toBe(false)
 expect(hasNoSpaces('')).toBe(true)
 -->
 
-I’ve assumed that different whitespace handling was a bug. I’ve also inverted all the conditions to validate the correct value, instead of an incorrect one, to make the code more readable.
+I assumed that different whitespace handling was a bug. I’ve also inverted all the conditions to validate the correct value, instead of an incorrect one, to make the code more readable.
 
 Note that `hasLengthLessThanOrEqual()` and `hasNoSpaces()` functions only check the condition if the value is present, which would allow us to make optional fields. Also, note that the `hasLengthLessThanOrEqual()` function is customizable: we need to pass the maximum length: `hasLengthLessThanOrEqual(80)`.
 
@@ -1186,7 +1189,7 @@ expect(validations[1].validation('tacocat')).toBe(true)
 expect(validations[1].validation('x'.repeat(81))).toBe(false)
 -->
 
-Next, we need to iterate over this array and run validations for all fields:
+Next, we need to iterate over this array and run validations for all the fields:
 
 <!--
 const hasStringValue = value => typeof value === 'string' && value.trim() !== ''
@@ -1224,7 +1227,7 @@ expect(validate({name: 'Chuck Norris'}, validations)).toEqual({})
 expect(validate({name: 'x'.repeat(81)}, validations)).toEqual({name: "Maximum 80 characters allowed"})
 -->
 
-One more time we’ve separated the “what” from the “how”: we have a readable and maintainable list of validations (“what”), a collection of reusable validation functions, and a generic `validate()` function to validate form values (“how”) that we can reuse to validate other forms.
+Once again, we’ve separated the “what” from the “how”: we have a readable and maintainable list of validations (“what”), a collection of reusable validation functions, and a generic `validate()` function to validate form values (“how”) that we can reuse to validate other forms.
 
 I> We talk about the separation of “what” and “how” in the [Separate “what” and “how”](#what-how) section of the _Divide and conquer, or merge and relax_ chapter.
 
@@ -1299,7 +1302,7 @@ I> There’s a proposal to add [pattern matching](https://github.com/tc39/propos
 
 ## Repeated conditions
 
-One way to simplify conditions is to replace multiple conditions for the same variable with an array. Consider this example:
+We often need to compare a variable to more than one value. A naïve way to do it is by comparing the variable to each value in a separate clause:
 
 ```js
 const isSmall = size =>
@@ -1311,7 +1314,7 @@ expect(isSmall('2')).toBe(true)
 expect(isSmall('5')).toBe(false)
 -->
 
-Here, we have three conditions that compare the `size` variable to three different values, and this makes the values we compare it to far apart. We could use an array instead:
+Here, we have three clauses that compare the `size` variable to three different values, and this makes the values we compare it to far apart. Instead, we can group them in an array and use the `includes()` array method:
 
 ```js
 const isSmall = size => ['1', '2', '3'].includes(size);
@@ -1322,7 +1325,7 @@ expect(isSmall('2')).toBe(true)
 expect(isSmall('5')).toBe(false)
 -->
 
-Now, all the values are grouped together, which makes the code more readable and maintainable: it’s easier to add and remove items.
+Now, all the values are grouped together, which makes the code more readable and maintainable. It’s also easier to add and remove items.
 
 Repeated conditions can make code barely readable. Consider this function that returns special offers for a product in a pet shop. The shop has two brands, Horns & Hooves and Paws & Tails, and each has unique special offers. For historical reasons, they are stored in the cache differently:
 
@@ -1519,7 +1522,7 @@ expect(getDiscountAmount({promoDiscount: {discountAmount: {displayCurrency: v25}
 expect(getDiscountAmount({})).toEqual(v0)
 -->
 
-Here, we calculate a discount: the maximum of either the user’s personal discount or the current site-wide promotion. If the user has no discount and there’s no promotion now, the discount is 0.
+This function calculates the maximum discount between a user’s personal discount and a site-wide promotion, returning a default value of 0 if neither is present.
 
 My brain is refusing to even try to understand what’s going on here. There’s so much nesting and repetition, it’s hard to see whether this code is doing anything at all.
 
@@ -1650,7 +1653,7 @@ const drink = caffeineLevel < 50 ? 'coffee' : 'water';
 
 <!-- expect(drink).toBe('coffee') -->
 
-However, nested ternaries are different beasts: they usually make code harder to read, and there’s almost always a better alternative:
+However, nested ternaries are different beasts: they make code harder to read because it’s difficult to see which branch belong to which condition. There’s almost always a better alternative.
 
 <!-- const Loading = () => <p>...</p> -->
 
@@ -1766,6 +1769,65 @@ expect(c4.textContent).toEqual('Error loading products')
 I think it’s much easier to follow now: all special cases are at the top of the function, and the happy path is at the end.
 
 I> We’ll come back to this example later in the [Make impossible states impossible](#impossible-states) section of the _Other techniques_ chapter.
+
+## Complex conditions
+
+Sometimes, we can’t reduce the number of conditions, and the only way to make the code better, is to make it easier to understand what a certain complex condition does. Consider this example:
+
+Consider this example:
+
+```js
+function mapTips(allTips, ingredients, tags) {
+  return allTips.filter(tip => {
+    return (
+      (tip.ingredient === undefined ||
+        ingredients.some(
+          ({ name }) => name === tip.ingredient
+        )) &&
+      tip.tags.every(tag => tags.includes(tag))
+    );
+  });
+}
+```
+
+<!--
+expect(mapTips([{ingredient: 'bacon', tags: []}, {tags: ['tacos']}], [{name:'bacon'}], [])).toEqual([{ingredient: 'bacon', tags: []}])
+expect(mapTips([{tags: ['baking']}, {tags: ['tacos', 'potatoes']}], [], ['tacos', 'potatoes'])).toEqual([{tags: ['tacos', 'potatoes']}])
+-->
+
+I wrote this code myself, but now it’s taken me a long time to understand what’s going on. We get a list of tips, and we keep only ones that are suitable for the current recipe: it has the ingredient matching any of the `ingredients`, or it has tags matching all the `tags`.
+
+Let’s try to make it clearer:
+
+```js
+function mapTips(allTips, ingredients, tags) {
+  const ingredientNames = ingredients.map(x => x.name);
+
+  return allTips.filter(tip => {
+    // The tip’s ingredient matches any of the recipe’s
+    // ingredients, if defined
+    const hasMatchingIngredients = tip.ingredient
+      ? ingredientNames.includes(tip.ingredient)
+      : true;
+
+    // All tip’s tags are present in recipe’s tags
+    const hasMatchingTags = tip.tags.every(tag =>
+      tags.includes(tag)
+    );
+
+    return hasMatchingIngredients && hasMatchingTags;
+  });
+}
+```
+
+<!--
+expect(mapTips([{ingredient: 'bacon', tags: []}, {tags: ['tacos']}], [{name:'bacon'}], [])).toEqual([{ingredient: 'bacon', tags: []}])
+expect(mapTips([{tags: ['baking']}, {tags: ['tacos', 'potatoes']}], [], ['tacos', 'potatoes'])).toEqual([{tags: ['tacos', 'potatoes']}])
+-->
+
+The code is noticeably longer, but it’s less dense and doesn’t try to do everything at once. We start by saving ingredient names to make it easier to compare later. Then, inside the `filter()` callback function, we check whether the tip’s ingredient matches any of the recipe’s ingredients (but only if the tip specifies the ingredient), and then we check whether all tip’s tags are present in the recipe’s tags.
+
+I> The [Naming is hard](#naming) chapter has a few more examples of extracting complex conditions.
 
 ## Conclusion
 
