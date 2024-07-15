@@ -4,6 +4,8 @@
 
 <!-- description: Different techniques for editing code and customizing our environment to make our work more efficient and less tiring -->
 
+TODO: Я всегда с подозрением смотрел на chord hotkeys, а ведь и правда нажать Cmd+K, E проще, чем Cmd+Shift+E. Пожалуй, пересмотрю свой подход. И реально проще найти осмысленные сочетания. Может быть не быстрее, но руки ломать меньше надо.
+
 W> This chapter isn’t finished yet
 
 Knowing how to use the code editor efficiently makes code writing and editing faster and easier. I use Visual Studio Code, but most tips can be used for other editors too.
