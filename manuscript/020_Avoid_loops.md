@@ -29,7 +29,7 @@ for (let i = 0; i < array.length; i++) {
 
 Most programmers learned to recognize `i = 0; i < array.length; i++` as a pattern: iteration over each element of a given array. It looks almost the same in most programming languages created since the middle of the 20th century. The tradition of using `i`, `j`, and `k` as loop index variables is about as old.
 
-This structure allows us to change the way we iterate over elements: for example, iterate elements from last to first, skip every second element, and so on. However, with such power comes the risk of making a mistake. For example, all these loops look almost identical, but only the first one is correct:
+This structure allows us to change the way we iterate over elements: for example, iterating elements from last to first, skipping every second element, and so on. However, with such power comes the risk of making mistakes. For example, all these loops look almost identical, but only the first one is correct:
 
 <!-- let array = [] -->
 
@@ -45,7 +45,7 @@ for (let i = 0; i < array.length; ++i) {}
 
 Such errors are called [off-by-one errors](https://en.wikipedia.org/wiki/Off-by-one_error) because we’re either missing one array element or trying to access an element that’s just outside the array bounds.
 
-And it gets worse when we nest loops:
+It gets worse when we nest loops:
 
 <!-- let console = { log: vi.fn() } -->
 
@@ -65,13 +65,13 @@ for (let i = 0; i < array.length; i++) {
   ['eins'], ['zwei'], ['drei'], ['uno'], ['dos'], ['tres']
 ]) -->
 
-With each nested loop, we’re increasing the probability of a mistake, and decreasing the readability of the code.
+With each nested loop, we increase the probability of a mistake and decrease the readability of the code.
 
-In this chapter, we’ll talk about modern ways of writing loops and where a more traditional approach is still better.
+In this chapter, we’ll talk about modern ways of writing loops and when a more traditional approach is still better.
 
 ## Replacing loops with array methods
 
-Modern languages have better ways to express iteration over things, and [JavaScript has many useful methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array#iterative_methods) to transform or iterate over arrays, like `map()`, or `find()`.
+Modern languages have better ways to express iteration, and [JavaScript has many useful methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array#iterative_methods) to transform or iterate over arrays, like `map()`, or `find()`.
 
 For example, let’s convert an array of strings to kebab-case using a `for` loop:
 
@@ -86,9 +86,9 @@ for (let i = 0; i < characters.length; i++) {
 
 <!-- expect(kebabCharacters).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
 
-I> The [`kebabCase()` method](https://lodash.com/docs#kebabCase) is coming from the Lodash library. We’ll use Lodash methods occasionally in this book, and every time we’ll use the `_` namespace.
+I> The [`kebabCase()` method](https://lodash.com/docs#kebabCase) is from the Lodash library. We’ll use Lodash methods occasionally in this book, and we’ll always use the `_` namespace.
 
-I> The _kebab-case_ is a popular naming convention where lowercase words are separated with a dash, for example, `chuck-norris`, or `bilbo-baggins`. It’s called kebab-case because it looks a bit like several kebabs on a skewer. Other common conventions include _camelCase_, _PascalCase_, _snake_case_, and _SCREAMING_SNAKE_CASE_. I spell each name using the convention itself to make remembering them easier.
+I> The _kebab-case_ is a popular naming convention where lowercase words are separated with a dash, for example, `chuck-norris`, or `bilbo-baggins`. It’s called kebab-case because it looks like several kebabs on a skewer. Other common conventions include _camelCase_, _PascalCase_, _snake_case_, and _SCREAMING_SNAKE_CASE_. I spell each name using the convention itself to make remembering them easier.
 
 Now, let’s use the `map()` array method instead of a `for` loop:
 
@@ -211,9 +211,9 @@ characters.forEach(name => {
 
 <!-- expect(kebabCharacters).toEqual(['bilbo-baggins', 'gandalf', 'gollum']) -->
 
-Above is a more cryptic and less semantic implementation of the `map()` method, so better use the `map()` directly as we did before. The version with the `map()` method is much easier to read because we know that the `map()` method transforms an array into a new array with the same number of elements. And, unlike `forEach()`, it doesn’t require us to manage the output array ourselves. Also, the callback function is now pure: it merely transforms input parameters to the output value without any side effects.
+This code is a more cryptic and less semantic implementation of the `map()` method, so better use the `map()` directly as we did before. The version with the `map()` method is much easier to read because we know that the `map()` method transforms an array into a new array with the same number of elements. And, unlike `forEach()`, it doesn’t require us to manage the output array ourselves. Also, the callback function is now pure: it merely transforms input parameters to the output value without any side effects.
 
-Avoid abusing array method semantics:
+Avoid abusing the semantics of array methods:
 
 <!-- const products = [{type: 'pizza'}, {type: 'coffee'}], expectedType = 'pizza' -->
 
@@ -243,7 +243,7 @@ const isExpectedType = products.some(
 
 <!-- expect(isExpectedType).toEqual(true) -->
 
-If the behavior of the original code was correct, then we actually don’t need to iterate at all. We can check the latest array element directly:
+If the behavior of the original code is correct, then we don’t need to iterate at all. We can check the last array element directly:
 
 <!-- const products = [{type: 'pizza'}, {type: 'coffee'}], expectedType = 'pizza' -->
 
@@ -253,7 +253,7 @@ const isExpectedType = products.at(-1).type === expectedType;
 
 <!-- expect(isExpectedType).toEqual(false) -->
 
-Both refactored versions make the intention of the code clearer and leave fewer doubts that the code is correct. We can probably make the `isExpectedType` variable name more explicit, especially in the second refactoring.
+Both refactored versions make the code’s intention clearer and leave fewer doubts about its correctness. We can probably make the `isExpectedType` variable name more explicit, especially in the second refactoring.
 
 ## Chaining multiple operations
 
@@ -288,7 +288,7 @@ const totalPrice = cart
 
 <!-- expect(totalPrice).toBe(58) -->
 
-Now, the purpose of each step is more clear. Using the `reduce()` to calculate a sum of all array elements is one of the most typical use cases for this method, and this pattern is easier to recognize here than in the original code.
+Now, the purpose of each step is clearer. Using the `reduce()` to calculate a sum of all array elements is one of the most typical use cases for this method, and this pattern is easier to recognize here than in the original code.
 
 T> I often see something that I call _the reduce rabbit hole_ during interviews and code reviews: a developer starts writing code with the `reduce()` method, and then digs a deep complexity pit by adding more and more things to the `reduce()`, instead of stopping and rewriting it to something simpler. TkDodo has [a great article](https://tkdodo.eu/blog/why-i-dont-like-reduce) on the pitfalls of `reduce()`.
 
@@ -299,7 +299,7 @@ Side effects make code harder to understand because we can no longer treat a fun
 - they don’t just transform input into output, but can affect the environment in unpredictable ways;
 - they are hard to test because we need to recreate the environment before we run each test, verify the changes in the environment made by the function, and then reset it to its original state before running other tests.
 
-All array methods mentioned in the previous section, except `forEach()`, imply that they don’t have side effects and that they only return a value from the callback function. Introducing any side effects into these methods makes the code confusing since readers don’t expect side effects.
+All array methods mentioned in the previous section, except `forEach()`, imply that they don’t have side effects and they only return a value from the callback function. Introducing any side effects into these methods makes the code confusing, since readers don’t expect side effects.
 
 The `forEach()` method doesn’t return any value, and it’s the right choice for handling side effects when we really need them:
 
@@ -615,13 +615,13 @@ This code is good, and though, it’s more in the spirit of this book, the origi
 
 I’d be happy to accept either the original, with the `for…of` loop, or the last one, with the `flatMap()` and `map()` chain, during a code review. No `reduce()` for me, thank you!
 
-_Though `tableData` is a terrible variable name._
+_Though, `tableData` is a terrible variable name._
 
 I> We talk about naming in the [Naming is hard](#naming) chapter.
 
 ## But aren’t array methods slow?
 
-One may think that functions are slower than loops, and likely they are. Most of the time, however, it doesn’t matter unless we’re working with millions of elements.
+One might think that functions are slower than loops, and often they are. However, this generally does not matter unless we’re working with millions of elements.
 
 Modern JavaScript engines are very fast and optimized for popular code patterns. Back in the day, we used to write loops like this because checking the array length on every iteration was too slow:
 
@@ -636,9 +636,9 @@ for (var i = 0, len = names.length; i < len; i++) {
 
 <!-- expect(kebabCharacters).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
 
-It’s not slow anymore, though, and there are more cases when engines optimize for simpler code patterns, making manual optimization unnecessary.
+It’s not slow anymore. Often simpler code patterns are the fastest, or fast enough, so manual optimization is unnecessary.
 
-Also, `every()`, `some()`, `find()`, and `findIndex()` methods will short-circuit, meaning they won’t iterate over more array elements than necessary.
+Also, the `every()`, `some()`, `find()`, and `findIndex()` methods are short-circuiting, meaning they don’t iterate over unnecessary array elements.
 
 In any case, we should measure performance to know what to optimize and verify whether our changes really make the code faster in all important browsers and environments.
 
