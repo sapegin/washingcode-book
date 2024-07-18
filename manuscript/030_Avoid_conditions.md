@@ -4,7 +4,7 @@
 
 <!-- description: Writing good conditions and simplifying the code by removing unnecessary ones -->
 
-Conditions make code harder to read and test:
+Conditions make code harder to read and test because:
 
 - conditions add nesting and increase code complexity;
 - multipart conditions are even harder to understand, especially the ones that mix positive and negative clauses;
@@ -14,7 +14,7 @@ Conditions make code harder to read and test:
 
 Many conditions are unnecessary or could be rewritten in a more readable way.
 
-For example, consider this code that returns a boolean value like this:
+For example, consider the following code that creates two boolean variables:
 
 ```js
 const value = '';
@@ -31,7 +31,7 @@ expect(hasValue).toBe(false)
 expect(hasProducts).toBe(true)
 -->
 
-Both, `value !== ''` and `products.length > 0` already return boolean values, so we can avoid using the ternary operator:
+Both `value !== ''` and `products.length > 0` already return boolean values, so we can avoid using the ternary operator:
 
 ```js
 const value = '';
@@ -68,7 +68,7 @@ const hasValue = Boolean(value);
 
 <!-- expect(hasValue).toBe(false) -->
 
-In all cases, the code without a ternary is both shorter and easier to read.
+In all cases, the code without ternaries is both shorter and easier to read.
 
 Here’s another example of an unnecessary condition:
 
@@ -81,7 +81,7 @@ const hasProducts =
 
 <!-- expect(hasProducts).toBe(true) -->
 
-First, the `Array.isArray()` method returns `false` for any _falsy_ value, so there’s no need to check this separately. Second, in most cases, we can use the _optional chaining operator_ instead of the explicit array check.
+First, the `Array.isArray()` method returns `false` for any _falsy_ value, so there’s no need to check this separately. Second, in most cases, we can use the _optional chaining operator_ instead of an explicit array check.
 
 I> A _falsy value_ is a value that is considered `false` during type conversion to a boolean, and includes `false`, `null`, `undefined`, `0`, `''`, and [a few others](https://developer.mozilla.org/en-US/docs/Glossary/Falsy).
 
@@ -93,13 +93,13 @@ const hasProducts = products?.length > 0;
 
 <!-- expect(hasProducts).toBe(true) -->
 
-I> The _optional chaining operator_ (`?.`) was introduced in ECMAScript 2020 and allows us to access methods or properties of an object only when they exist. This saves us an `if` condition and often makes code simpler.
+I> The _optional chaining operator_ (`?.`) was introduced in ECMAScript 2020 and allows us to access methods or properties of an object only when they exist, so we don’t need to wrap the code in an `if` condition.
 
 The only case when this code might break is if `products` is a string, as strings also have the `length` property.
 
-T> I consider a variable that can be either `undefined` (or `null`) or an `array` an antipattern in most cases. I’d track the source of this value, make sure that it’s always an array, and use an empty array instead of `undefined`. This will save us a lot of checks and simplify types: we can use just `products.length > 0`, and don’t worry that `products` may not have the `length` property.
+T> I consider a variable that can be either `undefined` (or `null`) or an `array` an antipattern in most cases. I would track the source of this value, make sure that it’s always an array, and use an empty array instead of `undefined`. This way we can skip a lot of conditions and simplify types: we can just use `products.length > 0`, and not worry that `products` may not have the `length` property.
 
-And here’s a more complex but great (and real!) example of unnecessary conditions:
+Here’s a more complex but great (and real!) example of unnecessary conditions:
 
 <!-- const window = { navigator: { userAgent: '' } } -->
 
@@ -247,9 +247,9 @@ expect(onError).toBeCalledWith('nope')
 expect(() => getRandomJoke(onDone)).not.toThrowError()
 -->
 
-Here, the `onError` parameter is optional, and we check if it exists before calling it. The problem here is that we need to remember to wrap each call to an optional callback with a condition. It increases complexity and cognitive load (the mental effort required to understand the code) and makes the code harder to read.
+Here, the `onError` parameter is optional, and we check if it exists before calling it. The problem here is that we need to remember to wrap each call to an optional callback with a condition. It increases complexity and cognitive load and makes the code harder to read.
 
-I> Artem Zakirullin has a [great article on cognitive load in programming](https://github.com/zakirullin/cognitive-load).
+I> The _cognitive load_ is the mental effort required to understand the code. Artem Zakirullin wrote a [great article on cognitive load in programming](https://github.com/zakirullin/cognitive-load).
 
 One way to simplify the code here is by using the _optional chaining_ operator:
 
@@ -277,7 +277,7 @@ expect(onError).toBeCalledWith('nope')
 expect(() => getRandomJoke(onDone)).not.toThrowError()
 -->
 
-It looks neater, however, it has the same issues as the `if` statement.
+It looks neater; however, it has the same issues as the `if` statement.
 
 I usually try to avoid these kinds of conditions and make sure all optional parameters are available, even if empty, so I can access them without checking if they are available first.
 
@@ -307,7 +307,7 @@ expect(onError).toBeCalledWith('nope')
 expect(() => getRandomJoke(onDone)).not.toThrowError()
 -->
 
-Now, it’s safe to call the `onError()` function whenever we need it. It won’t do anything if we don’t pass it to the function, but we don’t need to care about this while we’re coding the function itself.
+Now, it’s safe to call the `onError()` function whenever we need it. It won’t do anything if we don’t pass it to the function, but we don’t need to worry about this while we’re coding the function itself.
 
 ## Processing arrays
 
@@ -347,7 +347,7 @@ expect(getProductsDropdownItems({products: []})).toEqual([])
 expect(getProductsDropdownItems({products: [{id: '1', name: 'Tacos'}]})).toEqual([{label: 'Tacos', value: '1'}])
 -->
 
-Sometimes, we have to use an existing API that returns an array only in some cases, so checking the length directly would fail, and we need to check the type first:
+Sometimes we have to use an existing API that returns an array only in some cases, so checking the length directly would fail, and we need to check the type first:
 
 ```js
 function getProductsDropdownItems({ products }) {
@@ -367,7 +367,7 @@ expect(getProductsDropdownItems({products: []})).toEqual([])
 expect(getProductsDropdownItems({products: [{id: '1', name: 'Tacos'}]})).toEqual([{label: 'Tacos', value: '1'}])
 -->
 
-We can’t avoid the condition in this case, but we can _lift it to the function head_ and avoid a separate branch that handles the absence of an array. There are several ways to do it, depending on the possible data types.
+We can’t avoid the condition in this case, but we can _lift it to the function head_ and avoid having a separate branch that handles the absence of an array. There are several ways to do this, depending on the possible data types.
 
 If our data can be an array or `undefined`, we can use a default value for the function parameter:
 
@@ -403,7 +403,7 @@ expect(getProductsDropdownItems({products: []})).toEqual([])
 expect(getProductsDropdownItems({products: [{id: '1', name: 'Tacos'}]})).toEqual([{label: 'Tacos', value: '1'}])
 -->
 
-It’s more tricky if our data can be an array or `null`, because default values are only used when the value is strictly `undefined`, not just _falsy_. In this case, we can use the _nullish coalescing operator_:
+It’s trickier if our data can be an array or `null` because default values are only used when the value is strictly `undefined`, not just _falsy_. In this case, we can use the _nullish coalescing operator_:
 
 ```js
 function getProductsDropdownItems(productsMaybe) {
@@ -452,13 +452,13 @@ expect(getProductsDropdownItems({products: {id: '1', name: 'Tacos'}})).toEqual([
 expect(getProductsDropdownItems({products: [{id: '1', name: 'Tacos'}]})).toEqual([{label: 'Tacos', value: '1'}])
 -->
 
-Here we’re wrapping a single element in an array, so we can use the same code to work with single values and arrays.
+Here, we’re wrapping a single element in an array so we can use the same code to work with single values and arrays.
 
 ## Deduplicating algorithms
 
-Examples in the previous section introduced an important technique: _algorithm deduplication_. Instead of having several branches of the main logic depending on the input type, we only have one, but we’re normalizing the input before running the algorithm. This technique can be used in many other places.
+Examples in the previous section introduce an important technique: _algorithm deduplication_. Instead of branching the main logic based on the input type, we code the main logic only once, but we normalize the input before running the algorithm. This technique can be used in many other places.
 
-Imagine an article likes counter, where we can vote multiple times:
+Imagine an article likes counter where we can vote multiple times:
 
 <!--
 function counter() {
@@ -497,7 +497,7 @@ expect(articles.get('/cats-better-than-dogs')).toBe(1)
 expect(articles.get('/dogs-better-than-cats')).toBe(4)
 -->
 
-A naïve way to implement the `upvote()` method could be:
+A naïve way to implement the `upvote()` method might be:
 
 ```js
 function counter() {
@@ -524,9 +524,9 @@ articles.upvote('/cats-better-than-dogs', 4);
 expect(articles.get('/cats-better-than-dogs')).toBe(5)
 -->
 
-The problem here is that the main function’s logic, incrementing of the count, is implemented twice: for the case when we already have voted for that URL and when we’re voting for the first time. So every time we need to update this logic, we need to make changes in two places. We need to write two sets of very similar tests to make sure both branches work as expected, otherwise, they’ll eventually diverge, and we’ll have hard-to-debug issues.
+The problem here is that the main function’s logic, incrementing the count, is implemented twice: for the case when we have already voted for that URL and when we’re voting for the first time. So, every time we need to update this logic, we have to make changes in two places. We need to write two sets of very similar tests to make sure both branches work as expected, otherwise, they’ll eventually diverge, and we’ll have hard-to-debug issues.
 
-Let’s make the main logic unconditional, but prepare the state if necessary before running this logic:
+Let’s make the main logic unconditional, and prepare the state if necessary before running this logic:
 
 ```js
 function counter() {
@@ -553,7 +553,7 @@ articles.upvote('/cats-better-than-dogs', 4);
 expect(articles.get('/cats-better-than-dogs')).toBe(5)
 -->
 
-Now, we don’t have any logic duplication, instead we’re normalizing the data structure, so the generic algorithm could work with it.
+Now, we don’t have any logic duplication. Instead, we normalize the data structure so the generic algorithm can work with it.
 
 I often see a similar issue when someone calls a function with different parameters:
 
@@ -569,7 +569,7 @@ if (errorMessage) {
 
 <!-- expect(log).toBeCalledWith('error', 'nope') -->
 
-Let’s move a condition inside the function call:
+Let’s move the condition inside the function call:
 
 <!-- const log = vi.fn(), errorMessage = 'nope', LOG_LEVEL = {ERROR: 'error'}, DEFAULT_ERROR_MESSAGE = 'nooooope'  -->
 
@@ -579,7 +579,7 @@ log(LOG_LEVEL.ERROR, errorMessage || DEFAULT_ERROR_MESSAGE);
 
 <!-- expect(log).toBeCalledWith('error', 'nope') -->
 
-We’ve removed all code duplication, and the code is shorter and easier to read. It’s also easier to see what exactly changes depending on the condition.
+We’ve removed all code duplication, and the code is shorter and easier to read. It’s also easier to see exactly which values depend on the condition.
 
 ## Early return
 
@@ -615,7 +615,7 @@ function postOrderStatus() {
 
 <!-- expect(() => postOrderStatus(0)).not.toThrowError() -->
 
-There are 120 lines between the first condition and its `else` block. And the main return value is somewhere inside three levels of conditions.
+There are 120 lines between the first condition and its `else` block, and the main return value is somewhere inside three levels of conditions.
 
 I> Deeply nested conditions are also known as the [arrow antipattern](http://wiki.c2.com/?ArrowAntiPattern) or _dangerously deep nesting_.
 
@@ -686,7 +686,7 @@ function postOrderStatus() {
 
 <!-- expect(() => postOrderStatus(0)).not.toThrowError() -->
 
-Now, that’s a big improvement over the initial version. I’ve also renamed the variables, because “array object” doesn’t make any sense to me and the “array” suffix is unnecessary.
+Now, that’s a big improvement over the initial version. I’ve also renamed the variables because “array object” doesn’t make any sense to me and the “array” suffix is unnecessary.
 
 I> We talk about naming in the [Naming is hard](#naming) chapter.
 
@@ -733,7 +733,7 @@ const {container: c4} = RTL.render(<Container component={Inner} data={[2, 4]} />
 expect(c4.textContent).toEqual('2|4')
 -->
 
-I have trouble reading nested ternaries in general, and I prefer not to nest them. Here’s an extreme example of nesting: the good path code, rendering the `Component`, is quite hidden. This is a perfect use case for guard clauses.
+I have trouble reading nested ternaries in general and prefer not to nest them. Here’s an extreme example of nesting: the good path code, rendering the `Component`, is quite hidden. This is a perfect use case for guard clauses.
 
 Let’s refactor it:
 
@@ -970,7 +970,7 @@ This changes the way we use the `DecisionButton` component:
 + <DecisionButton decision={Decision.Maybe} />
 ```
 
-We can achieve the same safety even without enums, and I usually prefer this way for React components, because it simplifies the markup. We can use plain strings instead of an enum:
+We can achieve the same safety even without enums, and I usually prefer this way for React components because it simplifies the markup. We can use plain strings instead of an enum:
 
 ```tsx
 type Decision = 'yes' | 'no' | 'maybe';
@@ -1158,7 +1158,7 @@ Now we can define our validation table. There are two ways of doing this:
 - using an object where keys represent form fields;
 - using an array.
 
-We’re going to use an array, because we want to have several validations with different error messages for some fields. For example, a field can be required _and_ have a maximum length:
+We’re going to use an array because we want to have several validations with different error messages for some fields. For example, a field can be required _and_ have a maximum length:
 
 <!--
 const hasStringValue = value => typeof value === 'string' && value.trim() !== ''
@@ -1302,7 +1302,7 @@ I> There’s a proposal to add [pattern matching](https://github.com/tc39/propos
 
 ## Repeated conditions
 
-We often need to compare a variable to more than one value. A naïve way to do it is by comparing the variable to each value in a separate clause:
+We often need to compare a variable to multiple values. A naïve way to do this is by comparing the variable to each value in a separate clause:
 
 ```js
 const isSmall = size =>
@@ -1314,7 +1314,7 @@ expect(isSmall('2')).toBe(true)
 expect(isSmall('5')).toBe(false)
 -->
 
-Here, we have three clauses that compare the `size` variable to three different values, and this makes the values we compare it to far apart. Instead, we can group them in an array and use the `includes()` array method:
+Here, we have three clauses that compare the `size` variable to three different values, making the values we compare it to far apart. Instead, we can group them into an array and use the `includes()` array method:
 
 ```js
 const isSmall = size => ['1', '2', '3'].includes(size);
@@ -1325,9 +1325,9 @@ expect(isSmall('2')).toBe(true)
 expect(isSmall('5')).toBe(false)
 -->
 
-Now, all the values are grouped together, which makes the code more readable and maintainable. It’s also easier to add and remove items.
+Now, all the values are grouped together, making the code more readable and maintainable. It’s also easier to add and remove items.
 
-Repeated conditions can make code barely readable. Consider this function that returns special offers for a product in a pet shop. The shop has two brands, Horns & Hooves and Paws & Tails, and each has unique special offers. For historical reasons, they are stored in the cache differently:
+Repeated conditions can make code barely readable. Consider this function that returns special offers for products in a pet shop. The shop has two brands: Horns & Hooves and Paws & Tails, each with unique special offers. Historically, they are stored in the cache differently:
 
 <!-- const SPECIAL_OFFERS_CACHE_KEY = 'offers', getHornsAndHoovesSpecialOffers = () => ['horns'], getPawsAndTailsSpecialOffers = () => ['paws'], Session = { set: vi.fn(), get: vi.fn() }  -->
 
@@ -1359,7 +1359,7 @@ expect(getSpecialOffersArray('tacos', false)).toEqual(['paws'])
 expect(getSpecialOffersArray('tacos', true)).toEqual(['horns'])
 -->
 
-The `isHornsAndHooves` condition is repeated three times. Two of them create the same session key. It’s hard to see what this function is doing: business logic is intertwined with low-level session management code.
+The `isHornsAndHooves` condition is repeated three times. Twice to create the same session key. It’s hard to see what this function is doing: business logic is intertwined with low-level session management code.
 
 Let’s try to simplify it a bit:
 
@@ -1391,7 +1391,7 @@ expect(getSpecialOffersArray('tacos', false)).toEqual(['paws'])
 expect(getSpecialOffersArray('tacos', true)).toEqual(['horns'])
 -->
 
-This is already more readable, and we can stop here. However, if I had some time, I’d go further and extract cache management. Not because this function is too long, or that it’s potentially reusable, but because cache management distracts me from the main purpose of the function, and it’s too low-level.
+Now, the code is already more readable, and we can stop here. However, if I had some time, I’d go further and extract cache management. Not because this function is too long or potentially reusable, but because cache management distracts from the main purpose of the function and is too low-level.
 
 <!-- const SPECIAL_OFFERS_CACHE_KEY = 'offers', getHornsAndHoovesSpecialOffers = () => ['horns'], getPawsAndTailsSpecialOffers = () => ['paws'], Session = { set: vi.fn(), get: vi.fn() } -->
 
@@ -1422,7 +1422,7 @@ expect(getSpecialOffersArray('tacos', false)).toEqual(['paws'])
 expect(getSpecialOffersArray('tacos', true)).toEqual(['horns'])
 -->
 
-It may not look much better, but I think it’s a bit easier to understand what’s happening in the main function. What annoys me here is `isHornsAndHooves`. I’d rather pass a brand and keep all brand-specific information in tables:
+It may not look much better, but I think it’s a bit easier to understand what’s happening in the main function. What’s annoying here is `isHornsAndHooves`. I’d rather pass a brand and keep all brand-specific information in tables:
 
 <!-- const SPECIAL_OFFERS_CACHE_KEY = 'offers', getHornsAndHoovesSpecialOffers = () => ['horns'], getPawsAndTailsSpecialOffers = () => ['paws'], Session = { set: vi.fn(), get: vi.fn() }  -->
 
@@ -1463,15 +1463,15 @@ expect(getSpecialOffersArray('tacos', Brand.PawsAndTails)).toEqual(['paws'])
 expect(getSpecialOffersArray('tacos', Brand.HornsAndHooves)).toEqual(['horns'])
 -->
 
-Now, all brand-specific code is grouped together and clear, and we have a generic algorithm.
+Now, all brand-specific code is grouped together and clear, making the algorithm generic.
 
-_Ideally, we should check whether we can do caching the same way for all brands: this would simplify the code further._
+_Ideally, we should check whether we can implement caching the same way for all brands: this would simplify the code further._
 
-It may seem like I prefer small functions or even very small functions, but that’s not the case. The main reason to extract code into separate functions here is a violation of the _single responsibility principle_. The original function had too many responsibilities: getting special offers, generating cache keys, reading data from the cache, and storing data in the cache. Each with two branches for our two brands.
+It may seem like I prefer small or even very small functions, but that’s not the case. The main reason for extracting code into separate functions here is that it violates the _single responsibility principle_. The original function had too many responsibilities: getting special offers, generating cache keys, reading data from the cache, and storing data in the cache, each with two branches for our two brands.
 
 I> The [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle) states that any module, class, or method should have only one reason to change, or, in other words, we should keep the code that changes for the same reason together. We talk more about this topic in the [Divide and conquer, or merge and relax](#divide) chapter.
 
-And one more example:
+Here’s one more example:
 
 ```js
 function getDiscountAmount(discountOptions) {
@@ -1524,7 +1524,7 @@ expect(getDiscountAmount({})).toEqual(v0)
 
 This function calculates the maximum discount between a user’s personal discount and a site-wide promotion, returning a default value of 0 if neither is present.
 
-My brain is refusing to even try to understand what’s going on here. There’s so much nesting and repetition, it’s hard to see whether this code is doing anything at all.
+My brain is refusing to even try to understand what’s going on here. There’s so much nesting and repetition that it’s hard to see whether this code is doing anything at all.
 
 Let’s try to simplify it a bit:
 
@@ -1555,13 +1555,13 @@ expect(getDiscountAmount({promoDiscount: {discountAmount: {displayCurrency: v25}
 expect(getDiscountAmount({})).toEqual(v0)
 -->
 
-Here, we create an array with all possible discounts, then we use Lodash’s [`maxBy()` method](https://lodash.com/docs#maxBy) to find the maximum discount value, and then we use the nullish coalescing operator to either return the maximum or 0.
+Here, we create an array with all possible discounts, then we use Lodash’s [`maxBy()` method](https://lodash.com/docs#maxBy) to find the maximum discount value, and finally, we use the nullish coalescing operator to either return the maximum or 0.
 
 Now, it’s clear that we want to find the maximum of two types of discounts, otherwise return 0.
 
 ## Formulas
 
-Similar to tables, a single formula could often replace a whole bunch of conditions. Consider [this example](https://x.com/JeroenFrijters/status/1615204074588180481):
+Similar to tables, a single formula can often replace a whole bunch of conditions. Consider [this example](https://x.com/JeroenFrijters/status/1615204074588180481):
 
 ```js
 function getStarRating(percentage) {
@@ -1596,7 +1596,7 @@ expect(getStarRating(0.11)).toBe('★★✩✩✩✩✩✩✩✩')
 expect(getStarRating(0.91)).toBe('★★★★★★★★★★')
 -->
 
-The problem with this code isn’t that it’s especially hard to understand, but that it has a very large surface for bugs: every number and every condition could be wrong, and there are lots of them here. This code will also need many test cases to make sure it’s correct.
+The problem with this code isn’t that it’s especially hard to understand, but that it has a very large surface for bugs: every number and every condition could be wrong, and there are lots of them here. This code also needs many test cases to make sure it’s correct.
 
 Let’s try to replace conditions with a formula:
 
@@ -1620,13 +1620,13 @@ expect(getStarRating(0.11)).toBe('★★✩✩✩✩✩✩✩✩')
 expect(getStarRating(0.91)).toBe('★★★★★★★★★★')
 -->
 
-It’s harder to understand than the initial implementation, but it requires significantly fewer test cases, and we’ve separated the design and the code. The icons will likely change, but I doubt that the algorithm will.
+It’s harder to understand than the initial implementation, but it requires significantly fewer test cases, and we’ve separated the design and the code. The icons will likely change, but the algorithm probably won’t.
 
 I> This approach is known as _separation of logic and presentation_.
 
 ## Nested ternaries
 
-A ternary operator is a short, one-line conditional operator. It’s very useful when we want to assign one of two values to a variable. Let’s take this `if` statement as an example:
+A _ternary operator_, or just a ternary, is a short, one-line conditional operator. It’s very useful when we want to assign one of two values to a variable. Let’s take this `if` statement as an example:
 
 ```js
 const caffeineLevel = 25;
@@ -1642,7 +1642,7 @@ if (caffeineLevel < 50) {
 
 <!-- expect(drink).toBe('coffee') -->
 
-Now, compare it with a ternary:
+Now, compare it to a ternary:
 
 ```js
 const caffeineLevel = 25;
@@ -1653,7 +1653,7 @@ const drink = caffeineLevel < 50 ? 'coffee' : 'water';
 
 <!-- expect(drink).toBe('coffee') -->
 
-However, nested ternaries are different beasts: they make code harder to read because it’s difficult to see which branch belong to which condition. There’s almost always a better alternative.
+However, nested ternaries are different beasts: they make code harder to read because it’s difficult to see which branch belongs to which condition. There’s almost always a better alternative.
 
 <!-- const Loading = () => <p>...</p> -->
 
@@ -1683,7 +1683,7 @@ const {container: c4} = RTL.render(<Products isError />);
 expect(c4.textContent).toEqual('Error loading products')
 -->
 
-This is a rare case when Prettier makes the code completely unreadable:
+This is a rare case where Prettier makes the code completely unreadable:
 
 <!-- const Loading = () => <p>...</p> -->
 
@@ -1772,7 +1772,7 @@ I> We’ll come back to this example later in the [Make impossible states imposs
 
 ## Complex conditions
 
-Sometimes, we can’t reduce the number of conditions, and the only way to make the code better, is to make it easier to understand what a certain complex condition does. Consider this example:
+Sometimes, we can’t reduce the number of conditions, and the only way to improve the code is to make it easier to understand what a certain complex condition does. Consider this example:
 
 Consider this example:
 
@@ -1795,7 +1795,7 @@ expect(mapTips([{ingredient: 'bacon', tags: []}, {tags: ['tacos']}], [{name:'bac
 expect(mapTips([{tags: ['baking']}, {tags: ['tacos', 'potatoes']}], [], ['tacos', 'potatoes'])).toEqual([{tags: ['tacos', 'potatoes']}])
 -->
 
-I wrote this code myself, but now it’s taken me a long time to understand what’s going on. We get a list of tips, and we keep only ones that are suitable for the current recipe: it has the ingredient matching any of the `ingredients`, or it has tags matching all the `tags`.
+I wrote this code myself, but now it takes me a long time to understand what’s going on. We get a list of tips, and we keep only those that are suitable for the current recipe: it has the ingredient matching any of the `ingredients` or it has tags matching all the `tags`.
 
 Let’s try to make it clearer:
 
@@ -1825,19 +1825,19 @@ expect(mapTips([{ingredient: 'bacon', tags: []}, {tags: ['tacos']}], [{name:'bac
 expect(mapTips([{tags: ['baking']}, {tags: ['tacos', 'potatoes']}], [], ['tacos', 'potatoes'])).toEqual([{tags: ['tacos', 'potatoes']}])
 -->
 
-The code is noticeably longer, but it’s less dense and doesn’t try to do everything at once. We start by saving ingredient names to make it easier to compare later. Then, inside the `filter()` callback function, we check whether the tip’s ingredient matches any of the recipe’s ingredients (but only if the tip specifies the ingredient), and then we check whether all tip’s tags are present in the recipe’s tags.
+The code is noticeably longer, but it’s less dense and doesn’t try to do everything at once. We start by saving ingredient names to make it easier to compare later. Then, inside the `filter()` callback function, we check whether the tip’s ingredient matches any of the recipe’s ingredients (but only if the tip specifies the ingredient), and finally we check whether all tip’s tags are present in the recipe’s tags.
 
 I> The [Naming is hard](#naming) chapter has a few more examples of extracting complex conditions.
 
 ## Conclusion
 
-Conditions allow us to write generic code that supports many use cases. However, when the code has too many conditions, it’s hard to read and test. So we should be vigilant and avoid unnecessary conditions, or replace some conditions with more maintainable and testable alternatives.
+Conditions allow us to write generic code that supports many use cases. However, when the code has too many conditions, it becomes hard to read and test. We should be vigilant and avoid unnecessary conditions, or replace some conditions with more maintainable and testable alternatives.
 
 ---
 
 Start thinking about:
 
-- Removing unnecessary conditions, like explicitly comparing a boolean value to `true` or `false`.
+- Removing unnecessary conditions, such as explicitly comparing a boolean value to `true` or `false`.
 - Normalizing the input data by converting the absence of data to an array early on to avoid branching and dealing with no data separately.
 - Normalizing the state to avoid algorithm duplication.
 - Caching repeated conditions in a variable.
