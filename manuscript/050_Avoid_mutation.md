@@ -46,7 +46,7 @@ Some of the problems with mutation:
 - Mutation of function parameters makes the behavior of a function surprising and crease unexpected side effects.
 - Mutation is often unexpected. It’s too easy to forget which methods mutate the original data, and which don’t. Both could return the same value, and there’s no naming convention of any kind to differentiate them, at least in JavaScript.
 
-_Immutability_ or _immutable data structures_, meaning that to change a value we have to create a new array or object, would solve this problem. Unfortunately, JavaScript doesn’t support immutability natively, and all solutions are more crutches than actual solutions. But even just _avoiding_ mutation in our code makes it easier to understand.
+_Immutability_ or _immutable data structures_, meaning that to change a value we have to create a new array or object, would solve this problem. Unfortunately, JavaScript doesn’t support immutability natively, and all solutions are more crutches than actual solutions, but even just _avoiding_ mutation in our code makes it easier to understand.
 
 Also, don’t forget that `const` in JavaScript only prevents reassignments — not mutation.
 
@@ -98,7 +98,7 @@ Here we’re creating an object with three fields, one of which, `settings`, is 
 
 I prefer to see the whole object shape in a single place instead of having to read the whole function to find all possible object shape variations. Usually, it doesn’t matter whether a property has an `undefined` value or doesn’t exist at all. I haven’t seen many cases where it mattered for a good reason.
 
-We also have a special error case here that returns an entirely different object with a lone `error` property. But it’s really a special case because none of the properties of two objects overlap, and it doesn’t make sense to merge them.
+We also have a special error case here that returns an entirely different object with a lone `error` property. However, it’s really a special case because none of the properties of two objects overlap, and it doesn’t make sense to merge them.
 
 I use ternaries for simple cases and extract code to a function for more complex cases. Here we have a good case for the latter because of a nested condition and a `try`/`catch` block.
 
@@ -286,7 +286,7 @@ expect(defaults).toEqual({foo: 1, bar: 2})
 expect(prompts).toEqual([{name: 'foo', initial: 1, message: 'Foo'}, {name: 'bar', initial: 2}])
 -->
 
-At first sight, this code doesn’t look very bad: it converts an object into an array by pushing new elements into the `prompts` array. But if we take a closer look, there’s another mutation inside a condition in the middle that mutates the `defaults` object. And this is a bigger problem because it’s easy to miss while reading the code.
+At first sight, this code doesn’t look very bad: it converts an object into an array by pushing new elements into the `prompts` array. However, if we take a closer look, there’s another mutation inside a condition in the middle that mutates the `defaults` object. And this is a bigger problem because it’s easy to miss while reading the code.
 
 The code is actually doing two loops: one to convert the `task.parameters` object to the `prompts` array, and another to update `defaults` with values from `task.parameters`. I’d split them to make it clear:
 
@@ -434,7 +434,7 @@ array = addIfGreaterThanZero(array, 2, 'YOUTHS')
 expect(array).toEqual([{count: 1, id: 'ADULTS'}, {count: 2, id: 'YOUTHS'}])
 -->
 
-But I don’t think we need this function at all:
+However, I don’t think we need this function at all:
 
 ```js
 const MESSAGE_IDS = [
@@ -494,7 +494,7 @@ expect(getMessageProps(1, 5, 0, 2, 0)).toEqual([
 ])
 -->
 
-But this makes the function API less discoverable and can make editor autocomplete less useful. It also gives the wrong impression that the function accepts any number of parameters and that the count order is unimportant — the number and order of parameters were clear in the previous iteration.
+However, this makes the function API less discoverable and can make editor autocomplete less useful. It also gives the wrong impression that the function accepts any number of parameters and that the count order is unimportant — the number and order of parameters were clear in the previous iteration.
 
 We can also use `reduce()` method instead of `map()` / `filter()` chaining:
 
@@ -661,11 +661,11 @@ expect(items).toEqual(['Dinner', 'Luncheon'])
 
 I> The `toSorted()` method is included in ECMAScript 2023, and supported by all major browsers, as well as Node.js 20.
 
-Probably the only valid reason to mutate function parameters is performance optimization: when we work with a huge piece of data and creating a new object or array would be too slow. But like with all performance optimizations: measure first to know whether we actually have a problem, and avoid premature optimization.
+Probably the only valid reason to mutate function parameters is performance optimization: when we work with a huge piece of data and creating a new object or array would be too slow. However, like with all performance optimizations: measure first to know whether we actually have a problem, and avoid premature optimization.
 
 ## Make mutation explicit if they are necessary
 
-Sometimes we can’t avoid mutation, for example, because of an unfortunate language API that does mutation.
+Sometimes we can’t avoid mutation, for example because of an unfortunate language API that does mutation.
 
 Array’s `sort()` method is an infamous example of that:
 
@@ -679,7 +679,7 @@ const tacos = counts
 
 <!-- expect(tacos).toEqual(['3 tacos', '6 tacos', '11 tacos']) -->
 
-This example gives the impression that the `counts` array isn’t changing, and we’re just creating a new `tacos` array with the sorted array. But the `sort()` method returns a sorted array _and_ mutates the original array at the same time. This kind of code is hazardous and can lead to hard-to-find bugs. Many developers don’t realize that the `sort()` method is mutating because the code _seems_ to work fine.
+This example gives the impression that the `counts` array isn’t changing, and we’re just creating a new `tacos` array with the sorted array. Unexpectedly, the `sort()` method returns a sorted array _and_ mutates the original array at the same time. This kind of code is hazardous and can lead to hard-to-find bugs. Many developers don’t realize that the `sort()` method is mutating because the code _seems_ to work fine.
 
 T> Another surprising thing about the `sort()` method is that by default it sorts elements by converting them to strings first, so `[6, 3, 11]` will be sorted as `[11, 3, 6]`, unless we provide a custom comparison function, like in the example above. This is a very poor design, and severely violates [the principle of least astonishment](https://en.wikipedia.org/wiki/Principle_of_least_astonishment).
 
@@ -870,7 +870,7 @@ Note that both `readonly` modifier and `Readonly` utility type are shallow, so w
 
 T> The [eslint-plugin-functional](https://github.com/eslint-functional/eslint-plugin-functional) plugin has the rule to require read-only types everywhere, which may be more convenient than remembering to do that ourselves.
 
-I think adding `readonly` modifiers is a good idea, because there’s no runtime cost, though it makes type definitions more verbose. However, I’d prefer [an option in TypeScript](https://github.com/microsoft/TypeScript/issues/32758) to make all types read-only by default with a way to opt out.
+I think adding `readonly` modifiers is a good idea because there’s no runtime cost, though it makes type definitions more verbose. However, I’d prefer [an option in TypeScript](https://github.com/microsoft/TypeScript/issues/32758) to make all types read-only by default with a way to opt out.
 
 Similar to making objects read-only on the type level, we can make them read-only at runtime with `Object.freeze`. `Object.freeze` is also shallow, so we’d have to [deep freezing](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze) to ensure that nested objects are also frozen, and we might want to have freezing only in development since it can otherwise slow our app down.
 
@@ -1036,7 +1036,7 @@ I don’t have good ideas on how to rewrite this code without an imperative loop
 - the code is clear enough;
 - the function is pure: it doesn’t have any internal state and avoids mutating its parameters.
 
-It’s better to have simple and clear code with mutation than complex and messy code without it. But if we do have mutation, it’s wise to isolate it to a small function with a meaningful name and clear API.
+It’s better to write simple and clear code with mutation than complex and messy code without it. However, if we do use mutation, it’s wise to isolate it in a small function with a meaningful name and clear API.
 
 Also, immutable operations could [significantly reduce performance](https://tkdodo.eu/blog/why-i-dont-like-reduce) if we work with large amounts of data and create a new object on each iteration.
 

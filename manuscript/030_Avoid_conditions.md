@@ -347,7 +347,7 @@ expect(getProductsDropdownItems({products: []})).toEqual([])
 expect(getProductsDropdownItems({products: [{id: '1', name: 'Tacos'}]})).toEqual([{label: 'Tacos', value: '1'}])
 -->
 
-Sometimes we have to use an existing API that returns an array only in some cases, so checking the length directly would fail, and we need to check the type first:
+Sometimes, we have to use an existing API that returns an array only in some cases, so checking the length directly would fail, and we need to check the type first:
 
 ```js
 function getProductsDropdownItems({ products }) {
@@ -782,6 +782,8 @@ Here, the default, happy path isn’t intertwined with the exceptional cases. Th
 
 T> We discuss a better way of managing loading and error states in the [Make impossible states impossible](#impossible-states) section.
 
+{#tables}
+
 ## Tables and maps
 
 One of my favorite techniques for improving _(read: avoiding)_ conditions is replacing them with _tables_ or _maps_. In JavaScript, we can create a table or a map using a plain object.
@@ -1097,7 +1099,7 @@ expect(validate({
 })).toEqual({})
 -->
 
-This function is very long, with lots and lots of repetitive boilerplate code. It’s really hard to read and maintain. Sometimes validations for the same field aren’t together, which makes it even harder to understand all the requirements for a particular field.
+This function is very long, with lots and lots of repetitive boilerplate code. It’s really hard to read and maintain. Sometimes, validations for the same field aren’t together, which makes it even harder to understand all the requirements for a particular field.
 
 However, if we look closely, there are only three unique validations:
 

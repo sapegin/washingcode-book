@@ -72,7 +72,7 @@ expect(test.test('Mac_PowerPC', 'Mozilla/4.0 (compatible; MSIE 5.17; Mac_PowerPC
 expect(test.test('MacInter', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.50')).toBe(false)
 -->
 
-Now, the condition is shorter and more readable, because names help us to understand what the condition does in the context of the code. However, I don’t think that splitting a function into multiple just because it’s “long” makes the code more readable.
+Now, the condition is shorter and more readable because names help us to understand what the condition does in the context of the code. However, I don’t think that splitting a function into multiple just because it’s “long” makes the code more readable.
 
 I> We talk about code splitting in more detail in the [Divide and conquer, or merge and relax](#divide) chapter.
 

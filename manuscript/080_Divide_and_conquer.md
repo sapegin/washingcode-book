@@ -128,7 +128,7 @@ Other candidates for abstraction are dates, device capabilities, internationaliz
 
 ## Bless the inline refactoring!
 
-Sometimes we get carried away and produce abstractions that don’t make code easier to read or even shorter:
+Sometimes, we get carried away and produce abstractions that don’t make code easier to read or even shorter:
 
 ```jsx
 // my_feature_util.js
@@ -358,7 +358,7 @@ My rules of thumb are these:
 
 ## Stay hydrated
 
-To troll the DRYers (developers who never repeat their code), someone invented another term: [WET](https://overreacted.io/the-wet-codebase/), _write everything twice_, or _we enjoy typing_, meaning we should duplicate code at least twice until we replace it with an abstraction. It is a joke, and I don’t fully agree with the idea (sometimes it’s okay to duplicate some code more than twice), but it’s a good reminder that all good things are good in moderation.
+To troll the DRYers (developers who never repeat their code), someone invented another term: [WET](https://overreacted.io/the-wet-codebase/), _write everything twice_, or _we enjoy typing_, meaning we should duplicate code at least twice until we replace it with an abstraction. It is a joke, and I don’t fully agree with the idea (sometimes, it’s okay to duplicate some code more than twice), but it’s a good reminder that all good things are good in moderation.
 
 Consider this example:
 

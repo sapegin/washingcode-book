@@ -8,7 +8,7 @@ In this book, we talk a lot about _conventions_. For example, don’t mutate you
 
 Conventions are good because they are easy to implement: document the decision and make the team aware of it. Conventions are not good because they are just words, and there’s nothing to enforce the convention, except more work, like code review comments.
 
-That’s where the _linters_ come in. Linters check our code to make sure it follows the team’s code style or to prevent some common bugs. Sometimes linters fix our code automatically; sometimes they just slap our hands with a keyboard when we try to commit our code, or later, during the continues integration (CI) run.
+That’s where the _linters_ come in. Linters check our code to make sure it follows the team’s code style or to prevent some common bugs. Sometimes, linters fix our code automatically; other times, they just slap our hands with a keyboard when we try to commit our code, or later, during the continues integration (CI) run.
 
 I> We talk about code style in the [Code style](#code-style) chapter.
 
@@ -317,7 +317,7 @@ I> We talk more about parallel coding in the [Don’t make me think](#no-thinkin
 
 ### [id-length](https://eslint.org/docs/latest/rules/id-length)
 
-This rule allows us to define the minimum and maximum length for an identifier, because short names could be potentially less readable, which is true in many cases. However, like any attempt to measure code quality by its physical dimensions, this rule causes more damage than good.
+This rule allows us to define the minimum and maximum length for an identifier because short names could be potentially less readable, which is true in many cases. However, like any attempt to measure code quality by its physical dimensions, this rule causes more damage than good.
 
 I> We talk about naming in the [Naming is hard](#naming) chapter.
 
@@ -421,7 +421,7 @@ expect(find([1, 2, 3], 5)).toBe(false)
 
 I call this style _Pascal style_, and it makes code harder to read:
 
-I> We talk about it in the [Avoid Pascal style variables](#no-pascal-vars) section of the _Avoid reassigning variables_ chapter.
+I> We talk about it in the [Avoid Pascal-style variables](#no-pascal-vars) section of the _Avoid reassigning variables_ chapter.
 
 ### [sort-vars](https://eslint.org/docs/latest/rules/sort-vars), [sort-keys](https://eslint.org/docs/latest/rules/sort-keys), and others
 

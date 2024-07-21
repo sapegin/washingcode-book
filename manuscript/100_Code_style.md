@@ -29,7 +29,7 @@ Or I had two spaces in front of inline comments to better separate them from the
 const volume = 200;  // ml
 ```
 
-So if any other developer touched my code, they would definitely make it inconsistent, because it’s unlikely that they would follow _my code style_ — so uncommon it was. And code review would be a nightmare if I wanted to enforce _my code style_.
+So if any other developer touched my code, they would definitely make it inconsistent because it’s unlikely that they would follow _my code style_ — so uncommon it was. And code review would be a nightmare if I wanted to enforce _my code style_.
 
 ## Not all code styles are good
 
@@ -733,7 +733,7 @@ So, choose the simplest convention, unless more complex rules bring huge benefit
 
 JavaScript is one of the very few languages that doesn’t require a semicolon at the end of each line, but also doesn’t mind having them. This has created countless arguments over the past two decades.
 
-Normally, I’d say I don’t care, as long as it’s automated. But there’s one thing that made me prefer having semicolons in JavaScript after each line. This reason is called _automatic semicolon insertion_ (ASI): JavaScript will try to guess where to put semicolons when there are none in the code, and sometimes it does it wrong. This is a perfect example:
+Normally, I’d say I don’t care, as long as it’s automated. However, there’s one thing that made me prefer having semicolons in JavaScript after each line. This reason is called _automatic semicolon insertion_ (ASI): JavaScript will try to guess where to put semicolons when there are none in the code, and sometimes it does it wrong. This is a perfect example:
 
 <!-- prettier-ignore -->
 ```js

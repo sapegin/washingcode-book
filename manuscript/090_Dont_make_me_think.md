@@ -352,7 +352,7 @@ expect(props).toHaveProperty('data-codeception-id', 'type-Col-2')
 
 Now, there’s no doubt that the code for both test IDs is really the same.
 
-Sometimes code that looks almost the same is slightly different:
+Sometimes, code that looks almost the same is slightly different:
 
 <!-- let result, dispatch = x => result = x, changeIsWordDocumentExportSuccessful = x => x -->
 

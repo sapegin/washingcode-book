@@ -196,7 +196,7 @@ When using array methods, we’re separating the “what” (our data) from the 
 
 I> We talk about the separation of “what” and “how” in the [Separate “what” and “how”](#what-how) section of the _Divide and conquer, or merge and relax_ chapter.
 
-When all simple cases are covered by array methods, every time we see a traditional loop, we know that something unusual is going on. And that’s good: fewer chances we’ll miss a bug during code review, because we can be extra vigilant every time we see a traditional loop.
+When all simple cases are covered by array methods, every time we see a traditional loop, we know that something unusual is going on. And that’s good: fewer chances we’ll miss a bug during code review because we can be extra vigilant every time we see a traditional loop.
 
 Also, don’t use generic array methods like `map()` or `forEach()` when more specialized array methods would work, and don’t use `forEach()` instead of `map()` to transform an array. Both would confuse the reader by doing something unexpected.
 

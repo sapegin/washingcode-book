@@ -365,7 +365,7 @@ Now it’s clear that we can only use one variant of a button at a time.
 
 ## Don’t try to predict the future
 
-Requirements are constantly changing, the business is constantly trying to make more money. Sometimes by improving user experience and making the app better, sometimes by exploiting human psychology and making app worse. In both cases we need to change the code all the time. People have invented agile software development to deal with the changing requirements: it’s better to develop software in small iterations than to spend months on writing detailed specs that became obsolete by the time we start implementing them.
+Requirements are constantly changing, the business is constantly trying to make more money. Sometimes, by improving user experience and making the app better, other times, by exploiting human psychology and making app worse. In both cases we need to change the code all the time. People have invented agile software development to deal with the changing requirements: it’s better to develop software in small iterations than to spend months on writing detailed specs that became obsolete by the time we start implementing them.
 
 Somehow, developers often try to think too far in the future: “_they_ will want to add pagination to the list of pizza toppings on our pizzeria site, let’s add support now to save time later.” But then _they_ want infinite scrolling or stop selling pizzas at all, and we end up removing most of our pagination code.
 
@@ -403,7 +403,7 @@ Having a good test suit makes any refactoring safer, especially when tests aren�
 
 The opposite to the campsite rule is [the broken windows theory](https://en.wikipedia.org/wiki/Broken_windows_theory). It states that an environment with visible signs of crime or disorder, like an unfixed broken window, encourages more crime and disorder. And that “fixing” these minor crimes creates an environment that prevents more serious crime.
 
-Same in programming. Minor “crimes” here could be leaving linting warning unfixed, leaving debug code, unused or commented out code, sloppy and cluttered code. This creates an environment when nobody cares, because one new linting warning won’t make code with 1473 warnings significantly worse. It feels different when we introduce a new linting warning to a project that has none.
+Same in programming. Minor “crimes” here could be leaving linting warning unfixed, leaving debug code, unused or commented out code, sloppy and cluttered code. This creates an environment when nobody cares because one new linting warning won’t make code with 1473 warnings significantly worse. It feels different when we introduce a new linting warning to a project that has none.
 
 I> We talk about linting in the [Lint your code](#linting) chapter.
 
@@ -528,7 +528,7 @@ Here are the qualities that make functions testable:
 
 I> We talk more about separation of logic and presentation in the [Divide and conquer, or merge and relax](#divide) chapter.
 
-To summarize: it’s easier to test small pure functions. I don’t always follow these principles, because I write unit tests only when I need to test some complex logic. In such cases, these principles make testing simpler and test more resilient to further code changes.
+To summarize: it’s easier to test small pure functions. I don’t always follow these principles because I write unit tests only when I need to test some complex logic. In such cases, these principles make testing simpler and test more resilient to further code changes.
 
 I> A _pure function_ is a function that always returns the same value if we pass the same arguments (meaning it doesn’t depend on any non-deterministic values like dates or random numbers, on any non-constant value outside the function, or on the function’s internal state), and doesn’t have side effects (meaning it doesn’t change any external variables, update the database, send network requests, and so on).
 
@@ -871,7 +871,7 @@ TypeScript helps a lot with these things: for example, we can now find all place
 
 Like any extreme, discarding all third-party libraries in our work is unhealthy. Many problems are generic enough and don’t need to be rewritten by every developer on the planet again and again. For many problems, there are popular open source libraries, that are well tested and documented.
 
-In this section, we focus on utility functions rather than on big frameworks, because I see developers reinventing utility functions far more often than big frameworks.
+In this section, we focus on utility functions rather than on big frameworks because I see developers reinventing utility functions far more often than big frameworks.
 
 ### What’s wrong with in-house solutions
 
@@ -894,7 +894,7 @@ expect(result).toBe(true)
 
 This code is checking that the object isn’t empty, meaning it has at least one property. It’s hard to see the code intention immediately, and it’s hard to remember to do the existence check to avoid runtime exceptions when the variable is `undefined`.
 
-Having a function with a meaningful name that encapsulates all the required checks (including the ones we’ll come up with in the future) makes the intention of the code more clear:
+Having a function with a meaningful name that encapsulates all the required checks (including the ones we’ll come up with in the future) makes the intention of the code clearer:
 
 <!--
 const object = { o: 0 }
@@ -999,7 +999,7 @@ The bad things about microlibraries are:
 - **Inconsistent:** Different libraries may have very different APIs.
 - **Lack of documentation:** it’s less accessible because we need to look for each library separately.
 
-It would probably take me less time to write many of these microlibraries myself than to choose a decent one on npm. But then I’d need to write tests, types, comments… and the idea of writing my own utility function doesn’t seem so attractive anymore.
+It would probably take me less time to write many of these microlibraries myself than to choose a decent one on npm, but then I’d need to write tests, types, comments… and the idea of writing my own utility function doesn’t seem so attractive anymore.
 
 I try to choose microlibraries from a few developers I trust: mainly [Luke Edwards](https://www.npmjs.com/~lukeed) and [Sindre Sorhus](https://www.npmjs.com/~sindresorhus).
 
@@ -1081,7 +1081,7 @@ test('renders the landing page', () => {
 
 <!-- // This is an implicit assertion: let it be -->
 
-This test alone can give us 60-70% code coverage without a single assertion, or actually testing any functionality, because code coverage measures numbers lines _executed_ from test, it doesn’t measure tests’ quality.
+This test alone can give us 60-70% code coverage without a single assertion, or actually testing any functionality because code coverage measures numbers lines _executed_ from test, it doesn’t measure tests’ quality.
 
 T> The test about isn’t entirely pointless and is better than no test at all. At least it makes sure that the page renders without exceptions. Artem Zakharchenko [wrote a great article](https://www.epicweb.dev/implicit-assertions) about such tests that are called implicit assertions.
 
@@ -1097,7 +1097,7 @@ Never listen when someone says you should never do that or always do this, witho
 
 ## Debug code with emojis
 
-Using `console.log()` is my favorite way of debugging JavaScript and TypeScript code. I’ve been trying to use more fancy techniques, like a debugger, but I always come back to console.log(), because it’s the simplest and it works for me.
+Using `console.log()` is my favorite way of debugging JavaScript and TypeScript code. I’ve been trying to use more fancy techniques, like a debugger, but I always come back to `console.log()` because it’s the simplest and it works for me.
 
 The way I do it is by adding a separate log for each variable I want to track, like so:
 

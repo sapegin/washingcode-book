@@ -81,7 +81,7 @@ T> I use the [Rewrap](https://marketplace.visualstudio.com/items?itemName=stkb.r
 
 ### Run formatter as a stand-alone tool
 
-Don’t use Prettier as an ESLint plugin, because it’ll mark each place formatted “incorrectly” as an error in our code. This isn’t helpful and distracts from the actual linting errors that we need to take care of. The whole idea of code autoformatting is that we no longer need to care about it. There’s no need to tell developers that something is wrong when a robot can fix it without our help.
+Don’t use Prettier as an ESLint plugin because it’ll mark each place formatted “incorrectly” as an error in our code. This isn’t helpful and distracts from the actual linting errors that we need to take care of. The whole idea of code autoformatting is that we no longer need to care about it. There’s no need to tell developers that something is wrong when a robot can fix it without our help.
 
 ![The curse of linting](images/curse-of-linting.jpeg)
 

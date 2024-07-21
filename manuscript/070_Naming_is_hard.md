@@ -578,7 +578,7 @@ expect(getRelatedPosts(posts, {slug: 'd', tags: ['cooking', 'tacos'], timestamp:
 
 Here, the lifespan of the `sorted` variable is only two lines. This kind of sequential processing is a common use case for the technique.
 
-I> See a larger example in the [Avoid Pascal style variables](#no-pascal-vars) section in the _Avoid reassigning variables_ chapter.
+I> See a larger example in the [Avoid Pascal-style variables](#no-pascal-vars) section in the _Avoid reassigning variables_ chapter.
 
 ## Making magic numbers less magic
 
@@ -759,7 +759,7 @@ Code reuse is another good reason to introduce constants. However, we need to wa
 
 ## Not all numbers are magic
 
-Sometimes people replace absolutely all literal values with constants, ideally stored in a separate module:
+Sometimes, people replace absolutely all literal values with constants, ideally stored in a separate module:
 
 ```js
 const ID_COLUMN_WIDTH = 40;
@@ -782,7 +782,7 @@ const columns = [
 
 <!-- expect(columns[0].width).toBe(40) -->
 
-But not every value is magic, some values are just values. Here it’s clear that the value is the width of the ID column, and a constant doesn’t add any information that’s not in the code already, but makes the code harder to read: we need to go to the constant definition to see the actual value.
+However, not every value is magic, some values are just values. Here it’s clear that the value is the width of the ID column, and a constant doesn’t add any information that’s not in the code already, but makes the code harder to read: we need to go to the constant definition to see the actual value.
 
 Often, code reads perfectly even without constants:
 
@@ -869,7 +869,7 @@ const getEndOfDayFromDate = date => {
 
 <!-- expect(getEndOfDayFromDate(10)).toBe(18.9) -->
 
-This function returns the last second of a day. And here 1 and -1 really mean “next” and “previous”. They are also an essential part of an algorithm, not configuration. It doesn’t make sense to change 1 to 2, because it will break the function. Constants make the code longer and don’t help with understanding it. Let’s remove them:
+This function returns the last second of a day. And here 1 and -1 really mean “next” and “previous”. They are also an essential part of an algorithm, not configuration. It doesn’t make sense to change 1 to 2 because it will break the function. Constants make the code longer and don’t help with understanding it. Let’s remove them:
 
 <!--
 const addDays = (x, y) => x + y * 10
@@ -2037,7 +2037,7 @@ expect(c1.textContent).toEqual('Chuck (@)')
 
 Though TypeScript allows us to use a type and a value with the same name in the same scope, it makes code confusing.
 
-The only solution I see is renaming either the type or the component. I usually try to rename a component, though it requires some creativity to come up with a name that’s not confusing. For example, names like `UserComponent` or `UserView` would be confusing because other components don’t have these suffixes. But something like `UserProfile` may work in this case:
+The only solution I see is renaming either the type or the component. I usually try to rename a component, though it requires some creativity to come up with a name that’s not confusing. For example, names like `UserComponent` or `UserView` would be confusing because other components don’t have these suffixes, but something like `UserProfile` may work in this case:
 
 ```tsx
 interface User {

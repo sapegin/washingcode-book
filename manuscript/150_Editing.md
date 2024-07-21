@@ -4,8 +4,6 @@
 
 <!-- description: Different techniques for editing code and customizing our environment to make our work more efficient and less tiring -->
 
-TODO: Я всегда с подозрением смотрел на chord hotkeys, а ведь и правда нажать Cmd+K, E проще, чем Cmd+Shift+E. Пожалуй, пересмотрю свой подход. И реально проще найти осмысленные сочетания. Может быть не быстрее, но руки ломать меньше надо.
-
 W> This chapter isn’t finished yet
 
 Knowing how to use the code editor efficiently makes code writing and editing faster and easier. I use Visual Studio Code, but most tips can be used for other editors too.
@@ -28,11 +26,13 @@ Here are some things to look at:
 
 3. Customize the UI: hide anything you don’t use.
 
-4. Learn and customize the shortcuts. Keyboard shortcuts (hotkeys) can make our work much faster, but often it’s hard to remember them. Especially, chord shortcuts, where you need to press several shortcuts one after another. I ended up changing many default shortcuts to something that make more sense to me, and easier to remember.
+4. Learn and customize the hotkeys. Hotkeys can make your work much faster, but often it’s hard to remember them. I ended up changing many default hotkeys to something that make more sense to me, so I can remember them.
 
 5. Add plugins for languages and frameworks you use. By default code editors come with dozens of panels and toolbars, most of which we’ll never use. It makes sense to only keep things we use regularly, and hide the rest.
 
 T> [MonoLisa](https://www.monolisa.dev) is a paid font, but there are good free alternatives. [Coding Fonts](https://coding-fonts.netlify.app/fonts/anonymous-pro/?theme=light) is a nice page to compare many programming fonts and choose the one you like.
+
+T> I never liked chord hotkeys (meaning you press two hotkeys one after another, for example Cmd+K Cmd+X) until I read the <!-- textlint-disable -->[Make VS Code awesome](https://makevscodeawesome.com)<!-- textlint-enable --> book by Caleb <!-- cspell:disable -->Porzio<!-- cspell:enable -->. I realized that if use them for less common operations, I can create namespaces within which I can define hotkeys that are easy to remember. They aren’t faster than single hotkeys, but that’s not the point. For example, I use Cmd+K Cmd+X to open eXtensions panel, Cmd+K Cmd+G to open Git panel, and Cmd+K Cmd+M to open Markdown preview.
 
 TODO: screenshot
 
@@ -48,24 +48,28 @@ TODO: screenshot
 
 I also use _find all references_ often to see where a certain function is used:
 
-And, lastly, I use _go to definition_ (using a shortcut, or Cmd+click) to quickly open a function source code:
+And, lastly, I use _go to definition_ (using a hotkey, or Cmd+click) to quickly open a function source code:
 
 TODO: screenshot
 
 ## Code navigation
 
-Some developers only use keyboard to move the cursor across the code. This sounds cool, but I never learned how to do it. Overall, my approach is very minimalist: I heavily rely on just a few tools, and don’t afraid to use trackpad to move the cursor around. For me it often works better than trying to remember complex keyboard shortcuts.
+Some developers only use keyboard to move the cursor across the code. This sounds cool, but I never learned how to do it. Overall, my approach is very minimalist: I heavily rely on just a few tools, and don’t afraid to use trackpad to move the cursor around. For me it often works better than trying to remember complex hotkeys.
 
 T> Don’t feel bad if you can’t lear a certain tool. I’ve been struggling with many tools even after using them for over a decade: Git, Flexbox, and many others.
 
-Besides the basic navigation (home, end, jumping over one word, and so on) I regularly use these shortcuts:
+Besides the basic navigation (home, end, jumping over one word, and so on) I regularly use these hotkeys:
 
 - duplicate current line or selection;
 - delete current line or selected lines;
 - move current line or selected lines up;
 - move current line or selected lines down.
 
-I’ve tried to use more shortcuts, like navigation to previous editing position, but ended up sticking to the few I already know.
+I’ve tried to use more hotkeys, like navigation to previous editing position, but ended up sticking to the few I already know.
+
+## Hotkeys
+
+TODO: Keyboard shortcuts (hotkeys)
 
 ## Autosave
 
@@ -186,7 +190,7 @@ TODO: Alfred workflow to open projects in Code
 
 ## Conclusion
 
-Modern code editors have hundreds of features, and plugins add even more. It’s hard to remember them, and even harder to remember the shortcuts for the features we don’t use regularly. I often use the _command palette_ to access such features. For example, I use features like line sorting, case conversion, removing duplicate lines, and so on, probably a few times a week, but I don’t have shortcuts for them, and always access them using the command palette:
+Modern code editors have hundreds of features, and plugins add even more. It’s hard to remember them, and even harder to remember the hotkeys for the features we don’t use regularly. I often use the _command palette_ to access such features. For example, I use features like line sorting, case conversion, removing duplicate lines, and so on, probably a few times a week, but I don’t have hotkeys for them, and always access them using the command palette:
 
 TODO: screenshot
 
@@ -194,5 +198,5 @@ TODO: screenshot
 
 Start thinking about:
 
-- Adding shortcuts for features you use often.
-- Changing default shortcuts that you struggle to remember.
+- Adding hotkeys for features you use often.
+- Changing default hotkeys that you struggle to remember.
