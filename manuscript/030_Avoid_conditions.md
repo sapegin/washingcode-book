@@ -1155,7 +1155,7 @@ I assumed that different whitespace handling was a bug. I’ve also inverted all
 
 Note that `hasLengthLessThanOrEqual()` and `hasNoSpaces()` functions only check the condition if the value is present, which would allow us to make optional fields. Also, note that the `hasLengthLessThanOrEqual()` function is customizable: we need to pass the maximum length: `hasLengthLessThanOrEqual(80)`.
 
-Now we can define our validation table. There are two ways of doing this:
+Now, we can define our validation table. There are two ways of doing this:
 
 - using an object where keys represent form fields;
 - using an array.

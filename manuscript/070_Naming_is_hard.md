@@ -280,7 +280,7 @@ expect(store['#book_download']['hidden-node']).toBe(false)
 expect(store['#book_retry']['disabled']).toBe(true)
 -->
 
-Now it’s much easier to read.
+Now, it’s much easier to read.
 
 I> We talk about names like `data` later in this chapter.
 
@@ -461,7 +461,7 @@ const index = purchaseOrders.findIndex(
 
 <!-- expect(index).toBe(1) -->
 
-Here long names make the code look more complex than it is:
+Here, long names make the code look more complex than it is:
 
 <!-- const purchaseOrders = [{poNumber: 11}, {poNumber: 22}], purchaseOrder = {poNumber: 22} -->
 
@@ -782,7 +782,7 @@ const columns = [
 
 <!-- expect(columns[0].width).toBe(40) -->
 
-However, not every value is magic, some values are just values. Here it’s clear that the value is the width of the ID column, and a constant doesn’t add any information that’s not in the code already, but makes the code harder to read: we need to go to the constant definition to see the actual value.
+However, not every value is magic, some values are just values. Here, it’s clear that the value is the width of the ID column, and a constant doesn’t add any information that’s not in the code already, but makes the code harder to read: we need to go to the constant definition to see the actual value.
 
 Often, code reads perfectly even without constants:
 
@@ -801,7 +801,7 @@ const {container: c1} = RTL.render(<Test />);
 expect(c1.textContent).toEqual('Out of cheese error:50vw')
 -->
 
-Here it’s clear that the minimum width of a modal is 50vw. Adding a constant won’t make this code any clearer:
+Here, it’s clear that the minimum width of a modal is 50vw. Adding a constant won’t make this code any clearer:
 
 ```js
 const MODAL_MIN_WIDTH = '50vw';
@@ -1176,7 +1176,7 @@ const getUTCDateTime = datetime =>
 
 <!-- expect(getUTCDateTime({ getTime: () => 1686815699187, getTimezoneOffset: () => -120 }).toISOString()).toBe('2023-06-15T09:54:59.187Z') -->
 
-Now it’s much easier to understand the code.
+Now, it’s much easier to understand the code.
 
 I> Underscores (`_`) as separators for numbers were introduced in ECMAScript 2021, and make long numbers easier to read: `60000` versus `60_000`.
 
@@ -1305,7 +1305,7 @@ expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: 
 expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: { userInfo: { userCurrency: 'eur' } }, currencies: {} } } }).toJS()).toEqual({iso: 'eur', name: '', symbol: ''})
 -->
 
-Now it’s clearer what shape of data we’re building here, and even Immutable.js isn’t so intimidating. I kept the `data` name though because that’s how it’s coming from the backend, and it’s commonly used as a root object for whatever the backend API is returning. As long as we don’t leak it to the app code, and only use it during the initial processing of the raw backend data, it’s okay.
+Now, it’s clearer what shape of data we’re building here, and even Immutable.js isn’t so intimidating. I kept the `data` name though because that’s how it’s coming from the backend, and it’s commonly used as a root object for whatever the backend API is returning. As long as we don’t leak it to the app code, and only use it during the initial processing of the raw backend data, it’s okay.
 
 Such names are also okay for generic utility functions, like array filtering or sorting:
 
@@ -1321,7 +1321,7 @@ function findFirstNonEmptyArray(...arrays) {
 
 <!-- expect(findFirstNonEmptyArray([], [1], [2,3])).toEqual([1]) -->
 
-Here `arrays` and `array` are totally fine since that’s exactly what they represent: generic arrays, we don’t yet know what they are going to hold, and for the context of this function it doesn’t matter, it could be anything.
+Here, `arrays` and `array` are totally fine since that’s exactly what they represent: generic arrays, we don’t yet know what they are going to hold, and for the context of this function it doesn’t matter, it could be anything.
 
 **Imprecise names** are names that don’t describe the object enough. One of the common cases is names with number suffixes. Usually, it happens for three reasons:
 
@@ -1476,7 +1476,7 @@ test('creates new user', async () => {
 
 <!-- // This would be difficult to test so we only run the text function to make sure there are no syntax errors -->
 
-Now it’s clear which request data we’re accessing at any time.
+Now, it’s clear which request data we’re accessing at any time.
 
 For the new version of a module, I’d try to rename the old one to something like `ModuleLegacy` instead of naming the new one `Module2` or `ModuleNew`, and keep using the original name for the new implementation. It’s not always possible but it makes using the old, deprecated, module more awkward than the new, improved, one — exactly what we want to achieve. Also, names tend to stick forever, even when the original module is long gone. Names like `Module2` or `ModuleNew` are fine during development though, when the new module isn’t yet fully functional or well tested.
 
@@ -1650,7 +1650,7 @@ const { minutes, seconds } = parseMs(durationSec * 1000);
 
 <!-- expect(minutes).toBe(5000)-->
 
-Now we could access `minutes` and `seconds` directly.
+Now, we could access `minutes` and `seconds` directly.
 
 Functions with optional parameters grouped in an object are another common example:
 

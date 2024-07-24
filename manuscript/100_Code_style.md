@@ -69,7 +69,7 @@ const dogs = [
 ];
 ```
 
-Now we need to change only one line:
+Now, we need to change only one line:
 
 ```diff
 const dogs = [
@@ -152,7 +152,7 @@ expect(test({allIngredients: []})).toBe(null);
 expect(test({allIngredients: [1]})).toBe(undefined);
 -->
 
-Now the `return` statement is more noticeable: it has its own line, braces create extra negative space around it, and, most importantly, it has the familiar shape of an `if` statement. Without braces, it looks like any other line (see the illustration).
+Now, the `return` statement is more noticeable: it has its own line, braces create extra negative space around it, and, most importantly, it has the familiar shape of an `if` statement. Without braces, it looks like any other line (see the illustration).
 
 ![Shapes of if conditions without and with braces](images/if-shapes.svg)
 
@@ -179,7 +179,7 @@ T> Use `curly` ESLint rule to make sure all conditions have braces: see the [Lin
 
 ## Obsolete code styles
 
-Sometimes developers follow a particular code style even if the initial reasoning behind it is no longer relevant.
+Sometimes, developers follow a particular code style even if the initial reasoning behind it is no longer relevant.
 
 For example, using leading commas in arrays and objects when JavaScript didn’t yet support trailing commas:
 
@@ -455,7 +455,7 @@ if (puppies.length === 0) {
 expect(result).toBe(false)
 -->
 
-Now the conditions look significantly different, and there’s no way to misinterpret them.
+Now, the conditions look significantly different, and there’s no way to misinterpret them.
 
 I’m starting to think that using `!` in conditions is [generally an antipattern](https://x.com/Jack_Franklin/status/1189477268764188672), so instead of:
 

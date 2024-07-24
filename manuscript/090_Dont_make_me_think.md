@@ -327,7 +327,7 @@ expect(props).toHaveProperty('data-enzyme-id', 'type-Col-2')
 expect(props).toHaveProperty('data-codeception-id', 'type-Col-2')
 -->
 
-Now it’s really hard to see if there’s any difference in these two lines of code. Remember these pairs of pictures where one had to spot ten differences? This is exactly what this kind of code does for the reader.
+Now, it’s really hard to see if there’s any difference in these two lines of code. Remember these pairs of pictures where one had to spot ten differences? This is exactly what this kind of code does for the reader.
 
 Generally, I’m a bit skeptical about extreme code DRYing but this is a good case for it.
 
@@ -905,7 +905,7 @@ Some languages have _named parameters_ to solve these problems. For example, in 
 appendScriptTag('https://example.com/falafel.js', useCORS=false)
 ```
 
-Now it’s obvious what this code does. Names serve as inline documentation.
+Now, it’s obvious what this code does. Names serve as inline documentation.
 
 Unfortunately, JavaScript doesn’t support named parameters yet, but we can use an object instead:
 
@@ -943,7 +943,7 @@ function Toggle() {
 
 <!-- expect(Toggle()).toBe(null) -->
 
-Here it’s hard to see why we’re shortcutting the function. However, if we give this condition a name:
+Here, it’s hard to see why we’re shortcutting the function. However, if we give this condition a name:
 
 <!-- let x; const useAuth = () => ({status: 'fetched', userDetails: {}}) -->
 

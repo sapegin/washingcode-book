@@ -361,7 +361,7 @@ But what if we try to use it as `<Button primary secondary>`? Probably something
 
 We can fix it the same way we fixed the previous example: by replacing two boolean props with a single one, let’s call it `variant`: `<Button variant="primary">` or `<Button variant="secondary">`.
 
-Now it’s clear that we can only use one variant of a button at a time.
+Now, it’s clear that we can only use one variant of a button at a time.
 
 ## Don’t try to predict the future
 
@@ -690,7 +690,7 @@ function getDeviceType({ uaParser, hasTouch }) {
 
 <!-- expect(getDeviceType({uaParser: new UAParser('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.5 Safari/604.1'), hasTouch: false})).toBe('Desktop') -->
 
-Now testing becomes straightforward:
+Now, testing becomes straightforward:
 
 <!--
 import { UAParser } from 'ua-parser-js'
