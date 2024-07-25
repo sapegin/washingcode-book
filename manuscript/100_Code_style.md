@@ -729,6 +729,125 @@ And then even Microsoft couldn’t follow their own guidelines with [XMLHttpRequ
 
 So, choose the simplest convention, unless more complex rules bring huge benefits. If that is so, thoroughly document and automate it.
 
+## Sections, paragraphs, phrases…
+
+In prose writing we have multiple tools to make text more scannable (meaning, we don’t need to read it all to find a particular place we need) or separate different ideas. These tools are heading, paragraphs, and emphases (bold, italic, and so on).
+
+It’s the same when we write code.
+
+_Function declarations_ and _comment blocks_ create _sections_ in the code:
+
+```js
+/**
+ * Return the range for the:
+ * - selection
+ * - word + tags under cursor
+ * - word under cursor
+ */
+function getWordRange(pattern) {
+  // …
+}
+```
+
+<!-- expect(getWordRange()).toBe(undefined) -->
+
+_Empty lines_ split the code further into _paragraphs_:
+
+<!--
+let window = {
+  activeTextEditor: {
+    selection: { isEmpty: () => false, start: 11, end: 22 },
+    document: { getWordRangeAtPosition: (start, pattern) => start }
+  }
+}
+-->
+
+```js
+function getWordRange(pattern) {
+  const editor = window.activeTextEditor;
+
+  if (editor.selection.isEmpty === false) {
+    return editor.selection;
+  }
+
+  const taggedRange = editor.document.getWordRangeAtPosition(
+    editor.selection.start,
+    pattern
+  );
+  if (taggedRange) {
+    return taggedRange;
+  }
+
+  return editor.document.getWordRangeAtPosition(
+    editor.selection.start
+  );
+}
+```
+
+<!-- expect(getWordRange(/taco/)).toBe(11) -->
+
+Adding a short comment in front of each code paragraph is a often a good idea:
+
+<!--
+let window = {
+  activeTextEditor: {
+    selection: { isEmpty: () => false, start: 11, end: 22 },
+    document: { getWordRangeAtPosition: (start, pattern) => start }
+  }
+}
+-->
+
+```js
+function getWordRange(pattern) {
+  const editor = window.activeTextEditor;
+
+  // If something is selected, return the range of selection
+  if (editor.selection.isEmpty === false) {
+    return editor.selection;
+  }
+
+  // Word is already wrapped in the tags: _tacocat_
+  const taggedRange = editor.document.getWordRangeAtPosition(
+    editor.selection.start,
+    pattern
+  );
+  if (taggedRange) {
+    return taggedRange;
+  }
+
+  // Otherwise, return the default range for the word: tacocat
+  return editor.document.getWordRangeAtPosition(
+    editor.selection.start
+  );
+}
+```
+
+<!-- expect(getWordRange(/taco/)).toBe(11) -->
+
+I> Art and design has [negative space](https://en.wikipedia.org/wiki/Negative_space), which is space between the subjects of an image (known as positive space). For an artwork, negative space is equally important as the subject itself. On many artworks, there’s a lot more negative space then the positive space. Code also has negative space, which helps us to quickly identify particular elements of the code. This includes the usage of whitespace, indentation, braces, and so on.
+
+_Parenthesis_ highlight individual _phrases_, and improve readability on the smallest level, for example in conditions:
+
+<!--
+let isString = () => true, shouldBeFile = () => true, shouldBeDirectory = () => true
+let value = 'taco', types = []
+-->
+
+```js
+if (
+  isString(value) &&
+  (shouldBeFile(types) || shouldBeDirectory(types))
+) {
+  // …
+}
+```
+
+<!-- // Nothing really to test here -->
+
+Similarly to prose, we can make our code easier to scan — to find a particular place we need, and easier to understand each function; once we found the right one. I much prefer this approach to splitting code into many small functions.
+
+I> We talk about splitting code into functions in the [Divide and conquer, or merge and relax](#divide) chapter.
+
 ## To semicolon or not
 
 JavaScript is one of the very few languages that doesn’t require a semicolon at the end of each line, but also doesn’t mind having them. This has created countless arguments over the past two decades.
