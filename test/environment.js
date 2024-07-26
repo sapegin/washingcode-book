@@ -1,4 +1,4 @@
-import * as path from 'path';
+import path from 'node:path';
 import { vi, expect, assert } from 'vitest';
 import { useState, useReducer } from 'react';
 import _ from 'lodash';

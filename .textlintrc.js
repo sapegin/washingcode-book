@@ -1,5 +1,5 @@
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 const { globSync } = require('glob');
 
 // Read all content files to use for relative links validation

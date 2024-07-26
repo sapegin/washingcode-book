@@ -1,5 +1,5 @@
-import fs from 'fs';
-import path from 'path';
+import fs from 'node:fs';
+import path from 'node:path';
 import _ from 'lodash';
 import { globSync } from 'glob';
 import { describe, test, afterEach } from 'vitest';
@@ -18,12 +18,12 @@ afterEach(() => {
 
 const MANUSCRIPT_PATTERN = path.resolve('manuscript/*.md');
 
-const LANGS = ['js', 'jsx', 'ts', 'tsx'];
-const IGNORE = [
+const LANGS = new Set(['js', 'jsx', 'ts', 'tsx']);
+const IGNORE = new Set([
   'prettier-ignore',
   'textlint-disable',
   'textlint-enable'
-];
+]);
 const SKIP_TAG = 'test-skip';
 
 const vm = new NodeVM(environment);
@@ -57,7 +57,7 @@ function getHeader(nodes, index) {
 
   const cleanHeader = unwrapHtmlComment(header.value);
 
-  if (IGNORE.includes(cleanHeader)) {
+  if (IGNORE.has(cleanHeader)) {
     return getHeader(nodes, index - 1);
   }
 
@@ -72,7 +72,7 @@ function getFooter(nodes, index) {
 
   const cleanFooter = unwrapHtmlComment(footer.value);
 
-  if (IGNORE.includes(cleanFooter)) {
+  if (IGNORE.has(cleanFooter)) {
     return getFooter(nodes, index + 1);
   }
 
@@ -141,7 +141,7 @@ function testMarkdown(markdown, filepath) {
         ast,
         'code',
         (node, index, { children: siblings }) => {
-          if (!LANGS.includes(node.lang)) {
+          if (!LANGS.has(node.lang)) {
             return;
           }
 
@@ -186,7 +186,7 @@ function testMarkdown(markdown, filepath) {
 }
 
 // RUN!
-globSync(MANUSCRIPT_PATTERN).forEach(filepath => {
+for (const filepath of globSync(MANUSCRIPT_PATTERN)) {
   const content = fs.readFileSync(filepath, 'utf8');
   testMarkdown(content, filepath);
-});
+}

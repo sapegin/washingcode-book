@@ -10,8 +10,10 @@ const spacing = {
   xxlarge: baseSpacing * 5
 } as const;
 
+// --- 8< -- 8< ---
+
 const Box = styled.div``;
 
-const Container = styled(Box)`
+export const Container = styled(Box)`
   margin: ${spacing.large};
 `;

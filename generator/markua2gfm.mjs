@@ -25,15 +25,15 @@ const read = file => fs.readFileSync(file, 'utf8');
 
 /** Convert Markua tips to GFM alerts */
 const updateTips = contents =>
-  contents.replace(
-    /\n([IWET]>) /gm,
+  contents.replaceAll(
+    /\n([EITW]>) /gm,
     ($, marker) => `\n> [!${TIPS[marker]}]\n> `
   );
 
 /** `{#pizza}\n# Heading` → `# Heading {#pizza}` */
 const updateAnchors = contents =>
-  contents.replace(
-    /\{#([\w-]+)\}\n\n(#+\s*[^\n]+)/gm,
+  contents.replaceAll(
+    /{#([\w-]+)}\n\n(#+\s*[^\n]+)/gm,
     ($, anchor, heading) => `${heading} {#${anchor}}`
   );
 
@@ -42,7 +42,7 @@ const updateAnchors = contents =>
  * Replace it with JSX that seems to look good enough.
  */
 const updateCode = contents =>
-  contents.replace(/```tsx/g, '```jsx');
+  contents.replaceAll('```tsx', '```jsx');
 
 /**
  * Pandoc doesn't work well with SVG images in PDFs:

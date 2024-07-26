@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'node:fs';
 import { globSync } from 'glob';
 
 let totalExamples = 0;
@@ -9,7 +9,7 @@ const chapters = globSync('manuscript/*.md');
 for (const file of chapters) {
   const content = fs.readFileSync(file, 'utf8');
   const codeBlocks = content.match(
-    /```[a-z]*\n[\s\S]*?\n```/g
+    /```[a-z]*\n[\S\s]*?\n```/g
   );
 
   if (codeBlocks) {
