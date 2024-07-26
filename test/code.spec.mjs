@@ -18,12 +18,12 @@ afterEach(() => {
 
 const MANUSCRIPT_PATTERN = path.resolve('manuscript/*.md');
 
-const LANGS = new Set(['js', 'jsx', 'ts', 'tsx']);
-const IGNORE = new Set([
+const LANGS = ['js', 'jsx', 'ts', 'tsx'];
+const IGNORE = [
   'prettier-ignore',
   'textlint-disable',
   'textlint-enable'
-]);
+];
 const SKIP_TAG = 'test-skip';
 
 const vm = new NodeVM(environment);
@@ -57,7 +57,7 @@ function getHeader(nodes, index) {
 
   const cleanHeader = unwrapHtmlComment(header.value);
 
-  if (IGNORE.has(cleanHeader)) {
+  if (IGNORE.includes(cleanHeader)) {
     return getHeader(nodes, index - 1);
   }
 
@@ -72,7 +72,7 @@ function getFooter(nodes, index) {
 
   const cleanFooter = unwrapHtmlComment(footer.value);
 
-  if (IGNORE.has(cleanFooter)) {
+  if (IGNORE.includes(cleanFooter)) {
     return getFooter(nodes, index + 1);
   }
 
@@ -141,7 +141,7 @@ function testMarkdown(markdown, filepath) {
         ast,
         'code',
         (node, index, { children: siblings }) => {
-          if (!LANGS.has(node.lang)) {
+          if (LANGS.includes(node.lang) === false) {
             return;
           }
 
@@ -186,7 +186,8 @@ function testMarkdown(markdown, filepath) {
 }
 
 // RUN!
-for (const filepath of globSync(MANUSCRIPT_PATTERN)) {
+const chapters = globSync(MANUSCRIPT_PATTERN);
+for (const filepath of chapters) {
   const content = fs.readFileSync(filepath, 'utf8');
   testMarkdown(content, filepath);
 }
