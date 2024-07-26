@@ -755,7 +755,7 @@ test('renders three buttons separated by <br/> elements', async () => {
 });
 ```
 
-<!--  -->
+<!-- // Only running the code, no actual tets -->
 
 The Arrange-Act-Assert pattern can be an overkill for simple test cases like this one:
 
@@ -765,7 +765,7 @@ let expect = () => ({ toBe: () => {} })
 let jest = { fn: () => {} }
 -->
 
-```text
+```js
 test('convert an array to a string', () => {
   const list = ['noodles', 'round pizza', 'wet ramen'];
   expect(asList(list)).toBe(
@@ -774,7 +774,7 @@ test('convert an array to a string', () => {
 });
 ```
 
-<!--  -->
+<!-- // Only running the code, no actual tets -->
 
 However, it often improves readability of longer test cases.
 
