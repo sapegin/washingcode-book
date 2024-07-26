@@ -725,7 +725,15 @@ To improve readability of the test themselves, we can use the [Arrange-Act-Asser
 
 Here’s an example of a test following the Arrange-Act-Assert pattern:
 
-```js
+<!--
+let test = (_, fn) => fn(), render = () => {}
+let expect = () => ({ toHaveLength: () => {}, not: { toBeCalled: () => {} } })
+let Group = () => null
+let jest = { fn: () => {} }
+let screen = { findAllByRole: () => {} }
+-->
+
+```jsx
 test('renders three buttons separated by <br/> elements', async () => {
   console.error = jest.fn();
 
@@ -747,9 +755,17 @@ test('renders three buttons separated by <br/> elements', async () => {
 });
 ```
 
+<!--  -->
+
 The Arrange-Act-Assert pattern can be an overkill for simple test cases like this one:
 
-```js
+<!--
+let test = (_, fn) => fn(), asList = () => {}
+let expect = () => ({ toBe: () => {} })
+let jest = { fn: () => {} }
+-->
+
+```text
 test('convert an array to a string', () => {
   const list = ['noodles', 'round pizza', 'wet ramen'];
   expect(asList(list)).toBe(
@@ -757,6 +773,8 @@ test('convert an array to a string', () => {
   );
 });
 ```
+
+<!--  -->
 
 However, it often improves readability of longer test cases.
 
