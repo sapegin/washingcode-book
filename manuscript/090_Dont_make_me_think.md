@@ -255,7 +255,7 @@ const array = Array.from({ length: 10 }).map((_, i) => i);
 
 <!-- expect(array).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) -->
 
-Here, `Array.from({length: 10})` creates an array with 10 _empty_ elements, then using the `map()` method we fill the array with numbers from 0 to 9.
+Here, `Array.from({length: 10})` creates an array with 10 _undefined_ elements, then using the `map()` method we fill the array with numbers from 0 to 9.
 
 We can write it shorter by using `Array.from()`’s map callback:
 
