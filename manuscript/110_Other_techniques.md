@@ -717,6 +717,49 @@ describe('getDeviceType', () => {
 
 With dependency injection we can test any combination of user agent string and touch support by passing these values directly in test cases. No need for mocks, resetting the state after each test, and so on.
 
+To improve readability of the test themselves, we can use the [Arrange-Act-Assert](https://wiki.c2.com/?ArrangeActAssert) pattern, where each test case consists of three sections separated by an empty line:
+
+- **Arrange**: prepare all the date and the environment.
+- **Act**: run the code we’re testing with the test data.
+- **Assert**: check that the result is correct.
+
+Here’s an example of a test following the Arrange-Act-Assert pattern:
+
+```js
+test('renders three buttons separated by <br/> elements', async () => {
+  console.error = jest.fn();
+
+  render(
+    <Group separator={<hr />}>
+      <button>One</button>
+      <button>Two</button>
+      <button>Three</button>
+    </Group>
+  );
+
+  expect(await screen.findAllByRole('button')).toHaveLength(
+    3
+  );
+  expect(
+    await screen.findAllByRole('separator')
+  ).toHaveLength(2);
+  expect(console.error).not.toBeCalled();
+});
+```
+
+The Arrange-Act-Assert pattern can be an overkill for simple test cases like this one:
+
+```js
+test('convert an array to a string', () => {
+  const list = ['noodles', 'round pizza', 'wet ramen'];
+  expect(asList(list)).toBe(
+    'noodles, round pizza and wet ramen'
+  );
+});
+```
+
+However, it often improves readability of longer test cases.
+
 {#greppability}
 
 ## Write greppable code
