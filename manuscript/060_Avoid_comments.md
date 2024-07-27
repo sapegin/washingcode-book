@@ -241,11 +241,11 @@ function getSubrecipeSlug(markdown) {
 }
 ```
 
+<!-- expect(getSubrecipeSlug).not.toThrowError() -->
+
 Such comments help to see immediately what the function does without reading the code.
 
 Here’s another example:
-
-<!-- expect(getSubrecipeSlug).not.toThrowError() -->
 
 ```js
 /**

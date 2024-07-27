@@ -583,7 +583,83 @@ We’ve removed all code duplication, and the code is shorter and easier to read
 
 ## Early return
 
-Using _early returns_, or _guard clauses_, is a great way to avoid nested conditions and make the code easier to understand. A series of nested conditions is often used for error handling:
+A series of nested conditions is an unfortunate but popular way of handling errors:
+
+<!--
+let isUsernameValid = (x) => typeof x === 'string' && x !== ''
+let isEmailValid = (x) => typeof x === 'string' && x !== ''
+let isAddressValid = (x) => typeof x === 'string' && x !== ''
+let createUserRecord = vi.fn()
+let showNotification = vi.fn()
+-->
+
+```js
+function addUser(user) {
+  if (isUsernameValid(user.username)) {
+    if (isEmailValid(user.email)) {
+      if (isAddressValid(user.address)) {
+        createUserRecord(user);
+        showNotification('Welcome to The Hell!');
+      } else {
+        throw new Error('You must enter a valid address');
+      }
+    } else {
+      throw new Error('You must enter a valid email');
+    }
+  } else {
+    throw new Error('You must enter a valid username');
+  }
+}
+```
+
+<!--
+expect(() => addUser()).toThrowError()
+expect(createUserRecord).not.toHaveBeenCalled()
+expect(() => addUser({username: 'x', email: 'x', address: 'x'})).not.toThrowError()
+expect(createUserRecord).toHaveBeenCalled()
+-->
+
+The main code of this function is on the fourth level of nesting. We need to scroll all the way to the end of the function to see the `else` parts of each condition, which makes it easy to edit the wrong block because the conditions and their `else` blocks are so far apart. The `else` blocks are also in reversed order, which makes the code even more confusing.
+
+I> Deeply nested conditions are also known as the [arrow antipattern](http://wiki.c2.com/?ArrowAntiPattern), or _dangerously deep nesting_, or _if/else hell_.
+
+_Early returns_, or _guard clauses_, are a great way to avoid nested conditions and make the code easier to understand:
+
+<!--
+let isUsernameValid = (x) => typeof x === 'string' && x !== ''
+let isEmailValid = (x) => typeof x === 'string' && x !== ''
+let isAddressValid = (x) => typeof x === 'string' && x !== ''
+let createUserRecord = vi.fn()
+let showNotification = vi.fn()
+-->
+
+```js
+function addUser(user) {
+  if (isUsernameValid(user.username) === false) {
+    throw new Error('You must enter a valid address');
+  }
+  if (isEmailValid(user.email) === false) {
+    throw new Error('You must enter a valid email');
+  }
+  if (isAddressValid(user.address) === false) {
+    throw new Error('You must enter a valid username');
+  }
+
+  createUserRecord(user);
+  showNotification('Welcome to The Hell!');
+}
+```
+
+<!--
+expect(() => addUser()).toThrowError()
+expect(createUserRecord).not.toHaveBeenCalled()
+expect(() => addUser({username: 'x', email: 'x', address: 'x'})).not.toThrowError()
+expect(createUserRecord).toHaveBeenCalled()
+-->
+
+Now, the whole validation is grouped at the beginning of the function using guard clauses, and it’s clear which error message is shown for each validation. We have at most one level of nesting instead of four, and the main code of the function isn’t nested at all.
+
+Here’s a real-life example:
 
 <!-- const getOrderIds = () => ([]), sendOrderStatus = () => {} -->
 
@@ -615,9 +691,7 @@ function postOrderStatus() {
 
 <!-- expect(() => postOrderStatus(0)).not.toThrowError() -->
 
-There are 120 lines between the first condition and its `else` block, and the main return value is somewhere inside three levels of conditions.
-
-I> Deeply nested conditions are also known as the [arrow antipattern](http://wiki.c2.com/?ArrowAntiPattern) or _dangerously deep nesting_.
+There are 120 lines between the first condition and its `else` block, and the main return value is somewhere inside the three levels of conditions.
 
 Let’s untangle this spaghetti monster:
 
