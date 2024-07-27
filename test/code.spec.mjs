@@ -22,7 +22,9 @@ const LANGS = ['js', 'jsx', 'ts', 'tsx'];
 const IGNORE = [
   'prettier-ignore',
   'textlint-disable',
-  'textlint-enable'
+  'textlint-enable',
+  'cspell:disable',
+  'cspell:enable'
 ];
 const SKIP_TAG = 'test-skip';
 

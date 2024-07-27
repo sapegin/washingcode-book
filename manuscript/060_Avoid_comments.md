@@ -247,6 +247,8 @@ Such comments help to see immediately what the function does without reading the
 
 Here’s another example:
 
+<!-- cspell:disable -->
+
 ```js
 /**
  * Add IDs to headings.
@@ -263,6 +265,7 @@ function rehypeSlug() {
 ```
 
 <!-- expect(rehypeSlug).not.toThrowError() -->
+<!-- cspell:enable -->
 
 Here, we don’t just give an example of the input and output, but also explain the difference with the original `rehype-slug` package and why a custom implementation exists in the codebase.
 
