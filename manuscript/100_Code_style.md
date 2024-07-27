@@ -745,7 +745,7 @@ _Function declarations_ and _comment blocks_ create _sections_ in the code:
  * - word under cursor
  */
 function getWordRange(pattern) {
-  // …
+  /* … */
 }
 ```
 
@@ -838,7 +838,7 @@ if (
   isString(value) &&
   (shouldBeFile(types) || shouldBeDirectory(types))
 ) {
-  // …
+  /* … */
 }
 ```
 

@@ -88,6 +88,8 @@ Such comments will save us from accidental “refactoring” that makes code eas
 
 High-level comments, explaining how code works, are useful too. If the code implements an algorithm, explained somewhere else, a link to that place would be useful. However, if a piece of code is too difficult to explain and require a long convoluted comment, maybe we should rewrite it instead.
 
+## Hack comments
+
 And any hack should be explained in a _hack comment_:
 
 <!-- class Test { -->
@@ -103,6 +105,8 @@ static defaultProps = {
 <!-- } -->
 
 I> You may encounter various styles of hack comments: `HACK`, `XXX`, `@hack`, and so on, though I prefer `HACK`.
+
+## Todo comments
 
 _Todo comments_ are also okay (more like _okayish_) too if they contain a ticket number when something will be done. Otherwise, they are just dreams that will likely never come true. Unless _a dream_ is exactly what we want to document: a desire that the code was doing more than it does — error handling, special cases, supporting more platforms, minor features, and so on — but it wasn’t implemented due to, probably, lack of time.
 
@@ -223,6 +227,68 @@ This is a better use case because it’s going to fail only when someone updates
 
 T> I made a Visual Studio Code extension to highlight todo and hack comments: [Todo Tomorrow](https://marketplace.visualstudio.com/items?itemName=sapegin.todo-tomorrow).
 
+## Comments with examples
+
+I like to add examples of input and output in function comments:
+
+```js
+/**
+ * Returns a slug from a Markdown link:
+ * [#](tres-leches-cake) → tres-leches-cake
+ */
+function getSubrecipeSlug(markdown) {
+  /* … */
+}
+```
+
+Such comments help to see immediately what the function does without reading the code.
+
+Here’s another example:
+
+<!-- expect(getSubrecipeSlug).not.toThrowError() -->
+
+```js
+/**
+ * Add IDs to headings.
+ *
+ * Copy of rehype-slug but handles non-breaking spaces by
+ * converting them to regular spaces before generating slugs.
+ * The original rehype-slug swallows non-breaking spaces:
+ * rehype-slug: `best tacos in\xA0town` → `best-tacos-intown`
+ * this module: `best tacos in\xA0town` → `best-tacos-in-town`
+ */
+function rehypeSlug() {
+  /* … */
+}
+```
+
+<!-- expect(rehypeSlug).not.toThrowError() -->
+
+Here, we don’t just give an example of the input and output, but also explain the difference with the original `rehype-slug` package and why a custom implementation exists in the codebase.
+
+Another kind of useful examples are usage examples:
+
+```js
+/**
+ * React component which children are only rendered when
+ * there is an active authenticated user session
+ *
+ * @example
+ * <AuthenticatedOnly>
+ *   <button>Add to favorites</button>
+ * </AuthenticatedOnly>
+ */
+function AuthenticatedOnly({ children }) {
+  /* … */
+}
+```
+
+Such comments help to understand how to use a function or a component, highlights necessary context and the correct way to pass parameters.
+
+T> When we use JSDoc `@example` tag, Visual Studio Code shows a syntax-highlighted example when we hover on the function name anywhere in the code.
+
+![Usage example tooltip in Visual Studio Code](images/jsdoc-example.png)
+
 ## Bad comments
 
 We’ve talked about useful comments. However, there are many more kinds of comments that we should never write.
@@ -300,6 +366,10 @@ In any case, it’s our responsibility to ask _why_ as many times as necessary.
 Same with comments that explain conditions: there may be no need for a special case, and we could remove the whole condition with its comment.
 
 I> We talk about removing conditions in the [Avoid conditions](#no-conditions) chapter.
+
+## Conclusion
+
+Comments enrich the code with information that cannot be expressed by the code alone. They help us understand why the code is written in a certain way, especially when it’s not obvious. They help us avoid disastrous “refactoring”, when we simplify the code by removing essential parts.
 
 ---
 

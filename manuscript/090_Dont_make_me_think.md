@@ -876,7 +876,7 @@ resolver.doResolve(
   null,
   ctx,
   (err, result) => {
-    /* ... */
+    /* … */
   }
 );
 ```
@@ -937,7 +937,7 @@ function Toggle() {
     return null;
   }
 
-  /* ... */
+  /* … */
 }
 ```
 
@@ -957,7 +957,7 @@ function Toggle() {
     return null;
   }
 
-  /* ... */
+  /* … */
 }
 ```
 
