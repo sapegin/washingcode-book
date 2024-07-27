@@ -990,14 +990,21 @@ And possibly a few very common ones used on a project but they still should be d
 
 ## Prefixes and suffixes
 
-I like to use a few prefixes for variable and function names:
+I like to use a the following prefixes for function names:
+
+- `get`: returns a value (example: `getPageTitle`).
+- `set`: stores a value or update React state (example: `setProducts`)
+- `fetch`: fetches data from the backend (example: `fetchMessages`).
+- `reset`: resets something to its initial state (example: `resetForm`).
+- `remove`: removes something from somewhere (example: `removeFilter`).
+- `to`: convert the data to a certain type (examples: `toString`, `hexToRgb`, `urlToSlug`).
+- `on` and `handle` for event handlers (examples: `onClick`, `handleSubmit`).
+
+I> Verb prefixes are also called _actions_ in the A/HC/LC pattern. See more in the _A/HC/LC pattern_ section later in this chapter.
+
+And the following prefixes for boolean variables or functions that return a boolean value:
 
 - `is`, `are`, `has`, or `should` for booleans (examples: `isPhoneNumberValid`, `hasCancelableTickets`).
-- `get` for functions that return a value (example: `getPageTitle`).
-- `set` for functions that store a value or update React state (example: `setProducts`)
-- `fetch` for functions that fetch data from the backend (example: `fetchMessages`).
-- `to` for functions that convert the data to a certain type (examples: `toString`, `hexToRgb`, `urlToSlug`).
-- `on` and `handle` for event handlers (examples: `onClick`, `handleSubmit`).
 
 These conventions make code easier to read and distinguish functions that return values from the ones with side effects.
 
@@ -1480,6 +1487,25 @@ Now, it’s clear which request data we’re accessing at any time.
 
 For the new version of a module, I’d try to rename the old one to something like `ModuleLegacy` instead of naming the new one `Module2` or `ModuleNew`, and keep using the original name for the new implementation. It’s not always possible but it makes using the old, deprecated, module more awkward than the new, improved, one — exactly what we want to achieve. Also, names tend to stick forever, even when the original module is long gone. Names like `Module2` or `ModuleNew` are fine during development though, when the new module isn’t yet fully functional or well tested.
 
+## Use A/HC/LC pattern
+
+To improve consistency and clarity of function names, we can follow the A/HC/LC pattern:
+
+```
+prefix? + action (A) + high context (HC) + low context? (LC)
+```
+
+Let’s see what each section does on examples:
+
+| Name | Prefix | Action | High context | Low context |
+| --- | --- | --- | --- | --- |
+| `getRecipe` |  | `get` | `recipe` |  |
+| `getRecipeIngredients` |  | `get` | `recipe` | `ingredients` |
+| `handleUpdateResponse` |  | `handle` | `update` | `response` |
+| `shouldShowFooter` | `should` | `show` | `footer` |  |
+
+I> Read more about the [A/HC/LC pattern](https://github.com/kettanaito/naming-cheatsheet?tab=readme-ov-file#ahclc-pattern) in Artem Zakharchenko’s Naming cheat sheet.
+
 ## Use common terms
 
 It’s a good idea to use well-known and widely adopted terms for programming and domain concepts instead of inventing something that might be cute or clever but likely will be misunderstood. This is especially problematic for non-native English speakers — we don’t know many rare and obscure words.
@@ -1530,12 +1556,11 @@ Some of these common pairs are:
 | --------- | --------- |
 | add       | remove    |
 | begin     | end       |
-| create    | destroy   |
+| create    | delete    |
 | enable    | disable   |
 | first     | last      |
 | get       | set       |
 | increment | decrement |
-| insert    | delete    |
 | lock      | unlock    |
 | minimum   | maximum   |
 | next      | previous  |
@@ -1545,6 +1570,8 @@ Some of these common pairs are:
 | show      | hide      |
 | start     | stop      |
 | target    | source    |
+
+T> There’s a certain debate on where to use _remove_ and where _delete_. I’m not so picky about this, and recommend to stick to the add/remove and create/delete pairs where make sense. Otherwise, I’m okay with either. The difference isn’t as clear as some like to think: for example, on Unix command line we remove files using the `rm` command, but on Windows we delete them using the `del` command.
 
 ## Check the spelling of your names
 
