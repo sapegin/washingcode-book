@@ -10,71 +10,224 @@ Both are wrong.
 
 I don’t believe in self-documenting code. Yes, we should rewrite unclear code to make it more obvious, and use meaningful and correct names, but some things can’t be expressed by the code alone.
 
-Commenting too much isn’t helpful either: comments start to repeat the code, and instead of helping to understand it, they introduce noise and repetition.
+Commenting too much doesn’t help either: comments start to repeat the code, and instead of helping to understand it, they introduce noise and repetition.
 
 ## Getting rid of comments (or not)
 
-There’s a popular technique for avoiding comments: when we want to explain a block of code in a comment, we should move this piece of code to its own function instead.
+There’s a popular technique for avoiding comments: when we want to explain a block of code in a comment, we should move this piece of code into its own function instead and use the comment text as a function name.
 
-It’s often a good idea to extract complex calculations and conditions used inside an already long line of code:
+Here’s a typical example of code I usually write:
 
 <!--
+let window = {
+  showInformationMessage: () => {}
+}
+let logMessage = () => {}
 class Test {
-  resize = 1
-  wasInitialized() { return true }
-  test(platform, browser) {
- -->
+  quickPick = {
+    hide: () => {}
+  }
+  getRelativePath() { return 'src/foo.txt' }
+  getAbsolutePath() { return '/stuff/src/foo.txt' }
+  isDirectory() { return true }
+  ensureFolder() { return true }
+
+  test() {
+-->
 
 ```js
-if (
-  platform.toUpperCase().indexOf('MAC') > -1 &&
-  browser.toUpperCase().indexOf('IE') > 1 &&
-  this.wasInitialized() &&
-  this.resize > 0
-) {
-  return true;
+async function createNew() {
+  const relativePath = this.getRelativePath();
+  const fullPath = this.getAbsolutePath();
+
+  if (this.isDirectory()) {
+    // User types a folder name: foo/bar/
+    logMessage('Creating a folder:', fullPath);
+
+    // Create a folder with all subfolders
+    const created = await this.ensureFolder(fullPath);
+    if (created === false) {
+      return;
+    }
+
+    // There seem to be no API to reveal a folder in Explorer,
+    // so show a notification instead
+    window.showInformationMessage(
+      `Folder created: ${relativePath}`
+    );
+  } else {
+    // User types a file name: foo/bar.ext
+    logMessage('Creating a file:', fullPath);
+
+    // Check if file already exists
+    if (fs.existsSync(fullPath)) {
+      // Open the file and show an info message
+      await window.showTextDocument(Uri.file(fullPath));
+      window.showInformationMessage(
+        `File already exists: ${relativePath}`
+      );
+      return;
+    }
+
+    // Create an empty file
+    const created = await this.ensureFile(fullPath);
+    if (created === false) {
+      return;
+    }
+
+    // Open the new file
+    await window.showTextDocument(Uri.file(fullPath));
+  }
+
+  this.quickPick.hide();
 }
 ```
 
 <!--
-    return false
+    return true;
   }
 }
-const test = new Test();
-expect(test.test('Mac_PowerPC', 'Mozilla/4.0 (compatible; MSIE 5.17; Mac_PowerPC)')).toBe(true)
-expect(test.test('MacInter', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.50')).toBe(false)
+let test = new Test()
+expect(test.test).not.toThrowError()
 -->
 
-Here, we could extract the conditions into their own functions or variables with meaningful names:
+It’s a long function but I don’t see any benefit of splitting it. There’s only two levels of nesting, and the overall structure is mostly linear. Comments give the high-level overview and the necessary context, and based on them, we can skip blocks we’re not interested in.
 
-<!--
-class Test {
-  resize = 1
-  wasInitialized() { return true }
-  test(platform, browser) {
- -->
-
-```js
-const isMacOs = platform.toUpperCase().includes('MAC');
-const isIE = browser.toUpperCase().includes('IE');
-const wasResized = this.resize > 0;
-if (isMacOs && isIE && this.wasInitialized() && wasResized) {
-  return true;
-}
-```
-
-<!--
-    return false
-  }
-}
-const test = new Test();
-expect(test.test('Mac_PowerPC', 'Mozilla/4.0 (compatible; MSIE 5.17; Mac_PowerPC)')).toBe(true)
-expect(test.test('MacInter', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.50')).toBe(false)
--->
-
-Now, the condition is shorter and more readable because names help us to understand what the condition does in the context of the code. However, I don’t think that splitting a function into multiple just because it’s “long” makes the code more readable.
+Overall, I don’t think that splitting a function into multiple just because it’s “long” makes the code more readable, often it has the opposite effect by hiding important details inside other functions and making it much harder to make changes to the code.
 
 I> We talk about code splitting in more detail in the [Divide and conquer, or merge and relax](#divide) chapter.
+
+Another common case for comments is complex conditions:
+
+<!--
+let regExp = /y/
+let textEditor = {
+  document: {
+    lineCount: 9,
+    lineAt: () => ({text: 'xxxx'})
+  }
+}
+class Test {
+  decoratedLines = new Set([5])
+  lineCount = 10
+
+  test(lineCount, contentChanges) {
+    this.lineCount = lineCount
+    let changedLines = contentChanges.map(
+      ({ range }) => range.start.line
+    );
+-->
+
+```js
+// Skip decorating for certain cases to improve performance
+if (
+  // No lines were added or removed
+  this.lineCount === textEditor.document.lineCount &&
+  // All changes are single line changes
+  contentChanges.every(({ range }) => range.isSingleLine) &&
+  // Had no decorators on changed lines
+  changedLines.every(
+    x => this.decoratedLines.has(x) === false
+  ) &&
+  // No need to add decorators to changed lines
+  changedLines.some(x =>
+    regExp?.test(textEditor.document.lineAt(x).text)
+  ) === false
+) {
+  return;
+}
+```
+
+<!--
+    return true;
+  }
+}
+let test = new Test()
+expect(test.test(9, [
+  {range: {start: { line: 4 }, isSingleLine: true }}
+])).toBe(undefined)
+expect(test.test(10, [
+  {range: {start: { line: 5 }, isSingleLine: true }}
+])).toBe(true)
+expect(test.test(9, [
+  {range: {start: { line: 5 }, isSingleLine: false }}
+])).toBe(true)
+expect(test.test(9, [
+  {range: {start: { line: 5 }, isSingleLine: true }}
+])).toBe(true)
+-->
+
+Here, we have a complex condition with multiple clauses. The problem with this code is that it’s hard to see the high-level shape of the condition. Is it `something && something else`? Or is it `something || something else`? It’s hard to see what code belongs to the condition itself, and what to individual clauses.
+
+We can extract each clause into a separate variable or function, and use comments as their names:
+
+<!--
+let regExp = /y/
+let textEditor = {
+  document: {
+    lineCount: 9,
+    lineAt: () => ({text: 'xxxx'})
+  }
+}
+class Test {
+  decoratedLines = new Set([5])
+  lineCount = 10
+
+  test(lineCount, contentChanges) {
+    this.lineCount = lineCount
+    let changedLines = contentChanges.map(
+      ({ range }) => range.start.line
+    );
+-->
+
+```js
+const lineCountHasChanged =
+  this.lineCount !== textEditor.document.lineCount;
+const hasMultilineChanges = contentChanges.some(
+  ({ range }) => range.isSingleLine === false
+);
+const hadDecoratorsOnChangedLines = changedLines.some(x =>
+  this.decoratedLines.has(x)
+);
+const shouldHaveDecoratorsOnChangedLines = changedLines.some(
+  x => regExp?.test(textEditor.document.lineAt(x).text)
+);
+
+// Skip decorating for certain cases to improve performance
+if (
+  lineCountHasChanged === false &&
+  hasMultilineChanges === false &&
+  hadDecoratorsOnChangedLines === false &&
+  shouldHaveDecoratorsOnChangedLines === false
+) {
+  return;
+}
+```
+
+<!--
+    return true;
+  }
+}
+let test = new Test()
+expect(test.test(9, [
+  {range: {start: { line: 4 }, isSingleLine: true }}
+])).toBe(undefined)
+// expect(test.test(10, [
+//   {range: {start: { line: 5 }, isSingleLine: true }}
+// ])).toBe(true)
+// expect(test.test(9, [
+//   {range: {start: { line: 5 }, isSingleLine: false }}
+// ])).toBe(true)
+// expect(test.test(9, [
+//   {range: {start: { line: 5 }, isSingleLine: true }}
+// ])).toBe(true)
+-->
+
+Here, we separated levels of abstractions, and now implementation details of each clause don’t distract us from the high-level condition. Now the shape of the condition is clear.
+
+However, I wouldn’t go further and extract each clause into its own function, unless any of them are reused.
+
+I> We talk more about conditions in the [Avoid conditions](#no-conditions) chapter.
 
 ## Good comments
 

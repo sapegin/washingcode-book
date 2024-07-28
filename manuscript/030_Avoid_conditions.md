@@ -1848,9 +1848,67 @@ I> We’ll come back to this example later in the [Make impossible states imposs
 
 ## Complex conditions
 
-Sometimes, we can’t reduce the number of conditions, and the only way to improve the code is to make it easier to understand what a certain complex condition does. Consider this example:
+Sometimes, we can’t reduce the number of conditions, and the only way to improve the code is to make it easier to understand what a certain complex condition does.
 
 Consider this example:
+
+<!--
+class Test {
+  resize = 1
+  wasInitialized() { return true }
+  test(platform, browser) {
+ -->
+
+```js
+if (
+  platform.toUpperCase().indexOf('MAC') > -1 &&
+  browser.toUpperCase().indexOf('IE') > 1 &&
+  this.wasInitialized() &&
+  this.resize > 0
+) {
+  return true;
+}
+```
+
+<!--
+    return false
+  }
+}
+const test = new Test();
+expect(test.test('Mac_PowerPC', 'Mozilla/4.0 (compatible; MSIE 5.17; Mac_PowerPC)')).toBe(true)
+expect(test.test('MacInter', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.50')).toBe(false)
+-->
+
+It’s often a good idea to extract complex calculations and conditions used inside an already long line of code:
+
+<!--
+class Test {
+  resize = 1
+  wasInitialized() { return true }
+  test(platform, browser) {
+ -->
+
+```js
+const isMacOs = platform.toUpperCase().includes('MAC');
+const isIE = browser.toUpperCase().includes('IE');
+const wasResized = this.resize > 0;
+if (isMacOs && isIE && this.wasInitialized() && wasResized) {
+  return true;
+}
+```
+
+<!--
+    return false
+  }
+}
+const test = new Test();
+expect(test.test('Mac_PowerPC', 'Mozilla/4.0 (compatible; MSIE 5.17; Mac_PowerPC)')).toBe(true)
+expect(test.test('MacInter', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.50')).toBe(false)
+-->
+
+Now, the condition is shorter and more readable because names help us to understand what the condition does in the context of the function where it’s used.
+
+Here’s another example:
 
 ```js
 function mapTips(allTips, ingredients, tags) {
