@@ -4,17 +4,17 @@
 
 <!-- description: Writing useful comments, when to write them and when not -->
 
-Some developers never comment their code, and some comment too much. The former kind believes that the code should be self-documenting, the latter kind read somewhere that they should always comment their code.
+Some developers never comment their code, while others comment too much. The former believes that the code should be self-documenting, while the latter has read somewhere that they should always comment their code.
 
 Both are wrong.
 
-I don’t believe in self-documenting code. Yes, we should rewrite unclear code to make it more obvious, and use meaningful and correct names, but some things can’t be expressed by the code alone.
+I don’t believe in self-documenting code. Yes, we should rewrite unclear code to make it more obvious and use meaningful, correct names, but some things can’t be expressed by the code alone.
 
-Commenting too much doesn’t help either: comments start to repeat the code, and instead of helping to understand it, they introduce noise and repetition.
+Commenting too much doesn’t help either: comments start to repeat the code, and instead of aiding understanding, they clutter the code and distract the reader.
 
 ## Getting rid of comments (or not)
 
-There’s a popular technique for avoiding comments: when we want to explain a block of code in a comment, we should move this piece of code into its own function instead and use the comment text as a function name.
+There’s a popular technique for avoiding comments: when we want to explain a block of code in a comment, we should move this piece of code into its own function and use the comment text as the function name.
 
 Here’s a typical example of code I usually write:
 
@@ -91,13 +91,13 @@ let test = new Test()
 expect(test.test).not.toThrowError()
 -->
 
-It’s a long function but I don’t see any benefit of splitting it. There’s only two levels of nesting, and the overall structure is mostly linear. Comments give the high-level overview and the necessary context, and based on them, we can skip blocks we’re not interested in.
+It’s a long function, but I don’t see any benefit in splitting it. There are only two levels of nesting, and the overall structure is mostly linear. Comments provide a high-level overview and the necessary context, allowing us to skip blocks we’re not interested in.
 
-Overall, I don’t think that splitting a function into multiple just because it’s “long” makes the code more readable, often it has the opposite effect by hiding important details inside other functions and making it much harder to make changes to the code.
+Overall, I don’t think that splitting a function into many small functions just because it’s “long” makes the code more readable. Often, it has the opposite effect because it hides important details inside other functions, making it much harder to modify the code.
 
 I> We talk about code splitting in more detail in the [Divide and conquer, or merge and relax](#divide) chapter.
 
-Another common case for comments is complex conditions:
+Another common use for comments is complex conditions:
 
 <!--
 let regExp = /y/
@@ -157,9 +157,9 @@ expect(test.test(9, [
 ])).toBe(true)
 -->
 
-Here, we have a complex condition with multiple clauses. The problem with this code is that it’s hard to see the high-level shape of the condition. Is it `something && something else`? Or is it `something || something else`? It’s hard to see what code belongs to the condition itself, and what to individual clauses.
+Here, we have a complex condition with multiple clauses. The problem with this code is that it’s hard to see the high-level structure of the condition. Is it `something && something else`? Or is it `something || something else`? It’s hard to see what code belongs to the condition itself and what belongs to individual clauses.
 
-We can extract each clause into a separate variable or function, and use comments as their names:
+We can extract each clause into a separate variable or function and use comments as their names:
 
 <!--
 let regExp = /y/
@@ -223,45 +223,122 @@ expect(test.test(9, [
 // ])).toBe(true)
 -->
 
-Here, we separated levels of abstractions, and now implementation details of each clause don’t distract us from the high-level condition. Now the shape of the condition is clear.
+Here, we separated levels of abstraction, so the implementation details of each clause don’t distract us from the high-level condition. Now, the structure of the condition is clear.
 
-However, I wouldn’t go further and extract each clause into its own function, unless any of them are reused.
+However, I wouldn’t go further and extract each clause into its own function unless they are reused.
 
 I> We talk more about conditions in the [Avoid conditions](#no-conditions) chapter.
 
 ## Good comments
 
-Comments are useful to answer _why_ code is written in a certain, sometimes mysterious, way:
+Good comments explain _why_ code is written in a certain, sometimes mysterious, way:
 
 - If the code is fixing a bug or is a workaround for a bug in a third-party library, a ticket number or a link to the issue will be useful.
-- If there’s an obvious simpler alternative solution, a comment should explain why this solution doesn’t work for this case.
-- If different platforms behave differently, and the code accounts for this, it should be also mentioned in a comment.
+- If there’s an obvious, simpler alternative solution, a comment should explain why this solution doesn’t work in this case.
+- If different platforms behave differently and the code accounts for this, it should be mentioned in a comment.
+- If the code has known limitations, mentioning them (possibly using todo comments, see below) will help developers working with this code.
 
-Such comments will save us from accidental “refactoring” that makes code easier but removes some necessary functionality or breaks it for some users.
+Such comments save us from accidental “refactoring” that makes the code easier but removes some necessary functionality or breaks it for some users.
 
-High-level comments, explaining how code works, are useful too. If the code implements an algorithm, explained somewhere else, a link to that place would be useful. However, if a piece of code is too difficult to explain and require a long convoluted comment, maybe we should rewrite it instead.
+High-level comments explaining how the code works are useful too. If the code implements an algorithm, explained somewhere else, a link to that place would be useful. However, if a piece of code is too difficult to explain and requires a long, convoluted comment, we should probably rewrite it instead.
 
 ## Hack comments
 
-And any hack should be explained in a _hack comment_:
+Any hack should be explained in a _hack comment_:
 
-<!-- class Test { -->
+<!-- let Button = {} -->
 
 ```js
 // HACK: Importing defaultProps from another module crashes
 // Storybook Docs, so we have to duplicate them here
-static defaultProps = {
-  label: '',
-}
+Button.defaultProps = {
+  label: ''
+};
 ```
 
-<!-- } -->
+<!-- expect(Button.defaultProps).toHaveProperty('label') -->
+
+Here’s another example:
+
+<!--
+let item = { image: 'pizza.jpg' }
+let SliderSlide = () => null
+let Test = () => (
+-->
+
+```jsx
+// @hack: Use ! to override width:100% and height:100%
+// hardcoded in Swiper styles
+<SliderSlide
+  key={item.image ?? item.text}
+  className="mr-8 !h-auto !w-80 shrink-0 last:mr-0"
+>
+  …
+</SliderSlide>
+```
+
+<!--
+)
+const {container: c1} = RTL.render(<Test />);
+expect(c1.textContent).toEqual('')
+-->
 
 I> You may encounter various styles of hack comments: `HACK`, `XXX`, `@hack`, and so on, though I prefer `HACK`.
 
 ## Todo comments
 
-_Todo comments_ are also okay (more like _okayish_) too if they contain a ticket number when something will be done. Otherwise, they are just dreams that will likely never come true. Unless _a dream_ is exactly what we want to document: a desire that the code was doing more than it does — error handling, special cases, supporting more platforms, minor features, and so on — but it wasn’t implemented due to, probably, lack of time.
+I like _todo comments_, and I add plenty of them when I write code. Todo comments can:
+
+- Help us focus on essentials when we write code by writing down everything that we want to do or try later.
+- Write down known limitations and possible or already planned improvements.
+
+I remove most todo comments before I submit my code for review — they are part of my coding process.
+
+I> You may encounter various styles of todo comments: `TODO`, `FIXME`, `UNDONE`, `@todo`, `@fixme`, and so on, though I prefer `TODO`.
+
+The remaining todo comments can be roughly split into two categories:
+
+The first kind are **planned improvements**. When we know that we need to do something, it’s best to add a ticket number in a todo comment:
+
+<!--
+let FavoriteType = {Taco: 'Taco'}
+let fetchFavorites = ({favoriteType}) => favoriteType
+-->
+
+```js
+const query = await fetchFavorites({
+  favoriteType: FavoriteType.Taco
+  // TODO: Implement pagination (TCO-321)
+});
+```
+
+<!-- expect(query).toBe(FavoriteType.Taco) -->
+
+There might be another condition, like a dependency upgrade, required to complete the todo:
+
+```js
+/**
+ * Manually toggle the window scroll functionality,
+ * important especially when the modal is open from another
+ * modal. In such cases HeadlessUI messes up the html element
+ * state and the scroll is not working properly
+ * See following:
+ * https://github.com/tailwindlabs/headlessui/issues/1000
+ * https://github.com/tailwindlabs/headlessui/issues/1199
+ * The clean up is called after the modal is open and when
+ * closed.
+ * @todo [headlessui/react@>=2.0.0]: review if the issue is
+ * fixed in HeadlessUI, debug in WebDev tools using the 6x
+ * CPU slowdown
+ */
+const blockWindowScroll = active => () => {
+  /* … */
+};
+```
+
+This is one very good comment!
+
+The second kind of todo comments are **dreams**: a desire that the code was doing more than it does. For example, error handling, special cases, support for more platforms or browsers, minor features, and so on; but it wasn’t implemented, probably due to a lack of time. Such todos don’t have any deadlines or even the expectation that they will ever be resolved:
 
 <!--
 const Environment = {
@@ -295,6 +372,27 @@ expect(getEnvironment('localhost')).toBe('DEV')
 
 T> Maybe we should start using `DREAM` comments for such cases…
 
+However, there’s a type of todo comments I don’t recommend — comments with an expiration date:
+
+```js
+// TODO [2024-05-12]: Refactor before the sprint ends
+```
+
+We can check these todo comments with [unicorn/expiring-todo-comments](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/expiring-todo-comments.md) linter rule, so our build will fail after the date mentioned in the comment. This is unhelpful because it usually happens when we work on an unrelated part of the code, forcing us to deal with the comment right away, most likely by adding another month to the date.
+
+There are other conditions in the `unicorn/expiring-todo-comments` rule that might be more useful, such as the dependency version:
+
+```js
+// TODO [react@>=18]: Use useId hook instead of generating
+// IDs manually
+```
+
+This is a better use case because it will fail only when someone updates React, and fixing such todos should probably be part of the upgrade.
+
+T> I made a Visual Studio Code extension to highlight todo and hack comments: [Todo Tomorrow](https://marketplace.visualstudio.com/items?itemName=sapegin.todo-tomorrow).
+
+## Comments reducing confusion
+
 Comments can make code more intentional. Consider this example:
 
 <!--
@@ -315,7 +413,7 @@ try {
 expect(test).not.toThrowError()
 -->
 
-Here, we’re disabling the linter complaining about missing error handling. It’s, however, unclear why the error handling is missing.
+Here, we disable the linter, which complains about missing error handling. However, it’s unclear why the error handling is missing.
 
 We can make the code clearer by adding a comment:
 
@@ -337,7 +435,7 @@ try {
 expect(test).not.toThrowError()
 -->
 
-Or:
+Now, it’s clear that we don’t care about errors in this piece of code. On the other hand, this comment:
 
 <!--
 const doOrDoNot = () => { throw new Error('x') }
@@ -357,28 +455,7 @@ try {
 expect(test).not.toThrowError()
 -->
 
-Now, it’s clear whether we intentionally ignore errors or we want to add error handling in the future.
-
-I> You may encounter various styles of todo comments: `TODO`, `FIXME`, `UNDONE`, `@todo`, `@fixme`, and so on, though I prefer `TODO`.
-
-However, there’s a type of todo comments I don’t recommend — comments with expiration date:
-
-```js
-// TODO [2024-05-12]: Refactor before the sprint ends
-```
-
-We can check these todo comments with [unicorn/expiring-todo-comments](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/expiring-todo-comments.md) linter rule, so our build will fail after the date mentioned in the comment. This is unhelpful because it usually happens when we work on an unrelated part of the code, and so we’re forced to deal with the comment right away — most likely by adding another months to the date.
-
-There are other conditions in the `unicorn/expiring-todo-comments` rule that might be more useful, for example, dependency version:
-
-```js
-// TODO [react@>=18]: Use useId hook instead of generating
-// IDs manually
-```
-
-This is a better use case because it’s going to fail only when someone updates React, and fixing such todos should probably be part of the upgrade.
-
-T> I made a Visual Studio Code extension to highlight todo and hack comments: [Todo Tomorrow](https://marketplace.visualstudio.com/items?itemName=sapegin.todo-tomorrow).
+Tells a different story: we want to add error handling in the future.
 
 ## Comments with examples
 
@@ -396,7 +473,7 @@ function getSubrecipeSlug(markdown) {
 
 <!-- expect(getSubrecipeSlug).not.toThrowError() -->
 
-Such comments help to see immediately what the function does without reading the code.
+Such comments help to immediately see what the function does without reading the code.
 
 Here’s another example:
 
@@ -422,7 +499,7 @@ function rehypeSlug() {
 
 Here, we don’t just give an example of the input and output, but also explain the difference with the original `rehype-slug` package and why a custom implementation exists in the codebase.
 
-Another kind of useful examples are usage examples:
+Usage examples are another thing to include in function comments:
 
 ```js
 /**
@@ -439,22 +516,24 @@ function AuthenticatedOnly({ children }) {
 }
 ```
 
-Such comments help to understand how to use a function or a component, highlights necessary context and the correct way to pass parameters.
+Such comments help to understand how to use a function or a component, highlight the necessary context, and the correct way to pass parameters.
 
-T> When we use JSDoc `@example` tag, Visual Studio Code shows a syntax-highlighted example when we hover on the function name anywhere in the code.
+T> When we use the JSDoc `@example` tag, Visual Studio Code shows a syntax-highlighted example when we hover on the function name anywhere in the code.
 
 ![Usage example tooltip in Visual Studio Code](images/jsdoc-example.png)
 
 ## Bad comments
 
-We’ve talked about useful comments. However, there are many more kinds of comments that we should never write.
+We’ve talked about useful comments. However, there are many other kinds of comments that we should avoid.
 
-Probably the worst kind of comments are comments explaining _how_ code works. They either repeat the code in a more verbose language or explain language features:
+Probably the worst kind of comments are those explaining _how_ code works. They either repeat the code in more verbose language or explain language features:
 
 ```js
 // Fade timeout = 2 seconds
 const FADE_TIMEOUT_MS = 2000;
 ```
+
+Or:
 
 ```js
 // This will make sure that your code runs
@@ -462,9 +541,9 @@ const FADE_TIMEOUT_MS = 2000;
 'use strict';
 ```
 
-Code comments aren’t the best place to teach teammates how to use certain language features. Code reviews, pair programming sessions, and team documentation would be more suitable and efficient.
+Such comments are good for coding tutorials, but not for production code. Code comments aren’t the best place to teach teammates how to use certain language features. Code reviews, pair programming sessions, and team documentation are more suitable and efficient.
 
-Next, _fake_ comments: they pretend to explain some decision, but they don’t explain anything, and often blame someone else for poor code and tech debt:
+Next, there are _fake_ comments: they pretend to explain some decision, but they don’t explain anything, and they often blame someone else for poor code and tech debt:
 
 <!-- const locale = 'ko' -->
 
@@ -476,7 +555,9 @@ const hour12 =
 
 <!-- expect(hour12).toBe(false) -->
 
-I see lots of these comments in one-off design “adjustments”. For example, a comment will say that there was a _design requirement_ to use a non-standard color but it won’t explain why it was required and why none of the standard colors worked in that case:
+Why do Chinese and Koreans need a different time format? Who knows; the comment only tells us what’s already clear from the code but doesn’t explain why.
+
+I see lots of these comments in one-off design “adjustments.” For example, a comment might say that there was a _design requirement_ to use a non-standard color, but it won’t explain why it was required and why none of the standard colors worked in that case:
 
 ```scss
 .shareButton {
@@ -484,7 +565,7 @@ I see lots of these comments in one-off design “adjustments”. For example, a
 }
 ```
 
-And by lots I mean really _plenty_:
+And by lots, I mean really _plenty_:
 
 ```js
 // Design decision
@@ -494,11 +575,9 @@ And by lots I mean really _plenty_:
 // Non-standard background color needed for design
 
 // Designer's choice
-
-// Using non-standard color to match design
 ```
 
-_Requirement_ is a very tricky and dangerous word. Often what’s treated as a requirement is just a lack of education and collaboration between developers, designers, and project managers. If we don’t know why something is required, we should always ask, and the answer could be flabbergasting!
+_Requirement_ is a very tricky and dangerous word. Often, what’s treated as a requirement is just a lack of education and collaboration between developers, designers, and project managers. If we don’t know why something is required, we should always ask. The answer can be surprising!
 
 There may be no _requirement_ at all, and we can use a standard color from the project theme:
 
@@ -508,7 +587,7 @@ There may be no _requirement_ at all, and we can use a standard color from the p
 }
 ```
 
-Or there may be a real reason to use a non-standard color, that we may put into a comment:
+Or there may be a real reason to use a non-standard color, that we can put into a comment:
 
 ```scss
 $color--facebook: #3b5998; // Facebook brand color
@@ -517,20 +596,20 @@ $color--facebook: #3b5998; // Facebook brand color
 }
 ```
 
-In any case, it’s our responsibility to ask _why_ as many times as necessary.
-
-Same with comments that explain conditions: there may be no need for a special case, and we could remove the whole condition with its comment.
-
-I> We talk about removing conditions in the [Avoid conditions](#no-conditions) chapter.
+In any case, it’s our responsibility to ask _why_ as many times as necessary; otherwise we’ll end up with mountains of tech debt that don’t solve any real problems.
 
 ## Conclusion
 
-Comments enrich the code with information that cannot be expressed by the code alone. They help us understand why the code is written in a certain way, especially when it’s not obvious. They help us avoid disastrous “refactoring”, when we simplify the code by removing essential parts.
+Comments enrich code with information that cannot be expressed by the code alone. They help us understand why the code is written in a certain way, especially when it’s not obvious. They help us avoid disastrous “refactoring”, when we simplify the code by removing essential parts.
+
+However, if it’s too hard to explain a certain piece of code in a comment, perhaps we should rewrite such code instead of trying to explain it.
 
 ---
 
 Start thinking about:
 
-- Replacing a comment with a meaningfully-named function.
-- Removing comments that don’t add anything that’s not already in the code.
-- Asking why documented requirement or decision exists in the first place.
+- Removing comments that don’t add anything to what’s already in the code.
+- Adding hack comments to document hacks in the code.
+- Adding todo comments to document planned improvements and dreams.
+- Adding examples of input/output, or usage.
+- Asking why a documented requirement or decision exists in the first place.
