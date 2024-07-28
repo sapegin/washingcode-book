@@ -188,7 +188,7 @@ function testMarkdown(markdown, filepath) {
 }
 
 // RUN!
-const chapters = globSync(MANUSCRIPT_PATTERN);
+const chapters = globSync(MANUSCRIPT_PATTERN).toSorted();
 for (const filepath of chapters) {
   const content = fs.readFileSync(filepath, 'utf8');
   testMarkdown(content, filepath);
