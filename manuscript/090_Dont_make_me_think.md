@@ -6,7 +6,7 @@
 
 Clever code is a kind of code we may see in job interview questions or language quizzes. When they expect us to know how a language feature, we probably have never seen before, works. My answer to all these questions is: “it won’t pass code review”.
 
-Some people confuse _brevity_ with _clarity_. Short code (brevity) isn’t always the clearest code (clarity), often the opposite. Trying to make your code shorter is a noble goal, but it should never make it harder to read.
+Some folks confuse _brevity_ with _clarity_. Short code (brevity) isn’t always the clearest code (clarity), often the opposite. Trying to make your code shorter is a noble goal, but it should never make it harder to read.
 
 <!-- textlint-disable alex -->
 
@@ -416,7 +416,7 @@ expect(props).toHaveProperty('data-enzyme-id', 'type-Col-2')
 expect(props).toHaveProperty('data-codeception-id', 'type_Col_2')
 -->
 
-The difference between these two lines of code is hard to notice, and we can never be sure that the name separator (`-` vs. `_`) is the only difference here.
+The difference between these two lines of code is hard to notice, and we can never be sure that the name separator (`-` or `_`) is the only difference here.
 
 Most likely, on a project with such requirement, this pattern will appear in many places. One way to improve it is to create functions, that generate test IDs for each tool:
 
@@ -467,7 +467,7 @@ expect(props).toHaveProperty('data-codeception-id', 'type_Col_2')
 
 This is an extreme case of using small functions and I generally try to avoid splitting code this far, but I think in this case it works well, assuming that there are already many places in the project where we can use the new `getTestIdProps()` function.
 
-In all cases where we have a condition that makes code slightly different, we should ask ourselves: is this condition really necessary? If the answer is “yes”, then we should ask ourselves again. Often there’s no _real_ reason to have a certain condition. For example, why do we even need to add test IDs for different tools separately? Can’t we set up one of the tools to use test IDs of another? If we dig deep enough, we may be surprised to find out that nobody knows the answer, or that the initial reason is no longer relevant.
+In all cases where we have a condition that makes code slightly different, we should ask ourselves: is this condition really necessary? If the answer is “yes”, then we should ask ourselves again. Often, there’s no _real_ reason to have a certain condition. For example, why do we even need to add test IDs for different tools separately? Can’t we set up one of the tools to use test IDs of another? If we dig deep enough, we may be surprised to find out that nobody knows the answer, or that the initial reason is no longer relevant.
 
 Consider this example:
 

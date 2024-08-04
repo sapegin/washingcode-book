@@ -544,7 +544,7 @@ const earthToSun2 = 149_597_870_700;
 
 {#tree-vs-kebab}
 
-## Christmas trees vs. kebabs
+## Christmas trees against kebabs
 
 Some developers seem to prefer long strings, some short.
 
@@ -866,7 +866,7 @@ function semicolonOrNot() {
 
 <!-- expect(semicolonOrNot()).toEqual(undefined) -->
 
-Most people would expect that it returns an object, but it returns `undefined` because ASI always puts a semicolon after a stray `return`, and the code is interpreted like so:
+Most programmers would expect that it returns an object, but it returns `undefined` because ASI always puts a semicolon after a stray `return`, and the code is interpreted like so:
 
 <!-- prettier-ignore -->
 ```js
@@ -986,7 +986,7 @@ const {container: c1} = RTL.render(<Button>Tacos</Button>);
 expect(c1.textContent).toEqual('Tacos')
 -->
 
-I can probably write a whole book of such examples, and let’s not forget the eternal debate of tabs versus spaces.
+I can probably write a whole book of such examples, and let’s not forget the eternal debate of tabs or spaces.
 
 In all the examples above, I prefer the last variation, but I’d never ask someone to change their code during code review if they use another variation.
 

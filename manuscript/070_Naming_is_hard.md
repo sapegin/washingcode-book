@@ -2,11 +2,11 @@
 
 # Naming is hard
 
-<!-- description: How clear names make it easier to understand the code, and how to improve naming in our apps -->
+<!-- description: How clear names make it easier to understand the code, and how to improve naming in our code -->
 
 <!-- cspell:ignore arru, typoses, deprature -->
 
-We all know that naming is one of the hardest problems in programming, and probably most of us have written code like this when we just started programming:
+We all know that naming is one of the hardest problems in programming, and most of us have probably written code like this when we just started programming:
 
 <!-- prettier-ignore -->
 ```pascal
@@ -53,24 +53,20 @@ begin
 end;
 ```
 
-I wrote this code more than 20 years ago in Delphi, and, honestly, I don’t really remember what the app was supposed to do. It has it all: single-character names (`i`, `j`), abbreviations (`...Cnt`, `buf`), acronyms (`E`, `sr`, `fp`). It has some comments though! (And I kept the original indentation for full immersion.)
+I wrote this code more than 20 years ago in Delphi, and, honestly, I don’t really remember what the app was supposed to do. It has it all: single-character names (`i`, `j`, `E`), abbreviations (`FormatsCnt`, `buf`), acronyms (`sr`, `fp`), and a mix of different naming conventions. It has some comments, though! (And I kept the original indentation for complete immersion.)
 
-I once worked with a very senior developer who used mostly very short names, and never wrote any comments or tests. Working with their code was like working with Assembler — very difficult. Often we were wasting days tracking and fixing bugs in this code.
+I once worked with a very seasoned developer who mostly used very short names and never wrote any comments or tests. Working with their code was like working with Assembler — it was very difficult. Often, we wasted days tracking and fixing bugs.
 
-Let’s look at these (and many other) naming antipatterns, and how to fix them.
+Let’s look at these (and many other) naming antipatterns and how to fix them.
 
 ## Negative booleans are not not hard to read
 
-Consider this method:
+Consider this example:
 
-<!--
-class X {
-  errors = [];
-  set(key, value) { this.errors = value }
--->
+<!-- let displayErrors = vi.fn() -->
 
 ```js
-validateInputs(values) {
+function validateInputs(values) {
   let noErrorsFound = true;
   const errorMessages = [];
 
@@ -84,7 +80,7 @@ validateInputs(values) {
   }
 
   if (!noErrorsFound) {
-    this.set('error_message', errorMessages);
+    displayErrors(errorMessages);
   }
 
   return noErrorsFound;
@@ -92,16 +88,14 @@ validateInputs(values) {
 ```
 
 <!--
-}
-const nope = new X();
-expect(nope.validateInputs({})).toBe(false)
-expect(nope.errors).toEqual(['First name is required', 'Last name is required'])
-const yep = new X();
-expect(yep.validateInputs({firstName: 'Chuck', lastName: 'Norris'})).toBe(true)
-expect(yep.errors).toEqual([])
+expect(validateInputs({firstName: 'Chuck', lastName: 'Norris'})).toBe(true)
+expect(displayErrors).not.toHaveBeenCalled()
+
+expect(validateInputs({})).toBe(false)
+expect(displayErrors).toHaveBeenCalledWith(['First name is required', 'Last name is required'])
 -->
 
-I can say a lot about this code but let’s focus on this line first:
+I can say a lot about this code, but let’s focus on this line first:
 
 <!-- const noErrorsFound = true -->
 
@@ -113,16 +107,12 @@ if (!noErrorsFound) {
 
 The double negation, “if not no errors found…”, makes my brain itch, and I almost want to take a red marker and start crossing out `!`s and `no`s on my screen to be able to read the code.
 
-In most cases we can significantly improve code readability by converting negative booleans to positive ones:
+In most cases, we can significantly improve code readability by converting negative booleans to positive ones:
 
-<!--
-class X {
-  errors = [];
-  set(key, value) { this.errors = value }
--->
+<!-- let displayErrors = vi.fn() -->
 
 ```js
-validateInputs(values) {
+function validateInputs(values) {
   let errorsFound = false;
   const errorMessages = [];
 
@@ -136,7 +126,7 @@ validateInputs(values) {
   }
 
   if (errorsFound) {
-    this.set('error_message', errorMessages);
+    displayErrors(errorMessages);
   }
 
   return !errorsFound;
@@ -144,27 +134,21 @@ validateInputs(values) {
 ```
 
 <!--
-}
-const nope = new X();
-expect(nope.validateInputs({})).toBe(false)
-expect(nope.errors).toEqual(['First name is required', 'Last name is required'])
-const yep = new X();
-expect(yep.validateInputs({firstName: 'Chuck', lastName: 'Norris'})).toBe(true)
-expect(yep.errors).toEqual([])
+expect(validateInputs({firstName: 'Chuck', lastName: 'Norris'})).toBe(true)
+expect(displayErrors).not.toHaveBeenCalled()
+
+expect(validateInputs({})).toBe(false)
+expect(displayErrors).toHaveBeenCalledWith(['First name is required', 'Last name is required'])
 -->
 
 Positive names and positive conditions are usually easier to read than negative ones.
 
-By this time we should already notice that we don’t need the `errorsFound` variable at all: its value can always be derived from the `errorMessages` array:
+By this time, we should notice that we don’t need the `errorsFound` variable at all: its value can be derived from the `errorMessages` array — _errors found_ when we have any _error messages_ to show:
 
-<!--
-class X {
-  errors = [];
-  set(key, value) { this.errors = value }
--->
+<!-- let displayErrors = vi.fn() -->
 
 ```js
-validateInputs(values) {
+function validateInputs(values) {
   const errorMessages = [];
 
   if (!values.firstName) {
@@ -175,65 +159,23 @@ validateInputs(values) {
   }
 
   if (errorMessages.length > 0) {
-    this.set('error_message', errorMessages);
+    displayErrors(errorMessages);
     return false;
+  } else {
+    return true;
   }
-
-  return true;
 }
 ```
 
 <!--
-}
-const nope = new X();
-expect(nope.validateInputs({})).toBe(false)
-expect(nope.errors).toEqual(['First name is required', 'Last name is required'])
-const yep = new X();
-expect(yep.validateInputs({firstName: 'Chuck', lastName: 'Norris'})).toBe(true)
-expect(yep.errors).toEqual([])
+expect(validateInputs({firstName: 'Chuck', lastName: 'Norris'})).toBe(true)
+expect(displayErrors).not.toHaveBeenCalled()
+
+expect(validateInputs({})).toBe(false)
+expect(displayErrors).toHaveBeenCalledWith(['First name is required', 'Last name is required'])
 -->
 
-I’d also split this method into two to isolate side effects and make the code more testable, then remove the condition around `this.set()` call — setting an empty array when there are no errors seems safe enough:
-
-<!--
-class X {
-  errors = [];
-  set(key, value) { this.errors = value }
--->
-
-```js
-getErrorMessages(values) {
-  const errorMessages = [];
-
-  if (!values.firstName) {
-    errorMessages.push('First name is required');
-  }
-  if (!values.lastName) {
-    errorMessages.push('Last name is required');
-  }
-
-  return errorMessages;
-}
-
-validateInputs(values) {
-  const errorMessages = this.getErrorMessages(values);
-  this.set('error_message', errorMessages);
-
-  return errorMessages.length === 0;
-}
-```
-
-<!--
-}
-const nope = new X();
-expect(nope.validateInputs({})).toBe(false)
-expect(nope.errors).toEqual(['First name is required', 'Last name is required'])
-const yep = new X();
-expect(yep.validateInputs({firstName: 'Chuck', lastName: 'Norris'})).toBe(true)
-expect(yep.errors).toEqual([])
--->
-
-Let’s look at another example:
+Here’s another example:
 
 <!--
 let store = {}
@@ -255,7 +197,7 @@ expect(store['#book_download']['hidden-node']).toBe(false)
 expect(store['#book_retry']['disabled']).toBe(true)
 -->
 
-Here, again, every time we read `noData` in the code, we need to mentally _unnegate_ it to understand what’s really happening. And the negative `disabled` attribute makes things even worse. Let’s fix it:
+Again, every time we read `noData` in the code, we need to mentally _unnegate_ it to understand what’s really happening. And the negative `disabled` attribute with double negation (`!noData`) makes things even worse. Let’s fix it:
 
 <!--
 let store = {}
@@ -286,34 +228,30 @@ I> We talk about names like `data` later in this chapter.
 
 ## The larger the scope, the longer the name
 
-My rule of thumb: the shorter the scope of a variable, the shorter should be its name.
+My rule of thumb is that the shorter the scope of a variable, the shorter its name should be.
 
-I’m okay, and even prefer, very short variable names for one-liners. Consider these two examples:
+I generally avoid very short variable names, but I prefer them for one-liners. Consider this example:
 
-<!-- const TRANSITION = {'0xbada55': 0, '0xc0ffee': 1}, BREAKPOINT_MOBILE = 480, BREAKPOINT_TABLET = 768, BREAKPOINT_DESKTOP = 1024 -->
+<!-- let BREAKPOINT_MOBILE = 480, BREAKPOINT_TABLET = 768, BREAKPOINT_DESKTOP = 1024 -->
 
 ```js
-const inputRange = Object.keys(TRANSITION).map(x =>
-  parseInt(x, 16)
-);
-
 const breakpoints = [
   BREAKPOINT_MOBILE,
   BREAKPOINT_TABLET,
   BREAKPOINT_DESKTOP
 ].map(x => `${x}px`);
+// → ['480px', '768px', '1024px']
 ```
 
 <!--
-expect(inputRange).toEqual([12245589, 12648430])
 expect(breakpoints).toEqual(['480px', '768px', '1024px'])
 -->
 
-Here, it’s clear what `x` is in each example, and a longer name would bloat the code without making it more readable, likely less. We already have the full name in the parent function: we’re mapping over the `TRANSITION` object keys, and parsing each key; or we’re mapping over a list of breakpoints, and converting them to strings. It also helps that here we only have a single variable, so any short name will be read as “whatever we’re mapping over”.
+Here, it’s clear what `x` is in each example, and a longer name would bloat the code without making it more readable, likely less. We already have the full name in the parent function: we’re mapping over a list of breakpoints and converting numbers to strings. It also helps that here we only have a single variable, so any short name will be read as “whatever we’re mapping over.”
 
-I usually use `x` in such cases. I think it’s clear enough that it’s a placeholder and not an acronym of a particular word.
+I usually use `x` in such cases. I think it’s clear enough that it’s a placeholder and not an acronym for a particular word, and it’s a common convention.
 
-Some developers prefer `_`, and it’s a good choice for any programming language that’s not JavaScript, where `_` is often used for [Lodash](https://lodash.com/) utility library.
+Some developers prefer `_`, and it’s a good choice for any programming language except JavaScript, where `_` is often used for the [Lodash](https://lodash.com/) utility library.
 
 Another convention I’m okay with is using `a`/`b` names for sorting and comparison functions:
 
@@ -327,128 +265,155 @@ const sortedDates = dates.toSorted(
 
 <!-- expect(sortedDates).toEqual(['2021-05-11T10:30:00.000+01:00', '2022-02-26T00:21:00.000+01:00']) -->
 
-However, when the scope is longer, or when we have multiple variables, short names could be confusing:
+Loop indices `i`, `j`, and `k` are some of the most common variable names ever. They are moderately readable in short, non-nested loops, and only because programmers are so used to seeing them in the code:
+
+<!--
+let calls = 0
+const pizzaController = { one: {mockReset(){ calls++ }}, two: {mockReset(){ calls++ }} }
+-->
 
 ```js
-const hasDiscount = customers => {
-  let result = false;
-  const customerIds = Object.keys(customers);
-  for (let k = 0; k < customerIds.length; k++) {
-    const c = customers[customerIds[k]];
-    if (c.ages) {
-      for (let j = 0; j < c.ages.length; j++) {
-        const a = c.ages[j];
-        if (a && a.customerCards.length) {
-          result = true;
-          break;
-        }
-      }
-    }
-    if (result) {
-      break;
-    }
+const keys = Object.keys(pizzaController);
+for (let i = 0; i < keys.length; i += 1) {
+  pizzaController[keys[i]].mockReset();
+}
+```
+
+<!-- expect(calls).toBe(2) -->
+
+I> I used longer names for index variables, like `somethingIdx`, for a very long time. Surely, it’s way more readable than `i`, but, luckily, most modern languages allow us to iterate over things without coding artisan loops and without the need for an index variable. We talk more about this in the [Avoid loops](#no-loops) chapter.
+
+However, in nested loops, it’s difficult to understand which index belongs to which array:
+
+<!-- let console = { log: vi.fn() } -->
+
+```js
+const array = [
+  ['eins', 'zwei', 'drei'],
+  ['uno', 'dos', 'tres']
+];
+for (let i = 0; i < array.length; i++) {
+  for (let j = 0; j < array[i].length; j++) {
+    console.log(array[i][j]);
   }
-  return result;
-};
+}
 ```
 
+<!-- expect(console.log.mock.calls).toEqual([
+  ['eins'], ['zwei'], ['drei'], ['uno'], ['dos'], ['tres']
+]) -->
+
+It’s difficult to understand what’s going on here because variables `i` and `j` have no meaning. It works for non-nested loops, where `i` means “whatever the array contains,” but for nested arrays and loops, it’s not clear enough.
+
+In the end, `x`, `a`, `b`, and `i` are pretty much all single-character names I ever use.
+
+However, when the scope is longer or when we have multiple variables, short names can be confusing:
+
 <!--
-expect(hasDiscount({gandalf: {}})).toBe(false)
-expect(hasDiscount({gandalf: {ages: [{customerCards: []}]}})).toBe(false)
-expect(hasDiscount({gandalf: {ages: [{customerCards: []}, {customerCards: ['DISCOUNT']}]}})).toBe(true)
-expect(hasDiscount({gandalf: {ages: [{customerCards: ['DISCOUNT']}]}})).toBe(true)
+let result = [
+  {edit: { range: [5, 10]}},
+  {edit: { range: [3, 4]}},
+  {edit: { range: [12, 20]}},
+  {edit: { range: [7, 7]}},
+  {edit: { range: [5, 6]}},
+  {edit: { range: [12, 12]}},
+  {edit: { range: [19, 19]}},
+  {edit: { range: [5, 12]}},
+  {edit: { range: [3, 3]}},
+]
 -->
-
-Here, it’s totally impossible to understand what’s going on, and meaningless names are one of the main reasons for this.
-
-Let’s try to refactor this code a bit:
 
 ```js
-const hasDiscount = customers => {
-  return Object.values(customers).some(customer => {
-    return customer.ages?.some(
-      ageGroup => ageGroup.customerCards.length > 0
-    );
-  });
-};
+result.sort((a, b) => {
+  const d0 = a.edit.range[0] - b.edit.range[0];
+  if (d0 !== 0) {
+    return d0;
+  }
+  // Both edits have now the same start offset.
+
+  // Length of a and length of b
+  const al = a.edit.range[1] - a.edit.range[0];
+  const bl = b.edit.range[1] - b.edit.range[0];
+  // Both has the same start offset and length.
+  if (al === bl) {
+    return 0;
+  }
+
+  if (al === 0) {
+    return -1;
+  }
+  if (bl === 0) {
+    return 1;
+  }
+  return al - bl;
+});
 ```
 
 <!--
-expect(hasDiscount({gandalf: {}})).toBe(false)
-expect(hasDiscount({gandalf: {ages: [{customerCards: []}]}})).toBe(false)
-expect(hasDiscount({gandalf: {ages: [{customerCards: []}, {customerCards: ['DISCOUNT']}]}})).toBe(true)
-expect(hasDiscount({gandalf: {ages: [{customerCards: ['DISCOUNT']}]}})).toBe(true)
+expect(result).toEqual([
+  {edit: { range: [3, 3]}},
+  {edit: { range: [3, 4]}},
+  {edit: { range: [5, 6]}},
+  {edit: { range: [5, 10]}},
+  {edit: { range: [5, 12]}},
+  {edit: { range: [7, 7]}},
+  {edit: { range: [12, 12]}},
+  {edit: { range: [12, 20]}},
+  {edit: { range: [19, 19]}},
+])
 -->
 
-Not only the refactored code is three times shorter but it’s also much clearer: are there any (some) customers with at least one customer card in any (some) age group?
+Here, `a` and `b` are okay (we talked about them earlier), but `d0`, `al`, and `bl` make this code more complex than it should be.
 
-I’ve seen someone using `_` name for something that’s used across the whole module, possibly dozens or even hundreds of lines or code, an Express router ([the example](https://expressjs.com/en/guide/routing.html) is from Express docs but I changed the name):
+Let’s try to improve it a bit:
+
+<!--
+let result = [
+  {edit: { range: [5, 10]}},
+  {edit: { range: [3, 4]}},
+  {edit: { range: [12, 20]}},
+  {edit: { range: [7, 7]}},
+  {edit: { range: [5, 6]}},
+  {edit: { range: [12, 12]}},
+  {edit: { range: [19, 19]}},
+  {edit: { range: [5, 12]}},
+  {edit: { range: [3, 3]}},
+]
+-->
 
 ```js
-const express = require('express');
-const _ = express.Router();
+result.sort((a, b) => {
+  const startDifference = a.edit.range[0] - b.edit.range[0];
 
-// middleware that is specific to this router
-_.use((req, res, next) => {
-  console.log('Time: ', Date.now());
-  next();
+  // If start offsets are different, sort by the start offset
+  if (startDifference !== 0) {
+    return startDifference;
+  }
+
+  // Otherwise, sort by the range length
+  const lengthA = a.edit.range[1] - a.edit.range[0];
+  const lengthB = b.edit.range[1] - b.edit.range[0];
+  return lengthA - lengthB;
 });
-
-// define the home page route
-_.get('/', (req, res) => {
-  res.send('Birds home page');
-});
-
-// define the about route
-_.get('/about', (req, res) => {
-  res.send('About birds');
-});
-
-module.exports = _;
 ```
 
 <!--
-expect(module.exports).toHaveProperty('use')
-expect(module.exports).toHaveProperty('get')
+expect(result).toEqual([
+  {edit: { range: [3, 3]}},
+  {edit: { range: [3, 4]}},
+  {edit: { range: [5, 6]}},
+  {edit: { range: [5, 10]}},
+  {edit: { range: [5, 12]}},
+  {edit: { range: [7, 7]}},
+  {edit: { range: [12, 12]}},
+  {edit: { range: [12, 20]}},
+  {edit: { range: [19, 19]}},
+])
 -->
 
-I cannot imagine the logic behind this convention, and I’m sure it’s going to be confusing for many developers working with the code. It’ll be much worse when the code grows to do something useful.
+Now, it’s clearer what the code is doing, and the comments explain the high-level idea instead of repeating the code.
 
-Let’s bring back the original names:
-
-```js
-const express = require('express');
-const router = express.Router();
-
-// middleware that is specific to this router
-router.use((req, res, next) => {
-  console.log('Time: ', Date.now());
-  next();
-});
-
-// define the home page route
-router.get('/', (req, res) => {
-  res.send('Birds home page');
-});
-
-// define the about route
-router.get('/about', (req, res) => {
-  res.send('About birds');
-});
-
-module.exports = router;
-```
-
-<!--
-expect(module.exports).toHaveProperty('use')
-expect(module.exports).toHaveProperty('get')
--->
-
-Now, I don’t have trouble understanding what’s going on here. (Using `req` for request and `res` for response is an Express convention: huge adoption makes it a good idea to keep using it.)
-
-So, `x`, `a`, and `b` are pretty much all single-character variable names I ever use.
-
-On the other hand, long names in a short scope make code cumbersome:
+On the other hand, long names in a short scope make the code cumbersome:
 
 <!-- const purchaseOrders = [{poNumber: 11}, {poNumber: 22}], purchaseOrderData = {poNumber: 22} -->
 
@@ -473,72 +438,22 @@ const index = purchaseOrders.findIndex(
 
 <!-- expect(index).toBe(1) -->
 
-I think the second version is easier to read.
+I think the letter version is easier to read.
 
-One of the most common cases for short names is loops: `i`, `j`, and `k` are one of the most common variable names ever, and are usually used to store loop indices. They are moderately readable in short not nested loops, and only because programmers are so used to seeing them in the code. However, in nested loops, it’s getting difficult to understand which index belongs to which array:
+## The shorter the scope, the better
 
-<!--
-let calls = 0
-const pizzaController = { one: {mockReset(){ calls++ }}, two: {mockReset(){ calls++ }} }
--->
-
-```js
-const keys = Object.keys(pizzaController);
-for (let i = 0; i < keys.length; i += 1) {
-  pizzaController[keys[i]].mockReset();
-}
-```
-
-<!-- expect(calls).toBe(2) -->
-
-I used to use longer names for index variables for a very long time:
-
-<!--
-let calls = 0
-const pizzaController = { one: {mockReset(){ calls++ }}, two: {mockReset(){ calls++ }} }
--->
-
-```js
-const keys = Object.keys(pizzaController);
-for (let keyIdx = 0; keyIdx < keys.length; keyIdx += 1) {
-  pizzaController[keys[keyIdx]].mockReset();
-}
-```
-
-<!-- expect(calls).toBe(2) -->
-
-Surely, `keyIdx` is way more readable than `i` but, luckily, most modern languages allow us to iterate over things without coding artisan loops, and without the need for an index variable:
-
-<!--
-let calls = 0
-const pizzaController = { one: {mockReset(){ calls++ }}, two: {mockReset(){ calls++ }} }
--->
-
-```js
-const keys = Object.keys(pizzaController);
-keys.forEach(key => {
-  pizzaController[key].mockReset();
-});
-```
-
-<!-- expect(calls).toBe(2) -->
-
-I> See the [Avoid loops](#no-loops) chapter for more examples.
-
-## The shorter the scope the better
-
-We talked a bit about the scope in the previous section. The length of the variable’s scope affects readability too. The shorter the scope the easier it is to keep track of what’s happening with a variable.
+We talked about the scope in the previous section. A variable’s scope size affects readability too. The shorter the scope, the easier it is to keep track of a variable.
 
 The extreme cases would be:
 
 - One-liner functions, where the scope of a variable is a single line: easy to follow (example: `[8, 16].map(x => x + 'px')`).
-- Global variables, whose shope is infinite: a variable can be used or modified anywhere in the project, and there’s no way to know which value it holds at any given moment, which often leads to bugs. That’s why many developers are [advocating against global variables](https://wiki.c2.com/?GlobalVariablesAreBad) for decades.
+- Global variables, whose scope is infinite: a variable can be used or modified anywhere in the project, and there’s no way to know which value it holds at any given moment, which often leads to bugs. That’s why many developers have been [advocating against global variables](https://wiki.c2.com/?GlobalVariablesAreBad) for decades.
 
-Usually, the shorter the scope, the better. However, religious scope shortening has the same issues as splitting code into many teeny-tiny functions: it’s easy to overdo it and make the code less readable, not more.
+Usually, the shorter the scope, the better. However, religious scope shortening has the same issues as splitting code into many teeny-tiny functions: it’s easy to overdo it and hurt readability.
 
 I> We talk about splitting code into functions in the [Divide and conquer, or merge and relax](#divide) chapter.
 
-I found that _reducing the lifespan of variables_ works as well, and doesn’t produce lots of tiny functions. The idea here is to reduce the number of lines between the variable declaration and the line where the variable is accessed for the last time. The variable’s _scope_ might be a whole 200-line function, but if the lifespan of a particular variable is three lines then we only need to look at these three lines to understand how this variable is used.
+I found that _reducing the lifespan of variables_ works as well and doesn’t produce lots of tiny functions. The idea here is to reduce the number of lines between the variable declaration and the line where the variable is accessed for the last time. A variable’s _scope_ might be a whole 200-line function, but if the lifespan of a particular variable is three lines, then we only need to look at these three lines to understand how this variable is used.
 
 <!-- const MAX_RELATED = 3 -->
 
@@ -576,13 +491,15 @@ const posts = [{slug: 'a', tags: ['cooking'], timestamp: 111}, {slug: 'b', tags:
 expect(getRelatedPosts(posts, {slug: 'd', tags: ['cooking', 'tacos'], timestamp: 444})).toEqual([{slug: 'c', tags: ['cooking', 'tacos'], timestamp: 333, weight: 666}, {slug: 'b', tags: ['cooking', 'sleeping'], timestamp: 222, weight: 222}, {slug: 'a', tags: ['cooking'], timestamp: 111, weight: 111}])
 -->
 
-Here, the lifespan of the `sorted` variable is only two lines. This kind of sequential processing is a common use case for the technique.
+Here, the lifespan of the `sorted` variable is only two lines. This kind of sequential processing is a common use case for this technique.
+
+T> Double-click on a variable name to select all its appearances in the code. This helps to quickly see the variable’s lifespan.
 
 I> See a larger example in the [Avoid Pascal-style variables](#no-pascal-vars) section in the _Avoid reassigning variables_ chapter.
 
 ## Making magic numbers less magic
 
-By introducing a constant instead of a magic number we give it a meaningful name. Consider this example:
+Magic numbers are any numbers that might be unclear to the code reader. Consider this example:
 
 ```js
 const getHoursSinceLastChange = timestamp =>
@@ -591,7 +508,7 @@ const getHoursSinceLastChange = timestamp =>
 
 <!-- expect(getHoursSinceLastChange(36000)).toBe(10) -->
 
-A seasoned developer would likely guess that 3600 is the number of seconds in an hour, but the actual number is less important than what this code does, and we can make it clear by moving the magic number to a constant:
+A seasoned developer would likely guess that 3600 is the number of seconds in an hour, but the actual number is less important to understand what this code does than the meaning of this number. We can make the meaning clearer by moving the magic number into a constant:
 
 ```js
 const SECONDS_IN_AN_HOUR = 3600;
@@ -601,13 +518,15 @@ const getHoursSinceLastChange = timestamp =>
 
 <!-- expect(getHoursSinceLastChange(36000)).toBe(10) -->
 
-I like to include a unit in a name if it’s not obvious otherwise:
+I also like to include a unit in a name if it’s not obvious otherwise:
 
 ```js
 const FADE_TIMEOUT_MS = 2000;
 ```
 
-Another perfect example where constants make code more readable is days of week:
+<!-- expect(FADE_TIMEOUT_MS).toBe(2000) -->
+
+A perfect example where constants make code more readable is days of the week:
 
 <!--
 const Calendar = props => <div>{props.disabledDaysOfWeek.join(':')}</div>;
@@ -624,7 +543,7 @@ const {container: c1} = RTL.render(<Test />);
 expect(c1.textContent).toEqual('1:6')
 -->
 
-Is 6 a Saturday, Sunday or Monday? Are we counting from 0 or 1? Does week start on a Monday or Sunday?
+Is 6 a Saturday, Sunday, or Monday? Are we counting days from 0 or 1? Does the week start on Monday or Sunday?
 
 Defining constants for these values makes it clear:
 
@@ -654,7 +573,7 @@ const {container: c1} = RTL.render(<Test />);
 expect(c1.textContent).toEqual('1:6')
 -->
 
-Another common use case for magic numbers, that is somehow widely accepted, is HTTP status codes:
+Another common use case for magic numbers, which is somehow widely accepted, is HTTP status codes:
 
 ```js
 function getErrorMessage(error) {
@@ -676,9 +595,9 @@ expect(getErrorMessage({ response: { status: 429 } })).toBe('Rate limit exceeded
 expect(getErrorMessage({ response: { status: 500 } })).toBe('Something went wrong')
 -->
 
-I know what [404](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404) status is, but who remembers what [429](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429) means?
+I know what the [404](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/404) status is, but who remembers what the [429](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429) status means?
 
-Let’s replace magic numbers with constants:
+Let’s replace the magic numbers with constants:
 
 ```js
 const STATUS_NOT_FOUND = 404;
@@ -703,7 +622,7 @@ expect(getErrorMessage({ response: { status: 429 } })).toBe('Rate limit exceeded
 expect(getErrorMessage({ response: { status: 500 } })).toBe('Something went wrong')
 -->
 
-Now, it’s clear which status we’re handling.
+Now, it’s clear which status codes we’re handling.
 
 Personally, I’d use a library like [http-status-codes](https://github.com/prettymuchbryce/http-status-codes) here if I needed to work with status codes often or use not-so-common codes:
 
@@ -737,12 +656,13 @@ However, having a clear name is sometimes not enough:
 
 ```js
 const CHARACTERS_IN_ISO_DATE = 10;
+
 const dateWithoutTime = date.slice(0, CHARACTERS_IN_ISO_DATE);
 ```
 
 <!-- expect(dateWithoutTime).toBe('2023-03-22') -->
 
-Here, we remove the time portion of a string containing date and time in ISO format (for example, `2023-03-22T08:20:00+01:00`) by keeping only the first 10 characters — the length of the date part. The name is quite clear but the code is still a bit confusing and brittle. We can do better:
+Here, we remove the time portion of a string containing a date and time in the ISO format (for example, `2023-03-22T08:20:00+01:00`) by keeping only the first ten characters — the length of the date part. The name is quite clear, but the code is still a bit confusing and brittle. We can do better:
 
 <!-- const date = '2023-03-22T08:20:00+01:00' -->
 
@@ -753,13 +673,13 @@ const dateWithoutTime = date.slice(0, DATE_FORMAT_ISO.length);
 
 <!-- expect(dateWithoutTime).toBe('2023-03-22') -->
 
-Now, it’s easier to visualize what the code is doing, and we don’t need to count characters manually to be sure that The Very Magic number 10 is correct.
+Now, it’s easier to visualize what the code does, and we don’t need to count characters manually to be sure that The Very Magic number 10 is correct.
 
 Code reuse is another good reason to introduce constants. However, we need to wait for the moment when the code is actually reused.
 
 ## Not all numbers are magic
 
-Sometimes, people replace absolutely all literal values with constants, ideally stored in a separate module:
+Sometimes, programmers replace absolutely all literal values with constants, ideally stored in a separate module:
 
 ```js
 const ID_COLUMN_WIDTH = 40;
@@ -770,6 +690,7 @@ const CITY_COLUMN_WIDTH = 80;
 const COUNTRY_COLUMN_WIDTH = 90;
 const USER_COLUMN_WIDTH = 70;
 const STATUS_COLUMN_WIDTH = 50;
+
 const columns = [
   {
     header: 'ID',
@@ -782,7 +703,7 @@ const columns = [
 
 <!-- expect(columns[0].width).toBe(40) -->
 
-However, not every value is magic, some values are just values. Here, it’s clear that the value is the width of the ID column, and a constant doesn’t add any information that’s not in the code already, but makes the code harder to read: we need to go to the constant definition to see the actual value.
+However, not every value is magic; some values are just values. Here, it’s clear that the value is the width of the ID column, and a constant doesn’t add any information that’s not in the code already. Instead, it makes the code harder to read: we need to go to the constant definition to see the actual value.
 
 Often, code reads perfectly even without constants:
 
@@ -828,12 +749,13 @@ const {container: c1} = RTL.render(<Test />);
 expect(c1.textContent).toEqual('Out of cheese error:50vw')
 -->
 
-I’d avoid such constants unless the values are reused.
+I avoid such constants unless the values are reused.
 
-Sometimes, such constants are even misleading:
+Sometimes, such constants are misleading:
 
 ```js
 const ID_COLUMN_WIDTH = 40;
+
 const columns = [
   {
     header: 'ID',
@@ -845,7 +767,7 @@ const columns = [
 
 <!-- expect(columns[0].minWidth).toBe(40) -->
 
-Here, the name is not precise: instead of minimum width it only has width.
+Here, the name is not precise: it says that the value is the _width_, but it’s the _minimum width_.
 
 Often, _zeroes_ and _ones_ aren’t magic, and code is easier to understand when we use `0` and `1` directly instead of constants with inevitably awkward names:
 
@@ -858,18 +780,19 @@ const startOfDay = x => x - 0.1
 ```js
 const DAYS_TO_ADD_IN_TO_FIELD = 1;
 const SECONDS_TO_REMOVE_IN_TO_FIELD = -1;
-const getEndOfDayFromDate = date => {
+
+function getEndOfDayFromDate(date) {
   const nextDay = addDays(
     startOfDay(date),
     DAYS_TO_ADD_IN_TO_FIELD
   );
   return addSeconds(nextDay, SECONDS_TO_REMOVE_IN_TO_FIELD);
-};
+}
 ```
 
 <!-- expect(getEndOfDayFromDate(10)).toBe(18.9) -->
 
-This function returns the last second of a day. And here 1 and -1 really mean “next” and “previous”. They are also an essential part of an algorithm, not configuration. It doesn’t make sense to change 1 to 2 because it will break the function. Constants make the code longer and don’t help with understanding it. Let’s remove them:
+This function returns the last second of a given date. Here, 1 and -1 really mean _next_ and _previous_. They are also an essential part of the algorithm, not a configuration. It doesn’t make sense to change 1 to 2 because it will break the function. Constants make the code longer and don’t help us understand it. Let’s remove them:
 
 <!--
 const addDays = (x, y) => x + y * 10
@@ -878,10 +801,10 @@ const startOfDay = x => x - 0.1
 -->
 
 ```js
-const getEndOfDayFromDate = date => {
+function getEndOfDayFromDate(date) {
   const nextDay = addDays(startOfDay(date), 1);
   return addSeconds(nextDay, -1);
-};
+}
 ```
 
 <!-- expect(getEndOfDayFromDate(10)).toBe(18.9) -->
@@ -897,7 +820,7 @@ const SMALL = 'small';
 const MEDIUM = 'medium';
 ```
 
-These constants are related — they define different values of the same scale, size of something, and likely could be used interchangeably. However, it’s not clear from the names that they are related. We could add a suffix:
+These constants are related — they define different values of the same scale, size of something, and are likely to be used interchangeably. However, it’s not clear from the names that they are related. We could add a suffix:
 
 ```js
 const SMALL_SIZE = 'small';
@@ -911,9 +834,7 @@ const SIZE_SMALL = 'small';
 const SIZE_MEDIUM = 'medium';
 ```
 
-Here, the common part of the names, the `SIZE_` prefix, is aligned. I call this _parallel coding_.
-
-I> We talk more about parallel coding in the [Don’t make me think](#no-thinking) chapter.
+Here, the common part of the names, the `SIZE_` prefix, is aligned, making it easier to notice related constants in the code.
 
 Another option is to use an object:
 
@@ -926,10 +847,10 @@ const Size = {
 
 It has some additional benefits over separate constants:
 
-- We only need to import it once (`import { Size } from '...'` vs `import { SIZE_SMALL, SIZE_MEDIUM } from '...'`).
+- We only need to import it once (`import { Size } from '...'` instead of `import { SIZE_SMALL, SIZE_MEDIUM } from '...'`).
 - Better autocomplete after typing `Size.`
 
-And yet another option is to use a TypeScript enum:
+However, my favorite approach is to use a TypeScript enum:
 
 ```ts
 enum Size {
@@ -940,7 +861,7 @@ enum Size {
 
 T> Usually, enum names are singular nouns in PascalCase, like `Month`, `Color`, `OrderStatus`, or `ProductType`.
 
-Which is essentially the same as an object but we can also use it as a type:
+Which is essentially the same as an object, but we can also use it as a type:
 
 ```ts
 interface ButtonProps {
@@ -948,19 +869,19 @@ interface ButtonProps {
 }
 ```
 
-The latter would be my choice for TypeScript.
+This gives us better type checking and even better autocomplete. For example, we can define separate types for button sizes and modal sizes, so the button component will only accept valid button sizes.
 
 {#abbr}
 
 ## Abbreviations and acronyms
 
-The road to hell is paved with abbreviations. What do you think are OTC, RN, PSP, SDL? I also don’t know, and these are just from one project. That’s why I try to avoid abbreviations almost everywhere, not just in code.
+The road to hell is paved with abbreviations. What do you think OTC, RN, PSP, or SDL mean? I also don’t know, and these are just from one project. That’s why I try to avoid abbreviations almost everywhere, not just in code.
 
-There’s a [list of dangerous abbreviations](https://www.nccmerp.org/recommendations-enhance-accuracy-prescription-writing) for doctors prescribing medicine. We should have the same for programmers.
+There’s a [list of dangerous abbreviations](https://www.nccmerp.org/recommendations-enhance-accuracy-prescription-writing) for doctors prescribing medicine. We should have the same for IT professionals.
 
-I’d even go further and create a list of _approved_ abbreviations. I could only find one example of such a list: [from Apple](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CodingGuidelines/Articles/APIAbbreviations.html), and I think it could be a great start.
+I’d even go further and create a list of _approved_ abbreviations. I could only find one example of such a list — [from Apple](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/CodingGuidelines/Articles/APIAbbreviations.html) — and I think it could be a great start.
 
-Common abbreviations are okay, we don’t even think of most of them as abbreviations:
+Common abbreviations are okay; we don’t even think of most of them as abbreviations:
 
 | Abbreviation | Full term |
 | --- | --- |
@@ -986,43 +907,29 @@ As well as common acronyms:
 - RGB;
 - URL.
 
-And possibly a few very common ones used on a project but they still should be documented (new team members will be very thankful for that!), and shouldn’t be ambiguous.
+And possibly a few very common ones used on a project, but they still should be documented (new team members will be very thankful for that!) and shouldn’t be ambiguous.
 
 ## Prefixes and suffixes
 
-I like to use a the following prefixes for function names:
+I like to use the following prefixes for function names:
 
 - `get`: returns a value (example: `getPageTitle`).
-- `set`: stores a value or update React state (example: `setProducts`)
+- `set`: stores a value or updates React state (example: `setProducts`)
 - `fetch`: fetches data from the backend (example: `fetchMessages`).
 - `reset`: resets something to its initial state (example: `resetForm`).
 - `remove`: removes something from somewhere (example: `removeFilter`).
-- `to`: convert the data to a certain type (examples: `toString`, `hexToRgb`, `urlToSlug`).
+- `to`: converts the data to a certain type (examples: `toString`, `hexToRgb`, `urlToSlug`).
 - `on` and `handle` for event handlers (examples: `onClick`, `handleSubmit`).
 
 I> Verb prefixes are also called _actions_ in the A/HC/LC pattern. See more in the _A/HC/LC pattern_ section later in this chapter.
 
 And the following prefixes for boolean variables or functions that return a boolean value:
 
-- `is`, `are`, `has`, or `should` for booleans (examples: `isPhoneNumberValid`, `hasCancelableTickets`).
+- `is`, `are`, `has`, or `should` (examples: `isPhoneNumberValid`, `hasCancelableTickets`).
 
-These conventions make code easier to read and distinguish functions that return values from the ones with side effects.
+These conventions make code easier to read and distinguish functions that return values from those with side effects.
 
-However, don’t combine `get` with other prefixes: I often see names like `getIsCompaniesFilterDisabled` or `getShouldShowPasswordHint`, which should be just `isCompaniesFilterDisabled` or `shouldShowPasswordHint`, or even better `isCompaniesFilterEnabled`. On the other hand, `setIsVisible` is perfectly fine when paired with `isVisible`:
-
-<!--
-let state;
-const useState = (x) => { state = x; return [x, (y) => state = y] }
--->
-
-```jsx
-const [isVisible, setIsVisible] = useState(false);
-```
-
-<!--
-setIsVisible(true)
-expect(state).toBe(true)
--->
+T> Don’t combine `get` with other prefixes: I often see names like `getIsCompaniesFilterDisabled` or `getShouldShowPasswordHint`, which should be just `isCompaniesFilterDisabled` or `shouldShowPasswordHint`, or even better `isCompaniesFilterEnabled`. On the other hand, `setIsVisible` is perfectly fine when paired with `isVisible`.
 
 I also make an exception for React components, where I prefer to skip the `is` prefix, similar to HTML properties like `<button disabled>`:
 
@@ -1071,9 +978,9 @@ const user = new User('Chuck', 'Norris')
 expect(user.fullName).toBe('Chuck Norris')
 -->
 
-In general, I don’t like to remember too many rules, and any convention can go too far. A good example, and fortunately almost forgotten, is a [Hungarian notation](https://en.wikipedia.org/wiki/Hungarian_notation), where each name is prefixed with its type, or with its intention or kind. For example, `lAccountNum` (long integer), `arru8NumberList` (array of unsigned 8-bit integers), `usName` (unsafe string).
+In general, I don’t like to remember too many rules, and any convention can go too far. A good example, and fortunately almost forgotten, is [Hungarian notation](https://en.wikipedia.org/wiki/Hungarian_notation), where each name is prefixed with its type, or with its intention or kind. For example, `lAccountNum` (long integer), `arru8NumberList` (array of unsigned 8-bit integers), `usName` (unsafe string).
 
-Hungarian notation made sense for old untyped languages, like C, but with modern typed languages and IDEs that show types when you hover over the name it clutters the code and makes reading each name harder. So, keep it simple.
+Hungarian notation made sense for old untyped languages like C, but with modern typed languages and IDEs that show types when you hover over the name, it clutters the code and makes reading each name harder. So, keep it simple.
 
 One of the examples of Hungarian notation in the modern frontend is prefixing TypeScript interfaces with `I`:
 
@@ -1097,59 +1004,59 @@ I would generally avoid repeating information in the name that’s already acces
 
 I> We talk more about conventions in the [Code style](#code-style) chapter.
 
-## Dealing with updates
+## Next and previous values
 
-Imagine a function that allows us to build a new version of an object based on a previous version of the same object:
+Often, we need to create a new value based on the previous value of a certain variable or object.
+
+Consider this example:
 
 <!--
-let count = 0, textArray = ['eins', 'zwei', 'polizei'];
-const setCount = x => count = x(count)
+let count_
+let useState = (initialValue) => {
+  count_ = initialValue
+  return [initialValue, fn => count_ = fn(count_)]
+}
 -->
 
 ```js
+const [count, setCount] = useState(0);
 setCount(prevCount => prevCount + 1);
 ```
 
-<!-- expect(count).toBe(1) -->
+<!-- expect(count_).toBe(1) -->
 
 Here, we have a basic counter function that returns the next counter value. The `prev` prefix makes it clear that this value is out of date.
 
-Similarly, when the value is not yet applied and the function either lets us modify it or prevent the update:
+Similarly, when we need to store the new value in a variable, we can use the `next` prefix:
 
 <!--
-class Component {
-  constructor(code) {
-    this.props = { code }
-  }
-}
+let window = { location: { href: 'http://example.com/?tacos=many' } }
+let history = { replaceState: (x, y, z) => window.location.href = z }
 -->
 
-```jsx
-class ReactExample extends Component {
-  shouldComponentUpdate(nextProps) {
-    return this.props.code !== nextProps.code;
-  }
-  render() {
-    return <pre>{this.props.code}</pre>;
-  }
+```js
+function updateUrlState(name, action) {
+  const url = new URL(window?.location.href);
+  const value = url.searchParams.get(name);
+  const nextValue = _.isFunction(action)
+    ? action(value)
+    : action;
+  url.searchParams.set(name, String(nextValue));
+  const nextUrl = url.toString();
+  history.replaceState(null, '', nextUrl);
 }
 ```
 
 <!--
-const c = new ReactExample('Hello world')
-expect(c.shouldComponentUpdate({code: 'Hello world'})).toBe(false)
-expect(c.shouldComponentUpdate({code: 'Hello crocodile'})).toBe(true)
-const {container: c1} = RTL.render(c.render());
-expect(c1.textContent).toEqual('Hello world')
+updateUrlState('tacos', 'lots')
+expect(window.location.href).toBe('http://example.com/?tacos=lots')
 -->
 
-Here, we want to avoid unnecessary component rerenders when the `code` hasn’t changed. The `next` prefix makes it clear that this value is going to be applied to the component after the `shouldComponentUpdate` call.
-
-Both of these conventions are widely used by React developers.
+Both conventions are widely used by React developers.
 
 ## Beware of incorrect names
 
-_Incorrect_ names are worse than magic numbers. With magic numbers, we can make a correct guess but with incorrect names, we have no chance to understand the code.
+_Incorrect_ names are worse than magic numbers. With magic numbers, there’s a possibility of making a correct guess, but with incorrect names, we have no chance of understanding the code.
 
 Consider this example:
 
@@ -1166,9 +1073,9 @@ const getUTCDateTime = datetime =>
 
 <!-- expect(getUTCDateTime({ getTime: () => 1686815699187, getTimezoneOffset: () => -120 }).toISOString()).toBe('2023-06-15T09:54:59.187Z') -->
 
-Even a comment doesn’t help to understand what this code does.
+Even a comment doesn’t help us understand what this code does.
 
-What’s actually happening here is `getTime()` returns milliseconds and `getTimezoneOffset()` returns minutes, so we need to convert minutes to milliseconds by multiplying minutes by the number of milliseconds in one minute. 60000 is exactly this number.
+What’s actually happening here is that the `getTime()` function returns milliseconds while the `getTimezoneOffset()` returns minutes, so we need to convert minutes to milliseconds by multiplying minutes by the number of milliseconds in one minute. 60000 is exactly this number.
 
 Let’s correct the name:
 
@@ -1185,23 +1092,22 @@ const getUTCDateTime = datetime =>
 
 Now, it’s much easier to understand the code.
 
-I> Underscores (`_`) as separators for numbers were introduced in ECMAScript 2021, and make long numbers easier to read: `60000` versus `60_000`.
+I> Underscores (`_`) as separators for numbers were introduced in ECMAScript 2021 and make long numbers easier to read: `60_000` instead of `60000`.
 
-Types (like TypeScript) could help us see when names don’t represent the data correctly:
+Types often make incorrect names more noticeable:
 
 ```ts
 type Order = {
   id: number;
   title: string;
 };
-
 type State = {
   filteredOrder: Order[];
   selectedOrder: number[];
 };
 ```
 
-By looking at the types, it’s clear that both names should be plural (they keep arrays) and the second one only contains order IDs but not whole order objects:
+By looking at the types, it’s clear that both names should be plural (they contain arrays), and the `selectedOrder` only contains order IDs, not whole order objects:
 
 <!-- type Order = { id: number, title: string } -->
 
@@ -1212,20 +1118,20 @@ type State = {
 };
 ```
 
-We often change the logic but forget to update the names to reflect that. This makes understanding code much harder and could lead to bugs when we later change the code and make wrong assumptions based on incorrect names.
+We often change the logic but forget to update the names to reflect that. This makes understanding the code much harder and can lead to bugs when we later change the code and make incorrect assumptions based on incorrect names.
 
 ## Beware of abstract and imprecise names
 
-_Abstract_ and _imprecise_ names are probably more unhelpful than dangerous, like incorrect ones.
+_Abstract_ and _imprecise_ names are less dangerous than incorrect names. However, they are unhelpful and make the code harder to understand.
 
-**Abstract names** are too generic to give any useful information about the data they hold:
+**Abstract names** are too generic to give any useful information about the value they hold:
 
 - `data`;
 - `list`;
 - `array`;
 - `object`.
 
-The problem with such names is that any variable contains _data_, and any array is a _list_ of something. These names don’t say what kind of data it is, or what kind of things the list holds. Essentially, such names aren’t better than `x`/`y`/`z`, `foo`/`bar`/`baz`, `New Folder 39`, or `Untitled 47`.
+The problem with such names is that any variable contains _data_, and any array is a _list_ of something. These names don’t say what kind of data it is or what kind of things are in the list. Essentially, such names aren’t better than `x`/`y`/`z`, `foo`/`bar`/`baz`, `New Folder 39`, or `Untitled 47`.
 
 Consider this example:
 
@@ -1240,7 +1146,7 @@ const Currency = Record({
 -->
 
 ```js
-const currencyReducer = (state = new Currency(), action) => {
+function currencyReducer(state = new Currency(), action) {
   switch (action.type) {
     case UPDATE_RESULTS:
     case UPDATE_CART:
@@ -1264,7 +1170,7 @@ const currencyReducer = (state = new Currency(), action) => {
     default:
       return state;
   }
-};
+}
 ```
 
 <!--
@@ -1274,7 +1180,7 @@ expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: 
 
 Besides using Immutable.js and Lodash’s [`get()` method](https://lodash.com/docs#get), which already makes the code hard to read, the `obj` variable makes the code even harder to understand.
 
-All this code does is reorganizes the data about the user’s currency into a neat object:
+All this code does is reorganize the data about the user’s currency into a neat object:
 
 <!--
 import { Record } from 'immutable'
@@ -1298,7 +1204,7 @@ const currencyReducer = (state = new Currency(), action) => {
 
       const iso = data.query.userInfo?.userCurrency;
       const { name = '', symbol = '' } =
-        data.currencies[iso] || {};
+        data.currencies[iso] ?? {};
 
       return state.merge({ iso, name, symbol });
     default:
@@ -1312,33 +1218,33 @@ expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: 
 expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: { userInfo: { userCurrency: 'eur' } }, currencies: {} } } }).toJS()).toEqual({iso: 'eur', name: '', symbol: ''})
 -->
 
-Now, it’s clearer what shape of data we’re building here, and even Immutable.js isn’t so intimidating. I kept the `data` name though because that’s how it’s coming from the backend, and it’s commonly used as a root object for whatever the backend API is returning. As long as we don’t leak it to the app code, and only use it during the initial processing of the raw backend data, it’s okay.
+Now, it’s clearer what shape of data we’re building here, and even Immutable.js isn’t so intimidating. I kept the `data` name because that’s how it’s coming from the backend, and it’s commonly used as a root object for whatever the backend API is returning. As long as we don’t leak it into the app code and only use it during the initial processing of the raw backend data, it’s okay.
 
-Such names are also okay for generic utility functions, like array filtering or sorting:
+Abstract names are also okay for generic utility functions, like array filtering or sorting:
 
 ```js
 function findFirstNonEmptyArray(...arrays) {
   return (
     arrays.find(
       array => Array.isArray(array) && array.length > 0
-    ) || []
+    ) ?? []
   );
 }
 ```
 
 <!-- expect(findFirstNonEmptyArray([], [1], [2,3])).toEqual([1]) -->
 
-Here, `arrays` and `array` are totally fine since that’s exactly what they represent: generic arrays, we don’t yet know what they are going to hold, and for the context of this function it doesn’t matter, it could be anything.
+Here, `arrays` and `array` are totally fine since that’s exactly what they represent: generic arrays. We don’t yet know what values they will contain, and for the context of this function, it doesn’t matter — it can be anything.
 
-**Imprecise names** are names that don’t describe the object enough. One of the common cases is names with number suffixes. Usually, it happens for three reasons:
+**Imprecise names** don’t describe the object enough to be useful. One of the common cases is names with number suffixes. Usually, this happens for three reasons:
 
 1. We have multiple objects of the same kind.
-2. We do some processing of an object and use numbers to store a processed object.
-3. We’re making a new version of an already existing module, function, or component.
+2. We process an object in some way and use suffixed names to store the processed object.
+3. We make a new version of an already existing module, function, or component.
 
 In all cases, the solution is to clarify each name.
 
-For the first two cases, try to find something that differentiates the objects, and makes the names more precise.
+For the first two cases, I try to find something that differentiates the values to make the names more precise.
 
 Consider this example:
 
@@ -1413,7 +1319,7 @@ test('creates new user', async () => {
 
 <!-- // This would be difficult to test so we only run the text function to make sure there are no syntax errors -->
 
-Here, we’re sending a sequence of network requests to test a REST API. However, the names `response`, `response2`, and `response3` make the code a bit hard to understand, especially when we use the data returned by one request to create the next one. We could make the names more precise:
+Here, we’re sending a sequence of network requests to test a REST API. However, the names `response`, `response2`, and `response3` make the code harder to understand, especially when we use the data returned by one request to create the next one. We can make the names more precise:
 
 <!--
 let test = () => {}, login = () => {}
@@ -1435,19 +1341,21 @@ test('creates new user', async () => {
   const cookies = await login();
 
   // Create user
-  const createRes = await request(app)
+  const createResponse = await request(app)
     .post(usersEndpoint)
     .send({ username })
     .set('Accept', 'application/json')
     .set('Cookie', cookies);
 
-  expect(createRes.headers).toHaveProperty(
+  expect(createResponse.headers).toHaveProperty(
     'content-type',
     expect.stringContaining('json')
   );
-  expect(createRes.status).toBe(StatusCode.SuccessCreated);
-  expect(createRes.body).toHaveProperty('data');
-  expect(createRes.body.data).toEqual(
+  expect(createResponse.status).toBe(
+    StatusCode.SuccessCreated
+  );
+  expect(createResponse.body).toHaveProperty('data');
+  expect(createResponse.body.data).toEqual(
     expect.objectContaining({
       username,
       password: expect.stringMatching(
@@ -1457,22 +1365,22 @@ test('creates new user', async () => {
   );
 
   // Log in with the new user
-  const loginRes = await request(app)
+  const loginResponse = await request(app)
     .post(loginEndpoint)
     .send({
       username,
-      password: createRes.body.data.password
+      password: createResponse.body.data.password
     })
     .set('Accept', 'application/json');
 
   // Fetch users
-  const usersRes = await request(app)
+  const usersResponse = await request(app)
     .get(usersEndpoint)
     .set('Accept', 'application/json')
-    .set('Cookie', loginRes.headers['set-cookie']);
+    .set('Cookie', loginResponse.headers['set-cookie']);
 
-  expect(usersRes.body).toHaveProperty('data');
-  expect(usersRes.body.data).toEqual(
+  expect(usersResponse.body).toHaveProperty('data');
+  expect(usersResponse.body.data).toEqual(
     expect.arrayContaining([
       expect.objectContaining({ username: 'chucknorris' }),
       expect.objectContaining({ username })
@@ -1483,19 +1391,21 @@ test('creates new user', async () => {
 
 <!-- // This would be difficult to test so we only run the text function to make sure there are no syntax errors -->
 
-Now, it’s clear which request data we’re accessing at any time.
+Now, it’s clear which request data we’re accessing at any given time.
 
-For the new version of a module, I’d try to rename the old one to something like `ModuleLegacy` instead of naming the new one `Module2` or `ModuleNew`, and keep using the original name for the new implementation. It’s not always possible but it makes using the old, deprecated, module more awkward than the new, improved, one — exactly what we want to achieve. Also, names tend to stick forever, even when the original module is long gone. Names like `Module2` or `ModuleNew` are fine during development though, when the new module isn’t yet fully functional or well tested.
+For the new version of a module, I try to rename the old one to something like `ModuleLegacy` instead of naming the new one `Module2` or `ModuleNew`, and keep using the original name for the new implementation.
 
-## Use A/HC/LC pattern
+It’s not always possible, but it makes using the old, deprecated module more awkward than the new, improved one — exactly what we want to achieve. Also, names tend to stick forever, even when the original module is long gone. Names like `Module2` or `ModuleNew` are fine during development, though, when the new module isn’t yet fully functional or well tested.
 
-To improve consistency and clarity of function names, we can follow the A/HC/LC pattern:
+## Use the A/HC/LC pattern
+
+To improve the consistency and clarity of function names, we can follow the A/HC/LC pattern:
 
 ```
 prefix? + action (A) + high context (HC) + low context? (LC)
 ```
 
-Let’s see what each section does on examples:
+Let’s see what each section does with examples:
 
 | Name | Prefix | Action | High context | Low context |
 | --- | --- | --- | --- | --- |
@@ -1508,23 +1418,23 @@ I> Read more about the [A/HC/LC pattern](https://github.com/kettanaito/naming-ch
 
 ## Use common terms
 
-It’s a good idea to use well-known and widely adopted terms for programming and domain concepts instead of inventing something that might be cute or clever but likely will be misunderstood. This is especially problematic for non-native English speakers — we don’t know many rare and obscure words.
+It’s a good idea to use well-known and widely adopted terms for programming and domain concepts instead of inventing something cute or clever but likely misunderstood. This is especially problematic for non-native English speakers because we usually don’t know many rare and obscure words.
 
-[A “great” example](https://stackoverflow.com/questions/33742899/where-does-reacts-scryrendereddomcomponentswithclass-method-name-come-from) of this is React codebase where they used “scry” (which means something like _peeping into the future through a crystal ball_) instead of “find”.
+[A “great” example](https://stackoverflow.com/questions/33742899/where-does-reacts-scryrendereddomcomponentswithclass-method-name-come-from) of this is the React codebase, where they used “scry” (meaning something like _peeping into the future through a crystal ball_) instead of “find”.
 
 ## Use a single term for each concept
 
-Using different words for the same concept is confusing: a person reading the code may think since the words are different then these things aren’t the same and will try to understand the difference between the two. It will also make the code less _greppable_, meaning it would be harder to find all usages of the same thing
+Using different words for the same concept is confusing. A person reading the code may think that since the words are different, these things aren’t the same and will try to find the difference between the two. It will also make the code less _greppable_, meaning it will be harder to find all uses of the same thing.
 
 I> We talk more about greppability in the [Write greppable code](#greppability) section of the _Other techniques_ chapter.
 
-T> Having a project dictionary, or even a linter, might be a good idea to avoid using different words for the same things. [CSpell](https://cspell.org) allows us to create a project dictionary, as well as ban certain words that shouldn’t be used. I use a similar approach for writing this book: I use [Textlint terminology plugin](https://github.com/sapegin/textlint-rule-terminology) to make sure I use the terms consistently and spell them correctly in my writing.
+T> Having a project dictionary, or even a linter, might be a good idea to avoid using different words for the same things. [CSpell](https://cspell.org) allows us to create a project dictionary and ban certain words that shouldn’t be used. I use a similar approach for writing this book: I use the [Textlint terminology plugin](https://github.com/sapegin/textlint-rule-terminology) to make sure I use the terms consistently and spell them correctly in my writing.
 
 ## Prefer US English
 
-Most APIs and programming languages use US English, and it makes a lot of sense to use US English for naming in our project as well. Unless we’re working on a British, Canadian, or Australian project that may prefer a local language.
+Most APIs and programming languages use US English, so it makes a lot of sense to use US English for naming in our project as well. Unless we’re working on a British, Canadian, or Australian project, where the local language may be a better choice.
 
-In any case, consistency is more important than language choice. On several projects, I’ve seen US and UK terms used interchangeably. For example, `canceling` (US) and `cancelling` (UK). Curiously, `cancellation` is the correct spelling in both.
+In any case, consistency is more important than language choice. On several projects, I’ve seen US and UK terms used interchangeably. For example, _canceling_ (US) and _cancelling_ (UK). (Curiously, _cancellation_ is the correct spelling in both.)
 
 Some common words that are spelled differently:
 
@@ -1548,7 +1458,7 @@ T> [CSpell](https://cspell.org) allows us to choose between US and UK English an
 
 ## Use common opposite pairs
 
-Often we create pairs of variables or functions that do the opposite operations or hold values that are on the opposite ends of the range. For example, `startServer`/`stopServer`, or `minWidth`/`maxWidth`. When we see one, we expect to see the other, and we expect it to have a certain name because it either sounds natural in English (if one happened to be a native speaker) or has been used by generations of programmers before us.
+Often, we create pairs of variables or functions that do the opposite operations or hold values that are on the opposite ends of the range. For example, `startServer`/`stopServer` or `minWidth`/`maxWidth`. When we see one, we expect to see the other, and we expect it to have a certain name because it either sounds natural in English (if one happened to be a native speaker) or has been used by generations of programmers before us.
 
 Some of these common pairs are:
 
@@ -1571,17 +1481,19 @@ Some of these common pairs are:
 | start     | stop      |
 | target    | source    |
 
-T> There’s a certain debate on where to use _remove_ and where _delete_. I’m not so picky about this, and recommend to stick to the add/remove and create/delete pairs where make sense. Otherwise, I’m okay with either. The difference isn’t as clear as some like to think: for example, on Unix command line we remove files using the `rm` command, but on Windows we delete them using the `del` command.
+T> There’s a certain debate on where to use _remove_ and where _delete_. I’m not so picky about this and recommend sticking to the add/remove and create/delete pairs where it makes sense. Otherwise, I’m okay with either. The difference isn’t as clear as some like to think: for example, on the Unix command line we _remove_ files using the `rm` command, but on Windows we _delete_ them using the `del` command.
 
 ## Check the spelling of your names
 
-Typos in names and comments are very common. They don’t cause bugs _most of the time_ but could still reduce readability a bit, and code with many typoses look sloppy. So having a spell checker in the code editor is a good idea.
+Typos in names and comments are very common. They don’t cause bugs _most of the time_, but could still reduce readability a bit, and code with many typoses looks sloppy. Typos also make the code less greppable. So having a spell checker in the code editor is a good idea.
 
 I> We talk more about spell checking in the [Spell checking](#spell-checking) section of the _Learn your code editor_ chapter.
 
+I> We talk more about code greppability in the [Write greppable code](#greppability) section of the _Other techniques_ chapter.
+
 ## Use established naming conventions
 
-Each programming language has its own conventions and idiomatic way of doing certain things, including the way programmers spell names of variables, functions, and other symbols in the code: _naming conventions_.
+Each programming language has its own conventions and idiomatic way of doing certain things, including the way programmers spell the names of variables, functions, and other symbols in the code: _naming conventions_.
 
 The most popular naming conventions are:
 
@@ -1589,19 +1501,19 @@ The most popular naming conventions are:
 - kebab-case.
 - PascalCase;
 - SCREAMING_SNAKE_CASE;
-- snake_case;
+- snake_case.
 
 T> There are also lowercase, UPPERCASE, and SpoNGEcAsE, but I wouldn’t recommend them because these conventions make it hard to distinguish separate words.
 
 Most JavaScript and TypeScript style guides suggest the following:
 
-- CamelCase for variable names and functions;
-- PascalCase for class names and types;
+- camelCase for variable names and functions;
+- PascalCase for class names, types, and components;
 - SCREAMING_SNAKE_CASE for constants.
 
-T> One of the benefits of naming conventions that use an underscore (`_`) or nothing to glue words together over conventions that use a dash (`-`) is that we can select a full name using a double click or Alt+Shift+Left or Alt+Shift+Right hotkeys (these hotkeys expand the selection to the end of the word).
+T> One of the benefits of naming conventions that use an underscore (`_`) or nothing to glue words together over conventions that use a dash (`-`) is that we can select a full name using a double click, or Alt+Shift+Left, or Alt+Shift+Right hotkeys (these hotkeys expand the selection to the word boundary).
 
-The code that doesn’t follow the established naming conventions for a particular language looks awkward for developers who are used to these conventions:
+The code that doesn’t follow the established naming conventions for a particular language looks awkward for developers who are used to these conventions. For example, here’s a JavaScript snippet that uses snake_case names:
 
 <!-- let console = { log: vi.fn() } -->
 
@@ -1625,7 +1537,7 @@ console.log(loudFruits);
 
 <!-- expect(loudFruits).toEqual(['GUAVA', 'PAPAYA', 'PINEAPPLE']) -->
 
-However, in Python, where kebab_case is common, it looks fine:
+However, in Python, where snake_case is common, it looks natural:
 
 ```python
 fruits = ['Guava', 'Papaya', 'Pineapple']
@@ -1637,136 +1549,17 @@ Also, JavaScript’s own methods, and browser APIs are all using camelCase: `for
 
 One thing that developers often disagree on is how to spell acronyms (for example, HTML) and words with unusual casing (for example, iOS). There are several approaches:
 
-<!-- cspell:disable -->
+- Keep the original spelling: `dangerouslySetInnerHTML`, <!-- cspell:disable -->`WebiOS`<!-- cspell:enable -->;
+- Do something weird: `XMLHttpRequest`, `DatePickerIOS`, <!-- cspell:disable -->`HTMLHRElement`<!-- cspell:enable -->;
+- Normalize the words: `WebIos`, `XmlHttpRequest`, `HtmlHrElement`.
 
-- Keep the original spelling: `dangerouslySetInnerHTML`, `WebiOS`;
-- Do something weird: `XMLHttpRequest`, `DatePickerIOS`, `HTMLHRElement`;
-- Normalize the words: `WebIos`, `HtmlHrElement`.
-
-Unfortunately, the most readable approach, normalization, seems to be the least popular. Since we can’t use spaces in names, it can be hard to separate words: `WebiOS` could be read as `webi os` instead of `web ios`, and it takes extra time to read it right. Such names also don’t work well with code spell checkers: they mark `webi` and `htmlhr` as incorrect words.
-
-<!-- cspell:enable -->
+Unfortunately, the most readable approach, normalization, seems to be the least popular. Since we can’t use spaces in names, it can be hard to separate words: <!-- cspell:disable -->`WebiOS`<!-- cspell:enable --> could be read as <!-- cspell:disable -->`webi os`<!-- cspell:enable --> instead of `web ios`, and it takes extra time to read it correctly. Such names also don’t work well with code spell checkers: they mark <!-- cspell:disable -->`webi`<!-- cspell:enable --> and <!-- cspell:disable -->`htmlhr`<!-- cspell:enable --> as incorrect words.
 
 The normalized spelling doesn’t have these issues: `dangerouslySetInnerHtml`, `WebIos`, `XmlHttpRequest`, `DatePickerIos`, `HtmlHrElement`.
 
-## Use destructuring
-
-Often we end up with awkward names for intermediate values, like function parameters or function return values:
-
-<!--
-const console = { log: vi.fn() }
-const parseMs = (x) => ({minutes: x, seconds: 0}), durationSec = 5
--->
-
-```js
-const duration = parseMs(durationSec * 1000);
-
-// Then later we access the values like so:
-console.log(duration.minutes, duration.seconds);
-```
-
-<!-- expect(duration.minutes).toBe(5000)-->
-
-Here, the `duration` variable is never used as a whole, only as a container for `minutes` and `seconds` values we use in the code. By using destructuring we could skip the intermediate variable:
-
-<!-- const parseMs = (x) => ({minutes: x, seconds: 0}), durationSec = 5 -->
-
-```js
-const { minutes, seconds } = parseMs(durationSec * 1000);
-```
-
-<!-- expect(minutes).toBe(5000)-->
-
-Now, we could access `minutes` and `seconds` directly.
-
-Functions with optional parameters grouped in an object are another common example:
-
-<!--
-let document = window.document;
-const hiddenInput = (name, value) => {
-  const input = document.createElement('input');
-  input.type = 'hidden';
-  input.name = name;
-  input.value = value;
-  return input;
-};
--->
-
-```js
-function submitFormData(action, options) {
-  const form = document.createElement('form');
-
-  form.method = options.method;
-  form.action = action;
-  form.target = options.target;
-
-  if (options.parameters) {
-    Object.keys(options.parameters)
-      .map(paramName =>
-        hiddenInput(paramName, options.parameters[paramName])
-      )
-      .forEach(form.appendChild.bind(form));
-  }
-
-  document.body.appendChild(form);
-  form.submit();
-  document.body.removeChild(form);
-}
-```
-
-<!--
-expect(submitFormData('/foo', { method: 'post', target: '_top', parameters: {a: 42} }))
-expect(submitFormData('/foo', { method: 'post', target: '_top' }))
--->
-
-Here, `options` object is never used as a whole (for example, to pass it to another function), only to access separate properties in it. We could use destructuring to simplify the code:
-
-<!--
-let document = window.document;
-const hiddenInput = (name, value) => {
-  const input = document.createElement('input');
-  input.type = 'hidden';
-  input.name = name;
-  input.value = value;
-  return input;
-};
--->
-
-```js
-function submitFormData(
-  action,
-  { method, target, parameters }
-) {
-  const form = document.createElement('form');
-
-  form.method = method;
-  form.action = action;
-  form.target = target;
-
-  if (parameters) {
-    Object.keys(parameters)
-      .map(paramName =>
-        hiddenInput(paramName, parameters[paramName])
-      )
-      .forEach(form.appendChild.bind(form));
-  }
-
-  document.body.appendChild(form);
-  form.submit();
-  document.body.removeChild(form);
-}
-```
-
-<!--
-expect(submitFormData('/foo', { method: 'post', target: '_top', parameters: {a: 42} }))
-expect(submitFormData('/foo', { method: 'post', target: '_top' }))
--->
-
-Here, we’ve removed the `options` object, that was used in almost every line of the function body, which made it shorter and more readable.
-
 ## Avoid unnecessary variables
 
-Often we add intermediate variables to store the result of some operation before passing it somewhere else or returning it from the function. In many cases, this variable is unnecessary.
+Often, we add intermediate variables to store the result of an operation before passing it somewhere else or returning it from the function. In many cases, this variable is unnecessary.
 
 Consider this example:
 
@@ -1807,7 +1600,7 @@ return data;
 expect(x()).resolves.toBe(42)
 -->
 
-In both cases, the `result`, and `data` variables don’t add much to the code. The names aren’t adding new information, and the code is short enough to be inlined:
+In both cases, the `result`, and `data` variables don’t add much to the code. The names don’t adding new information, and the code is short enough to be inlined:
 
 <!--
 const handleUpdateResponse = x => x
@@ -1887,9 +1680,122 @@ const {container: c1} = RTL.render(instance.render());
 expect(c1.textContent).toEqual('42')
 -->
 
-Destructuring could be another solution here — we’ve covered it already.
+Another case is when we create an object to hold a group of values but never use it as a whole (for example, to pass it to another function), only to access separate properties in it. It makes us waste time inventing a new variable name, and we often end up with something awkward.
 
-Sometimes, intermediate variables can serve as comments, explaining the data they hold, that otherwise might not be clear:
+For example, we can use such an object to store a function return value:
+
+<!--
+const console = { log: vi.fn() }
+const parseMs = (x) => ({minutes: x, seconds: 0}), durationSec = 5
+-->
+
+```js
+const duration = parseMs(durationSec * 1000);
+
+// Then later we access the values like so:
+console.log(duration.minutes, duration.seconds);
+```
+
+<!-- expect(duration.minutes).toBe(5000)-->
+
+Here, the `duration` variable is only used as a container for `minutes` and `seconds` values. By using destructuring we could skip the intermediate variable:
+
+<!-- const parseMs = (x) => ({minutes: x, seconds: 0}), durationSec = 5 -->
+
+```js
+const { minutes, seconds } = parseMs(durationSec * 1000);
+```
+
+<!-- expect(minutes).toBe(5000)-->
+
+Now, we can access `minutes` and `seconds` directly.
+
+Functions with optional parameters grouped in an object are another common example:
+
+<!--
+let document = window.document;
+const hiddenInput = (name, value) => {
+  const input = document.createElement('input');
+  input.type = 'hidden';
+  input.name = name;
+  input.value = value;
+  return input;
+};
+-->
+
+```js
+function submitFormData(action, options) {
+  const form = document.createElement('form');
+
+  form.method = options.method;
+  form.action = action;
+  form.target = options.target;
+
+  if (options.parameters) {
+    Object.keys(options.parameters)
+      .map(paramName =>
+        hiddenInput(paramName, options.parameters[paramName])
+      )
+      .forEach(form.appendChild.bind(form));
+  }
+
+  document.body.appendChild(form);
+  form.submit();
+  document.body.removeChild(form);
+}
+```
+
+<!--
+expect(submitFormData('/foo', { method: 'post', target: '_top', parameters: {a: 42} }))
+expect(submitFormData('/foo', { method: 'post', target: '_top' }))
+-->
+
+We can use destructuring again to simplify the code:
+
+<!--
+let document = window.document;
+const hiddenInput = (name, value) => {
+  const input = document.createElement('input');
+  input.type = 'hidden';
+  input.name = name;
+  input.value = value;
+  return input;
+};
+-->
+
+```js
+function submitFormData(
+  action,
+  { method, target, parameters }
+) {
+  const form = document.createElement('form');
+
+  form.method = method;
+  form.action = action;
+  form.target = target;
+
+  if (parameters) {
+    Object.keys(parameters)
+      .map(paramName =>
+        hiddenInput(paramName, parameters[paramName])
+      )
+      .forEach(form.appendChild.bind(form));
+  }
+
+  document.body.appendChild(form);
+  form.submit();
+  document.body.removeChild(form);
+}
+```
+
+<!--
+expect(submitFormData('/foo', { method: 'post', target: '_top', parameters: {a: 42} }))
+expect(submitFormData('/foo', { method: 'post', target: '_top' }))
+-->
+
+Here, we removed the `options` object that was used in almost every line of the function body, making the function shorter and more readable.
+
+Sometimes, intermediate variables can serve as comments, explaining the data they hold that might not otherwise be clear:
 
 <!--
 const hasTextLikeOnlyChildren = () => false
@@ -1927,14 +1833,14 @@ const borderImage = `url("data:image/svg+xml,${borderSvg}")`;
 
 <!-- expect(borderImage).toMatch('<svg ') -->
 
-## Tips to avoid name clashes
+## Avoiding name clashes
 
-We’ve talked about how to avoid number suffixes by making names more precise. Let’s talk about a few other cases where we may have clashing names, and [what can we do to avoid them](https://gist.github.com/sapegin/a46ab46cdd4d6b5045027d120b9c967d).
+We’ve talked about avoiding number suffixes by making names more precise. Now, let’s explore a few other cases of clashing names and [how to avoid them](https://gist.github.com/sapegin/a46ab46cdd4d6b5045027d120b9c967d).
 
-Most often I struggle with clashing names for two reasons:
+I often struggle with name clashes for two reasons:
 
-1. Storing a function return value (example: `const isCrocodile = isCrocodile()`).
-2. Creating a React component to show an object of a certain TypeScript type (example: `const User = (props: { user: User }) => null`).
+1. Storing a function’s return value (example: `const isCrocodile = isCrocodile()`).
+2. Creating a React component to display an object of a certain TypeScript type (example: `const User = (props: { user: User }) => null`).
 
 Let’s start with function return values. Consider this example:
 
@@ -1946,7 +1852,7 @@ const crocodiles = getCrocodiles({ color: 'darkolivegreen' });
 
 <!-- expect(crocodiles).toEqual(['darkolivegreen']) -->
 
-Here, it’s clear which one is the function, and which one is the array with the returned from the function value. Now consider this:
+Here, it’s clear which one is the function and which one is the array returned by the function. Now, consider this:
 
 <!--
 let crocodiles = [{type: 'raccoon'}]
@@ -1959,25 +1865,25 @@ const _o_0_ = isCrocodile(crocodiles[0]);
 
 <!-- expect(_o_0_).toBe(false) -->
 
-Here, our naming choices are limited:
+In this case, our naming choices are limited:
 
 - `isCrocodile` is a natural choice but clashes with the function name;
-- `crocodile` would mean that this variable holds one element of the `crocodiles` array.
+- `crocodile` could be interpreted as a variable holding one element of the `crocodiles` array.
 
-So, what can we do about it? Not a lot:
+So, what can we do about it? Not much:
 
 - choose a domain-specific name (example: `shouldShowGreeting`);
-- inline the function call, and avoid a local variable at all;
+- inline the function call and avoid a local variable altogether;
 - choose a more specific name (examples: `isFirstItemCrocodile` or `isGreenCrocodile`);
-- shorten the name, if the scope is small (example: `isCroc`).
+- shorten the name if the scope is small (example: `isCroc`).
 
 Unfortunately, all options are somewhat not ideal:
 
-- Inlining can make the code more verbose, especially if the result of the function is used several times, or if the function has multiple parameters. It could also affect performance, though it usually doesn’t.
-- Longer names could also make the code a bit more verbose.
-- Short names could be confusing.
+- Inlining can make the code more verbose, especially if the function’s result is used several times or if the function has multiple parameters. It can also affect performance, though it usually doesn’t.
+- Longer names can also make the code a bit more verbose.
+- Short names can be confusing.
 
-I usually use domain-specific names or inlining (for very simple calls used once or twice):
+I usually use domain-specific names or inlining (for very simple calls, used once or twice):
 
 <!-- const isCrocodile = x => x.type === 'croc' -->
 
@@ -2006,7 +1912,7 @@ const {container: c2} = RTL.render(<UserProfile user={{type: 'che', name: 'Chebu
 expect(c2.textContent).toEqual('Name: CheburashkaAge: 12')
 -->
 
-Here, the name describes how the value is used (domain-specific name) — to check _whether we need to show a greeting_, as opposed to the value itself — _whether the user is a crocodile_. This has another benefit: if we decide to change the condition, we don’t need to rename a variable.
+Here, the name describes how the value is used (domain-specific name) — to check _whether we need to show a greeting_, as opposed to the value itself — _whether the user is a crocodile_. This has another benefit: if we decide to change the condition, we don’t need to rename the variable.
 
 For example, we could decide to greet crocodiles only in the morning:
 
@@ -2038,7 +1944,7 @@ const {container: c2} = RTL.render(<UserProfile user={{type: 'croc', name: 'Gena
 expect(c2.textContent).toEqual('Name: GenaAge: 37')
 -->
 
-The name still makes sense, when something like `isCroc` would require a change.
+The name still makes sense when something like `isCroc` becomes incorrect.
 
 Unfortunately, I don’t have a good solution for clashing React components and TypeScript types. This usually happens when we create a component to render an object or a certain type:
 
@@ -2062,7 +1968,7 @@ const {container: c1} = RTL.render(<User user={{ name: 'Chuck', email: '@' }} />
 expect(c1.textContent).toEqual('Chuck (@)')
 -->
 
-Though TypeScript allows us to use a type and a value with the same name in the same scope, it makes code confusing.
+Though TypeScript allows using a type and a value with the same name in the same scope, it makes the code confusing.
 
 The only solution I see is renaming either the type or the component. I usually try to rename a component, though it requires some creativity to come up with a name that’s not confusing. For example, names like `UserComponent` or `UserView` would be confusing because other components don’t have these suffixes, but something like `UserProfile` may work in this case:
 
@@ -2086,7 +1992,11 @@ const {container: c1} = RTL.render(<UserProfile user={{ name: 'Chuck', email: '@
 expect(c1.textContent).toEqual('Chuck (@)')
 -->
 
-This only matters when either the type or the component is exported and reused in other places. Local names are more forgiving since they are only used in the same file and the definition is right here.
+This matters most when either the type or the component is exported and reused in other places. Local names are more forgiving since they are only used in the same file, and the definition is right there.
+
+## Conclusion
+
+Names don’t affect the way our code works, but they do affect the way we read it. Misleading or imprecise names can cause misunderstandings and make the code harder to understand and change. They can even cause bugs when we act based on incorrect assumptions caused by bad names.
 
 ---
 
@@ -2094,9 +2004,9 @@ Start thinking about:
 
 - Replacing negative booleans with positive ones.
 - Reducing the scope or the lifespan of variables.
-- Choosing more specific names for symbols with larger scope or longer lifespan.
-- Choosing shorter names for symbols with small scope and short lifespan.
-- Replacing magic numbers with meaningfully-named constants.
+- Choosing more specific names for symbols with a larger scope or longer lifespan.
+- Choosing shorter names for symbols with a small scope and short lifespan.
+- Replacing magic numbers with meaningfully named constants.
 - Merging several constants representing a range or a scale into an object or enum.
-- Using destructuring to think less about inventing new names.
+- Using destructuring or inlining to think less about inventing new names.
 - Choosing domain-specific names for local variables instead of more literal names.

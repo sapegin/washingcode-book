@@ -34,7 +34,7 @@ It’s a good idea to stick to the default formatting options as much as possibl
 
 For Prettier, I only change these options:
 
-- `singleQuote`: use single quotes instead of double quotes. I’ve been using single quotes in JavaScript for two decades, and I can’t remember a single large project I worked on that was using double quotes. [Prettier’s rationale](https://prettier.io/docs/en/rationale#strings) is that double quotes require less escaping: `"It's a good taco"` versus `'It\'s a good taco'`. This doesn’t make sense to me because I’d never use “programmer” apostrophe (`'`) in UI copy, instead I’d write `'It’s a good taco'` which doesn’t need escaping with any type of quotes.
+- `singleQuote`: use single quotes instead of double quotes. I’ve been using single quotes in JavaScript for two decades, and I can’t remember a single large project I worked on that was using double quotes. [Prettier’s rationale](https://prettier.io/docs/en/rationale#strings) is that double quotes require less escaping: `"It's a good taco"` instead of `'It\'s a good taco'`. This doesn’t make sense to me because I’d never use “programmer” apostrophe (`'`) in UI copy, instead I’d write `'It’s a good taco'` which doesn’t need escaping with any type of quotes.
 - `useTabs`: use tabs instead of spaces. I’ve been using tabs for as long as I remember, and now I don’t really care anymore: with modern code editors, there’s no difference. I won’t change this option for new projects.
 
 The rest options are [the defaults](https://prettier.io/docs/en/options), whatever they are.
@@ -43,7 +43,7 @@ The rest options are [the defaults](https://prettier.io/docs/en/options), whatev
 
 I used to have a limit of 120 characters per line because why not, I have a big screen that could fit a lot of code, so I should use the space available to me! Then I lowered it to 100 characters, and then to the Prettier’s default of 80 characters that they [highly recommend not to change](https://prettier.io/docs/en/options.html#print-width).
 
-An argument for using 80 characters I’ve heard many times but never believed in is that some people may edit code in a terminal that only displays 80 characters per line, like in the old days of MS-DOS and IDEs like QuickBasic or Turbo Pascal. However, modern terminals show a lot more than 80 characters per line.
+An argument for using 80 characters I’ve heard many times but never believed in is that some programmers may edit code in a terminal that only displays 80 characters per line, like in the old days of MS-DOS and IDEs like QuickBasic or Turbo Pascal. However, modern terminals show a lot more than 80 characters per line.
 
 ![QuickBasic](images/quickbasic.png)
 
@@ -57,7 +57,7 @@ Eventually, I changed my mind for multiple reasons:
 - Autoformatting works best with shorter lines. If we let it run wild and produce lines that are 100 characters or longer, the code readability gets significantly worse.
 - Easier to switch between projects. Many projects are already using 80 characters as a guideline, and since it’s a default in Prettier, even more will stick to the same value.
 
-I> We talk about how code structure affects line length in the [Christmas trees vs. kebabs](#tree-vs-kebab) section of the Code style chapter.
+I> We talk about how code structure affects line length in the [Christmas trees against kebabs](#tree-vs-kebab) section of the Code style chapter.
 
 ![Coding on 27-inch screen](images/27inches.jpg)
 

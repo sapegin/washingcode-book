@@ -26,7 +26,7 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 ## Articles
 
 - [AHA programming](https://kentcdodds.com/blog/aha-programming) by Kent C. Dodds
-- [Array reduce vs chaining vs for loop](https://kentcdodds.com/blog/array-reduce-vs-chaining-vs-for-loop) by Kent C. Dodds
+- [Array reduce vs. chaining vs. for loop](https://kentcdodds.com/blog/array-reduce-vs-chaining-vs-for-loop) by Kent C. Dodds
 - [The case for Discriminated Union Types with TypeScript](https://thoughtbot.com/blog/the-case-for-discriminated-union-types-with-typescript) by Alejandro Dustet
 - [Cargo Cult Software Engineering](https://stevemcconnell.com/articles/cargo-cult-software-engineering/) by Steve McConnell
 - [Clever code considered harmful](https://www.joshwcomeau.com/career/clever-code-considered-harmful/) by Josh Comeau
@@ -69,7 +69,7 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 
 ## Please review the book
 
-If you liked the book, I’ll appreciate your review! I’ve spent many hours writing and editing it, and your review will help to make it more visible to other people and help me continue improving it.
+If you liked the book, I’ll appreciate your review! I’ve spent many hours writing and editing it, and your review will help to make it more visible to others and help me continue improving it.
 
 Until the book is final and available on Amazon, and so on, please send me your review at [artem@sapegin.ru](mailto:artem@sapegin.ru).
 

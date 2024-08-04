@@ -47,23 +47,46 @@ Such errors are called [off-by-one errors](https://en.wikipedia.org/wiki/Off-by-
 
 It gets worse when we nest loops:
 
-<!-- let console = { log: vi.fn() } -->
+<!--
+let proxy = 'SOCKS5 127.0.0.1:1080'
+let rules = [
+  [
+    [
+      "pizza.com",
+      "tacos.com",
+      "coffee.com",
+    ],
+    [
+      "soup.com",
+      "hotdog.com",
+      "burger.com",
+    ]
+  ]
+]
+let lastRule = ''
+-->
 
 ```js
-const array = [
-  ['eins', 'zwei', 'drei'],
-  ['uno', 'dos', 'tres']
-];
-for (let i = 0; i < array.length; i++) {
-  for (let j = 0; j < array[i].length; j++) {
-    console.log(array[i][j]);
+function testHost(host, index) {
+  for (var i = 0; i < rules[index].length; i++) {
+    for (var j = 0; j < rules[index][i].length; j++) {
+      lastRule = rules[index][i][j];
+      if (host == lastRule || host.endsWith('.' + lastRule))
+        return i % 2 == 0 ? 'DIRECT' : proxy;
+    }
   }
+  lastRule = '';
 }
 ```
 
-<!-- expect(console.log.mock.calls).toEqual([
-  ['eins'], ['zwei'], ['drei'], ['uno'], ['dos'], ['tres']
-]) -->
+<!--
+expect(testHost('pizza.com', 0)).toBe('DIRECT')
+expect(testHost('tacos.com', 0)).toBe('DIRECT')
+expect(testHost('hotdog.com', 0)).toBe(proxy)
+expect(testHost('burger.com', 0)).toBe(proxy)
+-->
+
+Code like this makes me suspicious: it looks like it does something very simple, but at the same time it’s super complex. What am I missing? We’ll come back to this example later in the chapter.
 
 With each nested loop, we increase the probability of a mistake and decrease the readability of the code.
 
@@ -176,6 +199,108 @@ const foundName = characters.find(name =>
 <!-- expect(foundName).toEqual('Bilbo Baggins') -->
 
 In both examples, I much prefer array methods compared to `for` loops because they are shorter and don’t bloat the code with iteration mechanics.
+
+Here’s an improved version of the nested loop example from this chapter’s introduction:
+
+<!--
+let proxy = 'SOCKS5 127.0.0.1:1080'
+let rules = [
+  [
+    [
+      "pizza.com",
+      "tacos.com",
+      "coffee.com",
+    ],
+    [
+      "soup.com",
+      "hotdog.com",
+      "burger.com",
+    ]
+  ]
+]
+-->
+
+```js
+function testHost(host, index) {
+  const checkHost = x => host === x || host.endsWith(`.${x}`);
+
+  const directHost = rules[index][0].find(checkHost);
+  if (directHost) {
+    return 'DIRECT';
+  }
+
+  const proxyHost = rules[index][1].find(checkHost);
+  if (proxyHost) {
+    return proxy;
+  }
+}
+```
+
+<!--
+expect(testHost('pizza.com', 0)).toBe('DIRECT')
+expect(testHost('tacos.com', 0)).toBe('DIRECT')
+expect(testHost('hotdog.com', 0)).toBe(proxy)
+expect(testHost('burger.com', 0)).toBe(proxy)
+-->
+
+We don’t even need to nest loops here, but the data structure used to store rules makes it confusing. The nested arrays always have two items, so an object with two properties would be more appropriate here.
+
+Here’s one more example of nested loops:
+
+```js
+function hasDiscount(customers) {
+  let result = false;
+  const customerIds = Object.keys(customers);
+  for (let k = 0; k < customerIds.length; k++) {
+    const c = customers[customerIds[k]];
+    if (c.ages) {
+      for (let j = 0; j < c.ages.length; j++) {
+        const a = c.ages[j];
+        if (a && a.customerCards.length) {
+          result = true;
+          break;
+        }
+      }
+    }
+    if (result) {
+      break;
+    }
+  }
+  return result;
+}
+```
+
+<!--
+expect(hasDiscount({gandalf: {}})).toBe(false)
+expect(hasDiscount({gandalf: {ages: [{customerCards: []}]}})).toBe(false)
+expect(hasDiscount({gandalf: {ages: [{customerCards: []}, {customerCards: ['DISCOUNT']}]}})).toBe(true)
+expect(hasDiscount({gandalf: {ages: [{customerCards: ['DISCOUNT']}]}})).toBe(true)
+-->
+
+Here, it’s totally impossible to understand what’s going on, and nested loops with meaningless names are one of the main reasons for this.
+
+I> We talk about naming in the [Naming is hard](#naming) chapter.
+
+Let’s try to refactor this code:
+
+```js
+function hasDiscount(customers) {
+  return Object.values(customers).some(customer => {
+    return customer.ages?.some(
+      ageGroup => ageGroup.customerCards.length > 0
+    );
+  });
+}
+```
+
+<!--
+expect(hasDiscount({gandalf: {}})).toBe(false)
+expect(hasDiscount({gandalf: {ages: [{customerCards: []}]}})).toBe(false)
+expect(hasDiscount({gandalf: {ages: [{customerCards: []}, {customerCards: ['DISCOUNT']}]}})).toBe(true)
+expect(hasDiscount({gandalf: {ages: [{customerCards: ['DISCOUNT']}]}})).toBe(true)
+-->
+
+Not only the refactored code is three times shorter, but it’s also much clearer: are there any (some) customers with at least one customer card in any (some) age group?
 
 ## Implied semantics of array methods
 
@@ -636,7 +761,7 @@ for (var i = 0, len = names.length; i < len; i++) {
 
 <!-- expect(kebabCharacters).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
 
-It’s not slow anymore. Often simpler code patterns are the fastest, or fast enough, so manual optimization is unnecessary.
+It’s not slow anymore. Often, simpler code patterns are the fastest, or fast enough, so manual optimization is unnecessary.
 
 Also, the `every()`, `some()`, `find()`, and `findIndex()` methods are short-circuiting, meaning they don’t iterate over unnecessary array elements.
 

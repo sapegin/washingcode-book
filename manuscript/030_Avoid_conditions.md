@@ -1738,13 +1738,17 @@ However, nested ternaries are different beasts: they make code harder to read be
 function Products({products, isError, isLoading}) {
   return isError
     ? <p>Error loading products</p>
-      : isLoading
-        ? <Loading />
-        : products.length > 0
-          ? <ul>{products.map(
-              product => <li key={product.id}>{product.name}</li>
-            )}</ul>
-          : <p>No products found</p>
+    : isLoading
+      ? <Loading />
+      : products.length > 0
+        ? (
+            <ul>
+              {products.map(product => (
+                <li key={product.id}>{product.name}</li>
+              ))}
+            </ul>
+          )
+        : <p>No products found</p>
 }
 ```
 
@@ -1796,7 +1800,7 @@ But maybe it’s intentional and gives us a clear sign that we should rewrite th
 
 I> We talk about code formatting and Prettier in the [Autoformat your code](#formatting) chapter.
 
-In this example, we’re rendering one of four UI states:
+In this example, we render one of four UI states:
 
 - a spinner (loading);
 - an error message (failure);

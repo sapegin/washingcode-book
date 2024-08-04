@@ -381,7 +381,7 @@ Now, the query object always has the same shape, but some properties can be `und
 
 ## Avoid Pascal-style variables
 
-Some people like to define all variables at the beginning of a function. I call this _Pascal style_ because, in the Pascal programming language, we have to declare all variables at the beginning of a program or a function:
+Some programmers like to define all variables at the beginning of a function. I call this _Pascal style_ because, in the Pascal programming language, we have to declare all variables at the beginning of a program or a function:
 
 ```pascal
 function max(num1, num2: integer): integer;
@@ -398,7 +398,7 @@ begin
 end;
 ```
 
-Some people use this style in languages that don’t require it:
+Some programmers use this style in languages that don’t require it:
 
 <!--
 const submitOrder = vi.fn()

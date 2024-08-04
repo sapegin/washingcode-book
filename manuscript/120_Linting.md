@@ -273,7 +273,7 @@ I always preferred `undefined` over `null`, and it looks like the language itsel
 
 It’s true that one can overwrite the value of `undefined`, but I wouldn’t bother about this now, especially if we’re using TypeScript.
 
-Some people believe that `null` and `undefined` have different semantics: they say that `null` is _intentional absence of any value_, and `undefined` is like _the value was never defined or unknown_. For me, it’s 50 shades of nothingness, and I doubt many developers reading code, that’s using both, would know the difference.
+Some programmers believe that `null` and `undefined` have different semantics: they say that `null` is _intentional absence of any value_, and `undefined` is like _the value was never defined or unknown_. For me, it’s 50 shades of nothingness, and I doubt many developers reading code, that’s using both, would know the difference.
 
 ### [no-else-return](https://eslint.org/docs/latest/rules/no-else-return)
 
@@ -427,7 +427,7 @@ I> We talk about it in the [Avoid Pascal-style variables](#no-pascal-vars) secti
 
 All rules that enforce a particular order of variables (inside a `let` or `const` declaration), object keys, React component props, CSS properties, and so on. They are all evil!
 
-Often some kind of semantic order is more readable than alphabetic sorting, and enforcing the latter won’t necessarily make the code better.
+Often, some kind of semantic order is more readable than alphabetic sorting, and enforcing the latter won’t necessarily make the code better.
 
 Probably, the only exception is `sort-imports` (see below).
 

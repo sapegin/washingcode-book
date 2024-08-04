@@ -1,4 +1,5 @@
 import path from 'node:path';
+import { URL } from 'node:url';
 import { vi, expect, assert } from 'vitest';
 import { useState, useReducer } from 'react';
 import _ from 'lodash';
@@ -7,6 +8,7 @@ import * as RTL from '@testing-library/react';
 export const environment = {
   sandbox: {
     ...global,
+    URL,
     // Testing APIs
     vi,
     expect,

@@ -391,7 +391,7 @@ Same in programming. For example, we’re done with a task, running the linter b
 
 I don’t fully agree with the idea that a particular code change (pull request) shouldn’t have any refactorings, bugfixes, or improvements. If the fix is tiny, why not do it right away instead of postponing it for a separate pull request which likely will never happen. It does make code review slightly harder, but often refactorings are easier to understand in the context of a change that requires them. Isolated refactorings often feel like refactorings for the sake of refactoring, which isn’t a good thing to do, and definitely not a good thing to spend our colleagues’ time in code reviews.
 
-Often there’s no easy way to split things into several pull requests, and often doing refactoring is actually easier than trying to hack a task into existing code without the refactoring. This also avoids problems with management who may see refactoring as a waste of time. For me, it’s an inevitable part of work on features.
+Often, there’s no easy way to split things into several pull requests, and often doing refactoring is actually easier than trying to hack a task into existing code without the refactoring. This also avoids problems with management who may see refactoring as a waste of time. For me, it’s an inevitable part of work on features.
 
 I was also never good at splitting refactoring into many tiny pull requests, atomic commits, and such. It requires the discipline I don’t have. Also, I disagree that we shouldn’t fix bugs during refactoring. It seems weird to me to spend time on recreating the incorrect behavior in the refactored code just to keep the refactoring “pure”.
 
@@ -1032,7 +1032,7 @@ Another problem is when the library isn’t doing exactly what we want. In this 
 
 ### My approach to using third-party libraries
 
-I don’t have any strict rules on using third-party libraries versus in-house ones, and balance is important here: both have their place in our work. For me, the choice depends on the complexity of the function I need, the type of the project (personal or not), my experience with a particular library that may do what I need, and so on.
+I don’t have any strict rules on using third-party libraries or in-house ones, and balance is important here: both have their place in our work. For me, the choice depends on the complexity of the function I need, the type of the project (personal or not), my experience with a particular library that may do what I need, and so on.
 
 I use [Lodash](https://lodash.com/) on most of my projects: it’s a hugely popular utility library for JavaScript that has lots of useful functions, and many developers have experience with it, so they’ll spend less time reading and understanding the code that uses these functions.
 
@@ -1102,7 +1102,7 @@ I> We talk about commenting code in the [Avoid comments](#no-comments) chapter.
 
 ### Always use constants for magic numbers
 
-Using constants instead of magic numbers is a great practice, but not all numbers are magic. Often developer make code less readable by following this principle without thinking and converting all literal values, number and strings, to constants.
+Using constants instead of magic numbers is a great practice, but not all numbers are magic. Often, developer make code less readable by following this principle without thinking and converting all literal values, number and strings, to constants.
 
 I> We talk about naming in the [Naming is hard](#naming) chapter.
 
@@ -1188,7 +1188,7 @@ Not once this situation happened to me: I spend hours debugging an especially ha
 
 When we spend too much time on a single task, our brain get blurry and stops seeing what would be obvious to us after a break.
 
-Another approach is called _rubberducking_, or [rubber duck debugging](https://en.wikipedia.org/wiki/Rubber_duck_debugging). The idea is to explain a problem in detail to someone else: a friend, colleague, or, to a rubber duck. The recipient isn’t important here and supposed to just listen. Often the act of explaining the issue helps us to see where the problem is and come up with a solution.
+Another approach is called _rubberducking_, or [rubber duck debugging](https://en.wikipedia.org/wiki/Rubber_duck_debugging). The idea is to explain a problem in detail to someone else: a friend, colleague, or, to a rubber duck. The recipient isn’t important here and supposed to just listen. Often, the act of explaining the issue helps us to see where the problem is and come up with a solution.
 
 ![Rubberducking](images/rubberducking.jpg)
 
