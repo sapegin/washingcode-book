@@ -19,6 +19,7 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 - [The Art of Readable Code](https://www.amazon.com/gp/product/0596802293/) by Dustin Boswell
 - [Code Complete: A Practical Handbook of Software Construction](https://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670/) by Steve McConnell
 - [Exploring JavaScript](https://exploringjs.com/js/) by Dr. Axel Rauschmayer
+- [The Practice of Programming](https://www.amazon.com/Practice-Programming-Addison-Wesley-Professional-Computing/dp/020161586X/) by Brian Kernighan and Rob Pike
 - [The Pragmatic Programmer: Your journey to mastery, 20th Anniversary Edition](https://www.amazon.com/Pragmatic-Programmer-journey-mastery-Anniversary-ebook/dp/B07VRS84D1/) by David Thomas and Andrew Hunt
 - [The Programmers’ Stone](https://www.datapacrat.com/Opinion/Reciprocality/r0/index.html) by Alan Carter and Colston Sanger
 - [Refactoring: Improving the Design of Existing Code](https://www.amazon.com/Refactoring-Improving-Existing-Addison-Wesley-Signature/dp/0134757599) by Martin Fowler

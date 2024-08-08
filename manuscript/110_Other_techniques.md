@@ -526,8 +526,6 @@ Here are the qualities that make functions testable:
 - **Responsible for one thing:** it’s easier to test all possible scenarios of a function when it doesn’t do too much.
 - **Doesn’t control presentation, only logic:** it’s easier to test raw data (number, arrays, objects, an so on) than its presentation (strings, HTML, and so on). Also, the presentation usually changes more often than logic, which means we’d have to update our tests more often if we were testing presentation.
 
-I> We talk more about separation of logic and presentation in the [Divide and conquer, or merge and relax](#divide) chapter.
-
 To summarize: it’s easier to test small pure functions. I don’t always follow these principles because I write unit tests only when I need to test some complex logic. In such cases, these principles make testing simpler and test more resilient to further code changes.
 
 I> A _pure function_ is a function that always returns the same value if we pass the same arguments (meaning it doesn’t depend on any non-deterministic values like dates or random numbers, on any non-constant value outside the function, or on the function’s internal state), and doesn’t have side effects (meaning it doesn’t change any external variables, update the database, send network requests, and so on).
@@ -1181,6 +1179,10 @@ expect(buffer).toBe('🍕 something tacocat')
 I always add a different emoji at the beginning, so it’s easy to differentiate logs in the browser console.
 
 T> I created a Visual Studio Code extension to add such `console.log`s using a hotkey: [Emoji Console Log](https://marketplace.visualstudio.com/items?itemName=sapegin.emoji-console-log).
+
+I always thought of console-logging as a lazy, frowned upon by old-school developers way of debugging. However, Brian Kernighan and Rob Pike recommend the same approach in _The Practice of Programming_ book, published in 1999:
+
+> As a personal choice, we tend not to use debuggers beyond getting a stack trace or the value of a variable or two. One reason is that it is easy to get lost in details of complicated data structures and control flow; we find stepping through a program less productive than thinking harder and adding output statements and self-checking code at critical places. Clicking over statements takes longer than scanning the output of judiciously-placed displays. It takes less time to decide where to put print statements than to single-step to the critical section of code, even assuming we know where that is. More important, debugging statements stay with the program; debugger sessions are transient.
 
 ## Go for a walk or talk to a rubber duck
 
