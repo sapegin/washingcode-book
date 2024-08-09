@@ -220,7 +220,7 @@ printStatus('Taco', 'warning')
 expect(console.error).toHaveBeenCalledWith('<yellow> WARN </yellow> <yellow>Taco</yellow>')
 -->
 
-JavaScript doesn’t have the `elseif` operator like some other languages. However, we can “make” one by skipping braces on the `else` branch. It doesn’t reduce the readability because all the code is still inside braces, but this way we have all branches on the same nesting level, creating a _parallel structure_, no matter how many branches we have.
+JavaScript doesn’t have the `elseif` operator like some other languages. However, we can “make” one by skipping braces on the `else` branch. It doesn’t reduce the readability because all the code is still inside braces, but this way we have all branches on the same nesting level, creating a _parallel structure_: all branches look like they belong to the same block of code.
 
 I> We talk more about parallel coding in the [Don’t make me think](#no-thinking) chapter.
 
