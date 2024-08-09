@@ -177,6 +177,53 @@ Shorter isn’t always better. (I’m fine with `pizza?.()` though, sometimes.)
 
 T> Use `curly` ESLint rule to make sure all conditions have braces: see the [Lint your code](#linting) chapter.
 
+The only exception is `else if`:
+
+<!--
+let console = { log: vi.fn(), error: vi.fn() }
+let colorsColors = {
+        green: (x) => `<green>${x}</green>`,
+        red: (x) => `<red>${x}</red>`,
+        yellow: (x) => `<yellow>${x}</yellow>`,
+    }
+let colors = {
+    ...colorsColors,
+    badge: () => colorsColors,
+}
+-->
+
+```js
+function printStatus(text, type) {
+  if (type === 'error') {
+    console.error(
+      `${colors.badge().red(' FAIL ')} ${colors.red(text)}`
+    );
+  } else if (type === 'warning') {
+    console.error(
+      `${colors.badge().yellow(' WARN ')} ${colors.yellow(text)}`
+    );
+  } else {
+    console.log(`${colors.badge().green(' DONE ')} ${text}`);
+  }
+}
+```
+
+<!--
+console.log.mockClear()
+printStatus('Taco', 'success')
+expect(console.log).toHaveBeenCalledWith('<green> DONE </green> Taco')
+console.error.mockClear()
+printStatus('Taco', 'error')
+expect(console.error).toHaveBeenCalledWith('<red> FAIL </red> <red>Taco</red>')
+console.error.mockClear()
+printStatus('Taco', 'warning')
+expect(console.error).toHaveBeenCalledWith('<yellow> WARN </yellow> <yellow>Taco</yellow>')
+-->
+
+JavaScript doesn’t have the `elseif` operator like some other languages. However, we can “make” one by skipping braces on the `else` branch. It doesn’t reduce the readability because all the code is still inside braces, but this way we have all branches on the same nesting level, creating a _parallel structure_, no matter how many branches we have.
+
+I> We talk more about parallel coding in the [Don’t make me think](#no-thinking) chapter.
+
 ## Obsolete code styles
 
 Sometimes, developers follow a particular code style even if the initial reasoning behind it is no longer relevant.
