@@ -747,7 +747,7 @@ This rule goes a bit further and disallows even abbreviations that I’m okay wi
 
 This rule is autofixable unless there are multiple replacements for a certain abbreviation.
 
-T> [Unicorn ESLint plugin](https://github.com/sindresorhus/eslint-plugin-unicorn) has many useful rules to improve codebase consistency and promote modern features of JavaScript. Most of these rules are autofixable.
+T> [Unicorn ESLint plugin](https://github.com/sindresorhus/eslint-plugin-unicorn) has many useful rules to improve codebase consistency and promote modern features of JavaScript. Most of these rules are autofixable. However, be careful: some rules can make your code too modern and it won’t work in all browsers you need to support.
 
 ## Linting legacy code
 
