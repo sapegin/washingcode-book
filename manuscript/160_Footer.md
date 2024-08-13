@@ -12,6 +12,26 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 
 <!-- cspell:disable -->
 
+# Index of teqniques and patterns
+
+Here’s a list of all teqniques and patterns described in the book.
+
+- [Colocation](#colocation).
+- [`defaultProps` for testing React components](#hydrated).
+- [Hiding complexity](#hide-complexity).
+- [Inline refactoring](#inline).
+- [Separation of “what” and “how”](#what-how).
+- [Separation of code that changes often](#often-changed).
+- [Single responsibility principle](#colocation).
+- [WET](#hydrated) (write everything twice, or we enjoy typing).
+
+# Index of antipatterns
+
+Here’s a list of all antipatterns described in the book.
+
+- [DRY](#grow-abstractions) (don’t repeat yourself).
+- [Monster utility files](#monster-utilities).
+
 # Resources
 
 ## Books

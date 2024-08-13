@@ -1511,7 +1511,7 @@ Most JavaScript and TypeScript style guides suggest the following:
 - PascalCase for class names, types, and components;
 - SCREAMING_SNAKE_CASE for constants.
 
-T> One of the benefits of naming conventions that use an underscore (`_`) or nothing to glue words together over conventions that use a dash (`-`) is that we can select a full name using a double click, or Alt+Shift+Left, or Alt+Shift+Right hotkeys (these hotkeys expand the selection to the word boundary).
+T> One of the benefits of naming conventions that use an underscore (`_`) or nothing to glue words together over conventions that use a dash (`-`) is that we can select a full name using a double-click, or Alt+Shift+Left, or Alt+Shift+Right hotkeys (these hotkeys expand the selection to the word boundary).
 
 The code that doesn’t follow the established naming conventions for a particular language looks awkward for developers who are used to these conventions. For example, here’s a JavaScript snippet that uses snake_case names:
 
