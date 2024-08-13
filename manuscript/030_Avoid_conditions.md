@@ -1967,11 +1967,9 @@ The code is noticeably longer, but it’s less dense and doesn’t try to do eve
 
 I> The [Naming is hard](#naming) chapter has a few more examples of extracting complex conditions.
 
-## Conclusion
+---
 
 Conditions allow us to write generic code that supports many use cases. However, when the code has too many conditions, it becomes hard to read and test. We should be vigilant and avoid unnecessary conditions, or replace some conditions with more maintainable and testable alternatives.
-
----
 
 Start thinking about:
 

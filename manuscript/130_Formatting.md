@@ -110,13 +110,11 @@ export default {
 
 T> I only enable autofixing and formatting on explicit saving with Cmd+S in my editor, not with autosave. Often, I need to look up something in the docs or google halfway into writing a line of code, and autoformat messes up incomplete code too much.
 
-## Conclusion
+---
 
 Code formatting tooling has gone a long way, and now it’s a standard tool for any serious project. It saves developers time, makes the codebase more consistent, simplifies onboarding, and improves cross-team collaboration.
 
 It is true that sometimes autoformatters produce ugly code, but often it’s a sign that the code is too complex and should be rewritten. Maybe introduce a variable, or don’t chain too many methods together? I’d rather not spend too much time on such meta work and let the robots do it instead.
-
----
 
 Start thinking about:
 

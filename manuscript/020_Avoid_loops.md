@@ -767,11 +767,9 @@ Also, the `every()`, `some()`, `find()`, and `findIndex()` methods are short-cir
 
 In any case, we should measure performance to know what to optimize and verify whether our changes really make the code faster in all important browsers and environments.
 
-## Conclusion
+---
 
 Traditional loops aren’t bad as such. Programmers have been using them successfully for decades, and in some cases traditional loops are still the best choice. However, modern programming languages have better, more declarative alternatives to loops that are more readable and less error-prone. In the end, it’s often a good idea to write the same code using both and choose the more readable option.
-
----
 
 Start thinking about:
 

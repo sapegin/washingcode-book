@@ -965,7 +965,9 @@ function Toggle() {
 
 It makes the code clear and obvious: if we have user details after the data has been fetched, the user must be logged in.
 
-## Conclusion
+
+---
+
 
 When I was in my twenties, it wasn’t a huge problem to remember things. I could remember books I’ve read; I could remember all the functions of a project I was working with… Now, that I’m in my forties, it’s no longer the case: I value simple code that doesn’t use any tricks; I value search engines, quick access to the docs, and tooling that allows me to reason about the code and navigate the project without keeping everything in my head.
 

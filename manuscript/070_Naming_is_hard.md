@@ -1994,11 +1994,9 @@ expect(c1.textContent).toEqual('Chuck (@)')
 
 This matters most when either the type or the component is exported and reused in other places. Local names are more forgiving since they are only used in the same file, and the definition is right there.
 
-## Conclusion
+---
 
 Names don’t affect the way our code works, but they do affect the way we read it. Misleading or imprecise names can cause misunderstandings and make the code harder to understand and change. They can even cause bugs when we act based on incorrect assumptions caused by bad names.
-
----
 
 Start thinking about:
 

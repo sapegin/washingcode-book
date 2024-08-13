@@ -188,13 +188,11 @@ TODO: git-friendly
 
 TODO: Alfred workflow to open projects in Code
 
-## Conclusion
+---
 
 Modern code editors have hundreds of features, and plugins add even more. It’s hard to remember them, and even harder to remember the hotkeys for the features we don’t use regularly. I often use the _command palette_ to access such features. For example, I use features like line sorting, case conversion, removing duplicate lines, and so on, probably a few times a week, but I don’t have hotkeys for them, and always access them using the command palette:
 
 TODO: screenshot
-
----
 
 Start thinking about:
 

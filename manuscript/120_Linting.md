@@ -867,7 +867,7 @@ Other plugins mentioned in the book:
 - [Better mutation](https://github.com/sloops77/eslint-plugin-better-mutation): disallows any mutation, except for local variables in functions.
 - [Functional](https://github.com/eslint-functional/eslint-plugin-functional): disables mutation and promotes functional programming.
 
-## Conclusion
+---
 
 Linters are useful to prevent bugs and maintain a consistent codebase but can be misused.
 
@@ -876,8 +876,6 @@ On the one hand, it can be a good idea to automate code style checks by adding l
 Ideally, all linter rules should be autofixable, so developers don’t waste time tailoring their code to satisfy esoteric linter rules. If it’s impossible or too difficult to make an autofixable rule, we should really think whether it’s worth having such rule at all.
 
 And no linter rule is coded in stone: it’s always up to a developer writing code whether to follow a certain rule, disable it for a single line, or remove it from the lint config altogether.
-
----
 
 Start thinking about:
 

@@ -981,7 +981,7 @@ I don’t have good ideas on how to rewrite this code without an imperative loop
 - the code is clear enough;
 - the function is pure: it doesn’t have any internal state or side effects.
 
-## Conclusion
+---
 
 Replacing imperative code, full of loops and conditions, with declarative code is one of my favorite refactorings, as it often makes code more readable and maintainable. This is also one of the most common suggestions I make in code reviews. Code with mutations likely hides other issues — mutation is a good sign to look closer.
 
@@ -990,8 +990,6 @@ However, it’s better to write simple and clear code with mutation than complex
 Also, immutable operations could [significantly reduce performance](https://tkdodo.eu/blog/why-i-dont-like-reduce) when working with large amounts of data and create a new object on each iteration.
 
 I’d prefer to have a language that is immutable by default and use mutating operations explicitly where I need them.
-
----
 
 Start thinking about:
 

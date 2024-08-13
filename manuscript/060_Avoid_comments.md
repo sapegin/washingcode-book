@@ -598,13 +598,11 @@ $color--facebook: #3b5998; // Facebook brand color
 
 In any case, it’s our responsibility to ask _why_ as many times as necessary; otherwise we’ll end up with mountains of tech debt that don’t solve any real problems.
 
-## Conclusion
+---
 
 Comments enrich code with information that cannot be expressed by the code alone. They help us understand why the code is written in a certain way, especially when it’s not obvious. They help us avoid disastrous “refactoring”, when we simplify the code by removing essential parts.
 
 However, if it’s too hard to explain a certain piece of code in a comment, perhaps we should rewrite such code instead of trying to explain it.
-
----
 
 Start thinking about:
 

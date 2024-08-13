@@ -787,13 +787,11 @@ Unfortunately, JavaScript has no true constants, and _mutation_ is still possibl
 
 I> We talk about mutation in [the next chapter](#no-mutation).
 
-## Conclusion
+---
 
 Code without reassignments is often easier to reason about because variables don’t change their values in the middle of their lifespan.
 
 However, reassignments aren’t pure evil, and exterminating them at all costs won’t make the code better. I treat each reassignment as a sign: if I see a reassignment, I ask myself whether rewriting the code without it would improve readability. There’s no right or wrong answer, but if we do use reassignments, it’s better to isolate them in small functions, making it clear what the current value of a variable is.
-
----
 
 Start thinking about:
 

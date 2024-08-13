@@ -1039,7 +1039,7 @@ In all the examples above, I prefer the last variation, but I’d never ask some
 
 This doesn’t improve readability. The code is just different; no variation is better than the other. And even the consistency argument isn’t good enough unless we can automate code replacement completely transparently for the developer. Otherwise, the cost of maintaining the convention would be too high.
 
-## Conclusion
+---
 
 My rule of thumb here is: _automate or forget_. For example, [Prettier](https://prettier.io/) formats code with almost zero config, which saves an enormous amount of time while you write code, read someone else’s code, or discuss code style in your team.
 
@@ -1048,8 +1048,6 @@ I> We talk about Prettier and code formatting in the [Autoformat your code](#for
 Be vigilant when you adapt [a popular code style](https://sapegin.me/blog/javascript-code-styles/): many are too opinionated and want us to write code in a very specific way, even when it doesn’t improve the readability or maintainability of the code or reduce the number of bugs.
 
 Prefer explicit over implicit; write code to maximize readability, but don’t be too strict with others when they don’t do it the same way you would.
-
----
 
 Start thinking about:
 
