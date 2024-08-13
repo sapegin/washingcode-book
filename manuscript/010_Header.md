@@ -117,6 +117,8 @@ const kebabNames = names.map(name => _.kebabCase(name));
 
 <!-- expect(kebabNames).toEqual(['bilbo-baggins', 'gandalf', 'gollum']) -->
 
+W> In 2024 it’s still more efficient to import separate modules from Lodash. I use the `_` imports here mostly for convenience, but such imports may increase the bundle size.
+
 T> We talk abut third-party libraries and their trade-offs in the [Avoid not invented here syndrome](#no-nih) section of the Other techniques chapter.
 
 ## Acknowledgments
