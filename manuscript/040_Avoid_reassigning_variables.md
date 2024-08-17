@@ -50,7 +50,7 @@ I> The `const` and `let` keywords are relatively new in JavaScript, and were int
 
 Most of the time, we can write code without reassignments, making it easier to reason about.
 
-I> Arrays and objects can also be _mutated_, even if they are defined using the `const` keyword. We talk about mutation in the [next chapter](#no-mutation).
+I> Arrays and objects can also be _mutated_, even if they are defined using the `const` keyword. We talk about mutation in the next chapter, [Avoid mutation](#no-mutation).
 
 ## Don’t reuse variables
 
@@ -785,7 +785,7 @@ Both conventions reduce the cognitive load a bit and make the code easier to und
 
 Unfortunately, JavaScript has no true constants, and _mutation_ is still possible even when we define a variable using the `const` keyword.
 
-I> We talk about mutation in [the next chapter](#no-mutation).
+I> We talk about mutation in the next chapter, [Avoid mutation](#no-mutation).
 
 ---
 

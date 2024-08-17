@@ -51,6 +51,17 @@ const updateCode = contents =>
 const updateImages = contents =>
   contents.replace(/\.svg/, '.png');
 
+/**
+ * Italicize local links so they are visible int the text.
+ */
+const updateLinks = contents =>
+  contents.replace(
+    /\[([^\]]+)]\((#[\w-]+)\)/,
+    (_md, label, href) => {
+      return `[_${label}_](${href})`;
+    }
+  );
+
 /** Pretty typography */
 const typo = contents => richtypo(rules, contents);
 
@@ -81,7 +92,8 @@ for (const filepath of files) {
     updateAnchors,
     updateTips,
     updateCode,
-    updateImages
+    updateImages,
+    updateLinks
   )(markuaText);
 
   fs.writeFileSync(
