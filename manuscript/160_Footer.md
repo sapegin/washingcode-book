@@ -18,8 +18,10 @@ Here’s a list of all teqniques and patterns described in the book.
 
 - [Colocation](#colocation).
 - [`defaultProps` for testing React components](#hydrated).
+- [Early returns](#early-returns).
 - [Hiding complexity](#hide-complexity).
 - [Inline refactoring](#inline).
+- [Parallel coding](#parallel).
 - [Separation of “what” and “how”](#what-how).
 - [Separation of code that changes often](#often-changed).
 - [Single responsibility principle](#colocation).
@@ -31,6 +33,7 @@ Here’s a list of all antipatterns described in the book.
 
 - [DRY](#grow-abstractions) (don’t repeat yourself).
 - [Monster utility files](#monster-utilities).
+- [Shortcuts](#shortcuts).
 
 # Resources
 

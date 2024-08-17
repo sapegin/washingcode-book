@@ -373,11 +373,7 @@ It’s called Premature abstraction, [premature generalization](https://www.code
 
 Focus on finding the simplest solution for the current requirements. It will be easier to review and test now, and to adapt to new requirements in the future.
 
-<!-- textlint-disable alex -->
-
-I> This approach is often called [Yagni](https://martinfowler.com/bliki/Yagni.html) (You aren’t gonna need it) or [KISS](https://en.wikipedia.org/wiki/KISS_principle) (Keep it simple, stupid!).
-
-<!-- textlint-enable -->
+I> This approach is often called [Yagni](https://martinfowler.com/bliki/Yagni.html) (You aren’t gonna need it) or [KISS](https://en.wikipedia.org/wiki/KISS_principle) (Keep it simple, <!-- textlint-disable alex -->stupid<!-- textlint-enable -->!).
 
 Write code that’s easy to delete. Isolate different features from each other, isolate UI from business logic. Make UI easy to change and move around.
 
@@ -505,7 +501,7 @@ Now, there’s no question which props are different, and which are the same.
 
 I’m a big fan of parallel code, and, even though the original code was already parallel, thanks to two branches of a ternary operator, now it’s easy to see the difference between branches that was buried in duplicate code before.
 
-I> We talk more about parallel code in [Don’t make me think](#no-thinking) chapter.
+I> We talk more about parallel coding in [Don’t make me think](#no-thinking) chapter.
 
 Some people [even believe](https://www.reddit.com/r/programming/comments/2tjoc8/the_boy_scout_rule_of_coding/?rdt=48062) that we shouldn’t touch what’s working and refactoring has no business value for the product, but I fiercely disagree. Our job is not only do what we’re told to do by the business people but also to keep our software easy to change, so we can quickly react to new business requirements. This is only possible if we care about maintainability, don’t let the tech debt pile up.
 

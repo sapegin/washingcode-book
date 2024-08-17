@@ -581,7 +581,9 @@ log(LOG_LEVEL.ERROR, errorMessage || DEFAULT_ERROR_MESSAGE);
 
 We’ve removed all code duplication, and the code is shorter and easier to read. It’s also easier to see exactly which values depend on the condition.
 
-## Early return
+{#early-returns}
+
+## Early returns
 
 A series of nested conditions is an unfortunate but popular way of handling errors:
 

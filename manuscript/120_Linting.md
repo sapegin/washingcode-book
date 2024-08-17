@@ -668,7 +668,7 @@ resizeImage(filepath, {
 
 Now, everything is clear, and we can make any of the parameters optional.
 
-I> To learn more about the problem it solves, see the [Name things](#name-things) section of the _Don’t make me think_ chapter.
+I> To learn more about the problem it solves, see the [Name function parameters](#func-param-naming) section of the _Naming is hard_ chapter.
 
 This rule is not autofixable and is not included in the recommended config.
 

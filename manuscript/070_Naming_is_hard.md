@@ -59,6 +59,135 @@ I once worked with a very seasoned developer who mostly used very short names an
 
 Let’s look at these (and many other) naming antipatterns and how to fix them.
 
+{#func-param-naming}
+
+## Name function parameters
+
+Function calls with multiple parameters can be hard to understand. Consider this function call:
+
+<!--
+let x, action, location, currentState, currentParams, prevState, prevParams
+const stateChangeSuccess = (...args) => x = args.length
+-->
+
+```js
+stateChangeSuccess(
+  action,
+  location,
+  currentState,
+  currentParams,
+  prevState,
+  prevParams
+);
+```
+
+<!-- expect(x).toBe(6) -->
+
+Even with TypeScript, it’s hard to understand the meaning of each positional parameter in a function call when there are too many of them.
+
+It can be even worse if some parameters are optional:
+
+<!--
+let x, target, fixedRequest, ctx
+const resolver = { doResolve: (...args) => x = args.length }
+-->
+
+```js
+resolver.doResolve(
+  target,
+  fixedRequest,
+  null,
+  ctx,
+  (err, result) => {
+    /* … */
+  }
+);
+```
+
+<!-- expect(x).toBe(5) -->
+
+This `null` in the middle is grotesque, and who knows what was supposed to be there or why we’re not passing it?
+
+However, the worst programming pattern of all time is likely positional boolean function parameters:
+
+<!-- let x; const appendScriptTag = (a, b) => x=b -->
+
+```js
+appendScriptTag(`https://example.com/falafel.js`, false);
+```
+
+<!-- expect(x).toBe(false) -->
+
+What are we disabling here? Don’t try to answer, it was a rhetorical question. We’ll never know that.
+
+How many parameters are too many? In my experience, more than two parameters are already too many. Additionally, any boolean parameter is automatically too many.
+
+Some languages have _named parameters_ to solve these problems. For example, in Python we could write this:
+
+```python
+appendScriptTag('https://example.com/falafel.js', useCORS=false)
+```
+
+Here, it’s obvious what this code does. Names serve as inline documentation.
+
+Unfortunately, JavaScript doesn’t support named parameters yet, but we can use an object instead:
+
+<!-- let x; const appendScriptTag = (a, b) => x = b.useCORS -->
+
+```js
+appendScriptTag(`https://example.com/falafel.js`, {
+  useCORS: false
+});
+```
+
+<!-- expect(x).toBe(false) -->
+
+The code is slightly more verbose than in Python, but it achieves the same outcome.
+
+## Name complex conditions
+
+Some conditions are short and obvious, while others are long and require deep code knowledge to understand.
+
+Consider this code:
+
+<!-- let x; const useAuth = () => ({status: 'fetched', userDetails: {}}) -->
+
+```js
+function Toggle() {
+  const { userDetails, status } = useAuth();
+
+  if (status === 'fetched' && Boolean(userDetails)) {
+    return null;
+  }
+
+  /* … */
+}
+```
+
+<!-- expect(Toggle()).toBe(null) -->
+
+Here, it’s hard to understand why we’re shortcutting the component. However, if we give the condition a name:
+
+<!-- let x; const useAuth = () => ({status: 'fetched', userDetails: {}}) -->
+
+```js
+function Toggle() {
+  const { userDetails, status } = useAuth();
+  const isUserLoggedIn =
+    status === 'fetched' && Boolean(userDetails);
+
+  if (isUserLoggedIn) {
+    return null;
+  }
+
+  /* … */
+}
+```
+
+<!-- expect(Toggle()).toBe(null) -->
+
+This makes the code clear and obvious: if we have user details after the data has been fetched, the user must be logged in.
+
 ## Negative booleans are not not hard to read
 
 Consider this example:
@@ -1997,6 +2126,8 @@ This matters most when either the type or the component is exported and reused i
 ---
 
 Names don’t affect the way our code works, but they do affect the way we read it. Misleading or imprecise names can cause misunderstandings and make the code harder to understand and change. They can even cause bugs when we act based on incorrect assumptions caused by bad names.
+
+Additionally, it’s hard to understand what a certain value is when it doesn’t have a name. For example, it could be a mysterious number, an obscure function parameter, or a complex condition. In all these cases, by naming things, we could tremendously improve code readability.
 
 Start thinking about:
 
