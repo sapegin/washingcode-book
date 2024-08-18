@@ -15,9 +15,15 @@ mkdir -p "dist"
 echo
 echo "[BUILD] Generate PDF ebook..."
 
+# Available PDF engines:
+# - pdflatex: default
+# - lualatex: doesn't support \DeclareUnicodeCharacter, broken fonts
+# - xelatex: doesn't support \DeclareUnicodeCharacter, broken fonts
+
 pandoc $CHAPTERS_FILES_PDF \
   --resource-path="manuscript/resources" \
   --output="dist/$BOOK_FILE-content.pdf" \
+  --pdf-engine=pdflatex \
   --top-level-division=chapter \
   --table-of-contents --toc-depth=2 \
   --template="generator/eisvogel.latex" \

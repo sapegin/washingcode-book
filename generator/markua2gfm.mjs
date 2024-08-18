@@ -55,8 +55,8 @@ const updateImages = contents =>
  * Italicize local links so they are visible int the text.
  */
 const updateLinks = contents =>
-  contents.replace(
-    /\[([^\]]+)]\((#[\w-]+)\)/,
+  contents.replaceAll(
+    /\[([^\]]+)]\((#[\w-]+)\)/g,
     (_md, label, href) => {
       return `[_${label}_](${href})`;
     }
