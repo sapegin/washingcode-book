@@ -1,9 +1,22 @@
 {
+  "metadata": {
+    "author": "Artem Sapegin <artem@sapegin.ru>",
+    "license": "MIT License",
+    "name": "Washing your code",
+    "revision": 1
+  },
   "text-color": "#565a67",
   "background-color": null,
   "line-number-color": "#6c7693",
   "line-number-background-color": null,
   "text-styles": {
+    "Normal": {
+      "text-color": "#565a67",
+      "background-color": null,
+      "bold": false,
+      "italic": false,
+      "underline": false
+    },
     "Other": {
       "text-color": "#565a67",
       "background-color": null,
@@ -12,7 +25,7 @@
       "underline": false
     },
     "Attribute": {
-      "text-color": "#0f73a7",
+      "text-color": "#565a67",
       "background-color": null,
       "bold": false,
       "italic": false,
@@ -35,7 +48,7 @@
     "Function": {
       "text-color": "#0f73a7",
       "background-color": null,
-      "bold": true,
+      "bold": false,
       "italic": false,
       "underline": false
     },
@@ -98,7 +111,7 @@
     "Extension": {
       "text-color": "#ff00ff",
       "background-color": null,
-      "bold": false,
+      "bold": true,
       "italic": false,
       "underline": false
     },
@@ -140,19 +153,19 @@
     "Import": {
       "text-color": "#7859a6",
       "background-color": null,
-      "bold": false,
+      "bold": true,
       "italic": false,
       "underline": false
     },
     "Char": {
-      "text-color": "#00805e",
+      "text-color": "#565a67",
       "background-color": null,
       "bold": false,
       "italic": false,
       "underline": false
     },
     "DataType": {
-      "text-color": "#0f73a7",
+      "text-color": "#00805e",
       "background-color": null,
       "bold": false,
       "italic": false,
@@ -187,7 +200,7 @@
       "underline": false
     },
     "SpecialChar": {
-      "text-color": "#00805e",
+      "text-color": "#565a67",
       "background-color": null,
       "bold": false,
       "italic": false,

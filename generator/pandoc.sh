@@ -1,6 +1,5 @@
 # TODO: Make table headers bold
 # TODO: Size individual illustrations
-# TODO: Correct diff syntax highlighting colors
 
 BOOK_FILE="washing-code"
 BOOK_TITLE="Washing your code: clean code for frontend developers"
@@ -20,6 +19,9 @@ echo "[BUILD] Generate PDF ebook..."
 # - lualatex: doesn't support \DeclareUnicodeCharacter, broken fonts
 # - xelatex: doesn't support \DeclareUnicodeCharacter, broken fonts
 
+# Syntax highlighting theme docs:
+# https://docs.kde.org/stable5/en/kate/katepart/highlight.html
+
 pandoc $CHAPTERS_FILES_PDF \
   --resource-path="manuscript/resources" \
   --output="dist/$BOOK_FILE-content.pdf" \
@@ -28,6 +30,12 @@ pandoc $CHAPTERS_FILES_PDF \
   --table-of-contents --toc-depth=2 \
   --template="generator/eisvogel.latex" \
   --highlight-style "generator/theme.theme" \
+  --syntax-definition "generator/syntax/javascript.xml" \
+  --syntax-definition "generator/syntax/javascript-react.xml" \
+  --syntax-definition "generator/syntax/typescript.xml" \
+  --syntax-definition "generator/syntax/typescript-react.xml" \
+  --syntax-definition "generator/syntax/pascal.xml" \
+  --syntax-definition "generator/syntax/diff.xml" \
   --lua-filter "generator/filters/tips.lua" \
   --from "$SOURCE_FORMAT" \
   -M date="$VERSION"

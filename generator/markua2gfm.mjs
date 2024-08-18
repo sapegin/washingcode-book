@@ -38,13 +38,6 @@ const updateAnchors = contents =>
   );
 
 /**
- * Pandoc doesn't support TSX syntax highlighting:
- * Replace it with JSX that seems to look good enough.
- */
-const updateCode = contents =>
-  contents.replaceAll('```tsx', '```jsx');
-
-/**
  * Pandoc doesn't work well with SVG images in PDFs:
  * Replace them with PNG files.
  */
@@ -78,8 +71,7 @@ for (const filepath of files) {
   const epubText = _.flow(
     typo,
     updateAnchors,
-    updateTips,
-    updateCode
+    updateTips
   )(markuaText);
 
   fs.writeFileSync(
@@ -91,7 +83,6 @@ for (const filepath of files) {
     typo,
     updateAnchors,
     updateTips,
-    updateCode,
     updateImages,
     updateLinks
   )(markuaText);
