@@ -17,11 +17,15 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 Here’s a list of all teqniques and patterns described in the book.
 
 - [Colocation](#colocation).
+- [Condition expansion](#condition-expansion).
 - [`defaultProps` for testing React components](#hydrated).
 - [Early returns](#early-returns).
 - [Hiding complexity](#hide-complexity).
 - [Inline refactoring](#inline).
 - [Parallel coding](#parallel).
+- [Range conditions](#range-conditions).
+- [Readable numbers](#readable-numbers).
+- [Sections, paragraphs, phrases](#sections-etc).
 - [Separation of “what” and “how”](#what-how).
 - [Separation of code that changes often](#often-changed).
 - [Single responsibility principle](#colocation).

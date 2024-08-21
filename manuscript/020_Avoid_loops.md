@@ -2,9 +2,9 @@
 
 # Avoid loops
 
-<!-- description: Iterating over collections and why traditional loops like `for` and `while` may not be the best approach -->
+<!-- description: Iterating over collections and why traditional loops, such as `for` or `while`, may not be the best approach -->
 
-Traditional loops, like `for` or `while`, are too low-level for everyday tasks:
+Traditional loops, such as `for` or `while`, are too low-level for everyday tasks:
 
 - they are verbose;
 - they are prone to off-by-one errors;
