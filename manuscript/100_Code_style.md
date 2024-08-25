@@ -245,76 +245,54 @@ The goal of this style was the same as trailing commas in the previous section: 
 
 Another example is [Yoda conditions](https://en.wikipedia.org/wiki/Yoda_conditions), a style where a literal is on the left side of a condition:
 
-<!--
-const meaning = 42
-let result = false;
--->
+<!-- let meaning = 42 -->
 
 <!-- prettier-ignore -->
 ```js
 if (42 === meaning) {
+    // …
+}
 ```
 
-<!--
-  result = true
-}
-expect(result).toBe(true)
--->
+<!-- expect($1).toBe(true) -->
 
 It’s easy to accidentally type `=` instead of `==` in languages like C, resulting in an assignment:
 
-<!--
-let meaning = 0
-let result = false;
--->
+<!-- let meaning = 0 -->
 
+<!-- prettier-ignore -->
 ```js
 // WARNING: This code is wrong
 if (meaning = 42) {
   // Assigns 42 to `meaning`
+}
 ```
 
-<!--
-  result = true
-}
-expect(meaning).toBe(42)
--->
+<!-- expect(meaning).toBe(42) -->
 
 Instead of a comparison:
 
-<!--
-const meaning = 42
-let result = false;
--->
+<!-- let meaning = 42 -->
 
 ```js
 if (meaning == 42) {
   // Compares `meaning` to 42
+}
 ```
 
-<!--
-  result = true
-}
-expect(result).toBe(true)
--->
+<!-- expect($1).toBe(true) -->
 
 This issue is much less relevant in JavaScript, where strict equality (`===`, requiring values and types to be equal) is the preferred style; enforced by a linter in most projects. Loose equality (`==`, requiring only values to be equal) is uncommon in modern JavaScript. It’s really hard to skip two equal signs when typing `===`, so the natural order of conditions is safe and more readable:
 
-<!--
-const meaning = 42
-let result = false;
--->
+<!-- let meaning = 42 -->
 
 ```js
 if (meaning === 42) {
   // Compares `meaning` to 42
+}
 ```
 
-<!--
-  result = true
-}
-expect(result).toBe(true)
--->
+<!-- expect($1).toBe(true) -->
 
 ## Nonsensical code styles
 
@@ -367,38 +345,32 @@ Some ways of writing code are more readable than others. For example, conditions
 Consider this example:
 
 <!--
-const object = { o: 0 }
-let result = false
+let object = { o: 0 }
 let isEmpty = _.isEmpty
 -->
 
 ```js
 if (!isEmpty(object)) {
+  // Object is not empty
+}
 ```
 
-<!--
-  result = true
-}
-expect(result).toBe(true)
--->
+<!-- expect($1).toBe(true) -->
 
 It’s hard to notice the logical NOT operator (`!`) here. We can replace the logical NOT operator with an explicit condition to avoid misunderstandings:
 
 <!--
-const object = { o: 0 }
-let result = false
+let object = { o: 0 }
 let isEmpty = _.isEmpty
 -->
 
 ```js
 if (isEmpty(object) === false) {
+  // Object is not empty
+}
 ```
 
-<!--
-  result = true
-}
-expect(result).toBe(true)
--->
+<!-- expect($1).toBe(true) -->
 
 Someone may argue that it doesn’t read like English — “not is empty” — but there’s now way to miss the negation. This style is also less common than the one with `!`, but I think the readability benefits are worth adopting.
 
@@ -406,43 +378,34 @@ In some languages, negation is much more visible. For example, in Python:
 
 ```python
 if not is_empty(object):
+  # Object is not empty
 ```
 
 Unfortunately, JavaScript inherited terse syntax from C that’s fast to type but might be hard to read later.
 
 Here’s another example:
 
-<!--
-const guacamole = {}
-let result = false
--->
+<!-- let guacamole = {} -->
 
 ```js
 if (!('garlic' in guacamole)) {
+  // No garlic here
+}
 ```
 
-<!--
-  result = true
-}
-expect(result).toBe(true)
--->
+<!-- expect($1).toBe(true) -->
 
 This pattern was always awkward to write and read for me until my friend Oleg [opened up a whole new world to me](https://x.com/oleg008/status/1519593163803049984): we can use the same trick as above to make it more readable:
 
-<!--
-const guacamole = {}
-let result = false
--->
+<!-- let guacamole = {} -->
 
 ```js
 if ('garlic' in guacamole === false) {
+  // No garlic here
+}
 ```
 
-<!--
-  result = true
-}
-expect(result).toBe(true)
--->
+<!-- expect($1).toBe(true) -->
 
 Another area where expanding conditions improves readability is when checking array length.
 
@@ -460,7 +423,10 @@ if (!puppies.length) {
 }
 ```
 
-<!-- // Skipping tests here -->
+<!--
+expect($1).toBe(false)
+expect($2).toBe(true)
+-->
 
 They look almost the same, and it’s easy to miss the `!` in front of the second one. Let’s expand them:
 
@@ -476,43 +442,36 @@ if (puppies.length === 0) {
 }
 ```
 
-<!-- // Skipping tests here -->
+<!--
+expect($1).toBe(false)
+expect($2).toBe(true)
+-->
 
 Now, the conditions look significantly different, and there’s no way to misinterpret them.
 
 I’m starting to think that using `!` in conditions is [generally an antipattern](https://x.com/Jack_Franklin/status/1189477268764188672). Instead of:
 
-<!--
-const isFriday = false
-let result = false
--->
+<!-- let isFriday = false -->
 
 ```js
 if (!isFriday) {
+  // Not Friday yet :—(
+}
 ```
 
-<!--
-  result = true
-}
-expect(result).toBe(true)
--->
+<!-- expect($1).toBe(true) -->
 
 We should always write:
 
-<!--
-const isFriday = false
-let result = false
--->
+<!-- let isFriday = false -->
 
 ```js
 if (isFriday === false) {
+  // Not Friday yet :—(
+}
 ```
 
-<!--
-  result = true
-}
-expect(result).toBe(true)
--->
+<!-- expect($1).toBe(true) -->
 
 {#range-conditions}
 
@@ -520,47 +479,41 @@ expect(result).toBe(true)
 
 Another area where we can improve readability a bit is when checking whether a value is between two numbers. A naïve way to do so would be:
 
-<!-- let inside = false, x = 7 -->
+<!-- let x = 7 -->
 
 ```js
 if (x > 3 && x < 13) {
+  // The x is between 3 and 13
+}
 ```
 
-<!--
-inside = true
-}
-expect(inside).toBe(true)
--->
+<!-- expect($1).toBe(true) -->
 
 This reads as “x is greater than 3 _and_ less than 13,” which is fine, but we can still improve it:
 
-<!-- let inside = false, x = 7 -->
+<!-- let x = 7 -->
 
 ```js
 if (3 < x && x < 13) {
+  // The x is not between 3 and 13
+}
 ```
 
-<!--
-inside = true
-}
-expect(inside).toBe(true)
--->
+<!-- expect($1).toBe(true) -->
 
 Now, it’s easier to see that we want `x` to be _between_ 3 and 13.
 
 We can use the same approach to check whether a value is outside a range:
 
-<!-- let inside = false, x = 7 -->
+<!-- let x = 7 -->
 
 ```js
 if (x < 3 || 13 < x) {
+  // The x is not between 3 and 13
+}
 ```
 
-<!--
-inside = true
-}
-expect(inside).toBe(false)
--->
+<!-- expect($1).toBe(false) -->
 
 {#readable-numbers}
 

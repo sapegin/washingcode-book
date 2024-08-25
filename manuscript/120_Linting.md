@@ -335,36 +335,24 @@ There are other similar rules that try to artificially limit the number of React
 
 This rule prevents us from writing unnecessary conditions where the condition is constant:
 
-<!-- let x -->
-
 ```js
-if (1 === 1+5) {
+if (1 === 1 + 5) {
+  // We’ll never get here
+}
 ```
 
-<!--
-  x = true
-} else {
-  x = false
-}
-expect(x).toBe(false)
--->
+<!-- expect($1).toBe(false) -->
 
 This can catch a few bugs, but the scope of this rule is limited. For example, it won’t catch the same problem here:
-
-<!-- let x -->
 
 ```js
 const cuantosTacos = 42;
 if (cuantosTacos === 41) {
+  // We’ll never get here
+}
 ```
 
-<!--
-  x = true
-} else {
-  x = false
-}
-expect(x).toBe(false)
--->
+<!-- expect($1).toBe(false) -->
 
 Also, by default, this rule also prevents us from writing infinite loops like this:
 
@@ -490,12 +478,11 @@ One common use case for `==` is comparison to `null`:
 
 ```js
 if (result == null) {
+  // No result
+}
 ```
 
-<!--
-result = 'TRUE' }
-expect(result).toBe('TRUE')
--->
+<!-- expect($1).toBe(true) -->
 
 Which would be the same as strict comparison to `null` or `undefined`:
 
@@ -503,12 +490,11 @@ Which would be the same as strict comparison to `null` or `undefined`:
 
 ```js
 if (result === null || result === undefined) {
+  // No result
+}
 ```
 
-<!--
-result = 'TRUE' }
-expect(result).toBe('TRUE')
--->
+<!-- expect($1).toBe(true) -->
 
 In my projects, this pattern isn’t common enough to allow an exception, and I can write an expanded comparison using `===` when I need it.
 

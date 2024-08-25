@@ -37,48 +37,36 @@ const percentString = `${percent}%`;
 
 **Example 2:**
 
-<!-- let result = false -->
-
 ```js
 const url = 'index.html?id=5';
 if (~url.indexOf('id')) {
+  // Something fishy here…
+}
 ```
 
-<!--
-  result = true
-}
-expect(result).toBe(true)
--->
+<!-- expect($1).toBe(true) -->
 
 The `~` symbol is called the _bitwise NOT_ operator. Its useful effect here is that it returns a falsy value only when `indexOf()` returns `-1`. This code should be rewritten as:
-
-<!-- let result = false -->
 
 ```js
 const url = 'index.html?id=5';
 if (url.indexOf('id') !== -1) {
+  // Something fishy here…
+}
 ```
 
-<!--
-  result = true
-}
-expect(result).toBe(true)
--->
+<!-- expect($1).toBe(true) -->
 
 Or, even better:
-
-<!-- let result = false -->
 
 ```js
 const url = 'index.html?id=5';
 if (url.includes('id')) {
+  // Something fishy here…
+}
 ```
 
-<!--
-  result = true
-}
-expect(result).toBe(true)
--->
+<!-- expect($1).toBe(true) -->
 
 **Example 3:**
 
@@ -115,37 +103,27 @@ expect(result).toBe(3)
 
 **Example 4:**
 
-<!--
-const dogs = [1], cats = [2]
-let result = false
--->
+<!-- let dogs = [1], cats = [2] -->
 
 ```js
 if (dogs.length + cats.length > 0) {
+  // Something fishy here…
+}
 ```
 
-<!--
-  result = true
-}
-expect(result).toBe(true)
--->
+<!-- expect($1).toBe(true) -->
 
 This one is understandable after spending some time with it, but it’s better to make it obvious:
 
-<!--
-const dogs = [1], cats = [2]
-let result = false
--->
+<!-- let dogs = [1], cats = [2] -->
 
 ```js
 if (dogs.length > 0 && cats.length > 0) {
+  // Something fishy here…
+}
 ```
 
-<!--
-  result = true
-}
-expect(result).toBe(true)
--->
+<!-- expect($1).toBe(true) -->
 
 **Example 5:**
 

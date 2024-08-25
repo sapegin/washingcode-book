@@ -27,6 +27,7 @@ const IGNORE = [
   'cspell:enable'
 ];
 const SKIP_TAG = 'test-skip';
+const DEFAULT_HEADER = `let $1 = false, $2 = false, $3 = false, $4 = false, $5 = false;`;
 
 const vm = new NodeVM(environment);
 
@@ -44,10 +45,34 @@ function unwrapHtmlComment(html) {
 }
 
 function preprocessCode(code) {
+  let conditionIndex = 0;
   return (
     code
       // VM2 doesn't support async/await
       .replaceAll(' await ', '/* await */')
+      // Save results of conditions where the body only contains
+      // a comment:
+      // if (x === 42) {
+      //   // Yup
+      // }
+      // →
+      // if (x === 42) {
+      //   $1 = true; // Yup
+      // }
+      .replaceAll(
+        /(if \([^{]+{\n)(\s*)(\/\/[^\n]+)(\n\s*})/gm,
+        (__, condition, whitespace, comment, footer) => {
+          conditionIndex++;
+          const assignment = `$${conditionIndex} = true; `;
+          return [
+            condition,
+            whitespace,
+            assignment,
+            comment,
+            footer
+          ].join('');
+        }
+      )
   );
 }
 
@@ -155,12 +180,14 @@ function testMarkdown(markdown, filepath) {
           const footer = getFooter(siblings, index);
           const linesToPad =
             node.position.start.line -
+            DEFAULT_HEADER.split('\n').length -
             header.split('\n').length -
-            3;
+            1;
 
           const code = [
             // Show correct line number in code snippets
             '\n'.repeat(linesToPad),
+            DEFAULT_HEADER,
             header,
             preprocessCode(node.value),
             footer

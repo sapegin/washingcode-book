@@ -226,13 +226,15 @@ expect(displayErrors).toHaveBeenCalledWith(['First name is required', 'Last name
 
 I can say a lot about this code, but let’s focus on this line first:
 
-<!-- const noErrorsFound = true -->
+<!-- const noErrorsFound = false -->
 
 ```js
 if (!noErrorsFound) {
+  // No errors were fond
+}
 ```
 
-<!-- } -->
+<!-- expect($1).toBe(true) -->
 
 The double negation, “if not no errors found…”, makes my brain itch, and I almost want to take a red marker and start crossing out `!`s and `no`s on my screen to be able to read the code.
 
