@@ -52,6 +52,8 @@ Most of the time, we can write code without reassignments, making it easier to r
 
 I> Arrays and objects can also be _mutated_, even if they are defined using the `const` keyword. We talk about mutation in the next chapter, [Avoid mutation](#no-mutation).
 
+{#no-reuse}
+
 ## Don’t reuse variables
 
 Sometimes, a variable is reused to store different values:

@@ -217,6 +217,8 @@ expect(c3.textContent).toEqual('Total:')
 
 We had to split the component into two to use early return, but the logic is now clearer.
 
+{#optional-params}
+
 ## Optional function parameters
 
 We often add conditions when some data might be missing. For example, an optional callback function:
@@ -308,6 +310,8 @@ expect(() => getRandomJoke(onDone)).not.toThrowError()
 -->
 
 Now, it’s safe to call the `onError()` function whenever we need it. It won’t do anything if we don’t pass it to the function, but we don’t need to worry about this while we’re coding the function itself.
+
+{#arrays}
 
 ## Processing arrays
 
@@ -426,7 +430,7 @@ We still have a condition, but the overall code structure is simpler.
 
 I> The _nullish coalescing operator_ (`??`) was introduced in ECMAScript 2020 and gives us a better alternative to the _logical or operator_ (`||`) because it only checks for _nullish_ values (`undefined` or `null`), not for _falsy_ values (which would also include, often undesirable, `false`, `''`, and `0`).
 
-In all these examples, we’re removing a separate branch that deals with the absence of data by normalizing the input — converting it to an array — as early as possible and then running a generic algorithm on the normalized data.
+In all these examples, we’re removing a separate branch that deals with the absence of data by _normalizing the input_ — converting it to an array — as early as possible and then running a generic algorithm on the normalized data.
 
 Arrays are convenient because we don’t have to worry about how many elements they contain: the same code will work with a hundred elements, one element, or zero elements.
 
@@ -453,6 +457,8 @@ expect(getProductsDropdownItems({products: [{id: '1', name: 'Tacos'}]})).toEqual
 -->
 
 Here, we’re wrapping a single element in an array so we can use the same code to work with single values and arrays.
+
+{#deduplication}
 
 ## Deduplicating algorithms
 
@@ -1701,6 +1707,8 @@ expect(getStarRating(0.91)).toBe('★★★★★★★★★★')
 It’s harder to understand than the initial implementation, but it requires significantly fewer test cases, and we’ve separated the design and the code. The icons will likely change, but the algorithm probably won’t.
 
 I> This approach is known as _separation of logic and presentation_.
+
+{#nested-ternaries}
 
 ## Nested ternaries
 

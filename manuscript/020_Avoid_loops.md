@@ -92,6 +92,8 @@ With each nested loop, we increase the probability of a mistake and decrease the
 
 In this chapter, we’ll talk about modern ways of writing loops and when a more traditional approach is still better.
 
+{#array-methods}
+
 ## Replacing loops with array methods
 
 Modern languages have better ways to express iteration, and [JavaScript has many useful methods](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array#iterative_methods) to transform or iterate over arrays, like `map()`, or `find()`.
@@ -380,9 +382,11 @@ const isExpectedType = products.at(-1).type === expectedType;
 
 Both refactored versions make the code’s intention clearer and leave fewer doubts about its correctness. We can probably make the `isExpectedType` variable name more explicit, especially in the second refactoring.
 
+{#array-chaining}
+
 ## Chaining multiple operations
 
-I’ve seen developers try to squeeze everything into a single `reduce()` method to avoid extra iterations. Consider this example:
+I’ve seen programmers try to squeeze everything into a single `reduce()` method to avoid extra iterations. Consider this example:
 
 ```js
 const cart = [

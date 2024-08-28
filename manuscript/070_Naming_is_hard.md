@@ -4,8 +4,6 @@
 
 <!-- description: How clear names make it easier to understand the code, and how to improve naming in our code -->
 
-<!-- cspell:ignore arru, typoses, deprature -->
-
 We all know that naming is one of the hardest problems in programming, and most of us have probably written code like this when we just started programming:
 
 <!-- prettier-ignore -->
@@ -187,6 +185,8 @@ function Toggle() {
 <!-- expect(Toggle()).toBe(null) -->
 
 This makes the code clear and obvious: if we have user details after the data has been fetched, the user must be logged in.
+
+{#negative-booleans}
 
 ## Negative booleans are not not hard to read
 
@@ -571,6 +571,8 @@ const index = purchaseOrders.findIndex(
 
 I think the letter version is easier to read.
 
+{#var-lifespan}
+
 ## The shorter the scope, the better
 
 We talked about the scope in the previous section. A variable’s scope size affects readability too. The shorter the scope, the easier it is to keep track of a variable.
@@ -627,6 +629,8 @@ Here, the lifespan of the `sorted` variable is only two lines. This kind of sequ
 T> Double-click on a variable name to select all its appearances in the code. This helps to quickly see the variable’s lifespan.
 
 I> See a larger example in the [Avoid Pascal-style variables](#no-pascal-vars) section in the _Avoid reassigning variables_ chapter.
+
+{#magic-numbers}
 
 ## Making magic numbers less magic
 
@@ -942,6 +946,8 @@ function getEndOfDayFromDate(date) {
 
 Now, the code is short and clear, with enough information to understand it.
 
+{#enums}
+
 ## Group related constants
 
 We often use constants for ranges of values:
@@ -1052,7 +1058,7 @@ I like to use the following prefixes for function names:
 - `to`: converts the data to a certain type (examples: `toString`, `hexToRgb`, `urlToSlug`).
 - `on` and `handle` for event handlers (examples: `onClick`, `handleSubmit`).
 
-I> Verb prefixes are also called _actions_ in the A/HC/LC pattern. See more in the _A/HC/LC pattern_ section later in this chapter.
+I> Verb prefixes are also called _actions_ in the A/HC/LC pattern. See more in the [A/HC/LC pattern](#a-hc-lc) section later in this chapter.
 
 And the following prefixes for boolean variables or functions that return a boolean value:
 
@@ -1109,7 +1115,7 @@ const user = new User('Chuck', 'Norris')
 expect(user.fullName).toBe('Chuck Norris')
 -->
 
-In general, I don’t like to remember too many rules, and any convention can go too far. A good example, and fortunately almost forgotten, is [Hungarian notation](https://en.wikipedia.org/wiki/Hungarian_notation), where each name is prefixed with its type, or with its intention or kind. For example, `lAccountNum` (long integer), `arru8NumberList` (array of unsigned 8-bit integers), `usName` (unsafe string).
+In general, I don’t like to remember too many rules, and any convention can go too far. A good example, and fortunately almost forgotten, is [Hungarian notation](https://en.wikipedia.org/wiki/Hungarian_notation), where each name is prefixed with its type, or with its intention or kind. For example, `lAccountNum` (long integer), <!-- cspell:disable -->`arru8NumberList`<!-- cspell:enable --> (array of unsigned 8-bit integers), `usName` (unsafe string).
 
 Hungarian notation made sense for old untyped languages like C, but with modern typed languages and IDEs that show types when you hover over the name, it clutters the code and makes reading each name harder. So, keep it simple.
 
@@ -1528,6 +1534,8 @@ For the new version of a module, I try to rename the old one to something like `
 
 It’s not always possible, but it makes using the old, deprecated module more awkward than the new, improved one — exactly what we want to achieve. Also, names tend to stick forever, even when the original module is long gone. Names like `Module2` or `ModuleNew` are fine during development, though, when the new module isn’t yet fully functional or well tested.
 
+{#a-hc-lc}
+
 ## Use the A/HC/LC pattern
 
 To improve the consistency and clarity of function names, we can follow the A/HC/LC pattern:
@@ -1616,7 +1624,7 @@ T> There’s a certain debate on where to use _remove_ and where _delete_. I’m
 
 ## Check the spelling of your names
 
-Typos in names and comments are very common. They don’t cause bugs _most of the time_, but could still reduce readability a bit, and code with many typoses looks sloppy. Typos also make the code less greppable. So having a spell checker in the code editor is a good idea.
+Typos in names and comments are very common. They don’t cause bugs _most of the time_, but could still reduce readability a bit, and code with many <!-- cspell:disable -->typoses<!-- cspell:enable --> looks sloppy. Typos also make the code less greppable. So having a spell checker in the code editor is a good idea.
 
 I> We talk more about spell checking in the [Spell checking](#spell-checking) section of the _Learn your code editor_ chapter.
 

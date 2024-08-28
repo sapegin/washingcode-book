@@ -139,6 +139,8 @@ expect(parseExample('pizza', 'js', 'foo bar')).toEqual({content: 'pizza', lang: 
 
 Now, it’s easier to understand what the code does, and the possible shapes of the return objects are clear. Additionally, we removed the mutation and reduced nesting a little.
 
+{#no-mutating-methods}
+
 ## Beware of the mutating array methods
 
 Not all methods in JavaScript return a new array or object. Some methods mutate the original value in place.
@@ -379,6 +381,8 @@ Other mutating array methods to watch out for include:
 
 I> Thanks to the [Change Array by copy](https://github.com/tc39/proposal-change-array-by-copy) proposal, JavaScript now has immutable alternatives to several of the methods mentioned above: `toReversed()`, `toSorted()`, `toSpliced()`, and `with()`. The proposal is included in ECMAScript 2023.
 
+{#no-params-mutation}
+
 ## Avoid mutation of function parameters
 
 As we saw in the previous section, objects, or arrays passed to a function can be mutated inside that function, affecting the original object.
@@ -616,6 +620,8 @@ It doesn’t matter in which order we put the object properties when calling the
 
 Probably the only valid reason to mutate function parameters is performance optimization: when we work with a huge piece of data, creating a new object or array would be too slow. However, like with all performance optimizations, measure first to know whether we actually have a problem and avoid premature optimization.
 
+{#explicit-mutation}
+
 ## Make the mutation explicit if it’s necessary
 
 Sometimes, we can’t avoid mutation, for example, because of an unfortunate language API that does mutation instead of (or in addition to) returning a new value.
@@ -849,7 +855,7 @@ const map2 = produce(map1, draft => {
 
 T> Immer freezes the resulting object using `Object.freeze()` in the development environment to prevent accidental mutation.
 
-## Even mutation is not so bad sometimes
+## Even mutation is not that bad sometimes
 
 In rare cases, rewriting imperative code with mutation in a declarative way without mutation doesn’t make it any better.
 
@@ -916,7 +922,7 @@ const counts = friendNames.reduce((counts, x) => {
 
 <!-- expect(counts).toEqual({Kili: 2, Bilbo: 1, Frodo: 1}) -->
 
-What I don’t like about `reduce()` is that we need to return the accumulator every time. Unless the body of the `reduce()` is a single line, and we can use implicit return, the code looks too complex compared to the `forEach()` method. The difference is even more noticeable when compared to a `for of` loop:
+What I don’t like about `reduce()` is that we need to return the accumulator every time. Unless the body of the `reduce()` is a single line, and we can use implicit return, the code looks too complex compared to the `forEach()` method. The difference is even more noticeable when compared to a `for…of` loop:
 
 ```js
 const friendNames = ['Kili', 'Bilbo', 'Frodo', 'Kili'];
@@ -998,5 +1004,5 @@ Start thinking about:
 - Deduplicating logic and separating “what” from “how.”
 - Avoiding mutating function parameters to prevent hard-to-find bugs.
 - Using `map()`/`filter()` chaining instead of a single `reduce()` method.
-- Making mutation explicit if you have to have it.
+- Making mutation explicit if you have to use it.
 - Preventing mutation in your code by using a linter or read-only types.

@@ -17,28 +17,42 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 Here’s a list of all teqniques and patterns described in the book.
 
 - [2-minute rule](#campsite-rule).
+- [Algorithm deduplicaion](#deduplication)
+- [A/HC/LC pattern](#a-hc-lc).
 - [Arrange-Act-Assert](#testability).
+- [Array method chaining](#array-chaining).
 - [Campsite rule](#campsite-rule).
 - [Colocation](#colocation).
+- [Comments with examples](#example-comments).
 - [Condition expansion](#condition-expansion).
+- [Data normalization](#arrays).
 - [`defaultProps` for testing React components](#hydrated).
 - [Dependency injection](#testability).
 - [Discriminated unions](#impossible-states).
 - [Early returns](#early-returns).
+- [Enums](#enums).
+- [Explicit mutation](#explicit-mutation).
 - [Finite-state machines](#impossible-states).
 - [Greppable code](#greppability).
+- [Hack comments](#hack-comments).
 - [Hiding complexity](#hide-complexity).
 - [Implicit assertions](#no-cargo).
 - [Inline refactoring](#inline).
+- [Iteration using array methods](#array-methods).
 - [Keep it simple, <!-- textlint-disable alex -->stupid<!-- textlint-enable -->](#no-future) (KISS).
+- [Named function parameters](#func-param-naming).
+- [Optional function parameters](#optional-params).
 - [Parallel coding](#parallel).
 - [Range conditions](#range-conditions).
 - [Readable numbers](#readable-numbers).
+- [Reducing variables’ lifespan](#var-lifespan).
 - [Rubberducking](#rubberducking).
 - [Sections, paragraphs, phrases](#sections-etc).
 - [Separation of “what” and “how”](#what-how).
 - [Separation of code that changes often](#often-changed).
 - [Single responsibility principle](#colocation).
+- [Tables and maps](#tables).
+- [Todo comments](#todo-comments).
 - [Write everything twice](#hydrated), or we enjoy typing (WET).
 - [Yagni](#no-future) (You aren’t gonna need it).
 
@@ -47,12 +61,21 @@ Here’s a list of all teqniques and patterns described in the book.
 Here’s a list of all antipatterns described in the book.
 
 - [100% code coverage](#no-cargo).
+- [Abbreviations and acronyms](#abbr).
+- [`Array.reduce()` method](#array-chaining).
 - [Broken windows theory](#campsite-rule).
 - [Cargo cult programming](#no-cargo).
+- [Function parameters mutation](#no-params-mutation).
 - [Don’t repeat yourself](#grow-abstractions) (DRY).
 - [Monster utility files](#monster-utilities).
+- [Negative booleans](#negative-booleans).
+- [Nested ternaries](#nested-ternaries).
 - [Not invented here syndrome](#no-nih) (NIH).
+- [Magic numbers](#magic-numbers).
+- [Mutating array methods](#no-mutating-methods).
+- [Pascal-style variables](#no-pascal-vars).
 - [Premature abstraction](#no-future), or premature generalization, or speculative generality.
+- [Reusing variables](#no-reuse).
 - [Shortcuts](#shortcuts).
 - [Single return law](#no-cargo).
 

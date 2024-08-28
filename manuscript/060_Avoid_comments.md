@@ -242,6 +242,8 @@ Such comments save us from accidental “refactoring” that makes the code easi
 
 High-level comments explaining how the code works are useful too. If the code implements an algorithm, explained somewhere else, a link to that place would be useful. However, if a piece of code is too difficult to explain and requires a long, convoluted comment, we should probably rewrite it instead.
 
+{#hack-comments}
+
 ## Hack comments
 
 Any hack should be explained in a _hack comment_:
@@ -284,6 +286,8 @@ expect(c1.textContent).toEqual('')
 -->
 
 I> You may encounter various styles of hack comments: `HACK`, `XXX`, `@hack`, and so on, though I prefer `HACK`.
+
+{#todo-comments}
 
 ## Todo comments
 
@@ -391,7 +395,7 @@ This is a better use case because it will fail only when someone updates React, 
 
 T> I made a Visual Studio Code extension to highlight todo and hack comments: [Todo Tomorrow](https://marketplace.visualstudio.com/items?itemName=sapegin.todo-tomorrow).
 
-## Comments reducing confusion
+## Comments that reduce confusion
 
 Comments can make code more intentional. Consider this example:
 
@@ -456,6 +460,8 @@ expect(test).not.toThrowError()
 -->
 
 Tells a different story: we want to add error handling in the future.
+
+{#example-comments}
 
 ## Comments with examples
 
@@ -609,5 +615,5 @@ Start thinking about:
 - Removing comments that don’t add anything to what’s already in the code.
 - Adding hack comments to document hacks in the code.
 - Adding todo comments to document planned improvements and dreams.
-- Adding examples of input/output, or usage.
-- Asking why a documented requirement or decision exists in the first place.
+- Adding examples of input/output, or usage to function comments.
+- Asking why a commented requirement or decision exists in the first place.
