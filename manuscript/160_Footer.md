@@ -16,28 +16,45 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 
 Here’s a list of all teqniques and patterns described in the book.
 
+- [2-minute rule](#campsite-rule).
+- [Arrange-Act-Assert](#testability).
+- [Campsite rule](#campsite-rule).
 - [Colocation](#colocation).
 - [Condition expansion](#condition-expansion).
 - [`defaultProps` for testing React components](#hydrated).
+- [Dependency injection](#testability).
+- [Discriminated unions](#impossible-states).
 - [Early returns](#early-returns).
+- [Finite-state machines](#impossible-states).
+- [Greppable code](#greppability).
 - [Hiding complexity](#hide-complexity).
+- [Implicit assertions](#no-cargo).
 - [Inline refactoring](#inline).
+- [Keep it simple, <!-- textlint-disable alex -->stupid<!-- textlint-enable -->](#no-future) (KISS).
 - [Parallel coding](#parallel).
 - [Range conditions](#range-conditions).
 - [Readable numbers](#readable-numbers).
+- [Rubberducking](#rubberducking).
 - [Sections, paragraphs, phrases](#sections-etc).
 - [Separation of “what” and “how”](#what-how).
 - [Separation of code that changes often](#often-changed).
 - [Single responsibility principle](#colocation).
-- [WET](#hydrated) (write everything twice, or we enjoy typing).
+- [Write everything twice](#hydrated), or we enjoy typing (WET).
+- [Yagni](#no-future) (You aren’t gonna need it).
 
 # Index of antipatterns
 
 Here’s a list of all antipatterns described in the book.
 
-- [DRY](#grow-abstractions) (don’t repeat yourself).
+- [100% code coverage](#no-cargo).
+- [Broken windows theory](#campsite-rule).
+- [Cargo cult programming](#no-cargo).
+- [Don’t repeat yourself](#grow-abstractions) (DRY).
 - [Monster utility files](#monster-utilities).
+- [Not invented here syndrome](#no-nih) (NIH).
+- [Premature abstraction](#no-future), or premature generalization, or speculative generality.
 - [Shortcuts](#shortcuts).
+- [Single return law](#no-cargo).
 
 # Resources
 
