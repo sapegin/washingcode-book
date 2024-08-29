@@ -12,7 +12,7 @@ let pizzaTopping = 'salami';
 
 <!-- expect(pizzaTopping).toBe('salami') -->
 
-We can’t be sure that our pizza will always have salami on it because variables defined using the `let` keyword can be _reassigned_:
+We can’t be sure that our pizza will always have salami on it because this variable is defined using the `let` keyword, so we can assign it a new value:
 
 <!-- let pizzaTopping -->
 
@@ -46,7 +46,7 @@ const pizzaTopping = 'salami';
 
 This pizza will always have salami on it!
 
-I> The `const` and `let` keywords are relatively new in JavaScript, and were introduced in ECMAScript 2015. Before that, we only had the `var` keyword, which is no longer recommended. The main difference is that the `const` and `let` are block-scoped, while the `var` is function-scoped. Additionally, we can now choose whether to allow reassignments or not, depending on which keyword we use to declare a variable.
+I> The `const` and `let` keywords are relatively new in JavaScript and were introduced in ECMAScript 2015. Before that, JavaScript only had the `var` keyword, which is no longer recommended. The main difference is that `const` and `let` are block-scoped (meaning, the variable is accessible inside a single block, such as an `if` condition or a `for` loop), while `var` is function-scoped (meaning, the variable is accessible anywhere within in a function). Additionally, we can now choose whether to allow reassignments or not, depending on which keyword we use to declare a variable.
 
 Most of the time, we can write code without reassignments, making it easier to reason about.
 
@@ -74,7 +74,9 @@ Here, the `category` variable is used to store a category ID (a number or a stri
 
 On top of that, a new value is reassigned to a function parameter, which is known as _function parameter shadowing_. I think it’s no different from regular reassignment since it only affects the value inside the function, so I’ll treat it the same way.
 
-I> [Variable shadowing](https://en.wikipedia.org/wiki/Variable_shadowing) happens when we define a variable with the same name that already exists in a larger scope. For example, we define a `text` variable inside a function, but there’s already a module-level `text` variable. Shadowing makes it hard to know which variable we’re looking at any given moment.
+I> [Variable shadowing](https://en.wikipedia.org/wiki/Variable_shadowing) happens when we define a variable with the same name that already exists in a larger scope. For example, we define a `text` variable inside a function, but there’s already a module-level `text` variable. Shadowing makes it hard to know which variable we’re working with at any given moment.  
+I>  
+I> Function parameter shadowing is similar, but happens when we reassign a function parameter.
 
 Such cases are the easiest to fix: we need to use separate variables for each value:
 
@@ -109,7 +111,7 @@ I> _Variable lifespan_ is the number of lines of code between the variable decla
 
 This approach makes it significantly easier to reason about the code.
 
-Variables that allow different types end up awkward in TypeScript. I think it’s a clear sign that we’re doing something wrong:
+Variables that allow different types are awkward in TypeScript. I think it’s a clear sign that we’re doing something wrong:
 
 ```ts
 function loadCategory(categoryId: string): Product[] {
@@ -170,7 +172,7 @@ expect(validateVideo({videoFiles: [], title: 'Cat on Roomba', id: 'X13'})).toBe(
 expect(validateVideo({videoFiles: [], title: 'Cat on Roomba', id: 'X-13'})).toBe('Invalid ID')
 -->
 
-I’ve shortened the comments a bit because the original code had lines longer than 200 characters. On a very big screen, it looks like a pretty table; otherwise, it’s an unreadable mess. Any autoformatting tool, like Prettier, will also turn this code into an unreadable mess. Such formatting handcraft was common in the old days, before autoformatting tools became mainstream. Now, it’s a waste of time.
+This code validates a video file upload by checking that it has all required data in the correct formats. I’ve shortened the comments a bit because the original code had lines longer than 200 characters. On a very big screen, it looks like a pretty table; otherwise, it’s an unreadable mess. Any autoformatting tool, like Prettier, will also turn this code into an unreadable mess. Such formatting handcraft was common in the old days, before autoformatting tools became mainstream. Now, it’s a waste of time.
 
 I> We talk about code formatting and Prettier in the [Autoformat your code](#formatting) chapter.
 
@@ -242,6 +244,8 @@ expect(console.log.mock.calls).toEqual([['Invalid ID']])
 -->
 
 We’ve separated the validations, the validation logic, and the formatting. Flies separately, kebabs separately, as we say in Russia. Each piece of code now has a single responsibility and a single reason to change. The validations are now defined declaratively and read like a list, not mixed with conditions and string concatenation. We’ve also changed negative conditions (_is invalid?_) to positive ones (_is valid?_). All this improves the readability and maintainability of the code: it’s easier to see all validations and add new ones because we don’t need to know the implementation details of running validations or formatting.
+
+I> We talk more about negative and positive names in the [Naming is hard](#naming) chapter.
 
 On top of that, now it’s clear that the original code had a bug: there was no space between error messages.
 

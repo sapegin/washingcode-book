@@ -4,11 +4,62 @@
 
 <!-- description: Writing good conditions and simplifying the code by removing unnecessary ones -->
 
-Conditions make code harder to read and test because:
+Conditions are essential for writing code that supports multiple use cases. JavaScript offers multiple ways to write conditional code:
+
+<!--
+let condition = true
+let value = 'value2'
+let object = { getValue: () => 'xxx' }
+-->
+
+```js
+// `if` operator
+if (condition) {
+  // The condition is true
+} else {
+  // The condition is false
+}
+
+// `switch` operator
+switch (value) {
+  case 'value1':
+    // Code for value1
+    break;
+  case 'value2':
+    // Code for value2
+    break;
+  default:
+    // Code if no cases match
+    break;
+}
+
+// Ternary operator
+const value1 = condition ? 'true value' : 'false value';
+
+// Optional chaining operator
+const value2 = object.getValue?.();
+
+// Nullish coalescing operator
+const value3 = value ?? 'default value';
+```
+
+<!--
+expect($1).toBe(true)
+// No test for switch block
+expect(value1).toBe('true value')
+expect(value2).toBe('xxx')
+expect(value3).toBe('value2')
+-->
+
+We’ll talk about each type in more detail in this chapter.
+
+However, conditions can make code harder to read and test because:
 
 - conditions add nesting and increase code complexity;
-- multipart conditions are even harder to understand, especially the ones that mix positive and negative clauses;
+- multipart conditions are even harder to understand, especially those that mix positive and negative clauses;
 - each condition increases the minimum number of test cases we need to write for a certain module or function.
+
+Therefore, reducing the number of conditions in our code makes sense.
 
 ## Unnecessary conditions
 
@@ -129,7 +180,7 @@ window.navigator.userAgent = 'Opera/9.63 (Macintosh; Intel Mac OS X; U; en) Pres
 expect(IsNetscapeOnSolaris()).toBe(false)
 -->
 
-We can replace the entire condition block with a single expression:
+This code checks whether the user has a particular browser and operating system by testing the user agent string. We can replace the nested condition with a single expression that returns a boolean value:
 
 <!-- const window = { navigator: { userAgent: '' } } -->
 
@@ -464,7 +515,7 @@ Here, we’re wrapping a single element in an array so we can use the same code 
 
 Examples in the previous section introduce an important technique: _algorithm deduplication_. Instead of branching the main logic based on the input type, we code the main logic only once, but we normalize the input before running the algorithm. This technique can be used in many other places.
 
-Imagine an article likes counter where we can vote multiple times:
+Imagine an article with a “Like” button and a counter, where every time we press the button, the counter number increases. The object that stores counters for all articles could look like this:
 
 <!--
 function counter() {
@@ -699,7 +750,7 @@ function postOrderStatus() {
 
 <!-- expect(() => postOrderStatus(0)).not.toThrowError() -->
 
-There are 120 lines between the first condition and its `else` block, and the main return value is somewhere inside the three levels of conditions.
+This code is building an array with information about orders in an online shop. There are 120 lines between the first condition and its `else` block, and the main return value is somewhere inside the three levels of conditions.
 
 Let’s untangle this spaghetti monster:
 
@@ -1553,7 +1604,11 @@ _Ideally, we should check whether we can implement caching the same way for all 
 
 It may seem like I prefer small or even very small functions, but that’s not the case. The main reason for extracting code into separate functions here is that it violates the _single responsibility principle_. The original function had too many responsibilities: getting special offers, generating cache keys, reading data from the cache, and storing data in the cache, each with two branches for our two brands.
 
-I> The [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle) states that any module, class, or method should have only one reason to change, or, in other words, we should keep the code that changes for the same reason together. We talk more about this topic in the [Divide and conquer, or merge and relax](#divide) chapter.
+I> The [single responsibility principle](https://en.wikipedia.org/wiki/Single_responsibility_principle) states that any module, class, or method should have only one reason to change, or, in other words, we should keep the code that changes for the same reason together.  
+I>  
+I> Imagine a pizzeria where a pizzaiolo is responsible only for cooking pizzas, and a cashier is responsible only for charging customers. In other words, we don’t murder people, and they don’t plaster the walls.  
+I>  
+I> We talk more about this topic in the [Divide and conquer, or merge and relax](#divide) chapter.
 
 Here’s one more example:
 
@@ -1645,7 +1700,7 @@ Now, it’s clear that we want to find the maximum of two types of discounts, ot
 
 ## Formulas
 
-Similar to tables, a single formula can often replace a whole bunch of conditions. Consider [this example](https://x.com/JeroenFrijters/status/1615204074588180481):
+Similar to tables, a single expression, or _a formula_ can often replace a whole bunch of conditions. Consider [this example](https://x.com/JeroenFrijters/status/1615204074588180481):
 
 ```js
 function getStarRating(percentage) {
@@ -1706,7 +1761,7 @@ expect(getStarRating(0.91)).toBe('★★★★★★★★★★')
 
 It’s harder to understand than the initial implementation, but it requires significantly fewer test cases, and we’ve separated the design and the code. The icons will likely change, but the algorithm probably won’t.
 
-I> This approach is known as _separation of logic and presentation_.
+I> This approach is known as [separation of logic and presentation](https://martinfowler.com/eaaDev/SeparatedPresentation.html).
 
 {#nested-ternaries}
 
@@ -1864,7 +1919,7 @@ I> We’ll come back to this example later in the [Make impossible states imposs
 
 Sometimes, we can’t reduce the number of conditions, and the only way to improve the code is to make it easier to understand what a certain complex condition does.
 
-Consider this example:
+Consider [this example](https://refactoring.guru/extract-variable) from the Refactoring Guru:
 
 <!--
 class Test {
@@ -1893,7 +1948,7 @@ expect(test.test('Mac_PowerPC', 'Mozilla/4.0 (compatible; MSIE 5.17; Mac_PowerPC
 expect(test.test('MacInter', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.50')).toBe(false)
 -->
 
-It’s often a good idea to extract complex calculations and conditions used inside an already long line of code:
+This code checks multiple conditions, such as the user’s browser or the state of the widget. However, all these checks are crammed into a single expression, making it hard to understand. It’s often a good idea to extract complex calculations and conditions from an already long expression into separate variables:
 
 <!--
 class Test {
@@ -1986,6 +2041,6 @@ Start thinking about:
 - Removing unnecessary conditions, such as explicitly comparing a boolean value to `true` or `false`.
 - Normalizing the input data by converting the absence of data to an array early on to avoid branching and dealing with no data separately.
 - Normalizing the state to avoid algorithm duplication.
+- Replacing complex condition with a single expression (formula) or a map.
+- Replacing nested ternaries or `if` operators with early returns.
 - Caching repeated conditions in a variable.
-- Replacing long groups of conditions with tables or maps.
-- Replacing long, repeated conditions with a formula.

@@ -4,7 +4,7 @@ _For Dessi, the one and only programming dachshund._
 
 This book is everything I’ve learned about writing code since I retyped my first BASIC program from a book into a Soviet clone of ZX Spectrum in 1997. Of course, I’ve learned many other things since then, but this book focuses on the craft of programming — writing clean code.
 
-Everything I’ve learned while working as a frontend engineer for almost 20 years. Everything I’ve learned on my personal projects. Everything I’ve learned by developing and maintaining my open source projects. Everything I’ve learned reviewing hundreds of pull requests…
+Everything I’ve learned while working as a frontend engineer for over two decades. Everything I’ve learned on my personal projects. Everything I’ve learned by developing and maintaining my open source projects. Everything I’ve learned reviewing hundreds of pull requests…
 
 We, programmers, read code more often than we write it, so it makes more sense to optimize for the ease of reading instead of the ease of writing. The practice of writing code that is easy to read is known as _clean code_.
 
@@ -20,7 +20,7 @@ I’ll try to keep this book up-to-date, as some kind of a living document for m
 
 And remember the “Answer to the Ultimate Question of Life, the Universe, and Everything” for programmers is “it depends” — there are no strict rules in programming.
 
-_Artem, Berlin_
+_Artem, Berlin, 2024_
 
 # Introduction
 
@@ -60,13 +60,13 @@ In the [Lint your code](#linting) chapter, we talk about how linters can help us
 
 In the [Autoformat your code](#formatting) chapter, we talk about how tools can make our lives much easier by formatting code for us.
 
-In the last chapter, [Learn your code editor](#editing), we talk about different techniques for _editing_ code and customizing our environment to make our work more efficient and less tiring.
+In the last chapter, [Learn your code editor](#editing), we talk about different techniques for editing code and customizing our environment to make our work more efficient and less tiring.
 
 ## On code examples
 
-Most of the examples in this book are written in JavaScript which isn’t how I write code in the past few years. These days I mostly write in TypeScript: JavaScript with types. And before that I was using Flow for several years, which is another, now forgotten, implementation of types for JavaScript.
+I was debating whether to use JavaScript or TypeScript for the examples in the book. JavaScript is simpler, while TypeScript is more realistic. I’ve been using TypeScript almost exclusively since 2020. Previously, I was using Flow for several years, which is another, now forgotten, implementation of types for JavaScript.
 
-I was debating whether to use JavaScript or TypeScript for the examples in the book. JavaScript is simpler, but TypeScript is more realistic. However, many “bad” examples are in JavaScript originally, and I’d have to either add types to them before doing all the refactorings or add types as part of the refactoring process. The latter would be more realistic but I feel it would distract from the topic of a particular chapter.
+However, many “bad” examples are in JavaScript originally, and I’d have to either add types to them before doing all the refactorings or add types as part of the refactoring process. The latter would be more realistic but I feel it would distract from the topic of a particular chapter. Most techniques in this book can be used with JavaScript and TypeScript, and a few are TypeScript-specific.
 
 I mostly work with React these days, so you’ll see examples using React quite often. Sometimes, you’ll see CSS and HTML because similar ideas can be applied there too.
 

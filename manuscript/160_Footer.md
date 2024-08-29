@@ -29,7 +29,7 @@ Here’s a list of all teqniques and patterns described in the book.
 - [`defaultProps` for testing React components](#hydrated).
 - [Dependency injection](#testability).
 - [Discriminated unions](#impossible-states).
-- [Early returns](#early-returns).
+- [Early returns](#early-returns) (guard clauses).
 - [Enums](#enums).
 - [Explicit mutation](#explicit-mutation).
 - [Finite-state machines](#impossible-states).

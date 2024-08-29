@@ -6,7 +6,7 @@
 
 In this book, we talk a lot about _conventions_. For example, don’t mutate your code, and the next programmer will have less trouble understanding it, and you’ll avoid some nasty bugs. This is a convention, meaning we’re agreeing to do something but there’s no way to enforce it. Developers are still free to mutate any value accidentally or due to evil intent.
 
-Conventions are good because they are easy to implement: document the decision and make the team aware of it. Conventions are not good because they are just words, and there’s nothing to enforce the convention, except more work, like code review comments.
+The issue with conventions is that they are just words, and the only way to enforce them is manually, for example, using code review comments.
 
 That’s where the _linters_ come in. Linters check our code to make sure it follows the team’s code style or to prevent some common bugs. Sometimes, linters fix our code automatically; other times, they just slap our hands with a keyboard when we try to commit our code, or later, during the continues integration (CI) run.
 

@@ -88,7 +88,7 @@ expect(testHost('burger.com', 0)).toBe(proxy)
 
 Code like this makes me suspicious: it looks like it does something very simple, but at the same time it’s super complex. What am I missing? We’ll come back to this example later in the chapter.
 
-With each nested loop, we increase the probability of a mistake and decrease the readability of the code.
+Each nested loop increases the probability of a mistake and decreases code readability. Additionally, nested loops can have performance implications. It’s best to avoid them whenever possible.
 
 In this chapter, we’ll talk about modern ways of writing loops and when a more traditional approach is still better.
 
@@ -279,11 +279,11 @@ expect(hasDiscount({gandalf: {ages: [{customerCards: []}, {customerCards: ['DISC
 expect(hasDiscount({gandalf: {ages: [{customerCards: ['DISCOUNT']}]}})).toBe(true)
 -->
 
-Here, it’s totally impossible to understand what’s going on, and nested loops with meaningless names are one of the main reasons for this.
+This code is checking whether any customer has a customer card (and therefore a discount) in any age group, but by reading the code, it’s totally impossible to understand what’s going on, and nested loops with meaningless names are one of the main reasons for this.
 
 I> We talk about naming in the [Naming is hard](#naming) chapter.
 
-Let’s try to refactor this code:
+Let’s simplify it:
 
 ```js
 function hasDiscount(customers) {
@@ -386,6 +386,23 @@ Both refactored versions make the code’s intention clearer and leave fewer dou
 
 ## Chaining multiple operations
 
+The `reduce()` array method is one of the most controversial. Some programmers use it for almost everything, while others avoid it like a plague. Its main use case is _reducing_ (meaning, converting) an array to a single value.
+
+Calculating the sum of all array elements is one of the most common use cases for the `reduce()` method:
+
+```js
+const array = [1, 2, 3, 4];
+const sum = array.reduce(
+  (accumulator, currentValue) => accumulator + currentValue,
+  0
+);
+// → 10
+```
+
+<!-- expect(sum).toBe(10) -->
+
+Here, we pass a callback function (called _a reducer_) to the `reduce()` method, which adds the current element to the accumulator. The accumulator eventually contains the sum of all the array elements. The second argument is the initial value (`0` in this example).
+
 I’ve seen programmers try to squeeze everything into a single `reduce()` method to avoid extra iterations. Consider this example:
 
 ```js
@@ -417,7 +434,7 @@ const totalPrice = cart
 
 <!-- expect(totalPrice).toBe(58) -->
 
-Now, the purpose of each step is clearer. Using the `reduce()` to calculate a sum of all array elements is one of the most typical use cases for this method, and this pattern is easier to recognize here than in the original code.
+Now, the purpose of each step is clearer. The sum calculation is easier to recognize here than in the original code.
 
 T> I often see something that I call _the reduce rabbit hole_ during interviews and code reviews: a developer starts writing code with the `reduce()` method, and then digs a deep complexity pit by adding more and more things to the `reduce()`, instead of stopping and rewriting it to something simpler. TkDodo has [a great article](https://tkdodo.eu/blog/why-i-dont-like-reduce) on the pitfalls of `reduce()`.
 
@@ -428,9 +445,9 @@ Side effects make code harder to understand because we can no longer treat a fun
 - they don’t just transform input into output, but can affect the environment in unpredictable ways;
 - they are hard to test because we need to recreate the environment before we run each test, verify the changes in the environment made by the function, and then reset it to its original state before running other tests.
 
-All array methods mentioned in the previous section, except `forEach()`, imply that they don’t have side effects and they only return a value from the callback function. Introducing any side effects into these methods makes the code confusing, since readers don’t expect side effects.
+Array methods mentioned in the previous section imply that they don’t have side effects and instead return a new value. Introducing any side effects into these methods makes the code confusing, since readers don’t expect side effects.
 
-The `forEach()` method doesn’t return any value, and it’s the right choice for handling side effects when we really need them:
+The only exception is the `forEach()` method, that doesn’t return any value, and it’s the right choice for handling side effects when we really need them:
 
 <!--
 const console = { error: vi.fn() }
@@ -467,6 +484,8 @@ for (const error of errors) {
 ```
 
 <!-- expect(console.error.mock.calls).toEqual([['dope'], ['nope']]) -->
+
+The difference with the `forEach()` isn’t significant; however, the `for…of` syntax is slightly lighter and more readable.
 
 ## Iterating over objects
 
@@ -544,7 +563,9 @@ expect(console.log.mock.calls).toEqual([
 ])
 -->
 
-In later chapters, I’ll urge you to avoid not only loops, but also reassigning variables and mutation. Like loops, they _often_ lead to poor code readability, but _sometimes_ they are the best choice. Of all the examples above, I prefer the one, with the `Object.entries()` method and `for…of` loop.
+In later chapters, I’ll urge you to avoid not only loops, but also reassigning variables and mutation. Like loops, they _often_ lead to poor code readability, but _sometimes_ they are the best choice.
+
+Of all the examples above, I prefer the one with the `Object.entries()` method and `for…of` loop. It’s slightly simpler than other options, but not significantly so. I’d avoid the one with the `for…in` loop, though, because of the extra condition it requires.
 
 It’s all good if we’re iterating over an object for a side effect, like in the examples above. Things get more complicated and ugly when we need the result as an object:
 
@@ -627,7 +648,7 @@ if (props.item && props.item.details) {
 
 <!-- expect(tableData).toEqual([{ errorLevel: 2, errorMessage: 'nope', usedIn: 'Pizza' }]) -->
 
-Let’s try to rewrite it using the `reduce()` method to _avoid loops_:
+This code prepares the data for a table of error messages. Let’s try to rewrite it using the `reduce()` method to _avoid loops_:
 
 <!--
 const props = {
@@ -740,7 +761,7 @@ const tableData = props.item?.details?.clients.flatMap(
 
 <!-- expect(tableData).toEqual([{ errorLevel: 2, errorMessage: 'nope', usedIn: 'Pizza' }]) -->
 
-This code is good, and though, it’s more in the spirit of this book, the original, with the `for…of` loop, is slightly more readable: it’s less abstract, and it’s a bit easier to understand what’s going on there.
+This code is good, and though, it’s more in the spirit of this book, the original version, with the `for…of` loop, is still more readable: it’s less abstract, making it a bit easier to understand what’s going on there.
 
 I’d be happy to accept either the original, with the `for…of` loop, or the last one, with the `flatMap()` and `map()` chain, during a code review. No `reduce()` for me, thank you!
 
@@ -769,11 +790,13 @@ It’s not slow anymore. Often, simpler code patterns are the fastest, or fast e
 
 Also, the `every()`, `some()`, `find()`, and `findIndex()` methods are short-circuiting, meaning they don’t iterate over unnecessary array elements.
 
-In any case, we should measure performance to know what to optimize and verify whether our changes really make the code faster in all important browsers and environments.
+In any case, we should measure performance to know what to optimize and verify whether our changes really make the code faster in all important browsers and environments. Web performance is a topic large enough for its own book (and there are books on the subject), but it’s outside the scope of this book.
 
 ---
 
-Traditional loops aren’t bad as such. Programmers have been using them successfully for decades, and in some cases traditional loops are still the best choice. However, modern programming languages have better, more declarative alternatives to loops that are more readable and less error-prone. In the end, it’s often a good idea to write the same code using both and choose the more readable option.
+Traditional loops aren’t bad as such. Programmers have been using them successfully for decades, and in some cases traditional loops are still the best choice. However, modern programming languages have better, more declarative alternatives to loops that are more readable and less error-prone. The implied semantics of array methods make code intentions clearer, while traditional loops are more flexible.
+
+In the end, it’s often a good idea to write the same code using both and choose the more readable option.
 
 Start thinking about:
 
