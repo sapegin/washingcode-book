@@ -4,7 +4,7 @@ function Div (elem)
     -- Remove the "Tip" text because we show it in the title
     elem.c[1].content = ''
     return {
-      pandoc.RawBlock('latex', '\\begin{tcolorbox}[before skip=2em,after skip=2em,colframe=tip-info-border!100!white, colback=tip-info-bg!100!white,boxsep=4pt,left=8pt,right=8pt,top=8pt,bottom=8pt,title=\\sffamily\\ding{42} Tip]'),
+      pandoc.RawBlock('latex', '\\begin{tcolorbox}[parbox=false, before skip=2em, after skip=2em,colframe=tip-info-border!100!white, colback=tip-info-bg!100!white, boxsep=4pt, left=8pt, right=8pt, top=8pt, bottom=8pt, title=\\sffamily\\ding{42} Tip]'),
       elem,
       pandoc.RawBlock('latex', '\\end{tcolorbox}')
     }
@@ -13,7 +13,7 @@ function Div (elem)
     -- Remove the "Note" text because we show it in the title
     elem.c[1].content = ''
     return {
-      pandoc.RawBlock('latex', '\\begin{tcolorbox}[before skip=2em,after skip=2em,colframe=tip-info-border!100!white, colback=tip-info-bg!100!white,boxsep=4pt,left=8pt,right=8pt,top=8pt,bottom=8pt,title=\\sffamily\\ding{42} Note]'),
+      pandoc.RawBlock('latex', '\\begin{tcolorbox}[parbox=false, before skip=2em, after skip=2em,colframe=tip-info-border!100!white, colback=tip-info-bg!100!white, boxsep=4pt, left=8pt, right=8pt, top=8pt, bottom=8pt, title=\\sffamily\\ding{42} Note]'),
       elem,
       pandoc.RawBlock('latex', '\\end{tcolorbox}')
     }
@@ -22,7 +22,7 @@ function Div (elem)
     -- Remove the "Warning" text because we show it in the title
     elem.c[1].content = ''
     return {
-      pandoc.RawBlock('latex', '\\begin{tcolorbox}[before skip=2em,after skip=2em,colframe=tip-warning-border!100!white, colback=tip-warning-bg!100!white,boxsep=4pt,left=8pt,right=8pt,top=8pt,bottom=8pt,title=\\sffamily\\ding{42} Warning]'),
+      pandoc.RawBlock('latex', '\\begin{tcolorbox}[parbox=false, before skip=2em, after skip=2em,colframe=tip-warning-border!100!white, colback=tip-warning-bg!100!white, boxsep=4pt, left=8pt, right=8pt, top=8pt, bottom=8pt, title=\\sffamily\\ding{42} Warning]'),
       elem,
       pandoc.RawBlock('latex', '\\end{tcolorbox}')
     }

@@ -23,12 +23,21 @@ const TIPS = {
 
 const read = file => fs.readFileSync(file, 'utf8');
 
-/** Convert Markua tips to GFM alerts */
+/**
+ * Convert Markua tips to GFM alerts
+ * I> Tacocat
+ * →
+ * > [!NOTE] Tacocat
+ */
 const updateTips = contents =>
-  contents.replaceAll(
-    /\n([EITW]>) /gm,
-    ($, marker) => `\n> [!${TIPS[marker]}]\n> `
-  );
+  contents
+    // Replace the starting marker with a GFM alert marker
+    .replaceAll(
+      /\n\n([EITW]>) /gm,
+      ($, marker) => `\n\n> [!${TIPS[marker]}]\n> `
+    )
+    // Replace the inner marker with a Markdown quote marker
+    .replaceAll(/\n[EITW]>/gm, `\n>`);
 
 /** `{#pizza}\n# Heading` → `# Heading {#pizza}` */
 const updateAnchors = contents =>
