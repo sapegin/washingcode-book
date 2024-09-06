@@ -119,6 +119,20 @@ Now, let’s use the `map()` array method instead of a `for` loop:
 
 ```js
 const characters = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
+const kebabCharacters = characters.map(function (name) {
+  return _.kebabCase(name);
+});
+// → ['bilbo-baggins', 'gandalf', 'gollum']
+```
+
+<!-- expect(kebabCharacters).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
+
+Here, the code is less verbose and easier to follow because half of the original code was managing the index variable, which obscured the actual task of the loop.
+
+Thanks to _arrow functions_, which are shorter and less cluttered then the old anonymous functions, we can simplify the code even further:
+
+```js
+const characters = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabCharacters = characters.map(name =>
   _.kebabCase(name)
 );
@@ -127,19 +141,9 @@ const kebabCharacters = characters.map(name =>
 
 <!-- expect(kebabCharacters).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
 
-Here, the code is less verbose and easier to follow because half of the original code was managing the index variable, which obscured what we wanted to do during each loop iteration.
+We may want to shorten the code even more by passing the callback function to the `map()` method directly. However, this has several issues.
 
-We can shorten the code even more if our callback function accepts only one parameter, which is the value. Lodash’s `kebabCase()` method that we’re using is this type of function:
-
-```js
-const characters = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
-const kebabCharacters = characters.map(_.kebabCase);
-// → ['bilbo-baggins', 'gandalf', 'gollum']
-```
-
-<!-- expect(kebabCharacters).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
-
-This wouldn’t work with functions that accept more than one parameter because the `map()` also passes an element’s index as the second parameter, and the whole array as the third. For example, using the [`parseInt()` function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt) that accepts a radix as its second parameter would lead to unexpected results:
+First, this only works with functions that accept a single parameter because the `map()` method also passes an element’s index as the second parameter and the entire array as the third. For example, using the [`parseInt()` function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt), which accepts a radix as its second parameter would lead to unexpected results:
 
 ```js
 const inputs = ['1', '2', '3'];
@@ -160,17 +164,11 @@ expect(integers).toEqual([1, 2, 3])
 
 Here, in the first example, the `map()` method calls the `parseInt()` function with an element’s index as a radix, resulting in an incorrect result. In the second example, we explicitly pass only the value to the `parseInt()` function, so it uses the default radix of 10.
 
-However, explicitly passing the value inside the `map()` callback function is slightly more readable and doesn’t make the code much more verbose, thanks to _arrow functions_, which are shorter and less cluttered compared to the old anonymous function syntax:
+Second, it may mysteriously break when the callback function adds another parameter. Even TypeScript will miss this issue if the types of the new parameters match those expected by the `map()` method.
 
-```js
-const characters = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
-const kebabCharacters = characters.map(function (name) {
-  return _.kebabCase(name);
-});
-// → ['bilbo-baggins', 'gandalf', 'gollum']
-```
+Lastly, explicitly passing the value inside the `map()` callback function makes the code slightly more readable.
 
-<!-- expect(kebabCharacters).toEqual(["bilbo-baggins", "gandalf", "gollum"]) -->
+T> The Unicorn ESLint plugin has a rule to prevent passing the callback function directly to array methods: [no-array-callback-reference](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-array-callback-reference.md).
 
 Let’s look at another example: finding an element in an array. First, using a `for` loop:
 
@@ -226,12 +224,12 @@ let rules = [
 function testHost(host, index) {
   const checkHost = x => host === x || host.endsWith(`.${x}`);
 
-  const directHost = rules[index][0].find(checkHost);
+  const directHost = rules[index][0].find(x => checkHost(x));
   if (directHost) {
     return 'DIRECT';
   }
 
-  const proxyHost = rules[index][1].find(checkHost);
+  const proxyHost = rules[index][1].find(x => checkHost(x));
   if (proxyHost) {
     return proxy;
   }
@@ -279,7 +277,7 @@ expect(hasDiscount({gandalf: {ages: [{customerCards: []}, {customerCards: ['DISC
 expect(hasDiscount({gandalf: {ages: [{customerCards: ['DISCOUNT']}]}})).toBe(true)
 -->
 
-This code is checking whether any customer has a customer card (and therefore a discount) in any age group, but by reading the code, it’s totally impossible to understand what’s going on, and nested loops with meaningless names are one of the main reasons for this.
+This code is checking whether any customer has a customer card (and therefore a discount) in any age group, but by reading the code, it’s totally impossible to understand what’s going on. Nested loops with meaningless names are one of the main reasons for this.
 
 I> We talk about naming in the [Naming is hard](#naming) chapter.
 
@@ -428,7 +426,7 @@ const cart = [
 ];
 const totalPrice = cart
   .map(item => item.price * item.quantity)
-  .reduce((acc, value) => acc + value);
+  .reduce((accumulator, value) => accumulator + value);
 // → 58
 ```
 
