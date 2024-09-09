@@ -174,7 +174,7 @@ Second, it may mysteriously break when the callback function adds another parame
 
 Lastly, explicitly passing the value inside the `map()` callback function makes the code slightly more readable.
 
-T> The Unicorn ESLint plugin has a rule to prevent passing the callback function directly to array methods: [no-array-callback-reference](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-array-callback-reference.md).
+T> The [unicorn/no-array-callback-reference](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-array-callback-reference.md) linter rule prevents passing the callback function directly to array methods.
 
 Let’s look at another example: finding an element in an array. First, using a `for` loop:
 
@@ -501,7 +501,13 @@ for (const error of errors) {
 
 <!-- expect(console.error.mock.calls).toEqual([['dope'], ['nope']]) -->
 
-The difference with the `forEach()` isn’t significant; however, the `for…of` syntax is slightly lighter and more readable.
+The main benefits of `for…of` loops over the `forEach()` method are:
+
+- better readability and less noise;
+- ability to exit early using `break` or `return`;
+- correct type narrowing in TypeScript (which doesn’t work properly when using a callback function in `forEach()`).
+
+T> The [unicorn/no-array-for-each](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-array-for-each.md) and [unicorn/no-for-loop](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-for-loop.md) linter rules automatically replace `forEach()` methods and `for` loops with `for…of` loops.
 
 ## Iterating over objects
 
