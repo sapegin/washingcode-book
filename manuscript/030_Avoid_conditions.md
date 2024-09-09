@@ -1457,6 +1457,56 @@ The improved version is shorter, and, more importantly, now it’s easy to see a
 
 I> There’s a proposal to add [pattern matching](https://github.com/tc39/proposal-pattern-matching) to JavaScript, which may give us another option: more flexible than tables but still readable.
 
+## Negative conditions
+
+Negative conditions are generally harder to read than positive ones:
+
+<!--
+let enabled = true
+let Window = { showInformationMessage: vi.fn() }
+-->
+
+<!-- eslint-skip -->
+
+```js
+if (!enabled) {
+  Window.showInformationMessage(
+    'ESLint is not running because the deprecated setting eslint.enable is set to false…'
+  );
+} else {
+  Window.showInformationMessage(
+    'ESLint is not running. By default only TypeScript and JavaScript files are validated…'
+  );
+}
+```
+
+<!-- expect(Window.showInformationMessage).toHaveBeenCalled('ESLint is not running. By default only TypeScript and JavaScript files are validated…') -->
+
+Decoding “if not enabled” takes a bit more cognitive effort than “if enabled”:
+
+<!--
+let enabled = true
+let Window = { showInformationMessage: vi.fn() }
+-->
+
+```js
+if (enabled) {
+  Window.showInformationMessage(
+    'ESLint is not running. By default only TypeScript and JavaScript files are validated…'
+  );
+} else {
+  Window.showInformationMessage(
+    'ESLint is not running because the deprecated setting eslint.enable is set to false…'
+  );
+}
+```
+
+<!-- expect(Window.showInformationMessage).toHaveBeenCalled('ESLint is not running. By default only TypeScript and JavaScript files are validated…') -->
+
+One notable exception is early returns, which we discussed earlier in this chapter. While negative conditions are harder to read, the overall benefit of structuring functions with early returns outweighs this drawback.
+
+T> The [unicorn/no-negated-condition](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-negated-condition.md) linter rule automatically converts negative conditions to positive ones.
+
 ## Repeated conditions
 
 We often need to compare a variable to multiple values. A naïve way to do this is by comparing the variable to each value in a separate clause:
