@@ -124,7 +124,6 @@ expect(test2).toBe(true);
 
 It really damages code readability, and the longer the condition, the harder it is to see its body:
 
-<!-- prettier-ignore -->
 ```js
 function getIngredientNames(recipeDetails) {
   if (!recipeDetails?.allIngredients.length) return [];
@@ -457,6 +456,8 @@ expect($2).toBe(true)
 -->
 
 Now, the conditions look significantly different, and there’s no way to misinterpret them.
+
+T> The [unicorn/explicit-length-check](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/explicit-length-check.md) linter rule requires and autofixes explicit length checks.
 
 I’m starting to think that using `!` in conditions is [generally an antipattern](https://x.com/Jack_Franklin/status/1189477268764188672). Instead of:
 
