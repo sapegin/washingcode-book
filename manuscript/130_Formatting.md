@@ -102,7 +102,7 @@ The goal here is to avoid any distractions when writing code, or the need to run
 Our Prettier config could look like this:
 
 ```js
-// prettier.config.js
+// prettier.config.mjs
 export default {
   singleQuote: true
 };

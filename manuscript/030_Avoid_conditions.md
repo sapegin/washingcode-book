@@ -70,7 +70,7 @@ Many conditions are unnecessary or could be rewritten in a more readable way.
 
 For example, consider the following code that creates two boolean variables:
 
-<!-- eslint-disable no-unneeded-ternary -->
+<!-- eslint-skip -->
 
 ```js
 const value = '';
@@ -161,7 +161,7 @@ Here’s a more complex but great (and real!) example of unnecessary conditions:
 
 <!-- const window = { navigator: { userAgent: '' } } -->
 
-<!-- eslint-disable unicorn/prefer-includes -->
+<!-- eslint-skip -->
 
 ```js
 function IsNetscapeOnSolaris() {
@@ -731,6 +731,8 @@ Here’s a real-life example:
 
 <!-- const getOrderIds = () => ([]), sendOrderStatus = () => {} -->
 
+<!-- eslint-skip -->
+
 ```js
 function postOrderStatus() {
   var idsArrayObj = getOrderIds();
@@ -767,13 +769,13 @@ Let’s untangle this spaghetti monster:
 
 ```js
 function postOrderStatus() {
-  let idsArrayObj = getOrderIds();
-  if (idsArrayObj === undefined) {
+  let idsArrayObject = getOrderIds();
+  if (idsArrayObject === undefined) {
     return false;
   }
 
-  if (Array.isArray(idsArrayObj) === false) {
-    idsArrayObj = [idsArrayObj];
+  if (Array.isArray(idsArrayObject) === false) {
+    idsArrayObject = [idsArrayObject];
   }
 
   const fullRecordsArray = [];
@@ -844,6 +846,8 @@ let ErrorMessage = () => <p>Error</p>
 let EmptyMessage = () => <p>No data</p>
 let LoadingSpinner = () => <p>Loading…</p>
 -->
+
+<!-- eslint-skip -->
 
 ```jsx
 function Container({
@@ -1384,6 +1388,8 @@ You may feel that I have too many similar examples in this book, and you’re ri
 
 So here is another example (the last one, I promise!):
 
+<!-- eslint-skip -->
+
 ```js
 const DATE_FORMAT_ISO = 'iso';
 const DATE_FORMAT_DE = 'de';
@@ -1718,11 +1724,11 @@ Now, it’s clear that we want to find the maximum of two types of discounts, ot
 
 Similar to tables, a single expression, or _a formula_ can often replace a whole bunch of conditions. Consider [this example](https://x.com/JeroenFrijters/status/1615204074588180481):
 
-<!-- eslint-disable curly -->
-
+<!-- prettier-ignore -->
 ```js
 function getStarRating(percentage) {
-  if (percentage === 0) return '✩✩✩✩✩✩✩✩✩✩';
+  if (percentage === 0)
+    return '✩✩✩✩✩✩✩✩✩✩';
   if (percentage > 0 && percentage <= 0.1)
     return '★✩✩✩✩✩✩✩✩✩';
   if (percentage > 0.1 && percentage <= 0.2)
@@ -1940,57 +1946,57 @@ Sometimes, we can’t reduce the number of conditions, and the only way to impro
 Consider [this example](https://refactoring.guru/extract-variable) from the Refactoring Guru:
 
 <!--
-class Test {
-  resize = 1
-  wasInitialized() { return true }
-  test(platform, browser) {
- -->
+let resize = 1
+let wasInitialized = () => true
+function test(platform, browser) {
+-->
+
+<!-- eslint-disable unicorn/prefer-includes -->
 
 ```js
 if (
   platform.toUpperCase().indexOf('MAC') > -1 &&
   browser.toUpperCase().indexOf('IE') > 1 &&
-  this.wasInitialized() &&
-  this.resize > 0
+  wasInitialized() &&
+  resize > 0
 ) {
-  return true;
+  // Do something…
 }
 ```
 
 <!--
+  else {
     return false
   }
 }
-const test = new Test();
-expect(test.test('Mac_PowerPC', 'Mozilla/4.0 (compatible; MSIE 5.17; Mac_PowerPC)')).toBe(true)
-expect(test.test('MacInter', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.50')).toBe(false)
+expect(test('Mac_PowerPC', 'Mozilla/4.0 (compatible; MSIE 5.17; Mac_PowerPC)')).toBe(undefined)
+expect(test('MacInter', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.50')).toBe(false)
 -->
 
 This code checks multiple conditions, such as the user’s browser or the state of the widget. However, all these checks are crammed into a single expression, making it hard to understand. It’s often a good idea to extract complex calculations and conditions from an already long expression into separate variables:
 
 <!--
-class Test {
-  resize = 1
-  wasInitialized() { return true }
-  test(platform, browser) {
- -->
+let resize = 1
+let wasInitialized = () => true
+function test(platform, browser) {
+-->
 
 ```js
 const isMacOs = platform.toUpperCase().includes('MAC');
 const isIE = browser.toUpperCase().includes('IE');
-const wasResized = this.resize > 0;
-if (isMacOs && isIE && this.wasInitialized() && wasResized) {
-  return true;
+const wasResized = resize > 0;
+if (isMacOs && isIE && wasInitialized() && wasResized) {
+  // Do something…
 }
 ```
 
 <!--
+  else {
     return false
   }
 }
-const test = new Test();
-expect(test.test('Mac_PowerPC', 'Mozilla/4.0 (compatible; MSIE 5.17; Mac_PowerPC)')).toBe(true)
-expect(test.test('MacInter', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.50')).toBe(false)
+expect(test('Mac_PowerPC', 'Mozilla/4.0 (compatible; MSIE 5.17; Mac_PowerPC)')).toBe(undefined)
+expect(test('MacInter', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.50')).toBe(false)
 -->
 
 Now, the condition is shorter and more readable because names help us to understand what the condition does in the context of the function where it’s used.

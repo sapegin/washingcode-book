@@ -18,6 +18,7 @@ export default [
       'no-unused-labels': 'off',
       'unicorn/no-abusive-eslint-disable': 'off',
       'unicorn/no-negation-in-equality-check': 'off',
+      'unicorn/no-nested-ternary': 'off',
       'unicorn/prefer-node-protocol': 'off',
 
       // Many "bad" example use this
@@ -37,5 +38,8 @@ export default [
       // Most examples define variables or functions
       '@typescript-eslint/no-unused-vars': 'off'
     }
+  },
+  {
+    ignores: ['generator/']
   }
 ];

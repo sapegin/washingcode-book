@@ -127,7 +127,7 @@ It really damages code readability, and the longer the condition, the harder it 
 <!-- prettier-ignore -->
 ```js
 function getIngredientNames(recipeDetails) {
-  if (!recipeDetails?.allIngredients.length) { return []; }
+  if (!recipeDetails?.allIngredients.length) return [];
 
   return recipeDetails?.allIngredients.map(x => x.name);
 }

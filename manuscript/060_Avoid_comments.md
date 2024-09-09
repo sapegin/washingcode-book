@@ -386,9 +386,9 @@ There might be another condition, like a dependency upgrade, required to complet
  * fixed in HeadlessUI, debug in WebDev tools using the 6x
  * CPU slowdown
  */
-const blockWindowScroll = active => () => {
+function blockWindowScroll(active) {
   /* … */
-};
+}
 ```
 
 This is one very good comment!

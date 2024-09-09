@@ -354,6 +354,8 @@ Avoid abusing the semantics of array methods:
 
 <!-- const products = [{type: 'pizza'}, {type: 'coffee'}], expectedType = 'pizza' -->
 
+<!-- eslint-skip -->
+
 ```js
 // WARNING: This code is wrong
 let isExpectedType = false;
@@ -519,7 +521,9 @@ const characters = {
 for (const race in characters) {
   // Iterate only over own object properties (skip properties
   // on the prototype chain)
-  if (characters.hasOwnProperty(race)) {
+  if (
+    Object.prototype.hasOwnProperty.call(characters, race)
+  ) {
     console.log(race, characters[race]);
   }
 }
@@ -562,6 +566,8 @@ Unfortunately, there’s no `map()` method for objects, and the `for…of` loops
 Lodash has several methods for object iteration. For example, we can use [the `forEach()` method](https://lodash.com/docs#forEach):
 
 <!-- let console = { log: vi.fn() } -->
+
+<!-- eslint-disable unicorn/no-array-for-each -->
 
 ```js
 const characters = {
@@ -688,8 +694,8 @@ const props = {
 
 ```js
 const tableData = props.item?.details?.clients.reduce(
-  (acc, client) => [
-    ...acc,
+  (accumulator, client) => [
+    ...accumulator,
     ...client.errorConfigurations.reduce(
       (inner, config) => [
         ...inner,
@@ -732,14 +738,14 @@ const props = {
 
 ```js
 const tableData = props.item?.details?.clients.reduce(
-  (accumulator, client) =>
-    accumulator.concat(
-      ...client.errorConfigurations.map(config => ({
-        errorMessage: config.error.message,
-        errorLevel: config.error.level,
-        usedIn: client.name
-      }))
-    ),
+  (accumulator, client) => [
+    ...accumulator,
+    ...client.errorConfigurations.map(config => ({
+      errorMessage: config.error.message,
+      errorLevel: config.error.level,
+      usedIn: client.name
+    }))
+  ],
   []
 );
 ```
@@ -792,6 +798,8 @@ I> We talk about naming in the [Naming is hard](#naming) chapter.
 One might think that functions are slower than loops, and often they are. However, this generally does not matter unless we’re working with millions of elements.
 
 Modern JavaScript engines are very fast and optimized for popular code patterns. Back in the day, we used to write loops like this because checking the array length on every iteration was too slow:
+
+<!-- eslint-disable unicorn/prevent-abbreviations -->
 
 ```js
 var names = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
