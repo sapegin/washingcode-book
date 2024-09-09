@@ -39,6 +39,8 @@ One of the most common use cases for mutation is updating objects:
 
 <!-- const hasStringModifiers = m => m.match(/^[ \w]+$/) -->
 
+<!-- eslint-disable unicorn/prevent-abbreviations, unicorn/prefer-optional-catch-binding, unicorn/catch-error-name -->
+
 ```js
 function parseExample(content, lang, modifiers) {
   const example = {
@@ -99,19 +101,20 @@ function getSettings(modifiers) {
   if (hasStringModifiers(modifiers)) {
     // Parse string modifiers:
     // `foo bar` → { foo: true, bar: true }
-    return modifiers.split(' ').reduce((acc, modifier) => {
-      acc[modifier] = true;
-      return acc;
-    }, {});
+    return modifiers
+      .split(' ')
+      .reduce((accumulator, modifier) => {
+        accumulator[modifier] = true;
+        return accumulator;
+      }, {});
   }
 
   try {
     // Assume that modifiers are in a JSON string:
     // `{"foo": true, "bar": true}` → { foo: true, bar: true }
     return JSON.parse(modifiers);
-  } catch (err) {
+  } catch {
     // Return `undefined` as an error
-    return undefined;
   }
 }
 
@@ -550,14 +553,14 @@ const getMessageProps = ({
   seniors
 }) => {
   return [adults, children, infants, youths, seniors].reduce(
-    (acc, count, index) => {
+    (accumulator, count, index) => {
       if (count > 0) {
-        acc.push({
+        accumulator.push({
           id: MESSAGE_IDS[index],
           count
         });
       }
-      return acc;
+      return accumulator;
     },
     []
   );
@@ -890,6 +893,8 @@ I find the latter example more readable.
 
 Here’s another example:
 
+<!-- eslint-disable unicorn/no-array-for-each -->
+
 ```js
 const friendNames = ['Kili', 'Bilbo', 'Frodo', 'Kili'];
 const counts = {};
@@ -909,7 +914,7 @@ We have a list of friend names, and we calculate how many times each name appear
 
 ```js
 const friendNames = ['Kili', 'Bilbo', 'Frodo', 'Kili'];
-const counts = friendNames.reduce((counts, x) => {
+const friendCount = friendNames.reduce((counts, x) => {
   if (counts[x]) {
     counts[x]++;
   } else {
@@ -920,7 +925,7 @@ const counts = friendNames.reduce((counts, x) => {
 // → { Kili: 2, Bilbo: 1, Frodo: 1 }
 ```
 
-<!-- expect(counts).toEqual({Kili: 2, Bilbo: 1, Frodo: 1}) -->
+<!-- expect(friendCount).toEqual({Kili: 2, Bilbo: 1, Frodo: 1}) -->
 
 What I don’t like about `reduce()` is that we need to return the accumulator every time. Unless the body of the `reduce()` is a single line, and we can use implicit return, the code looks too complex compared to the `forEach()` method. The difference is even more noticeable when compared to a `for…of` loop:
 

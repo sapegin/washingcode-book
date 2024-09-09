@@ -107,54 +107,79 @@ let textEditor = {
     lineAt: () => ({text: 'xxxx'})
   }
 }
-class Test {
-  decoratedLines = new Set([5])
-  lineCount = 10
-
-  test(lineCount, contentChanges) {
-    this.lineCount = lineCount
-    let changedLines = contentChanges.map(
-      ({ range }) => range.start.line
-    );
+let decorate = vi.fn()
 -->
 
 ```js
-// Skip decorating for certain cases to improve performance
-if (
-  // No lines were added or removed
-  this.lineCount === textEditor.document.lineCount &&
-  // All changes are single line changes
-  contentChanges.every(({ range }) => range.isSingleLine) &&
-  // Had no decorators on changed lines
-  changedLines.every(
-    x => this.decoratedLines.has(x) === false
-  ) &&
-  // No need to add decorators to changed lines
-  changedLines.some(x =>
-    regExp?.test(textEditor.document.lineAt(x).text)
-  ) === false
-) {
-  return;
+function handleChange({
+  contentChanges,
+  decoratedLines,
+  lineCount
+}) {
+  const changedLines = contentChanges.map(
+    ({ range }) => range.start.line
+  );
+
+  // Skip decorating for certain cases to improve performance
+  if (
+    // No lines were added or removed
+    lineCount === textEditor.document.lineCount &&
+    // All changes are single line changes
+    contentChanges.every(({ range }) => range.isSingleLine) &&
+    // Had no decorators on changed lines
+    changedLines.every(
+      x => decoratedLines.has(x) === false
+    ) &&
+    // No need to add decorators to changed lines
+    changedLines.some(x =>
+      regExp?.test(textEditor.document.lineAt(x).text)
+    ) === false
+  ) {
+    return;
+  }
+
+  decorate();
 }
 ```
 
 <!--
-    return true;
-  }
-}
-let test = new Test()
-expect(test.test(9, [
-  {range: {start: { line: 4 }, isSingleLine: true }}
-])).toBe(undefined)
-expect(test.test(10, [
-  {range: {start: { line: 5 }, isSingleLine: true }}
-])).toBe(true)
-expect(test.test(9, [
-  {range: {start: { line: 5 }, isSingleLine: false }}
-])).toBe(true)
-expect(test.test(9, [
-  {range: {start: { line: 5 }, isSingleLine: true }}
-])).toBe(true)
+decorate.mockClear();
+
+handleChange({
+  contentChanges: [
+    {range: {start: { line: 4 }, isSingleLine: true }}
+  ],
+  decoratedLines: new Set([5]),
+  lineCount: 9
+})
+expect(decorate).not.toHaveBeenCalled()
+
+handleChange({
+  contentChanges: [
+    {range: {start: { line: 5 }, isSingleLine: true }}
+  ],
+  decoratedLines: new Set([5]),
+  lineCount: 10
+})
+expect(decorate).toHaveBeenCalled()
+
+handleChange({
+  contentChanges: [
+    {range: {start: { line: 5 }, isSingleLine: false }}
+  ],
+  decoratedLines: new Set([5]),
+  lineCount: 9
+})
+expect(decorate).toHaveBeenCalled()
+
+handleChange({
+  contentChanges: [
+    {range: {start: { line: 5 }, isSingleLine: true }}
+  ],
+  decoratedLines: new Set([5]),
+  lineCount: 9
+})
+expect(decorate).toHaveBeenCalled()
 -->
 
 Here, we have a complex condition with multiple clauses. The problem with this code is that it’s hard to see the high-level structure of the condition. Is it `something && something else`? Or is it `something || something else`? It’s hard to see what code belongs to the condition itself and what belongs to individual clauses.
@@ -169,58 +194,84 @@ let textEditor = {
     lineAt: () => ({text: 'xxxx'})
   }
 }
-class Test {
-  decoratedLines = new Set([5])
-  lineCount = 10
-
-  test(lineCount, contentChanges) {
-    this.lineCount = lineCount
-    let changedLines = contentChanges.map(
-      ({ range }) => range.start.line
-    );
+let decorate = vi.fn()
 -->
 
 ```js
-const lineCountHasChanged =
-  this.lineCount !== textEditor.document.lineCount;
-const hasMultilineChanges = contentChanges.some(
-  ({ range }) => range.isSingleLine === false
-);
-const hadDecoratorsOnChangedLines = changedLines.some(x =>
-  this.decoratedLines.has(x)
-);
-const shouldHaveDecoratorsOnChangedLines = changedLines.some(
-  x => regExp?.test(textEditor.document.lineAt(x).text)
-);
+function handleChange({
+  contentChanges,
+  decoratedLines,
+  lineCount
+}) {
+  const changedLines = contentChanges.map(
+    ({ range }) => range.start.line
+  );
 
-// Skip decorating for certain cases to improve performance
-if (
-  lineCountHasChanged === false &&
-  hasMultilineChanges === false &&
-  hadDecoratorsOnChangedLines === false &&
-  shouldHaveDecoratorsOnChangedLines === false
-) {
-  return;
+  const lineCountHasChanged =
+    lineCount !== textEditor.document.lineCount;
+  const hasMultilineChanges = contentChanges.some(
+    ({ range }) => range.isSingleLine === false
+  );
+  const hadDecoratorsOnChangedLines = changedLines.some(x =>
+    decoratedLines.has(x)
+  );
+  const shouldHaveDecoratorsOnChangedLines =
+    changedLines.some(x =>
+      regExp?.test(textEditor.document.lineAt(x).text)
+    );
+
+  // Skip decorating for certain cases to improve performance
+  if (
+    lineCountHasChanged === false &&
+    hasMultilineChanges === false &&
+    hadDecoratorsOnChangedLines === false &&
+    shouldHaveDecoratorsOnChangedLines === false
+  ) {
+    return;
+  }
+
+  decorate();
 }
 ```
 
 <!--
-    return true;
-  }
-}
-let test = new Test()
-expect(test.test(9, [
-  {range: {start: { line: 4 }, isSingleLine: true }}
-])).toBe(undefined)
-// expect(test.test(10, [
-//   {range: {start: { line: 5 }, isSingleLine: true }}
-// ])).toBe(true)
-// expect(test.test(9, [
-//   {range: {start: { line: 5 }, isSingleLine: false }}
-// ])).toBe(true)
-// expect(test.test(9, [
-//   {range: {start: { line: 5 }, isSingleLine: true }}
-// ])).toBe(true)
+decorate.mockClear();
+
+handleChange({
+  contentChanges: [
+    {range: {start: { line: 4 }, isSingleLine: true }}
+  ],
+  decoratedLines: new Set([5]),
+  lineCount: 9
+})
+expect(decorate).not.toHaveBeenCalled()
+
+handleChange({
+  contentChanges: [
+    {range: {start: { line: 5 }, isSingleLine: true }}
+  ],
+  decoratedLines: new Set([5]),
+  lineCount: 10
+})
+expect(decorate).toHaveBeenCalled()
+
+handleChange({
+  contentChanges: [
+    {range: {start: { line: 5 }, isSingleLine: false }}
+  ],
+  decoratedLines: new Set([5]),
+  lineCount: 9
+})
+expect(decorate).toHaveBeenCalled()
+
+handleChange({
+  contentChanges: [
+    {range: {start: { line: 5 }, isSingleLine: true }}
+  ],
+  decoratedLines: new Set([5]),
+  lineCount: 9
+})
+expect(decorate).toHaveBeenCalled()
 -->
 
 Here, we separated levels of abstraction, so the implementation details of each clause don’t distract us from the high-level condition. Now, the structure of the condition is clear.
@@ -403,6 +454,8 @@ Comments can make code more intentional. Consider this example:
 const doOrDoNot = () => { throw new Error('x') }
 function test() {
 -->
+
+<!-- eslint-skip -->
 
 ```js
 try {

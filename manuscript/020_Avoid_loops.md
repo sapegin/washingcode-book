@@ -18,6 +18,8 @@ This is how a typical `for` loop looks like:
 
 <!-- let console = { log: vi.fn() } -->
 
+<!-- eslint-disable unicorn/no-for-loop -->
+
 ```js
 const array = ['eins', 'zwei', 'drei'];
 for (let i = 0; i < array.length; i++) {
@@ -100,6 +102,8 @@ Modern languages have better ways to express iteration, and [JavaScript has many
 
 For example, let’s convert an array of strings to kebab-case using a `for` loop:
 
+<!-- eslint-disable unicorn/no-for-loop -->
+
 ```js
 const characters = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabCharacters = [];
@@ -143,17 +147,19 @@ const kebabCharacters = characters.map(name =>
 
 We may want to shorten the code even more by passing the callback function to the `map()` method directly. However, this has several issues.
 
-First, this only works with functions that accept a single parameter because the `map()` method also passes an element’s index as the second parameter and the entire array as the third. For example, using the [`parseInt()` function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/parseInt), which accepts a radix as its second parameter would lead to unexpected results:
+First, this only works with functions that accept a single parameter because the `map()` method also passes an element’s index as the second parameter and the entire array as the third. For example, using the [`Number.parseInt()` function](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/parseInt), which accepts a radix as its second parameter, would lead to unexpected results:
+
+<!-- eslint-disable unicorn/no-array-callback-reference -->
 
 ```js
 const inputs = ['1', '2', '3'];
 
 // WARNING: This code is incorrect
-const integers_ = inputs.map(parseInt);
+const integers_ = inputs.map(Number.parseInt);
 // → [1, NaN, NaN]
 
 // Correct, only passing values
-const integers = inputs.map(value => parseInt(value));
+const integers = inputs.map(value => Number.parseInt(value));
 // → [1, 2, 3]
 ```
 
@@ -171,6 +177,8 @@ Lastly, explicitly passing the value inside the `map()` callback function makes 
 T> The Unicorn ESLint plugin has a rule to prevent passing the callback function directly to array methods: [no-array-callback-reference](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-array-callback-reference.md).
 
 Let’s look at another example: finding an element in an array. First, using a `for` loop:
+
+<!-- eslint-disable unicorn/no-for-loop -->
 
 ```js
 const characters = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
@@ -246,6 +254,8 @@ expect(testHost('burger.com', 0)).toBe(proxy)
 We don’t even need to nest loops here, but the data structure used to store rules makes it confusing. The nested arrays always have two items, so an object with two properties would be more appropriate here.
 
 Here’s one more example of nested loops:
+
+<!-- eslint-skip -->
 
 ```js
 function hasDiscount(customers) {
@@ -325,6 +335,8 @@ When all simple cases are covered by array methods, every time we see a traditio
 
 Also, don’t use generic array methods like `map()` or `forEach()` when more specialized array methods would work, and don’t use `forEach()` instead of `map()` to transform an array. Both would confuse the reader by doing something unexpected.
 
+<!-- eslint-disable unicorn/no-array-for-each -->
+
 ```js
 const characters = ['Bilbo Baggins', 'Gandalf', 'Gollum'];
 const kebabCharacters = [];
@@ -403,6 +415,8 @@ Here, we pass a callback function (called _a reducer_) to the `reduce()` method,
 
 I’ve seen programmers try to squeeze everything into a single `reduce()` method to avoid extra iterations. Consider this example:
 
+<!-- eslint-disable unicorn/prevent-abbreviations -->
+
 ```js
 const cart = [
   { price: 25, quantity: 1 },
@@ -452,6 +466,8 @@ const console = { error: vi.fn() }
 const errors = ['dope', 'nope']
 -->
 
+<!-- eslint-disable unicorn/no-array-for-each -->
+
 ```js
 errors.forEach(error => {
   console.error(error);
@@ -490,6 +506,8 @@ The difference with the `forEach()` isn’t significant; however, the `for…of`
 There are [many ways to iterate over object keys or values](https://stackoverflow.com/questions/684672/how-do-i-loop-through-or-enumerate-a-javascript-object/5737136#5737136) in JavaScript:
 
 <!-- let console = { log: vi.fn() } -->
+
+<!-- eslint-disable unicorn/no-array-for-each -->
 
 ```js
 const characters = {
@@ -648,6 +666,8 @@ if (props.item && props.item.details) {
 
 This code prepares the data for a table of error messages. Let’s try to rewrite it using the `reduce()` method to _avoid loops_:
 
+<!-- eslint-disable unicorn/prevent-abbreviations -->
+
 <!--
 const props = {
   item: {
@@ -712,8 +732,8 @@ const props = {
 
 ```js
 const tableData = props.item?.details?.clients.reduce(
-  (acc, client) =>
-    acc.concat(
+  (accumulator, client) =>
+    accumulator.concat(
       ...client.errorConfigurations.map(config => ({
         errorMessage: config.error.message,
         errorLevel: config.error.level,

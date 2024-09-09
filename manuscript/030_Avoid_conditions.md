@@ -22,15 +22,18 @@ if (condition) {
 
 // `switch` operator
 switch (value) {
-  case 'value1':
+  case 'value1': {
     // Code for value1
     break;
-  case 'value2':
+  }
+  case 'value2': {
     // Code for value2
     break;
-  default:
+  }
+  default: {
     // Code if no cases match
     break;
+  }
 }
 
 // Ternary operator
@@ -59,13 +62,15 @@ However, conditions can make code harder to read and test because:
 - multipart conditions are even harder to understand, especially those that mix positive and negative clauses;
 - each condition increases the minimum number of test cases we need to write for a certain module or function.
 
-Therefore, reducing the number of conditions in our code makes sense.
+Thus, reducing the number of conditions in our code makes sense.
 
 ## Unnecessary conditions
 
 Many conditions are unnecessary or could be rewritten in a more readable way.
 
 For example, consider the following code that creates two boolean variables:
+
+<!-- eslint-disable no-unneeded-ternary -->
 
 ```js
 const value = '';
@@ -100,6 +105,8 @@ expect(hasProducts).toBe(true)
 -->
 
 Even when the initial value isn’t a boolean:
+
+<!-- eslint-disable no-unneeded-ternary -->
 
 ```js
 const value = '';
@@ -153,6 +160,8 @@ T> I consider a variable that can be either `undefined` (or `null`) or an `array
 Here’s a more complex but great (and real!) example of unnecessary conditions:
 
 <!-- const window = { navigator: { userAgent: '' } } -->
+
+<!-- eslint-disable unicorn/prefer-includes -->
 
 ```js
 function IsNetscapeOnSolaris() {
@@ -284,9 +293,9 @@ function getRandomJoke(onDone, onError) {
     .then(data => {
       onDone(data);
     })
-    .catch(err => {
+    .catch(error => {
       if (onError) {
-        onError(err.message);
+        onError(error.message);
       }
     });
 }
@@ -316,8 +325,8 @@ function getRandomJoke(onDone, onError) {
     .then(data => {
       onDone(data);
     })
-    .catch(err => {
-      onError?.(err.message);
+    .catch(error => {
+      onError?.(error.message);
     });
 }
 ```
@@ -346,8 +355,8 @@ function getRandomJoke(onDone, onError = () => {}) {
     .then(data => {
       onDone(data);
     })
-    .catch(err => {
-      onError(err.message);
+    .catch(error => {
+      onError(error.message);
     });
 }
 ```
@@ -982,12 +991,15 @@ const DECISION_MAYBE = 2;
 
 const getButtonLabel = decisionButton => {
   switch (decisionButton) {
-    case DECISION_YES:
+    case DECISION_YES: {
       return 'Yes';
-    case DECISION_NO:
+    }
+    case DECISION_NO: {
       return 'No';
-    case DECISION_MAYBE:
+    }
+    case DECISION_MAYBE: {
       return 'Maybe';
+    }
   }
 };
 
@@ -1383,15 +1395,19 @@ const getDateFormat = format => {
   const monthPart = 'M';
 
   switch (format) {
-    case DATE_FORMAT_ISO:
+    case DATE_FORMAT_ISO: {
       return `${monthPart}-${datePart}`;
-    case DATE_FORMAT_DE:
+    }
+    case DATE_FORMAT_DE: {
       return `${datePart}.${monthPart}`;
-    case DATE_FORMAT_UK:
+    }
+    case DATE_FORMAT_UK: {
       return `${datePart}/${monthPart}`;
+    }
     case DATE_FORMAT_US:
-    default:
+    default: {
       return `${monthPart}/${datePart}`;
+    }
   }
 };
 ```
@@ -1701,6 +1717,8 @@ Now, it’s clear that we want to find the maximum of two types of discounts, ot
 ## Formulas
 
 Similar to tables, a single expression, or _a formula_ can often replace a whole bunch of conditions. Consider [this example](https://x.com/JeroenFrijters/status/1615204074588180481):
+
+<!-- eslint-disable curly -->
 
 ```js
 function getStarRating(percentage) {

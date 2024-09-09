@@ -96,7 +96,7 @@ resolver.doResolve(
   fixedRequest,
   null,
   ctx,
-  (err, result) => {
+  (error, result) => {
     /* … */
   }
 );
@@ -403,6 +403,8 @@ let calls = 0
 const pizzaController = { one: {mockReset(){ calls++ }}, two: {mockReset(){ calls++ }} }
 -->
 
+<!-- eslint-disable unicorn/no-for-loop -->
+
 ```js
 const keys = Object.keys(pizzaController);
 for (let i = 0; i < keys.length; i += 1) {
@@ -417,6 +419,8 @@ I> I used longer names for index variables, like `somethingIdx`, for a very long
 However, in nested loops, it’s difficult to understand which index belongs to which array:
 
 <!-- let console = { log: vi.fn() } -->
+
+<!-- eslint-disable unicorn/no-for-loop -->
 
 ```js
 const array = [
@@ -1197,6 +1201,8 @@ _Incorrect_ names are worse than magic numbers. With magic numbers, there’s a 
 
 Consider this example:
 
+<!-- eslint-disable unicorn/numeric-separators-style -->
+
 ```js
 // Constant used to correct a Date object's time to reflect
 // a UTC timezone
@@ -1282,6 +1288,8 @@ const Currency = Record({
 })
 -->
 
+<!-- eslint-skip -->
+
 ```js
 function currencyReducer(state = new Currency(), action) {
   switch (action.type) {
@@ -1333,7 +1341,7 @@ const Currency = Record({
 const currencyReducer = (state = new Currency(), action) => {
   switch (action.type) {
     case UPDATE_RESULTS:
-    case UPDATE_CART:
+    case UPDATE_CART: {
       const { data } = action.res;
       if (data.query === undefined) {
         return state;
@@ -1344,8 +1352,10 @@ const currencyReducer = (state = new Currency(), action) => {
         data.currencies[iso] ?? {};
 
       return state.merge({ iso, name, symbol });
-    default:
+    }
+    default: {
       return state;
+    }
   }
 };
 ```
@@ -1424,7 +1434,7 @@ test('creates new user', async () => {
     expect.objectContaining({
       username,
       password: expect.stringMatching(
-        /^[a-z]+-[a-z]+-[a-z]+$/
+        /^(?:[a-z]+-){2}[a-z]+$/
       )
     })
   );
@@ -1496,7 +1506,7 @@ test('creates new user', async () => {
     expect.objectContaining({
       username,
       password: expect.stringMatching(
-        /^[a-z]+-[a-z]+-[a-z]+$/
+        /^(?:[a-z]+-){2}[a-z]+$/
       )
     })
   );
@@ -1724,20 +1734,14 @@ expect(instance.state).toBe(200)
 
 And this one:
 
-<!--
-const response = { json: () => Promise.resolve(42) }
-async function x() {
--->
-
 ```js
-const data = await response.json();
-return data;
+async function handleResponse(response) {
+  const data = await response.json();
+  return data;
+}
 ```
 
-<!--
-}
-expect(x()).resolves.toBe(42)
--->
+<!-- expect(handleResponse({ json: () => Promise.resolve(42) })).resolves.toBe(42) -->
 
 In both cases, the `result`, and `data` variables don’t add much to the code. The names don’t adding new information, and the code is short enough to be inlined:
 
@@ -1762,61 +1766,78 @@ expect(instance.state).toBe(200)
 
 Or for the second example:
 
-<!--
-const response = { json: () => Promise.resolve(42) }
-function x() {
--->
-
 ```js
-return response.json();
+function handleResponse(response) {
+  return response.json();
+}
 ```
 
-<!--
-}
-expect(x()).resolves.toBe(42)
--->
+<!-- expect(handleResponse({ json: () => Promise.resolve(42) })).resolves.toBe(42) -->
 
-Here’s another example:
+Here’s another example that checks whether the browser supports CSS transitions by probing available CSS properties:
 
-<!--
-const BaseComponent = ({x}) => <p>{x}</p>
-class X {
-  props = {x: 42, y: 24};
--->
+<!-- function test(document) { -->
 
 ```jsx
-render() {
-  let p = this.props;
-  return <BaseComponent {...p} />;
+let b = document.body.style;
+if (
+  b.MozTransition == '' ||
+  b.WebkitTransition == '' ||
+  b.OTransition == '' ||
+  b.transition == ''
+) {
+  document.documentElement.className += ' trans';
 }
 ```
 
 <!--
 }
-const instance = new X()
-const {container: c1} = RTL.render(instance.render());
-expect(c1.textContent).toEqual('42')
+let document1 = {
+  documentElement: { className: '' },
+  body: { style: {} }
+}
+test(document1)
+expect(document1.documentElement.className).toBe('')
+
+let document2 = {
+  documentElement: { className: '' },
+  body: { style: { transition: '' } }
+}
+test(document2)
+expect(document2.documentElement.className).toBe(' trans')
 -->
 
-Here, the alias `p` replaces a clear name `this.props` with an obscure one. Again, inlining makes the code more readable:
+Here, the alias `b` replaces a clear name `document.body.style` with not just an obscure one but misleading: `b` and `styles` are unrelated. Inlining makes the code too long because the style values are accessed many time, but having a clearer shortcut would help a lot:
 
-<!--
-const BaseComponent = ({x}) => <p>{x}</p>
-class X {
-  props = {x: 42, y: 24};
--->
+<!-- function test(document) { -->
 
 ```jsx
-render() {
-  return <BaseComponent {...this.props} />;
+const { style } = document.body;
+if (
+  style.MozTransition === '' ||
+  style.WebkitTransition === '' ||
+  style.OTransition === '' ||
+  style.transition === ''
+) {
+  document.documentElement.className += ' trans';
 }
 ```
 
 <!--
 }
-const instance = new X()
-const {container: c1} = RTL.render(instance.render());
-expect(c1.textContent).toEqual('42')
+let document1 = {
+  documentElement: { className: '' },
+  body: { style: {} }
+}
+test(document1)
+expect(document1.documentElement.className).toBe('')
+
+let document2 = {
+  documentElement: { className: '' },
+  body: { style: { transition: '' } }
+}
+test(document2)
+expect(document2.documentElement.className).toBe(' trans')
 -->
 
 Another case is when we create an object to hold a group of values but never use it as a whole (for example, to pass it to another function), only to access separate properties in it. It makes us waste time inventing a new variable name, and we often end up with something awkward.
@@ -1862,6 +1883,8 @@ const hiddenInput = (name, value) => {
 };
 -->
 
+<!-- eslint-skip -->
+
 ```js
 function submitFormData(action, options) {
   const form = document.createElement('form');
@@ -1902,6 +1925,8 @@ const hiddenInput = (name, value) => {
 };
 -->
 
+<!-- eslint-disable unicorn/prefer-dom-node-append, unicorn/prefer-dom-node-remove -->
+
 ```js
 function submitFormData(
   action,
@@ -1914,11 +1939,12 @@ function submitFormData(
   form.target = target;
 
   if (parameters) {
-    Object.keys(parameters)
-      .map(paramName =>
-        hiddenInput(paramName, parameters[paramName])
-      )
-      .forEach(form.appendChild.bind(form));
+    for (const [name, parameter] of Object.entries(
+      parameters
+    )) {
+      const input = hiddenInput(name, parameter);
+      form.appendChild(input);
+    }
   }
 
   document.body.appendChild(form);

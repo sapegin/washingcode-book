@@ -218,7 +218,7 @@ function bakePizza(pizza, oven) {
   }
 }
 
-function box(pizza) {
+function pack(pizza) {
   const box = new Box();
   pizza.boxed = box.putIn(pizza);
   pizza.sliced = box.slicePizza(pizza.size);
@@ -228,7 +228,7 @@ function box(pizza) {
 function createPizza(order) {
   const pizza = prepare(order);
   bake(pizza);
-  box(pizza);
+  pack(pizza);
   return pizza;
 }
 ```
@@ -571,6 +571,8 @@ expect(MyComponent.defaultProps.onClick()).toEqual(undefined)
 -->
 
 Another example:
+
+<!-- eslint-skip -->
 
 ```js
 const findByReference = (wrapper, reference) =>
@@ -971,6 +973,8 @@ let beforeEach = (fn) => fn()
 let test = (_, fn) => fn()
 -->
 
+<!-- eslint-skip -->
+
 ```js
 let css;
 let res;
@@ -1009,14 +1013,14 @@ let test = (_, fn) => fn()
 ```js
 test('works with basic selectors', () => {
   const css = 'div\n{}';
-  const res = 'div\n';
-  expect(getSelector(css)).toBe(res);
+  const expected = 'div\n';
+  expect(getSelector(css)).toBe(expected);
 });
 
 test('works with lobotomized owl selector', () => {
   const css = '.stack > * + *\n{}';
-  const res = '.stack > * + *\n';
-  expect(getSelector(css)).toBe(res);
+  const expected = '.stack > * + *\n';
+  expect(getSelector(css)).toBe(expected);
 });
 
 // More tests that use `css` and `res`…

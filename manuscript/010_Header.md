@@ -82,7 +82,7 @@ Where appropriate, I added the result of calculations in the code using a commen
 
 ```js
 const inputs = ['1', '2', '3'];
-const integers = inputs.map(value => parseInt(value));
+const integers = inputs.map(value => Number.parseInt(value));
 // → [1, 2, 3]
 ```
 
@@ -91,10 +91,11 @@ const integers = inputs.map(value => parseInt(value));
 And where the code is incorrect or won’t compile at all, I added warning comments:
 
 <!-- let inputs = ['1', '2', '3'] -->
+<!-- eslint-disable unicorn/no-array-callback-reference -->
 
 ```js
 // WARNING: This code is incorrect
-const integers = inputs.map(parseInt);
+const integers = inputs.map(Number.parseInt);
 // → [1, NaN, NaN]
 ```
 
@@ -103,7 +104,7 @@ const integers = inputs.map(parseInt);
 Some examples have a comment with their filename. Mostly it’s either config files (where the filename is significant) or files that are later imported in some example:
 
 ```js
-// eslint.config.js
+// eslint.config.mjs
 import js from '@eslint/js';
 export default [js.configs.recommended];
 ```

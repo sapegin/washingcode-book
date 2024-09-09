@@ -18,6 +18,8 @@ Let’s look at some examples. Try to cover the answers and guess what these cod
 
 **Example 1:**
 
+<!-- eslint-skip -->
+
 ```js
 const percent = 5;
 const percentString = percent.toString().concat('%');
@@ -37,6 +39,8 @@ const percentString = `${percent}%`;
 
 **Example 2:**
 
+<!-- eslint-skip -->
+
 ```js
 const url = 'index.html?id=5';
 if (~url.indexOf('id')) {
@@ -50,17 +54,6 @@ The `~` symbol is called the _bitwise NOT_ operator. Its useful effect here is t
 
 ```js
 const url = 'index.html?id=5';
-if (url.indexOf('id') !== -1) {
-  // Something fishy here…
-}
-```
-
-<!-- expect($1).toBe(true) -->
-
-Or, even better:
-
-```js
-const url = 'index.html?id=5';
 if (url.includes('id')) {
   // Something fishy here…
 }
@@ -70,40 +63,29 @@ if (url.includes('id')) {
 
 **Example 3:**
 
-<!--
-let result = (
--->
+<!-- eslint-skip -->
 
-<!-- prettier-ignore -->
 ```js
-~~3.14
+const value = ~~3.14;
 ```
 
-<!--
-)
-expect(result).toBe(3)
--->
+<!-- expect(value).toBe(3) -->
 
 Another obscure use of the bitwise NOT operator is to discard the fractional portion of a number. Use `Math.floor()` instead:
 
-<!--
-let result = (
--->
-
-<!-- prettier-ignore -->
 ```js
-Math.floor(3.14)
+const value = Math.floor(3.14);
 // → 3
 ```
 
 <!--
-)
-expect(result).toBe(3)
+expect(value).toBe(3)
 -->
 
 **Example 4:**
 
 <!-- let dogs = [1], cats = [2] -->
+<!-- eslint-skip -->
 
 ```js
 if (dogs.length + cats.length > 0) {
@@ -126,6 +108,8 @@ if (dogs.length > 0 && cats.length > 0) {
 <!-- expect($1).toBe(true) -->
 
 **Example 5:**
+
+<!-- eslint-skip -->
 
 ```js
 const header = 'filename="pizza.rar"';
@@ -154,7 +138,7 @@ Or, even better, the `URLSearchParams` API:
 const header = 'filename="pizza.rar"';
 const filename = new URLSearchParams(header)
   .get('filename')
-  .replace(/^"|"$/g, '');
+  .replaceAll(/^"|"$/g, '');
 // → pizza
 ```
 
@@ -166,41 +150,45 @@ _These quotes are weird, though. Normally we don’t need quotes around URL para
 
 <!-- const condition = true -->
 
+<!-- eslint-skip -->
+
 ```js
-const obj = {
+const object = {
   ...(condition && { value: 42 })
 };
 ```
 
-<!-- expect(obj).toEqual({ value: 42 }) -->
+<!-- expect(object).toEqual({ value: 42 }) -->
 
 Here, we add a property to an object when the condition is true, otherwise we do nothing. The intention is more obvious when we explicitly define objects to destructure rather than relying on destructuring of falsy values:
 
 <!-- const condition = true -->
 
 ```js
-const obj = {
+const object = {
   ...(condition ? { value: 42 } : {})
 };
 // → { value: 42 }
 ```
 
-<!-- expect(obj).toEqual({ value: 42 }) -->
+<!-- expect(object).toEqual({ value: 42 }) -->
 
 I usually prefer when objects don’t change shape, so I’d move the condition inside the `value` field:
 
 <!-- const condition = true -->
 
 ```js
-const obj = {
+const object = {
   value: condition ? 42 : undefined
 };
 // → { value: 42 }
 ```
 
-<!-- expect(obj).toEqual({ value: 42 }) -->
+<!-- expect(object).toEqual({ value: 42 }) -->
 
 **Example 7:**
+
+<!-- eslint-skip -->
 
 ```js
 const array = [...Array(10).keys()];
@@ -214,7 +202,7 @@ We can rewrite it using a `for` loop:
 
 ```js
 const array = [];
-for (var i = 0; i < 10; i++) {
+for (let i = 0; i < 10; i++) {
   array.push(i);
 }
 // → [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -264,6 +252,8 @@ const words = ['Not', null, 'enough', 0, 'cheese'].filter(
 <!-- expect(words).toEqual( ['Not', 'enough', 'cheese']) -->
 
 I find this pattern acceptable; though it requires learning, it’s better than the alternative:
+
+<!-- eslint-skip -->
 
 ```js
 const words = ['Not', null, 'enough', 0, 'cheese'].filter(
@@ -461,6 +451,8 @@ Whenever we encounter a condition that makes code slightly different, we should 
 
 Consider this example:
 
+<!-- eslint-skip -->
+
 ```js
 function getAssetDirs(config) {
   return config.assetsDir
@@ -479,12 +471,14 @@ expect(getAssetDirs({assetsDir: ['pizza', 'tacos']})).toEqual([{from: 'pizza'}, 
 
 This code handles two edge cases: when `assetsDir` doesn’t exist, and when `assetsDir` isn’t an array. Also, the object generation code is duplicated. _(And let’s not talk about nested ternaries…)_ We can get rid of the duplication and at least one condition:
 
+<!-- eslint-disable unicorn/prevent-abbreviations -->
+
 ```js
 function getAssetDirs(config) {
-  const assetDirs = config.assetsDir
+  const assetDirectories = config.assetsDir
     ? _.castArray(config.assetsDir)
     : [];
-  return assetDirs.map(from => ({
+  return assetDirectories.map(from => ({
     from
   }));
 }
@@ -670,6 +664,8 @@ let previewLink = 'http://example.com'
 let onOpenViewConfirmation = () => {}
 let Render = ({platform: Platform}) => { return (
 -->
+
+<!-- eslint-skip -->
 
 ```jsx
 <Button

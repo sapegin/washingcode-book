@@ -88,6 +88,8 @@ If I had to choose the most annoying code style, it would be writing condition o
 
 <!-- function test(pizza) { -->
 
+<!-- eslint-skip -->
+
 ```js
 if (pizza) pizza();
 ```
@@ -122,16 +124,18 @@ expect(test2).toBe(true);
 
 It really damages code readability, and the longer the condition, the harder it is to see its body:
 
-<!-- function test(recipeDetails) { -->
-
+<!-- prettier-ignore -->
 ```js
-if (!recipeDetails?.allIngredients.length) return null;
+function getIngredientNames(recipeDetails) {
+  if (!recipeDetails?.allIngredients.length) { return []; }
+
+  return recipeDetails?.allIngredients.map(x => x.name);
+}
 ```
 
 <!--
-}
-expect(test({allIngredients: []})).toBe(null);
-expect(test({allIngredients: [1]})).toBe(undefined);
+expect(getIngredientNames({allIngredients: []})).toEqual([]);
+expect(getIngredientNames({allIngredients: [{name: 'tacos'}]})).toEqual(['tacos']);
 -->
 
 I’m 102% sure I’d miss the `return` statement here when reading this code for the first time.
@@ -140,18 +144,19 @@ T> My color theme, [Squirrelsong](https://sapegin.me/squirrelsong/), shows `!` a
 
 Compare it with:
 
-<!-- function test(recipeDetails) { -->
-
 ```js
-if (recipeDetails?.allIngredients.length === 0) {
-  return null;
+function getIngredientNames(recipeDetails) {
+  if (!recipeDetails?.allIngredients.length) {
+    return [];
+  }
+
+  return recipeDetails?.allIngredients.map(x => x.name);
 }
 ```
 
 <!--
-}
-expect(test({allIngredients: []})).toBe(null);
-expect(test({allIngredients: [1]})).toBe(undefined);
+expect(getIngredientNames({allIngredients: []})).toEqual([]);
+expect(getIngredientNames({allIngredients: [{name: 'tacos'}]})).toEqual(['tacos']);
 -->
 
 Now, the `return` statement is more noticeable: it has its own line, braces create extra negative space around it, and, most importantly, it has the familiar shape of an `if` statement. Without braces, it looks like any other line (see the illustration).
@@ -247,10 +252,11 @@ Another example is [Yoda conditions](https://en.wikipedia.org/wiki/Yoda_conditio
 
 <!-- let meaning = 42 -->
 
-<!-- prettier-ignore -->
+<!-- eslint-skip -->
+
 ```js
 if (42 === meaning) {
-    // …
+  // …
 }
 ```
 
@@ -273,6 +279,7 @@ if (meaning = 42) {
 Instead of a comparison:
 
 <!-- let meaning = 42 -->
+<!-- eslint-skip -->
 
 ```js
 if (meaning == 42) {
@@ -304,7 +311,7 @@ For example, aligning object values or the right-hand side of assignments horizo
 ```js
 var fs       = require('fs')
   , readme   = require('./readme')
-  , examples = readme(fs.readFileSync('./README.md', 'utf-8'))
+  , examples = readme(fs.readFileSync('./README.md', 'utf8'))
   ;
 ```
 
@@ -315,7 +322,7 @@ Editing code written in this style takes an enormous amount of work. Luckily, co
 ```js
 var fs = require('fs'),
   readme = require('./readme'),
-  examples = readme(fs.readFileSync('./README.md', 'utf-8'));
+  examples = readme(fs.readFileSync('./README.md', 'utf8'));
 ```
 
 <!-- expect(examples).toEqual('./README.md') -->
@@ -326,7 +333,7 @@ I’d go one step further and replace the single `var` with one `var` per assign
 const fs = require('fs');
 const readme = require('./readme');
 const examples = readme(
-  fs.readFileSync('./README.md', 'utf-8')
+  fs.readFileSync('./README.md', 'utf8')
 );
 ```
 
@@ -412,6 +419,8 @@ Another area where expanding conditions improves readability is when checking ar
 Consider these two examples:
 
 <!-- let puppies = [] -->
+
+<!-- eslint-disable unicorn/explicit-length-check -->
 
 ```js
 if (puppies.length) {
@@ -521,6 +530,8 @@ if (x < 3 || 13 < x) {
 
 One minor improvement in modern JavaScript is _numeric separators_, which let us to separate thousands with an underscore (`_`) to make large numbers easier to read:
 
+<!-- eslint-disable unicorn/numeric-separators-style -->
+
 ```js
 const earthToSun1 = 149597870700;
 const earthToSun2 = 149_597_870_700;
@@ -539,12 +550,12 @@ _The longliners_ write code that looks like a kebab on a long skewer:
 <!-- prettier-ignore -->
 ```js
 const puppiesByParent = {}
-puppies.forEach(puppy => {
+for (const puppy of puppies) {
   if (puppy.parentId) {
     const currentParent = puppies.find(currentPuppy => currentPuppy.id === puppy.parentId)
     puppiesByParent[currentParent.id] = [...(puppiesByParent[currentParent.id] || []), puppy.id]
   }
-})
+}
 ```
 
 <!-- expect(puppiesByParent).toEqual({3: [1, 2]}) -->
@@ -626,7 +637,7 @@ Another issue with the longliner’s approach is that Prettier, with a default p
 
 ```js
 const puppiesByParent = {};
-puppies.forEach(puppy => {
+for (const puppy of puppies) {
   if (puppy.parentId) {
     const currentParent = puppies.find(
       currentPuppy => currentPuppy.id === puppy.parentId
@@ -636,7 +647,7 @@ puppies.forEach(puppy => {
       puppy.id
     ];
   }
-});
+}
 ```
 
 <!-- expect(puppiesByParent).toEqual({3: [1, 2]}) -->
@@ -806,6 +817,7 @@ Normally, I wouldn’t mind either way, as long as it’s automated. However, th
 
 <!-- prettier-ignore -->
 ```js
+// WARNING: This code is incorrect
 function semicolonOrNot() {
   return
   {
@@ -820,6 +832,7 @@ Most programmers would expect this function to return an object, but it returns 
 
 <!-- prettier-ignore -->
 ```js
+// WARNING: This code is incorrect
 function semicolonOrNot() {
   return;
   {

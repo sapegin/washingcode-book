@@ -27,8 +27,8 @@ function Tweets() {
   const handleLoadTweets = () => {
     setLoading(true);
     getTweets()
-      .then(tweets => {
-        setTweets(tweets);
+      .then(result => {
+        setTweets(result);
         setLoading(false);
         setError(false);
       })
@@ -93,8 +93,8 @@ function Tweets() {
   const handleLoadTweets = () => {
     setStatus(Status.Loading);
     getTweets()
-      .then(tweets => {
-        setTweets(tweets);
+      .then(result => {
+        setTweets(result);
         setStatus(Status.Ready);
       })
       .catch(() => {
@@ -167,21 +167,28 @@ const initialState = {
 
 function reducer(state, action) {
   switch (state.status) {
-    case Status.Idle:
+    case Status.Idle: {
       switch (action.type) {
-        case Action.Load:
+        case Action.Load: {
           return { status: Status.Loading, tweets: [] };
+        }
       }
-    case Status.Loading:
+      break;
+    }
+    case Status.Loading: {
       switch (action.type) {
-        case Action.LoadSuccess:
+        case Action.LoadSuccess: {
           return {
             status: Status.Ready,
             tweets: action.tweets
           };
-        case Action.LoadFailed:
+        }
+        case Action.LoadFailed: {
           return { status: Status.Failed, tweets: [] };
+        }
       }
+      break;
+    }
   }
   return state;
 }
@@ -195,8 +202,11 @@ export function Tweets() {
   const handleLoadTweets = () => {
     dispatch({ type: Action.Load });
     getTweets()
-      .then(tweets => {
-        dispatch({ type: Action.LoadSuccess, tweets });
+      .then(result => {
+        dispatch({
+          type: Action.LoadSuccess,
+          tweets: result
+        });
       })
       .catch(() => {
         dispatch({ type: Action.LoadFailed });
@@ -286,18 +296,25 @@ const initialState: State = {
 
 function reducer(state: State, action: Action): State {
   switch (state.status) {
-    case 'Idle':
+    case 'Idle': {
       switch (action.type) {
-        case 'Load':
+        case 'Load': {
           return { status: 'Loading' };
+        }
       }
-    case 'Loading':
+      break;
+    }
+    case 'Loading': {
       switch (action.type) {
-        case 'LoadSuccess':
+        case 'LoadSuccess': {
           return { status: 'Ready', tweets: action.tweets };
-        case 'LoadFailed':
+        }
+        case 'LoadFailed': {
           return { status: 'Failed' };
+        }
       }
+      break;
+    }
   }
   return state;
 }
@@ -1091,7 +1108,7 @@ Below are a few examples of cargo cult programming:
 
 ### Never write functions longer than…
 
-Googling “how long should be my functions” reveals all kinds of random numbers, such as [one or two screenfuls](https://www.kernel.org/doc/html/v4.10/process/coding-style.html#functions) on an 80×24 characters terminal, [half-a-dozen lines](https://martinfowler.com/bliki/FunctionLength.html), 10 lines, 20 lines, 60 lines, and so on, and so forth.
+Googling “how long should be my functions” reveals all kinds of random numbers, such as [one or two screenfuls](https://www.kernel.org/doc/html/v4.10/process/coding-style.html#functions) on an 80×24 characters terminal, [half-a-dozen lines](https://martinfowler.com/bliki/FunctionLength.html), 10 lines, 20 lines, 60 lines, and so on and so forth.
 
 I> We talk about measuring code dimensions in the [Lint your code](#linting) chapter.
 

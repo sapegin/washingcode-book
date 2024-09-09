@@ -507,6 +507,8 @@ T> Don’t confuse the Pascal-style with PascalCase though, this naming conventi
 
 When a variable is used to store the result of a function, we can often get rid of that variable:
 
+<!-- eslint-disable unicorn/no-array-for-each -->
+
 ```js
 function areEventsValid(events) {
   let isValid = true;

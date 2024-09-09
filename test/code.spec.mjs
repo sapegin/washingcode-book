@@ -20,6 +20,8 @@ const MANUSCRIPT_PATTERN = path.resolve('manuscript/*.md');
 
 const LANGS = ['js', 'jsx', 'ts', 'tsx'];
 const IGNORE = [
+  'eslint-skip',
+  'eslint-disable',
   'prettier-ignore',
   'textlint-disable',
   'textlint-enable',
@@ -84,7 +86,7 @@ function getHeader(nodes, index) {
 
   const cleanHeader = unwrapHtmlComment(header.value);
 
-  if (IGNORE.includes(cleanHeader)) {
+  if (IGNORE.some(ignore => cleanHeader.startsWith(ignore))) {
     return getHeader(nodes, index - 1);
   }
 
