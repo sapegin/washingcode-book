@@ -18,9 +18,9 @@ Almost anything that automates or simplifies bug fixing or code reviews is worth
 
 Linting in JavaScript has a long history that started in 2002 with JSLint by Douglas Crockford, which allowed developers to catch some bugs but was also rigid and promoted a code style that nobody wanted to use. JSLint was later replaced by JSHint, which was less opinionated and more configurable, and then by ESLint, which is now the standard for JavaScript linting, offering hundreds of rules and dozens of plugins. There were a few other linters as well, like JSCS or Standard, but they were never as popular as these three.
 
-In this chapter, we’ll mostly talk about [ESLint](https://eslint.org).
+In this chapter, we mostly talk about [ESLint](https://eslint.org).
 
-## Linting best practices
+## Code linting best practices
 
 Let’s start with some healthy linting habits and ways to make linters work for the team, not against it.
 
@@ -843,9 +843,9 @@ Let’s start with the project configuration:
 1. Start with the recommended ESLint rules, `eslint:recommended`.
 2. Add recommended configs of ESLint plugins for the project’s stack (see below).
 3. Add a few extra rules that make sense for your team.
-4. Add ESLint with autofix to the Git pre-commit or pre-push hook using [Husky](https://github.com/typicode/husky) and [lint-staged](https://github.com/lint-staged/lint-staged) to make sure that all the code in the repository is linted.
+4. Add ESLint with autofix to a Git pre-commit or pre-push hook using [Husky](https://github.com/typicode/husky) and [lint-staged](https://github.com/lint-staged/lint-staged) to make sure that all the code in the repository is linted.
 
-T> I don’t like to have linters on the pre-commit hook because they don’t allow committing unfinished code to a branch, either as a backup or to share it with someone. Running linters on the pre-push hook instead is a good compromise. We can also skip the hooks with the `--no-verify` option of the `git commit` command.
+T> I don’t like to have linters on a pre-commit hook because they don’t allow committing unfinished code to a branch, either as a backup or to share it with someone. Running linters on the pre-push hook instead is a good compromise. We can also skip the hooks with the `--no-verify` option of the `git commit` command.
 
 Our ESLint config could look like this:
 
