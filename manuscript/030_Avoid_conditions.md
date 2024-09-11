@@ -221,11 +221,12 @@ I often see two conditions for a single boolean variable:
 
 ```jsx
 const RefundLabel = ({
+  htmlFor,
   type,
   typeLabels,
   hasUserSelectableRefundOptions
 }) => (
-  <label>
+  <label htmlFor={htmlFor}>
     {type && typeLabels[type]}
     {!type && hasUserSelectableRefundOptions && 'Estimated:'}
     {!type && !hasUserSelectableRefundOptions && 'Total:'}
@@ -259,8 +260,8 @@ const RefundLabelMessage = ({
     : 'Total:';
 };
 
-const RefundLabel = props => (
-  <label>
+const RefundLabel = ({ htmlFor, ...props }) => (
+  <label htmlFor={htmlFor}>
     <RefundLabelMessage {...props} />
   </label>
 );
