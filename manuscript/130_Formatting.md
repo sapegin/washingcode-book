@@ -24,7 +24,7 @@ What I write:
 
 <!-- prettier-ignore -->
 ```js
-if (['h1','h2','h3','h4','h5','h6'].includes(node.tagName) &&node.properties.id === undefined){
+if (['h1','h2','h3','h4','h5'].includes(node.tagName) &&node.properties.id === undefined){
   // Get heading text content, and replace non-breaking spaces with regular spaces
 }
 ```
