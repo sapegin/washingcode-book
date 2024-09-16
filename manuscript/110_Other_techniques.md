@@ -933,9 +933,10 @@ The benefit of this approach compared to a plain JavaScript object is that types
 
 Here are a few tips to improve _code greppability_:
 
-- **Avoid concatenating identifiers**, write them out fully instead.
+- **Avoid concatenating identifiers,** write them out fully instead.
 - **Avoid generic and ambiguous names** (like `processData()`) for things used in more than one module. Generic names are harder to find in the codebase because we’ll get many false positives — other things that have the same name but are unrelated to the thing we’re looking for.
-- **Consider using a map**, with fully written names if they depend on a parameter.
+- **Consider using a map,** with fully written names if they depend on a parameter.
+- **Avoid default exports,** because they can be imported with any names making it harder to find all usages of a certain string. Also, the rename refactoring often doesn’t update such names correctly.
 
 TypeScript is especially helpful here: for example, we can find all places where a certain function or a constant is used, even if it’s imported under a different name. However, for many other cases, it’s still important to keep identifiers greppable: filenames, translation keys, CSS class names, and so on.
 
