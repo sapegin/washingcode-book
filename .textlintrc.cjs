@@ -10,7 +10,7 @@ const chapters = globSync('manuscript/*.md').map(
   })
 );
 
-module.exports = {
+const config = {
   rules: {
     terminology: true,
     apostrophe: true,
@@ -56,43 +56,49 @@ module.exports = {
       ]
     },
     '@textlint-rule/no-unmatched-pair': true,
-    'doubled-spaces': true,
+    'doubled-spaces': true
     // 'no-todo': true,
-    'alive-link': {
-      preferGET: ['https://www.amazon.com'],
-      ignore: [
-        // Skip on GitHub because it always fails there
-        url =>
-          process.env.GITHUB_ACTIONS &&
-          url.startsWith('https://www.reddit.com'),
-        // Fails half of the time
-        url => url.startsWith('https://www.rssing.com')
-      ],
-      checkRelative: true,
-      baseURI: url => {
-        // Images
-        if (url.startsWith('images/')) {
-          return path.join(
-            __dirname,
-            'manuscript/resources',
-            url
-          );
-        }
-
-        // Chapter links
-        if (url.startsWith('#')) {
-          // Try to find a chapter with the anchor (`{#pizza}`)
-          const chapter = chapters.find(({ text }) =>
-            text.includes(`{${url}}`)
-          );
-          return chapter?.filename ?? '';
-        }
-
-        return '';
-      }
-    }
   },
   filters: {
     comments: true
   }
 };
+
+// Only run dead link check on CI, since it’s very slow
+if (process.env.CI) {
+  config['alive-link'] = {
+    preferGET: ['https://www.amazon.com'],
+    ignore: [
+      // Skip on GitHub because it always fails there
+      url =>
+        process.env.GITHUB_ACTIONS &&
+        url.startsWith('https://www.reddit.com'),
+      // Fails half of the time
+      url => url.startsWith('https://www.rssing.com')
+    ],
+    checkRelative: true,
+    baseURI: url => {
+      // Images
+      if (url.startsWith('images/')) {
+        return path.join(
+          __dirname,
+          'manuscript/resources',
+          url
+        );
+      }
+
+      // Chapter links
+      if (url.startsWith('#')) {
+        // Try to find a chapter with the anchor (`{#pizza}`)
+        const chapter = chapters.find(({ text }) =>
+          text.includes(`{${url}}`)
+        );
+        return chapter?.filename ?? '';
+      }
+
+      return '';
+    }
+  };
+}
+
+module.exports = config;
