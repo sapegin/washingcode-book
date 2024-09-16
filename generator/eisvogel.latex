@@ -148,15 +148,19 @@ $highlighting-macros$
 
 \usepackage{graphicx}
 \makeatletter
-\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
-\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{
+  % Scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  % Select the smaller of both
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
 \makeatother
-
-% Scale images if necessary, so that they will not overflow the page
-% margins by default, and it is still possible to overwrite the defaults
-% using explicit options in \includegraphics[width, height, ...]{}
-% \setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
-\setkeys{Gin}{width=0.75\linewidth,height=\maxheight,keepaspectratio}
 
 \usepackage{soul}
 
@@ -292,14 +296,13 @@ $highlighting-macros$
 % Illustrations
 %
 
-\makeatletter
 % Allow illustrations to be moved for a better layout
 % h: Place the float here, i.e., approximately at the same point it occurs in the source text.
 % t: Place the float at the top of the page.
 % b: Place the float at the bottom of the page.
 % p: Place the float on the next page that will contain only floats like figures and tables.
-\usepackage{float}
-\floatplacement{figure}{htbp}
+\makeatletter
+\def\fps@figure{htbp}
 \makeatother
 
 \setlength{\floatsep}{1em}

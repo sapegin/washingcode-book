@@ -26,6 +26,7 @@ pandoc $CHAPTERS_FILES_PDF \
   --resource-path="manuscript/resources" \
   --output="dist/$BOOK_FILE-content.pdf" \
   --pdf-engine=pdflatex \
+  --dpi=192 \
   --top-level-division=chapter \
   --table-of-contents --toc-depth=2 \
   --template="generator/eisvogel.latex" \
