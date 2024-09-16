@@ -35,7 +35,7 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "styled-components": "6.1.13",
-    "ua-parser-js": "1.0.38"
+    "ua-parser-js": "1.0.39"
   },
   "devDependencies": {
     "@eslint/markdown": "^6.1.0",
@@ -44,17 +44,17 @@
     "cspell": "^8.14.2",
     "esbuild": "^0.23.1",
     "eslint": "^9.10.0",
-    "eslint-config-tamia": "^9.1.16",
+    "eslint-config-tamia": "^9.1.18",
     "fs-extra": "^11.2.0",
     "glob": "^11.0.0",
-    "happy-dom": "^15.7.3",
-    "husky": "^9.1.5",
+    "happy-dom": "^15.7.4",
+    "husky": "^9.1.6",
     "install": "^0.13.0",
     "lint-staged": "^15.2.10",
     "nodemon": "^3.1.4",
     "prettier": "3.3.3",
     "remark": "^15.0.1",
-    "richtypo": "^7.0.0",
+    "richtypo": "^7.0.1",
     "textlint": "^14.2.0",
     "textlint-filter-rule-comments": "^1.2.2",
     "textlint-rule-alex": "^5.0.0",
@@ -69,7 +69,7 @@
     "textlint-rule-terminology": "^5.2.7",
     "textlint-rule-write-good": "^2.0.0",
     "unist-util-visit": "^5.0.0",
-    "vitest": "^2.0.5",
+    "vitest": "^2.1.1",
     "vm2": "^3.9.13"
   },
   "lint-staged": {
