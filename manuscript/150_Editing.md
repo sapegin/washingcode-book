@@ -146,6 +146,12 @@ Code can run either project’s npm scripts, or custom tasks defined in the proj
 
 ![Tasks in Visual Studio Code](images/vscode-tasks.png)
 
+Tasks usually call npm scripts with some extra settings, such as whether to show a terminal panel when the task runs, or reveal errors on the Problems panel. However, the format of defining tasks, especially problem detection patterns, is quite convoluted and confusing, and I haven’t mastered them yet.
+
+I> Check out the official [docs on tasks](https://code.visualstudio.com/docs/editor/tasks).
+
+![Problem panel in Visual Studio Code](images/vscode-tasks-problems.png)
+
 We can also define global tasks that works on all projects in the global `tasks.json` file. I use it to open the project folder or the current file in Finder, Nimble Commander, and WezTerm.
 
 I> Here’s my [Visual Studio Code tasks config](https://github.com/sapegin/dotfiles/blob/master/vscode/User/tasks.json)
@@ -160,6 +166,12 @@ My favorite things about are:
 - I don’t have to navigate to the project directory when I open it.
 - Links to code with errors always work correctly.
 
+I usually use integrated terminal to work with npm, switch and create Git branches, and so on.
+
+![Integrated terminal in Visual Studio Code](images/vscode-terminal.png)
+
+I setup a hotkey (Cmd+T) to open the terminal panel and switch between terminal tabs (tasks, such as running development server, also appear as terminal tabs, so there might be more than one); and another hotkey (Cmd+N) to open new terminal tabs. Escape closes the panel.
+
 I> [WezTerm](https://wezfurlong.org/wezterm/) is my favorite terminal app when I need something more than the integrated terminal.
 
 ## Source control
@@ -171,7 +183,7 @@ Here’s what I use to work with Git:
 - I do most of my commits using Git integration in Visual Studio Code.
 - I prefer [GitHub Desktop](https://github.com/apps/desktop) when I need to commit separate lines in a file because the UI for line selection is better.
 - I mostly use command line to switch and create branches because I find UI for this in Visual Studio Code awkward.
-- However, I rarely use Git commands directly and either use [git-friendly](https://github.com/git-friendly/git-friendly) or my own aliases and scripts.
+- However, I rarely use Git commands directly and either use [git-friendly](https://github.com/git-friendly/git-friendly) or [my own aliases](https://github.com/sapegin/dotfiles/blob/master/tilde/.gitconfig) and scripts.
 - Occasionally I use [Lazygit](https://github.com/jesseduffield/lazygit) to quickly commit something in command line.
 
 What I like the most about committing from Visual Studio Code (besides that it’s accessible with one hotkey) is that I can set large font for the commit message field. Most Git tools set tiny font and limit the size of the message field to one or two lines, and don’t let you change this. This is very uncomfortable, and I’m glad I can finally change it in the Code.
@@ -186,6 +198,12 @@ My typical Git workflow would be as follows:
 4. Commit the changes (Cmd+Enter).
 5. Push the changes (Cmd+P).
 6. Create a pull request (Cmd+R, using the [GitHub Pull Request](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github) extension).
+
+I like [git-friendly](https://github.com/git-friendly/git-friendly) because it provides scripts to pull, push, switch branches and manage stash that do what Git should do by default, such as proper tracking of remote branches. They are much less confusing than the standard Git terminal commands, or commands in Git GUI clients.
+
+I prefer GUI for reviewing changes and resolving conflicts. Visual Studio Code is good for both because it shows the diff the same way we edit code, and we can change the code in the diff view to do small last minute tweaks, such as fixing typos or removing debug code.
+
+I> I wrote several articles on my Git workflow: [on pull requests, commits, and code reviews](https://sapegin.me/blog/rebels-guide-to-pull-requests-commits-code-reviews/), [on getting good code reviews](https://sapegin.me/blog/faster-code-reviews/).
 
 ## Documentation
 
