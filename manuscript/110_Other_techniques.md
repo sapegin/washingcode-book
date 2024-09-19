@@ -1026,6 +1026,7 @@ if (Object.keys(object).length > 0) {
 
 Some benefits of using a popular, well-established library:
 
+- **Saves development time:** especially for complex problems, when developing an in-house solution could take days or even weeks of work.
 - **Lots of information:** documentation, articles, books, Stack Overflow answers, and conference talks (even whole conferences dedicated to a single library).
 - **Large community:** many plugins and additional libraries to use with it, and more.
 - **Easier hiring and onboarding:** many developers will already be familiar with a library and have experience working with it.
@@ -1038,7 +1039,7 @@ Some things we need to keep in mind when using third-party libraries:
 
 - **Hard to choose** a good library: there are too many, and often none are great.
 - **May be abandoned:** open source libraries die every day for many reasons, for example, [maintainers’ burnout](https://sapegin.me/blog/open-source-no-more/).
-- **Bundle size:** they may significantly increase the bundle size.
+- **Bundle size:** generic libraries are usually larger than single-purpose ones and may significantly increase the bundle size.
 - **Interoperability:** some libraries may require specific versions of some other libraries, or have incompatibilities that are hard to track and fix.
 - **Upgrade and maintenance:** we need to update dependencies regularly, and sometimes new versions have breaking changes. Some updates require days or months of work to coordinate and complete.
 - **Security risks:** popular npm packages can be compromised, or popular frameworks can become targets of cyberattacks, and we may end up with a vulnerability in our app.
@@ -1047,9 +1048,11 @@ T> Use [Bundlephobia](https://bundlephobia.com/) to check the size of any npm pa
 
 Another problem is when a library isn’t doing exactly what we want. In this case, we have several options:
 
+- Choose another library that may have other issues.
 - Submit a pull request to the library, which may take a lot of time to be reviewed, approved, merged, and released; or it may never be merged or even looked at.
 - Fork the library or copy the code to our codebase and make the changes there; essentially converting a third-party library into an in-house one with most of the problems of the artisanal libraries mentioned above.
-- Switch to another library that does what we want better, which may take a lot of time and won’t really improve the situation long-term.
+
+The same problem may happen when the requirements change, and the library we already use no longer satisfies them. Switching to another library that better meets our needs may take a lot of time and may not improve the situation in the long term.
 
 ### My approach to using third-party libraries
 
@@ -1057,7 +1060,7 @@ I don’t have any strict rules on whether to use third-party or in-house librar
 
 I use [Lodash](https://lodash.com/) on most of my projects: it’s a hugely popular utility library for JavaScript that has lots of useful functions, and many developers have experience with it, so they’ll spend less time reading and understanding the code that uses these functions.
 
-I tend to use _microlibraries_ on my personal projects, but it’s more of a personal preference than a rational choice, and my personal projects are usually small and simple.
+I tend to use _microlibraries_ on my personal sites and apps, but it’s more of a personal preference than a rational choice, and my personal projects are usually small and simple.
 
 A microlibrary is a tiny library, often a one-liner, that does one small thing and nothing else.
 
@@ -1074,22 +1077,28 @@ The benefits of microlibraries are:
 - **Small size:** don’t increase the bundle size much.
 - **Zero or few dependencies:** often don’t have dependencies.
 - **Understandable:** one can read and understand the code in a few minutes.
+- **Well-tested and bug-free:** small libraries are easier to test and have a smaller surface for bugs.
 
 The drawbacks of microlibraries are:
 
 - **Hard to choose:** we need to choose, install and update each library separately.
 - **Inconsistent:** Different libraries may have very different APIs.
 - **Lack of documentation:** it’s less accessible because we need to look for each library separately.
+- **Longer installation time:** more to download with every `npm install` due to the extra files, such as readme, or license, included in each package.
 
 It would likely take me less time to write many of these microlibraries myself than to choose a decent one on npm, but then I’d need to write tests, types, comments… and the idea of writing my own utility function doesn’t seem so attractive anymore.
 
 I try to use microlibraries from a few developers I trust: mainly [Luke Edwards](https://www.npmjs.com/~lukeed) and [Sindre Sorhus](https://www.npmjs.com/~sindresorhus).
 
-Another consideration is how difficult it is to introduce a new dependency on the project. For a small personal project, adding a new dependency is only an `npm install` away, but a large project may require many steps, like presenting a proposal to the team and obtaining security approval. The latter makes adding new dependencies less likely, which can be frustrating but also has benefits. It’s harder to keep track of all dependencies on a large project to make sure there are no vulnerabilities and no duplicated dependencies that do the same thing but are added by different developers.
+Overall I focus on very popular libraries rather than obscure ones with almost no users. If there’s no popular library to do something, I prefer to write my own implementation.
 
-For larger projects, it makes a lot of sense to use popular, well-established libraries, like React, styled-components, or Tailwind.
+Another consideration is how difficult it is to introduce a new dependency into a project. For a small personal project, adding a new dependency is only an `npm install` away, but a large project may require many steps, such as presenting a proposal to the team and obtaining security approval, making adding new dependencies less likely. It’s harder to keep track of all dependencies in a large project to make sure there are no vulnerabilities and different developers don’t add multiple dependencies that do the same thing.
 
-The best approach to using third-party libraries is probably this: the bigger the project and the more developers work on it, the more stable its dependencies should be, with a focus on popular and established libraries rather than microlibraries.
+On the other hand, I also try to minimize the number of dependencies of my libraries, ideally to have no dependencies at all.
+
+The best approach to using third-party libraries is probably this: the bigger the project and the more developers working on it, the more stable its dependencies should be, focusing on popular and established libraries rather than microlibraries.
+
+There would be a lot less debate about third-party libraries, especially microlibraries, if JavaScript had a complete standard library like many other languages.
 
 {#no-cargo}
 
