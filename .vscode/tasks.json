@@ -2,27 +2,40 @@
   "version": "2.0.0",
   "tasks": [
     {
+      "label": "Run tests & watch",
       "type": "npm",
       "script": "test:watch",
-      "group": "build",
+      "group": {
+        "kind": "test",
+        "isDefault": true
+      },
       "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "revealProblems": "onProblem"
+      },
       "problemMatcher": [
         {
           "owner": "javascript",
-          "fileLocation": "relative",
+          "severity": "error",
+          "fileLocation": [
+            "relative",
+            "${workspaceFolder}/manuscript"
+          ],
           "pattern": {
-            "regexp": "^FAIL(.*)$",
-            "file": 1
+            //  FAIL  test/code.spec.mjs > 060_Avoid_comments.md > Todo comments 3
+            "regexp": "^.*FAIL\\s+([^>]+) > ([^>]+) > ([^>]+)$",
+            "file": 2,
+            "message": 3,
+            "line": 0
           },
           "background": {
             "activeOnStart": true,
-            "beginsPattern": "^[nodemon] starting",
-            "endsPattern": "^Test Suites:"
+            "beginsPattern": "^.*restarting due to changes...$",
+            "endsPattern": "^.*Waiting for file changes...$"
           }
         }
-      ],
-      "label": "Run tests & watch",
-      "detail": "nodemon --watch 'manuscript' --ext md --exec 'vitest'"
+      ]
     }
   ]
 }
