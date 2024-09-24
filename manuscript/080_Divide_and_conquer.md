@@ -785,6 +785,44 @@ These are my rules of thumb:
 - If the function is long or used more than once, put it in a separate file inside `util`, `shared`, or `helpers` folder.
 - If we want more organization, instead of creating files like `utils/validators.js`, we can group related functions (each in its own file) into a folder: `utils/validators/isEmail.js`.
 
+## Avoid barrel files
+
+A barrel file is a module (usually named `index.js` or `index.ts`) that reexports a bunch of other modules:
+
+```js
+// components/index.js
+export { Box } from './Box';
+export { Button } from './Button';
+export { Link } from './Link';
+```
+
+The main advantage is cleaner imports. Instead of importing each module individually:
+
+```js
+import { Box } from '../components/Box';
+import { Button } from '../components/Button';
+import { Link } from '../components/Link';
+```
+
+We can import all components from a barrel file:
+
+```js
+import { Box, Button, Link } from '../components';
+```
+
+However, barrel files have several issues:
+
+- **Maintenance cost:** we need to add an export of each new component in a barrel file, along with additional items such as types of utility functions.
+- **Performance cost:** setting up tree shaking is complex, and [barrel files often lead to increased bundle size or runtime costs](https://vercel.com/blog/how-we-optimized-package-imports-in-next-js#what's-the-problem-with-barrel-files). This can also slow down hot reload, unit tests, and linters.
+- **Circular imports:** importing from a barrel file can cause a circular import when both modules are imported from the same barrel files (for example, the `Button` component imports the `Box` component).
+- **Developer experience:** navigation to function definition navigates to the barrel file instead of the function’s source code; and autoimport can be confused whether to import from a barrel file instead of a source file.
+
+I> TkDodo explains [the drawbacks of barrel files in great detail](https://tkdodo.eu/blog/please-stop-using-barrel-files).
+
+The benefits of barrel files are too minor to justify their use, so I recommend avoiding them.
+
+One type of barrel files I particularly dislike is those that export a single component solely to allow importing it as `./components/button` instead of `./components/button/button`.
+
 {#hydrated}
 
 ## Stay hydrated
