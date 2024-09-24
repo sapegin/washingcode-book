@@ -63,6 +63,7 @@ Here’s a list of all antipatterns described in the book.
 - [100% code coverage](#no-cargo).
 - [Abbreviations and acronyms](#abbr).
 - [`Array.reduce()` method](#array-chaining).
+- [Barrel files](#barrels).
 - [Broken windows theory](#campsite-rule).
 - [Cargo cult programming](#no-cargo).
 - [Function parameters mutation](#no-params-mutation).

@@ -785,6 +785,8 @@ These are my rules of thumb:
 - If the function is long or used more than once, put it in a separate file inside `util`, `shared`, or `helpers` folder.
 - If we want more organization, instead of creating files like `utils/validators.js`, we can group related functions (each in its own file) into a folder: `utils/validators/isEmail.js`.
 
+{#barrels}
+
 ## Avoid barrel files
 
 A barrel file is a module (usually named `index.js` or `index.ts`) that reexports a bunch of other modules:
