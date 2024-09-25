@@ -16,6 +16,8 @@ Also remember this: _code is evil_. Our job isn’t writing code but solving our
 
 Here’s a list of all teqniques and patterns described in the book.
 
+<!-- patterns:start -->
+
 - [2-minute rule](#campsite-rule).
 - [Algorithm deduplicaion](#deduplication)
 - [A/HC/LC pattern](#a-hc-lc).
@@ -56,9 +58,13 @@ Here’s a list of all teqniques and patterns described in the book.
 - [Write everything twice](#hydrated), or we enjoy typing (WET).
 - [Yagni](#no-future) (You aren’t gonna need it).
 
+<!-- patterns:end -->
+
 # Index of antipatterns
 
 Here’s a list of all antipatterns described in the book.
+
+<!-- antipatterns:start -->
 
 - [100% code coverage](#no-cargo).
 - [Abbreviations and acronyms](#abbr).
@@ -80,6 +86,8 @@ Here’s a list of all antipatterns described in the book.
 - [Reusing variables](#no-reuse).
 - [Shortcuts](#shortcuts).
 - [Single return law](#no-cargo).
+
+<!-- antipatterns:end -->
 
 # Resources
 
