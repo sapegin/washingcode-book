@@ -785,11 +785,64 @@ These are my rules of thumb:
 - If the function is long or used more than once, put it in a separate file inside `util`, `shared`, or `helpers` folder.
 - If we want more organization, instead of creating files like `utils/validators.js`, we can group related functions (each in its own file) into a folder: `utils/validators/isEmail.js`.
 
+{#default-exports}
+
+## Avoid default exports
+
+JavaScript modules have two types of exports. The first is **named exports**:
+
+<!-- test-skip -->
+
+```js
+// button.js
+export function Button() {
+  /* … */
+}
+```
+
+Which can be imported like this:
+
+<!-- test-skip -->
+
+```js
+import { Button } from './button';
+```
+
+And the second is **default exports**:
+
+<!-- test-skip -->
+
+```js
+// button.js
+export default function Button() {
+  /* … */
+}
+```
+
+Which can be imported like this:
+
+<!-- test-skip -->
+
+```js
+import Button from './button';
+```
+
+I don’t really see any advantages to default exports, but they have several issues:
+
+- **Poor refactoring:** renaming a module with a default export often leaves existing imports unchanged. This doesn’t happen with named exports, where all imports are updated after renaming a function.
+- **Inconsistency:** default-exported modules can be imported using any name, which reduces the consistency and greppability of the codebase. Named exports can also be imported using a different name using the `as` keyword to avoid naming conflicts, but it’s more explicit and is rarely done by accident.
+
+I> We talk more about greppability in the [Write greppable code](#greppability) section of the _Other techniques_ chapter.
+
+Unfortunately, some third-party APIs, such as `React.lazy()` require default exports, but for all other cases, I stick to named exports.
+
 {#barrels}
 
 ## Avoid barrel files
 
 A barrel file is a module (usually named `index.js` or `index.ts`) that reexports a bunch of other modules:
+
+<!-- test-skip -->
 
 ```js
 // components/index.js
@@ -800,6 +853,8 @@ export { Link } from './Link';
 
 The main advantage is cleaner imports. Instead of importing each module individually:
 
+<!-- test-skip -->
+
 ```js
 import { Box } from '../components/Box';
 import { Button } from '../components/Button';
@@ -807,6 +862,8 @@ import { Link } from '../components/Link';
 ```
 
 We can import all components from a barrel file:
+
+<!-- test-skip -->
 
 ```js
 import { Box, Button, Link } from '../components';
@@ -823,7 +880,7 @@ I> TkDodo explains [the drawbacks of barrel files in great detail](https://tkdod
 
 The benefits of barrel files are too minor to justify their use, so I recommend avoiding them.
 
-One type of barrel files I particularly dislike is those that export a single component solely to allow importing it as `./components/button` instead of `./components/button/button`.
+One type of barrel files I especially dislike is those that export a single component just to allow importing it as `./components/button` instead of `./components/button/button`.
 
 {#hydrated}
 

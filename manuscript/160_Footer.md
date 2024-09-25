@@ -66,6 +66,7 @@ Here’s a list of all antipatterns described in the book.
 - [Barrel files](#barrels).
 - [Broken windows theory](#campsite-rule).
 - [Cargo cult programming](#no-cargo).
+- [Default exports](#default-exports).
 - [Function parameters mutation](#no-params-mutation).
 - [Don’t repeat yourself](#grow-abstractions) (DRY).
 - [Monster utility files](#monster-utilities).
