@@ -886,7 +886,7 @@ export default [
 ];
 ```
 
-T> Here’s [my shared ESLint config](https://github.com/tamiadev/eslint-config-tamia) that I use on all my projects (including this book).
+T> Here’s [my shared ESLint config](https://github.com/sapegin/eslint-config-tamia) that I use on all my projects (including this book).
 
 Now, let’s configure the editor. Here’s how I do it in Visual Studio Code:
 
