@@ -44,7 +44,7 @@
     "cspell": "^8.14.4",
     "esbuild": "^0.24.0",
     "eslint": "^9.11.1",
-    "eslint-config-tamia": "^9.1.21",
+    "eslint-config-tamia": "^9.1.23",
     "fs-extra": "^11.2.0",
     "glob": "^11.0.0",
     "happy-dom": "^15.7.4",
