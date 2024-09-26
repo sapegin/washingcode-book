@@ -390,7 +390,7 @@ It’s called _premature abstraction_, [premature generalization](https://www.co
 
 Focus on finding the simplest solution for the current requirements. This makes it easier to review and test now and to adapt to new requirements in the future.
 
-I> This approach is often called [Yagni](https://martinfowler.com/bliki/Yagni.html) (You aren’t gonna need it) or [KISS](https://en.wikipedia.org/wiki/KISS_principle) (Keep it simple, <!-- textlint-disable alex -->stupid<!-- textlint-enable -->!).
+I> This approach is often called [Yagni](https://martinfowler.com/bliki/Yagni.html) (You aren’t gonna need it) or [KISS](https://en.wikipedia.org/wiki/KISS_principle) (Keep it simple, stupid!).
 
 Write code that’s easy to delete. Isolate different features from each other, isolate UI from business logic. Make the UI easy to change and move around.
 

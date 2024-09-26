@@ -23,7 +23,8 @@ const config = {
         'divide and conquer',
         'keep an eye on',
         'never say never',
-        'we all know that'
+        'we all know that',
+        'keep it simple, stupid'
       ]
     },
     'write-good': {
@@ -52,12 +53,14 @@ const config = {
         'straightforward',
         'threeway',
         'vomit',
-        'whitespace'
+        'whitespace',
+        'wacko',
+        'stupid'
       ]
     },
     '@textlint-rule/no-unmatched-pair': true,
-    'doubled-spaces': true
-    // 'no-todo': true,
+    'doubled-spaces': true,
+    'no-todo': true
   },
   filters: {
     comments: true

@@ -369,7 +369,7 @@ const query = await fetchFavorites({
 
 <!-- expect(query).toBe(FavoriteType.Taco) -->
 
-There might be another condition, like a dependency upgrade, required to complete the todo:
+There might be another condition, like a dependency upgrade, required to complete the task:
 
 ```js
 /**
