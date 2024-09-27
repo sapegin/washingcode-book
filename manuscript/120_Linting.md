@@ -2,7 +2,7 @@
 
 # Lint your code
 
-<!-- description: How linters can help us maintain consistent and modern codebase, and promote some of the techniques discussed in the previous chapters -->
+<!-- description: How linters can help us maintain a consistent and modern codebase, and promote some of the techniques discussed in the book -->
 
 In this book, we talk a lot about _conventions_. For example, don’t mutate your code, so the next programmer will have less trouble understanding it, and you’ll avoid some nasty bugs. This is a convention, meaning we’re agreeing to do something, but there’s no way to enforce it. Developers are still free to mutate any value accidentally or due to evil intent.
 

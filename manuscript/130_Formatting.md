@@ -2,7 +2,7 @@
 
 # Autoformat your code
 
-<!-- description: How tools can make our lives much easier by formatting code for us -->
+<!-- description: How tools can make our lives easier by formatting code for us -->
 
 Developers used to waste days arguing about where to put spaces in the code. It doesn’t matter that much, but everyone has an opinion about it. Luckily, these arguments are mostly in the past, thanks to automatic code formatting.
 

@@ -2,7 +2,7 @@
 
 # Avoid conditions
 
-<!-- description: Writing good conditions and simplifying the code by removing unnecessary ones -->
+<!-- description: Crafting good conditions and simplifying code by removing unnecessary conditions -->
 
 Conditions are essential for writing code that supports multiple use cases. JavaScript offers multiple ways to write conditional code:
 

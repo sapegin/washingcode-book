@@ -2,7 +2,7 @@
 
 # Code style
 
-<!-- description: Which code styles are actually improving readability and which are just opinions that don’t matter much -->
+<!-- description: Which code styles are actually improve readability and which are merely preferences that don’t matter much -->
 
 I used to be very strict about [code style](https://sapegin.me/blog/prettier/). I thought my code style was better than others’, but later, I realized that it was just different. Also, it wasn’t the most popular, so anyone else’s code looked wrong to me.
 

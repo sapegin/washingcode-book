@@ -2,7 +2,7 @@
 
 # Divide and conquer, or merge and relax
 
-<!-- description: Splitting code into functions and modules, when is the right time to introduce an abstraction, and when it’s better to wait -->
+<!-- description: Splitting code into functions and modules, when the right time is to introduce an abstraction, and when it’s better to sleep on it -->
 
 <!-- cspell:ignore favs -->
 

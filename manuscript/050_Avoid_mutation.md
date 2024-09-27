@@ -2,7 +2,7 @@
 
 # Avoid mutation
 
-<!-- description: Why mutation is hindering code readability and what can we do about it -->
+<!-- description: Why mutation hinders code readability and what can we do about it -->
 
 Mutation happens when we change a JavaScript object or array without creating a new object or array and assigning it to a new or existing variable:
 
