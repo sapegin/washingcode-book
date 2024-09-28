@@ -38,7 +38,7 @@
     "ua-parser-js": "1.0.39"
   },
   "devDependencies": {
-    "@eslint/markdown": "^6.1.0",
+    "@eslint/markdown": "^6.1.1",
     "@testing-library/react": "^16.0.1",
     "@textlint-rule/textlint-rule-no-unmatched-pair": "^2.0.3",
     "cspell": "^8.14.4",
@@ -66,7 +66,7 @@
     "textlint-rule-no-todo": "^2.0.1",
     "textlint-rule-quotes": "^1.0.0",
     "textlint-rule-stop-words": "^5.1.2",
-    "textlint-rule-terminology": "^5.2.9",
+    "textlint-rule-terminology": "^5.2.12",
     "textlint-rule-write-good": "^2.0.0",
     "unist-util-visit": "^5.0.0",
     "vitest": "^2.1.1",
