@@ -4,7 +4,7 @@
 
 <!-- description: Writing useful comments, when to comment our code, and when it’s better not to -->
 
-Some developers never comment their code, while others comment too much. The former believes that the code should be self-documenting, while the latter has read somewhere that they should always comment their code.
+Some programmers never comment their code, while others comment too much. The former believe code should be self-documenting, while the latter have read somewhere that they should comment every line of their code.
 
 Both are wrong.
 
@@ -12,16 +12,16 @@ I don’t believe in self-documenting code. Yes, we should rewrite unclear code 
 
 Commenting too much doesn’t help either: comments start to repeat the code, and instead of aiding understanding, they clutter the code and distract the reader.
 
+Let’s talk about writing useful comments.
+
 ## Getting rid of comments (or not)
 
-There’s a popular technique for avoiding comments: when we want to explain a block of code in a comment, we should move this piece of code into its own function and use the comment text as the function name.
+Some programmers have a habit of creating a new function whenever they need to explain a block of code. Instead of writing a comment, they turn the comment text into a function name. Most of the time there’s no benefit, and often it reduces code readability and clarity of comments (function names are less expressive than comment text).
 
 Here’s a typical example of code I usually write:
 
 <!--
-let window = {
-  showInformationMessage: () => {}
-}
+let window = { showInformationMessage: () => {} }
 let logMessage = () => {}
 class Test {
   quickPick = {
@@ -91,9 +91,89 @@ let test = new Test()
 expect(test.test).not.toThrowError()
 -->
 
-It’s a long function, but I don’t see any benefit in splitting it. There are only two levels of nesting, and the overall structure is mostly linear. Comments provide a high-level overview and the necessary context, allowing us to skip blocks we’re not interested in.
+Let’s try to replace comments with function calls:
 
-Overall, I don’t think that splitting a function into many small functions just because it’s “long” makes the code more readable. Often, it has the opposite effect because it hides important details inside other functions, making it much harder to modify the code.
+<!--
+let window = { showInformationMessage: () => {} }
+let logMessage = () => {}
+class Test {
+  quickPick = {
+    hide: () => {}
+  }
+  getRelativePath() { return 'src/foo.txt' }
+  getAbsolutePath() { return '/stuff/src/foo.txt' }
+  isDirectory() { return true }
+  ensureFolder() { return true }
+
+  test() {
+-->
+
+```js
+async function createDirectory(fullPath, relativePath) {
+  logMessage('Creating a folder:', fullPath);
+
+  const created = await this.ensureFolder(fullPath);
+  if (created === false) {
+    return;
+  }
+
+  window.showInformationMessage(
+    `Folder created: ${relativePath}`
+  );
+}
+
+async function openExistingFile(fullPath, relativePath) {
+  await window.showTextDocument(Uri.file(fullPath));
+  window.showInformationMessage(
+    `File already exists: ${relativePath}`
+  );
+}
+
+async function createFile(fullPath, relativePath) {
+  logMessage('Creating a file:', fullPath);
+
+  if (fs.existsSync(fullPath)) {
+    await this.openExistingFile(fullPath, relativePath);
+    return;
+  }
+
+  const created = await this.ensureFile(fullPath);
+  if (created === false) {
+    return;
+  }
+
+  await window.showTextDocument(Uri.file(fullPath));
+}
+
+async function createNew() {
+  const relativePath = this.getRelativePath();
+  const fullPath = this.getAbsolutePath();
+
+  if (this.isDirectory()) {
+    await this.createDirectory(fullPath, relativePath);
+  } else {
+    await this.createFile(fullPath, relativePath);
+  }
+
+  this.quickPick.hide();
+}
+```
+
+<!--
+    return true;
+  }
+}
+let test = new Test()
+expect(test.test).not.toThrowError()
+-->
+
+The main condition (is directory?) is now more visible and the code has less nesting. However, the `openExistingFile()` method adds unnecessary indirection: it doesn’t contain any complexity or nesting worth hiding away, but now we need to check the source to see what it actually does. It’s hard to choose a name that is both concise and clearer than the code itself.
+
+Each branch of the main condition has only one level of nesting, and the overall structure is mostly linear, so it doesn’t make sense to split them further than extracting each branch into its own method. Additionally, comments provided a high-level overview and the necessary context, allowing us to skip blocks we aren’t interested in.
+
+On the other hand, the `isDirectory()` and `ensureFile()` are good examples of methods, as they abstract away generic low-level functionality.
+
+Overall, I don’t think that splitting a function into many small functions just because it’s “long” makes the code more readable. Often, it has the opposite effect because it hides important details inside other functions, making it harder to modify the code.
 
 I> We talk about code splitting in more detail in the [Divide and conquer, or merge and relax](#divide) chapter.
 
@@ -182,7 +262,7 @@ handleChange({
 expect(decorate).toHaveBeenCalled()
 -->
 
-Here, we have a complex condition with multiple clauses. The problem with this code is that it’s hard to see the high-level structure of the condition. Is it `something && something else`? Or is it `something || something else`? It’s hard to see what code belongs to the condition itself and what belongs to individual clauses.
+In the code above, we have a complex condition with multiple clauses. The problem with this code is that it’s hard to see the high-level structure of the condition. Is it `something && something else`? Or is it `something || something else`? It’s hard to see what code belongs to the condition itself and what belongs to individual clauses.
 
 We can extract each clause into a separate variable or function and use comments as their names:
 
@@ -274,7 +354,7 @@ handleChange({
 expect(decorate).toHaveBeenCalled()
 -->
 
-Here, we separated levels of abstraction, so the implementation details of each clause don’t distract us from the high-level condition. Now, the structure of the condition is clear.
+In the code above, we separated levels of abstraction, so the implementation details of each clause don’t distract us from the high-level condition. Now, the structure of the condition is clear.
 
 However, I wouldn’t go further and extract each clause into its own function unless they are reused.
 
@@ -342,18 +422,17 @@ I> You may encounter various styles of hack comments: `HACK`, `XXX`, `@hack`, an
 
 ## Todo comments
 
-I like _todo comments_, and I add plenty of them when I write code. Todo comments can:
+I like _todo comments_, and I add plenty of them when writing code. Todo comments can serve several purposes:
 
-- Help us focus on essentials when we write code by writing down everything that we want to do or try later.
-- Write down known limitations and possible or already planned improvements.
+- **Temporary comments** that we add while writing code so we don’t forget what we want to do.
+- **Planned improvements:** must haves that weren’t yet implemented.
+- **Known limitations and dreams:** nice to haves that may never be implemented.
 
-I remove most todo comments before I submit my code for review — they are part of my coding process.
+**Temporary comments** help us focus on the essentials when we write code by writing down everything we want to do or try later. Such comments are an essential part of my coding process, and I remove most of them before submitting my code for review.
 
-I> You may encounter various styles of todo comments: `TODO`, `FIXME`, `UNDONE`, `@todo`, `@fixme`, and so on, though I prefer `TODO`.
+I> You may encounter various styles of todo comments: `TODO`, `FIXME`, `UNDONE`, `@todo`, `@fixme`, and so on. I prefer `TODO`.
 
-The remaining todo comments can be roughly split into two categories:
-
-The first kind are **planned improvements**. When we know that we need to do something, it’s best to add a ticket number in a todo comment:
+Comments for **planned improvements** are useful when we know that we need to do something:
 
 <!--
 let FavoriteType = {Taco: 'Taco'}
@@ -368,6 +447,8 @@ const query = await fetchFavorites({
 ```
 
 <!-- expect(query).toBe(FavoriteType.Taco) -->
+
+It’s a good idea to include a ticket number in such comments, like in the example above.
 
 There might be another condition, like a dependency upgrade, required to complete the task:
 
@@ -391,9 +472,9 @@ function blockWindowScroll(active) {
 }
 ```
 
-This is one very good comment!
+This is a hell of a comment!
 
-The second kind of todo comments are **dreams**: a desire that the code was doing more than it does. For example, error handling, special cases, support for more platforms or browsers, minor features, and so on; but it wasn’t implemented, probably due to a lack of time. Such todos don’t have any deadlines or even the expectation that they will ever be resolved:
+Comments for **known limitations and dreams** express a desire for the code to do more than it does. For example, error handling, special cases, support for more platforms or browsers, minor features, and so on. Such todos don’t have any deadlines or even the expectation that they will ever be resolved:
 
 <!--
 const Environment = {
@@ -433,7 +514,7 @@ However, there’s a type of todo comments I don’t recommend — comments with
 // TODO [2024-05-12]: Refactor before the sprint ends
 ```
 
-We can check these todo comments with [unicorn/expiring-todo-comments](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/expiring-todo-comments.md) linter rule, so our build will fail after the date mentioned in the comment. This is unhelpful because it usually happens when we work on an unrelated part of the code, forcing us to deal with the comment right away, most likely by adding another month to the date.
+The [unicorn/expiring-todo-comments](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/expiring-todo-comments.md) linter rule fails the build after the date mentioned in the comment. This is unhelpful because it usually happens when we work on an unrelated part of the code, forcing us to deal with the comment right away, most likely by adding another month to the date.
 
 There are other conditions in the `unicorn/expiring-todo-comments` rule that might be more useful, such as the dependency version:
 
@@ -470,7 +551,7 @@ try {
 expect(test).not.toThrowError()
 -->
 
-Here, we disable the linter, which complains about missing error handling. However, it’s unclear why the error handling is missing.
+In the code above, we disable the linter, which complains about missing error handling. However, it’s unclear why the error handling is missing.
 
 We can make the code clearer by adding a comment:
 
@@ -556,7 +637,7 @@ function rehypeSlug() {
 <!-- expect(rehypeSlug).not.toThrowError() -->
 <!-- cspell:enable -->
 
-Here, we don’t just give an example of the input and output, but also explain the difference with the original `rehype-slug` package and why a custom implementation exists in the codebase.
+In the code above, we don’t just give an example of the input and output, but also explain the difference with the original `rehype-slug` package and why a custom implementation exists in the codebase.
 
 Usage examples are another thing to include in function comments:
 
@@ -659,9 +740,11 @@ In any case, it’s our responsibility to ask _why_ as many times as necessary; 
 
 ---
 
-Comments enrich code with information that cannot be expressed by the code alone. They help us understand why the code is written in a certain way, especially when it’s not obvious. They help us avoid disastrous “refactoring”, when we simplify the code by removing essential parts.
+Comments enrich code with information that cannot be expressed by the code alone. They help us understand why the code is written in a certain way, especially when it’s not obvious. They help us avoid disastrous “refactorings”, when we simplify the code by removing its essential parts.
 
 However, if it’s too hard to explain a certain piece of code in a comment, perhaps we should rewrite such code instead of trying to explain it.
+
+Finding a balance between commenting too much and too little is essential and comes with experience.
 
 Start thinking about:
 

@@ -160,7 +160,7 @@ const object = {
 
 <!-- expect(object).toEqual({ value: 42 }) -->
 
-Here, we add a property to an object when the condition is true, otherwise we do nothing. The intention is more obvious when we explicitly define objects to destructure rather than relying on destructuring of falsy values:
+In the code above, we add a property to an object when the condition is true, otherwise we do nothing. The intention is more obvious when we explicitly define objects to destructure rather than relying on destructuring of falsy values:
 
 <!-- const condition = true -->
 
@@ -221,7 +221,7 @@ const array = Array.from({ length: 10 }).map((_, i) => i);
 
 <!-- expect(array).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 9]) -->
 
-Here, `Array.from({length: 10})` creates an array with 10 _undefined_ elements, then using the `map()` method, we fill the array with numbers from 0 to 9.
+The `Array.from({length: 10})` creates an array with 10 _undefined_ elements, then using the `map()` method, we fill the array with numbers from 0 to 9.
 
 We can write it shorter by using `Array.from()`’s map callback:
 

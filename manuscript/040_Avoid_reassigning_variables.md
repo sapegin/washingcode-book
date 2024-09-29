@@ -70,7 +70,7 @@ function getProductsOnSale(category) {
 
 <!-- expect(getProductsOnSale('pizzas')).toEqual([{name: 'pizzas2', onSale: true}]) -->
 
-Here, the `category` variable is used to store a category ID (a number or a string), a list of products in a category (an array), and a list of filtered products (also an array). This function isn’t completely hopeless because it’s short, but imagine more code between each reassignment.
+In the code above, the `category` variable can contain: a category ID (a number or a string), a list of products in a category (an array), and a list of filtered products (also an array). This function isn’t completely hopeless because it’s short, but imagine more code between each reassignment.
 
 On top of that, a new value is reassigned to a function parameter, which is known as _function parameter shadowing_. I think it’s no different from regular reassignment since it only affects the value inside the function, so I’ll treat it the same way.
 
@@ -347,7 +347,7 @@ if (dateRangeFrom && dateRangeTo) {
   words: ""
 }) -->
 
-Here, we’re adding the `from` and `to` properties only when they aren’t empty.
+In the code above, we add the `from` and `to` properties only when they aren’t empty.
 
 The code would be clearer if we taught our backend to ignore `undefined` values and build the whole object at once:
 
@@ -526,7 +526,7 @@ expect(areEventsValid([{fromDate: 4, toDate: 14}, {fromDate: 1, toDate: 2}])).to
 expect(areEventsValid([{fromDate: 4, toDate: 1}, {fromDate: 1, toDate: 2}])).toBe(false)
 -->
 
-Here, we check that _every_ event is valid, which would be clearer with the `every()` array method:
+In the code above, we check that _every_ event is valid, which would be clearer with the `every()` array method:
 
 ```js
 function areEventsValid(events) {
@@ -545,7 +545,7 @@ I> We talk a lot more about array methods in the [Avoid loops](#no-loops) chapte
 
 We removed a temporary variable, avoided reassignments, and made the condition positive (_is valid?_) instead of negative (_is invalid?_). Positive conditions are generally easier to understand.
 
-Here’s another example:
+Let’s have a look at another example that returns a value if it’s present and zero otherwise:
 
 ```js
 const handleChangeEstimationHours = event => {
@@ -563,7 +563,7 @@ expect(handleChangeEstimationHours({target: {value: -1}})).toEqual({estimationHo
 expect(handleChangeEstimationHours({target: {value: 1}})).toEqual({estimationHours: 1})
 -->
 
-Here, we can use a ternary operator to avoid reassignment:
+We can use a ternary operator to avoid reassignment:
 
 ```js
 const handleChangeEstimationHours = ({
@@ -696,7 +696,7 @@ function getStartOfWeek(selectedDay) {
 
 <!-- expect(getStartOfWeek({getDay: () => 3}).getDay()).toEqual(0) -->
 
-Here, we’re finding the start of the current week by moving one day back in a `while` loop and checking if it’s already Monday or not.
+In the code above, we find the start of the current week by moving one day back in a `while` loop and checking if it’s already Monday or not.
 
 Even if it’s possible to avoid reassignments here, it will likely make the code less readable. Feel free to try, and let me know how it goes, though.
 

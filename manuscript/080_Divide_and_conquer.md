@@ -42,11 +42,7 @@ _Code length_ is often [used as a metric](https://softwareengineering.stackexcha
 
 Splitting a linear algorithm, even a long one, into several functions and then calling them one after another rarely makes the code more readable. Jumping between functions (and even more so — files) is harder than scrolling, and if we have to look into each function’s implementation to understand the code, then the abstraction wasn’t the right one.
 
-<!-- cspell:disable -->
-
-I> Egon Elbre wrote a nice article on [psychology of code readability](https://egonelbre.com/psychology-of-code-readability/).
-
-<!-- cspell:enable -->
+I> <!-- cspell:disable -->Egon Elbre<!-- cspell:enable --> wrote a nice article on [psychology of code readability](https://egonelbre.com/psychology-of-code-readability/).
 
 Here’s an example, adapted from the [Google Testing Blog](https://testing.googleblog.com/2023/09/use-abstraction-to-improve-function.html):
 
@@ -346,11 +342,9 @@ expect(pizza).toEqual({
 
 This is already much better than the split version. An even better solution would be improving the APIs and making the code more clear. Pierre suggests that preheating the oven shouldn’t be part of the `createPizza()` function (and baking many pizzas myself, I totally agree!) because in real life the oven is already there and probably already hot from the previous pizza. Pierre also suggests that the function should return the box, not the pizza, because in the original code, the box kind of disappears after all the slicing and packaging magic, and we end up with the sliced pizza in our hands.
 
-I> We talk about commenting code in the [Avoid comments](#no-comments) chapter.
-
 Naming can also be a problem too when all the extracted functions are parts of the same algorithm. We need to invent names that are clearer than the code and shorter than comments — not an easy task.
 
-I> We talk about naming in the [Naming is hard](#naming) chapter.
+I> We talk about commenting code in the [Avoid comments](#no-comments) chapter, and about naming in the [Naming is hard](#naming) chapter.
 
 You probably won’t find many small functions in my code. In my experience, the most useful reasons to split code are _change frequency_ and _change reason_.
 
@@ -459,7 +453,7 @@ expect(c1.textContent).toEqual(
 )
 -->
 
-Here, we have a component (`FormattedAddress`) and a function (`getMapLink()`) that are only used in this module, so they’re defined at the top of the file.
+In the code above, we have a component (`FormattedAddress`) and a function (`getMapLink()`) that are only used in this module, so they’re defined at the top of the file.
 
 If we need to test these functions (and we should!), we can export them from the module and test them together with the main function of the module.
 

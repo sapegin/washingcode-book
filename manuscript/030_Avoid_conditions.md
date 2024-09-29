@@ -128,7 +128,7 @@ const hasValue = Boolean(value);
 
 In all cases, the code without ternaries is both shorter and easier to read.
 
-Here’s another example of an unnecessary condition:
+Let’s have a look at another example of an unnecessary condition:
 
 ```js
 const products = ['taco'];
@@ -243,7 +243,7 @@ const {container: c3} = RTL.render(<RefundLabel />);
 expect(c3.textContent).toEqual('Total:')
 -->
 
-Here, we compare `type` three times and `hasUserSelectableRefundOptions` twice, which is unnecessary and makes the code confusing:
+In the code above, we compare `type` three times and `hasUserSelectableRefundOptions` twice, which is unnecessary and makes the code confusing:
 
 ```jsx
 const RefundLabelMessage = ({
@@ -310,7 +310,7 @@ expect(onError).toBeCalledWith('nope')
 expect(() => getRandomJoke(onDone)).not.toThrowError()
 -->
 
-Here, the `onError` parameter is optional, and we check if it exists before calling it. The problem here is that we need to remember to wrap each call to an optional callback with a condition. It increases complexity and cognitive load and makes the code harder to read.
+In the code above, the `onError` parameter is optional, and we check if it exists before calling it. The problem here is that we need to remember to wrap each call to an optional callback with a condition. It increases complexity and cognitive load and makes the code harder to read.
 
 I> The _cognitive load_ is the mental effort required to understand the code. Artem Zakirullin wrote a [great article on cognitive load in programming](https://github.com/zakirullin/cognitive-load).
 
@@ -517,7 +517,7 @@ expect(getProductsDropdownItems({products: {id: '1', name: 'Tacos'}})).toEqual([
 expect(getProductsDropdownItems({products: [{id: '1', name: 'Tacos'}]})).toEqual([{label: 'Tacos', value: '1'}])
 -->
 
-Here, we’re wrapping a single element in an array so we can use the same code to work with single values and arrays.
+In the code above, we wrap a single element with an array so we can use the same code to work with single values and arrays.
 
 {#deduplication}
 
@@ -839,7 +839,7 @@ The next step would be out of the scope of this chapter: the code inside the `//
 
 I> We talk about mutation in the [Avoid mutation](#no-mutation) chapter.
 
-Here’s another example:
+Consider another example:
 
 <!--
 let Inner = ({data}) => <p>{data.join('|')}</p>
@@ -880,7 +880,7 @@ const {container: c4} = RTL.render(<Container component={Inner} data={[2, 4]} />
 expect(c4.textContent).toEqual('2|4')
 -->
 
-I have trouble reading nested ternaries in general and prefer not to nest them. Here’s an extreme example of nesting: the good path code, rendering the `Component`, is quite hidden. This is a perfect use case for guard clauses.
+I have trouble reading nested ternaries in general and prefer not to nest them. This is an extreme example of nesting: the good path code, rendering the `Component`, is quite hidden. This is a perfect use case for guard clauses.
 
 Let’s refactor it:
 
@@ -925,7 +925,7 @@ const {container: c4} = RTL.render(<Container component={Inner} data={[2, 4]} />
 expect(c4.textContent).toEqual('2|4')
 -->
 
-Here, the default, happy path isn’t intertwined with the exceptional cases. The default case is at the very bottom of the component, and all exceptions are in front, as guard clauses.
+In the code above, the default, happy path isn’t intertwined with the exceptional cases. The default case is at the very bottom of the component, and all exceptions are in front, as guard clauses.
 
 T> We discuss a better way of managing loading and error states in the [Make impossible states impossible](#impossible-states) section.
 
@@ -1020,7 +1020,7 @@ const {container: c2} = RTL.render(<DecisionButton decision={DECISION_MAYBE} />)
 expect(c2.textContent).toEqual('Maybe')
 -->
 
-Here, we have a `switch` statement that returns one of the three button labels.
+In the code above, we have a `switch` statement that returns one of the three button labels.
 
 First, let’s replace the `switch` with a table:
 
@@ -1108,7 +1108,7 @@ const {container: c2} = RTL.render(<DecisionButton decision={Decision.Maybe} />)
 expect(c2.textContent).toEqual('Maybe')
 -->
 
-Here, we’ve defined an enum for decisions, and we’re using it to ensure consistency in the button label map and decision button component props:
+In the code above, we define an enum for decisions, and we use it to ensure consistency in the button label map and decision button component props:
 
 - The decision button component accepts only known decisions.
 - The button label map can have only known decisions and _must_ have them all. This is especially useful: every time we update the decision enum, TypeScript makes sure the map is still in sync with it.
@@ -1522,7 +1522,7 @@ expect(isSmall('2')).toBe(true)
 expect(isSmall('5')).toBe(false)
 -->
 
-Here, we have three clauses that compare the `size` variable to three different values, making the values we compare it to far apart. Instead, we can group them into an array and use the `includes()` array method:
+In the code above, we have three clauses that compare the `size` variable to three different values, making the values we compare it to far apart. Instead, we can group them into an array and use the `includes()` array method:
 
 ```js
 const isSmall = size => ['1', '2', '3'].includes(size);
@@ -1683,7 +1683,7 @@ I> Imagine a pizzeria where a pizzaiolo is responsible only for cooking pizzas, 
 I>  
 I> We talk more about this topic in the [Divide and conquer, or merge and relax](#divide) chapter.
 
-Here’s one more example:
+Let’s have a look at one more example:
 
 ```js
 function getDiscountAmount(discountOptions) {
@@ -1767,7 +1767,7 @@ expect(getDiscountAmount({promoDiscount: {discountAmount: {displayCurrency: v25}
 expect(getDiscountAmount({})).toEqual(v0)
 -->
 
-Here, we create an array with all possible discounts, then we use Lodash’s [`maxBy()` method](https://lodash.com/docs#maxBy) to find the maximum discount value, and finally, we use the nullish coalescing operator to either return the maximum or 0.
+In the code above, we create an array with all possible discounts, then we use Lodash’s [`maxBy()` method](https://lodash.com/docs#maxBy) to find the maximum discount value, and finally, we use the nullish coalescing operator to either return the maximum or 0.
 
 Now, it’s clear that we want to find the maximum of two types of discounts, otherwise return 0.
 
@@ -1842,7 +1842,7 @@ I> This approach is known as [separation of logic and presentation](https://mart
 
 ## Nested ternaries
 
-A _ternary operator_, or just a ternary, is a short, one-line conditional operator. It’s very useful when we want to assign one of two values to a variable. Let’s take this `if` statement as an example:
+A _ternary operator_, or just a ternary, is a short, one-line conditional operator. It’s useful when we want to assign one of two values to a variable. Let’s take this `if` statement as an example:
 
 ```js
 const caffeineLevel = 25;
@@ -1862,7 +1862,6 @@ Now, compare it to a ternary:
 
 ```js
 const caffeineLevel = 25;
-
 const drink = caffeineLevel < 50 ? 'coffee' : 'water';
 // → coffee
 ```

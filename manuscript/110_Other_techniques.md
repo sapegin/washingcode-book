@@ -471,7 +471,7 @@ const {container: c1} = RTL.render(<OrderIdSection />);
 expect(c1.textContent).toEqual('tacos')
 -->
 
-Here, it took me some time to notice that the only difference between the two branches is the `rightContent` and `onPress` props. This isn’t obvious because shared props are repeated, so I had to compare each line to be sure that they are exactly the same.
+It took me some time to notice that the only difference between the two branches is the `rightContent` and `onPress` props. This isn’t obvious because shared props are repeated, so I had to compare each line to be sure that they are exactly the same.
 
 T> I like to select a part of the code to check whether it’s the same as another part nearby. If my editor highlights both parts, they are exactly the same.
 
@@ -889,7 +889,7 @@ const {getByRole} = RTL.render(<BookCover title="Tacos" type="taco-recipes" />);
 expect(getByRole('img').src).toBe('http://localhost:3000/images/covers/taco-recipes.jpg')
 -->
 
-Here, we can search either by a folder name (`/images/covers`) and find this component or by a filename (`washing-code`) and find all usages of this component.
+We can search either by a folder name (`/images/covers`) and find this component or by a filename (`washing-code`) and find all usages of this component.
 
 I call such identifiers _greppable_, meaning we can search for them and find all places in the code where they are used. The name comes from the `grep` Unix command that finds a substring in a file.
 
@@ -1010,7 +1010,7 @@ Let’s compare our function with one from a popular library: [`isEmpty()` from 
 
 This example is a bit simplistic, and there are more benefits to using third-party libraries for more complex problems.
 
-Here, I’d make sure that the `object` is always an object (never `undefined` or `null`, TypeScript can help with this), and then either use Lodash’s `isEmpty()` method if available, or inline the `Object.keys(object).length > 0` condition where I need it, since we don’t need to check object existence anymore.
+I’d make sure that the `object` is always an object (never `undefined` or `null`, TypeScript can help with this), and then either use Lodash’s `isEmpty()` method if available, or inline the `Object.keys(object).length > 0` condition where I need it, since we don’t need to check object existence anymore.
 
 <!-- let object = { o: 0 } -->
 

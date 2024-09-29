@@ -36,7 +36,7 @@ import js from '@eslint/js';
 export default [js.configs.recommended];
 ```
 
-Here, we include only the [recommended rules](https://eslint.org/docs/latest/rules/).
+This example includes only the [recommended rules](https://eslint.org/docs/latest/rules/).
 
 ### Define linter rules as errors, not warnings
 
@@ -236,7 +236,7 @@ console.log(files.length == 1 ? 'file' : 'files');
 
 We’re disabling all linter rules for a line, and this line may trigger at least two rules: [no-console](https://eslint.org/docs/latest/rules/no-console) because of using `console.log()`, and [eqeqeq](https://eslint.org/docs/latest/rules/eqeqeq) because of using `==` instead of `===`. Both rules are useful: the first prevents committing debug output, and the second avoids less strict comparisons.
 
-Here, we do want to use `console.log()` to display results to the user, but `==` instead of `===` is a typo, and we want the linter to warn us so we can fix it. We can achieve this by disabling a specific linter rule for this line:
+However, we do want to use `console.log()` to display results to the user, but `==` instead of `===` is a typo, and we want the linter to warn us so we can fix it. We can achieve this by disabling a specific linter rule for this line:
 
 <!--
 let console = { log: vi.fn() }
@@ -463,7 +463,7 @@ Alphabetic sorting looks neat, but is rarely useful for code. Often, some kind o
 }
 ```
 
-Here, related properties (like `position`, `top`, `right`, and `left`; or `font-size`, and `line-height`) are separated, making the code hard to understand. Compare it with semantic grouping:
+In the code above, related properties (like `position`, `top`, `right`, and `left`; or `font-size`, and `line-height`) are separated, making the code hard to understand. Compare it with semantic grouping:
 
 ```css
 .banner {
@@ -479,7 +479,7 @@ Here, related properties (like `position`, `top`, `right`, and `left`; or `font-
 }
 ```
 
-Here, we have position and layout first, then fonts, and finally colors. It’s natural to see `top`, `right`, and `left` properties right after `position`, not scattered across the block. Similarly, it’s natural to see `font-size` and `line-height` together. I always write CSS like this — there’s no strict order of individual properties, but general grouping makes the code more readable.
+Now, we have position and layout first, then fonts, and finally colors. It’s natural to see `top`, `right`, and `left` properties right after `position`, not scattered across the block. Similarly, it’s natural to see `font-size` and `line-height` together. I always write CSS like this — there’s no strict order of individual properties, but general grouping makes the code more readable.
 
 The issue with semantic sorting and grouping is that different people might have different ideas of what belongs together, and it can be challenging to implement. For example, sorting CSS properties consistently requires having a list of all possible properties.
 
@@ -768,7 +768,7 @@ export default tseslint.config({
 });
 ```
 
-Here, we allow only `@ts-expect-error` comments and require an explanation for each comment.
+In the code above, we allow only `@ts-expect-error` comments and require an explanation for each comment.
 
 Then we can write something like this, and it won’t trigger a linting error:
 

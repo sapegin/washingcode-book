@@ -18,7 +18,7 @@ puppy.age = 14;
 
 <!-- expect(puppy).toEqual(expect.objectContaining({age: 14})) -->
 
-Here, we’re _mutating_ the original `puppy` object by changing its `age` property.
+In the code above, we _mutate_ the original `puppy` object by changing its `age` property.
 
 Some problems with mutation:
 
@@ -27,7 +27,7 @@ Some problems with mutation:
 - Mutation of function parameters makes the behavior of a function surprising and creates unexpected side effects.
 - Mutation is often unexpected. It’s too easy to forget which methods mutate the original data, and which don’t. Both could return the same value, and there’s no naming convention in JavaScript to differentiate them.
 
-_Immutability_, or _immutable data structures_, means that to change a value, we have to create a new array or object. This approach would solve this problem.. Unfortunately, JavaScript doesn’t support immutability natively, and all solutions are more like code crutches than actual solutions. However, even just _avoiding_ mutation in our code makes it easier to understand.
+_Immutability_, or _immutable data structures_, means that to change a value, we have to create a new array or object. This approach would solve this problem.. Unfortunately, JavaScript doesn’t support immutability natively, and all solutions are more like code crutches than actual solutions. However, just _avoiding_ mutation in our code makes it easier to understand.
 
 T> Don’t forget that even if we can’t reassign variables defined with the `const` keyword, we can still mutate them.
 
@@ -77,7 +77,7 @@ expect(parseExample('pizza', 'js', '{"foo": true}')).toEqual({content: 'pizza', 
 expect(parseExample('pizza', 'js', 'foo bar')).toEqual({content: 'pizza', lang: 'js', settings: {foo: true, bar: true}})
 -->
 
-Here, we’re creating an object with three fields, one of which, `settings`, is optional. We’re doing this by mutating the initial `example` object in the two cases when it should have this optional field.
+In the code above, we create an object with three fields, one of which, `settings`, is optional. We do this by mutating the initial `example` object in the two cases when it should have this optional field.
 
 I prefer to see the whole object shape in a single place, instead of having to read the whole function to find all possible object shape variations. Usually, it doesn’t matter whether a property has an `undefined` value or doesn’t exist at all. I haven’t seen any cases where it mattered for a good reason. Even better is to use an empty array or object instead of `undefined` because it often simplifies the code and reduces the number of conditions.
 
@@ -85,7 +85,7 @@ I> We talk about avoiding conditions in the [Avoid conditions](#no-conditions) c
 
 We also have a special error case here that returns an entirely different object with a single `error` property. However, it’s really a special case because none of the properties of the two objects overlap, and it doesn’t make sense to merge them. If anything, separating these two objects highlights that the error case is a special case.
 
-I like to use ternaries for simple cases and usually extract the code into a function for more complex cases. Here, we have a good example for the latter because of a nested condition and a `try`/`catch` block.
+I like to use ternaries for simple cases and usually extract the code into a function for more complex cases. The `parseExample()` function is a good example for the latter because of a nested condition and a `try`/`catch` block.
 
 Let’s try to refactor it:
 
@@ -169,11 +169,11 @@ expect(console.log.mock.calls).toEqual([
 ])
 -->
 
-Here, we’re adding a new element to the `dogs` array using the `push()` method, which mutates the original array. That’s why both `console.log()` calls print the same list: both variables, `dogs` and `sameDogs`, reference the same array.
+In the code above, we add a new element to the `dogs` array using the `push()` method, which mutates the original array. That’s why both `console.log()` calls print the same list: both variables, `dogs` and `sameDogs`, reference the same array.
 
 I> Use [Does it mutate](https://doesitmutate.xyz/) to quickly check whether an array method is mutating or not.
 
-Consider this function:
+Consider this function that prints the last element of a given array:
 
 <!-- const console = { log: vi.fn() } -->
 
@@ -191,7 +191,7 @@ expect(console.log.mock.calls).toEqual([[2]])
 expect(numbers).toEqual([3, 1])
 -->
 
-The problem here is that the `pop()` array method mutates the array we’re passing into our function:
+The problem here is that the `pop()` array method mutates the array we’re passing into the function:
 
 <!--
 const console = { log: vi.fn() }
@@ -238,7 +238,7 @@ expect(console.log.mock.calls).toEqual([[2]])
 expect(numbers).toEqual([3, 1, 2])
 -->
 
-Here’s a more subtle but more realistic example of the same problem:
+This is a more subtle but more realistic example of the same problem:
 
 <!-- const Select = ({items}) => items.join('|') -->
 
@@ -324,7 +324,7 @@ expect(c1.textContent).toEqual('Luncheon|Dinner')
 expect(items).toEqual(['Dinner', 'Luncheon'])
 -->
 
-Here, we create a copy of the incoming array before sorting it, so the original array never changes.
+In the code above, we create a copy of the incoming array before sorting it, so the original array never changes.
 
 It’s even better to use the new `toSorted()` array method that doesn’t mutate the original array:
 
@@ -368,7 +368,7 @@ expect(c1.textContent).toEqual('Luncheon|Dinner')
 expect(items).toEqual(['Dinner', 'Luncheon'])
 -->
 
-I> The `toSorted()` method is included in ECMAScript 2023 and supported by all major browsers, as well as Node.js 20.
+I> The [toSorted()](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/toSorted) method is included in ECMAScript 2023 and supported by all major browsers, as well as Node.js 20.
 
 Other mutating array methods to watch out for include:
 
@@ -432,7 +432,7 @@ expect(getMessageProps(1, 5, 0, 2, 0)).toEqual([
 ])
 -->
 
-This code converts a bunch of number variables to a `messageProps` array that groups people of different ages by their counts:
+This code converts a bunch of number variables to a `messageProps` array that contains numbers of people of different ages:
 
 ```js
 const messageProps = [
@@ -473,7 +473,7 @@ array = addIfGreaterThanZero(array, 2, 'YOUTHS')
 expect(array).toEqual([{count: 1, id: 'ADULTS'}, {count: 2, id: 'YOUTHS'}])
 -->
 
-However, I don’t think we need this function at all:
+However, we can rewrite the code without this function at all:
 
 ```js
 const MESSAGE_IDS = [
@@ -505,9 +505,9 @@ expect(getMessageProps(1, 5, 0, 2, 0)).toEqual([
 ])
 -->
 
-Now, it’s easier to understand what the code does, and there’s no repetition. The `map()`/`filter()` chain makes it clear that we’re first converting an array to another array with the same number of elements, and then removing elements we don’t need.
+Now, it’s easier to understand what the code does, and there’s no repetition. The `map()`/`filter()` chain makes it clear that we’re first converting an array to another array with the same length, and then removing elements we don’t need.
 
-We can try to simplify it further:
+We can try to simplify the code further:
 
 ```js
 const MESSAGE_IDS = [
@@ -621,7 +621,7 @@ getMessageProps({
 
 It doesn’t matter in which order we put the object properties when calling the function; it can still access the correct fields by their names.
 
-Probably the only valid reason to mutate function parameters is performance optimization: when we work with a huge piece of data, creating a new object or array would be too slow. However, like with all performance optimizations, measure first to know whether we actually have a problem and avoid premature optimization.
+Probably the only valid reason to mutate function parameters is performance optimization: when we work with a huge amount of data, creating a new object or array can be too slow. However, like with all performance optimizations, measure first to know whether we actually have a problem and avoid premature optimization.
 
 {#explicit-mutation}
 
@@ -643,7 +643,7 @@ const tacos = counts
 
 This example gives the impression that we just create a new `tacos` array with the sorted list, without changing the original `counts` array. Unexpectedly, the `sort()` method returns a sorted array _and_ mutates the original array at the same time. This kind of code is hazardous and can lead to hard-to-find bugs. Many developers don’t realize that the `sort()` method mutates because the code _seems_ to work fine.
 
-T> Another surprising thing about the `sort()` method is that by default, it sorts elements by converting them to strings first, so `[6, 3, 11]` will be sorted as `[11, 3, 6]`, unless we provide a custom comparison function, as in the example above. This is a very poor design and severely violates [the principle of least astonishment](https://en.wikipedia.org/wiki/Principle_of_least_astonishment).
+T> Another surprising thing about the `sort()` method is that, by default, it sorts elements by converting them to strings first. For example, `[6, 3, 11]` will be sorted as `[11, 3, 6]`, unless we provide a custom comparison function, as in the example above. This is a poor design and it severely violates [the principle of least astonishment](https://en.wikipedia.org/wiki/Principle_of_least_astonishment) (principle of least surprise), which states that a system should behave in a way that most users expect, and therefore not surprise them.
 
 It’s better to make the mutation explicit:
 
@@ -656,7 +656,7 @@ const tacos = sortedCounts.map(n => `${n} tacos`);
 
 <!-- expect(tacos).toEqual(['3 tacos', '6 tacos', '11 tacos']) -->
 
-Here, we’re making a shallow copy of the `counts` array using the spread syntax and then sorting it, so the original array stays the same.
+In the code above, we make a shallow copy of the `counts` array using the spread syntax and then sorting it, so the original array stays the same.
 
 Another option is to isolate the mutating code into a new function that doesn’t mutate the original values:
 
@@ -693,7 +693,7 @@ const tacos = sortedCounts.map(n => `${n} tacos`);
 
 <!-- expect(tacos).toEqual(['3 tacos', '6 tacos', '11 tacos']) -->
 
-At this point, I avoid the legacy `sort()` method in favor of the new `toSorted()` method.
+At this point, I avoid the legacy `sort()` method in favor of the newer `toSorted()` method.
 
 ## Updating objects
 
@@ -762,7 +762,7 @@ const next = addDrink({breakfast: 'none', lunch: {food: 'pasta', drinks: ['tea']
 expect(next).toEqual({breakfast: 'none', lunch: {drinks: ['coffee']}})
 -->
 
-Here, we’re keeping only the first level of properties of the initial object: `lunch` and `drinks` will have only the new properties.
+In the code above, we keep only the first level of properties of the initial object: `lunch` and `drinks` will have only the new properties.
 
 On top of that, the spread and `Object.assign()` only do shallow cloning: only the first level properties are copies, but all nested properties are references to the original object, meaning mutation of a nested property mutates the original object.
 
@@ -781,7 +781,7 @@ One way to prevent mutation is to use a linter. ESLint has several plugins that 
 
 T> The [eslint-plugin-better-mutation](https://github.com/sloops77/eslint-plugin-better-mutation) plugin disallows any mutation, except for local variables in functions. This is a great idea because it prevents bugs caused by the mutation of shared objects but allows us to use mutation locally. Unfortunately, it breaks even in simple cases, such as a mutation inside the `forEach()` method’s callback function.
 
-I> We talk about linting in the [Lint your code](#linting) chapter.
+I> We talk about ESLint and linting in general in the [Lint your code](#linting) chapter.
 
 Another way to prevent mutation is to mark all objects and arrays as read-only in TypeScript.
 
@@ -826,7 +826,7 @@ I think adding `readonly` modifiers is a good idea because there’s no runtime 
 
 Similarly to making objects read-only on the type level, we can make them read-only at runtime with the `Object.freeze()` method. It’s also shallow, so we need to [deep freeze](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/freeze) to ensure that nested objects are also frozen, and we may want to have freezing only in development since it can slow our app down.
 
-I don’t think freezing is worth it on its own unless it’s part of another library.
+I don’t think freezing is worth it on its own unless it’s a by-product of another function (see Immer below).
 
 **Simplifying object updates** is another option that we can combine with mutation prevention.
 
@@ -858,7 +858,7 @@ const map2 = produce(map1, draft => {
 
 T> Immer freezes the resulting object using `Object.freeze()` in the development environment to prevent accidental mutation.
 
-## Even mutation is not that bad sometimes
+## Sometimes mutation isn’t a villain
 
 In rare cases, rewriting imperative code with mutation in a declarative way without mutation doesn’t make it any better.
 
@@ -889,7 +889,7 @@ if (hasSweetTooth) {
 
 <!-- expect(menu).toEqual(['tacos al pastor', 'café de olla', 'tres leches cake']) -->
 
-I find the latter example more readable.
+I find the latter example to be more readable. While I like to creating arrays in a single expression, the spread syntax combined with a ternary makes it cumbersome. The version with the `push()` method is more straightforward.
 
 Here’s another example:
 
@@ -944,7 +944,7 @@ for (const name of friendNames) {
 
 <!-- expect(counts).toEqual({Kili: 2, Bilbo: 1, Frodo: 1}) -->
 
-This is my favorite option so far.
+The last version is my favorite option so far.
 
 However, I usually write such counters slightly differently:
 
@@ -963,9 +963,9 @@ for (const name of friendNames) {
 
 <!-- expect(counts).toEqual({Kili: 2, Bilbo: 1, Frodo: 1}) -->
 
-I like it more because it separates the initialization code and the actual counter, so we can change them independently. It also works well when either the initialization or the update code becomes more complex.
+I like it more because it separates the initialization code (creating a new object property with initial value of 0) and the actual task (incrementing the counter), so we can change them independently. It _deduplicates_ the algorithm code. It also works well when either the initialization or the update code becomes more complex.
 
-Here’s a more complex example:
+Let’s have a look at more complex example that creates an array of dates to fill a given date range:
 
 <!-- const addDays = x => x + 1 -->
 
@@ -983,11 +983,9 @@ const getDateRange = (startDate, endDate) => {
 
 <!-- expect(getDateRange(4, 14)).toEqual([4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]) -->
 
-Here, we’re creating an array of dates to fill a given date range.
-
 I don’t have good ideas on how to rewrite this code without an imperative loop, reassignment, and mutation. And here, we can live with them:
 
-- all “bad” things are isolated inside a small function;
+- a loop, reassignment, and mutation are isolated inside a small function;
 - the function has a meaningful name;
 - the code is clear enough;
 - the function is pure: it doesn’t have any internal state or side effects.
@@ -996,7 +994,7 @@ I don’t have good ideas on how to rewrite this code without an imperative loop
 
 Replacing imperative code, full of loops and conditions, with declarative code is one of my favorite refactorings, as it often makes code more readable and maintainable. This is also one of the most common suggestions I make in code reviews. Code with mutations likely hides other issues — mutation is a good sign to look closer.
 
-However, it’s better to write simple and clear code with mutation than complex and messy code without it. However, if we do use mutation, it’s wise to isolate it in a small function with a meaningful name and clear API.
+However, it’s better to write simple and clear code with mutation than complex and messy code without it. However, if we end up using mutation, it’s wise to isolate it in a small function with a meaningful name and clear API.
 
 Also, immutable operations could [significantly reduce performance](https://tkdodo.eu/blog/why-i-dont-like-reduce) when working with large amounts of data and create a new object on each iteration.
 
@@ -1006,7 +1004,7 @@ Start thinking about:
 
 - Rewriting imperative code with mutation in a declarative way to improve readability.
 - Creating a complete object in a single place to make its shape clearer.
-- Deduplicating logic and separating “what” from “how.”
+- Deduplicating logic by separating the initialization code an the task code.
 - Avoiding mutating function parameters to prevent hard-to-find bugs.
 - Using `map()`/`filter()` chaining instead of a single `reduce()` method.
 - Making mutation explicit if you have to use it.
