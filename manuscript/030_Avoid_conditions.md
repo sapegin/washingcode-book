@@ -1310,7 +1310,7 @@ Now, we can define our validation table. There are two ways of doing this:
 - using an object where keys represent form fields;
 - using an array.
 
-We’re going to use an array because we want to have several validations with different error messages for some fields. For example, a field can be required _and_ have a maximum length:
+We’ll use an array because we want to have several validations with different error messages for some fields. For example, a field can be required _and_ have a maximum length:
 
 <!--
 const hasStringValue = value => typeof value === 'string' && value.trim() !== ''
