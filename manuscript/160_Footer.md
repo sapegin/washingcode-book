@@ -1,18 +1,18 @@
 # Conclusion
 
-All the topics covered in this book, aren’t hard rules, but ideas for possible improvements. When I say _avoid conditions, mutation, reassignments, or something else_, I don’t mean _never use them_, more like _there might be a better solution_.
+All the topics covered in this book aren’t hard rules, but ideas for possible improvements. When I say _avoid conditions, mutation, reassignments, or something else_, I don’t mean _never use them_, more like _there might be a better solution_.
 
-There are valid use cases for all programming techniques, maybe even `goto`, who knows. I’m probably too young to know. The only certain thing is that the answer to any question about programming is: _it depends_. No matter how many likes this solution has on Stack Overflow, it may not be the best choice for your case.
+There are valid use cases for all programming techniques. Maybe even `goto`, who knows — I’m probably too young to know. The only certain thing is that the answer to any question about programming is: _it depends_. No matter how many likes this solution has on Stack Overflow, it may not be the best solution for your problem.
 
-So the goal of this book isn’t to teach you how to write good code, but to teach you to notice certain patterns, or code smells, that can _often_ (not _always_) be improved.
+So, the goal of this book isn’t to teach you how to write good code, but to help you to notice certain antipatterns, or code smells, that can _often_ (but not _always_) be improved, and give you the tools — techniques and patterns — to make those improvements.
 
-And remember: we write code for our colleagues and future us, so they can understand it. We should prioritize code readability and trust our gut feelings over whatever random people on the internet or linters tell us to do.
+And remember: we write code for our colleagues and our future selves, so they can understand it. We should prioritize code readability and trust our gut feelings over whatever random people on the internet or linters tell us to do.
 
-Also remember this: _code is evil_. Our job isn’t writing code but solving our client’s problems, whether it’s our employer or ourselves. Code is a by-product, a necessary evil. Don’t be too attached to your code: one day it’ll be rewritten or deleted, that’s why we call it _software_.
+Also remember this: _code is evil_. Our job isn’t writing code but solving our clients’ problems, whether it’s our employer or ourselves. Code is a by-product, a necessary evil. Don’t be too attached to your code: one day it’ll be rewritten or deleted — that’s why we call it _software_.
 
 # Index of techniques and patterns
 
-Here’s a list of all techniques and patterns described in the book.
+Here’s a list of all the techniques and patterns described in the book:
 
 <!-- patterns:start -->
 
@@ -58,9 +58,9 @@ Here’s a list of all techniques and patterns described in the book.
 
 <!-- patterns:end -->
 
-# Index of antipatterns
+# Index of code smells and antipatterns
 
-Here’s a list of all antipatterns described in the book.
+Here’s a list of all the code smells and antipatterns described in the book:
 
 <!-- antipatterns:start -->
 
@@ -88,6 +88,8 @@ Here’s a list of all antipatterns described in the book.
 <!-- antipatterns:end -->
 
 # Resources
+
+Here’s a list of books, articles, and talks that I found useful or inspiring.
 
 ## Books
 
@@ -145,14 +147,14 @@ Here’s a list of all antipatterns described in the book.
 
 If you liked the book, I’ll appreciate your review! I’ve spent many hours writing and editing it, and your review will help to make it more visible to others and help me continue improving it.
 
-Until the book is final and available on Amazon, and so on, please send me your review at [artem@sapegin.ru](mailto:artem@sapegin.ru).
+Until the book is finished and available on Amazon, please send me your review at [artem@sapegin.ru](mailto:artem@sapegin.ru).
 
 ## Got feedback?
 
-This book is full of opinions, and I don’t expect you’ll agree with them all. That’s expected and it was never my goal to convince my readers that my opinions are the only right ones. I wanted to make my readers think of certain things and start a dialogue.
+This book is full of opinions, and I don’t expect you’ll agree with them all. That’s expected, and my goal was never to convince readers that my opinions are the only right ones. My desire was to make my readers think of certain things and start a dialogue.
 
 Let me know what you think at [artem@sapegin.ru](mailto:artem@sapegin.ru).
 
 ## Found an issue?
 
-I’ve tried my best to check all the facts, fix all the typos, and test all the examples in the book, but I’m sure I missed many. If you spot anything fishy, please [file an issue on GitHub](https://github.com/sapegin/washingcode-book/issues) or write me at [artem@sapegin.ru](mailto:artem@sapegin.ru).
+I’ve tried my best to check all the facts, fix all the typos, and test all the examples in the book, but I’m sure I missed many. If you spot anything fishy, please [file an issue on GitHub](https://github.com/sapegin/washingcode-book/issues) or write to me at [artem@sapegin.ru](mailto:artem@sapegin.ru).
