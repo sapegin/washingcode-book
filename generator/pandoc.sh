@@ -60,6 +60,12 @@ pandoc $CHAPTERS_FILES_EPUB \
   --standalone \
   --epub-cover-image="media/cover.jpg" \
   --highlight-style "generator/theme.theme" \
+  --syntax-definition "generator/syntax/javascript.xml" \
+  --syntax-definition "generator/syntax/javascript-react.xml" \
+  --syntax-definition "generator/syntax/typescript.xml" \
+  --syntax-definition "generator/syntax/typescript-react.xml" \
+  --syntax-definition "generator/syntax/pascal.xml" \
+  --syntax-definition "generator/syntax/diff.xml" \
   --css "generator/epub.css" \
   --from "$SOURCE_FORMAT" \
   -M date="$VERSION"
