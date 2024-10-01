@@ -817,13 +817,13 @@ In very rare cases, custom code formatting may improve readability. Here’s an 
 ```js
 // prettier-ignore
 const SEASONS = {
-	[`apple`]:        [                                        Sep                 ],
-	[`apricot`]:      [                     May, Jun, Jul                          ],
-	[`artichoke`]:    [           Mar, Apr, May                                    ],
-	[`asparagus`]:    [           Mar, Apr, May                                    ],
-	[`avocado`]:      [ Jan, Feb, Mar, Apr,                               Nov, Dec ],
-	[`beetroot`]:     [                               Jul, Aug, Sep, Oct, Nov      ],
-    // …
+  [`apple`]:        [                                        Sep                 ],
+  [`apricot`]:      [                     May, Jun, Jul                          ],
+  [`artichoke`]:    [           Mar, Apr, May                                    ],
+  [`asparagus`]:    [           Mar, Apr, May                                    ],
+  [`avocado`]:      [ Jan, Feb, Mar, Apr,                               Nov, Dec ],
+  [`beetroot`]:     [                               Jul, Aug, Sep, Oct, Nov      ],
+  // …
 };
 ```
 
