@@ -42,7 +42,7 @@ _Code length_ is often [used as a metric](https://softwareengineering.stackexcha
 
 Splitting a linear algorithm, even a long one, into several functions and then calling them one after another rarely makes the code more readable. Jumping between functions (and even more so — files) is harder than scrolling, and if we have to look into each function’s implementation to understand the code, then the abstraction wasn’t the right one.
 
-I> <!-- cspell:disable -->Egon Elbre<!-- cspell:enable --> wrote a nice article on [psychology of code readability](https://egonelbre.com/psychology-of-code-readability/).
+I> Egon Elbre wrote a nice article on [psychology of code readability](https://egonelbre.com/psychology-of-code-readability/).
 
 Here’s an example, adapted from the [Google Testing Blog](https://testing.googleblog.com/2023/09/use-abstraction-to-improve-function.html):
 
@@ -507,7 +507,7 @@ Consider this example:
 ```js
 const file = 'pizza.jpg';
 const prefix = file.slice(0, -4);
-// → pizza
+// → 'pizza'
 ```
 
 <!-- expect(prefix).toEqual('pizza') -->
@@ -519,7 +519,7 @@ Let’s rewrite it using a library, the built-in Node.js’ `path` module:
 ```js
 const file = 'pizza.jpg';
 const prefix = path.parse(file).name;
-// → pizza
+// → 'pizza'
 ```
 
 <!-- expect(prefix).toEqual('pizza') -->
@@ -577,7 +577,7 @@ const favoriteTaco = findByReference(
   x => x === 'Cochinita pibil'
 );
 
-// → Cochinita pibil
+// → 'Cochinita pibil'
 ```
 
 <!-- expect(favoriteTaco).toEqual('Cochinita pibil') -->
@@ -609,7 +609,7 @@ const favoriteTaco = [
   'Barbacoa'
 ].find(x => x === 'Cochinita pibil');
 
-// → Cochinita pibil
+// → 'Cochinita pibil'
 ```
 
 <!-- expect(favoriteTaco).toEqual('Cochinita pibil') -->

@@ -62,7 +62,7 @@ function preprocessCode(code) {
       //   $1 = true; // Yup
       // }
       .replaceAll(
-        /(if \([^{]+{\n)(\s*)(\/\/[^\n]+)(\n\s*})/gm,
+        /(if \([^{]+{\n)(\s*)(\/[*/][^\n]+)(\n\s*})/gm,
         (__, condition, whitespace, comment, footer) => {
           conditionIndex++;
           const assignment = `$${conditionIndex} = true; `;

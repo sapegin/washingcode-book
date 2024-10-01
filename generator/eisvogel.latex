@@ -360,7 +360,7 @@ $highlighting-macros$
 {\normalsize \textsf{By $author$}}
 \vskip 1em
 $if(first-published)$
-{\normalsize \textsf{First published: $first-published$}}
+{\normalsize \textsf{First published in $first-published$}}
 \newline
 $endif$
 $if(isbn)$

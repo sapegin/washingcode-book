@@ -157,9 +157,9 @@ const dogs = ['dachshund', 'sheltie'];
 const sameDogs = dogs;
 dogs.push('schnoodle');
 console.log(dogs);
-// → dachshund, sheltie, schnoodle
+// → ['dachshund', 'sheltie', 'schnoodle']
 console.log(sameDogs);
-// → dachshund, sheltie, schnoodle
+// → ['dachshund', 'sheltie', 'schnoodle']
 ```
 
 <!--

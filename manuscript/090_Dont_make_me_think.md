@@ -32,7 +32,7 @@ This code only adds the `%` sign to a number and should be rewritten as:
 ```js
 const percent = 5;
 const percentString = `${percent}%`;
-// → 5%
+// → '5%'
 ```
 
 <!-- expect(percentString).toBe('5%') -->
@@ -125,7 +125,7 @@ I’d likely use a regular expression here:
 ```js
 const header = 'filename="pizza.rar"';
 const filename = header.match(/filename="(.*?)"/)[1];
-// → pizza
+// → 'pizza'
 ```
 
 <!-- expect(filename).toBe('pizza.rar') -->
@@ -139,7 +139,7 @@ const header = 'filename="pizza.rar"';
 const filename = new URLSearchParams(header)
   .get('filename')
   .replaceAll(/^"|"$/g, '');
-// → pizza
+// → 'pizza'
 ```
 
 <!-- expect(filename).toBe('pizza.rar') -->
@@ -148,11 +148,10 @@ _These quotes are weird, though. Normally we don’t need quotes around URL para
 
 **Example 6:**
 
-<!-- const condition = true -->
-
 <!-- eslint-skip -->
 
 ```js
+const condition = true;
 const object = {
   ...(condition && { value: 42 })
 };
@@ -162,9 +161,8 @@ const object = {
 
 In the code above, we add a property to an object when the condition is true, otherwise we do nothing. The intention is more obvious when we explicitly define objects to destructure rather than relying on destructuring of falsy values:
 
-<!-- const condition = true -->
-
 ```js
+const condition = true;
 const object = {
   ...(condition ? { value: 42 } : {})
 };
@@ -175,9 +173,8 @@ const object = {
 
 I usually prefer when objects don’t change shape, so I’d move the condition inside the `value` field:
 
-<!-- const condition = true -->
-
 ```js
+const condition = true;
 const object = {
   value: condition ? 42 : undefined
 };
@@ -319,6 +316,10 @@ const props = {
   'data-enzyme-id': testId,
   'data-codeception-id': testId
 };
+// → {
+//     'data-enzyme-id': 'type-Col-2',
+//     'data-codeception-id': 'type-Col-2'
+// }
 ```
 
 <!--
@@ -328,51 +329,7 @@ expect(props).toHaveProperty('data-codeception-id', 'type-Col-2')
 
 Now, there’s no doubt that the code for both test IDs is exactly the same.
 
-Sometimes, code that looks nearly identical has subtle differences:
-
-<!-- let result, dispatch = x => result = x, changeIsWordDocumentExportSuccessful = x => x -->
-
-```js
-function handleSomething(documentId) {
-  if (documentId) {
-    dispatch(changeIsWordDocumentExportSuccessful(true));
-    return;
-  }
-  dispatch(changeIsWordDocumentExportSuccessful(false));
-}
-```
-
-<!--
-handleSomething('pizza')
-expect(result).toEqual(true);
-handleSomething()
-expect(result).toEqual(false);
--->
-
-The only difference here is the parameter we pass to the function with a very long name. We can move the condition inside the function call:
-
-<!-- let result, dispatch = x => result = x, changeIsWordDocumentExportSuccessful = x => x -->
-
-```js
-function handleSomething(documentId) {
-  dispatch(
-    changeIsWordDocumentExportSuccessful(
-      documentId !== undefined
-    )
-  );
-}
-```
-
-<!--
-handleSomething('pizza')
-expect(result).toEqual(true);
-handleSomething()
-expect(result).toEqual(false);
--->
-
-This eliminates the similar code, making the entire snippet shorter and easier to understand.
-
-Now, let’s look at a trickier example. Suppose we use different naming conventions for each testing tool:
+Let’s look at a trickier example. Suppose we use different naming conventions for each testing tool:
 
 <!-- const type = 'type', columnName = 'col', rowIndex = 2, toTitleCase = x => _.startCase(_.toLower(x)) -->
 
@@ -446,6 +403,50 @@ expect(props).toHaveProperty('data-codeception-id', 'type_Col_2')
 -->
 
 This is an extreme case of using small functions, and I generally try to avoid splitting code this much. However, in this case, it works well, especially if there are already many places in the project where we can use the new `getTestIdProps()` function.
+
+Sometimes, code that looks nearly identical has subtle differences:
+
+<!-- let result, dispatch = x => result = x, changeIsWordDocumentExportSuccessful = x => x -->
+
+```js
+function handleSomething(documentId) {
+  if (documentId) {
+    dispatch(changeIsWordDocumentExportSuccessful(true));
+    return;
+  }
+  dispatch(changeIsWordDocumentExportSuccessful(false));
+}
+```
+
+<!--
+handleSomething('pizza')
+expect(result).toEqual(true);
+handleSomething()
+expect(result).toEqual(false);
+-->
+
+The only difference here is the parameter we pass to the function with a very long name. We can move the condition inside the function call:
+
+<!-- let result, dispatch = x => result = x, changeIsWordDocumentExportSuccessful = x => x -->
+
+```js
+function handleSomething(documentId) {
+  dispatch(
+    changeIsWordDocumentExportSuccessful(
+      documentId !== undefined
+    )
+  );
+}
+```
+
+<!--
+handleSomething('pizza')
+expect(result).toEqual(true);
+handleSomething()
+expect(result).toEqual(false);
+-->
+
+This eliminates the similar code, making the entire snippet shorter and easier to understand.
 
 Whenever we encounter a condition that makes code slightly different, we should ask ourselves: is this condition truly necessary? If the answer is “yes”, we should ask ourselves again. Often, there’s no _real_ need for a particular condition. For example, why do we even need to add test IDs for different tools separately? Can’t we configure one of the tools to use test IDs of the other? If we dig deep enough, we might find that no one knows the answer, or that the original reason is no longer relevant.
 

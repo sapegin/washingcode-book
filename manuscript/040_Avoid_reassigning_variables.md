@@ -583,6 +583,8 @@ expect(handleChangeEstimationHours({target: {value: 1}})).toEqual({estimationHou
 
 Now, the flow of the code is more straightforward.
 
+{#under-the-rug}
+
 ## Functions as the last resort
 
 Sometimes, attempting to avoid reassignments makes the code harder to read. In such cases, we can either leave the code as is or extract the code into a function and use the function’s return value instead of a reassignment.
@@ -672,9 +674,11 @@ expect(type).toBe('se')
 
 I often call this method _sweeping under the rug refactoring_: we stash a complex or long piece of code into its own function, making it easier to understand the main function.
 
-T> However, we should avoid splitting code into many small functions: doing so significantly hurts readability because it’s hard to understand the code when useful pieces are hidden in other functions. All good things are best in moderation.
+However, we should avoid splitting code into many small functions: doing so significantly hurts readability because it’s hard to understand the code when useful pieces are hidden in other functions. All good things are best in moderation.
 
-T> For this particular code, I’d prefer to use a table instead of a function. We talk about tables and maps in the [Tables and maps](#tables) section of the _Avoid conditions_ chapter.
+For this particular code, I’d prefer to use a table instead of a function.
+
+I> We talk about splitting code into functions in the [Divide and conquer, or merge and relax](#divide) chapter, and about tables and maps in the [Tables and maps](#tables) section of the _Avoid conditions_ chapter.
 
 ## Indeterminate loops
 

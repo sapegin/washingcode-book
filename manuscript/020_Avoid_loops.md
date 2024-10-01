@@ -583,6 +583,7 @@ const characters = {
 _.forEach(characters, (names, race) => {
   console.log(race, names);
 });
+// → { hobbits: ['bilbo-baggins'], dwarfs: ['fili', 'kili'] }
 ```
 
 <!--

@@ -51,6 +51,7 @@ Here’s a list of all the techniques and patterns described in the book:
 - [Separation of “what” and “how”](#what-how).
 - [Separation of code that changes often](#often-changed).
 - [Single responsibility principle](#colocation).
+- [Sweeping under the rug](#under-the-rug).
 - [Tables and maps](#tables).
 - [Todo comments](#todo-comments).
 - [Write everything twice, or we enjoy typing (WET)](#hydrated).
@@ -73,6 +74,7 @@ Here’s a list of all the code smells and antipatterns described in the book:
 - [Default exports](#default-exports).
 - [Function parameters mutation](#no-params-mutation).
 - [Don’t repeat yourself (DRY)](#grow-abstractions).
+- [Hungarian notation](#prefixes-suffixes).
 - [Monster utility files](#monster-utilities).
 - [Negative booleans](#negative-booleans).
 - [Nested ternaries](#nested-ternaries).
@@ -84,6 +86,7 @@ Here’s a list of all the code smells and antipatterns described in the book:
 - [Reusing variables](#no-reuse).
 - [Shortcuts](#shortcuts).
 - [Single return law](#no-cargo).
+- [Yoda conditions](#ex-styles).
 
 <!-- antipatterns:end -->
 
@@ -117,14 +120,14 @@ Here’s a list of books, articles, and talks that I found useful or inspiring.
 - [Is High Quality Software Worth the Cost?](https://martinfowler.com/articles/is-quality-worth-cost.html) by Martin Fowler
 - [It’s probably time to stop recommending Clean Code](https://qntm.org/clean) by <!-- cspell:disable -->qntm<!-- cspell:enable -->
 - [John Carmack on Inlined Code](http://number-none.com/blow/blog/programming/2014/09/26/carmack-on-inlined-code.html)
-- [Learning Code Readability](https://medium.com/@egonelbre/learning-code-readability-a80e311d3a20) by <!-- cspell:disable -->Egon Elbre<!-- cspell:enable -->
+- [Learning Code Readability](https://medium.com/@egonelbre/learning-code-readability-a80e311d3a20) by Egon Elbre
 - [Linear code is more readable](https://blog.separateconcerns.com/2023-09-11-linear-code.html) by Pierre “catwell” Chapuis
 - [Making Wrong Code Look Wrong](https://www.joelonsoftware.com/2005/05/11/making-wrong-code-look-wrong/) by Joel Spolsky
 - [Modern React Testing](https://sapegin.me/blog/react-testing-1-best-practices/) by Artem Sapegin
 - [Naming conventions in programming — a review of scientific literature](https://makimo.com/blog/scientific-perspective-on-naming-in-programming/) by Iwo <!-- cspell:disable -->Herka<!-- cspell:enable -->
 - [On the changing notion of code readability](https://github.com/kbilsted/CodeQualityAndReadability/blob/master/Articles/Readability/TheChangingNotionOfReadability.md) by <!-- cspell:disable -->Kasper B. Graversen<!-- cspell:enable -->
 - [Outliving the Great Variable Shortage](https://www.rssing.com/noserver.html?a=4) by Tim <!-- cspell:disable -->Ottinger<!-- cspell:enable -->
-- [Psychology of Code Readability](https://egonelbre.com/psychology-of-code-readability/) by <!-- cspell:disable -->Egon Elbre<!-- cspell:enable -->
+- [Psychology of Code Readability](https://egonelbre.com/psychology-of-code-readability/) by Egon Elbre
 - [Small Functions considered Harmful](https://copyconstruct.medium.com/small-functions-considered-harmful-91035d316c29) by Cindy <!-- cspell:disable -->Sridharan<!-- cspell:enable -->
 - [The “Bug-O” Notation](https://overreacted.io/the-bug-o-notation/) by Dan Abramov
 - [The Law of Leaky Abstractions](https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/) by Joel Spolsky

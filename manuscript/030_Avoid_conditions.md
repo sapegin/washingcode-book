@@ -164,7 +164,7 @@ Here’s a more complex but great (and real!) example of unnecessary conditions:
 <!-- eslint-skip -->
 
 ```js
-function IsNetscapeOnSolaris() {
+function isNetscapeOnSolaris() {
   var agent = window.navigator.userAgent;
   if (
     agent.indexOf('Mozilla') != -1 &&
@@ -180,13 +180,13 @@ function IsNetscapeOnSolaris() {
 
 <!--
 window.navigator.userAgent = 'Mozilla/3.0 (X11; I; SunOS 5.4 sun4m)'
-expect(IsNetscapeOnSolaris()).toBe(true)
+expect(isNetscapeOnSolaris()).toBe(true)
 window.navigator.userAgent = 'Mozilla/3.0 (Windows 3.11 for Workgroups)'
-expect(IsNetscapeOnSolaris()).toBe(false)
+expect(isNetscapeOnSolaris()).toBe(false)
 window.navigator.userAgent = 'Mozilla/1.22 (compatible; MSIE 2.0; Windows 95)'
-expect(IsNetscapeOnSolaris()).toBe(false)
+expect(isNetscapeOnSolaris()).toBe(false)
 window.navigator.userAgent = 'Opera/9.63 (Macintosh; Intel Mac OS X; U; en) Presto/2.1.1'
-expect(IsNetscapeOnSolaris()).toBe(false)
+expect(isNetscapeOnSolaris()).toBe(false)
 -->
 
 This code checks whether the user has a particular browser and operating system by testing the user agent string. We can replace the nested condition with a single expression that returns a boolean value:
@@ -194,7 +194,7 @@ This code checks whether the user has a particular browser and operating system 
 <!-- const window = { navigator: { userAgent: '' } } -->
 
 ```js
-function IsNetscapeOnSolaris() {
+function isNetscapeOnSolaris() {
   const { userAgent } = window.navigator;
   return (
     userAgent.includes('Mozilla') &&
@@ -206,13 +206,13 @@ function IsNetscapeOnSolaris() {
 
 <!--
 window.navigator.userAgent = 'Mozilla/3.0 (X11; I; SunOS 5.4 sun4m)'
-expect(IsNetscapeOnSolaris()).toBe(true)
+expect(isNetscapeOnSolaris()).toBe(true)
 window.navigator.userAgent = 'Mozilla/3.0 (Windows 3.11 for Workgroups)'
-expect(IsNetscapeOnSolaris()).toBe(false)
+expect(isNetscapeOnSolaris()).toBe(false)
 window.navigator.userAgent = 'Mozilla/1.22 (compatible; MSIE 2.0; Windows 95)'
-expect(IsNetscapeOnSolaris()).toBe(false)
+expect(isNetscapeOnSolaris()).toBe(false)
 window.navigator.userAgent = 'Opera/9.63 (Macintosh; Intel Mac OS X; U; en) Presto/2.1.1'
-expect(IsNetscapeOnSolaris()).toBe(false)
+expect(isNetscapeOnSolaris()).toBe(false)
 -->
 
 By eliminating two levels of nesting and reducing boilerplate code, we made the actual condition clearer.
@@ -1853,7 +1853,7 @@ if (caffeineLevel < 50) {
 } else {
   drink = 'water';
 }
-// → coffee
+// → 'coffee'
 ```
 
 <!-- expect(drink).toBe('coffee') -->
@@ -1863,7 +1863,7 @@ Now, compare it to a ternary:
 ```js
 const caffeineLevel = 25;
 const drink = caffeineLevel < 50 ? 'coffee' : 'water';
-// → coffee
+// → 'coffee'
 ```
 
 <!-- expect(drink).toBe('coffee') -->

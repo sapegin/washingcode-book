@@ -603,10 +603,10 @@ This function retrieves a browser’s user agent and returns a device name based
 
 Let’s apply the guidelines for testable functions we’ve defined above to this function:
 
-- Is it deterministic? No, it doesn’t take any parameters, but the result depends on the user’s environment, which we cannot control when calling the function.
-- Does it have no side effects? Yes, it doesn’t change anything outside the function, and only returns a value to the caller.
-- Is it responsible only for one thing? Yes, it determines the user’s device name based on their environment.
-- Does it control only logic, not presentation? Yes, it returns an enum value of the device type that has no opinion on how it should be displayed.
+- _Is it deterministic?_ No, it doesn’t take any parameters, but the result depends on the user’s environment, which we cannot control when calling the function.
+- _Does it have no side effects?_ Yes, it doesn’t change anything outside the function, and only returns a value to the caller.
+- _Is it responsible only for one thing?_ Yes, it determines the user’s device name based on their environment.
+- _Does it control only logic, not presentation?_ Yes, it returns an enum value of the device type that has no opinion on how it should be displayed.
 
 It doesn’t sound so bad, but how do we test it?
 

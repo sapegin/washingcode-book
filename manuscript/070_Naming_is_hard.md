@@ -61,29 +61,7 @@ Let’s look at these (and many other) naming antipatterns and how to fix them.
 
 ## Name function parameters
 
-Function calls with multiple parameters can be hard to understand. Consider this function call:
-
-<!--
-let x, action, location, currentState, currentParams, prevState, prevParams
-const stateChangeSuccess = (...args) => x = args.length
--->
-
-```js
-stateChangeSuccess(
-  action,
-  location,
-  currentState,
-  currentParams,
-  prevState,
-  prevParams
-);
-```
-
-<!-- expect(x).toBe(6) -->
-
-Even with TypeScript, it’s hard to understand the meaning of each positional parameter in a function call when there are too many of them.
-
-It can be even worse if some parameters are optional:
+Function calls with multiple parameters can be hard to understand, when there are too many of them or some are optional. Consider this function call:
 
 <!--
 let x, target, fixedRequest, ctx
@@ -104,7 +82,7 @@ resolver.doResolve(
 
 <!-- expect(x).toBe(5) -->
 
-This `null` in the middle is grotesque, and who knows what was supposed to be there or why we’re not passing it?
+This `null` in the middle is grotesque — who knows what was supposed to be there and why it’s missing…
 
 However, the worst programming pattern of all time is likely positional boolean function parameters:
 
@@ -793,7 +771,7 @@ However, having a clear name is sometimes not enough:
 const date = '2023-03-22T08:20:00+01:00';
 const CHARACTERS_IN_ISO_DATE = 10;
 const dateWithoutTime = date.slice(0, CHARACTERS_IN_ISO_DATE);
-// → 2023-03-22
+// → '2023-03-22'
 ```
 
 <!-- expect(dateWithoutTime).toBe('2023-03-22') -->
@@ -804,7 +782,7 @@ In the code above, we remove the time portion of a string containing a date and 
 const date = '2023-03-22T08:20:00+01:00';
 const DATE_FORMAT_ISO = 'YYYY-MM-DD';
 const dateWithoutTime = date.slice(0, DATE_FORMAT_ISO.length);
-// → 2023-03-22
+// → '2023-03-22'
 ```
 
 <!-- expect(dateWithoutTime).toBe('2023-03-22') -->
@@ -1044,6 +1022,8 @@ As well as common acronyms, such as:
 - URL.
 
 And possibly a few very common ones used on a project, but they still should be documented (new team members will be very thankful for that!) and shouldn’t be ambiguous.
+
+{#prefixes-suffixes}
 
 ## Prefixes and suffixes
 
@@ -1664,6 +1644,7 @@ The code that doesn’t follow the established naming conventions for a particul
 const fruits = ['Guava', 'Papaya', 'Pineapple'];
 const loud_fruits = fruits.map(fruit => fruit.toUpperCase());
 console.log(loud_fruits);
+// → ['GUAVA', 'PAPAYA', 'PINEAPPLE']
 ```
 
 <!-- expect(loud_fruits).toEqual(['GUAVA', 'PAPAYA', 'PINEAPPLE']) -->
@@ -1676,6 +1657,7 @@ Now, compare it with the same code using camelCase:
 const fruits = ['Guava', 'Papaya', 'Pineapple'];
 const loudFruits = fruits.map(fruit => fruit.toUpperCase());
 console.log(loudFruits);
+// → ['GUAVA', 'PAPAYA', 'PINEAPPLE']
 ```
 
 <!-- expect(loudFruits).toEqual(['GUAVA', 'PAPAYA', 'PINEAPPLE']) -->
@@ -1707,23 +1689,21 @@ Often, we add intermediate variables to store the result of an operation before 
 Consider this example:
 
 <!--
-const handleUpdateResponse = x => x
-class X {
-  state = null;
-  setState(value) { this.state = value }
-  update(response) {
+let state = null;
+let setState = (value) => { state = value }
+let handleUpdateResponse = x => x
 -->
 
 ```js
-const result = handleUpdateResponse(response.status);
-this.setState(result);
+function handleUpdate(response) {
+  const result = handleUpdateResponse(response.status);
+  setState(result);
+}
 ```
 
 <!--
-}}
-const instance = new X()
-instance.update({ status: 200 })
-expect(instance.state).toBe(200)
+handleUpdate({ status: 200 })
+expect(state).toBe(200)
 -->
 
 And this one:
@@ -1737,25 +1717,23 @@ async function handleResponse(response) {
 
 <!-- expect(handleResponse({ json: () => Promise.resolve(42) })).resolves.toBe(42) -->
 
-In both cases, the `result`, and `data` variables don’t add much to the code. The names don’t adding new information, and the code is short enough to be inlined:
+In both cases, the `result` and `data` variables don’t add much to the code. The names don’t adding new information, and the code is short enough to be inlined:
 
 <!--
-const handleUpdateResponse = x => x
-class X {
-  state = null;
-  setState(value) { this.state = value }
-  update(response) {
+let state = null;
+let setState = (value) => { state = value }
+let handleUpdateResponse = x => x
 -->
 
 ```js
-this.setState(handleUpdateResponse(response.status));
+function handleUpdate(response) {
+  setState(handleUpdateResponse(response.status));
+}
 ```
 
 <!--
-}}
-const instance = new X()
-instance.update({ status: 200 })
-expect(instance.state).toBe(200)
+handleUpdate({ status: 200 })
+expect(state).toBe(200)
 -->
 
 Or for the second example:
@@ -2052,10 +2030,7 @@ function UserProfile({ user }) {
   return (
     <section>
       {shouldShowGreeting && (
-        <p>
-          Welcome back, green crocodile, the ruler of the
-          Earth!
-        </p>
+        <p>Hola, green crocodile, the ruler of the Galaxy!</p>
       )}
       <p>Name: {user.name}</p>
       <p>Age: {user.age}</p>
@@ -2066,7 +2041,7 @@ function UserProfile({ user }) {
 
 <!--
 const {container: c1} = RTL.render(<UserProfile user={{type: 'croc', name: 'Gena', age: '37'}} />);
-expect(c1.textContent).toEqual('Welcome back, green crocodile, the ruler of the Earth!Name: GenaAge: 37')
+expect(c1.textContent).toEqual('Hola, green crocodile, the ruler of the Galaxy!Name: GenaAge: 37')
 const {container: c2} = RTL.render(<UserProfile user={{type: 'che', name: 'Cheburashka', age: '12'}} />);
 expect(c2.textContent).toEqual('Name: CheburashkaAge: 12')
 -->
@@ -2084,10 +2059,7 @@ function UserProfile({ user, date }) {
   return (
     <section>
       {shouldShowGreeting && (
-        <p>
-          Guten Morgen, green crocodile, the ruler of the
-          Earth!
-        </p>
+        <p>Hola, green crocodile, the ruler of the Galaxy!</p>
       )}
       <p>Name: {user.name}</p>
       <p>Age: {user.age}</p>
@@ -2098,7 +2070,7 @@ function UserProfile({ user, date }) {
 
 <!--
 const {container: c1} = RTL.render(<UserProfile user={{type: 'croc', name: 'Gena', age: '37'}} date={new Date(2023,1,1,9,37,0)} />);
-expect(c1.textContent).toEqual('Guten Morgen, green crocodile, the ruler of the Earth!Name: GenaAge: 37')
+expect(c1.textContent).toEqual('Hola, green crocodile, the ruler of the Galaxy!Name: GenaAge: 37')
 const {container: c2} = RTL.render(<UserProfile user={{type: 'croc', name: 'Gena', age: '37'}} date={new Date(2023,1,1,17,37,0)} />);
 expect(c2.textContent).toEqual('Name: GenaAge: 37')
 -->

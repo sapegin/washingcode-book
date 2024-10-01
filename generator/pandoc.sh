@@ -1,5 +1,6 @@
 # TODO: Make table headers bold
 # TODO: Size individual illustrations
+# TODO: Generate a separate PDF for print with ISBN
 
 BOOK_FILE="washing-code"
 BOOK_TITLE="Washing your code: clean code for frontend developers"

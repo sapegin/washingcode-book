@@ -60,7 +60,7 @@ const dogs = [
 ];
 ```
 
-_Trailing, or dangling, commas_ solve both problems without making code any harder to write or read:
+_Trailing, or dangling commas_ solve both problems without making code any harder to write or read:
 
 <!-- prettier-ignore -->
 ```js
@@ -230,6 +230,8 @@ JavaScript doesn’t have the `elseif` operator like some other languages. Howev
 
 I> We talk more about parallel coding in the [Don’t make me think](#no-thinking) chapter.
 
+{#ex-styles}
+
 ## Obsolete code styles
 
 Sometimes, developers follow a particular code style even when the initial reasoning behind it is no longer relevant.
@@ -255,7 +257,7 @@ Another example is [Yoda conditions](https://en.wikipedia.org/wiki/Yoda_conditio
 
 ```js
 if (42 === meaning) {
-  // …
+  /* … */
 }
 ```
 
@@ -822,17 +824,17 @@ let Jul = 7, Aug = 8, Sep = 9, Oct = 10, Nov = 11, Dec = 12
 ```js
 // prettier-ignore
 const SEASONS = {
-  [`apple`]:        [                                        Sep                 ],
-  [`apricot`]:      [                     May, Jun, Jul                          ],
-  [`artichoke`]:    [           Mar, Apr, May                                    ],
-  [`asparagus`]:    [           Mar, Apr, May                                    ],
-  [`avocado`]:      [ Jan, Feb, Mar, Apr,                               Nov, Dec ],
-  [`beetroot`]:     [                               Jul, Aug, Sep, Oct, Nov      ],
+  [`apple`]:        [           Sep                ],
+  [`carrot`]:       [ Jul, Aug, Sep, Oct, Nov, Dec ],
+  [`garrofó bean`]: [ Jul                          ],
+  [`lime`]:         [                     Nov      ],
   // …
 };
 ```
 
-<!-- expect(Object.keys(SEASONS)).toHaveLength(6) -->
+<!-- expect(Object.keys(SEASONS)).toHaveLength(4) -->
+
+(I removed the first six months of the year to make the lines fit on the page, but the idea should be clear — apple’s September aligns with carrot’s.)
 
 However, the cost of maintaining such formatting usually outweighs the benefits it provides, so in most cases, I stick with autoformatting:
 
@@ -844,16 +846,14 @@ let Jul = 7, Aug = 8, Sep = 9, Oct = 10, Nov = 11, Dec = 12
 ```js
 const SEASONS = {
   [`apple`]: [Sep],
-  [`apricot`]: [May, Jun, Jul],
-  [`artichoke`]: [Mar, Apr, May],
-  [`asparagus`]: [Mar, Apr, May],
-  [`avocado`]: [Jan, Feb, Mar, Apr, Nov, Dec],
-  [`beetroot`]: [Jul, Aug, Sep, Oct, Nov]
+  [`carrot`]: [Jul, Aug, Sep, Oct, Nov, Dec],
+  [`garrofó bean`]: [Jul],
+  [`lime`]: [Nov]
   // …
 };
 ```
 
-<!-- expect(Object.keys(SEASONS)).toHaveLength(6) -->
+<!-- expect(Object.keys(SEASONS)).toHaveLength(4) -->
 
 I> We talk about code autoformatting in the [Autoformat your code](#formatting) chapter.
 
