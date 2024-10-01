@@ -833,11 +833,9 @@ function postOrderStatus() {
 
 Now, that’s a big improvement over the initial version. I’ve also renamed the variables because “array object” doesn’t make any sense to me and the “array” suffix is unnecessary.
 
-I> We talk about naming in the [Naming is hard](#naming) chapter.
-
 The next step would be out of the scope of this chapter: the code inside the `// Skipped 70 lines of code building the array…` mutates the `fullRecords`. I usually try to avoid mutation, especially for variables with such a long lifespan.
 
-I> We talk about mutation in the [Avoid mutation](#no-mutation) chapter.
+I> We talk about naming in the [Naming is hard](#naming) chapter, and about mutation in the [Avoid mutation](#no-mutation) chapter.
 
 Consider another example:
 
