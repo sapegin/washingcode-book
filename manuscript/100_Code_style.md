@@ -814,6 +814,11 @@ I> We talk about splitting code into functions in the [Divide and conquer, or me
 
 In very rare cases, custom code formatting may improve readability. Here’s an example of an ingredient’s seasonality table, where months are aligned in each row, making it easier to compare different ingredients:
 
+<!--
+let Jan = 1, Feb = 2, Mar = 3, Apr = 4, May = 5, Jun = 6
+let Jul = 7, Aug = 8, Sep = 9, Oct = 10, Nov = 11, Dec = 12
+-->
+
 ```js
 // prettier-ignore
 const SEASONS = {
@@ -827,7 +832,14 @@ const SEASONS = {
 };
 ```
 
+<!-- expect(Object.keys(SEASONS)).toHaveLength(6) -->
+
 However, the cost of maintaining such formatting usually outweighs the benefits it provides, so in most cases, I stick with autoformatting:
+
+<!--
+let Jan = 1, Feb = 2, Mar = 3, Apr = 4, May = 5, Jun = 6
+let Jul = 7, Aug = 8, Sep = 9, Oct = 10, Nov = 11, Dec = 12
+-->
 
 ```js
 const SEASONS = {
@@ -840,6 +852,8 @@ const SEASONS = {
   // …
 };
 ```
+
+<!-- expect(Object.keys(SEASONS)).toHaveLength(6) -->
 
 I> We talk about code autoformatting in the [Autoformat your code](#formatting) chapter.
 
