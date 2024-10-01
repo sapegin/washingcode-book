@@ -810,6 +810,39 @@ Similarly to prose, we can make our code easier to scan — to find a particular
 
 I> We talk about splitting code into functions in the [Divide and conquer, or merge and relax](#divide) chapter.
 
+## A case for custom formatting
+
+In very rare cases, custom code formatting may improve readability. Here’s an example of an ingredient’s seasonality table, where months are aligned in each row, making it easier to compare different ingredients:
+
+```js
+// prettier-ignore
+const SEASONS = {
+	[`apple`]:        [                                        Sep                 ],
+	[`apricot`]:      [                     May, Jun, Jul                          ],
+	[`artichoke`]:    [           Mar, Apr, May                                    ],
+	[`asparagus`]:    [           Mar, Apr, May                                    ],
+	[`avocado`]:      [ Jan, Feb, Mar, Apr,                               Nov, Dec ],
+	[`beetroot`]:     [                               Jul, Aug, Sep, Oct, Nov      ],
+    // …
+};
+```
+
+However, the cost of maintaining such formatting usually outweighs the benefits it provides, so in most cases, I stick with autoformatting:
+
+```js
+const SEASONS = {
+  [`apple`]: [Sep],
+  [`apricot`]: [May, Jun, Jul],
+  [`artichoke`]: [Mar, Apr, May],
+  [`asparagus`]: [Mar, Apr, May],
+  [`avocado`]: [Jan, Feb, Mar, Apr, Nov, Dec],
+  [`beetroot`]: [Jul, Aug, Sep, Oct, Nov]
+  // …
+};
+```
+
+I> We talk about code autoformatting in the [Autoformat your code](#formatting) chapter.
+
 ## To semicolon or not
 
 JavaScript is one of the very few languages that doesn’t require semicolons at the end of each line, but it also doesn’t mind having them. This has sparked countless debates since the 1990s.
