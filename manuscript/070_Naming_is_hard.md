@@ -1649,6 +1649,8 @@ console.log(loud_fruits);
 
 <!-- expect(loud_fruits).toEqual(['GUAVA', 'PAPAYA', 'PINEAPPLE']) -->
 
+Note the use of different naming conventions: `loud_fruits` uses snake_case, and `toUpperCase` uses camelCase.
+
 Now, compare it with the same code using camelCase:
 
 <!-- let console = { log: vi.fn() } -->
@@ -1662,6 +1664,8 @@ console.log(loudFruits);
 
 <!-- expect(loudFruits).toEqual(['GUAVA', 'PAPAYA', 'PINEAPPLE']) -->
 
+Since JavaScript’s own methods and browser APIs all use camelCase (for example, `forEach()`, `toUpperCase()`, or `scrollIntoView()`), using camelCase for our own variables and functions feels natural.
+
 However, in Python, where snake_case is common, it looks natural:
 
 ```python
@@ -1669,8 +1673,6 @@ fruits = ['Guava', 'Papaya', 'Pineapple']
 loud_fruits = [fruit.upper() for fruit in fruits]
 print(loud_fruits)
 ```
-
-Also, JavaScript’s own methods, and browser APIs are all using camelCase: `forEach()`, `toUpperCase()`, `scrollIntoView()`, and so on.
 
 One thing that developers often disagree on is how to spell acronyms (for example, HTML) and words with unusual casing (for example, iOS). There are several approaches:
 
@@ -1680,7 +1682,7 @@ One thing that developers often disagree on is how to spell acronyms (for exampl
 
 Unfortunately, the most readable approach, normalization, seems to be the least popular. Since we can’t use spaces in names, it can be hard to separate words: <!-- cspell:disable -->`WebiOS`<!-- cspell:enable --> could be read as <!-- cspell:disable -->`webi os`<!-- cspell:enable --> instead of `web ios`, and it takes extra time to read it correctly. Such names also don’t work well with code spell checkers: they mark <!-- cspell:disable -->`webi`<!-- cspell:enable --> and <!-- cspell:disable -->`htmlhr`<!-- cspell:enable --> as incorrect words.
 
-The normalized spelling doesn’t have these issues: `dangerouslySetInnerHtml`, `WebIos`, `XmlHttpRequest`, `DatePickerIos`, `HtmlHrElement`.
+The normalized spelling doesn’t have these issues: `dangerouslySetInnerHtml`, `WebIos`, `XmlHttpRequest`, `DatePickerIos`, or `HtmlHrElement`. The word boundaries are clear.
 
 ## Avoid unnecessary variables
 
@@ -1779,7 +1781,7 @@ test(document2)
 expect(document2.documentElement.className).toBe(' trans')
 -->
 
-In the code above, the alias `b` replaces a clear name `document.body.style` with not just an obscure one but misleading: `b` and `styles` are unrelated. Inlining makes the code too long because the style values are accessed many time, but having a clearer shortcut would help a lot:
+In the code above, the alias `b` replaces a clear name `document.body.style` with not just an obscure one but misleading: `b` and `styles` are unrelated. Inlining makes the code too long because the style values are accessed many times, but having a clearer shortcut would help a lot:
 
 <!-- function test(document) { -->
 
@@ -1961,14 +1963,25 @@ const {container: c1} = RTL.render(<Tip type="pizza" content="Hola" />);
 expect(c1.textContent).toEqual('Hola')
 -->
 
-Another good reason to use an intermediate variable is to split a long line of code into multiple lines:
+Another good reason to use an intermediate variable is to split a long line of code into multiple lines. Consider this example of an SVG image stored as a CSS URL:
 
 ```js
-const borderSvg = `<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><path d='M2 2h2v2H2zM4 0h2v2H4zM10 4h2v2h-2zM0 4h2v2H0zM6 0h2v2H6zM8 2h2v2H8zM8 8h2v2H8zM6 10h2v2H6zM0 6h2v2H0zM10 6h2v2h-2zM4 10h2v2H4zM2 8h2v2H2z' fill='%23000'/></svg>`;
+const borderImage = `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><path d='M2 2h2v2H2zM4 0h2v2H4zM10 4h2v2h-2zM0 4h2v2H0zM6 0h2v2H6zM8 2h2v2H8zM8 8h2v2H8zM6 10h2v2H6zM0 6h2v2H0zM10 6h2v2h-2zM4 10h2v2H4zM2 8h2v2H2z' fill='%23000'/></svg>")`;
+```
+
+<!-- expect(borderImage).toMatch('<svg ') -->
+
+Lack of formatting makes it hard to read and modify. Let’s split it into several variables:
+
+```js
+const borderPath = `M2 2h2v2H2zM4 0h2v2H4zM10 4h2v2h-2zM0 4h2v2H0zM6 0h2v2H6zM8 2h2v2H8zM8 8h2v2H8zM6 10h2v2H6zM0 6h2v2H0zM10 6h2v2h-2zM4 10h2v2H4zM2 8h2v2H2z`;
+const borderSvg = `<svg xmlns='http://www.w3.org/2000/svg' width='12' height='12'><path d='${borderPath}' fill='%23000'/></svg>`;
 const borderImage = `url("data:image/svg+xml,${borderSvg}")`;
 ```
 
 <!-- expect(borderImage).toMatch('<svg ') -->
+
+While there’s still some line wrapping, it’s now easier to see the separate parts the image is composed of.
 
 ## Avoiding name clashes
 

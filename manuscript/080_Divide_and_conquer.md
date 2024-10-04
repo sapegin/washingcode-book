@@ -4,9 +4,7 @@
 
 <!-- description: Splitting code into functions and modules, when the right time is to introduce an abstraction, and when it’s better to sleep on it -->
 
-<!-- cspell:ignore favs -->
-
-It’s nice to have a global button component, but if it’s too flexible and has a dozen boolean props to switch between different variations, it will be difficult to use. However, if it’s too rigid, developers will create their own button components instead of using a shared one.
+Knowing how to organize code into modules or functions, and when the right time is to introduce an abstraction instead of duplicating code, is an important skill. Writing generic code that others can effectively use is yet another skill. There are just as many reasons to split the code as there are to keep it together. In this chapter, we’ll discuss some of these reasons.
 
 {#grow-abstractions}
 
@@ -342,6 +340,8 @@ expect(pizza).toEqual({
 
 This is already much better than the split version. An even better solution would be improving the APIs and making the code more clear. Pierre suggests that preheating the oven shouldn’t be part of the `createPizza()` function (and baking many pizzas myself, I totally agree!) because in real life the oven is already there and probably already hot from the previous pizza. Pierre also suggests that the function should return the box, not the pizza, because in the original code, the box kind of disappears after all the slicing and packaging magic, and we end up with the sliced pizza in our hands.
 
+There are many ways to cook a pizza, just as there are many ways to code a problem. The result may look the same, but some solutions are easier to understand, modify, reuse, and delete than others.
+
 Naming can also be a problem too when all the extracted functions are parts of the same algorithm. We need to invent names that are clearer than the code and shorter than comments — not an easy task.
 
 I> We talk about commenting code in the [Avoid comments](#no-comments) chapter, and about naming in the [Naming is hard](#naming) chapter.
@@ -486,7 +486,7 @@ Here’s how the file tree changes with colocation:
 | `src/actionCreators/feature.js` |  |
 | `src/reducers/feature.js` |  |
 
-I> Kent C. Dodds wrote [a nice article on colocation](https://kentcdodds.com/blog/colocation).
+I> To learn more about colocation, read [Kent C. Dodds’s article](https://kentcdodds.com/blog/colocation).
 
 A common complaint about colocation is that it makes components too large. In such cases, it’s better to extract some parts into their own components, along with the markup, styles, and logic.
 
@@ -758,8 +758,6 @@ The benefits are:
 - **Maintainability:** we change the “what” more often than the “how”, and now they are separated. We can import the “what” from a file, such as JSON, or load it from a database, making updates possible without code changes, or allowing non-developers to do them.
 - **Reusability:** often, the “how” is generic, and we can reuse it, or even import it from a third-party library.
 - **Testability:** each validation and the validation runner function are isolated, and we can test them separately.
-
-There are many more examples of such refactorings in this book.
 
 {#monster-utilities}
 
@@ -1147,6 +1145,8 @@ I> Check out my [Jest](https://github.com/sapegin/jest-cheat-sheet) and [Vitest]
 ---
 
 The biggest challenge with abstractions is finding a balance between being too rigid and too flexible, and knowing when to start abstracting things and when to stop. It’s often worth waiting to see if we really need to abstract something — many times, it’s better not to.
+
+It’s nice to have a global button component, but if it’s too flexible and has a dozen boolean props to switch between different variations, it will be difficult to use. However, if it’s too rigid, developers will create their own button components instead of using a shared one.
 
 We should be vigilant about letting others reuse our code. Too often, this creates tight coupling between parts of the codebase that should be independent, slowing down development and leading to bugs.
 
