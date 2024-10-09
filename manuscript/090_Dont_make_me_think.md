@@ -95,7 +95,7 @@ if (dogs.length + cats.length > 0) {
 
 <!-- expect($1).toBe(true) -->
 
-This one is understandable after spending some time with it, but it’s better to make it obvious:
+This one is understandable after a moment: it checks if either of the two arrays has any elements. However, it’s better to make it clearer:
 
 <!-- let dogs = [1], cats = [2] -->
 
@@ -779,7 +779,7 @@ I also moved the `target` prop to the web branch because it’s not used by the 
 
 ---
 
-When I was in my twenties, remembering things wasn’t a huge problem for me. I could remember books I’ve read; I could recall books I’d read and all the functions of a project I was working on. Now that I’m in my forties, that’s no longer the case. I now value simple code that doesn’t use any tricks; I value search engines, quick access to the documentation, and tooling that help me to reason about the code and navigate the project without keeping everything in my head.
+When I was in my twenties, remembering things wasn’t much of a problem for me. I could recall books I’d read and all the functions in a project I was working on. Now that I’m in my forties, that’s no longer the case. I now value simple code that doesn’t use any tricks; I value search engines, quick access to the documentation, and tooling that help me to reason about the code and navigate the project without keeping everything in my head.
 
 We shouldn’t write code for our present selves but for who we’ll be a few years from now. Thinking is hard, and programming demands a lot of it, even without having to decipher tricky or unclear code.
 

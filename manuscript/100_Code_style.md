@@ -33,6 +33,10 @@ const volume = 200;  // ml
 
 If any other developer touched my code, they would definitely make it inconsistent because it’s unlikely they would follow _my code style_ — so peculiar it was. Code reviews would also be a nightmare if I wanted to enforce _my code style_.
 
+Later, I became more flexible and able to adapt to whatever code style my current project was using. For my personal projects, I switched to more widespread code styles and eventually to code autoformatting tools. Now, I don’t care about code style as much as I used to.
+
+In this chapter, we’ll discuss different ways to format code and where it truly impacts readability.
+
 ## Not all code styles are good
 
 I wasn’t entirely wrong, though — not every code style makes code easy to read and maintain.
@@ -910,7 +914,9 @@ Fortunately, _semicolonless_ JavaScript projects are much less common now than t
 
 ## Tabs or spaces
 
-It doesn’t matter, as long as we have a linter or autoformatter to make it right automatically. With modern code editors, there’s no difference, and most of the time, I don’t even know whether a project uses spaces or tabs.
+Whether to use tabs or spaces to indent code is one of the oldest programming arguments. I used to advocate for tabs for many years: since tabs are designed for indentation, why use 2 or 4 spaces to mimic them?
+
+However, tooling has improved significantly in recent years, so it no longer matters, as long as we have a linter or autoformatter to handle it automatically. With modern code editors, there’s no difference in developer experience, and most of the time, I don’t even know whether a project uses spaces or tabs.
 
 I> We talk about linters in the [Lint your code](#linting) chapter and about code formatters in [Autoformat your code](#formatting) chapter.
 
