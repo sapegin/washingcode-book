@@ -70,7 +70,7 @@ const {container: c1} = RTL.render(<Tweets />);
 expect(c1.textContent).toEqual('Load tweets')
 -->
 
-We have two booleans here: _is loading_ and _has errors_. If we look closer at how the code uses them, we’ll notice that only one boolean is `true` at any time in a component’s lifecycle. It’s hard to see now, making it difficult to correctly handle all possible state changes, so our component may end up in an _impossible state_ like _is loading_ and _has errors_ at the same time. The only way to fix this would be to reload the page. This is exactly why turning electronic devices off and on often fixes weird issues.
+We have two booleans here: _is loading_ and _has errors_. If we look closer at how the code uses them, we’ll notice that only one boolean could be `true` at any given time in a component’s lifecycle. It’s either _is loading_ or _has errors_ but never both at the same time. It’s hard to see now, making it difficult to correctly handle all possible state changes, so our component may end up in an _impossible state_ like _is loading_ and _has errors_ at the same time. The only way to fix this would be to reload the page. This is exactly why turning electronic devices off and on often fixes weird issues.
 
 We can replace several _exclusive_ boolean flags — where only one is `true` at a time — with a single enum:
 
@@ -138,7 +138,7 @@ const {container: c1, getByRole, getByText} = RTL.render(<Tweets />);
 expect(c1.textContent).toEqual('Load tweets')
 -->
 
-The code is now easier to understand: we know that the component can only be in a single state at any time. We’ve also fixed a bug in the initial implementation: the result with no tweets was treated as no result, and the component was showing the “Load tweets” button again.
+The code is now easier to understand: we know that the component can only be in a single state at any given time. We’ve also fixed a bug in the initial implementation: the result with no tweets was treated as no result, and the component was showing the “Load tweets” button again.
 
 For more complex cases, I’d go one step further and use the `useReducer()` hook to manage all component state instead of separate `useState()` hooks:
 
@@ -797,6 +797,10 @@ However, it often improves the readability of longer test cases.
 
 ## Write greppable code
 
+Often, we need to find a particular spot in the code. For example, by looking at a particular element of the app’s UI or searching for all code related to a certain term. Similar to writing testable code, we can write _greppable_ code — code that is easy to grep or find.
+
+I> The name comes from the `grep` Unix command that finds a substring in a file.
+
 Consider this example:
 
 ```jsx
@@ -889,11 +893,7 @@ const {getByRole} = RTL.render(<BookCover title="Tacos" type="taco-recipes" />);
 expect(getByRole('img').src).toBe('http://localhost:3000/images/covers/taco-recipes.jpg')
 -->
 
-We can search either by a folder name (`/images/covers`) and find this component or by a filename (`washing-code`) and find all usages of this component.
-
-I call such identifiers _greppable_, meaning we can search for them and find all places in the code where they are used. The name comes from the `grep` Unix command that finds a substring in a file.
-
-I> This idea is also known as _the grep test_ and is greatly described in [Jamie Wong’s article with the same title](https://jamie-wong.com/2013/07/12/grep-test/).
+We can search either by a folder name (`/images/covers`) and find this component or by a filename (`washing-code`) and find all usages of this component. Such identifiers are _greppable_, meaning we can search for them and find all places in the code where they are used.
 
 We can also create a map using types:
 
@@ -939,6 +939,8 @@ Here are a few tips to improve _code greppability_:
 - **Avoid default exports,** because they can be imported with any names making it harder to find all usages of a certain string. Also, the rename refactoring often doesn’t update such names correctly.
 
 TypeScript is especially helpful here: for example, we can find all places where a certain function or a constant is used, even if it’s imported under a different name. However, for many other cases, it’s still important to keep identifiers greppable: filenames, translation keys, CSS class names, and so on.
+
+I> This idea is also known as _the grep test_ and is greatly described in [Jamie Wong’s article with the same title](https://jamie-wong.com/2013/07/12/grep-test/).
 
 {#no-nih}
 
@@ -1006,11 +1008,45 @@ However, we should first consider the potential problems of maintaining our own 
 - **Maintenance** takes time that we could otherwise spend adding new features or improving the product.
 - **Difficult onboarding:** new developers our company hires need to learn how to use its in-house artisanal libraries, which is often hard because of poor documentation and discoverability.
 
-Let’s compare our function with one from a popular library: [`isEmpty()` from Lodash](https://lodash.com/docs#isEmpty). It looks quite similar, but it supports objects, arrays, maps, and sets; it’s documented with examples and thoroughly tested. I wouldn’t want to deal with all these myself if an alternative already exists.
+Let’s compare our function with one from a popular library, [`isEmpty()` from Lodash](https://lodash.com/docs#isEmpty):
 
-This example is a bit simplistic, and there are more benefits to using third-party libraries for more complex problems.
+<!-- eslint-disable -->
 
-I’d make sure that the `object` is always an object (never `undefined` or `null`, TypeScript can help with this), and then either use Lodash’s `isEmpty()` method if available, or inline the `Object.keys(object).length > 0` condition where I need it, since we don’t need to check object existence anymore.
+```js
+function isEmpty(value) {
+  if (value == null) {
+    return true;
+  }
+  if (
+    isArrayLike(value) &&
+    (isArray(value) ||
+      typeof value == 'string' ||
+      typeof value.splice == 'function' ||
+      isBuffer(value) ||
+      isTypedArray(value) ||
+      isArguments(value))
+  ) {
+    return !value.length;
+  }
+  var tag = getTag(value);
+  if (tag == mapTag || tag == setTag) {
+    return !value.size;
+  }
+  if (isPrototype(value)) {
+    return !baseKeys(value).length;
+  }
+  for (var key in value) {
+    if (hasOwnProperty.call(value, key)) {
+      return false;
+    }
+  }
+  return true;
+}
+```
+
+There’s certainly more code, but it supports objects, arrays, maps, and sets; it’s well-documented with examples and thoroughly tested. I wouldn’t want to deal with all these myself if an alternative already exists.
+
+There are additional benefits to using third-party libraries for more complex problems. In this case, though, I’d make sure that the `object` is always an object (never `undefined` or `null` — TypeScript can help with this), and then inline the `Object.keys(object).length > 0` condition where necessary, as I no longer need to check the object’s existence:
 
 <!-- let object = { o: 0 } -->
 
@@ -1114,7 +1150,7 @@ Code isn’t black and white: nothing is always bad (except global variables) or
 
 I> Steve McConnell has [a good article on an organizational side of cargo cult programming](https://stevemcconnell.com/articles/cargo-cult-software-engineering/).
 
-Below are a few examples of cargo cult programming:
+Let’s talk about some examples of cargo cult programming in the following sections.
 
 ### Never write functions longer than…
 
