@@ -813,6 +813,8 @@ Having multiple configs can also help: for example, add a separate, less strict 
 
 T> Organize a _lint day_ with your team, where everyone spends a full day fixing as many linting issues as possible.
 
+T> Another approach is to disable all violations of a specific lint rule with using a comment until we fix them. We can add such comments using `suppress-eslint-errors` too. [Learn more about this method](https://sapegin.me/blog/enabling-new-eslint-rules-in-a-legacy-codebase-with-suppress-eslint-errors/) on my blog.
+
 ## The ideal linting setup
 
 The UX of linters is still very poor and hasn’t improved much in the last ten years. Mostly, they just vomit a bunch of cryptic error messages without any explanation, leaving you to deal with them alone.
