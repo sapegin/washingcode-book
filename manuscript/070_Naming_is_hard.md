@@ -1037,7 +1037,7 @@ I like to use the following prefixes for function names:
 - `to`: converts the data to a certain type (examples: `toString`, `hexToRgb`, `urlToSlug`).
 - `on` and `handle` for event handlers (examples: `onClick`, `handleSubmit`).
 
-I> Verb prefixes are also called _actions_ in the A/HC/LC pattern. See more in the [A/HC/LC pattern](#a-hc-lc) section later in this chapter.
+I> Verb prefixes are also called _actions_ in the A/HC/LC pattern. See more in the [Use the A/HC/LC pattern](#a-hc-lc) section later in this chapter.
 
 And the following prefixes for boolean variables or functions that return a boolean value:
 

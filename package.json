@@ -12,13 +12,14 @@
     "node": ">=20"
   },
   "scripts": {
-    "lint": "npm run lint:js && npm run lint:text && npm run lint:spell",
+    "lint": "npm run lint:js && npm run lint:text && npm run lint:spell && npm run lint:book",
     "lint:js": "eslint . --cache --fix",
     "lint:text": "textlint \"manuscript/**/*.md\"",
     "lint:spell": "cspell \"manuscript/**/*.md\"",
     "lint:typos": "command -v typos > /dev/null 2>&1 && typos 'manuscript'",
     "lint:text:fix": "npm run lint:text -- --fix",
     "lint:typos:fix": "typos 'manuscript' --write-changes",
+    "lint:book": "tsx scripts/lint.ts",
     "format": "prettier --log-level warn --write \"**/*.{js,mjs,cjs,ts,tsx,css,json,md}\"",
     "test": "vitest run",
     "test:watch": "nodemon --watch 'manuscript' --ext md --exec 'vitest'",
@@ -41,6 +42,7 @@
     "@eslint/markdown": "^6.1.1",
     "@testing-library/react": "^16.0.1",
     "@textlint-rule/textlint-rule-no-unmatched-pair": "^2.0.3",
+    "@types/fs-extra": "^11.0.4",
     "cspell": "^8.14.4",
     "esbuild": "^0.24.0",
     "eslint": "^9.11.1",
@@ -68,6 +70,7 @@
     "textlint-rule-stop-words": "^5.1.2",
     "textlint-rule-terminology": "^5.2.12",
     "textlint-rule-write-good": "^2.0.0",
+    "tsx": "^4.19.1",
     "unist-util-visit": "^5.0.0",
     "vitest": "^2.1.1",
     "vm2": "^3.9.13"
