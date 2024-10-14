@@ -813,7 +813,7 @@ Having multiple configs can also help: for example, add a separate, less strict 
 
 T> Organize a _lint day_ with your team, where everyone spends a full day fixing as many linting issues as possible.
 
-T> Another approach is to disable all violations of a specific lint rule with using a comment until we fix them. We can add such comments using `suppress-eslint-errors` too. [Learn more about this method](https://sapegin.me/blog/enabling-new-eslint-rules-in-a-legacy-codebase-with-suppress-eslint-errors/) on my blog.
+T> Another approach is to disable all violations of a specific linter rule with using a comment until we fix them. We can add such comments using `suppress-eslint-errors` too. [Learn more about this method](https://sapegin.me/blog/enabling-new-eslint-rules-in-a-legacy-codebase-with-suppress-eslint-errors/) on my blog.
 
 ## The ideal linting setup
 
