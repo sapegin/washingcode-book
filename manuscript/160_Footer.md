@@ -4,7 +4,7 @@ All the topics covered in this book aren’t hard rules, but ideas for possible 
 
 There are valid use cases for all programming techniques. Maybe even `goto`, who knows — I’m probably too young to know. The only certain thing is that the answer to any question about programming is: _it depends_. No matter how many likes this solution has on Stack Overflow, it may not be the best solution for your problem.
 
-So, the goal of this book isn’t to teach you how to write good code, but to help you to notice certain antipatterns, or code smells, that can _often_ (but not _always_) be improved, and give you the tools — techniques and patterns — to make those improvements.
+So, the goal of this book isn’t to teach you how to write good code, but to help you notice certain antipatterns, or code smells, that can _often_ (but not _always_) be improved, and give you the tools — techniques and patterns — to make those improvements.
 
 And remember: we write code for our colleagues and our future selves, so they can understand it. We should prioritize code readability and trust our gut feelings over whatever random people on the internet or linters tell us to do.
 

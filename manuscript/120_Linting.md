@@ -12,7 +12,7 @@ That’s where the _linters_ come in. Linters check the code to make sure it fol
 
 I> We talk about code style in the [Code style](#code-style) chapter.
 
-Like any tool, linters can make our lives easier and our codebase more consistent and free of bugs, or they could be abused and make our lives full of pain.
+Like any tool, linters can make our lives easier, keeping our codebases more consistent and free of bugs. But if abused, with too many rigid or unnecessary rules, they can fill our lives with pain.
 
 Almost anything that automates or simplifies bug fixing or code reviews is worth implementing as a linter rule. However, there are many, many ways linting can go wrong, and that is what we’re going to talk about in this chapter.
 
@@ -26,7 +26,7 @@ Let’s start with some healthy linting habits and ways to make linters work for
 
 ### Prefer to have too few linter rules than too many
 
-It’s a good idea to start with recommended configs (like ESLint’s `eslint:recommended`) and add only rules that are important for the team. The road to hell is paved with useless linter rules.
+It’s a good idea to start with recommended configs and add only rules that are important for the team. The road to hell is paved with useless linter rules.
 
 For example, the most minimal ESLint config could look like this:
 
@@ -57,24 +57,7 @@ export default [
 ];
 ```
 
-All rules in the recommended ESLint config are defined as errors.
-
-### Define autofixable linter rules as warnings
-
-Ideally, anything that could be fixed by a machine shouldn’t be marked as an error or warning or highlighted at all while we’re writing code; there’s no reason to distract us with things that don’t require our immediate attention.
-
-Here’s how we do it in ESLint:
-
-```js
-// eslint.config.mjs
-export default [
-  {
-    rules: {
-      curly: 'warn'
-    }
-  }
-];
-```
+All rules in the recommended ESLint config are already defined as errors.
 
 ### Clean up the rules regularly
 
@@ -266,9 +249,9 @@ I> We’ll cover a few exceptions later in this chapter. We talk more about code
 
 Unless the coding culture in the team is especially miserable (and in this case, instead of fighting it, you’re better off updating your CV), a linting setup that’s too rigid does more harm than good. It’s better to trust our colleagues and expect that they know how to do their job, allowing us to use linters to catch bugs and code reviews to discuss different approaches. There’s always more than one correct way to do something in programming, and a linter that enforces only one way doesn’t solve any real problems but makes our colleagues suffer more.
 
-## My top 11 linter rules that should have never existed
+## My top linter rules that should have never existed
 
-Many linter rules don’t solve any actual problems with the code; they merely enforce a particular way of writing code — a preference of one of the team members. Many of these rules are purely aesthetic.
+Many linter rules don’t fix any real problems in the code; they merely enforce a particular way of writing it, often based on personal preference. Many of these rules are purely aesthetic.
 
 Below is a selection of rules that create more problems than they solve. Luckily, none of these rules are included in recommended configs, but I’ve seen them all in real projects. These rules remind us that we shouldn’t try to validate and control everything. And I’m not the only one who [gets mad because of a linter rule](https://x.com/iamsapegin/status/1230760798584098817).
 
@@ -286,7 +269,7 @@ Some programmers believe that `null` and `undefined` have different semantics: t
 
 ### [no-else-return](https://eslint.org/docs/latest/rules/no-else-return)
 
-This rule forces us to write:
+This rule disallows `return` statements in the `else` block of `if` conditions. For example, it forces us to write:
 
 ```js
 function somethingToSomethingElse(something) {
@@ -840,7 +823,7 @@ There are two parts to setting up linters: project setup and editor configuratio
 
 Let’s start with the project configuration:
 
-1. Start with the recommended ESLint rules, `eslint:recommended`.
+1. Start with the ESLint recommended config.
 2. Add recommended configs of ESLint plugins for the project’s stack (see below).
 3. Add a few extra rules that make sense for your team.
 4. Add ESLint with autofix to a Git pre-commit or pre-push hook using [Husky](https://github.com/typicode/husky) and [lint-staged](https://github.com/lint-staged/lint-staged) to make sure that all the code in the repository is linted.

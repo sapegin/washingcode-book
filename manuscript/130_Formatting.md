@@ -110,9 +110,9 @@ T> I use the [Rewrap](https://marketplace.visualstudio.com/items?itemName=stkb.r
 
 ### Run a formatter as a stand-alone tool
 
-Don’t use Prettier as an ESLint plugin because it marks each “incorrectly” formatted place as an error in the code. This isn’t helpful and distracts from the actual linting errors that we need to take care of. The whole idea of code autoformatting is that we no longer need to care about it. There’s no need to tell developers that something is wrong when no action is required from them.
+Don’t use Prettier as an ESLint plugin because it marks each “incorrectly” formatted line of code as an error. This isn’t helpful and distracts from actual linting errors that we need to take care of. The whole point of code autoformatting is that we no longer need to worry about it. There’s no need to tell developers that something is wrong when no action is required from them.
 
-![The curse of linting](images/curse-of-linting.jpeg)
+![The curse of linting: these errors are unhelpful and can be autofixed](images/curse-of-linting.jpeg)
 
 ## The ideal code formatting setup
 
@@ -150,3 +150,4 @@ Code formatters save us a lot of time and help us avoid the meta work of formatt
 Start thinking about:
 
 - Simplifying code when autoformatting makes it uglier.
+- Adding line breaks in comments to improve their readability.
