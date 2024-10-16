@@ -150,7 +150,7 @@ Here’s a list of books, articles, and talks that I found useful or inspiring.
 
 If you liked the book, I’ll appreciate your review! I’ve spent many hours writing and editing it, and your review will help to make it more visible to others and help me continue improving it.
 
-Until the book is finished and available on Amazon, please send me your review at [artem@sapegin.ru](mailto:artem@sapegin.ru).
+Please review the book on Amazon, Gumroad, or Goodreads.
 
 ## Got feedback?
 
