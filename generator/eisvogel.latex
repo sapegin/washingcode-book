@@ -45,7 +45,7 @@
 \PassOptionsToPackage{hyphens}{url}
 \PassOptionsToPackage{dvipsnames,svgnames,x11names,table}{xcolor}
 
-% Layout: 7.5"×9.25" (19.0cm×23.5cm)
+% Layout: 7.5×9.25in (19.05×23.5cm)
 \documentclass[a5paper,twoside,12pt,captions=tableheading]{scrbook}
 \usepackage[paperwidth=7.5in,paperheight=9.25in,inner=2cm,outer=2cm,top=2cm,bottom=2cm,includehead=false,includefoot=false]{geometry}
 
@@ -362,9 +362,6 @@ $highlighting-macros$
 $if(first-published)$
 {\normalsize \textsf{First published in $first-published$}}
 \newline
-$endif$
-$if(isbn)$
-{\normalsize \textsf{ISBN: $isbn$}}
 $endif$
 \vfill
 {\normalsize \textsf{© $year$ $author$}}
