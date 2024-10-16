@@ -1,6 +1,5 @@
 # TODO: Make table headers bold
 # TODO: Size individual illustrations
-# TODO: Generate a separate PDF for print with ISBN
 
 BOOK_FILE="washing-code"
 BOOK_TITLE="Washing your code: clean code for frontend developers"
@@ -13,7 +12,7 @@ mkdir -p "dist"
 
 # Generate PDF
 echo
-echo "[BUILD] Generate PDF ebook..."
+echo "[BUILD] Generating PDF ebook..."
 
 # Available PDF engines:
 # - pdflatex: default
@@ -50,7 +49,7 @@ rm "dist/$BOOK_FILE-content.pdf"
 
 # Generate Epub
 echo
-echo "[BUILD] Generate Epub ebook..."
+echo "[BUILD] Generating Epub ebook..."
 
 pandoc $CHAPTERS_FILES_EPUB \
   --resource-path="manuscript/resources" \
@@ -59,6 +58,28 @@ pandoc $CHAPTERS_FILES_EPUB \
   --table-of-contents --toc-depth=2 \
   --standalone \
   --epub-cover-image="media/cover.jpg" \
+  --highlight-style "generator/theme.theme" \
+  --syntax-definition "generator/syntax/javascript.xml" \
+  --syntax-definition "generator/syntax/javascript-react.xml" \
+  --syntax-definition "generator/syntax/typescript.xml" \
+  --syntax-definition "generator/syntax/typescript-react.xml" \
+  --syntax-definition "generator/syntax/pascal.xml" \
+  --syntax-definition "generator/syntax/diff.xml" \
+  --css "generator/epub.css" \
+  --from "$SOURCE_FORMAT" \
+  -M date="$VERSION"
+
+# Generate Kindle
+echo
+echo "[BUILD] Generating Kindle ebook..."
+
+pandoc $CHAPTERS_FILES_EPUB \
+  --resource-path="manuscript/resources" \
+  --output="dist/$BOOK_FILE-kindle.epub" \
+  --top-level-division=chapter \
+  --table-of-contents --toc-depth=2 \
+  --standalone \
+  --epub-cover-image="media/cover-kindle.jpg" \
   --highlight-style "generator/theme.theme" \
   --syntax-definition "generator/syntax/javascript.xml" \
   --syntax-definition "generator/syntax/javascript-react.xml" \
