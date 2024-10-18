@@ -161,3 +161,7 @@ Let me know what you think at [artem@sapegin.ru](mailto:artem@sapegin.ru).
 ## Found an issue?
 
 I’ve tried my best to check all the facts, fix all the typos, and test all the examples in the book, but I’m sure I missed many. If you spot anything fishy, please [file an issue on GitHub](https://github.com/sapegin/washingcode-book/issues) or write to me at [artem@sapegin.ru](mailto:artem@sapegin.ru).
+
+## Follow me
+
+I blog regularly about frontend on [my blog](https://sapegin.me/blog/). If you want to know about new article, follow me on [Mastodon](https://mastodon.cloud/@sapegin) or [Substack](https://sapegin.substack.com).
