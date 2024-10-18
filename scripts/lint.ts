@@ -73,7 +73,7 @@ console.log('[LINT] Checking links...');
 console.log();
 
 for (const chapter of chapters) {
-  console.log(`[LINT] 👉🏼 ${chapter.file}`);
+  console.log(`[LINT] 👉 ${chapter.file}`);
 
   const links =
     chapter.contents.match(/\[.*?]\(#.*?\)/g) ?? [];
