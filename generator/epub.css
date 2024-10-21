@@ -72,14 +72,17 @@ figcaption {
   }
 }
 
-/* Inline code */
+/* Code examples */
 
-code {
+pre,
+code,
+pre > code.sourceCode {
+  font-size: medium;
   font-family: ui-monospace, 'Cascadia Code',
     'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono',
     monospace;
-  white-space: pre-wrap;
-  font-size: medium;
+  /* Override `white-space:pre` from Pandoc default styles */
+  white-space: pre-wrap !important;
 }
 
 /* Tables */
