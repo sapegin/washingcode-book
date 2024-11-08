@@ -190,7 +190,7 @@ Here’s what I use to work with Git:
 
 What I like the most about committing from Visual Studio Code (besides its accessibility with a hotkey) is that I can set a large font size for the commit message field. Most Git tools set a tiny font, limit the size of the message field to one or two lines, and don’t let you change them. This is very uncomfortable, and I’m glad I can finally change it in the Code.
 
-![Committing to Git in Visual Studio Code](images/vscode-spell-checker.png)
+![Committing to Git in Visual Studio Code](images/vscode-commit.png)
 
 My typical Git workflow in Visual Studio Code is as follows:
 
