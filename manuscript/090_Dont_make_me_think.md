@@ -84,7 +84,7 @@ expect(value).toBe(3)
 
 **Example 4:**
 
-<!-- let dogs = [1], cats = [2] -->
+<!-- let dogs = [1], cats = [] -->
 <!-- eslint-skip -->
 
 ```js
@@ -97,10 +97,10 @@ if (dogs.length + cats.length > 0) {
 
 This one is understandable after a moment: it checks if either of the two arrays has any elements. However, it’s better to make it clearer:
 
-<!-- let dogs = [1], cats = [2] -->
+<!-- let dogs = [1], cats = [] -->
 
 ```js
-if (dogs.length > 0 && cats.length > 0) {
+if (dogs.length > 0 || cats.length > 0) {
   // Something fishy here…
 }
 ```
