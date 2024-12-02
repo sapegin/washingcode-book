@@ -71,10 +71,10 @@ const value = ~~3.14;
 
 <!-- expect(value).toBe(3) -->
 
-Another obscure use of the bitwise NOT operator is to discard the fractional portion of a number. Use `Math.floor()` instead:
+Another obscure use of the bitwise NOT operator is to discard the fractional portion of a number. Use `Math.trunc()` instead:
 
 ```js
-const value = Math.floor(3.14);
+const value = Math.trunc(3.14);
 // → 3
 ```
 
