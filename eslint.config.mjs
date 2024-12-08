@@ -31,6 +31,7 @@ export default [
       'prefer-const': 'off',
       'unicorn/expiring-todo-comments': 'off',
       'unicorn/no-null': 'off',
+      'unicorn/prefer-global-this': 'off',
       'unicorn/prefer-module': 'off',
       'unicorn/prefer-regexp-test': 'off',
 
