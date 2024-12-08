@@ -663,7 +663,14 @@ This adds even more complexity, making the approach error-prone.
 A better solution is to use _dependency injection_: passing function dependencies as parameters so we can redefine them in tests. Additionally, we use default function parameters to keep existing function calls unchanged.
 
 <!--
-import { UAParser } from 'ua-parser-js'
+class UAParser {
+  getOS() {
+    return { name: 'Windows' }
+  }
+  getBrowser() {
+    return { name: '' }
+  }
+}
 let DeviceType = {
   Desktop: 'Desktop',
   iOS: 'iOS',
@@ -711,7 +718,14 @@ function getDeviceType({
 Testing now becomes straightforward:
 
 <!--
-import { UAParser } from 'ua-parser-js'
+class UAParser {
+  getOS() {
+    return { name: 'Windows' }
+  }
+  getBrowser() {
+    return { name: '' }
+  }
+}
 let test = (name, fn) => fn()
 let DeviceType = { iOS: 'iOS' }
 let getDeviceType = () => DeviceType.iOS
