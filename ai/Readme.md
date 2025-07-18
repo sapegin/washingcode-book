@@ -1,6 +1,6 @@
 # AI rules
 
-This directory contains User Rules for Cursor AI that implement the clean code principles from the [Washing your code](https://sapegin.me/book/) book.
+This directory contains User Rules for [Cursor AI](https://cursor.com/en) that implement the clean code principles from the [Washing your code](https://sapegin.me/book/) book.
 
 ## What are User Rules?
 
