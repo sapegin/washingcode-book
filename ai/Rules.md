@@ -41,7 +41,7 @@ Always prioritize code readability and maintainability over cleverness or brevit
 
 - Use descriptive, searchable names - avoid abbreviations and single-letter variables (except for short scopes like `map(x => ...)`)
 - Use positive boolean names: `isVisible` instead of `isHidden` or `isNotVisible`, `hasData` instead of `hasNoData`
-- Use verbs for functions: `getUserData()`, `calculateTotal()`
+- Use verbs for functions: `getUserData()`, `fetchWeather()`
 - Use nouns for variables and properties
 
 ### 6. Function design
