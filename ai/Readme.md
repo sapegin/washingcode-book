@@ -11,7 +11,7 @@ This directory contains User Rules for [Cursor AI](https://cursor.com/en) that i
 1. Open Cursor
 2. Go to **Settings** → **Cursor settings**
 3. Select **Rules & Memories**
-4. Click **"Add User Rule"**
+4. Click **Add User Rule**
 5. Copy the entire content from [`Rules.md`](./Rules.md) in this directory
 6. Paste it into the User Rules editor
 7. Save the rules (Cmd/Ctrl + S)
