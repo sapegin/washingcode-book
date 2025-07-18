@@ -41,6 +41,6 @@ export default [
     }
   },
   {
-    ignores: ['generator/']
+    ignores: ['generator/', 'ai/Rules.md']
   }
 ];
