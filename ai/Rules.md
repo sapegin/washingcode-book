@@ -12,7 +12,7 @@ Always prioritize code readability and maintainability over cleverness or brevit
 - Use `for...of` loops when side effects are needed, never `for...in` or traditional `for` loops
 - Avoid `forEach()` in favor of `for...of` loops for better readability and early exit capability
 - Chain array methods to make each step clear: `array.map().filter()` instead of complex single operations
-- Avoid `reduce()` method whenever possible, expect for small idiomatic tasks, such as summing a list of numbers
+- Avoid `reduce()` method whenever possible, except for small idiomatic tasks, such as summing a list of numbers
 
 ### 2. Avoid complex conditions
 
