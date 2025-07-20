@@ -1,6 +1,6 @@
 # Clean Code User Rules for Python
 
-You are an expert Python developer who follows clean code principles. Generate code that is readable, maintainable, and follows modern best practices based on the "Washing your code" book principles.
+You are an expert Python developer who follows clean code principles. Generate code that is readable, maintainable, and follows modern best practices based on the “Washing your code” book principles.
 
 ## Core principles
 
@@ -12,7 +12,7 @@ Always prioritize code readability and maintainability over cleverness or brevit
 - Use `for` loops only when side effects are needed or when comprehensions become too complex
 - Prefer `enumerate()` over manual indexing: `for i, item in enumerate(items)` instead of `for i in range(len(items))`
 - Use `zip()` for parallel iteration instead of indexing multiple sequences
-- Avoid nested loops when possible - use itertools functions or flatten the logic
+- Avoid nested loops when possible - use `itertools` functions or flatten the logic
 
 ### 2. Avoid complex conditions
 
@@ -24,11 +24,11 @@ Always prioritize code readability and maintainability over cleverness or brevit
 
 ### 3. Avoid variable reassignment
 
-- Prefer creating new variables with descriptive names instead of reusing variables for different purposes
+- Never reuse variables for different purposes, always create new variables with descriptive names
 - Declare variables as close to their usage as possible
 - Use tuple unpacking and destructuring instead of incremental assignments
 - Build complete data structures in a single expression when possible
-- Use dataclasses or NamedTuple for structured data instead of dictionaries with evolving keys
+- Use `dataclasses` or `NamedTuple` for structured data instead of dictionaries with evolving keys
 
 ### 4. Avoid mutation
 
@@ -59,7 +59,7 @@ Always prioritize code readability and maintainability over cleverness or brevit
 
 - Follow PEP 8 and use Black for consistent formatting
 - Use f-strings for string formatting instead of % formatting or .format()
-- Use pathlib for file paths instead of string manipulation
+- Use `pathlib` for file paths instead of string manipulation
 - Add empty lines to create logical paragraphs in functions
 - Use trailing commas in multi-line constructs
 
@@ -73,16 +73,16 @@ Always prioritize code readability and maintainability over cleverness or brevit
 
 ### 9. Comments and documentation
 
-- Write code that doesn't need comments – if you need a comment, consider refactoring first
+- Write code that doesn’t need comments – if you need a comment, consider refactoring first
 - Use docstrings for all public functions, classes, and modules
 - When comments are necessary, explain WHY, not WHAT
-- Add TODO comments for planned improvements
+- Add TODO comments for planned improvements, HACK comments for workarounds
 - Remove or update outdated comments
 - Use type hints instead of comments to document types
 
 ### 10. Python specific guidelines
 
-- Use type hints with mypy for static type checking
+- Use type hints with `mypy` for static type checking
 - Prefer dataclasses over regular classes for data containers
 - Use Enums for constants and state management
 - Use `@property` for computed attributes
@@ -115,7 +115,7 @@ user_names = [user.name for user in users]
 user_names = (user.name for user in users)
 ```
 
-### State management with Enums and dataclasses
+### State management with discriminated unions
 
 ```python
 # ❌ Bad: Multiple boolean flags
@@ -123,36 +123,50 @@ is_loading = False
 has_error = False
 is_empty = False
 
-# ✅ Good: Enum with dataclasses
-from enum import Enum
+# ✅ Good: Simple dataclass with Literal types
 from dataclasses import dataclass
-from typing import Union
-
-class Status(Enum):
-    IDLE = "idle"
-    LOADING = "loading"
-    SUCCESS = "success"
-    ERROR = "error"
+from typing import Literal, Union
 
 @dataclass(frozen=True)
+class State:
+    status: Literal["idle", "loading", "success", "error"]
+    data: list[User] | None = None
+    error: str | None = None
+
+# Usage:
+idle_state = State("idle")
+loading_state = State("loading")
+success_state = State("success", data=[user1, user2])
+error_state = State("error", error="Network timeout")
+
+# ✅ Alternative: TypedDict for even simpler cases
+from typing import TypedDict, NotRequired
+
+class StateDict(TypedDict):
+    status: Literal["idle", "loading", "success", "error"]
+    data: NotRequired[list[User]]
+    error: NotRequired[str]
+
+# ✅ For maximum type safety (when complexity is justified):
+@dataclass(frozen=True)
 class IdleState:
-    status: Status = Status.IDLE
+    status: Literal["idle"] = "idle"
 
 @dataclass(frozen=True)
 class LoadingState:
-    status: Status = Status.LOADING
+    status: Literal["loading"] = "loading"
 
 @dataclass(frozen=True)
 class SuccessState:
-    status: Status = Status.SUCCESS
+    status: Literal["success"] = "success"
     data: list[User]
 
 @dataclass(frozen=True)
 class ErrorState:
-    status: Status = Status.ERROR
+    status: Literal["error"] = "error"
     error: str
 
-State = Union[IdleState, LoadingState, SuccessState, ErrorState]
+ComplexState = Union[IdleState, LoadingState, SuccessState, ErrorState]
 ```
 
 ### Function parameters
@@ -205,18 +219,8 @@ users = sorted([*existing_users, new_user], key=lambda u: u.name)
 if not users:
     return
 
-if not is_enabled:
-    return
-
 # ✅ Good: Explicit comparisons (when intent is clear)
 if len(users) == 0:
-    return
-
-if is_enabled is False:
-    return
-
-# ✅ Also good: Pythonic when checking truthiness is the intent
-if not users:  # When None or empty both should trigger
     return
 ```
 
@@ -235,15 +239,28 @@ elif status == "error":
 else:
     return "Unknown status"
 
-# ✅ Good: Match statement
-match state:
-    case IdleState():
+# ✅ Good: Match statement with simple state
+match state.status:
+    case "idle":
         return "Waiting for action"
-    case LoadingState():
+    case "loading":
         return "Processing..."
-    case SuccessState(data=data):
+    case "success":
+        return f"Completed with {len(state.data)} items"
+    case "error":
+        return f"Failed: {state.error}"
+    case _:
+        return "Unknown status"
+
+# ✅ Alternative: Match with full object destructuring
+match state:
+    case State(status="idle"):
+        return "Waiting for action"
+    case State(status="loading"):
+        return "Processing..."
+    case State(status="success", data=data) if data:
         return f"Completed with {len(data)} items"
-    case ErrorState(error=error):
+    case State(status="error", error=error):
         return f"Failed: {error}"
     case _:
         return "Unknown status"
@@ -276,4 +293,4 @@ def database_transaction():
 
 with database_transaction() as tx:
     # ... database operations
-``` 
+```
