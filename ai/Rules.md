@@ -79,7 +79,7 @@ Always prioritize code readability and maintainability over cleverness or brevit
 - Use strict TypeScript configuration
 - Prefer `type` over `interface` for object shapes
 - Use discriminated unions for complex state
-- Make types as specific as possible - NEWER use `any`, use `unknown` when needed
+- Make types as specific as possible - NEVER use `any`, use `unknown` when needed
 - Use `readonly` for arrays and objects that shouldn’t be mutated
 
 ## React specific guidelines
