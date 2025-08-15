@@ -13,7 +13,7 @@ A book on writing clean frontend code by [Artem Sapegin](https://sapegin.me/).
 If you found any issue (like a typo or an incorrect term usage) or have any other feedback, feel free to contact me:
 
 - [open an issue](https://github.com/sapegin/washingcode-book/issues) in this repository;
-- email me at [artem@sapegin.ru](mailto:artem@sapegin.ru);
+- email me at [artem@sapegin.me](mailto:artem@sapegin.me);
 - mastodon me at [@sapegin@mastodon.cloud](https://mastodon.cloud/@sapegin);
 - tweet me at [@iamsapegin](https://twitter.com/iamsapegin);
 - [ask me anything](https://github.com/sapegin/ama) about frontend or programming in general.

@@ -156,11 +156,11 @@ Please review the book on Amazon, Gumroad, or Goodreads.
 
 This book is full of opinions, and I don’t expect you’ll agree with them all. That’s expected, and my goal was never to convince readers that my opinions are the only right ones. My desire was to make my readers think of certain things and start a dialogue.
 
-Let me know what you think at [artem@sapegin.ru](mailto:artem@sapegin.ru).
+Let me know what you think at [artem@sapegin.me](mailto:artem@sapegin.me).
 
 ## Found an issue?
 
-I’ve tried my best to check all the facts, fix all the typos, and test all the examples in the book, but I’m sure I missed many. If you spot anything fishy, please [file an issue on GitHub](https://github.com/sapegin/washingcode-book/issues) or write to me at [artem@sapegin.ru](mailto:artem@sapegin.ru).
+I’ve tried my best to check all the facts, fix all the typos, and test all the examples in the book, but I’m sure I missed many. If you spot anything fishy, please [file an issue on GitHub](https://github.com/sapegin/washingcode-book/issues) or write to me at [artem@sapegin.me](mailto:artem@sapegin.me).
 
 ## Follow me
 
