@@ -2,8 +2,9 @@ body {
   margin: 1rem;
   text-align: left;
   font-size: large;
-  font-family: Charter, 'Bitstream Charter', 'Sitka Text',
-    Cambria, Georgia, serif;
+  font-family:
+    Charter, 'Bitstream Charter', 'Sitka Text', Cambria,
+    Georgia, serif;
 }
 h1,
 h2,
@@ -13,7 +14,8 @@ h5,
 h6 {
   margin-top: 2em;
   margin-bottom: 1em;
-  font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova',
+  font-family:
+    Inter, Roboto, 'Helvetica Neue', 'Arial Nova',
     'Nimbus Sans', Arial, sans-serif;
 }
 h1:first-child {
@@ -78,9 +80,9 @@ pre,
 code,
 pre > code.sourceCode {
   font-size: medium;
-  font-family: ui-monospace, 'Cascadia Code',
-    'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono',
-    monospace;
+  font-family:
+    ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo,
+    Consolas, 'DejaVu Sans Mono', monospace;
   /* Override `white-space:pre` from Pandoc default styles */
   white-space: pre-wrap !important;
 }
@@ -144,7 +146,8 @@ tr:not(:last-child) {
   display: flex;
   align-items: center;
   /* TODO: This doesn't work for some reason */
-  font-family: Inter, Roboto, 'Helvetica Neue', 'Arial Nova',
+  font-family:
+    Inter, Roboto, 'Helvetica Neue', 'Arial Nova',
     'Nimbus Sans', Arial, sans-serif;
 }
 .tip .title p::before,
