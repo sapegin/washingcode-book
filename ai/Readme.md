@@ -1,12 +1,14 @@
 # AI rules
 
-This directory contains User Rules for [Cursor AI](https://cursor.com/en) that implement the clean code principles from the [Washing your code](https://sapegin.me/book/) book.
+This directory contains User Rules for [Cursor AI](https://cursor.com/en) and Kilo Code that implement the clean code principles from the [Washing your code](https://sapegin.me/book/) book.
 
 ## What are User Rules?
 
 [User Rules](https://docs.cursor.com/context/rules#user-rules) in Cursor are global rules that apply to **all your projects**. Unlike project-specific [Project Rules](https://docs.cursor.com/context/rules#project-rules), User Rules ensure consistent coding standards across every project you work on.
 
 ## Setting up User Rules
+
+### Cursor
 
 1. Open Cursor
 2. Go to **Settings** → **Cursor settings**
@@ -15,6 +17,10 @@ This directory contains User Rules for [Cursor AI](https://cursor.com/en) that i
 5. Copy the entire content from [`Rules.md`](./Rules.md) in this directory
 6. Paste it into the User Rules editor
 7. Save the rules (Cmd/Ctrl + S)
+
+### Kilo Code
+
+1. Copy the files into `~/.kilocode/rules/`
 
 ## Benefits of User Rules
 
