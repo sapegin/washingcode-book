@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 // Lint Markdown files
 
 import fs from 'fs-extra';
