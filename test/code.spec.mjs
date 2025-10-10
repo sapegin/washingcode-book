@@ -201,6 +201,7 @@ function testMarkdown(markdown, filepath) {
               await executeCode(code, filename, node.lang);
             }
           );
+
           testCount++;
         }
       );
