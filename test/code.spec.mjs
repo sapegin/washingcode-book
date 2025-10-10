@@ -1,10 +1,10 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import vm from 'node:vm';
 import _ from 'lodash';
 import { globSync } from 'glob';
 import { describe, test, afterEach } from 'vitest';
 import { build } from 'esbuild';
-import { NodeVM } from 'vm2';
 import { remark } from 'remark';
 import { visit } from 'unist-util-visit';
 import { cleanup } from '@testing-library/react';
@@ -31,8 +31,6 @@ const IGNORE = [
 const SKIP_TAG = 'test-skip';
 const DEFAULT_HEADER = `let $1 = false, $2 = false, $3 = false, $4 = false, $5 = false;`;
 
-const vm = new NodeVM(environment);
-
 function isInstruction(node) {
   return (
     node &&
@@ -44,6 +42,13 @@ function isInstruction(node) {
 
 function unwrapHtmlComment(html) {
   return html.replace(/^<!--/, '').replace(/-->$/, '').trim();
+}
+
+/**
+ * Return mock if available, or actual module if there's no mock.
+ */
+function mockRequire(specifier) {
+  return environment.require[specifier] ?? require(specifier);
 }
 
 function preprocessCode(code) {
@@ -151,13 +156,21 @@ async function executeCode(source, filename, lang) {
     jsx: 'automatic',
     platform: 'node',
     format: 'cjs',
-    target: 'node20',
+    target: 'node22',
     write: false,
     bundle: false,
     minify: false,
     sourcemap: false
   });
-  vm.run(outputFiles[0].text, filename);
+
+  const context = vm.createContext({
+    ...environment.sandbox,
+    require: mockRequire
+  });
+  const script = new vm.Script(outputFiles[0].text, {
+    filename
+  });
+  script.runInContext(context);
 }
 
 function testMarkdown(markdown, filepath) {
