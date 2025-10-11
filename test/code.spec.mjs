@@ -1,6 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import vm from 'node:vm';
+import vm, {
+  SourceTextModule,
+  SyntheticModule
+} from 'node:vm';
 import _ from 'lodash';
 import { globSync } from 'glob';
 import { describe, test, afterEach } from 'vitest';
@@ -44,19 +47,10 @@ function unwrapHtmlComment(html) {
   return html.replace(/^<!--/, '').replace(/-->$/, '').trim();
 }
 
-/**
- * Return mock if available, or actual module if there's no mock.
- */
-function mockRequire(specifier) {
-  return environment.require[specifier] ?? require(specifier);
-}
-
 function preprocessCode(code) {
   let conditionIndex = 0;
   return (
     code
-      // VM2 doesn't support async/await
-      .replaceAll(' await ', '/* await */')
       // Save results of conditions where the body only contains
       // a comment:
       // if (x === 42) {
@@ -152,25 +146,81 @@ async function executeCode(source, filename, lang) {
       sourcefile: filename.replace('.md', `.${lang}`),
       loader: lang
     },
-    logLevel: 'info',
     jsx: 'automatic',
     platform: 'node',
-    format: 'cjs',
+    format: 'esm',
     target: 'node22',
     write: false,
     bundle: false,
     minify: false,
-    sourcemap: false
+    sourcemap: false,
+    logLevel: 'info',
+    logOverride: {
+      // Suppress warning about not supported conversion of require() to ESM, we're mocking require calls
+      'unsupported-require-call': 'debug'
+    }
   });
 
   const context = vm.createContext({
     ...environment.sandbox,
-    require: mockRequire
+    // Mock require() calls
+    require: specifier => environment.require[specifier] ?? {}
   });
-  const script = new vm.Script(outputFiles[0].text, {
-    filename
+
+  const module = new SourceTextModule(outputFiles[0].text, {
+    context,
+    identifier: filename
   });
-  script.runInContext(context);
+
+  await module.link(async specifier => {
+    // Mock import
+    if (environment.require[specifier]) {
+      const exports = environment.require[specifier];
+      const exportNames = Object.keys(exports);
+
+      const syntheticModule = new SyntheticModule(
+        ['default', ...exportNames],
+        function () {
+          this.setExport('default', exports);
+          for (const [key, value] of Object.entries(
+            exports
+          )) {
+            this.setExport(key, value);
+          }
+        },
+        { context }
+      );
+
+      await syntheticModule.link(() => {});
+      await syntheticModule.evaluate();
+
+      return syntheticModule;
+    }
+
+    // Or import an actual module if there's no mock
+    const importedModule = await import(specifier);
+
+    const exportNames = Object.keys(importedModule);
+
+    const syntheticModule = new SyntheticModule(
+      exportNames,
+      function () {
+        for (const [key, value] of Object.entries(
+          importedModule
+        )) {
+          this.setExport(key, value);
+        }
+      },
+      { context }
+    );
+
+    await syntheticModule.link(() => {});
+    await syntheticModule.evaluate();
+
+    return syntheticModule;
+  });
+
+  await module.evaluate();
 }
 
 function testMarkdown(markdown, filepath) {

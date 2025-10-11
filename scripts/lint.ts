@@ -2,7 +2,7 @@
 
 // Lint Markdown files
 
-import fs from 'fs-extra';
+import fs from 'fs';
 import { globSync } from 'glob';
 
 const CHAPTERS_DIR = 'manuscript/';

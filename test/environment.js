@@ -27,7 +27,6 @@ export const environment = {
       readFileSync: x => x
     },
     './readme': x => x,
-    'fs-extra': x => x,
     glob: x => x,
     'user-home': x => x,
     express: {

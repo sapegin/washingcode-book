@@ -102,7 +102,7 @@ I use multiple cursors all the time when editing code. Usually, I use them one o
 Imagine we have this code, and we want to replace `require`s with more modern `import`s:
 
 ```js
-const fs = require('fs-extra');
+const fs = require('fs');
 const glob = require('glob');
 const userHome = require('user-home');
 ```
@@ -123,7 +123,7 @@ Here’s how I’d do it:
 We’ll end up with this after reformatting the code:
 
 ```js
-import fs from 'fs-extra';
+import fs from 'fs';
 import glob from 'glob';
 import userHome from 'user-home';
 ```

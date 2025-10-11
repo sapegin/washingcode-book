@@ -650,13 +650,18 @@ test('Safari on iPad in desktop mode', () => {
 
 This test is very convoluted and requires a lot of boilerplate code. Also, it has a bug: once we set `hasTouch` to `true`, all following test cases will also get it as `true`. We need to reset the mock value after each test case:
 
-<!-- let afterEach = fn => fn() -->
+<!--
+let hasTouch = true
+let afterEach = fn => fn()
+-->
 
 ```js
 afterEach(() => {
   hasTouch = false;
 });
 ```
+
+<!-- expect(hasTouch).toBe(false) -->
 
 This adds even more complexity, making the approach error-prone.
 
