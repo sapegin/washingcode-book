@@ -4,7 +4,6 @@ import vm, {
   SourceTextModule,
   SyntheticModule
 } from 'node:vm';
-import _ from 'lodash';
 import { globSync } from 'glob';
 import { describe, test, afterEach } from 'vitest';
 import { build } from 'esbuild';
@@ -33,6 +32,19 @@ const IGNORE = [
 ];
 const SKIP_TAG = 'test-skip';
 const DEFAULT_HEADER = `let $1 = false, $2 = false, $3 = false, $4 = false, $5 = false;`;
+
+function findLastIndex(
+  array,
+  predicate,
+  fromIndex = array.length - 1
+) {
+  for (let i = fromIndex; i >= 0; i--) {
+    if (predicate(array[i], i, array)) {
+      return i;
+    }
+  }
+  return -1;
+}
 
 function isInstruction(node) {
   return (
@@ -108,7 +120,7 @@ function getFooter(nodes, index) {
 }
 
 function getChapterTitle(nodes, index) {
-  const headingIndex = _.findLastIndex(
+  const headingIndex = findLastIndex(
     nodes,
     node => node.type === 'heading',
     index

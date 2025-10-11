@@ -1,6 +1,5 @@
 import fs from 'fs';
 import { globSync } from 'glob';
-import _ from 'lodash';
 import richtypo from 'richtypo';
 import rules from 'richtypo/rules/en';
 
@@ -20,6 +19,11 @@ const TIPS = {
   'E>': 'CAUTION',
   'T>': 'TIP'
 };
+
+const pipe =
+  (...fns) =>
+  x =>
+    fns.reduce((v, f) => f(v), x);
 
 const read = file => fs.readFileSync(file, 'utf8');
 
@@ -71,13 +75,13 @@ console.log();
 console.log('[MD] Preparing Markdown files...');
 const files = globSync(`${SOURCE_DIR}/*.md`);
 
-fs.ensureDir(DEST_DIR_EPUB);
-fs.ensureDir(DEST_DIR_PDF);
+fs.mkdirSync(DEST_DIR_EPUB, { recursive: true });
+fs.mkdirSync(DEST_DIR_PDF, { recursive: true });
 
 for (const filepath of files) {
   console.log(`[MD] 👉 ${filepath}`);
   const markuaText = read(filepath);
-  const epubText = _.flow(
+  const epubText = pipe(
     typo,
     updateAnchors,
     updateTips
@@ -88,7 +92,7 @@ for (const filepath of files) {
     epubText
   );
 
-  const pdfText = _.flow(
+  const pdfText = pipe(
     typo,
     updateAnchors,
     updateTips,
