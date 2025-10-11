@@ -9,7 +9,7 @@
   "repository": "sapegin/washingcode",
   "license": "CC BY-NC-ND 4.0",
   "engines": {
-    "node": ">=20"
+    "node": ">=22"
   },
   "type": "module",
   "scripts": {
