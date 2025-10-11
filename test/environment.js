@@ -31,23 +31,6 @@ export const environment = {
     'user-home': x => x,
     express: {
       Router: () => ({ use: () => {}, get: () => {} })
-    },
-    // TODO: Once we migrate to ESLint 9, we could try to import actual modules
-    '@eslint/js': {
-      config(x) {
-        return x;
-      },
-      configs: {
-        recommended: []
-      }
-    },
-    'typescript-eslint': {
-      config(x) {
-        return x;
-      },
-      configs: {
-        recommended: []
-      }
     }
   }
 };
