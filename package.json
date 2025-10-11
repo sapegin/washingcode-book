@@ -24,7 +24,7 @@
     "format": "prettier --log-level warn --write \"**/*.{js,mjs,cjs,ts,tsx,css,json,md}\"",
     "test": "npm run test:vitest",
     "test:vitest": "NODE_OPTIONS='--experimental-vm-modules' vitest run",
-    "test:watch": "nodemon --watch 'manuscript' --ext md --exec 'NODE_OPTIONS=\"--experimental-vm-modules\" vitest'",
+    "test:watch": "NODE_OPTIONS='--experimental-vm-modules' vitest --watch",
     "posttest": "npm run lint && npm run format",
     "generate-books": "node generator/markua2gfm.mjs && generator/pandoc.sh",
     "prepare": "husky"
@@ -52,7 +52,6 @@
     "husky": "^9.1.7",
     "install": "^0.13.0",
     "lint-staged": "^16.2.3",
-    "nodemon": "^3.1.10",
     "prettier": "3.6.2",
     "remark": "^15.0.1",
     "richtypo": "^7.0.1",
