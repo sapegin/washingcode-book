@@ -103,9 +103,11 @@ Imagine we have this code, and we want to replace `require`s with more modern `i
 
 ```js
 const fs = require('fs');
-const glob = require('glob');
-const userHome = require('user-home');
+const path = require('path');
+const readline = require('readline');
 ```
+
+<!-- expect(fs).toHaveProperty('stat') -->
 
 Here’s how I’d do it:
 
@@ -124,9 +126,11 @@ We’ll end up with this after reformatting the code:
 
 ```js
 import fs from 'fs';
-import glob from 'glob';
-import userHome from 'user-home';
+import path from 'path';
+import readline from 'readline';
 ```
+
+<!-- expect(fs).toHaveProperty('stat') -->
 
 Another approach is to use **add selection to the next find match**, so instead of steps 1–3, we do:
 

@@ -516,6 +516,8 @@ It takes some time to realize that this code removes the file extension and retu
 
 Let’s rewrite it using a library, the built-in Node.js’ `path` module:
 
+<!-- import path from 'node:path' -->
+
 ```js
 const file = 'pizza.jpg';
 const prefix = path.parse(file).name;

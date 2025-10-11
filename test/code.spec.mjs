@@ -175,8 +175,10 @@ async function executeCode(source, filename, lang) {
 
   const context = vm.createContext({
     ...environment.sandbox,
-    // Mock require() calls
-    require: specifier => environment.require[specifier] ?? {}
+    // Mock require() calls if needed, of fallback to actually requiring a
+    // module
+    require: specifier =>
+      environment.require[specifier] ?? require(specifier)
   });
 
   const module = new SourceTextModule(outputFiles[0].text, {
