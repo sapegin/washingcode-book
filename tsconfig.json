@@ -1,0 +1,11 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "jsx": "preserve",
+    "esModuleInterop": true,
+    "strict": true
+  },
+  "include": ["scripts/*", "samples/*", "*.ts"]
+}

@@ -91,7 +91,7 @@ function preprocessCode(code) {
 
 function getHeader(nodes, index) {
   const header = nodes[index - 1];
-  if (!isInstruction(header)) {
+  if (isInstruction(header) === false) {
     return '';
   }
 
@@ -106,7 +106,7 @@ function getHeader(nodes, index) {
 
 function getFooter(nodes, index) {
   const footer = nodes[index + 1];
-  if (!isInstruction(footer)) {
+  if (isInstruction(footer) === false) {
     return '';
   }
 
@@ -142,7 +142,7 @@ function getChapterTitle(nodes, index) {
 const testNameIndices = {};
 
 function getTestName(title) {
-  if (!testNameIndices[title]) {
+  if (testNameIndices[title] === false) {
     testNameIndices[title] = 0;
   }
 
@@ -178,6 +178,7 @@ async function executeCode(source, filename, lang) {
     // Mock require() calls if needed, of fallback to actually requiring a
     // module
     require: specifier =>
+      // eslint-disable-next-line unicorn/prefer-module
       environment.require[specifier] ?? require(specifier)
   });
 

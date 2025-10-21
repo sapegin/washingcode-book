@@ -1,11 +1,22 @@
 import tamiaTypeScriptReact from 'eslint-config-tamia/typescript-react';
 import markdown from '@eslint/markdown';
+import tseslint from 'typescript-eslint';
 
 export default [
   ...tamiaTypeScriptReact,
   ...markdown.configs.processor,
   {
+    files: ['**/*.md/*.{js,jsx,ts,tsx}'],
+    languageOptions: {
+      parserOptions: {
+        // Disable types because they don't work in Markdown files
+        projectService: false
+      }
+    },
     rules: {
+      // Disable rules that require types
+      ...tseslint.configs.disableTypeChecked.rules,
+
       // Can't disable these for a particular example because
       // of the prettier-ignore comment
       curly: 'off',
@@ -35,8 +46,8 @@ export default [
       'unicorn/prefer-global-this': 'off',
       'unicorn/prefer-module': 'off',
       'unicorn/prefer-regexp-test': 'off',
+      'washing-code/explicit-boolean-check': 'off',
 
-      // Some examples use it
       // Most examples define variables or functions
       '@typescript-eslint/no-unused-vars': 'off'
     }

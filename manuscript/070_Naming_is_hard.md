@@ -1215,14 +1215,14 @@ I> Underscores (`_`) as separators for numbers were introduced in ECMAScript 202
 Types often make incorrect names more noticeable:
 
 ```ts
-type Order = {
+interface Order {
   id: number;
   title: string;
-};
-type State = {
+}
+interface State {
   filteredOrder: Order[];
   selectedOrder: number[];
-};
+}
 ```
 
 By looking at the types, it’s clear that both names should be plural (they contain arrays), and the `selectedOrder` only contains order IDs, not whole order objects:
@@ -1230,10 +1230,10 @@ By looking at the types, it’s clear that both names should be plural (they con
 <!-- type Order = { id: number, title: string } -->
 
 ```ts
-type State = {
+interface State {
   filteredOrders: Order[];
   selectedOrderIds: number[];
-};
+}
 ```
 
 We often change the logic but forget to update the names to reflect that. This makes understanding the code much harder and can lead to bugs when we later change the code and make incorrect assumptions based on incorrect names.

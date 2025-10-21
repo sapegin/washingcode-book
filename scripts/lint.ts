@@ -2,7 +2,7 @@
 
 // Lint Markdown files
 
-import fs from 'fs';
+import fs from 'node:fs';
 import { globSync } from 'glob';
 
 const CHAPTERS_DIR = 'manuscript/';
@@ -77,13 +77,14 @@ console.log();
 for (const chapter of chapters) {
   console.log(`[LINT] 👉 ${chapter.file}`);
 
-  const links =
-    chapter.contents.match(/\[.*?]\(#.*?\)/g) ?? [];
-
-  for (const linkMarkdown of links) {
-    const [, linkLabel, id] =
-      linkMarkdown.match(/\[(.*?)]\(#(.*?)\)/) ?? [];
-    const chapterTitle = allLinks[id];
+  const links = chapter.contents.matchAll(
+    /\[(.*?)]\(#(.*?)\)/g
+  );
+  for (const linkMatch of links) {
+    const linkLabel = linkMatch[1];
+    const id = linkMatch[2];
+    const chapterTitle =
+      id in allLinks ? allLinks[id] : undefined;
     if (chapterTitle === undefined) {
       console.error(
         `[LINT] 🦀 Chapter with ID #${id} not found, linked as “${linkLabel}”`
