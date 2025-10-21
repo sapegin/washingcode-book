@@ -53,6 +53,6 @@ export default [
     }
   },
   {
-    ignores: ['generator/', 'ai/Rules.md']
+    ignores: ['samples/', 'generator/', 'ai/Rules.md']
   }
 ];
