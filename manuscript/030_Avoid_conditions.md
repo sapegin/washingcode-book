@@ -287,6 +287,8 @@ We often add conditions when some data might be missing. For example, an optiona
 <!-- const fetch = () => ({ then: (cb) => { cb({ json: () => {} } ); return ({ then: (cb) => { cb('pizza'); return ({ catch: (cb) => { cb({message: 'nope'}) } })} }) } })
  -->
 
+<!-- eslint-disable  washing-code/prefer-function-optional-chain -->
+
 ```js
 function getRandomJoke(onDone, onError) {
   fetch('https://api.chucknorris.io/jokes/random')

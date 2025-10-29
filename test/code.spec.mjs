@@ -142,7 +142,7 @@ function getChapterTitle(nodes, index) {
 const testNameIndices = {};
 
 function getTestName(title) {
-  if (testNameIndices[title] === false) {
+  if (testNameIndices[title] === undefined) {
     testNameIndices[title] = 0;
   }
 

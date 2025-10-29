@@ -111,6 +111,8 @@ Instead of:
 
 <!-- function test(pizza) { -->
 
+<!-- eslint-disable  washing-code/prefer-function-optional-chain -->
+
 ```js
 if (pizza) {
   pizza();

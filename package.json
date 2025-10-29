@@ -40,17 +40,17 @@
     "styled-components": "6.1.19"
   },
   "devDependencies": {
-    "@eslint/markdown": "^7.4.1",
+    "@eslint/markdown": "^7.5.0",
     "@testing-library/react": "^16.3.0",
     "@textlint-rule/textlint-rule-no-unmatched-pair": "^2.0.4",
-    "cspell": "^9.2.1",
-    "esbuild": "^0.25.10",
+    "cspell": "^9.2.2",
+    "esbuild": "^0.25.11",
     "eslint": "^9.38.0",
-    "eslint-config-tamia": "^9.6.6",
+    "eslint-config-tamia": "^9.7.0",
     "glob": "^11.0.3",
-    "happy-dom": "^20.0.0",
+    "happy-dom": "^20.0.10",
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.5",
+    "lint-staged": "^16.2.6",
     "prettier": "3.6.2",
     "remark": "^15.0.1",
     "richtypo": "^7.0.1",
@@ -68,7 +68,7 @@
     "textlint-rule-terminology": "^5.2.16",
     "textlint-rule-write-good": "^2.0.0",
     "unist-util-visit": "^5.0.0",
-    "vitest": "^3.2.4"
+    "vitest": "^4.0.4"
   },
   "lint-staged": {
     "*.{js,mjs,cjs,ts,tsx,css,json,md}": "prettier --write",

@@ -6,6 +6,8 @@
 
 Mutation happens when we change a JavaScript object or array without creating a new object or array and assigning it to a new or existing variable:
 
+<!-- eslint-disable unicorn/no-immediate-mutation -->
+
 ```js
 const puppy = {
   name: 'Dessi',
