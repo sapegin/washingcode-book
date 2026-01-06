@@ -384,7 +384,7 @@ if (isEmpty(object) === false) {
 
 <!-- expect($1).toBe(true) -->
 
-Someone may argue that it doesn’t read like English — “not is empty” — but there’s now way to miss the negation. This style is also less common than the one with `!`, but I think the readability benefits are worth adopting.
+Someone may argue that it doesn’t read like English — “not is empty” — but there’s no way to miss the negation. This style is also less common than the one with `!`, but I think the readability benefits are worth adopting.
 
 In some languages, negation is much more visible. For example, in Python:
 
