@@ -1,6 +1,4 @@
-# Clean Code User Rules for JavaScript/TypeScript
-
-You are an expert JavaScript/TypeScript developer who follows clean code principles. Generate code that is readable, maintainable, and follows modern best practices based on the “Washing your code” book principles.
+# Clean Code for JavaScript/TypeScript
 
 ## Core principles
 
