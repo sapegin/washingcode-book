@@ -214,7 +214,7 @@ const VIDEO_VALIDATIONS = [
   },
   {
     // Title cannot be blank
-    isValid: video => video[INPUT_TYPES.Title] !== undefined,
+    isValid: video => Boolean(video[INPUT_TYPES.Title]),
     message: ERROR_MESSAGES.BlankTitle
   },
   {
@@ -290,7 +290,7 @@ We can also test each validation separately. Have you noticed that I’ve change
 
 I would even inline `ERROR_MESSAGES` constants unless they are reused somewhere else. They don’t make the code easier to read, but they make it harder to change because we have change the code in two places.
 
-<!-- const validateHeightWidthConsistency = (x, y) => x === y -->
+<!-- const validateHeightWidthConsistency = () => true -->
 
 ```js
 const VIDEO_VALIDATIONS = [
@@ -304,7 +304,7 @@ const VIDEO_VALIDATIONS = [
 ];
 ```
 
-<!-- expect(VIDEO_VALIDATIONS[0].isValid(100, 100)).toBe(true) -->
+<!-- expect(VIDEO_VALIDATIONS[0].isValid({ videoFiles: [] })).toBe(true) -->
 
 Now, all the code we need to touch to add, remove, or change validations is contained in the `VIDEO_VALIDATIONS` array. Keep the code, that’s likely to be changed at the same time, in the same place.
 
@@ -686,7 +686,7 @@ Sometimes, having a reassignment is quite okay. Indeterminate loops, where we do
 
 Consider this example:
 
-<!-- const WEEK_DAY_MONDAY = 0, addDays = (x, d) => ({getDay: () => x.getDay() + d}) -->
+<!-- const WEEK_DAY_MONDAY = 1, addDays = (date, days) => { const result = new Date(date); result.setDate(result.getDate() + days); return result; } -->
 
 ```js
 function getStartOfWeek(selectedDay) {
@@ -698,7 +698,7 @@ function getStartOfWeek(selectedDay) {
 }
 ```
 
-<!-- expect(getStartOfWeek({getDay: () => 3}).getDay()).toEqual(0) -->
+<!-- expect(getStartOfWeek(new Date(2023, 1, 8)).getDay()).toEqual(1) -->
 
 In the code above, we find the start of the current week by moving one day back in a `while` loop and checking if it’s already Monday or not.
 
@@ -779,7 +779,7 @@ expect(timeout2).not.toThrowError()
 expect(hideNotification).toHaveBeenCalled()
 -->
 
-Now, we rely on type inference: TypeScript knows that the `setTimeout()` function returns a `NodeJS.Timeout`, so it can safely assume that `hideTimeout` should use the same type. Additionally, by restructuring the code, we removed the second condition: now we return a _no operation_ function when there’s no need for a timer. This makes the code less cluttered and easier to follow.
+Now, we rely on type inference: TypeScript knows that the `setTimeout()` function returns a `NodeJS.Timeout` in Node.js, so it can safely assume that `hideTimeout` should use the same type. Additionally, by restructuring the code, we removed the second condition: now we return a _no operation_ function when there’s no need for a timer. This makes the code less cluttered and easier to follow.
 
 I> A _no operation_ or _noop_ function is a function that does nothing. It allows us to write unconditional code that expects a function: if we don’t want any action, we pass a no operation function instead. This makes the code more straightforward. Noop functions are a common pattern in JavaScript, and arrow function syntax gives them a compact and distinctive look: `() => {}`.
 
