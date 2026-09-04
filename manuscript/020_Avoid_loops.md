@@ -253,6 +253,8 @@ expect(testHost('burger.com', 0)).toBe(proxy)
 
 We don’t even need to nest loops here, but the data structure used to store rules makes it confusing. The nested arrays always have two items, so an object with two properties would be more appropriate here.
 
+The original function also had side effects: assignments to the `lastRule` variable outside the function, which made an already complex function harder to follow.
+
 Let’s have a look at another example of a nested loop:
 
 <!-- eslint-skip -->
@@ -281,7 +283,7 @@ function hasDiscount(customers) {
 ```
 
 <!--
-expect(hasDiscount({gandalf: {}})).toBe(false)
+expect(hasDiscount({gandalf: {ages: []}})).toBe(false)
 expect(hasDiscount({gandalf: {ages: [{customerCards: []}]}})).toBe(false)
 expect(hasDiscount({gandalf: {ages: [{customerCards: []}, {customerCards: ['DISCOUNT']}]}})).toBe(true)
 expect(hasDiscount({gandalf: {ages: [{customerCards: ['DISCOUNT']}]}})).toBe(true)
@@ -296,7 +298,7 @@ Let’s simplify it:
 ```js
 function hasDiscount(customers) {
   return Object.values(customers).some(customer => {
-    return customer.ages?.some(
+    return customer.ages.some(
       ageGroup => ageGroup.customerCards.length > 0
     );
   });
@@ -304,13 +306,15 @@ function hasDiscount(customers) {
 ```
 
 <!--
-expect(hasDiscount({gandalf: {}})).toBe(false)
+expect(hasDiscount({gandalf: {ages: []}})).toBe(false)
 expect(hasDiscount({gandalf: {ages: [{customerCards: []}]}})).toBe(false)
 expect(hasDiscount({gandalf: {ages: [{customerCards: []}, {customerCards: ['DISCOUNT']}]}})).toBe(true)
 expect(hasDiscount({gandalf: {ages: [{customerCards: ['DISCOUNT']}]}})).toBe(true)
 -->
 
 Not only the refactored code is three times shorter, but it’s also much clearer: are there any (some) customers with at least one customer card in any (some) age group?
+
+The refactored code assumes normalized data: every customer has an `ages` array (empty when there are none) and every age group has a `customerCards` array, so we can drop the defensive checks and streamline the code. We talk more about this in the [Avoid conditions](#no-conditions) chapter.
 
 ## Implied semantics of array methods
 
@@ -387,7 +391,7 @@ If the behavior of the original code is correct, then we don’t need to iterate
 <!-- const products = [{type: 'pizza'}, {type: 'coffee'}], expectedType = 'pizza' -->
 
 ```js
-const isExpectedType = products.at(-1).type === expectedType;
+const isExpectedType = products.at(-1)?.type === expectedType;
 ```
 
 <!-- expect(isExpectedType).toEqual(false) -->
@@ -507,7 +511,7 @@ The main benefits of `for…of` loops over the `forEach()` method are:
 - ability to exit early using `break` or `return`;
 - correct type narrowing in TypeScript (which doesn’t work properly when using a callback function in `forEach()`).
 
-T> The [unicorn/no-array-for-each](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-array-for-each.md) and [unicorn/no-for-loop](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-for-loop.md) linter rules automatically replace `forEach()` methods and `for` loops with `for…of` loops.
+T> The [unicorn/no-array-for-each](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-array-for-each.md) and [unicorn/no-for-loop](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/no-for-loop.md) linter rules automatically replace `forEach()` methods and `for` loops with `for…of` loops in some cases.
 
 ## Iterating over objects
 
@@ -527,9 +531,7 @@ const characters = {
 for (const race in characters) {
   // Iterate only over own object properties (skip properties
   // on the prototype chain)
-  if (
-    Object.prototype.hasOwnProperty.call(characters, race)
-  ) {
+  if (Object.hasOwn(characters, race)) {
     console.log(race, characters[race]);
   }
 }
@@ -583,7 +585,7 @@ const characters = {
 _.forEach(characters, (names, race) => {
   console.log(race, names);
 });
-// → { hobbits: ['bilbo-baggins'], dwarfs: ['fili', 'kili'] }
+// → { hobbits: ['Bilbo Baggins'], dwarfs: ['Fili', 'Kili'] }
 ```
 
 <!--
@@ -780,14 +782,14 @@ const props = {
 -->
 
 ```js
-const tableData = props.item?.details?.clients.flatMap(
-  client =>
+const tableData =
+  props.item?.details?.clients.flatMap(client =>
     client.errorConfigurations.map(config => ({
       errorMessage: config.error.message,
       errorLevel: config.error.level,
       usedIn: client.name
     }))
-);
+  ) ?? [];
 ```
 
 <!-- expect(tableData).toEqual([{ errorLevel: 2, errorMessage: 'nope', usedIn: 'Pizza' }]) -->
