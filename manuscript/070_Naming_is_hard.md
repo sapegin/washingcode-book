@@ -1254,19 +1254,14 @@ The problem with such names is that any variable contains _data_, and any array 
 Consider this example:
 
 <!--
-import { Record } from 'immutable'
 const UPDATE_RESULTS = 'ur', UPDATE_CART = 'uc'
-const Currency = Record({
-  iso: '',
-  name: '',
-  symbol: '',
-})
 -->
 
-<!-- eslint-skip -->
+<!-- eslint-disable no-case-declarations -->
 
 ```js
-function currencyReducer(state = new Currency(), action) {
+const defaultState = { iso: '', name: '', symbol: '' };
+function currencyReducer(state = defaultState, action) {
   switch (action.type) {
     case UPDATE_RESULTS:
     case UPDATE_CART:
@@ -1283,10 +1278,11 @@ function currencyReducer(state = new Currency(), action) {
         `res.data.currencies[${iso}]`
       );
 
-      return state
-        .set('iso', iso)
-        .set('name', _.get(obj, 'name'))
-        .set('symbol', _.get(obj, 'symbol'));
+      return {
+        iso,
+        name: _.get(obj, 'name', ''),
+        symbol: _.get(obj, 'symbol', '')
+      };
     default:
       return state;
   }
@@ -1294,53 +1290,49 @@ function currencyReducer(state = new Currency(), action) {
 ```
 
 <!--
-expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: { userInfo: { userCurrency: 'eur' } }, currencies: { eur: {name: 'Euro', symbol: '€' } } } } }).toJS()).toEqual({iso: 'eur', name: 'Euro', symbol: '€'})
-expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: { userInfo: { userCurrency: 'eur' } }, currencies: {} } } }).toJS()).toEqual({iso: 'eur', name: '', symbol: ''})
+expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: { userInfo: { userCurrency: 'eur' } }, currencies: { eur: {name: 'Euro', symbol: '€' } } } } })).toEqual({iso: 'eur', name: 'Euro', symbol: '€'})
+expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: { userInfo: { userCurrency: 'eur' } }, currencies: {} } } })).toEqual({iso: 'eur', name: '', symbol: ''})
 -->
 
-Besides using Immutable.js and Lodash’s [`get()` method](https://lodash.com/docs#get), which already makes the code hard to read, the `obj` variable makes the code even harder to understand.
+Besides using Lodash’s [`get()` method](https://lodash.com/docs#get), which already makes the code hard to read, the `obj` variable makes the code even harder to understand.
 
 All this code does is reorganize the data about the user’s currency into a neat object:
 
 <!--
-import { Record } from 'immutable'
 const UPDATE_RESULTS = 'ur', UPDATE_CART = 'uc'
-const Currency = Record({
-  iso: '',
-  name: '',
-  symbol: '',
-})
 -->
 
 ```js
-const currencyReducer = (state = new Currency(), action) => {
+const defaultState = { iso: '', name: '', symbol: '' };
+function currencyReducer(state = defaultState, action) {
   switch (action.type) {
     case UPDATE_RESULTS:
     case UPDATE_CART: {
       const { data } = action.res;
-      if (data.query === undefined) {
+      if (!data.query) {
         return state;
       }
 
       const iso = data.query.userInfo?.userCurrency;
+
       const { name = '', symbol = '' } =
         data.currencies[iso] ?? {};
 
-      return state.merge({ iso, name, symbol });
+      return { iso, name, symbol };
     }
     default: {
       return state;
     }
   }
-};
+}
 ```
 
 <!--
-expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: { userInfo: { userCurrency: 'eur' } }, currencies: { eur: {name: 'Euro', symbol: '€' } } } } }).toJS()).toEqual({iso: 'eur', name: 'Euro', symbol: '€'})
-expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: { userInfo: { userCurrency: 'eur' } }, currencies: {} } } }).toJS()).toEqual({iso: 'eur', name: '', symbol: ''})
+expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: { userInfo: { userCurrency: 'eur' } }, currencies: { eur: {name: 'Euro', symbol: '€' } } } } })).toEqual({iso: 'eur', name: 'Euro', symbol: '€'})
+expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: { userInfo: { userCurrency: 'eur' } }, currencies: {} } } })).toEqual({iso: 'eur', name: '', symbol: ''})
 -->
 
-Now, it’s clearer what shape of data we’re building here, and even Immutable.js isn’t so intimidating. I kept the `data` name because that’s how it’s coming from the backend, and it’s commonly used as a root object for whatever the backend API is returning. As long as we don’t leak it into the app code and only use it during the initial processing of the raw backend data, it’s okay.
+Now, it’s clearer what shape of data we’re building here. I kept the `data` name because that’s how it’s coming from the backend, and it’s commonly used as a root object for whatever the backend API is returning. As long as we don’t leak it into the app code and only use it during the initial processing of the raw backend data, it’s okay.
 
 Abstract names are also okay for generic utility functions, like array filtering or sorting:
 

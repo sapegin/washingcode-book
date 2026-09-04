@@ -829,20 +829,7 @@ I don’t think freezing is worth it on its own unless it’s a by-product of an
 
 **Simplifying object updates** is another option that we can combine with mutation prevention.
 
-One way to simplify object updates is to use a library like [Immutable.js](https://immutable-js.com):
-
-```js
-import { Map } from 'immutable';
-const map1 = Map({ food: 'pizza', drink: 'coffee' });
-const map2 = map1.set('drink', 'vodka');
-// → Map({ food: 'pizza', drink: 'vodka' })
-```
-
-<!-- expect(map2.toJS()).toEqual({ food: 'pizza', drink: 'vodka' }) -->
-
-I’m not a big fan of Immutable.js because we have to work with Immutable objects instead of plain JavaScript objects or arrays, and it has a completely custom API that we have to learn. Also, converting arrays and objects from plain JavaScript to Immutable.js and back every time we need to work with any native JavaScript API or almost any third-party API is annoying. Overall, it feels like Immutable.js creates more problems than it solves.
-
-Another option is [Immer](https://immerjs.github.io/immer/), which allows us to use any mutating operations on a _draft_ version of an object without affecting the original object in any way. Immer intercepts each operation and returns a new object:
+One way to simplify object updates is to use a library like [Immer](https://immerjs.github.io/immer/), which allows us to use any mutating operations on a _draft_ version of an object without affecting the original object in any way. Immer intercepts each operation and returns a new object:
 
 ```js
 import { produce } from 'immer';
