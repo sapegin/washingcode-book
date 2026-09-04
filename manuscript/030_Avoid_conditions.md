@@ -284,7 +284,7 @@ We had to split the component into two to use early return, but the logic is now
 
 We often add conditions when some data might be missing. For example, an optional callback function:
 
-<!-- const fetch = () => ({ then: (cb) => { cb({ json: () => {} } ); return ({ then: (cb) => { cb('pizza'); return ({ catch: (cb) => { cb({message: 'nope'}) } })} }) } })
+<!-- const fetch = () => ({ then: (cb) => { cb({ json: () => {} } ); return ({ then: (cb) => { cb({value:'pizza'}); return ({ catch: (cb) => { cb({message: 'nope'}) } })} }) } })
  -->
 
 <!-- eslint-disable  washing-code/prefer-function-optional-chain -->
@@ -294,7 +294,7 @@ function getRandomJoke(onDone, onError) {
   fetch('https://api.chucknorris.io/jokes/random')
     .then(result => result.json())
     .then(data => {
-      onDone(data);
+      onDone(data.value);
     })
     .catch(error => {
       if (onError) {
@@ -318,7 +318,7 @@ I> The _cognitive load_ is the mental effort required to understand the code. Ar
 
 One way to simplify the code here is by using the _optional chaining_ operator:
 
-<!-- const fetch = () => ({ then: (cb) => { cb({ json: () => {} } ); return ({ then: (cb) => { cb('pizza'); return ({ catch: (cb) => { cb({message: 'nope'}) } })} }) } })
+<!-- const fetch = () => ({ then: (cb) => { cb({ json: () => {} } ); return ({ then: (cb) => { cb({value:'pizza'}); return ({ catch: (cb) => { cb({message: 'nope'}) } })} }) } })
  -->
 
 ```js
@@ -326,7 +326,7 @@ function getRandomJoke(onDone, onError) {
   fetch('https://api.chucknorris.io/jokes/random')
     .then(result => result.json())
     .then(data => {
-      onDone(data);
+      onDone(data.value);
     })
     .catch(error => {
       onError?.(error.message);
@@ -348,7 +348,7 @@ I usually try to avoid these kinds of conditions and make sure all optional para
 
 My favorite way to do it is by lifting the condition to the function head using optional function parameters:
 
-<!-- const fetch = () => ({ then: (cb) => { cb({ json: () => {} } ); return ({ then: (cb) => { cb('pizza'); return ({ catch: (cb) => { cb({message: 'nope'}) } })} }) } })
+<!-- const fetch = () => ({ then: (cb) => { cb({ json: () => {} } ); return ({ then: (cb) => { cb({value:'pizza'}); return ({ catch: (cb) => { cb({message: 'nope'}) } })} }) } })
  -->
 
 ```js
@@ -356,7 +356,7 @@ function getRandomJoke(onDone, onError = () => {}) {
   fetch('https://api.chucknorris.io/jokes/random')
     .then(result => result.json())
     .then(data => {
-      onDone(data);
+      onDone(data.value);
     })
     .catch(error => {
       onError(error.message);
@@ -418,7 +418,7 @@ Sometimes, we have to use an existing API that returns an array only in some cas
 
 ```js
 function getProductsDropdownItems({ products }) {
-  if (Array.isArray(products) && products.length > 0) {
+  if (Array.isArray(products)) {
     return products.map(product => ({
       label: product.name,
       value: product.id
@@ -1018,6 +1018,8 @@ function getMonthNumberByName(monthName) {
 There’s almost no boilerplate code around the data; it’s more readable and looks like a table. Notice also that there are no braces in the original code: in most modern style guides, braces around condition bodies are required, and the body should be on its own line, so this code would be three times longer and even less readable.
 
 Another issue with the initial code is that the `month` variable’s initial type is a string, but then it becomes a number. This is confusing, and if we were using a typed language (like TypeScript), we would have to check the type every time we wanted to access this variable.
+
+Even more confusing is that the original function returns the passed value back if it’s not a known month, so it can return either a number (makes sense) or a string (this doesn’t make sense).
 
 Here’s a bit more realistic and common example:
 
