@@ -85,7 +85,7 @@ for (const chapter of chapters) {
     const id = linkMatch[2];
     const chapterTitle =
       id in allLinks ? allLinks[id] : undefined;
-    if (!chapterTitle) {
+    if (chapterTitle === undefined) {
       console.error(
         `[LINT] 🦀 Chapter with ID #${id} not found, linked as “${linkLabel}”`
       );

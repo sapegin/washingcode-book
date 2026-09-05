@@ -376,7 +376,7 @@ if (!isEmpty(object)) {
 
 <!-- expect($1).toBe(true) -->
 
-I had a period of a few years when I was expanding conditions with `!` everywhere:
+I had a period of a few years when I replaced `!` with explicit comparisons everywhere:
 
 <!--
 let object = { o: 0 }
@@ -391,11 +391,9 @@ if (isEmpty(object) === false) {
 
 <!-- expect($1).toBe(true) -->
 
-I still believe this style is superior in many cases. However, working with other people and now with AI agents makes it hard to introduce a non-conventional style into a codebase.
+I still believe explicit conditions are more readable in some cases. However, working with other people and now with AI agents makes it hard to introduce a non-conventional style into a codebase.
 
 I also realized that explicit right-hand side (`undefined`, `false`) is often undesirable, as most of the time I don’t really care whether it’s `undefined`, `false`, or any other falsy value. In some cases it could be multiple values and this style makes you write complex conditions.
-
-<!-- expect($1).toBe(true) -->
 
 One case where I still expand conditions is checking array length.
 
@@ -688,7 +686,7 @@ let window = {
 function getWordRange(pattern) {
   const editor = window.activeTextEditor;
 
-  if (editor.selection.isEmpty === false) {
+  if (!editor.selection.isEmpty) {
     return editor.selection;
   }
 
@@ -724,7 +722,7 @@ function getWordRange(pattern) {
   const editor = window.activeTextEditor;
 
   // If something is selected, return the range of selection
-  if (editor.selection.isEmpty === false) {
+  if (!editor.selection.isEmpty) {
     return editor.selection;
   }
 

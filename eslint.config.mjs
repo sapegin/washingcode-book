@@ -6,6 +6,10 @@ export default [
   ...tamiaTypeScriptReact,
   ...markdown.configs.processor,
   {
+    files: ['**/*.{js,jsx,ts,tsx,mjs}'],
+    rules: { 'washing-code/explicit-boolean-check': 'off' }
+  },
+  {
     files: ['**/*.md/*.{js,jsx,ts,tsx}'],
     languageOptions: {
       parserOptions: {
@@ -46,7 +50,6 @@ export default [
       'unicorn/prefer-global-this': 'off',
       'unicorn/prefer-module': 'off',
       'unicorn/prefer-regexp-test': 'off',
-      'washing-code/explicit-boolean-check': 'off',
 
       // Most examples define variables or functions
       '@typescript-eslint/no-unused-vars': 'off'
