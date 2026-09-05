@@ -120,6 +120,8 @@ async function createDirectory(fullPath, relativePath) {
   window.showInformationMessage(
     `Folder created: ${relativePath}`
   );
+
+  this.quickPick.hide();
 }
 
 async function openExistingFile(fullPath, relativePath) {
@@ -143,6 +145,8 @@ async function createFile(fullPath, relativePath) {
   }
 
   await window.showTextDocument(Uri.file(fullPath));
+
+  this.quickPick.hide();
 }
 
 async function createNew() {
@@ -154,8 +158,6 @@ async function createNew() {
   } else {
     await this.createFile(fullPath, relativePath);
   }
-
-  this.quickPick.hide();
 }
 ```
 
