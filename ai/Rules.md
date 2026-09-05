@@ -18,7 +18,6 @@ Always prioritize code readability and maintainability over cleverness or brevit
 - Extract complex conditions into variables with meaningful names
 - Prefer explicit comparisons: `array.length === 0` instead of `!array.length`
 - Use `===` instead of `==`, `!==` instead of `!=`
-- Use explicit conditions: `value === false` instead of `!value`
 
 ### 3. Avoid variable reassignment
 
@@ -79,6 +78,14 @@ Always prioritize code readability and maintainability over cleverness or brevit
 - Use discriminated unions for complex state
 - Make types as specific as possible - NEVER use `any`, use `unknown` when needed
 - Use `readonly` for arrays and objects that shouldn’t be mutated
+
+### 11. Normalize input
+
+- Normalize input at the boundary — function entry, API layer, or parser — not in every consumer
+- An array is always an array: use `[]` for no data, never `undefined`, `null`, or sparse arrays like `[null]`
+- Use default parameters, nullish coalescing (`??`), or explicit conversion once, then run a generic algorithm on the normalized data
+- Use types to make invalid shapes impossible instead of sprinkling defensive checks through business logic
+- Prefer fixing the data source over guarding against garbage in downstream code
 
 ## React specific guidelines
 
@@ -155,10 +162,37 @@ const users = [...existingUsers, newUser].toSorted((a, b) =>
 
 ```ts
 // ❌ Bad: Implicit boolean conversion
+if (users.length) return;
 if (!users.length) return;
-if (!isEnabled) return;
 
 // ✅ Good: Explicit comparisons
+if (users.length > 0) return;
 if (users.length === 0) return;
-if (isEnabled === false) return;
+```
+
+### Normalize input
+
+```ts
+// ❌ Bad: Defensive checks in every consumer
+function hasDiscount(customers: Record<string, Customer>) {
+  return Object.values(customers).some(customer => {
+    if (!customer.ages) return false;
+    return customer.ages.some(ageGroup => {
+      if (!ageGroup || !ageGroup.customerCards) return false;
+      return ageGroup.customerCards.length > 0;
+    });
+  });
+}
+
+// ✅ Good: Normalize once, then use simple logic
+function hasDiscount(customers: Record<string, Customer>) {
+  return Object.values(customers).some(customer =>
+    customer.ages.some(
+      ageGroup => ageGroup.customerCards.length > 0
+    )
+  );
+}
+
+// Where Customer.ages is always CustomerAge[] (empty when none)
+// and CustomerAge.customerCards is always string[] (empty when none)
 ```

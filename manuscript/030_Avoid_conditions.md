@@ -13,14 +13,14 @@ let object = { getValue: () => 'xxx' }
 -->
 
 ```js
-// `if` operator
+// `if` statement
 if (condition) {
   // The condition is true
 } else {
   // The condition is false
 }
 
-// `switch` operator
+// `switch` statement
 switch (value) {
   case 'value1': {
     // Code for value1
@@ -199,7 +199,7 @@ function isNetscapeOnSolaris() {
   return (
     userAgent.includes('Mozilla') &&
     userAgent.includes('SunOS') &&
-    userAgent.includes('compatible') === false
+    !userAgent.includes('compatible')
   );
 }
 ```
@@ -284,7 +284,7 @@ We had to split the component into two to use early return, but the logic is now
 
 We often add conditions when some data might be missing. For example, an optional callback function:
 
-<!-- const fetch = () => ({ then: (cb) => { cb({ json: () => {} } ); return ({ then: (cb) => { cb('pizza'); return ({ catch: (cb) => { cb({message: 'nope'}) } })} }) } })
+<!-- const fetch = () => ({ then: (cb) => { cb({ json: () => {} } ); return ({ then: (cb) => { cb({value:'pizza'}); return ({ catch: (cb) => { cb({message: 'nope'}) } })} }) } })
  -->
 
 <!-- eslint-disable  washing-code/prefer-function-optional-chain -->
@@ -294,7 +294,7 @@ function getRandomJoke(onDone, onError) {
   fetch('https://api.chucknorris.io/jokes/random')
     .then(result => result.json())
     .then(data => {
-      onDone(data);
+      onDone(data.value);
     })
     .catch(error => {
       if (onError) {
@@ -318,7 +318,7 @@ I> The _cognitive load_ is the mental effort required to understand the code. Ar
 
 One way to simplify the code here is by using the _optional chaining_ operator:
 
-<!-- const fetch = () => ({ then: (cb) => { cb({ json: () => {} } ); return ({ then: (cb) => { cb('pizza'); return ({ catch: (cb) => { cb({message: 'nope'}) } })} }) } })
+<!-- const fetch = () => ({ then: (cb) => { cb({ json: () => {} } ); return ({ then: (cb) => { cb({value:'pizza'}); return ({ catch: (cb) => { cb({message: 'nope'}) } })} }) } })
  -->
 
 ```js
@@ -326,7 +326,7 @@ function getRandomJoke(onDone, onError) {
   fetch('https://api.chucknorris.io/jokes/random')
     .then(result => result.json())
     .then(data => {
-      onDone(data);
+      onDone(data.value);
     })
     .catch(error => {
       onError?.(error.message);
@@ -348,7 +348,7 @@ I usually try to avoid these kinds of conditions and make sure all optional para
 
 My favorite way to do it is by lifting the condition to the function head using optional function parameters:
 
-<!-- const fetch = () => ({ then: (cb) => { cb({ json: () => {} } ); return ({ then: (cb) => { cb('pizza'); return ({ catch: (cb) => { cb({message: 'nope'}) } })} }) } })
+<!-- const fetch = () => ({ then: (cb) => { cb({ json: () => {} } ); return ({ then: (cb) => { cb({value:'pizza'}); return ({ catch: (cb) => { cb({message: 'nope'}) } })} }) } })
  -->
 
 ```js
@@ -356,7 +356,7 @@ function getRandomJoke(onDone, onError = () => {}) {
   fetch('https://api.chucknorris.io/jokes/random')
     .then(result => result.json())
     .then(data => {
-      onDone(data);
+      onDone(data.value);
     })
     .catch(error => {
       onError(error.message);
@@ -418,7 +418,7 @@ Sometimes, we have to use an existing API that returns an array only in some cas
 
 ```js
 function getProductsDropdownItems({ products }) {
-  if (Array.isArray(products) && products.length > 0) {
+  if (Array.isArray(products)) {
     return products.map(product => ({
       label: product.name,
       value: product.id
@@ -501,7 +501,7 @@ A similar technique works when the input is a single value or an array:
 
 ```js
 function getProductsDropdownItems({
-  products: productOrProducts
+  products: productOrProducts = []
 }) {
   const products = Array.isArray(productOrProducts)
     ? productOrProducts
@@ -514,12 +514,41 @@ function getProductsDropdownItems({
 ```
 
 <!--
+expect(getProductsDropdownItems({})).toEqual([])
 expect(getProductsDropdownItems({products: []})).toEqual([])
 expect(getProductsDropdownItems({products: {id: '1', name: 'Tacos'}})).toEqual([{label: 'Tacos', value: '1'}])
 expect(getProductsDropdownItems({products: [{id: '1', name: 'Tacos'}]})).toEqual([{label: 'Tacos', value: '1'}])
 -->
 
 In the code above, we wrap a single element with an array so we can use the same code to work with single values and arrays.
+
+However, I generally avoid this kind of polymorphism and write more predictable functions:
+
+```js
+function getProductsDropdownItems(products) {
+  return products.map(product => ({
+    label: product.name,
+    value: product.id
+  }));
+}
+```
+
+<!--
+expect(getProductsDropdownItems([])).toEqual([])
+expect(getProductsDropdownItems([{id: '1', name: 'Tacos'}])).toEqual([{label: 'Tacos', value: '1'}])
+-->
+
+This function is straightforward. If the consumer has only one product, they can pass an array with this product instead of passing it directly and expecting the function to make sense of this. It also doesn’t make sense for this function to accept the full object containing the products coupling it with a larger type.
+
+<!-- let result, getProductsDropdownItems = (x) => result = x; -->
+
+```js
+getProductsDropdownItems([{ id: '1', name: 'Tacos' }]);
+```
+
+<!--
+expect(result).toEqual([{id: '1', name: 'Tacos'}])
+-->
 
 {#deduplication}
 
@@ -605,10 +634,7 @@ function counter() {
       return counts[url];
     },
     upvote(url, votes = 1) {
-      if (counts[url] === undefined) {
-        counts[url] = 0;
-      }
-
+      counts[url] ??= 0;
       counts[url] += votes;
     }
   };
@@ -706,14 +732,14 @@ let showNotification = vi.fn()
 
 ```js
 function addUser(user) {
-  if (isUsernameValid(user.username) === false) {
-    throw new Error('You must enter a valid address');
+  if (!isUsernameValid(user.username)) {
+    throw new Error('You must enter a valid username');
   }
-  if (isEmailValid(user.email) === false) {
+  if (!isEmailValid(user.email)) {
     throw new Error('You must enter a valid email');
   }
-  if (isAddressValid(user.address) === false) {
-    throw new Error('You must enter a valid username');
+  if (!isAddressValid(user.address)) {
+    throw new Error('You must enter a valid address');
   }
 
   createUserRecord(user);
@@ -723,6 +749,9 @@ function addUser(user) {
 
 <!--
 expect(() => addUser()).toThrowError()
+expect(() => addUser({email: 'x', address: 'x'})).toThrowError('You must enter a valid username')
+expect(() => addUser({username: 'x', address: 'x'})).toThrowError('You must enter a valid email')
+expect(() => addUser({username: 'x', email: 'x'})).toThrowError('You must enter a valid address')
 expect(createUserRecord).not.toHaveBeenCalled()
 expect(() => addUser({username: 'x', email: 'x', address: 'x'})).not.toThrowError()
 expect(createUserRecord).toHaveBeenCalled()
@@ -773,11 +802,11 @@ Let’s untangle this spaghetti monster:
 ```js
 function postOrderStatus() {
   let idsArrayObject = getOrderIds();
-  if (idsArrayObject === undefined) {
+  if (!idsArrayObject) {
     return false;
   }
 
-  if (Array.isArray(idsArrayObject) === false) {
+  if (!Array.isArray(idsArrayObject)) {
     idsArrayObject = [idsArrayObject];
   }
 
@@ -986,6 +1015,8 @@ function getMonthNumberByName(monthName) {
 There’s almost no boilerplate code around the data; it’s more readable and looks like a table. Notice also that there are no braces in the original code: in most modern style guides, braces around condition bodies are required, and the body should be on its own line, so this code would be three times longer and even less readable.
 
 Another issue with the initial code is that the `month` variable’s initial type is a string, but then it becomes a number. This is confusing, and if we were using a typed language (like TypeScript), we would have to check the type every time we wanted to access this variable.
+
+Even more confusing is that the original function returns the passed value back if it’s not a known month, so it can return either a number (makes sense) or a string (this doesn’t make sense).
 
 Here’s a bit more realistic and common example:
 
@@ -1272,15 +1303,14 @@ const hasStringValue = value =>
  * of characters, ignores empty strings and non-string values
  */
 const hasLengthLessThanOrEqual = max => value =>
-  hasStringValue(value) === false || value.length <= max;
+  !hasStringValue(value) || value.length <= max;
 
 /**
  * Validates whether a string has no spaces,
  * ignores empty strings and non-string values
  */
 const hasNoSpaces = value =>
-  hasStringValue(value) === false ||
-  value.includes(' ') === false;
+  !hasStringValue(value) || !value.includes(' ');
 ```
 
 <!--
@@ -1314,7 +1344,7 @@ We’ll use an array because we want to have several validations with different 
 
 <!--
 const hasStringValue = value => typeof value === 'string' && value.trim() !== ''
-const hasLengthLessThanOrEqual = max => value => hasStringValue(value) === false || value.length <= max
+const hasLengthLessThanOrEqual = max => value => !hasStringValue(value) || value.length <= max
 -->
 
 ```js
@@ -1341,11 +1371,14 @@ expect(validations[1].validation('tacocat')).toBe(true)
 expect(validations[1].validation('x'.repeat(81))).toBe(false)
 -->
 
+When several validations fail for the same field, we want to keep the first error message (usually the most basic rule, such as “required field”). A plain assignment would overwrite earlier messages.
+
 Next, we need to iterate over this array and run validations for all the fields:
 
 <!--
 const hasStringValue = value => typeof value === 'string' && value.trim() !== ''
-const hasLengthLessThanOrEqual = max => value => hasStringValue(value) === false || value.length <= max
+const hasLengthLessThanOrEqual = max => value => !hasStringValue(value) || value.length <= max
+const hasNoSpaces = value => !hasStringValue(value) || !value.includes(' ')
 const validations = [
   {
     field: 'name',
@@ -1358,14 +1391,26 @@ const validations = [
     message: 'Maximum 80 characters allowed'
   }
 ]
+const validationsMulti = [
+  {
+    field: 'name',
+    validation: hasLengthLessThanOrEqual(3),
+    message: 'Maximum 3 characters allowed'
+  },
+  {
+    field: 'name',
+    validation: hasNoSpaces,
+    message: 'No spaces are allowed'
+  }
+]
 -->
 
 ```js
 function validate(values, validations) {
   const errors = {};
   for (const { field, validation, message } of validations) {
-    if (validation(values[field]) === false) {
-      errors[field] = message;
+    if (!validation(values[field])) {
+      errors[field] ??= message;
     }
   }
   return errors;
@@ -1377,7 +1422,10 @@ expect(validate({name: ''}, validations)).toEqual({name: "Name is required"})
 expect(validate({name: ' '}, validations)).toEqual({name: "Name is required"})
 expect(validate({name: 'Chuck Norris'}, validations)).toEqual({})
 expect(validate({name: 'x'.repeat(81)}, validations)).toEqual({name: "Maximum 80 characters allowed"})
+expect(validate({name: 'a bc'}, validationsMulti)).toEqual({name: "Maximum 3 characters allowed"})
 -->
+
+I> The _nullish coalescing assignment operator_ (`??=`) was introduced in ECMAScript 2021 and assigns the right-hand value only when the left-hand variable is `null` or `undefined`.
 
 Once again, we’ve separated the “what” from the “how”: we have a readable and maintainable list of validations (“what”), a collection of reusable validation functions, and a generic `validate()` function to validate form values (“how”) that we can reuse to validate other forms.
 
@@ -1456,7 +1504,7 @@ expect(getDateFormat()).toBe('M/D')
 
 The improved version is shorter, and, more importantly, now it’s easy to see all date formats: now the difference is much easier to spot.
 
-I> There’s a proposal to add [pattern matching](https://github.com/tc39/proposal-pattern-matching) to JavaScript, which may give us another option: more flexible than tables but still readable.
+I> There’s an early-stage proposal (Stage 1) to add [pattern matching](https://github.com/tc39/proposal-pattern-matching) to JavaScript, which may give us another option: more flexible than tables but still readable.
 
 ## Negative conditions
 
@@ -1765,6 +1813,8 @@ expect(getDiscountAmount({promoDiscount: {discountAmount: {displayCurrency: v25}
 expect(getDiscountAmount({promoDiscount: {discountAmount: {displayCurrency: v10}}, userDiscount: {discountAmount: {displayCurrency: v25}}})).toEqual(v25)
 expect(getDiscountAmount({promoDiscount: {discountAmount: {displayCurrency: v25}}, userDiscount: {discountAmount: {displayCurrency: v10}}})).toEqual(v25)
 expect(getDiscountAmount({})).toEqual(v0)
+expect(_.maxBy([v10, v25], amount => amount.valueInCents)).toEqual(v25)
+expect(_.maxBy([undefined, v25], amount => amount?.valueInCents)).toEqual(v25)
 -->
 
 In the code above, we create an array with all possible discounts, then we use Lodash’s [`maxBy()` method](https://lodash.com/docs#maxBy) to find the maximum discount value, and finally, we use the nullish coalescing operator to either return the maximum or 0.
@@ -2006,7 +2056,7 @@ function test(platform, browser) {
 ```js
 if (
   platform.toUpperCase().indexOf('MAC') > -1 &&
-  browser.toUpperCase().indexOf('IE') > 1 &&
+  browser.toUpperCase().indexOf('IE') > -1 &&
   wasInitialized() &&
   resize > 0
 ) {
@@ -2116,5 +2166,5 @@ Start thinking about:
 - Normalizing the input data by converting the absence of data to an array early on to avoid branching and dealing with no data separately.
 - Normalizing the state to avoid algorithm duplication.
 - Replacing complex condition with a single expression (formula) or a map.
-- Replacing nested ternaries or `if` operators with early returns.
+- Replacing nested ternaries or `if` statements with early returns.
 - Caching repeated conditions in a variable.
