@@ -78,6 +78,9 @@ Always prioritize code readability and maintainability over cleverness or brevit
 - Use discriminated unions for complex state
 - Make types as specific as possible - NEVER use `any`, use `unknown` when needed
 - Use `readonly` for arrays and objects that shouldn’t be mutated
+- Group related constants in a single object (prefer aligned prefixes like `SIZE_SMALL` over loose names like `SMALL`)
+- Prefer string enums to group related constants when TypeScript is transpiled normally — use singular PascalCase names (`Size`, `OrderStatus`)
+- Use `as const` objects with a derived union type instead of enums when code must survive type stripping (Node.js native TypeScript, `erasableSyntaxOnly`) — enums emit runtime code and aren’t erasable
 
 ### 11. Normalize input
 
@@ -195,4 +198,25 @@ function hasDiscount(customers: Record<string, Customer>) {
 
 // Where Customer.ages is always CustomerAge[] (empty when none)
 // and CustomerAge.customerCards is always string[] (empty when none)
+```
+
+### Grouping related constants
+
+```ts
+// ❌ Bad: Separate constants with no obvious relation
+const SMALL = 'small';
+const MEDIUM = 'medium';
+
+// ✅ Good: String enum when TypeScript is transpiled normally
+enum Size {
+  Small = 'small',
+  Medium = 'medium'
+}
+
+// ✅ Good: as const object when types are stripped before execution
+const ModalSize = {
+  Small: 'small',
+  Medium: 'medium'
+} as const;
+type ModalSize = (typeof ModalSize)[keyof typeof ModalSize];
 ```
