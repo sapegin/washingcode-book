@@ -710,7 +710,7 @@ We can describe the validations declaratively as an array:
 
 <!--
 let hasStringValue = value => value?.trim() !== ''
-let hasNoSpaces = value => value?.includes(' ') === false
+let hasNoSpaces = value => !value?.includes(' ')
 -->
 
 ```js

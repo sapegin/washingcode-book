@@ -319,10 +319,7 @@ const $ = (key) => ({
 
 ```js
 const hasData = data.length > 0;
-$(`#${bookID}_download`).toggleClass(
-  'hidden-node',
-  hasData === false
-);
+$(`#${bookID}_download`).toggleClass('hidden-node', !hasData);
 $(`#${bookID}_retry`).attr('disabled', hasData);
 ```
 

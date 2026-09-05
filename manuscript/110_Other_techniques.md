@@ -995,7 +995,7 @@ let isEmpty = _.isEmpty
 -->
 
 ```js
-if (isEmpty(object) === false) {
+if (!isEmpty(object)) {
   // Object is not empty
 }
 ```

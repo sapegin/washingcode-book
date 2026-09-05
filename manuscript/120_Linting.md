@@ -189,7 +189,7 @@ for (;;) {
   allPhotos.push(...photos);
   url = next;
 
-  if (next === false) {
+  if (!next) {
     break;
   }
 }

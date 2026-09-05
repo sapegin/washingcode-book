@@ -352,9 +352,16 @@ I> We talk about code formatting in the [Autoformat your code](#formatting) chap
 
 ## Condition expansion
 
-Some ways of writing code are more readable than others. For example, conditions, especially those with negations. I used to write them as concisely as possible; now, I prefer to be verbose and explicit. Saving a few keystrokes isn’t worth it when the code could be misinterpreted. It’s better to learn touch typing.
+Some ways of writing code are more readable than others. For example, conditions, especially those with negations.
 
-Consider this example:
+In some languages, negation is much more visible. For example, in Python:
+
+```python
+if not is_empty(object):
+  # Object is not empty
+```
+
+Unfortunately, JavaScript inherited terse syntax from C that’s fast to type but might be hard to read later, as it’s easy to miss the logical NOT operator (`!`) while scanning the code:
 
 <!--
 let object = { o: 0 }
@@ -369,7 +376,7 @@ if (!isEmpty(object)) {
 
 <!-- expect($1).toBe(true) -->
 
-It’s hard to notice the logical NOT operator (`!`) here. We can replace the logical NOT operator with an explicit condition to avoid misunderstandings:
+I had a period of a few years when I was expanding conditions with `!` everywhere:
 
 <!--
 let object = { o: 0 }
@@ -384,42 +391,13 @@ if (isEmpty(object) === false) {
 
 <!-- expect($1).toBe(true) -->
 
-Someone may argue that it doesn’t read like English — “not is empty” — but there’s no way to miss the negation. This style is also less common than the one with `!`, but I think the readability benefits are worth adopting.
+I still believe this style is superior in many cases. However, working with other people and now with AI agents makes it hard to introduce a non-conventional style into a codebase.
 
-In some languages, negation is much more visible. For example, in Python:
-
-```python
-if not is_empty(object):
-  # Object is not empty
-```
-
-Unfortunately, JavaScript inherited terse syntax from C that’s fast to type but might be hard to read later.
-
-Here’s another example:
-
-<!-- let guacamole = {} -->
-
-```js
-if (!('garlic' in guacamole)) {
-  // No garlic here
-}
-```
+I also realized that explicit right-hand side (`undefined`, `false`) is often undesirable, as most of the time I don’t really care whether it’s `undefined`, `false`, or any other falsy value. In some cases it could be multiple values and this style makes you write complex conditions.
 
 <!-- expect($1).toBe(true) -->
 
-This pattern was always awkward to write and read for me until my friend Oleg [opened up a whole new world to me](https://x.com/oleg008/status/1519593163803049984): we can use the same trick as above to make it more readable:
-
-<!-- let guacamole = {} -->
-
-```js
-if ('garlic' in guacamole === false) {
-  // No garlic here
-}
-```
-
-<!-- expect($1).toBe(true) -->
-
-Another area where expanding conditions improves readability is when checking array length.
+One case where I still expand conditions is checking array length.
 
 Consider these two examples:
 
@@ -464,30 +442,6 @@ expect($2).toBe(true)
 Now, the conditions look significantly different, and there’s no way to misinterpret them.
 
 T> The [unicorn/explicit-length-check](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/explicit-length-check.md) linter rule requires and autofixes explicit length checks.
-
-I’m starting to think that using `!` in conditions is [generally an antipattern](https://x.com/Jack_Franklin/status/1189477268764188672). Instead of:
-
-<!-- let isFriday = false -->
-
-```js
-if (!isFriday) {
-  // Not Friday yet :—(
-}
-```
-
-<!-- expect($1).toBe(true) -->
-
-We should always write:
-
-<!-- let isFriday = false -->
-
-```js
-if (isFriday === false) {
-  // Not Friday yet :—(
-}
-```
-
-<!-- expect($1).toBe(true) -->
 
 {#range-conditions}
 
@@ -595,12 +549,12 @@ On the other hand, _the shortliners_ write code that looks like one side of a Ch
 ```js
 const puppiesByParent = {};
 for (const puppy of puppies) {
-  if (puppy.parentId === undefined) {
+  if (!puppy.parentId) {
     continue;
   }
 
   const parent = puppies.find(x => x.id === puppy.parentId);
-  if (puppiesByParent[parent.id] === undefined) {
+  if (!puppiesByParent[parent.id]) {
     puppiesByParent[parent.id] = [];
   }
   puppiesByParent[parent.id].push(puppy.id);

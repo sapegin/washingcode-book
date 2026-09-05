@@ -199,7 +199,7 @@ function isNetscapeOnSolaris() {
   return (
     userAgent.includes('Mozilla') &&
     userAgent.includes('SunOS') &&
-    userAgent.includes('compatible') === false
+    !userAgent.includes('compatible')
   );
 }
 ```
@@ -634,10 +634,7 @@ function counter() {
       return counts[url];
     },
     upvote(url, votes = 1) {
-      if (counts[url] === undefined) {
-        counts[url] = 0;
-      }
-
+      counts[url] ??= 0;
       counts[url] += votes;
     }
   };
@@ -735,13 +732,13 @@ let showNotification = vi.fn()
 
 ```js
 function addUser(user) {
-  if (isUsernameValid(user.username) === false) {
+  if (!isUsernameValid(user.username)) {
     throw new Error('You must enter a valid username');
   }
-  if (isEmailValid(user.email) === false) {
+  if (!isEmailValid(user.email)) {
     throw new Error('You must enter a valid email');
   }
-  if (isAddressValid(user.address) === false) {
+  if (!isAddressValid(user.address)) {
     throw new Error('You must enter a valid address');
   }
 
@@ -805,11 +802,11 @@ Let’s untangle this spaghetti monster:
 ```js
 function postOrderStatus() {
   let idsArrayObject = getOrderIds();
-  if (idsArrayObject === undefined) {
+  if (!idsArrayObject) {
     return false;
   }
 
-  if (Array.isArray(idsArrayObject) === false) {
+  if (!Array.isArray(idsArrayObject)) {
     idsArrayObject = [idsArrayObject];
   }
 
@@ -1306,15 +1303,14 @@ const hasStringValue = value =>
  * of characters, ignores empty strings and non-string values
  */
 const hasLengthLessThanOrEqual = max => value =>
-  hasStringValue(value) === false || value.length <= max;
+  !hasStringValue(value) || value.length <= max;
 
 /**
  * Validates whether a string has no spaces,
  * ignores empty strings and non-string values
  */
 const hasNoSpaces = value =>
-  hasStringValue(value) === false ||
-  value.includes(' ') === false;
+  !hasStringValue(value) || !value.includes(' ');
 ```
 
 <!--
@@ -1348,7 +1344,7 @@ We’ll use an array because we want to have several validations with different 
 
 <!--
 const hasStringValue = value => typeof value === 'string' && value.trim() !== ''
-const hasLengthLessThanOrEqual = max => value => hasStringValue(value) === false || value.length <= max
+const hasLengthLessThanOrEqual = max => value => !hasStringValue(value) || value.length <= max
 -->
 
 ```js
@@ -1381,8 +1377,8 @@ Next, we need to iterate over this array and run validations for all the fields:
 
 <!--
 const hasStringValue = value => typeof value === 'string' && value.trim() !== ''
-const hasLengthLessThanOrEqual = max => value => hasStringValue(value) === false || value.length <= max
-const hasNoSpaces = value => hasStringValue(value) === false || value.includes(' ') === false
+const hasLengthLessThanOrEqual = max => value => !hasStringValue(value) || value.length <= max
+const hasNoSpaces = value => !hasStringValue(value) || !value.includes(' ')
 const validations = [
   {
     field: 'name',
@@ -1413,7 +1409,7 @@ const validationsMulti = [
 function validate(values, validations) {
   const errors = {};
   for (const { field, validation, message } of validations) {
-    if (validation(values[field]) === false) {
+    if (!validation(values[field])) {
       errors[field] ??= message;
     }
   }

@@ -46,7 +46,7 @@ async function createNew() {
 
     // Create a folder with all subfolders
     const created = await this.ensureFolder(fullPath);
-    if (created === false) {
+    if (!created) {
       return;
     }
 
@@ -71,7 +71,7 @@ async function createNew() {
 
     // Create an empty file
     const created = await this.ensureFile(fullPath);
-    if (created === false) {
+    if (!created) {
       return;
     }
 
@@ -113,7 +113,7 @@ async function createDirectory(fullPath, relativePath) {
   logMessage('Creating a folder:', fullPath);
 
   const created = await this.ensureFolder(fullPath);
-  if (created === false) {
+  if (!created) {
     return;
   }
 
@@ -138,7 +138,7 @@ async function createFile(fullPath, relativePath) {
   }
 
   const created = await this.ensureFile(fullPath);
-  if (created === false) {
+  if (!created) {
     return;
   }
 
@@ -207,13 +207,11 @@ function handleChange({
     // All changes are single line changes
     contentChanges.every(({ range }) => range.isSingleLine) &&
     // Had no decorators on changed lines
-    changedLines.every(
-      x => decoratedLines.has(x) === false
-    ) &&
+    changedLines.every(x => !decoratedLines.has(x)) &&
     // No need to add decorators to changed lines
-    changedLines.some(x =>
+    !changedLines.some(x =>
       regExp?.test(textEditor.document.lineAt(x).text)
-    ) === false
+    )
   ) {
     return;
   }
@@ -290,7 +288,7 @@ function handleChange({
   const lineCountHasChanged =
     lineCount !== textEditor.document.lineCount;
   const hasMultilineChanges = contentChanges.some(
-    ({ range }) => range.isSingleLine === false
+    ({ range }) => !range.isSingleLine
   );
   const hadDecoratorsOnChangedLines = changedLines.some(x =>
     decoratedLines.has(x)
@@ -302,10 +300,10 @@ function handleChange({
 
   // Skip decorating for certain cases to improve performance
   if (
-    lineCountHasChanged === false &&
-    hasMultilineChanges === false &&
-    hadDecoratorsOnChangedLines === false &&
-    shouldHaveDecoratorsOnChangedLines === false
+    !lineCountHasChanged &&
+    !hasMultilineChanges &&
+    !hadDecoratorsOnChangedLines &&
+    !shouldHaveDecoratorsOnChangedLines
   ) {
     return;
   }

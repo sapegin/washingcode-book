@@ -18,7 +18,6 @@ Always prioritize code readability and maintainability over cleverness or brevit
 - Extract complex conditions into variables with meaningful names
 - Prefer explicit comparisons: `array.length === 0` instead of `!array.length`
 - Use `===` instead of `==`, `!==` instead of `!=`
-- Use explicit conditions: `value === false` instead of `!value`
 
 ### 3. Avoid variable reassignment
 
@@ -163,12 +162,12 @@ const users = [...existingUsers, newUser].toSorted((a, b) =>
 
 ```ts
 // ❌ Bad: Implicit boolean conversion
+if (users.length) return;
 if (!users.length) return;
-if (!isEnabled) return;
 
 // ✅ Good: Explicit comparisons
+if (users.length > 0) return;
 if (users.length === 0) return;
-if (isEnabled === false) return;
 ```
 
 ### Normalize input
