@@ -125,26 +125,22 @@ I’d likely use a regular expression here:
 ```js
 const header = 'filename="pizza.rar"';
 const filename = header.match(/filename="(.*?)"/)[1];
-// → 'pizza'
+// → 'pizza.rar'
 ```
 
 <!-- expect(filename).toBe('pizza.rar') -->
 
-Or, even better, the `URLSearchParams` API:
+Or, if the string was a URL query parameter (without quotes, like this: `filename=pizza.rar`), we could use the `URLSearchParams` API:
 
 <!-- let URLSearchParams = window.URLSearchParams -->
 
 ```js
-const header = 'filename="pizza.rar"';
-const filename = new URLSearchParams(header)
-  .get('filename')
-  .replaceAll(/^"|"$/g, '');
-// → 'pizza'
+const query = 'filename=pizza.rar';
+const filename = new URLSearchParams(query).get('filename');
+// → 'pizza.rar'
 ```
 
 <!-- expect(filename).toBe('pizza.rar') -->
-
-_These quotes are weird, though. Normally we don’t need quotes around URL parameters, so talking to the backend developer could be a good idea._
 
 **Example 6:**
 
@@ -432,9 +428,7 @@ The only difference here is the parameter we pass to the function with a very lo
 ```js
 function handleSomething(documentId) {
   dispatch(
-    changeIsWordDocumentExportSuccessful(
-      documentId !== undefined
-    )
+    changeIsWordDocumentExportSuccessful(Boolean(documentId))
   );
 }
 ```
@@ -674,7 +668,7 @@ let Render = ({platform: Platform}) => { return (
     Platform.OS !== 'web' ? onOpenViewConfirmation : undefined
   }
   link={Platform.OS === 'web' ? previewLink : undefined}
-  target="_empty"
+  target="_blank"
 >
   Continue
 </Button>
@@ -705,7 +699,7 @@ let Render = ({platform: Platform}) => { return (
     Platform.OS === 'web' ? undefined : onOpenViewConfirmation
   }
   link={Platform.OS === 'web' ? previewLink : undefined}
-  target="_empty"
+  target="_blank"
 >
   Continue
 </Button>
@@ -736,14 +730,14 @@ const buttonProps =
   Platform.OS === 'web'
     ? {
         link: previewLink,
-        target: '_empty'
+        target: '_blank'
       }
     : {
         onPress: onOpenViewConfirmation
       };
 ```
 
-<!-- expect(buttonProps).toHaveProperty('target', '_empty') -->
+<!-- expect(buttonProps).toHaveProperty('target', '_blank') -->
 
 Then, use it instead of hardcoding the entire condition every time:
 
@@ -755,7 +749,7 @@ let Render = ({platform: Platform}) => {
   const buttonProps = Platform.OS === 'web'
     ? {
         link: previewLink,
-        target: '_empty'
+        target: '_blank'
       }
     : {
         onPress: onOpenViewConfirmation

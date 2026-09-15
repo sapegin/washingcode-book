@@ -98,7 +98,7 @@ Here’s a list of books, articles, and talks that I found useful or inspiring.
 
 - [The Art of Readable Code](https://www.amazon.com/gp/product/0596802293/) by Dustin Boswell
 - [Code Complete: A Practical Handbook of Software Construction](https://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670/) by Steve McConnell
-- [Exploring JavaScript](https://exploringjs.com/js/) by Dr. Axel Rauschmayer
+- [Exploring JavaScript](https://payhip.com/rauschma) by Dr. Axel Rauschmayer
 - [The Practice of Programming](https://www.amazon.com/Practice-Programming-Addison-Wesley-Professional-Computing/dp/020161586X/) by Brian Kernighan and Rob Pike
 - [The Pragmatic Programmer: Your journey to mastery, 20th Anniversary Edition](https://www.amazon.com/Pragmatic-Programmer-journey-mastery-Anniversary-ebook/dp/B07VRS84D1/) by David Thomas and Andrew Hunt
 - [The Programmers’ Stone](https://www.datapacrat.com/Opinion/Reciprocality/r0/index.html) by Alan Carter and <!-- cspell:disable -->Colston<!-- cspell:enable --> Sanger
@@ -126,7 +126,7 @@ Here’s a list of books, articles, and talks that I found useful or inspiring.
 - [Modern React Testing](https://sapegin.me/blog/react-testing-1-best-practices/) by Artem Sapegin
 - [Naming conventions in programming — a review of scientific literature](https://makimo.com/blog/scientific-perspective-on-naming-in-programming/) by Iwo <!-- cspell:disable -->Herka<!-- cspell:enable -->
 - [On the changing notion of code readability](https://github.com/kbilsted/CodeQualityAndReadability/blob/master/Articles/Readability/TheChangingNotionOfReadability.md) by <!-- cspell:disable -->Kasper B. Graversen<!-- cspell:enable -->
-- [Outliving the Great Variable Shortage](https://www.rssing.com/noserver.html?a=4) by Tim <!-- cspell:disable -->Ottinger<!-- cspell:enable -->
+- [Outliving the Great Variable Shortage](http://agileotter.blogspot.com/2021/08/outliving-great-variable-shortage.html) by Tim <!-- cspell:disable -->Ottinger<!-- cspell:enable -->
 - [Psychology of Code Readability](https://egonelbre.com/psychology-of-code-readability/) by Egon Elbre
 - [Small Functions considered Harmful](https://copyconstruct.medium.com/small-functions-considered-harmful-91035d316c29) by Cindy <!-- cspell:disable -->Sridharan<!-- cspell:enable -->
 - [The “Bug-O” Notation](https://overreacted.io/the-bug-o-notation/) by Dan Abramov
@@ -137,7 +137,7 @@ Here’s a list of books, articles, and talks that I found useful or inspiring.
 - [Why the Boy Scout Rule Is Insufficient](https://www.codewithjason.com/boy-scout-rule-insufficient/) by Jason <!-- cspell:disable -->Swett<!-- cspell:enable -->
 - [Why you should enforce Dangling Commas for Multiline Statements](https://medium.com/@nikgraf/why-you-should-enforce-dangling-commas-for-multiline-statements-d034c98e36f8) by Nik Graf
 - [Write code that is easy to delete, not easy to extend](https://programmingisterrible.com/post/139222674273/write-code-that-is-easy-to-delete-not-easy-to)
-- [Writing system software: code comments](http://antirez.com/news/124)
+- [Writing system software: code comments](https://antirez.com/news/124)
 - [The Zen of Python](https://peps.python.org/pep-0020/)
 
 ## Talks

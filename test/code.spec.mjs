@@ -91,7 +91,7 @@ function preprocessCode(code) {
 
 function getHeader(nodes, index) {
   const header = nodes[index - 1];
-  if (isInstruction(header) === false) {
+  if (!isInstruction(header)) {
     return '';
   }
 
@@ -106,7 +106,7 @@ function getHeader(nodes, index) {
 
 function getFooter(nodes, index) {
   const footer = nodes[index + 1];
-  if (isInstruction(footer) === false) {
+  if (!isInstruction(footer)) {
     return '';
   }
 
@@ -142,10 +142,7 @@ function getChapterTitle(nodes, index) {
 const testNameIndices = {};
 
 function getTestName(title) {
-  if (testNameIndices[title] === undefined) {
-    testNameIndices[title] = 0;
-  }
-
+  testNameIndices[title] ??= 0;
   testNameIndices[title] += 1;
 
   return `${title} ${testNameIndices[title]}`;
@@ -248,7 +245,7 @@ function testMarkdown(markdown, filepath) {
         ast,
         'code',
         (node, index, { children: siblings }) => {
-          if (LANGS.includes(node.lang) === false) {
+          if (!LANGS.includes(node.lang)) {
             return;
           }
 

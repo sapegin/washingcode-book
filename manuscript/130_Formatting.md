@@ -24,21 +24,21 @@ What I write:
 
 <!-- prettier-ignore -->
 ```js
-if (['h1','h2','h3','h4','h5'].includes(node.tagName) &&node.properties.id === undefined){
+if (['h1','h2','h3','h4','h5'].includes(node.tagName)&&!node.properties.id){
   // Get heading text content, and replace non-breaking spaces with regular spaces
 }
 ```
 
 <!-- expect($1).toBe(true) -->
 
-What I commit:
+What I commit after running Prettier and wrapping comments:
 
 <!-- let node = {tagName: 'h1', properties: {}} -->
 
 ```js
 if (
   ['h1', 'h2', 'h3', 'h4', 'h5'].includes(node.tagName) &&
-  node.properties.id === undefined
+  !node.properties.id
 ) {
   // Get heading text content, and replace non-breaking spaces
   // with regular spaces
@@ -106,7 +106,7 @@ T> Enabling word wrapping in an editor helps with the readability of long lines 
 
 ![Very long comments](images/looooong-comment.png)
 
-T> I use the [Rewrap](https://marketplace.visualstudio.com/items?itemName=stkb.rewrap) extension for Visual Studio Code to format comments.
+T> I use my own Visual Studio Code extension [Grim Wrapper](https://marketplace.visualstudio.com/items?itemName=sapegin.grim-wrapper) to format comments.
 
 ### Run a formatter as a stand-alone tool
 

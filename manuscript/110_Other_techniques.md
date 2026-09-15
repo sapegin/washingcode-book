@@ -214,11 +214,11 @@ export function Tweets() {
   };
 
   if (status === Status.Loading) {
-    return 'Loading…';
+    return <p>Loading…</p>;
   }
 
   if (status === Status.Failed) {
-    return 'Something went wrong!';
+    return <p>Something went wrong!</p>;
   }
 
   if (status === Status.Idle) {
@@ -228,7 +228,7 @@ export function Tweets() {
   }
 
   if (tweets.length === 0) {
-    return 'No tweets found';
+    return <p>No tweets found</p>;
   }
 
   return (
@@ -560,7 +560,6 @@ let DeviceType = {
   Desktop: 'Desktop',
   iOS: 'iOS',
   Android: 'Android',
-  Tablet: 'Tablet',
   Other: 'Other',
 }
 -->
@@ -680,7 +679,6 @@ let DeviceType = {
   Desktop: 'Desktop',
   iOS: 'iOS',
   Android: 'Android',
-  Tablet: 'Tablet',
   Other: 'Other',
 }
 -->
@@ -769,7 +767,7 @@ let screen = { findAllByRole: () => {} }
 -->
 
 ```jsx
-test('renders three buttons separated by <br/> elements', async () => {
+test('renders three buttons separated by <hr/> elements', async () => {
   console.error = vi.fn();
 
   render(
@@ -995,7 +993,7 @@ let isEmpty = _.isEmpty
 -->
 
 ```js
-if (isEmpty(object) === false) {
+if (!isEmpty(object)) {
   // Object is not empty
 }
 ```

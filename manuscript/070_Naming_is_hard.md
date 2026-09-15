@@ -98,7 +98,7 @@ What are we disabling here? It’s impossible to answer without reading the `app
 
 How many parameters are too many? In my experience, more than two parameters are already too many. Additionally, any boolean parameter is automatically too many.
 
-Some languages have _named parameters_ to solve these problems. For example, in Python we could write this:
+Some languages have _named parameters_ to solve these problems. For example, in Python we could use _keyword arguments_:
 
 ```python
 appendScriptTag('https://example.com/falafel.js', useCORS=false)
@@ -162,7 +162,7 @@ function Toggle() {
 
 <!-- expect(Toggle()).toBe(null) -->
 
-This makes the code clear and obvious: if we have user details after the data has been fetched, the user must be logged in.
+This makes the code clearer: if we have user details after the data has been fetched, the user must be logged in. I’d also argue that the `useAuth()` hook should return `isUserLoggedIn` instead of leaking implementation details.
 
 {#negative-booleans}
 
@@ -319,10 +319,7 @@ const $ = (key) => ({
 
 ```js
 const hasData = data.length > 0;
-$(`#${bookID}_download`).toggleClass(
-  'hidden-node',
-  hasData === false
-);
+$(`#${bookID}_download`).toggleClass('hidden-node', !hasData);
 $(`#${bookID}_retry`).attr('disabled', hasData);
 ```
 
@@ -739,32 +736,6 @@ expect(getErrorMessage({ response: { status: 500 } })).toBe('Something went wron
 
 Now, it’s clear which status codes we’re handling.
 
-Personally, I’d use a library like [http-status-codes](https://github.com/prettymuchbryce/http-status-codes) here if I needed to work with status codes often or use not-so-common codes:
-
-```js
-import { StatusCodes } from 'http-status-codes';
-
-function getErrorMessage(error) {
-  if (error.response?.status === StatusCodes.NOT_FOUND) {
-    return 'Not found';
-  }
-
-  if (
-    error.response?.status === StatusCodes.TOO_MANY_REQUESTS
-  ) {
-    return 'Rate limit exceeded';
-  }
-
-  return 'Something went wrong';
-}
-```
-
-<!--
-expect(getErrorMessage({ response: { status: 404 } })).toBe('Not found')
-expect(getErrorMessage({ response: { status: 429 } })).toBe('Rate limit exceeded')
-expect(getErrorMessage({ response: { status: 500 } })).toBe('Something went wrong')
--->
-
 However, having a clear name is sometimes not enough:
 
 ```js
@@ -936,6 +907,11 @@ const SMALL = 'small';
 const MEDIUM = 'medium';
 ```
 
+<!--
+expect(SMALL).toBe('small')
+expect(MEDIUM).toBe('medium')
+-->
+
 These constants are related — they define different values of the same scale, size of something, and are likely to be used interchangeably. However, it’s not clear from the names that they are related. We could add a suffix:
 
 ```js
@@ -961,6 +937,11 @@ const Size = {
 };
 ```
 
+<!--
+expect(Size.Small).toBe('small')
+expect(Size.Medium).toBe('medium')
+-->
+
 It has some additional benefits over separate constants:
 
 - We only need to import it once (`import { Size } from '...'` instead of `import { SIZE_SMALL, SIZE_MEDIUM } from '...'`).
@@ -975,6 +956,11 @@ enum Size {
 }
 ```
 
+<!--
+expect(Size.Small).toBe('small')
+expect(Size.Medium).toBe('medium')
+-->
+
 T> Usually, enum names are singular nouns in PascalCase, like `Month`, `Color`, `OrderStatus`, or `ProductType`.
 
 Which is essentially the same as an object, but we can also use it as a type:
@@ -986,6 +972,23 @@ interface ButtonProps {
 ```
 
 This gives us better type checking and even better autocomplete. For example, we can define separate types for button sizes and modal sizes, so the button component will only accept valid button sizes.
+
+The only downside of enums is that they aren’t part of TypeScript’s _erasable syntax_, meaning they don’t work in runtimes that strip types before execution, such as Node.js. In these cases I use plain objects with TypeScript’s `as const` assertion and a type:
+
+```ts
+const Size = {
+  Small: 'small',
+  Medium: 'medium'
+} as const;
+type Size = (typeof Size)[keyof typeof Size];
+```
+
+<!--
+expect(Size.Small).toBe('small')
+expect(Size.Medium).toBe('medium')
+-->
+
+This is more verbose than an enum but gives us the same autocomplete and type checking and still works after type stripping.
 
 {#abbr}
 
@@ -1254,19 +1257,14 @@ The problem with such names is that any variable contains _data_, and any array 
 Consider this example:
 
 <!--
-import { Record } from 'immutable'
 const UPDATE_RESULTS = 'ur', UPDATE_CART = 'uc'
-const Currency = Record({
-  iso: '',
-  name: '',
-  symbol: '',
-})
 -->
 
-<!-- eslint-skip -->
+<!-- eslint-disable no-case-declarations -->
 
 ```js
-function currencyReducer(state = new Currency(), action) {
+const defaultState = { iso: '', name: '', symbol: '' };
+function currencyReducer(state = defaultState, action) {
   switch (action.type) {
     case UPDATE_RESULTS:
     case UPDATE_CART:
@@ -1283,10 +1281,11 @@ function currencyReducer(state = new Currency(), action) {
         `res.data.currencies[${iso}]`
       );
 
-      return state
-        .set('iso', iso)
-        .set('name', _.get(obj, 'name'))
-        .set('symbol', _.get(obj, 'symbol'));
+      return {
+        iso,
+        name: _.get(obj, 'name', ''),
+        symbol: _.get(obj, 'symbol', '')
+      };
     default:
       return state;
   }
@@ -1294,53 +1293,49 @@ function currencyReducer(state = new Currency(), action) {
 ```
 
 <!--
-expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: { userInfo: { userCurrency: 'eur' } }, currencies: { eur: {name: 'Euro', symbol: '€' } } } } }).toJS()).toEqual({iso: 'eur', name: 'Euro', symbol: '€'})
-expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: { userInfo: { userCurrency: 'eur' } }, currencies: {} } } }).toJS()).toEqual({iso: 'eur', name: '', symbol: ''})
+expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: { userInfo: { userCurrency: 'eur' } }, currencies: { eur: {name: 'Euro', symbol: '€' } } } } })).toEqual({iso: 'eur', name: 'Euro', symbol: '€'})
+expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: { userInfo: { userCurrency: 'eur' } }, currencies: {} } } })).toEqual({iso: 'eur', name: '', symbol: ''})
 -->
 
-Besides using Immutable.js and Lodash’s [`get()` method](https://lodash.com/docs#get), which already makes the code hard to read, the `obj` variable makes the code even harder to understand.
+Besides using Lodash’s [`get()` method](https://lodash.com/docs#get), which already makes the code hard to read, the `obj` variable makes the code even harder to understand.
 
 All this code does is reorganize the data about the user’s currency into a neat object:
 
 <!--
-import { Record } from 'immutable'
 const UPDATE_RESULTS = 'ur', UPDATE_CART = 'uc'
-const Currency = Record({
-  iso: '',
-  name: '',
-  symbol: '',
-})
 -->
 
 ```js
-const currencyReducer = (state = new Currency(), action) => {
+const defaultState = { iso: '', name: '', symbol: '' };
+function currencyReducer(state = defaultState, action) {
   switch (action.type) {
     case UPDATE_RESULTS:
     case UPDATE_CART: {
       const { data } = action.res;
-      if (data.query === undefined) {
+      if (!data.query) {
         return state;
       }
 
       const iso = data.query.userInfo?.userCurrency;
+
       const { name = '', symbol = '' } =
         data.currencies[iso] ?? {};
 
-      return state.merge({ iso, name, symbol });
+      return { iso, name, symbol };
     }
     default: {
       return state;
     }
   }
-};
+}
 ```
 
 <!--
-expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: { userInfo: { userCurrency: 'eur' } }, currencies: { eur: {name: 'Euro', symbol: '€' } } } } }).toJS()).toEqual({iso: 'eur', name: 'Euro', symbol: '€'})
-expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: { userInfo: { userCurrency: 'eur' } }, currencies: {} } } }).toJS()).toEqual({iso: 'eur', name: '', symbol: ''})
+expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: { userInfo: { userCurrency: 'eur' } }, currencies: { eur: {name: 'Euro', symbol: '€' } } } } })).toEqual({iso: 'eur', name: 'Euro', symbol: '€'})
+expect(currencyReducer(undefined, { type: UPDATE_RESULTS, res: { data: { query: { userInfo: { userCurrency: 'eur' } }, currencies: {} } } })).toEqual({iso: 'eur', name: '', symbol: ''})
 -->
 
-Now, it’s clearer what shape of data we’re building here, and even Immutable.js isn’t so intimidating. I kept the `data` name because that’s how it’s coming from the backend, and it’s commonly used as a root object for whatever the backend API is returning. As long as we don’t leak it into the app code and only use it during the initial processing of the raw backend data, it’s okay.
+Now, it’s clearer what shape of data we’re building here. I kept the `data` name because that’s how it’s coming from the backend, and it’s commonly used as a root object for whatever the backend API is returning. As long as we don’t leak it into the app code and only use it during the initial processing of the raw backend data, it’s okay.
 
 Abstract names are also okay for generic utility functions, like array filtering or sorting:
 
@@ -1682,7 +1677,7 @@ One thing that developers often disagree on is how to spell acronyms (for exampl
 
 Unfortunately, the most readable approach, normalization, seems to be the least popular. Since we can’t use spaces in names, it can be hard to separate words: <!-- cspell:disable -->`WebiOS`<!-- cspell:enable --> could be read as <!-- cspell:disable -->`webi os`<!-- cspell:enable --> instead of `web ios`, and it takes extra time to read it correctly. Such names also don’t work well with code spell checkers: they mark <!-- cspell:disable -->`webi`<!-- cspell:enable --> and <!-- cspell:disable -->`htmlhr`<!-- cspell:enable --> as incorrect words.
 
-The normalized spelling doesn’t have these issues: `dangerouslySetInnerHtml`, `WebIos`, `XmlHttpRequest`, `DatePickerIos`, or `HtmlHrElement`. The word boundaries are clear.
+If these names were normalized, the word boundaries would be clear: `dangerouslySetInnerHtml`, `WebIos`, `XmlHttpRequest`, `DatePickerIos`, or `HtmlHrElement`.
 
 ## Avoid unnecessary variables
 

@@ -95,7 +95,7 @@ Let’s try to refactor it:
 
 ```js
 function getSettings(modifiers) {
-  if (modifiers === undefined) {
+  if (!modifiers) {
     // No modifiers
     return {};
   }
@@ -122,7 +122,7 @@ function getSettings(modifiers) {
 
 function parseExample(content, lang, modifiers) {
   const settings = getSettings(modifiers);
-  if (settings === undefined) {
+  if (!settings) {
     return {
       error: 'Cannot parse modifiers'
     };
@@ -554,18 +554,12 @@ const getMessageProps = ({
   youths,
   seniors
 }) => {
-  return [adults, children, infants, youths, seniors].reduce(
-    (accumulator, count, index) => {
-      if (count > 0) {
-        accumulator.push({
-          id: MESSAGE_IDS[index],
-          count
-        });
-      }
-      return accumulator;
-    },
-    []
-  );
+  return [adults, children, infants, youths, seniors]
+    .map((count, index) => ({
+      id: MESSAGE_IDS[index],
+      count
+    }))
+    .filter(({ count }) => count > 0);
 };
 ```
 
@@ -664,7 +658,7 @@ Another option is to isolate the mutating code into a new function that doesn’
 
 ```js
 function safeSort(array) {
-  return [...counts].sort((a, b) => a - b);
+  return [...array].sort((a, b) => a - b);
 }
 
 const counts = [6, 3, 11];
@@ -672,7 +666,12 @@ const tacos = safeSort(counts).map(n => `${n} tacos`);
 // → ['3 tacos', '6 tacos', '11 tacos']
 ```
 
-<!-- expect(tacos).toEqual(['3 tacos', '6 tacos', '11 tacos']) -->
+<!--
+expect(safeSort([6, 3, 11])).toEqual([3, 6, 11])
+expect(tacos).toEqual(['3 tacos', '6 tacos', '11 tacos'])
+-->
+
+Here, we use destructuring to create an array’s copy before sorting it.
 
 We can also use a third-party library, like Lodash, with its [`sortBy()` method](https://lodash.com/docs#sortBy):
 
@@ -775,8 +774,6 @@ While we wait for JavaScript to get native immutability, there are two ways we c
 - prevent mutation;
 - simplify object updates.
 
-I> The [JavaScript records & tuples proposal](https://github.com/tc39/proposal-record-tuple) that introduces deeply immutable object-like (`Record`s) and array-like (`Tuple`s) structures is now in Stage 2.
-
 **Preventing mutation** is a good idea because it’s so easy to miss mutations during code reviews, and then spend countless hours debugging obscure bugs.
 
 One way to prevent mutation is to use a linter. ESLint has several plugins that try to do just that.
@@ -832,20 +829,7 @@ I don’t think freezing is worth it on its own unless it’s a by-product of an
 
 **Simplifying object updates** is another option that we can combine with mutation prevention.
 
-One way to simplify object updates is to use a library like [Immutable.js](https://immutable-js.com):
-
-```js
-import { Map } from 'immutable';
-const map1 = Map({ food: 'pizza', drink: 'coffee' });
-const map2 = map1.set('drink', 'vodka');
-// → Map({ food: 'pizza', drink: 'vodka' })
-```
-
-<!-- expect(map2.toJS()).toEqual({ food: 'pizza', drink: 'vodka' }) -->
-
-I’m not a big fan of Immutable.js because we have to work with Immutable objects instead of plain JavaScript objects or arrays, and it has a completely custom API that we have to learn. Also, converting arrays and objects from plain JavaScript to Immutable.js and back every time we need to work with any native JavaScript API or almost any third-party API is annoying. Overall, it feels like Immutable.js creates more problems than it solves.
-
-Another option is [Immer](https://immerjs.github.io/immer/), which allows us to use any mutating operations on a _draft_ version of an object without affecting the original object in any way. Immer intercepts each operation and returns a new object:
+One way to simplify object updates is to use a library like [Immer](https://immerjs.github.io/immer/), which allows us to use any mutating operations on a _draft_ version of an object without affecting the original object in any way. Immer intercepts each operation and returns a new object:
 
 ```js
 import { produce } from 'immer';
@@ -858,7 +842,7 @@ const map2 = produce(map1, draft => {
 
 <!-- expect(map2).toEqual({ food: 'pizza', drink: 'vodka' }) -->
 
-T> Immer freezes the resulting object using `Object.freeze()` in the development environment to prevent accidental mutation.
+T> Immer freezes the resulting object using `Object.freeze()` to prevent accidental mutation.
 
 ## Sometimes mutation isn’t a villain
 
@@ -954,10 +938,7 @@ However, I usually write such counters slightly differently:
 const friendNames = ['Kili', 'Bilbo', 'Frodo', 'Kili'];
 const counts = {};
 for (const name of friendNames) {
-  if (counts[name] === undefined) {
-    counts[name] = 0;
-  }
-
+  counts[name] ??= 0;
   counts[name]++;
 }
 // → { Kili: 2, Bilbo: 1, Frodo: 1 }

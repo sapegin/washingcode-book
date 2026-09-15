@@ -58,11 +58,11 @@ class Pizza {
   boxed = null
   sliced = null
   ready = null
-  base = null
+  size = null
   sauce = null
   cheese = null
-  constructor({base, sauce, cheese}) {
-    this.base = base
+  constructor({size, sauce, cheese}) {
+    this.size = size
     this.sauce = sauce
     this.cheese = cheese
   }
@@ -82,7 +82,7 @@ class Box {
 ```js
 function createPizza(order) {
   const pizza = new Pizza({
-    base: order.size,
+    size: order.size,
     sauce: order.sauce,
     cheese: 'Mozzarella'
   });
@@ -122,7 +122,7 @@ function createPizza(order) {
 let pizza = createPizza({size: 30, sauce: 'red', kind: 'Meat'})
 expect(pizza).toEqual({
   baked: true,
-  base: 30,
+  size: 30,
   sauce: 'red',
   cheese: 'Mozzarella',
   toppings: ['pig'],
@@ -141,6 +141,7 @@ let cookingTemp = 240
 let vegToppings = ['champignon'], meatToppings = ['pig']
 let time = {sleep: () => {}}
 let getOvenTemp = () => 250
+let lastSliceSize
 
 class Pizza {
   toppings = []
@@ -148,11 +149,11 @@ class Pizza {
   boxed = null
   sliced = null
   ready = null
-  base = null
+  size = null
   sauce = null
   cheese = null
-  constructor({base, sauce, cheese}) {
-    this.base = base
+  constructor({size, sauce, cheese}) {
+    this.size = size
     this.sauce = sauce
     this.cheese = cheese
   }
@@ -164,7 +165,7 @@ class Oven {
 }
 class Box {
   putIn() { return true }
-  slicePizza() { return true }
+  slicePizza(size) { lastSliceSize = size; return true }
   close() { return true }
 }
 -->
@@ -172,7 +173,7 @@ class Box {
 ```js
 function prepare(order) {
   const pizza = new Pizza({
-    base: order.size,
+    size: order.size,
     sauce: order.sauce,
     cheese: 'Mozzarella'
   });
@@ -228,10 +229,12 @@ function createPizza(order) {
 ```
 
 <!--
+lastSliceSize = undefined
 let pizza = createPizza({size: 30, sauce: 'red', kind: 'Meat'})
+expect(lastSliceSize).toBe(30)
 expect(pizza).toEqual({
   baked: true,
-  base: 30,
+  size: 30,
   sauce: 'red',
   cheese: 'Mozzarella',
   toppings: ['pig'],
@@ -259,11 +262,11 @@ class Pizza {
   boxed = null
   sliced = null
   ready = null
-  base = null
+  size = null
   sauce = null
   cheese = null
-  constructor({base, sauce, cheese}) {
-    this.base = base
+  constructor({size, sauce, cheese}) {
+    this.size = size
     this.sauce = sauce
     this.cheese = cheese
   }
@@ -284,15 +287,15 @@ class Box {
 function createPizza(order) {
   // Prepare pizza
   const pizza = new Pizza({
-    base: order.size,
+    size: order.size,
     sauce: order.sauce,
     cheese: 'Mozzarella'
   });
 
   // Add toppings
-  if (order.kind == 'Veg') {
+  if (order.kind === 'Veg') {
     pizza.toppings = vegToppings;
-  } else if (order.kind == 'Meat') {
+  } else if (order.kind === 'Meat') {
     pizza.toppings = meatToppings;
   }
 
@@ -328,7 +331,7 @@ function createPizza(order) {
 let pizza = createPizza({size: 30, sauce: 'red', kind: 'Meat'})
 expect(pizza).toEqual({
   baked: true,
-  base: 30,
+  size: 30,
   sauce: 'red',
   cheese: 'Mozzarella',
   toppings: ['pig'],
@@ -552,18 +555,15 @@ export const Utility = {
 };
 
 // MyComponent.js
-function MyComponent({ onClick }) {
+function MyComponent({ onClick = Utility.noop }) {
   return <button onClick={onClick}>Hola!</button>;
 }
-
-MyComponent.defaultProps = {
-  onClick: Utility.noop
-};
 ```
 
 <!--
 expect(Utility.noop()).toEqual(undefined)
-expect(MyComponent.defaultProps.onClick()).toEqual(undefined)
+const { getByRole } = RTL.render(<MyComponent />)
+expect(() => RTL.fireEvent.click(getByRole('button'))).not.toThrow()
 -->
 
 Another example:
@@ -589,17 +589,14 @@ The best thing we can do in such cases is to apply the almighty _inline refactor
 The first example becomes:
 
 ```jsx
-function MyComponent({ onClick }) {
+function MyComponent({ onClick = () => {} }) {
   return <button onClick={onClick}>Hola!</button>;
 }
-
-MyComponent.defaultProps = {
-  onClick: () => {}
-};
 ```
 
 <!--
-expect(MyComponent.defaultProps.onClick()).toEqual(undefined)
+const { getByRole } = RTL.render(<MyComponent />)
+expect(() => RTL.fireEvent.click(getByRole('button'))).not.toThrow()
 -->
 
 And the second example becomes:
@@ -710,7 +707,7 @@ We can describe the validations declaratively as an array:
 
 <!--
 let hasStringValue = value => value?.trim() !== ''
-let hasNoSpaces = value => value?.includes(' ') === false
+let hasNoSpaces = value => !value?.includes(' ')
 -->
 
 ```js

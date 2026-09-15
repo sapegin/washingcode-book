@@ -18,7 +18,6 @@ Always prioritize code readability and maintainability over cleverness or brevit
 - Extract complex conditions into variables with meaningful names
 - Prefer explicit comparisons: `array.length === 0` instead of `!array.length`
 - Use `===` instead of `==`, `!==` instead of `!=`
-- Use explicit conditions: `value === false` instead of `!value`
 
 ### 3. Avoid variable reassignment
 
@@ -48,7 +47,7 @@ Always prioritize code readability and maintainability over cleverness or brevit
 - Use object parameters for functions with multiple arguments: `getUserData({id, includeProfile})`
 - Use early returns and guard clauses to reduce nesting
 - Avoid premature abstraction – solve current requirements, not imagined future ones
-- Make impossible states impossible using enums/discriminated unions
+- Make impossible states impossible using discriminated unions or string literal unions; reserve TypeScript enums for transpiled setups (see TypeScript guidelines for `as const` when types are stripped)
 
 ### 7. Code style and formatting
 
@@ -79,6 +78,17 @@ Always prioritize code readability and maintainability over cleverness or brevit
 - Use discriminated unions for complex state
 - Make types as specific as possible - NEVER use `any`, use `unknown` when needed
 - Use `readonly` for arrays and objects that shouldn’t be mutated
+- Group related constants in a single object (prefer aligned prefixes like `SIZE_SMALL` over loose names like `SMALL`)
+- Prefer string enums to group related constants when TypeScript is transpiled normally — use singular PascalCase names (`Size`, `OrderStatus`)
+- Use `as const` objects with a derived union type instead of enums when code must survive type stripping (Node.js native TypeScript, `erasableSyntaxOnly`) — enums emit runtime code and aren’t erasable
+
+### 11. Normalize input
+
+- Normalize input at the boundary — function entry, API layer, or parser — not in every consumer
+- An array is always an array: use `[]` for no data, never `undefined`, `null`, or sparse arrays like `[null]`
+- Use default parameters, nullish coalescing (`??`), or explicit conversion once, then run a generic algorithm on the normalized data
+- Use types to make invalid shapes impossible instead of sprinkling defensive checks through business logic
+- Prefer fixing the data source over guarding against garbage in downstream code
 
 ## React specific guidelines
 
@@ -155,10 +165,58 @@ const users = [...existingUsers, newUser].toSorted((a, b) =>
 
 ```ts
 // ❌ Bad: Implicit boolean conversion
+if (users.length) return;
 if (!users.length) return;
-if (!isEnabled) return;
 
 // ✅ Good: Explicit comparisons
+if (users.length > 0) return;
 if (users.length === 0) return;
-if (isEnabled === false) return;
+```
+
+### Normalize input
+
+```ts
+// ❌ Bad: Defensive checks in every consumer
+function hasDiscount(customers: Record<string, Customer>) {
+  return Object.values(customers).some(customer => {
+    if (!customer.ages) return false;
+    return customer.ages.some(ageGroup => {
+      if (!ageGroup || !ageGroup.customerCards) return false;
+      return ageGroup.customerCards.length > 0;
+    });
+  });
+}
+
+// ✅ Good: Normalize once, then use simple logic
+function hasDiscount(customers: Record<string, Customer>) {
+  return Object.values(customers).some(customer =>
+    customer.ages.some(
+      ageGroup => ageGroup.customerCards.length > 0
+    )
+  );
+}
+
+// Where Customer.ages is always CustomerAge[] (empty when none)
+// and CustomerAge.customerCards is always string[] (empty when none)
+```
+
+### Grouping related constants
+
+```ts
+// ❌ Bad: Separate constants with no obvious relation
+const SMALL = 'small';
+const MEDIUM = 'medium';
+
+// ✅ Good: String enum when TypeScript is transpiled normally
+enum Size {
+  Small = 'small',
+  Medium = 'medium'
+}
+
+// ✅ Good: as const object when types are stripped before execution
+const ModalSize = {
+  Small: 'small',
+  Medium: 'medium'
+} as const;
+type ModalSize = (typeof ModalSize)[keyof typeof ModalSize];
 ```
