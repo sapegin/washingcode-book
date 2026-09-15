@@ -463,7 +463,7 @@ This reads as “x is greater than 3 _and_ less than 13,” which is fine, but w
 
 ```js
 if (3 < x && x < 13) {
-  // The x is not between 3 and 13
+  // The x is between 3 and 13
 }
 ```
 
