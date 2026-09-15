@@ -59,6 +59,8 @@ export default [
 
 All rules in the recommended ESLint config are already defined as errors.
 
+The only exception is autofixable rules, which I prefer to define as warnings.
+
 ### Clean up the rules regularly
 
 If we often disable a particular linter rule using special comments (like `eslint-disable`), we should consider removing that rule.
@@ -363,30 +365,6 @@ if (cuantosTacos === 41) {
 
 <!-- expect($1).toBe(false) -->
 
-In addition, by default, this rule prevents us from writing infinite loops like this:
-
-<!-- test-skip -->
-
-```js
-while (true) {
-  // Infinite loop
-}
-```
-
-The only way this rule accepts is:
-
-<!-- test-skip -->
-
-```js
-for (;;) {
-  // Infinite loop
-}
-```
-
-I don’t have a problem with either way of writing an infinite loop, and I don’t see any reason to ban one of them.
-
-We can disable loop checking in the rule options; however, the usefulness of this rule is questionable.
-
 ### [no-warning-comments](https://eslint.org/docs/latest/rules/no-warning-comments)
 
 This rule disallows todo and fixme comments. This is how the documentation describes it:
@@ -515,7 +493,7 @@ I> We talk about splitting code into functions in the [Divide and conquer, or me
 
 ## Useful rules when used correctly
 
-### [eqeqeq](https://archive.eslint.org/docs/rules/eqeqeq)
+### [eqeqeq](https://eslint.org/docs/latest/rules/eqeqeq)
 
 This rule requires us to use type-safe equality operators `===` and `!==` instead of `==` and `!=` that do type coercion. This is generally considered a good practice because it may prevent certain bugs where the type coercion gives unexpected results.
 
@@ -628,7 +606,7 @@ I> See the [Avoid loops](#no-loops) chapter for many more examples of using arra
 
 This rule is not autofixable and isn’t included in the recommended config.
 
-### [curly](https://archive.eslint.org/docs/rules/curly)
+### [curly](https://eslint.org/docs/latest/rules/curly)
 
 I rarely complain about code style, but conditions and loops written without braces are my pet peeve. They’re too easy to miss when reading code, especially when the condition or loop header is long:
 
