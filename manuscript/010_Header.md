@@ -70,9 +70,9 @@ However, many “bad” examples are originally written in JavaScript, and I’d
 
 I mostly work with React these days, so you’ll see examples using React quite often. Occasionally, you’ll see CSS and HTML, as similar ideas can be applied there as well.
 
-I strive to keep the book up-to-date with the latest versions of JavaScript. This book uses ECMAScript 2024.
+I strive to keep the book up-to-date with the latest versions of JavaScript. This book uses ECMAScript 2025.
 
-I> ECMAScript is the JavaScript spec that defines its syntax and behavior. To learn about new JavaScript features, check out Dr. Axel Rauschmayer’s book, [Exploring JavaScript](https://exploringjs.com/js/).
+I> ECMAScript is the JavaScript spec that defines its syntax and behavior. To learn about new JavaScript features, check out Dr. Axel Rauschmayer’s book, [Exploring JavaScript](https://payhip.com/rauschma).
 
 The examples are formatted using Prettier with a maximum line length of 62 characters to avoid unnecessary wrapping in the PDF and print versions of the book. This makes code examples more readable, though a bit narrower than most developers are used to.
 
