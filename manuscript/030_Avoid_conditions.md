@@ -1146,6 +1146,8 @@ In the code above, we define an enum for decisions, and we use it to ensure cons
 
 Also, enums make the code cleaner than SCREAMING_SNAKE_CASE constants.
 
+I> Enums aren’t part of erasable TypeScript syntax as they need transpilation. See the [Group related constants](#enums) section in the _Naming is hard_ chapter for alternatives.
+
 This changes the way we use the `DecisionButton` component:
 
 ```diff

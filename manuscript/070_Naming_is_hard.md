@@ -973,7 +973,7 @@ interface ButtonProps {
 
 This gives us better type checking and even better autocomplete. For example, we can define separate types for button sizes and modal sizes, so the button component will only accept valid button sizes.
 
-The only downside of enums is that they aren’t part of the TypeScript’s _erasable syntax_, meaning they don’t work in runtimes that strip types before execution, such as Node.js. In these cases I use plain objects with TypeScript’s `as const` assertion and a type:
+The only downside of enums is that they aren’t part of TypeScript’s _erasable syntax_, meaning they don’t work in runtimes that strip types before execution, such as Node.js. In these cases I use plain objects with TypeScript’s `as const` assertion and a type:
 
 ```ts
 const Size = {
@@ -988,7 +988,7 @@ expect(Size.Small).toBe('small')
 expect(Size.Medium).toBe('medium')
 -->
 
-This is more verbose than an enum but gives us the same autocomplete and type checking and still works after types removal.
+This is more verbose than an enum but gives us the same autocomplete and type checking and still works after type stripping.
 
 {#abbr}
 

@@ -47,7 +47,7 @@ Always prioritize code readability and maintainability over cleverness or brevit
 - Use object parameters for functions with multiple arguments: `getUserData({id, includeProfile})`
 - Use early returns and guard clauses to reduce nesting
 - Avoid premature abstraction – solve current requirements, not imagined future ones
-- Make impossible states impossible using enums/discriminated unions
+- Make impossible states impossible using discriminated unions or string literal unions; reserve TypeScript enums for transpiled setups (see TypeScript guidelines for `as const` when types are stripped)
 
 ### 7. Code style and formatting
 
